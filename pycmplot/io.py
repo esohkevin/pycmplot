@@ -129,13 +129,8 @@ def _merge_min_max_lists(dicts: list[dict]) -> dict:
 def get_sumstats_and_merged_sector_list(
     sum_stats: list[str],
     labels: list[str],
-    chrom_col: Optional[str] = None,
-    pos_col: Optional[str] = None,
-    pval_col: Optional[str] = None,
     logp: bool = False,
     trim_pval: Optional[float] = None,
-    snp_col: Optional[str] = None,
-    delim: Optional[str] = None,
     file_info: Optional[dict] = None,
     sort_tracks: Optional[str] = "chrom_len",
     table_out: Optional[str] = None,
@@ -290,8 +285,11 @@ def get_sumstats_and_merged_sector_list(
 
     if signif_line is None:
         signif_line = signif_threshold
-    if logp:
-        signif_line = -np.log10(signif_threshold)
+        if logp:
+            signif_line = -np.log10(signif_threshold)
+    else:
+        if logp and signif_line < 1:
+            signif_line = -np.log10(signif_line)
 
     signif_lines = [
         {"genome": signif_line, "suggestive": suggest_line}

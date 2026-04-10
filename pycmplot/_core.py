@@ -37,8 +37,8 @@ def main() -> None:
         resolve_delimiter,
         get_file_header,
     )
-    from pycmplot.plotting.linear import multi_track_linear_manhattan
-    from pycmplot.plotting.circular import plot_circosm, compute_track_radii_dict
+    from pycmplot.plotting.linear import plot_linear
+    from pycmplot.plotting.circular import plot_circular, compute_track_radii_dict
     from pycmplot.resources import ResourceConfig
 
     # ------------------------------------------------------------------
@@ -67,6 +67,7 @@ def main() -> None:
     suggest_threshold= args.suggest_threshold
     annotate         = args.annotate
     annotation_size  = args.annotation_size
+    point_size       = args.point_size
     highlight        = args.highlight
     highlight_thresh = args.highlight_thresh
     highlight_line   = args.highlight_line
@@ -80,6 +81,8 @@ def main() -> None:
     plot_title       = args.plot_title
     plot_title_size  = args.plot_title_size
     track_heights    = args.track_heights
+    track_spacing    = args.track_spacing
+    chr_spacing      = args.chr_spacing
 
     # ------------------------------------------------------------------
     # Resolve delimiter
@@ -264,7 +267,7 @@ def main() -> None:
                 assoc["logP"] = assoc["logP"].dropna()
 
             for sector in circos.sectors:
-                plot_circosm(
+                plot_circular(
                     sector=sector,
                     sector_radius=sector_radius,
                     annotation_r=annotation_track_radius if annotate else None,
@@ -387,24 +390,24 @@ def main() -> None:
         else:
             t_heights = [float(x) for x in track_heights.strip().split(",")]
 
-        multi_track_linear_manhattan(
+        plot_linear(
             tracks=dfs,
             track_labels=t_labels,
             chr_col="CHR",
             pos_col="POS",
-            value_col="P",
-            trim_p=trim_pval,
+            p_col="P",
+            trim_pval=trim_pval,
             logp=True if logp else False,
-            point_size=6,
+            point_size=point_size,
             highlight=highlight,
             annot_df=hits_table if not hits_table.empty else None,
             label_col="top_gene",
-            chr_spacing=9e6,
+            chr_spacing=chr_spacing,
             track_heights=t_heights,
-            track_spacing=0.10,
+            track_spacing=track_spacing,
             colors=colors,
             sig_lines=signif_lines,
-            title=plt_name,
+            plot_title=plt_name,
             dpi=dpi,
             fig_format=output_format,
             figsize=(15, 9),

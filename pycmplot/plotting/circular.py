@@ -73,7 +73,7 @@ def compute_track_radii_dict(
 # Per-chromosome circular Manhattan track
 # ---------------------------------------------------------------------------
 
-def plot_circosm(
+def plot_circular(
     sector=None,
     sector_radius=None,
     annotation_r=None,

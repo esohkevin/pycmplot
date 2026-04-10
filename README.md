@@ -20,29 +20,41 @@ pip install pycmplot
 ```
 
 
-### From source
+### From source code
 ```bash
-# From the repo root (use python >=3.8)
-python -m venv ~/bin/pycmplot
+wget <url>
 
-source ~/bin/pycmplot/bin/activate
+tar zxvf ...
 
-pip install --upgrade pip setuptools wheel
+cd pycmplot-xxx
 
 pip install -e .
 ```
 
 
-### From source
+### From GitHub
 ```bash
-# From the repo root (use python >=3.8)
+git clone https://github.com/esohkevin/pycmplot.git
+
+cd pycmplot
+
+pip install -e .
+
+# or
+
+pip install -e . --break-system-packages
+```
+
+
+### Use python virtual environment if local installation is not possible
+```bash
 python -m venv ~/bin/pycmplot
 
 source ~/bin/pycmplot/bin/activate
 
 pip install --upgrade pip setuptools wheel
 
-pip install -e .
+# then follow any of the installation steps above
 ```
 
 
@@ -72,14 +84,14 @@ pycmplot -h
 
 ```bash
 pycmplot \
-  -s HbF.tsv.gz,MCV.tsv.gz,MCH.tsv.gz \
-  -l HbF,MCV,MCH \
+  --sum_stats HbF.tsv.gz,MCV.txt.gz,MCH.tsv.gz \
+  --labels HbF,MCV,MCH \
   --logp \
-  -sig \
-  -hl \
-  -a GENE \
-  -od ./results \
-  -of png \
+  --signif_line \
+  --highlight \
+  --annotate GENE \
+  --output_dir ./results \
+  --output_format png \
   --dpi 300
 ```
 
@@ -87,13 +99,13 @@ pycmplot \
 
 ```bash
 pycmplot \
-  -s HbF.tsv.gz,MCV.tsv.gz \
-  -l HbF,MCV \
+  --sum_stats HbF.tsv.gz,MCV.tsv.gz \
+  --labels HbF,MCV \
   --mode cm \
   --logp \
-  -sig \
-  -plt "RBC Traits" \
-  -od ./results
+  --signif_threshold \
+  --plot_title "RBC Traits" \
+  --output_dir ./results
 ```
 
 ### Key options
@@ -120,21 +132,21 @@ Run `pycmplot -h` for the full option list.
 ## Python API
 
 ```python
-from pycmplot import multi_track_linear_manhattan
+from pycmplot import plot_linear
 import pandas as pd
 
 df1 = pd.read_csv("HbF.tsv.gz", sep="\t")
 df2 = pd.read_csv("MCV.tsv.gz", sep="\t")
 
-fig, axes = multi_track_linear_manhattan(
+plot_linear(
     tracks=[df1, df2],
     track_labels=["HbF", "MCV"],
     chr_col="CHR",
     pos_col="POS",
-    value_col="P",
+    p_col="P",
     logp=True,
     highlight=True,
-    title="results/HbF_MCV.png",
+    plot_title="results/HbF_MCV.png",
     figsize=(15, 8),
 )
 ```

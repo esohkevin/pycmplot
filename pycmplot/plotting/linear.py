@@ -129,7 +129,7 @@ def _draw_annotation_arrows(
 # Public function
 # ---------------------------------------------------------------------------
 
-def multi_track_linear_manhattan(
+def plot_linear(
     tracks: list,
     track_labels: Optional[list[str]] = None,
     annot_df=None,
@@ -137,8 +137,8 @@ def multi_track_linear_manhattan(
     highlight_thresh: float = 1e-7,
     chr_col: str = "CHR",
     pos_col: str = "BP",
-    value_col: str = "P",
-    trim_p: Optional[float] = None,
+    p_col: str = "P",
+    trim_pval: Optional[float] = None,
     logp: bool = True,
     label_col: str = "label",
     chr_order: Optional[list[str]] = None,
@@ -148,7 +148,7 @@ def multi_track_linear_manhattan(
     point_size: float = 5,
     colors: Optional[list[str]] = None,
     sig_lines: Optional[list[dict]] = None,
-    title: Optional[str] = None,
+    plot_title: Optional[str] = None,
     fig_format: Optional[str] = None,
     dpi: int = 300,
     figsize: tuple = (15, 9),
@@ -159,19 +159,21 @@ def multi_track_linear_manhattan(
     ----------
     tracks:
         List of DataFrames, one per GWAS trait.  Each must have columns
-        *chr_col*, *pos_col*, and *value_col*.
+        *chr_col*, *pos_col*, and *p_col*.
     track_labels:
         Y-axis labels for each track.
     annot_df:
         Optional DataFrame of lead SNPs to annotate (must contain *chr_col*,
         *pos_col*, *label_col*).
+    label_col:
+        Column to use in the annot_df e.g. column containing gene names.
     highlight:
         Highlight loci within ``500 kb`` of a lead SNP.
     chr_spacing:
         Gap (bp) inserted between chromosomes on the x-axis.
     sig_lines:
         List of ``{"genome": float, "suggestive": float}`` dicts, one per track.
-    title:
+    plot_title:
         Output file path (extension determines format when *fig_format* is ``None``).
     fig_format:
         Override output format (e.g. ``'png'``, ``'pdf'``).
@@ -190,10 +192,10 @@ def multi_track_linear_manhattan(
     # ------------------------------------------------------------------
     def _prep(df):
         df = df.copy()
-        if trim_p:
-            df = df[df[value_col] < trim_p]
+        if trim_pval:
+            df = df[df[p_col] < trim_pval]
         if logp:
-            df["logP"] = -np.log10(df[value_col])
+            df["logP"] = -np.log10(df[p_col])
 
         df[chr_col] = (
             df[chr_col]
@@ -280,15 +282,15 @@ def multi_track_linear_manhattan(
         zip(axes[1:], tracks, t_labels, hex_colors)
     ):
         color_cycle = [colors[j % len(colors)] for j in df["chr_idx"]]
-        df = df[df[value_col] >= 0]
+        df = df[df[p_col] >= 0]
 
-        y_vals = df["logP"] if logp else df[value_col]
+        y_vals = df["logP"] if logp else df[p_col]
         ax.scatter(df["x"], y_vals, c=color_cycle, s=point_size)
 
         if highlight:
             sig = df[df["in_locus"]]
             if not sig.empty:
-                sig_y = sig["logP"] if logp else sig[value_col]
+                sig_y = sig["logP"] if logp else sig[p_col]
                 ax.scatter(sig["x"].to_numpy(), sig_y.to_numpy(), s=point_size,
                            marker="o", color="brown")
 
@@ -359,15 +361,15 @@ def multi_track_linear_manhattan(
 
     fig.text(
         0.03, 0.5,
-        "-log\u2081\u2080(P)" if logp else value_col,
+        "-log\u2081\u2080(P)" if logp else p_col,
         va="center",
         rotation="vertical",
         fontsize=12,
     )
 
-    if title:
-        fmt = fig_format or Path(title).suffix.lstrip(".") or "png"
-        plt.savefig(title, format=fmt, dpi=dpi)
-        logger.info("Saved linear Manhattan plot: %s", title)
+    if plot_title:
+        fmt = fig_format or Path(plot_title).suffix.lstrip(".") or "png"
+        plt.savefig(plot_title, format=fmt, dpi=dpi)
+        logger.info("Saved linear Manhattan plot: %s", plot_title)
 
     return fig, axes
