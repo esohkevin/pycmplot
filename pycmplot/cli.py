@@ -51,6 +51,11 @@ def get_arguments(descmsg: str = DESCMSG) -> argparse.Namespace:
         required=True, type=str, metavar="str",
     )
 
+    req.add_argument(
+        "-b",   "--build_column",  required=True, type=str, metavar="str",
+        help="Genome build column name (containing hg18/hg19/hg38)."
+    )
+
     # ------------------------------------------------------------------
     # Optional
     # ------------------------------------------------------------------
@@ -59,41 +64,65 @@ def get_arguments(descmsg: str = DESCMSG) -> argparse.Namespace:
         help="Plot mode: lm (linear Manhattan) or cm (circular Manhattan). Default: lm.",
         choices=["lm", "cm"], default="lm", type=str,
     )
-    opt.add_argument("-chr", "--chrom_column",  type=str, metavar="str",
-                     help="Chromosome column name in sumstats (e.g. CHR).")
-    opt.add_argument("-pos", "--pos_column",    type=str, metavar="str",
-                     help="Position column name (e.g. BP).")
-    opt.add_argument("-snp", "--snp_column",    type=str, metavar="str",
-                     help="SNP ID column name (e.g. ID).")
-    opt.add_argument("-p",   "--pval_column",   type=str, metavar="str",
-                     help="P-value column name (e.g. P).")
-    opt.add_argument("-b",   "--build_column",  type=str, metavar="str",
-                     help="Genome build column name (hg18/hg19/hg38).")
-    opt.add_argument("-d",   "--delim",
-                     choices=["space", "tab", "comma", "colon", "semi-colon"],
-                     type=str, metavar="str",
-                     help="File delimiter (autodetected if omitted).")
-    opt.add_argument("--logp", action="store_true",
-                     help="Plot −log₁₀(p) instead of raw p-values.")
-    opt.add_argument("-qq", "--qq_plot", action="store_true",
-                     help="Also generate a QQ-plot.")
-    opt.add_argument("-tp", "--trim_pval", type=float, metavar="float",
-                     help="Trim variants with p > this value before plotting.")
-    opt.add_argument("-sig", "--signif_threshold",
-                     default=None, const=5e-8, nargs="?", type=float, metavar="float",
-                     help="Genome-wide significance threshold (default: 5e-8).")
-    opt.add_argument("-sigl", "--signif_line",
-                     default=None, const=5e-8, nargs="?", type=float, metavar="float",
-                     help="Genome-wide significance line value (default: 5e-8).")
-    opt.add_argument("-sug", "--suggest_threshold",
-                     default=None, const=1e-5, nargs="?", type=float, metavar="float",
-                     help="Suggestive significance threshold (default: 1e-5).")
-    opt.add_argument("-a", "--annotate",
-                     choices=["SNP", "GENE"], nargs="?",
-                     default="SNP", const="SNP", type=str, #metavar="str",
-                     help="Annotate significant loci by SNP ID or nearest gene.")
-    opt.add_argument("-p_size", "--point_size", default=6, type=float, metavar="float",
-                     help="Size of each point of scatter plot (default: 6).")
+    opt.add_argument(
+        "-chr", "--chrom_column",  type=str, metavar="str",
+        help="Chromosome column name in sumstats (e.g. CHR)."
+    )
+    opt.add_argument(
+        "-pos", "--pos_column",    type=str, metavar="str",
+        help="Position column name (e.g. BP)."
+    )
+    opt.add_argument(
+        "-snp", "--snp_column",    type=str, metavar="str",
+        help="SNP ID column name (e.g. ID)."
+    )
+    opt.add_argument(
+        "-p",   "--pval_column",   type=str, metavar="str",
+        help="P-value column name (e.g. P)."
+    )
+    opt.add_argument(
+        "-d",   "--delim",
+        choices=["space", "tab", "comma", "colon", "semi-colon"],
+        type=str, metavar="str",
+        help="File delimiter (autodetected if omitted)."
+    )
+    opt.add_argument(
+        "--logp", action="store_true",
+        help="Plot −log₁₀(p) instead of raw p-values."
+    )
+    opt.add_argument(
+        "-qq", "--qq_plot", action="store_true",
+        help="Also generate a QQ-plot."
+    )
+    opt.add_argument(
+        "-tp", "--trim_pval", type=float, metavar="float",
+        help="Trim variants with p > this value before plotting."
+    )
+    opt.add_argument(
+        "-sig", "--signif_threshold",
+        default=None, const=5e-8, nargs="?", type=float, metavar="float",
+        help="Genome-wide significance threshold (default: 5e-8)."
+    )
+    opt.add_argument(
+        "-sigl", "--signif_line",
+        default=None, const=5e-8, nargs="?", type=float, metavar="float",
+        help="Genome-wide significance line value (default: 5e-8)."
+    )
+    opt.add_argument(
+        "-sug", "--suggest_threshold",
+        default=None, const=1e-5, nargs="?", type=float, metavar="float",
+        help="Suggestive significance threshold (default: 1e-5)."
+    )
+    opt.add_argument(
+        "-a", "--annotate",
+        choices=["SNP", "GENE"], nargs="?",
+        default="SNP", const="SNP", type=str, #metavar="str",
+        help="Annotate significant loci by SNP ID or nearest gene."
+    )
+    opt.add_argument(
+        "-p_size", "--point_size", default=6, type=float, metavar="float",
+        help="Size of each point of scatter plot (default: 6)."
+    )
     opt.add_argument("-a_size", "--annotation_size", default=6, type=float, metavar="float",
                      help="Annotation label font size (default: 6).")
     opt.add_argument("-hl",  "--highlight", action="store_true",
