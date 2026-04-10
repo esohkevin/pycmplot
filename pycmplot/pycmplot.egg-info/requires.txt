@@ -1,0 +1,13 @@
+pandas>=1.5
+numpy>=1.23
+matplotlib>=3.6
+pillow>=9.0
+pycirclize>=0.6
+natsort>=8.0
+adjustText>=0.8
+pyliftover>=0.4
+
+[dev]
+pytest
+black
+ruff

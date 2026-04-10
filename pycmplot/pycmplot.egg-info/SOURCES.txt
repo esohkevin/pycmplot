@@ -1,0 +1,10 @@
+README.md
+pyproject.toml
+setup.cfg
+setup.py
+src/pycmplot.egg-info/PKG-INFO
+src/pycmplot.egg-info/SOURCES.txt
+src/pycmplot.egg-info/dependency_links.txt
+src/pycmplot.egg-info/entry_points.txt
+src/pycmplot.egg-info/requires.txt
+src/pycmplot.egg-info/top_level.txt
