@@ -102,6 +102,7 @@ pycmplot \
 |------|-------------|---------|
 | `-s, --sum_stats` | Comma-separated sumstats files | **required** |
 | `-l, --labels` | Comma-separated track labels | **required** |
+| `-b, --build_column` | Genome build column name (containing hg18/hg19/hg38) | **required** |
 | `-m, --mode` | `lm` linear or `cm` circular | `lm` |
 | `-qq, --qq_plot` | Also generate a QQ-plot | off (coming soon...) |
 | `--logp` | Plot -log10(p) | off |
