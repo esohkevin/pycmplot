@@ -112,18 +112,20 @@ pycmplot \
 
 | Flag | Description | Default |
 |------|-------------|---------|
-| `-s` | Comma-separated sumstats files | **required** |
-| `-l` | Comma-separated track labels | **required** |
-| `-m` | `lm` linear or `cm` circular | `lm` |
+| `-s, --sum_stats` | Comma-separated sumstats files | **required** |
+| `-l, --labels` | Comma-separated track labels | **required** |
+| `-m, --mode` | `lm` linear or `cm` circular | `lm` |
+| `-qq, --qq_plot` | Also generate a QQ-plot | off (coming soon...) |
 | `--logp` | Plot -log10(p) | off |
-| `-sig` | Genome-wide significance line | off (auto 0.05/N) |
-| `-sug` | Suggestive significance line | off |
-| `-hl` | Highlight significant loci | off |
-| `-a` | Annotate with `SNP` or `GENE` | `SNP` |
-| `-tp` | Trim variants above this p-value for speed | off |
-| `-st` | Sort tracks by `label` or `chrom_len` | input order |
-| `-od` | Output directory | `.` |
-| `-of` | Output format (`png`, `pdf`, `svg`, `jpg`) | `png` |
+| `-sig, --signif_threshold` | Genome-wide significance threshold | off (auto 0.05/N) |
+| `-sigl, --signif_line` | Value for genome-wide significance line if different from `-sig` | `-sig` |
+| `-sug, --suggest_threshold` | Suggestive significance line | off |
+| `-hl, --highlight` | Highlight significant loci | off |
+| `-a, --annotate` | Annotate with `SNP` or `GENE` | `SNP` |
+| `-tp, --trim_pval` | Trim variants above this p-value for speed | off |
+| `-st, --sort_track` | Sort tracks by `label` or `chrom_len` | input order |
+| `-od, --output_dir` | Output directory | `.` |
+| `-of, --output_format` | Output format (`png`, `pdf`, `svg`, `jpg`) | `png` |
 
 Run `pycmplot -h` for the full option list.
 
