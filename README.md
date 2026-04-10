@@ -20,18 +20,6 @@ pip install pycmplot
 ```
 
 
-### From source code
-```bash
-wget <url>
-
-tar zxvf ...
-
-cd pycmplot-xxx
-
-pip install -e .
-```
-
-
 ### From GitHub
 ```bash
 git clone https://github.com/esohkevin/pycmplot.git
