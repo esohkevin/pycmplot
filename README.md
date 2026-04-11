@@ -12,7 +12,7 @@ Multi-track **circular** and **linear** Manhattan plot generation for GWAS summa
 
 This package will take any number of per SNP/variant summary statistics, be it GWAS, 
 selection scans (e.g. iHS, EHH, FST), etc and generate Manhattan plots. If given a single
-file, a single one-track Manhattan plot will be generated. Multiple files with results in 
+file, a single one-track Manhattan plot will be generated. Multiple files will result in 
 the generation of a multi-track stacked Manhattan plot. 
 
 In the process, the package will generate a **hits summary table** for variants with p-value 
@@ -55,6 +55,7 @@ certain threshold, e.g. `0.01 (1e-2)` or `0.001 (1e-3)`.
 
 A potential useful application is **comparative visualization** of results from multiple imputation panels, 
 multiple populations, or multiple traits to observed shared genetic architecture.
+
 ---
 
 ## Installation
