@@ -10,6 +10,49 @@ Multi-track **circular** and **linear** Manhattan plot generation for GWAS summa
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 ```
 
+This package will take any number of per SNP/variant summary statistics, be it GWAS, 
+selection scans (e.g. iHS, EHH, FST), etc and generate Manhattan plots. If given a single
+file, a single one-track Manhattan plot will be generated. Multiple files with results in 
+the generation of a multi-track stacked Manhattan plot. 
+
+In the process, the package will generate a **hits summary table** for variants with p-value 
+(or whatever statistic for significance is used) below the user-specified significance threshold. 
+This hits summary table will contain annotated gene names, in addition to other annotations, that
+would then be used to annotate the plots.
+
+Importantly, the package allows for conversion of hg19 genomic coordinates to hg38 coordinates.
+This ensures that summary stats obtained using different imputation panels, for instance, can be
+processed in the same run. That is, users can simply concatenate multiple summary stats files together, 
+such as those for the same trait but analysed using different imputation panels. Users only need to 
+add a new column specifying the genome build (hg19 or hg38) of the variants. Then the `--build_column` 
+option of the package should be used to indicate the column and then the package will liftover all 
+postions in hg19 to hg38 ensuring that hits table generation and plotting are done with one unified 
+corrdinate system.
+
+A key functionality of the package is its ability to auto-detect certain columns if ommited on the 
+command-line or python API:
+- Chromosome column: `-chr, --chrom_column` or ommited
+- Basepair position column: `-pos, --pos_column` or ommited
+- SNP or Marker ID column: `-snp, --snp_column` or ommited
+- P-value (or whatever value) column: `-p, --pval_column` or ommited
+- Build version column: `-b, --build_column` or ommited
+
+
+Candidate names for each of the columns is shown below.
+
+```python
+    # Resolve column names
+    chr_candidates = [chrom, 'CHR', 'CHROM', 'Chromosome', '#CHROM', '#CHR', 'Chrom', 'chrom', 'chr', 'chromosome', '#chr', '#chrom']
+    pos_candidates = [pos, 'BP', 'POS', 'bp', 'pos', 'Basepair']
+    snp_candidates = [snp, 'SNP', 'RSID', 'rsID', 'MarkerName', 'MarkerID', 'Predictor', 'Marker', 'SNPID', 'ID']
+    pvl_candidates = [pcol, 'P', 'P-value', 'Wald_P', 'pvalue', 'p_val', 'pval']
+    bld_candidates = [build, 'BUILD', 'Genome', 'Genome_Build', 'Genome-build']
+```
+
+Since GWAS summary stats files can be very large, to improve speed and memory efficiency, it is 
+**highly recommended** to use `-tp, --trim_pval` with a value to exclude variants with p-value above a 
+certain threshold, e.g. `0.01 (1e-2)` or `0.001 (1e-3)`.
+
 ---
 
 ## Installation
@@ -90,6 +133,7 @@ pycmplot \
   --sum_stats HbF.tsv.gz,MCV.tsv.gz \
   --labels HbF,MCV \
   --mode cm \
+  --trim_pval 0.01 \
   --logp \
   --signif_threshold \
   --plot_title "RBC Traits" \
@@ -107,8 +151,8 @@ pycmplot \
 | `-qq, --qq_plot` | Also generate a QQ-plot | off (coming soon...) |
 | `--logp` | Plot -log10(p) | off |
 | `-sig, --signif_threshold` | Genome-wide significance threshold | off (auto 0.05/N) |
-| `-sigl, --signif_line` | Value for genome-wide significance line if different from `-sig` | `-sig` |
-| `-sug, --suggest_threshold` | Suggestive significance line | off |
+| `-sigl, --signif_line` | Value for genome-wide significance line if different from `-sig` | 5e-8 |
+| `-sug, --suggest_threshold` | Threshold for suggestive signals | off |
 | `-hl, --highlight` | Highlight significant loci | off |
 | `-a, --annotate` | Annotate with `SNP` or `GENE` | `SNP` |
 | `-tp, --trim_pval` | Trim variants above this p-value for speed | off |
@@ -144,4 +188,26 @@ plot_linear(
 
 ---
 
-_Under development_
+## Package structure
+
+```
+pycmplot/
+├── pyproject.toml
+├── setup.py
+├── setup.cfg
+├── README.md
+└── pycmplot/
+      ├── __init__.py          # public API exports
+      ├── __main__.py          # python -m pycmplot
+      ├── _core.py             # main() orchestration
+      ├── cli.py               # argparse definitions
+      ├── constants.py         # chromosome lengths, biotype weights
+      ├── resources.py         # external resource path config
+      ├── io.py                # sumstat loading, delimiter detection
+      ├── stats.py             # get_lead_snps, get_highlight_snps
+      ├── liftover.py          # lazy hg19→hg38 liftover
+      ├── annotation.py        # nearest-gene annotation, hits table
+      └── plotting/
+          ├── __init__.py
+          ├── linear.py        # plot_linear
+          └── circular.py      # plot_circular, compute_track_radii_dict
