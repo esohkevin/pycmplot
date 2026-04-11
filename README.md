@@ -41,12 +41,12 @@ command-line or python API:
 Candidate names for each of the columns is shown below.
 
 ```python
-    # Resolve column names
-    chr_candidates = [chrom, 'CHR', 'CHROM', 'Chromosome', '#CHROM', '#CHR', 'Chrom', 'chrom', 'chr', 'chromosome', '#chr', '#chrom']
-    pos_candidates = [pos, 'BP', 'POS', 'bp', 'pos', 'Basepair']
-    snp_candidates = [snp, 'SNP', 'RSID', 'rsID', 'MarkerName', 'MarkerID', 'Predictor', 'Marker', 'SNPID', 'ID']
-    pvl_candidates = [pcol, 'P', 'P-value', 'Wald_P', 'pvalue', 'p_val', 'pval']
-    bld_candidates = [build, 'BUILD', 'Genome', 'Genome_Build', 'Genome-build']
+# Resolve column names
+chr_candidates = [chrom, 'CHR', 'CHROM', 'Chromosome', '#CHROM', '#CHR', 'Chrom', 'chrom', 'chr', 'chromosome', '#chr', '#chrom']
+pos_candidates = [pos, 'BP', 'POS', 'bp', 'pos', 'Basepair']
+snp_candidates = [snp, 'SNP', 'RSID', 'rsID', 'MarkerName', 'MarkerID', 'Predictor', 'Marker', 'SNPID', 'ID']
+pvl_candidates = [pcol, 'P', 'P-value', 'Wald_P', 'pvalue', 'p_val', 'pval']
+bld_candidates = [build, 'BUILD', 'Genome', 'Genome_Build', 'Genome-build']
 ```
 
 Since GWAS summary stats files can be very large, to improve speed and memory efficiency, it is 
