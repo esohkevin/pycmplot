@@ -169,25 +169,7 @@ Run `pycmplot -h` for the full option list.
 
 ## Python API
 
-```python
-from pycmplot import plot_linear
-import pandas as pd
-
-df1 = pd.read_csv("HbF.tsv.gz", sep="\t")
-df2 = pd.read_csv("MCV.tsv.gz", sep="\t")
-
-plot_linear(
-    tracks=[df1, df2],
-    track_labels=["HbF", "MCV"],
-    chr_col="CHR",
-    pos_col="POS",
-    p_col="P",
-    logp=True,
-    highlight=True,
-    plot_title="results/HbF_MCV.png",
-    figsize=(15, 8),
-)
-```
+See notebook on how to use the python API: https://github.com/esohkevin/pycmplot/blob/main/pycmplot_python_api.ipynb
 
 ---
 
