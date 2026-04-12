@@ -169,7 +169,8 @@ Run `pycmplot -h` for the full option list.
 
 ## Python API
 
-See notebook on how to use the python API: https://github.com/esohkevin/pycmplot/blob/main/pycmplot_python_api.ipynb
+A demonstration of how to use the python API is provided in this notebook: https://github.com/esohkevin/pycmplot/blob/main/pycmplot_python_api.ipynb
+
 
 ---
 
