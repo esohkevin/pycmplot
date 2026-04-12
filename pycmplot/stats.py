@@ -12,7 +12,7 @@ import pandas as pd
 
 def get_lead_snps(
     df: pd.DataFrame,
-    highlight_thresh: float = 5e-8,
+    signif_threshold: float = 5e-8,
     logp: bool = False,
     window: int = 500_000,
 ) -> pd.DataFrame:
@@ -40,12 +40,12 @@ def get_lead_snps(
         Subset of *df* containing only the lead SNPs.
     """
     if logp:
-        thresh = -np.log10(float(highlight_thresh))
+        thresh = -np.log10(float(signif_threshold))
         sig = df[df["logP"] >= thresh].copy()
         p_col = "logP"
         ascending = False
     else:
-        sig = df[df["P"] <= highlight_thresh].copy()
+        sig = df[df["P"] <= signif_threshold].copy()
         p_col = "P"
         ascending = True
 
@@ -90,7 +90,7 @@ def get_highlight_snps(
 
     leads_df = get_lead_snps(
         df=df,
-        highlight_thresh=highlight_thresh,
+        signif_threshold=highlight_thresh,
         logp=False,
         window=window,
     )

@@ -148,6 +148,13 @@ def get_arguments(descmsg: str = DESCMSG) -> argparse.Namespace:
         help="Sort tracks by chromosome count or label."
     )
     opt.add_argument(
+        "-ntl", "--no_track_labels",
+        help=(
+            "Exclude track labels from plot. (default: False)"
+        ),
+        action="store_true"
+    )    
+    opt.add_argument(
         "-plt", "--plot_title", default="MyCMplot", type=str, metavar="str",
         help="Plot plot_title / output file stem."
     )

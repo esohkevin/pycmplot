@@ -8,6 +8,8 @@ from __future__ import annotations
 
 import csv
 import gzip
+import sys
+import re
 import logging
 from collections import defaultdict
 from pathlib import Path
@@ -109,6 +111,198 @@ def get_file_header(
     return list(hdr)
 
 
+
+def strip_comma_separated_input_streams(
+    sum_stats,
+    labels,
+    colors_raw = 'steelblue,grey',
+    track_heights = None,
+):
+
+    if len(sum_stats) != len(labels):
+        sys.exit(
+            "Error: number of summary stats files and labels must match.\n"
+            f"  Files:  {sum_stats}\n"
+            f"  Labels: {labels}"
+        )
+
+    # ------------------------------------------------------------------
+    # Sumstat, labels str to list
+    # ------------------------------------------------------------------
+    labels     = [lbl.strip() for lbl in labels.strip().split(",")]
+    
+    sum_stats  = [s.strip() for s in sum_stats.strip().split(",")]
+
+    # ------------------------------------------------------------------
+    # Colours str to list
+    # ------------------------------------------------------------------
+    colors = [c.strip() for c in colors_raw.strip().split(",")]
+
+    # ------------------------------------------------------------------
+    # Linear track heights str to list
+    # ------------------------------------------------------------------
+    t_heights = [float(x) for x in track_heights.strip().split(",")]
+
+    return sum_stats, labels, colors, t_heights
+
+
+# ------------------------------------------------------------------
+# Random string for output paths
+# ------------------------------------------------------------------
+def generate_random_string(length):
+    import random
+    import string        
+    # Combine uppercase, lowercase, and digits
+    characters = string.ascii_letters + string.digits
+    # random.choices picks multiple characters with replacement
+    return ''.join(random.choices(characters, k=length))
+
+
+# ------------------------------------------------------------------
+# Output paths
+# ------------------------------------------------------------------
+def get_output_paths(
+    labels,
+    mode: Optional[str] = 'lm',
+    logp: bool = False,
+    output_dir: Optional[str] = '.',
+    plot_title: Optional[str] = None,
+    output_format: Optional[str] = 'png'
+):
+
+    out_path = Path(output_dir).resolve()
+
+    out_path.mkdir(parents=True, exist_ok=True)
+
+    if plot_title:
+        pltitle = re.sub(r"[^a-zA-Z0-9\s]", "", plot_title).replace(" ", "_")
+    else:
+        pltitle = generate_random_string(10)
+
+    plt_base = str(out_path / f"{pltitle}_{'_'.join(labels)}_{mode.lower()}")
+
+    suffix     = "_logp" if logp else "_pval"
+
+    plt_name   = f"{plt_base}{suffix}.{output_format.lower()}"
+    
+    table_out  = f"{plt_base}{suffix}_locus_summary_table.tsv"
+
+    return plt_name, table_out
+
+
+
+# ---------------------------------------------------------------------------
+# input formatter
+# ---------------------------------------------------------------------------
+def prep_pycmplot_input_info(
+    sum_stats: list[str],
+    labels: list[str],
+    delim: Optional[str] = None,
+    chrom: Optional[str] = None,
+    pos: Optional[str] = None,
+    snp: Optional[str] = None,
+    pcol: Optional[str] = None,
+    build: Optional[str] = None
+):
+    """Resolve column names and delimiter
+
+    Parameters
+    ----------
+    sum_stats:
+        List of file paths to GWAS summary statistics (possibly gzip-compressed).
+    labels:
+        Track labels in the same order as *sum_stats*.
+    delim:
+        File delimiter (autodetected if omitted)
+    chrom:
+        Chromosome column
+    pos:
+        Position column
+    snp:
+        SNP or Marker ID column
+    pcol:
+        P-value column
+    build:
+        Build version column
+
+    Returns
+    -------
+    {old_columns, column_dtypes, new_columns, delim}
+
+    """
+    # ------------------------------------------------------------------
+    # Resolve delimiter
+    # ------------------------------------------------------------------
+    if delim:
+        sep = resolve_delimiter(delim)
+    else:
+        sep = None  # autodetect per file
+
+    # ------------------------------------------------------------------
+    # Column-name candidate lists for auto-resolution
+    # ------------------------------------------------------------------
+    chr_candidates = [chrom, "CHR", "CHROM", "Chromosome", "#CHROM", "#CHR",
+                    "Chrom", "chrom", "chr", "chromosome", "#chr", "#chrom"]
+    pos_candidates = [pos,   "BP", "POS", "bp", "pos", "Basepair"]
+    snp_candidates = [snp,   "SNP", "RSID", "rsID", "MarkerName", "MarkerID",
+                    "Predictor", "Marker", "SNPID", "ID"]
+    pvl_candidates = [pcol,  "P", "P-value", "Wald_P", "pvalue", "p_val", "pval"]
+    bld_candidates = [build, "BUILD", "Genome", "Genome_Build", "Genome-build"]
+
+    # Remove None entries
+    chr_candidates = [c for c in chr_candidates if c]
+    pos_candidates = [c for c in pos_candidates if c]
+    snp_candidates = [c for c in snp_candidates if c]
+    pvl_candidates = [c for c in pvl_candidates if c]
+    bld_candidates = [c for c in bld_candidates if c]
+
+    # ------------------------------------------------------------------
+    # Resolve column names per file
+    # ------------------------------------------------------------------
+    sumstats_hdr_dic: dict = {}
+
+    for name, fpath in zip(labels, sum_stats):
+        if sep:
+            file_sep, dialect = sep, None
+        else:
+            file_sep, dialect = detect_delimiter(fpath, sample_size=5_000)
+
+        hdr = get_file_header(fpath, delim=file_sep, dialect=dialect)
+
+        try:
+            chrom_col = next(c for c in hdr if c in set(chr_candidates))
+            pos_col   = next(c for c in hdr if c in set(pos_candidates))
+            snp_col   = next(c for c in hdr if c in set(snp_candidates))
+            pcol      = next(c for c in hdr if c in set(pvl_candidates))
+            bcol      = next(c for c in hdr if c in set(bld_candidates))
+        except StopIteration as exc:
+            sys.exit(
+                f"Error: could not find a required column in {fpath}.\n"
+                f"  Header: {hdr}\n"
+                f"  Details: {exc}"
+            )
+
+        old_cols = [chrom_col, pos_col, snp_col, pcol, bcol]
+        new_cols = {
+            chrom_col: "CHR",
+            pos_col:   "POS",
+            snp_col:   "SNP",
+            pcol:      "P",
+            bcol:      "BUILD",
+        }
+        col_dtypes = {
+            chrom_col: str,
+            pos_col:   object,
+            snp_col:   str,
+            pcol:      float,
+            bcol:      str,
+        }
+
+        sumstats_hdr_dic[name] = [old_cols, col_dtypes, new_cols, file_sep]
+
+    return sumstats_hdr_dic
+
+
 # ---------------------------------------------------------------------------
 # Sector-size helpers
 # ---------------------------------------------------------------------------
@@ -134,8 +328,6 @@ def get_sumstats_and_merged_sector_list(
     file_info: Optional[dict] = None,
     sort_tracks: Optional[str] = "chrom_len",
     table_out: Optional[str] = None,
-    highlight: bool = False,
-    highlight_thresh: float = 5e-8,
     signif_threshold: Optional[float] = None,
     signif_line: Optional[float] = None,
     suggest_threshold: Optional[float] = None,
@@ -156,8 +348,8 @@ def get_sumstats_and_merged_sector_list(
         ``'label'`` — sort tracks alphabetically by label.
         ``'chrom_len'`` — sort by number of chromosomes (default).
         ``None`` — preserve input order.
-    highlight:
-        Whether to flag loci for highlighting.
+    signif_threshold:
+        Threshold of significance to create hits table.
     resources:
         :class:`~pycmplot.resources.ResourceConfig` instance.
 
@@ -225,21 +417,13 @@ def get_sumstats_and_merged_sector_list(
             logger.info("Converting hg19 coordinates to hg38 ...")
             sumstats_loaded[label][0] = liftover_position(df, resources=resources)
 
-        # Lead SNPs / highlight SNPs
-        if highlight:
-            logger.info("Extracting variants to highlight ...")
-            sumstats_loaded[label][0], leads = get_highlight_snps(
-                df=sumstats_loaded[label][0],
-                window=2_000_000,
-                highlight_thresh=highlight_thresh,
-                logp=True,
-            )
-        else:
-            leads = get_lead_snps(
-                df=sumstats_loaded[label][0],
-                highlight_thresh=signif_threshold or 5e-8,
-                logp=True,
-            )
+        # Lead SNPs
+        logger.info("Extracting variants to highlight ...")
+        leads = get_lead_snps(
+            df=sumstats_loaded[label][0],
+            signif_threshold=signif_threshold or 5e-8,
+            logp=True,
+        )
 
         all_lead_snps.append(leads)
 

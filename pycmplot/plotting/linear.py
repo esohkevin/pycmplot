@@ -12,11 +12,14 @@ from typing import Optional
 import matplotlib.colors as mcolors
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
+from pathlib import Path
 from matplotlib.patches import FancyArrowPatch
 from natsort import natsort_keygen
 
 from pycmplot.constants import CHROM_ORDER
 from pycmplot.stats import get_highlight_snps
+from pycmplot.io import get_output_paths
 
 logger = logging.getLogger(__name__)
 
@@ -129,59 +132,33 @@ def _draw_annotation_arrows(
 # Public function
 # ---------------------------------------------------------------------------
 
-def plot_linear(
+def plot_linearm(
     tracks: list,
     track_labels: Optional[list[str]] = None,
     annot_df=None,
     highlight: bool = False,
-    highlight_thresh: float = 1e-7,
-    chr_col: str = "CHR",
-    pos_col: str = "BP",
-    p_col: str = "P",
+    highlight_thresh: float = 5e-8,
     trim_pval: Optional[float] = None,
     logp: bool = True,
-    label_col: str = "label",
+    label_col: Optional[str] = "label",
     chr_order: Optional[list[str]] = None,
     chr_spacing: float = 9e6,
     track_heights: Optional[list[float]] = None,
     track_spacing: float = 0.10,
     point_size: float = 5,
-    colors: Optional[list[str]] = None,
+    colors: Optional[list[str]] = ['steelblue','orange'],
     sig_lines: Optional[list[dict]] = None,
-    plot_title: Optional[str] = None,
+    plt_name: Optional[str] = None,
+    no_track_labels: bool = False,
     fig_format: Optional[str] = None,
     dpi: int = 300,
     figsize: tuple = (15, 9),
 ):
-    """Generate a multi-track linear Manhattan plot.
 
-    Parameters
-    ----------
-    tracks:
-        List of DataFrames, one per GWAS trait.  Each must have columns
-        *chr_col*, *pos_col*, and *p_col*.
-    track_labels:
-        Y-axis labels for each track.
-    annot_df:
-        Optional DataFrame of lead SNPs to annotate (must contain *chr_col*,
-        *pos_col*, *label_col*).
-    label_col:
-        Column to use in the annot_df e.g. column containing gene names.
-    highlight:
-        Highlight loci within ``500 kb`` of a lead SNP.
-    chr_spacing:
-        Gap (bp) inserted between chromosomes on the x-axis.
-    sig_lines:
-        List of ``{"genome": float, "suggestive": float}`` dicts, one per track.
-    plot_title:
-        Output file path (extension determines format when *fig_format* is ``None``).
-    fig_format:
-        Override output format (e.g. ``'png'``, ``'pdf'``).
+    chr_col = "CHR"
+    pos_col = "POS"
+    p_col = "P"
 
-    Returns
-    -------
-    (fig, axes)
-    """
     if chr_order is None:
         chr_order = CHROM_ORDER
 
@@ -192,10 +169,12 @@ def plot_linear(
     # ------------------------------------------------------------------
     def _prep(df):
         df = df.copy()
+        """ ALREADY HANDLED IN DATA LOADER FUNCTION
         if trim_pval:
             df = df[df[p_col] < trim_pval]
         if logp:
             df["logP"] = -np.log10(df[p_col])
+        """
 
         df[chr_col] = (
             df[chr_col]
@@ -294,7 +273,10 @@ def plot_linear(
                 ax.scatter(sig["x"].to_numpy(), sig_y.to_numpy(), s=point_size,
                            marker="o", color="brown")
 
-        ax.set_ylabel(t_label, color="black")
+        if no_track_labels:
+            pass
+        else:
+            ax.set_ylabel(t_label, color="black")
 
         if sig_lines is not None and i < len(sig_lines):
             sl = sig_lines[i]
@@ -360,16 +342,117 @@ def plot_linear(
     plt.tight_layout()
 
     fig.text(
-        0.03, 0.5,
-        "-log\u2081\u2080(P)" if logp else p_col,
+        0, 0.5,
+        "-log\u2081\u2080(p-value)" if logp else p_col,
         va="center",
         rotation="vertical",
         fontsize=12,
     )
 
-    if plot_title:
-        fmt = fig_format or Path(plot_title).suffix.lstrip(".") or "png"
-        plt.savefig(plot_title, format=fmt, dpi=dpi)
-        logger.info("Saved linear Manhattan plot: %s", plot_title)
+    if plt_name:
+        fmt = fig_format or Path(plt_name).suffix.lstrip(".") or "png"
+        plt.savefig(plt_name.lower(), format=fmt, dpi=dpi)
+        logger.info("Saved linear Manhattan plot: %s", plt_name.lower())
+
+    return fig, axes
+
+
+def plot_linear(
+    sumstats_loaded: list[str],
+    trim_pval: Optional[float] = None,
+    track_heights: list[float] = None,
+    logp: bool = False,
+    point_size: Optional[float] = None,
+    highlight: bool = False,
+    highlight_thresh: float = 5e-8,
+    hits_table: Optional[pd.DataFrame] = None,
+    label_col: Optional[str] = None,
+    chr_spacing: Optional[float] = None,
+    track_spacing: Optional[float] = None,
+    colors: list[str] = None,
+    signif_lines: Optional[dict] = None,
+    plot_title: Optional[str] = None,
+    no_track_labels: bool = False,
+    dpi: Optional[int] = None,
+    output_format: Optional[str] = None,
+    output_dir: Optional[str] = '.',
+    figsize: Optional[tuple] = None,
+):
+    """Generate a multi-track linear Manhattan plot.
+
+    Parameters
+    ----------
+    sumstats_loaded:
+        List of DataFrames, one per GWAS trait.  Each must have columns
+    highlight:
+        Whether to highlight significant signals.
+    hits_table:
+        Optional DataFrame of lead SNPs to annotate (must contain *chr_col*,
+        *pos_col*, *label_col*).
+    label_col:
+        Column to use in the annot_df e.g. column containing gene names.
+    highlight:
+        Highlight loci within ``500 kb`` of a lead SNP.
+    chr_spacing:
+        Gap (bp) inserted between chromosomes on the x-axis.
+    signif_lines:
+        List of ``{"genome": float, "suggestive": float}`` dicts, one per track.
+    plot_title:
+        Output file path (extension determines format when *fig_format* is ``None``).
+    output_format:
+        Override output format (e.g. ``'png'``, ``'pdf'``).
+    figsize:
+        Figure size e.g. (15, 8)
+    dpi:
+        FIgure resolution (default: 300)
+
+
+    Returns
+    -------
+    (fig, axes)
+    """
+
+    dfs      = [v[0] for v in sumstats_loaded.values()]
+    t_labels = list(sumstats_loaded.keys())
+
+    if not track_heights:
+        t_heights = None
+    else:
+        t_heights = [float(x) for x in track_heights]
+
+    # plot name
+    (
+        plt_name, 
+        table_out
+    ) = get_output_paths(
+        labels = t_labels,
+        mode='lm', 
+        logp=logp, 
+        output_dir=output_dir, 
+        plot_title=plot_title, 
+        output_format=output_format
+    )
+
+    fig, axes = plot_linearm(
+        tracks=dfs,
+        track_labels=t_labels,
+        trim_pval=trim_pval,
+        logp=True if logp else False,
+        point_size=point_size,
+        highlight=highlight,
+        highlight_thresh=highlight_thresh,
+        annot_df=hits_table if not hits_table.empty else None,
+        label_col=label_col,
+        chr_spacing=chr_spacing,
+        track_heights=t_heights,
+        track_spacing=track_spacing,
+        colors=colors,
+        sig_lines=signif_lines,
+        plt_name=plt_name,
+        no_track_labels = no_track_labels,
+        dpi=dpi,
+        fig_format=output_format,
+        figsize=figsize,
+    )
 
     return fig, axes

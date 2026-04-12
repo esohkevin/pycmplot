@@ -14,6 +14,9 @@ from typing import Optional
 import numpy as np
 import pandas as pd
 
+from pycmplot.io import get_output_paths
+from pycmplot.stats import get_highlight_snps
+
 logger = logging.getLogger(__name__)
 
 
@@ -23,7 +26,7 @@ logger = logging.getLogger(__name__)
 
 def compute_track_radii_dict(
     n_tracks: int,
-    r_min: float = 0,
+    r_min: float = 20,
     r_max: float = 100,
     pad: float = 1,
     annotate: bool = False,
@@ -73,7 +76,7 @@ def compute_track_radii_dict(
 # Per-chromosome circular Manhattan track
 # ---------------------------------------------------------------------------
 
-def plot_circular(
+def plot_circosm(
     sector=None,
     sector_radius=None,
     annotation_r=None,
@@ -86,13 +89,14 @@ def plot_circular(
     track_index: int = 0,
     assoc_label: Optional[str] = None,
     logp: bool = True,
-    signif_line: Optional[float] = None,
-    signif_threshold: Optional[float] = None,
-    suggest_line: Optional[float] = None,
-    suggest_threshold: Optional[float] = None,
+    signif_line: Optional[float] = 5e-8,
+    signif_threshold: Optional[float] = 5e-8,
+    suggest_line: Optional[float] = 1e-5,
+    suggest_threshold: Optional[float] = 1e-5,
     highlight: bool = False,
-    highlight_thresh: Optional[float] = None,
-    colors: Optional[list[str]] = None,
+    highlight_thresh: Optional[float] = 5e-8,
+    colors: Optional[list[str]] = ['steelblue','orange'],
+    no_track_labels: bool = False
 ) -> None:
     """Plot a single chromosome's data onto a pycirclize sector track.
 
@@ -119,7 +123,15 @@ def plot_circular(
         Two alternating colours for even/odd chromosomes.
     """
     if colors is None:
-        colors = ["steelblue", "silver"]
+        colors = ["steelblue", "orange"]
+
+    if highlight:
+        assoc, _ = get_highlight_snps(
+            df=assoc,
+            window=500_000,
+            highlight_thresh=highlight_thresh,
+            logp=logp,
+        )
 
     logger.info("Processing sector: %s", sector.name)
 
@@ -149,17 +161,20 @@ def plot_circular(
         lbl_track = sector.add_track(sector_radius)
         lbl_track.axis(fc="white", alpha=0)
 
-        lbl_track.text(
-            assoc_label,
-            x=(sector.end - sector.start) / 6,
-            adjust_rotation=True,
-            orientation=track_label_orientation,
-            size=float(track_label_size),
-            color="black",
-            fontstyle="normal",
-            fontweight="regular",
-            multialignment="left",
-        )
+        if no_track_labels:
+            pass
+        else:
+            lbl_track.text(
+                assoc_label,
+                x=(sector.end - sector.start) / 6,
+                adjust_rotation=True,
+                orientation=track_label_orientation,
+                size=float(track_label_size),
+                color="black",
+                fontstyle="normal",
+                fontweight="regular",
+                multialignment="left",
+            )
 
     if sector.name not in assoc_uniq_chroms:
         return
@@ -169,7 +184,7 @@ def plot_circular(
     # ------------------------------------------------------------------
     if track_index == 0 or sector.name == "X":
         sector.text(
-            sector.name.replace("23", "X"),
+            sector.name.replace("23", "X") if chrom_label_loc == 'inside' else str("chr") + str(sector.name.replace("23", "X")),
             r=chrom_label_loc,
             size=chrom_label_size,
         )
@@ -213,7 +228,7 @@ def plot_circular(
 
     y_col = "logP" if logp else "P"
 
-    if highlight:
+    if highlight:      
         sig = assoc_chr[assoc_chr["in_locus"]]
         bg = assoc_chr[~assoc_chr["in_locus"]]
 
@@ -259,3 +274,216 @@ def plot_circular(
             vmin=v_min, vmax=v_max,
             color="lightblue", linestyle="--",
         )
+
+
+def plot_circular(
+    sumstats_loaded: dict,
+    sector_sizes: dict = None,
+    signif_lines: dict = None,
+    logp: bool = False,
+    pad: float = 1,
+    r_min: float = 0,
+    r_max: float = 100,
+    annotate: str = 'SNP',
+    chrom_label_side: str = 'inside',
+    signif_line: float = 5e-8,
+    highlight: bool = False,
+    highlight_thresh: float = 5e-8,
+    colors: list[str] = ['steelblue', 'grey'],
+    chrom_label_size: float = 6,
+    track_label_size: float = 6,
+    track_label_orientation: str = 'vertical',
+    hits_table: pd.DataFrame = None,
+    annotation_size: float = 6,
+    highlight_line: bool = False,
+    plot_title: Optional[str] = None,
+    plot_title_size: float = 12,
+    dpi: Optional[int] = None,
+    output_format: Optional[str] = None,
+    output_dir: Optional[str] = '.',
+    no_track_labels: bool = False
+):
+
+    from pycirclize import Circos
+
+    # plot name
+    labels = list(sumstats_loaded.keys())
+    (
+        plt_name, 
+        table_out
+    ) = get_output_paths(
+        labels,
+        mode='cm', 
+        logp=logp, 
+        output_dir=output_dir, 
+        plot_title=plot_title, 
+        output_format=output_format
+    )
+
+    circos = Circos(sector_sizes, space=0.8)
+
+    if plot_title:
+        circos.text(text=plot_title, size=plot_title_size, weight="normal")
+
+    n_studies = len(sumstats_loaded)
+
+    radii = compute_track_radii_dict(
+        n_tracks=n_studies,
+        pad=pad,
+        r_min=r_min,
+        r_max=r_max,
+        annotate=bool(annotate),
+    )
+
+    annotation_track_key    = next(reversed(radii))
+    annotation_track_radius = radii[annotation_track_key]
+
+    # Reverse so outermost track is plotted first
+    radii_reversed = dict(reversed(list(radii.items())))
+
+    inside_loc  = r_min - 3
+    outside_loc = 101
+    chrom_label_loc = outside_loc if chrom_label_side == "outside" else inside_loc
+
+    if annotate:
+        annot_key = next(iter(radii_reversed))
+        annot_r   = radii_reversed.pop(annot_key)
+        radii_reversed["annot_track_r"] = annot_r
+
+    for index, (sector_radius, sumstats_key, sumstats_value, signif_dict) in enumerate(
+        zip(
+            radii_reversed.values(),
+            sumstats_loaded.keys(),
+            sumstats_loaded.values(),
+            signif_lines,
+        )
+    ):
+        assoc = sumstats_value[0].copy()
+        assoc["P"]   = assoc["P"].dropna()
+        assoc["CHR"] = assoc["CHR"].replace("23", "X").replace("24", "Y")
+        sumstat_name = sumstats_key
+
+        sig_thresh = signif_dict["genome"]
+        sug_thresh = signif_dict["suggestive"]
+        logger.info(f"SIGNIFICANCE THRESHOLD: {sig_thresh}")
+        logger.info(f"SUGGESTIVE THRESHOLD: {sug_thresh}")
+
+        #if logp:
+        #    assoc["logP"] = assoc["logP"].dropna()
+
+        for sector in circos.sectors:
+            plot_circosm(
+                sector=sector,
+                sector_radius=sector_radius,
+                annotation_r=annotation_track_radius if annotate else None,
+                sector_sizes=sector_sizes,
+                track_index=index,
+                chrom_label_loc=chrom_label_loc,
+                chrom_label_size=chrom_label_size,
+                track_label_size=track_label_size,
+                track_label_orientation=track_label_orientation,
+                assoc=assoc,
+                assoc_label=sumstat_name,
+                logp=logp,
+                signif_line=sig_thresh,
+                signif_threshold=sig_thresh,
+                suggest_line=True if signif_line else False,
+                suggest_threshold=sug_thresh,
+                highlight=highlight,
+                highlight_thresh=highlight_thresh,
+                colors=colors,
+                no_track_labels=no_track_labels
+            )
+
+    # ------------------------------------------------------------------
+    # Circular: gene/SNP annotations
+    # ------------------------------------------------------------------
+    if annotate and not hits_table.empty:
+        for i, (_, row) in enumerate(hits_table.iterrows()):
+            if str(annotate).upper() != "GENE":
+                label  = row["SNP"]
+                fstyle = "normal"
+            else:
+                if row["genic"]:
+                    label = row["nearest_upstream_gene"]
+                else:
+                    label = row["top_gene"]
+                fstyle = "italic"
+
+            for sector in circos.sectors:
+                if str(row["CHR"]) == sector.name:
+                    a_track = sector.add_track(annotation_track_radius)
+                    a_track.axis(fc="none", lw=0, ec="none", alpha=0)
+
+                    r_low  = annotation_track_radius[0]
+                    r_high = annotation_track_radius[1]
+                    r_pos  = r_low if i % 2 == 0 else r_high
+                    pos    = row["POS"]
+
+                    a_track.annotate(
+                        x=pos,
+                        label=str(label),
+                        min_r=r_low,
+                        max_r=r_low + 3,
+                        label_size=annotation_size,
+                        text_kws={
+                            "size": "large",
+                            "color": "black",
+                            "alpha": 1,
+                            "fontstyle": fstyle,
+                            "fontweight": "normal",
+                            "multialignment": "left",
+                        },
+                    )
+
+                    if highlight_line:
+                        sector_rlim = [t.r_lim for t in sector.tracks]
+                        sector_min_r = min(sector_rlim)[0]
+                        sector.line(
+                            r=[sector_min_r, r_low],
+                            start=pos,
+                            end=pos,
+                            color="lightgrey",
+                            lw=0.4,
+                            ls="--",
+                        )
+
+    # ------------------------------------------------------------------
+    # Circular: single y-axis label on last sector
+    # ------------------------------------------------------------------
+    for sector in circos.sectors:
+        if sector.name == list(sector_sizes.keys())[-1]:
+            if logp:
+                SUB = str.maketrans("0123456789", "₀₁₂₃₄₅₆₇₈₉")
+                y_label = "-log10(p-value)".translate(SUB)
+            else:
+                y_label = "p-value"
+
+            sector_rlim  = [t.r_lim for t in sector.tracks]
+            sector_min_r = min(sector_rlim)[0]
+            sector_max_r = max(sector_rlim)[1]
+
+            sector.text(
+                y_label,
+                x=sector.end - (sector.end - sector.start) / 5,
+                r=(sector_min_r + sector_max_r) / 2
+                    + (sector_min_r + sector_max_r) / 12,
+                adjust_rotation=False,
+                ignore_range_error=True,
+                size=float(track_label_size),
+                color="black",
+                fontstyle="italic",
+                fontweight="regular",
+                rotation=92,
+                rotation_mode="default",
+                va="top",
+                ha="right",
+            )
+
+    fig = circos.plotfig()
+
+    if plt_name:
+        fig.savefig(fname=plt_name.lower(), dpi=dpi)
+        logger.info("Saved circular Manhattan plot: %s", plt_name)
+
+    return fig
