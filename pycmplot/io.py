@@ -1,8 +1,25 @@
-"""
+MODULE_DOCSTRING = '''"""
 pycmplot.io
 ===========
-Summary statistics loading, delimiter detection, and sector-size computation.
-"""
+
+Functions for loading, validating, and pre-processing GWAS summary statistics
+files.  Handles delimiter auto-detection (whitespace, tab, comma), gzip
+decompression, and resolution of column-name variants to the canonical set
+used throughout the package.
+
+The primary entry point for the plotting pipeline is
+:func:`get_sumstats_and_merged_sector_list`, which loads all tracks, runs
+coordinate liftover when needed, extracts lead SNPs, generates the hits
+summary table, and computes the merged Circos sector-size dictionary — all
+in a single call.
+
+Notes
+-----
+This module is called automatically by the command-line entry point and by
+:func:`pycmplot._core.main`; most users will not need to import it directly.
+It is documented here for users who wish to load and pre-process summary
+statistics programmatically before passing them to the plotting functions.
+"""'''
 
 from __future__ import annotations
 
@@ -31,7 +48,29 @@ logger = logging.getLogger(__name__)
 # ---------------------------------------------------------------------------
 
 def smart_open(file_path: str):
-    """Open a regular or gzip-compressed file transparently."""
+    SMART_OPEN = '''"""Open a plain-text or gzip-compressed file transparently.
+
+    Detects gzip compression from the ``.gz`` file suffix; all other paths are
+    opened as plain text.
+
+    Parameters
+    ----------
+    file_path : str or pathlib.Path
+        Path to the file to open.
+
+    Returns
+    -------
+    io.TextIOWrapper or gzip.GzipFile
+        An open, readable text-mode file object.  Must be used as a context
+        manager (``with smart_open(...) as f: ...``).
+
+    Examples
+    --------
+    >>> from pycmplot.io import smart_open
+    >>> with smart_open("HbF.tsv.gz") as f:
+    ...     header = f.readline()
+    """'''
+
     path = Path(file_path)
     if path.suffix == ".gz":
         return gzip.open(file_path, "rt")
@@ -39,7 +78,36 @@ def smart_open(file_path: str):
 
 
 def resolve_delimiter(delim: str) -> str:
-    """Map a human-readable delimiter name to the actual separator character."""
+    RESOLVE_DELIMITER = '''"""Map a human-readable delimiter name to its single-character representation.
+
+    Parameters
+    ----------
+    delim : str
+        A delimiter name — one of ``'space'``, ``'tab'``, ``'comma'``,
+        ``'colon'``, ``'semi-colon'``, ``'semicolon'`` — or a single bare
+        character (e.g. ``'|'``).  Matching is case-insensitive.
+
+    Returns
+    -------
+    str
+        The corresponding single-character separator string.
+
+    Raises
+    ------
+    TypeError
+        If *delim* is not a string.
+    ValueError
+        If *delim* is neither a recognised name nor a single character.
+
+    Examples
+    --------
+    >>> from pycmplot.io import resolve_delimiter
+    >>> resolve_delimiter("tab")
+    '\\t'
+    >>> resolve_delimiter(",")
+    ','
+    """'''
+
     if not isinstance(delim, str):
         raise TypeError("Delimiter must be a string.")
 
@@ -63,12 +131,38 @@ def resolve_delimiter(delim: str) -> str:
 
 
 def detect_delimiter(file_path: str, sample_size: int = 5_000):
-    """Automatically detect the delimiter using :mod:`csv.Sniffer`.
+    DETECT_DELIMITER = '''"""Infer the field delimiter of a summary statistics file automatically.
+
+    Reads the first *sample_size* bytes of *file_path* and passes the content
+    to :class:`csv.Sniffer`.  Falls back to a character-frequency heuristic
+    (testing ``','``, ``'\\t'``, ``' '``, ``';'``, ``'|'``) if
+    :class:`csv.Sniffer` raises :class:`csv.Error`.
+
+    Parameters
+    ----------
+    file_path : str or pathlib.Path
+        Path to the summary statistics file.  Gzip-compressed files (``.gz``)
+        are supported transparently via :func:`smart_open`.
+    sample_size : int, optional
+        Number of bytes to read for delimiter detection.  Default is ``5000``.
 
     Returns
     -------
-    (delimiter_str, dialect_or_None)
-    """
+    delimiter : str
+        The inferred single-character field separator (e.g. ``'\\t'``,
+        ``','``, ``' '``).
+    dialect : csv.Dialect or None
+        The :class:`csv.Dialect` object returned by :class:`csv.Sniffer`, or
+        ``None`` when the fallback heuristic was used.
+
+    Examples
+    --------
+    >>> from pycmplot.io import detect_delimiter
+    >>> delim, dialect = detect_delimiter("HbF.tsv.gz")
+    >>> delim
+    '\\t'
+    """'''
+
     with smart_open(file_path) as f:
         sample = f.read(sample_size)
 
@@ -93,7 +187,39 @@ def get_file_header(
     delim: Optional[str] = None,
     dialect=None,
 ) -> list[str]:
-    """Return the column names from the first line of *file_path*."""
+    GET_FILE_HEADER = '''"""Read and return the column names from the header line of a file.
+
+    Opens *file_path*, reads the first row using :class:`csv.DictReader`
+    configured with the supplied delimiter or dialect, and returns the field
+    names as an ordered list of strings.
+
+    Parameters
+    ----------
+    file_path : str or pathlib.Path
+        Path to the summary statistics file (plain text or ``.gz``).
+    delim : str, optional
+        Field separator character (e.g. ``'\\t'``).  Takes priority over
+        *dialect* when both are provided.
+    dialect : csv.Dialect, optional
+        A :class:`csv.Dialect` object (e.g. as returned by
+        :func:`detect_delimiter`).  Used only when *delim* is ``None``.
+
+    Returns
+    -------
+    list of str
+        Ordered list of column names exactly as they appear in the file header.
+        Returns an empty list and logs a warning if the header cannot be
+        determined.
+
+    Examples
+    --------
+    >>> from pycmplot.io import detect_delimiter, get_file_header
+    >>> delim, dialect = detect_delimiter("HbF.tsv.gz")
+    >>> header = get_file_header("HbF.tsv.gz", delim=delim)
+    >>> header[:4]
+    ['CHR', 'POS', 'SNP', 'P']
+    """'''
+
     with smart_open(file_path) as f:
         try:
             if delim:
@@ -118,6 +244,42 @@ def strip_comma_separated_input_streams(
     colors_raw = 'steelblue,grey',
     track_heights = None,
 ):
+    STRIP_COMMA = '''"""Parse comma-separated CLI strings into Python lists.
+
+    Converts the raw string arguments produced by ``argparse`` (e.g.
+    ``"HbF.tsv.gz,MCV.txt.gz,MCH.tsv.gz"``) into the lists expected by the
+    rest of the API.  Validates that *sum_stats* and *labels* have the same
+    number of elements.
+
+    Parameters
+    ----------
+    sum_stats : str
+        Comma-separated list of summary statistics file paths.
+    labels : str
+        Comma-separated list of track labels.  Must contain the same number
+        of elements as *sum_stats*.
+    colors_raw : str, optional
+        Comma-separated list of matplotlib colour strings, one per track.
+        Default is ``'steelblue,grey'``.
+    track_heights : str, optional
+        Comma-separated list of relative track heights (floats), one per track.
+
+    Returns
+    -------
+    sum_stats : list of str
+        Parsed file paths, whitespace-stripped.
+    labels : list of str
+        Parsed track labels, whitespace-stripped.
+    colors : list of str
+        Parsed colour strings, whitespace-stripped.
+    t_heights : list of float
+        Parsed track heights converted to ``float``.
+
+    Raises
+    ------
+    SystemExit
+        If *sum_stats* and *labels* have different numbers of elements.
+    """'''
 
     if len(sum_stats) != len(labels):
         sys.exit(
@@ -150,8 +312,32 @@ def strip_comma_separated_input_streams(
 # Random string for output paths
 # ------------------------------------------------------------------
 def generate_random_string(length):
+    GENERATE_RANDOM = '''"""Generate a random alphanumeric string.
+
+    Used internally to create a unique output file-name component when no
+    ``--plot_title`` is provided.
+
+    Parameters
+    ----------
+    length : int
+        Number of characters in the output string.
+
+    Returns
+    -------
+    str
+        Random string drawn from ASCII letters (upper- and lower-case) and
+        digits (``[A-Za-z0-9]``).
+
+    Examples
+    --------
+    >>> from pycmplot.io import generate_random_string
+    >>> s = generate_random_string(10)
+    >>> len(s)
+    10
+    """'''
+
     import random
-    import string        
+    import string
     # Combine uppercase, lowercase, and digits
     characters = string.ascii_letters + string.digits
     # random.choices picks multiple characters with replacement
@@ -169,6 +355,54 @@ def get_output_paths(
     plot_title: Optional[str] = None,
     output_format: Optional[str] = 'png'
 ):
+    GET_OUTPUT_PATHS = '''"""Construct output file paths for the plot image and locus summary table.
+
+    Creates *output_dir* (including any missing parent directories) and derives
+    deterministic, human-readable file names from the plot title, track labels,
+    plot mode, and y-axis scale.
+
+    Parameters
+    ----------
+    labels : list of str
+        Track labels joined with underscores in the output file name.
+    mode : {'lm', 'cm'}, optional
+        Plot mode: ``'lm'`` for linear Manhattan, ``'cm'`` for circular.
+        Default is ``'lm'``.
+    logp : bool, optional
+        When ``True`` the string ``'_logp'`` is appended to the base name;
+        otherwise ``'_pval'`` is appended.  Default is ``False``.
+    output_dir : str or pathlib.Path, optional
+        Directory in which output files will be written.  Created with
+        ``mkdir(parents=True, exist_ok=True)`` if it does not already exist.
+        Default is ``'.'``.
+    plot_title : str, optional
+        Human-readable plot title.  Non-alphanumeric characters are stripped and
+        spaces replaced with underscores for safe use in file names.  When
+        ``None`` a 10-character random alphanumeric string is used instead.
+    output_format : str, optional
+        Image file extension without the leading dot (e.g. ``'png'``, ``'pdf'``,
+        ``'svg'``).  Default is ``'png'``.
+
+    Returns
+    -------
+    plt_name : str
+        Absolute path to the output plot image file.
+    table_out : str
+        Absolute path to the output locus summary table TSV file.
+
+    Examples
+    --------
+    >>> from pycmplot.io import get_output_paths
+    >>> plt_name, table_out = get_output_paths(
+    ...     labels=["HbF", "MCV"],
+    ...     mode="lm",
+    ...     logp=True,
+    ...     output_dir="./results",
+    ...     plot_title="RBC Traits",
+    ... )
+    >>> plt_name
+    '.../results/RBC_Traits_HbF_MCV_lm_logp.png'
+    """'''
 
     out_path = Path(output_dir).resolve()
 
@@ -204,32 +438,71 @@ def prep_pycmplot_input_info(
     pcol: Optional[str] = None,
     build: Optional[str] = None
 ):
-    """Resolve column names and delimiter
+    PREP_INPUT_INFO = '''"""Resolve column names and delimiters for each summary statistics file.
+
+    Iterates over every file in *sum_stats*, auto-detects (or uses the supplied)
+    delimiter, reads the file header, and maps each required column
+    (chromosome, position, SNP ID, p-value, genome build) to the first matching
+    entry in an ordered candidate-name list.  Returns a per-label mapping that
+    tells :func:`get_sumstats_and_merged_sector_list` exactly which columns to
+    read and how to rename them.
 
     Parameters
     ----------
-    sum_stats:
-        List of file paths to GWAS summary statistics (possibly gzip-compressed).
-    labels:
+    sum_stats : list of str
+        Paths to one or more summary statistics files (gzip supported).
+    labels : list of str
         Track labels in the same order as *sum_stats*.
-    delim:
-        File delimiter (autodetected if omitted)
-    chrom:
-        Chromosome column
-    pos:
-        Position column
-    snp:
-        SNP or Marker ID column
-    pcol:
-        P-value column
-    build:
-        Build version column
+    delim : str, optional
+        Field delimiter shared by all files.  Accepts human-readable names
+        (``'tab'``, ``'space'``, ``'comma'``) or single characters.  When
+        ``None`` the delimiter is auto-detected independently for each file
+        using :func:`detect_delimiter`.
+    chrom : str, optional
+        Chromosome column name.  When ``None``, the first header field that
+        matches any built-in candidate (``'CHR'``, ``'CHROM'``, ``'#CHROM'``,
+        ``'chrom'``, ``'chr'``, …) is used.
+    pos : str, optional
+        Base-pair position column name (candidates: ``'BP'``, ``'POS'``,
+        ``'bp'``, ``'pos'``, ``'Basepair'``).
+    snp : str, optional
+        Variant / marker ID column name (candidates: ``'SNP'``, ``'RSID'``,
+        ``'rsID'``, ``'MarkerName'``, ``'MarkerID'``, ``'SNPID'``, ``'ID'``,
+        …).
+    pcol : str, optional
+        P-value column name (candidates: ``'P'``, ``'P-value'``,
+        ``'pvalue'``, ``'p_val'``, ``'pval'``, ``'Wald_P'``).
+    build : str, optional
+        Genome-build column name (candidates: ``'BUILD'``, ``'Genome'``,
+        ``'Genome_Build'``, ``'Genome-build'``).
 
     Returns
     -------
-    {old_columns, column_dtypes, new_columns, delim}
+    dict
+        Mapping of ``label → [old_columns, col_dtypes, rename_map, sep]``:
 
-    """
+        * **old_columns** – list of the five original column names as found
+        in the file header.
+        * **col_dtypes** – ``{column_name: dtype}`` passed to
+        :func:`pandas.read_csv`.
+        * **rename_map** – ``{old_name: canonical_name}`` for
+        ``CHR``, ``POS``, ``SNP``, ``P``, ``BUILD``.
+        * **sep** – the resolved delimiter character for this file.
+
+    Raises
+    ------
+    SystemExit
+        If any required column (chromosome, position, SNP ID, p-value, or
+        build) cannot be resolved from the file header.
+
+    See Also
+    --------
+    get_sumstats_and_merged_sector_list :
+        The main loading function that consumes the mapping returned here.
+    detect_delimiter :
+        Auto-detects the file delimiter when *delim* is ``None``.
+    """'''
+
     # ------------------------------------------------------------------
     # Resolve delimiter
     # ------------------------------------------------------------------
@@ -333,30 +606,111 @@ def get_sumstats_and_merged_sector_list(
     suggest_threshold: Optional[float] = None,
     resources: Optional[ResourceConfig] = None,
 ):
-    """Load summary statistics and compute merged Circos sector sizes.
+    GET_SUMSTATS = '''"""Load summary statistics, run liftover, extract lead SNPs, and compute
+    merged Circos sector sizes.
+
+    This is the primary data-loading function for the plotting pipeline.  For
+    each track it: reads the file using the column mapping from *file_info*,
+    optionally filters by *trim_pval*, normalises chromosome names
+    (``'chr'`` prefix stripped; ``'23'``→``'X'``, ``'24'``→``'Y'``,
+    ``'M'``/``'MTDNA'``→``'MT'``), lifts over hg19 coordinates when a build
+    column is present, and extracts lead SNPs.  After all tracks are loaded it
+    builds the hits summary table, derives significance thresholds, optionally
+    sorts tracks, and computes the merged sector-size dict consumed by both
+    plotters.
 
     Parameters
     ----------
-    sum_stats:
-        List of file paths to GWAS summary statistics (possibly gzip-compressed).
-    labels:
+    sum_stats : list of str
+        Paths to summary statistics files (gzip supported).
+    labels : list of str
         Track labels in the same order as *sum_stats*.
-    file_info:
-        Dict keyed by label; each value is a list
-        ``[col_names, col_dtypes, rename_map, sep]``.
-    sort_tracks:
-        ``'label'`` — sort tracks alphabetically by label.
-        ``'chrom_len'`` — sort by number of chromosomes (default).
-        ``None`` — preserve input order.
-    signif_threshold:
-        Threshold of significance to create hits table.
-    resources:
-        :class:`~pycmplot.resources.ResourceConfig` instance.
+    logp : bool, optional
+        If ``True``, a ``logP`` column (–log₁₀(P)) is added to every loaded
+        DataFrame and used for lead-SNP ranking and threshold-line computation.
+        Default is ``False``.
+    trim_pval : float, optional
+        Drop variants with ``P > trim_pval`` before any further processing.
+        Strongly recommended for large files (e.g. ``0.01``).  Default is
+        ``None`` (no trimming; variants with ``P > 1`` are still removed).
+    file_info : dict, optional
+        Column-resolution mapping as returned by
+        :func:`prep_pycmplot_input_info`.  Must be supplied for data to be
+        loaded.
+    sort_tracks : {'label', 'chrom_len', None}, optional
+        Track ordering after loading.  ``'label'`` sorts alphabetically;
+        ``'chrom_len'`` sorts by the number of distinct chromosomes (most
+        chromosomes first).  ``None`` preserves input order.
+        Default is ``'chrom_len'``.
+    table_out : str, optional
+        File path at which to write the locus summary table TSV.  Passed
+        through to :func:`~pycmplot.annotation.get_hits_summary_table`.
+    signif_threshold : float, optional
+        Genome-wide significance threshold for lead-SNP extraction and the
+        significance line.  When ``None``, computed as
+        ``max(0.05 / N, 5e-8)`` where *N* is the variant count in the last
+        loaded track; falls back to ``5e-8`` when *trim_pval* is set.
+    signif_line : float, optional
+        Explicit significance-line value drawn on the plot.  When ``None``,
+        *signif_threshold* is used.  If *logp* is ``True`` and the value is
+        < 1, it is converted to –log₁₀ scale automatically.
+    suggest_threshold : float, optional
+        Suggestive significance threshold for a second dashed line.  Defaults
+        to ``1e-5``.
+    resources : ResourceConfig, optional
+        :class:`~pycmplot.resources.ResourceConfig` instance supplying paths to
+        the liftover chain file and gene-info reference files.  Falls back to
+        :data:`~pycmplot.resources.default_resources`.
 
     Returns
     -------
-    (merged_sector_sizes, sumstats_loaded, hits_table, signif_lines)
-    """
+    merged_sector_sizes : dict
+        Mapping of ``chromosome → [min_pos, max_pos]`` across all tracks, in
+        natural chromosome order (``'1'``, ``'2'``, …, ``'X'``, ``'Y'``),
+        with a ``'Spacer1'`` entry appended for y-axis labelling.
+    sumstats_loaded : dict
+        Mapping of ``label → [DataFrame, n_chroms]``.  Each DataFrame
+        contains canonical columns ``CHR``, ``POS``, ``SNP``, ``P``,
+        ``BUILD``, ``LABEL``, and optionally ``logP``, ``OLD_POS``,
+        ``OLD_BUILD`` (when liftover was applied).
+    hits_table : pandas.DataFrame
+        Clumped locus summary table with nearest-gene annotations.  Empty
+        DataFrame when no variants pass the significance threshold.
+    signif_lines : list of dict
+        One ``{'genome': float, 'suggestive': float}`` dict per track, in
+        the final sorted order.
+
+    See Also
+    --------
+    prep_pycmplot_input_info :
+        Resolves column names and delimiters; its output is passed as
+        *file_info*.
+    pycmplot.annotation.get_hits_summary_table :
+        Gene annotation and distance-based clumping of the locus table.
+    pycmplot.liftover.liftover_position :
+        hg19 → hg38 coordinate conversion applied row-wise.
+
+    Examples
+    --------
+    >>> from pycmplot.io import prep_pycmplot_input_info
+    >>> from pycmplot.io import get_sumstats_and_merged_sector_list
+    >>> files  = ["HbF.tsv.gz", "MCV.txt.gz"]
+    >>> labels = ["HbF", "MCV"]
+    >>> file_info = prep_pycmplot_input_info(files, labels)
+    >>> sectors, loaded, hits, sig_lines = get_sumstats_and_merged_sector_list(
+    ...     sum_stats=files,
+    ...     labels=labels,
+    ...     logp=True,
+    ...     trim_pval=0.01,
+    ...     file_info=file_info,
+    ...     signif_threshold=5e-8,
+    ... )
+    >>> list(sectors.keys())[:4]
+    ['1', '2', '3', '4']
+    >>> hits.shape
+    (18, 12)
+    """'''
+
     if resources is None:
         resources = default_resources
 

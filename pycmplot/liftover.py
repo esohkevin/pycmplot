@@ -1,13 +1,25 @@
-"""
+MODULE_DOCSTRING = '''"""
 pycmplot.liftover
 =================
+
 Genome coordinate liftover utilities (hg19 → hg38).
 
 The :class:`pyliftover.LiftOver` object is initialised **lazily** — it is
-created only when ``liftover_position`` is first called, so importing this
-module never raises a :class:`FileNotFoundError` even if the chain file has
+created on first use and cached in a module-level dictionary, so importing
+this module never triggers a file-not-found error even if the chain file has
 not been configured yet.
-"""
+
+Resource configuration
+----------------------
+The chain file path is resolved through
+:class:`~pycmplot.resources.ResourceConfig`.  By default, a bundled chain
+file is used (``pycmplot/data/hg19ToHg38.over.chain``).  This can be
+overridden by setting the environment variable:
+
+.. code-block:: bash
+
+    export PYCMPLOT_CHAIN_HG19_HG38=/path/to/hg19ToHg38.over.chain
+"""'''
 
 from __future__ import annotations
 
@@ -28,7 +40,25 @@ _lo_cache: dict[str, object] = {}
 
 
 def _get_liftover(chain_path: str):
-    """Return a cached :class:`~pyliftover.LiftOver` for *chain_path*."""
+    GET_LIFTOVER = '''"""Return a cached :class:`~pyliftover.LiftOver` for *chain_path*.
+
+    Loads the chain file on first call and stores the resulting
+    :class:`~pyliftover.LiftOver` instance in a module-level dict.  Subsequent
+    calls with the same *chain_path* return the cached object without re-reading
+    the file.
+
+    Parameters
+    ----------
+    chain_path : str
+        Absolute path to a UCSC-format ``.over.chain`` (or ``.over.chain.gz``)
+        file.
+
+    Returns
+    -------
+    pyliftover.LiftOver
+        A ready-to-use liftover object for the specified chain file.
+    """'''
+
     if chain_path not in _lo_cache:
         from pyliftover import LiftOver  # deferred import
 
@@ -46,23 +76,50 @@ def liftover_hg19_to_hg38(
     pos: int,
     resources: Optional[ResourceConfig] = None,
 ) -> Optional[int]:
-    """Convert a single hg19 coordinate to hg38.
+    LIFTOVER_HG19_TO_HG38 = '''"""Convert a single hg19 position to its hg38 equivalent.
+
+    Uses a lazily loaded and cached :class:`~pyliftover.LiftOver` object backed
+    by the chain file specified in *resources*.  When multiple hg38 mappings
+    exist for a given position, the one with the highest chain score is returned.
 
     Parameters
     ----------
-    chrom:
-        Chromosome name **without** the ``chr`` prefix (e.g. ``"1"``, ``"X"``).
-    pos:
-        0-based position (as expected by pyliftover).
-    resources:
+    chrom : str
+        Chromosome name **without** the ``'chr'`` prefix (e.g. ``'1'``,
+        ``'X'``).  The prefix is added internally before querying pyliftover.
+    pos : int
+        0-based hg19 position, as expected by :class:`pyliftover.LiftOver`.
+    resources : ResourceConfig, optional
         :class:`~pycmplot.resources.ResourceConfig` instance.  Falls back to
-        the module-level :data:`~pycmplot.resources.default_resources`.
+        :data:`~pycmplot.resources.default_resources` when ``None``.
 
     Returns
     -------
     int or None
-        New hg38 position, or ``None`` if liftover failed for that coordinate.
-    """
+        Corresponding 0-based hg38 position, or ``None`` if the position
+        could not be mapped (unmapped region, chromosome gap, or deleted
+        sequence).
+
+    Notes
+    -----
+    pyliftover uses **0-based** coordinates (BED convention).  GWAS summary
+    statistics files typically use **1-based** coordinates (VCF/Ensembl
+    convention).  The caller (:func:`liftover_position`) is responsible for any
+    coordinate-system adjustment.
+
+    See Also
+    --------
+    liftover_position :
+        Applies :func:`liftover_hg19_to_hg38` row-wise to a full DataFrame.
+
+    Examples
+    --------
+    >>> from pycmplot.liftover import liftover_hg19_to_hg38
+    >>> new_pos = liftover_hg19_to_hg38("11", 5246695)
+    >>> new_pos
+    5225465
+    """'''
+
     if resources is None:
         resources = default_resources
 
@@ -81,15 +138,58 @@ def liftover_position(
     df: pd.DataFrame,
     resources: Optional[ResourceConfig] = None,
 ) -> pd.DataFrame:
-    """Liftover all hg19 rows in *df* to hg38, in place.
+    LIFTOVER_POSITION = '''"""Liftover all hg19 rows in *df* from hg19 to hg38 coordinates.
 
-    Expects columns ``CHR``, ``POS``, and ``BUILD``.  Rows whose ``BUILD``
-    is ``'hg19'`` are lifted; others are left unchanged.  Rows that fail
-    liftover (new position == 0 or ``None``) are dropped.
+    Iterates over every row in *df* and calls :func:`liftover_hg19_to_hg38`
+    for rows whose ``BUILD`` column equals ``'hg19'``.  Rows with other build
+    values are passed through unchanged.  Rows for which liftover returns
+    ``None`` or ``0`` (unmappable positions) are silently dropped.
 
-    Returns the modified DataFrame with two additional columns:
-    ``OLD_POS`` and ``OLD_BUILD``.
-    """
+    Two provenance columns are added to the returned DataFrame so that the
+    original coordinates remain accessible:
+
+    * ``OLD_POS`` — the pre-liftover base-pair position.
+    * ``OLD_BUILD`` — the original build value (``'hg19'``).
+
+    After processing, the ``BUILD`` column is updated to ``'hg38'`` for all
+    rows.
+
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        Summary statistics DataFrame with canonical columns ``CHR``, ``POS``,
+        and ``BUILD``.  The ``POS`` column is coerced to ``int`` before
+        processing.
+    resources : ResourceConfig, optional
+        :class:`~pycmplot.resources.ResourceConfig` instance supplying the
+        chain file path.  Falls back to
+        :data:`~pycmplot.resources.default_resources` when ``None``.
+
+    Returns
+    -------
+    pandas.DataFrame
+        A copy of *df* with:
+
+        * ``POS`` replaced by hg38 coordinates for all hg19 rows.
+        * ``BUILD`` set to ``'hg38'`` for all rows.
+        * ``OLD_POS`` and ``OLD_BUILD`` columns added.
+        * Rows with unmappable positions (new ``POS == 0``) removed.
+
+    See Also
+    --------
+    liftover_hg19_to_hg38 :
+        Single-position conversion function called internally.
+
+    Examples
+    --------
+    >>> from pycmplot.liftover import liftover_position
+    >>> df_hg38 = liftover_position(df)
+    >>> df_hg38["BUILD"].unique()
+    array(['hg38'], dtype=object)
+    >>> "OLD_POS" in df_hg38.columns
+    True
+    """'''
+
     if resources is None:
         resources = default_resources
 

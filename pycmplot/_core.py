@@ -1,8 +1,16 @@
-"""
+CORE_MODULE = '''"""
 pycmplot._core
 ==============
-Main entry point — orchestrates CLI parsing, data loading, and plotting.
-"""
+
+Main entry point that orchestrates CLI argument parsing, data loading, and
+plot dispatch.  This module is intentionally thin: it delegates all heavy
+work to :mod:`pycmplot.io`, :mod:`pycmplot.plotting.linear`, and
+:mod:`pycmplot.plotting.circular`.
+
+All imports are deferred inside :func:`main` so that
+``import pycmplot`` remains fast regardless of the size of the dependency
+tree.
+"""'''
 
 from __future__ import annotations
 
@@ -18,7 +26,56 @@ logger = logging.getLogger(__name__)
 
 
 def main() -> None:
-    """CLI entry point — ``pycmplot`` console script."""
+    MAIN = '''"""Orchestrate the full pycmplot pipeline from the command line.
+
+    This function is registered as the ``pycmplot`` console-script entry point
+    in ``pyproject.toml`` / ``setup.cfg``.  It performs the following steps in
+    order:
+
+    1. **Parse CLI arguments** via :func:`~pycmplot.cli.get_arguments`.
+    2. **Parse comma-separated inputs** (files, labels, colours, track heights)
+    into Python lists via
+    :func:`~pycmplot.io.strip_comma_separated_input_streams`.
+    3. **Construct output paths** (plot image and locus summary table TSV) via
+    :func:`~pycmplot.io.get_output_paths`.
+    4. **Resolve column names** for every input file via
+    :func:`~pycmplot.io.prep_pycmplot_input_info`.
+    5. **Load data** — reads summary statistics, normalises chromosome names,
+    runs hg19 → hg38 liftover if needed, extracts lead SNPs, generates the
+    hits summary table, and computes merged Circos sector sizes via
+    :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`.
+    6. **Dispatch plotting** — calls
+    :func:`~pycmplot.plotting.circular.plot_circular` when ``--mode cm``,
+    or :func:`~pycmplot.plotting.linear.plot_linear` otherwise.
+
+    Parameters
+    ----------
+    None
+        All input is taken from ``sys.argv`` via :mod:`argparse`.
+
+    Returns
+    -------
+    None
+        Saves the plot image and locus summary table to the directory
+        specified by ``--output_dir``.
+
+    Raises
+    ------
+    SystemExit
+        If required arguments are missing, column names cannot be resolved,
+        or the number of summary stats files and labels do not match.
+
+    See Also
+    --------
+    pycmplot.cli.get_arguments :
+        Defines and parses all command-line arguments consumed here.
+    pycmplot.io.get_sumstats_and_merged_sector_list :
+        The primary data-loading function called in step 5.
+    pycmplot.plotting.linear.plot_linear :
+        Linear Manhattan plotter called for ``--mode lm`` (default).
+    pycmplot.plotting.circular.plot_circular :
+        Circular Manhattan plotter called for ``--mode cm``.
+    """'''
 
     # ------------------------------------------------------------------
     # Deferred imports so ``import pycmplot`` remains fast

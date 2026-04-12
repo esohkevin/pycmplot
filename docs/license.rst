@@ -1,0 +1,8 @@
+.. _license:
+
+License
+=======
+
+pycmplot is distributed under the terms of its open-source license.
+See the `LICENSE <https://github.com/esohkevin/pycmplot/blob/main/LICENSE>`_
+file in the GitHub repository for the full text.

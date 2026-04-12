@@ -1,8 +1,28 @@
-"""
+LINEAR_MODULE = '''"""
 pycmplot.plotting.linear
 ========================
-Multi-track linear Manhattan plot.
-"""
+
+Multi-track stacked linear Manhattan plot.
+
+The module exposes two public functions:
+
+* :func:`plot_linear` — the user-facing entry point.  Accepts the
+  ``sumstats_loaded`` dict produced by
+  :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`, resolves
+  output paths, and delegates rendering to :func:`plot_linearm`.
+* :func:`plot_linearm` — the core rendering engine.  Accepts a list of
+  DataFrames and a fully resolved set of plotting parameters, builds the
+  matplotlib figure, draws all tracks, and saves the file.
+
+Internal helpers:
+
+* :func:`_cluster_annotations_by_chr` — groups annotation points that
+  are close together on the same chromosome so label-spreading can be
+  applied per cluster rather than globally.
+* :func:`_draw_annotation_arrows` — places angled
+  :class:`~matplotlib.patches.FancyArrowPatch` arrows from spread gene
+  labels down to their corresponding signal positions.
+"""'''
 
 from __future__ import annotations
 
@@ -34,7 +54,33 @@ def _cluster_annotations_by_chr(
     x_col: str = "x",
     window_size: float = 50e6,
 ) -> list[list]:
-    """Cluster annotations within each chromosome by genomic proximity."""
+    CLUSTER_ANNOTS = '''"""Cluster annotation points within each chromosome by genomic proximity.
+
+    Groups rows of *annot_df* on the same chromosome into clusters such that
+    consecutive points within *window_size* base-pairs are placed in the same
+    cluster.  Clusters are used by :func:`_draw_annotation_arrows` to
+    determine independent label-spreading regions.
+
+    Parameters
+    ----------
+    annot_df : pandas.DataFrame
+        Annotation DataFrame containing at least *chr_col* and *x_col*
+        (cumulative x-axis position).
+    chr_col : str, optional
+        Name of the chromosome column.  Default ``'CHR'``.
+    x_col : str, optional
+        Name of the cumulative x-axis position column.  Default ``'x'``.
+    window_size : float, optional
+        Maximum gap in cumulative x-axis units between two points that should
+        be considered part of the same cluster.  Default ``50e6`` (50 Mb).
+
+    Returns
+    -------
+    list of list
+        Each inner list contains the integer index values of *annot_df* rows
+        that form one cluster.
+    """'''
+
     clusters: list[list] = []
     for _chr_name, df_chr in annot_df.groupby(chr_col):
         df_chr = df_chr.sort_values(x_col)
@@ -65,7 +111,44 @@ def _draw_annotation_arrows(
     y_tip: float = 0.0,
     y_text: float = 0.55,
 ) -> None:
-    """Draw angled FancyArrowPatch arrows from text labels to signal positions."""
+    DRAW_ARROWS = '''"""Draw angled arrow annotations from gene-label text to signal positions.
+
+    For each significant locus in *annot_df*, places the gene/SNP label text
+    above the track and connects it to the corresponding scatter-plot point
+    with a curved :class:`~matplotlib.patches.FancyArrowPatch` arrow.  Labels
+    within the same chromosome are spread horizontally to avoid overlap; the
+    arrow curvature direction (clockwise/counter-clockwise arc) is determined
+    automatically from the sign of the horizontal displacement.
+
+    The function operates on *ax* (the annotation sub-panel at the top of the
+    figure) and returns ``None`` — it modifies the axes in place.
+
+    Parameters
+    ----------
+    ax : matplotlib.axes.Axes
+        The annotation axes (top sub-panel, invisible background).
+    annot_df : pandas.DataFrame
+        Lead-SNP annotation DataFrame with columns *chr_col*, ``'x'``
+        (cumulative x-axis position), and *label_col*.
+    chr_col : str
+        Name of the chromosome column.
+    label_col : str
+        Name of the column containing the text labels (gene symbols or rsIDs).
+    offsets : dict
+        Mapping of ``chromosome → cumulative_x_start`` as computed from the
+        main track data.
+    chr_max : dict
+        Mapping of ``chromosome → max_position`` for each chromosome.
+    spread_width : float, optional
+        Horizontal spacing between adjacent labels within a cluster.
+        Default ``60e6`` (60 Mb).
+    y_tip : float, optional
+        y-coordinate (in axes data units, 0–1) of the arrowhead tip.
+        Default ``0.0``.
+    y_text : float, optional
+        y-coordinate of the label text anchor.  Default ``0.55``.
+    """'''
+
     annot_df = annot_df.sort_values(by=[chr_col, "x"], key=natsort_keygen())
     last_xtext = 0 - spread_width
 
@@ -154,6 +237,102 @@ def plot_linearm(
     dpi: int = 300,
     figsize: tuple = (15, 9),
 ):
+    PLOT_LINEARM = '''"""Core rendering engine for the multi-track stacked linear Manhattan plot.
+
+    Builds a :class:`~matplotlib.figure.Figure` with one annotation sub-panel
+    at the top (for gene/SNP labels and connecting arrows) and *n* data tracks
+    below it, one per element of *tracks*.  All tracks share the same
+    cumulative x-axis.
+
+    This function is called by the higher-level :func:`plot_linear` wrapper and
+    is not normally invoked directly.
+
+    Parameters
+    ----------
+    tracks : list of pandas.DataFrame
+        One DataFrame per GWAS trait.  Each must have columns ``CHR``,
+        ``POS``, ``P``, and ``logP`` (when *logp* is ``True``).  The
+        DataFrames are pre-processed internally (chromosome normalisation,
+        highlighting, cumulative x-axis computation).
+    track_labels : list of str, optional
+        Y-axis label for each track, in the same order as *tracks*.
+        Defaults to ``['Track 1', 'Track 2', …]``.
+    annot_df : pandas.DataFrame, optional
+        Annotation DataFrame (typically the hits summary table).  Must have
+        columns ``CHR``, ``POS``, and *label_col*.  When provided, a dashed
+        vertical guide line is drawn through every annotated position across
+        all tracks, and gene/SNP label arrows are drawn in the top sub-panel.
+    highlight : bool, optional
+        If ``True``, variants within 500 kb of a lead SNP (as determined by
+        :func:`~pycmplot.stats.get_highlight_snps`) are rendered in brown.
+        Default ``False``.
+    highlight_thresh : float, optional
+        P-value threshold used for locus highlighting.  Default ``5e-8``.
+    trim_pval : float, optional
+        Reserved for future use; trimming is currently handled upstream in
+        :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`.
+    logp : bool, optional
+        If ``True``, plot –log₁₀(p) on the y-axis; requires a ``logP``
+        column in each DataFrame.  Default ``True``.
+    label_col : str, optional
+        Column in *annot_df* to use as annotation text labels (e.g.
+        ``'top_gene'``).  Default ``'label'``.
+    chr_order : list of str, optional
+        Chromosome display order.  Defaults to
+        :data:`~pycmplot.constants.CHROM_ORDER` (autosomes 1–22, X, Y, MT).
+    chr_spacing : float, optional
+        Gap in base-pairs inserted between consecutive chromosomes on the
+        x-axis.  Default ``9e6``.
+    track_heights : list of float, optional
+        Relative height ratios for the gridspec rows.  The first element
+        controls the annotation sub-panel; subsequent elements control the
+        data tracks.  When ``None``, the annotation panel is given a weight
+        of 1 and each data track a weight of 3.
+    track_spacing : float, optional
+        Vertical ``hspace`` between tracks as a fraction of average track
+        height.  Default ``0.10``.
+    point_size : float, optional
+        Scatter-plot point size passed to :func:`matplotlib.axes.Axes.scatter`.
+        Default ``5``.
+    colors : list of str, optional
+        Two alternating matplotlib colour strings for even/odd chromosomes.
+        Default ``['steelblue', 'orange']``.
+    sig_lines : list of dict, optional
+        One ``{'genome': float, 'suggestive': float}`` dict per track.
+        ``'genome'`` values are drawn as red dashed lines; ``'suggestive'``
+        values as grey dashed lines.
+    plt_name : str, optional
+        Full output file path (including extension).  When provided the figure
+        is saved to disk.
+    no_track_labels : bool, optional
+        If ``True``, track y-axis labels are suppressed.  Default ``False``.
+    fig_format : str, optional
+        Output image format (``'png'``, ``'pdf'``, ``'svg'``).  Inferred
+        from *plt_name*'s extension when ``None``.
+    dpi : int, optional
+        Output resolution in dots per inch.  Default ``300``.
+    figsize : tuple of (float, float), optional
+        Figure dimensions ``(width, height)`` in inches.  Default ``(15, 9)``.
+
+    Returns
+    -------
+    fig : matplotlib.figure.Figure
+        The completed figure.
+    axes : list of matplotlib.axes.Axes
+        All axes in the figure: ``axes[0]`` is the annotation sub-panel;
+        ``axes[1:]`` are the data-track axes in the same order as *tracks*.
+
+    See Also
+    --------
+    plot_linear :
+        User-facing wrapper that extracts DataFrames from the
+        ``sumstats_loaded`` dict and resolves output paths before calling
+        this function.
+    _draw_annotation_arrows :
+        Called internally to render gene/SNP label arrows in ``axes[0]``.
+    pycmplot.stats.get_highlight_snps :
+        Called internally when *highlight* is ``True``.
+    """'''
 
     chr_col = "CHR"
     pos_col = "POS"
@@ -378,39 +557,99 @@ def plot_linear(
     output_dir: Optional[str] = '.',
     figsize: Optional[tuple] = None,
 ):
-    """Generate a multi-track linear Manhattan plot.
+    PLOT_LINEAR = '''"""Generate a multi-track stacked linear Manhattan plot.
+
+    This is the primary user-facing entry point for linear Manhattan plots.
+    It extracts DataFrames and labels from *sumstats_loaded*, resolves output
+    file paths, then delegates all rendering to :func:`plot_linearm`.
 
     Parameters
     ----------
-    sumstats_loaded:
-        List of DataFrames, one per GWAS trait.  Each must have columns
-    highlight:
-        Whether to highlight significant signals.
-    hits_table:
-        Optional DataFrame of lead SNPs to annotate (must contain *chr_col*,
-        *pos_col*, *label_col*).
-    label_col:
-        Column to use in the annot_df e.g. column containing gene names.
-    highlight:
-        Highlight loci within ``500 kb`` of a lead SNP.
-    chr_spacing:
-        Gap (bp) inserted between chromosomes on the x-axis.
-    signif_lines:
-        List of ``{"genome": float, "suggestive": float}`` dicts, one per track.
-    plot_title:
-        Output file path (extension determines format when *fig_format* is ``None``).
-    output_format:
-        Override output format (e.g. ``'png'``, ``'pdf'``).
-    figsize:
-        Figure size e.g. (15, 8)
-    dpi:
-        FIgure resolution (default: 300)
-
+    sumstats_loaded : dict
+        Mapping of ``label → [DataFrame, n_chroms]`` as returned by
+        :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`.  One
+        track is created per key; the DataFrames must have canonical columns
+        ``CHR``, ``POS``, ``P``, and ``logP`` (when *logp* is ``True``).
+    trim_pval : float, optional
+        Reserved; trimming is applied upstream.  Default ``None``.
+    track_heights : list of float, optional
+        Comma-parsed relative track heights (e.g. ``[2.0, 2.0, 1.5]``).
+        Passed directly to :func:`plot_linearm` as the gridspec height
+        ratios for the data tracks.  When ``None``, all tracks are equal.
+    logp : bool, optional
+        Plot –log₁₀(p) on the y-axis.  Default ``False``.
+    point_size : float, optional
+        Scatter-plot point size.  Default uses :func:`plot_linearm`'s
+        default (``5``).
+    highlight : bool, optional
+        Render significant-locus variants in brown.  Default ``False``.
+    highlight_thresh : float, optional
+        P-value threshold for locus highlighting.  Default ``5e-8``.
+    hits_table : pandas.DataFrame, optional
+        Annotation DataFrame (hits summary table from
+        :func:`~pycmplot.annotation.get_hits_summary_table`).  Must contain
+        columns ``CHR``, ``POS``, and *label_col*.  Passed to
+        :func:`plot_linearm` as ``annot_df``.  ``None`` or an empty
+        DataFrame suppresses annotations.
+    label_col : str, optional
+        Column in *hits_table* to use as annotation text (e.g.
+        ``'top_gene'``).  Default ``None`` (falls back to :func:`plot_linearm`
+        default ``'label'``).
+    chr_spacing : float, optional
+        Horizontal gap between chromosomes in base-pairs.  Default ``9e6``.
+    track_spacing : float, optional
+        Vertical space between tracks as a fraction of average track height.
+        Default ``0.10``.
+    colors : list of str, optional
+        Two alternating chromosome colours.  Default ``['steelblue', 'silver']``.
+    signif_lines : list of dict, optional
+        One ``{'genome': float, 'suggestive': float}`` dict per track, in
+        the same order as *sumstats_loaded*.  Produced by
+        :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`.
+    plot_title : str, optional
+        Human-readable title used as the output file-name stem.  Passed to
+        :func:`~pycmplot.io.get_output_paths`.
+    no_track_labels : bool, optional
+        Suppress track y-axis labels.  Default ``False``.
+    dpi : int, optional
+        Output resolution in dots per inch.  Default ``300``.
+    output_format : str, optional
+        Image format (``'png'``, ``'pdf'``, ``'svg'``, ``'jpg'``).
+        Default ``'png'``.
+    output_dir : str or pathlib.Path, optional
+        Directory in which to save the output files.  Default ``'.'``.
+    figsize : tuple of (float, float), optional
+        Figure dimensions ``(width, height)`` in inches.  Default ``(15, 9)``.
 
     Returns
     -------
-    (fig, axes)
-    """
+    fig : matplotlib.figure.Figure
+        The completed figure.
+    axes : list of matplotlib.axes.Axes
+        All axes: ``axes[0]`` is the annotation sub-panel; ``axes[1:]``
+        are the per-track data axes.
+
+    See Also
+    --------
+    plot_linearm :
+        The underlying rendering engine called by this function.
+    pycmplot.io.get_sumstats_and_merged_sector_list :
+        Produces *sumstats_loaded* and *signif_lines*.
+
+    Examples
+    --------
+    >>> from pycmplot.plotting.linear import plot_linear
+    >>> fig, axes = plot_linear(
+    ...     sumstats_loaded=loaded,
+    ...     logp=True,
+    ...     highlight=True,
+    ...     hits_table=hits,
+    ...     label_col="top_gene",
+    ...     signif_lines=sig_lines,
+    ...     plot_title="RBC_Traits",
+    ...     output_dir="./results",
+    ... )
+    """'''
 
     dfs      = [v[0] for v in sumstats_loaded.values()]
     t_labels = list(sumstats_loaded.keys())

@@ -1,0 +1,77 @@
+.. _installation:
+
+Installation
+============
+
+Requirements
+------------
+
+pycmplot requires **Python 3.8 or later**. The following packages are installed
+automatically as dependencies:
+
+.. list-table::
+   :widths: 25 75
+   :header-rows: 1
+
+   * - Package
+     - Purpose
+   * - ``pandas``, ``numpy``
+     - Data loading and numerical operations
+   * - ``matplotlib``
+     - Plotting backend
+   * - ``pycirclize``
+     - Circular (Circos-style) track rendering
+   * - ``natsort``
+     - Natural-order chromosome sorting (chr1 < chr2 < … < chrX)
+   * - ``adjustText``
+     - Automatic label collision avoidance
+   * - ``pyliftover``
+     - hg19 → hg38 coordinate conversion
+   * - ``Pillow``
+     - Image format utilities
+
+From PyPI (recommended)
+-----------------------
+
+.. code-block:: bash
+
+   pip install pycmplot
+
+From GitHub (development version)
+----------------------------------
+
+.. code-block:: bash
+
+   git clone https://github.com/esohkevin/pycmplot.git
+   cd pycmplot
+   pip install -e .
+
+If your system Python is externally managed (common on Ubuntu 22.04+):
+
+.. code-block:: bash
+
+   pip install -e . --break-system-packages
+
+Using a virtual environment
+---------------------------
+
+If you cannot or prefer not to install into the system Python, use a virtual
+environment:
+
+.. code-block:: bash
+
+   python -m venv ~/envs/pycmplot
+   source ~/envs/pycmplot/bin/activate
+
+   pip install --upgrade pip setuptools wheel
+   pip install pycmplot
+
+Verify the installation
+-----------------------
+
+.. code-block:: bash
+
+   pycmplot -h
+
+A successful installation prints the full help message with all command-line
+options.

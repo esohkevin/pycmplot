@@ -1,0 +1,374 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Command-Line Interface &mdash; pycmplot 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=618afd55" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=2709fde1"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Python API Tutorial" href="python_api_notebook.html" />
+    <link rel="prev" title="Quickstart" href="quickstart.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pycmplot
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#from-pypi-recommended">From PyPI (recommended)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#from-github-development-version">From GitHub (development version)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#using-a-virtual-environment">Using a virtual environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#verify-the-installation">Verify the installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#input-file-format">Input file format</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#linear-manhattan-plot-single-trait">Linear Manhattan plot (single trait)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#multi-track-linear-manhattan-plot">Multi-track linear Manhattan plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#circular-circos-style-manhattan-plot">Circular (Circos-style) Manhattan plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#mixed-genome-builds-with-liftover">Mixed genome builds with liftover</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#next-steps">Next steps</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Command-Line Interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#input-output-options">Input / output options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#column-auto-detection-options">Column auto-detection options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#plotting-behaviour-options">Plotting behaviour options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#example-commands">Example commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#single-trait-linear-manhattan-plot">Single-trait linear Manhattan plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#three-trait-stacked-linear-manhattan-plot">Three-trait stacked linear Manhattan plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#circular-manhattan-plot">Circular Manhattan plot</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="python_api_notebook.html">Python API Tutorial</a><ul class="simple">
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/io.html">pycmplot.io</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/stats.html">pycmplot.stats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/annotation.html">pycmplot.annotation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/liftover.html">pycmplot.liftover</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/plotting.html">pycmplot.plotting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/plotting.html#pycmplot-plotting-linear">pycmplot.plotting.linear</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/plotting.html#pycmplot-plotting-circular">pycmplot.plotting.circular</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/constants.html">pycmplot.constants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/resources.html">pycmplot.resources</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#version-0-1-0-2026">Version 0.1.0 (2026)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#reporting-issues">Reporting issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#development-setup">Development setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#building-the-documentation-locally">Building the documentation locally</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#code-style">Code style</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#docstrings">Docstrings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pycmplot</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Command-Line Interface</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/cli.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="command-line-interface">
+<span id="cli"></span><h1>Command-Line Interface<a class="headerlink" href="#command-line-interface" title="Link to this heading"></a></h1>
+<p>pycmplot exposes a full command-line interface that mirrors the Python API.
+After installation, the <code class="docutils literal notranslate"><span class="pre">pycmplot</span></code> command is available in your PATH.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span>-h<span class="w">    </span><span class="c1"># print full help</span>
+</pre></div>
+</div>
+<section id="input-output-options">
+<h2>Input / output options<a class="headerlink" href="#input-output-options" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 15.0%" />
+<col style="width: 55.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Flag</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-s</span></code>, <code class="docutils literal notranslate"><span class="pre">--sum_stats</span></code></p></td>
+<td><p><em>required</em></p></td>
+<td><p>Comma-separated list of summary statistics files (gzip supported).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">-l</span></code>, <code class="docutils literal notranslate"><span class="pre">--labels</span></code></p></td>
+<td><p><em>required</em></p></td>
+<td><p>Comma-separated track labels, one per file in <code class="docutils literal notranslate"><span class="pre">--sum_stats</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-od</span></code>, <code class="docutils literal notranslate"><span class="pre">--output_dir</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">.</span></code></p></td>
+<td><p>Output directory. Created if it does not exist.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">-of</span></code>, <code class="docutils literal notranslate"><span class="pre">--output_format</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">png</span></code></p></td>
+<td><p>Output image format: <code class="docutils literal notranslate"><span class="pre">png</span></code>, <code class="docutils literal notranslate"><span class="pre">pdf</span></code>, <code class="docutils literal notranslate"><span class="pre">svg</span></code>, or <code class="docutils literal notranslate"><span class="pre">jpg</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--dpi</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">300</span></code></p></td>
+<td><p>Resolution in dots per inch (raster formats only).</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="column-auto-detection-options">
+<h2>Column auto-detection options<a class="headerlink" href="#column-auto-detection-options" title="Link to this heading"></a></h2>
+<p>pycmplot infers column names automatically. Use these flags only if your
+column names fall outside the recognised defaults.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 15.0%" />
+<col style="width: 55.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Flag</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-chr</span></code>, <code class="docutils literal notranslate"><span class="pre">--chrom_column</span></code></p></td>
+<td><p><em>auto</em></p></td>
+<td><p>Name of the chromosome column.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">-pos</span></code>, <code class="docutils literal notranslate"><span class="pre">--pos_column</span></code></p></td>
+<td><p><em>auto</em></p></td>
+<td><p>Name of the base-pair position column.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-snp</span></code>, <code class="docutils literal notranslate"><span class="pre">--snp_column</span></code></p></td>
+<td><p><em>auto</em></p></td>
+<td><p>Name of the variant/marker ID column.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">-p</span></code>, <code class="docutils literal notranslate"><span class="pre">--pval_column</span></code></p></td>
+<td><p><em>auto</em></p></td>
+<td><p>Name of the p-value (or test statistic) column.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-b</span></code>, <code class="docutils literal notranslate"><span class="pre">--build_column</span></code></p></td>
+<td><p><em>auto</em></p></td>
+<td><p>Name of the genome build column (values: <code class="docutils literal notranslate"><span class="pre">hg19</span></code>, <code class="docutils literal notranslate"><span class="pre">hg38</span></code>).</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="plotting-behaviour-options">
+<span id="cli-liftover"></span><h2>Plotting behaviour options<a class="headerlink" href="#plotting-behaviour-options" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 15.0%" />
+<col style="width: 55.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Flag</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-m</span></code>, <code class="docutils literal notranslate"><span class="pre">--mode</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">lm</span></code></p></td>
+<td><p>Plot mode: <code class="docutils literal notranslate"><span class="pre">lm</span></code> (linear) or <code class="docutils literal notranslate"><span class="pre">cm</span></code> (circular).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--logp</span></code></p></td>
+<td><p>off</p></td>
+<td><p>Plot –log₁₀(p) instead of raw p-values.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-sig</span></code>, <code class="docutils literal notranslate"><span class="pre">--signif_threshold</span></code></p></td>
+<td><p>off</p></td>
+<td><p>Draw a genome-wide significance threshold line (auto 0.05/N).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">-sigl</span></code>, <code class="docutils literal notranslate"><span class="pre">--signif_line</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">5e-8</span></code></p></td>
+<td><p>Explicit significance threshold value; overrides <code class="docutils literal notranslate"><span class="pre">--signif_threshold</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-sug</span></code>, <code class="docutils literal notranslate"><span class="pre">--suggest_threshold</span></code></p></td>
+<td><p>off</p></td>
+<td><p>Draw a suggestive significance threshold line.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">-hl</span></code>, <code class="docutils literal notranslate"><span class="pre">--highlight</span></code></p></td>
+<td><p>off</p></td>
+<td><p>Highlight significant loci with a distinct colour.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-a</span></code>, <code class="docutils literal notranslate"><span class="pre">--annotate</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SNP</span></code></p></td>
+<td><p>Annotate significant hits with <code class="docutils literal notranslate"><span class="pre">SNP</span></code> IDs or nearest <code class="docutils literal notranslate"><span class="pre">GENE</span></code> names.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">-tp</span></code>, <code class="docutils literal notranslate"><span class="pre">--trim_pval</span></code></p></td>
+<td><p>off</p></td>
+<td><p>Exclude variants with p-value above this threshold (e.g. <code class="docutils literal notranslate"><span class="pre">0.01</span></code>)
+before plotting. <strong>Strongly recommended for large files.</strong></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-st</span></code>, <code class="docutils literal notranslate"><span class="pre">--sort_track</span></code></p></td>
+<td><p>input order</p></td>
+<td><p>Sort tracks by <code class="docutils literal notranslate"><span class="pre">label</span></code> (alphabetical) or <code class="docutils literal notranslate"><span class="pre">chrom_len</span></code>
+(chromosome length, longest first).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--plot_title</span></code></p></td>
+<td><p><em>(none)</em></p></td>
+<td><p>Title string printed above the plot.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-qq</span></code>, <code class="docutils literal notranslate"><span class="pre">--qq_plot</span></code></p></td>
+<td><p>off</p></td>
+<td><p>Generate a QQ-plot alongside the Manhattan plot <em>(coming soon)</em>.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="example-commands">
+<h2>Example commands<a class="headerlink" href="#example-commands" title="Link to this heading"></a></h2>
+<section id="single-trait-linear-manhattan-plot">
+<h3>Single-trait linear Manhattan plot<a class="headerlink" href="#single-trait-linear-manhattan-plot" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sum_stats<span class="w"> </span>HbF.tsv.gz<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--labels<span class="w"> </span>HbF<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--logp<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--signif_line<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--highlight<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--annotate<span class="w"> </span>GENE<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output_dir<span class="w"> </span>./results<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output_format<span class="w"> </span>png<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--dpi<span class="w"> </span><span class="m">300</span>
+</pre></div>
+</div>
+</section>
+<section id="three-trait-stacked-linear-manhattan-plot">
+<h3>Three-trait stacked linear Manhattan plot<a class="headerlink" href="#three-trait-stacked-linear-manhattan-plot" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sum_stats<span class="w"> </span>HbF.tsv.gz,MCV.txt.gz,MCH.tsv.gz<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--labels<span class="w"> </span>HbF,MCV,MCH<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--logp<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--signif_line<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--highlight<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--annotate<span class="w"> </span>GENE<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--trim_pval<span class="w"> </span><span class="m">0</span>.01<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output_dir<span class="w"> </span>./results
+</pre></div>
+</div>
+</section>
+<section id="circular-manhattan-plot">
+<h3>Circular Manhattan plot<a class="headerlink" href="#circular-manhattan-plot" title="Link to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sum_stats<span class="w"> </span>HbF.tsv.gz,MCV.tsv.gz<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--labels<span class="w"> </span>HbF,MCV<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--mode<span class="w"> </span>cm<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--trim_pval<span class="w"> </span><span class="m">0</span>.01<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--logp<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--signif_threshold<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--plot_title<span class="w"> </span><span class="s2">&quot;RBC Traits&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output_dir<span class="w"> </span>./results
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="quickstart.html" class="btn btn-neutral float-left" title="Quickstart" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="python_api_notebook.html" class="btn btn-neutral float-right" title="Python API Tutorial" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Kevin Esoh.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

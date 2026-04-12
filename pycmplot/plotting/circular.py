@@ -1,9 +1,22 @@
-"""
+CIRCULAR_MODULE = '''"""
 pycmplot.plotting.circular
-==========================
-Per-chromosome circular (Circos-style) Manhattan track plotter and
-track-radius calculator.
-"""
+===========================
+
+Circos-style multi-track circular Manhattan plot.
+
+The module exposes two public functions and one internal per-sector helper:
+
+* :func:`plot_circular` — user-facing entry point.  Configures the
+  :class:`pycirclize.Circos` canvas, computes track radii, iterates over
+  sectors and tracks, renders gene/SNP annotations, and saves the figure.
+* :func:`compute_track_radii_dict` — divides the radial space between
+  *r_min* and *r_max* into *n_tracks* evenly-spaced, padded bands and
+  returns their ``(r_start, r_end)`` limits.
+* :func:`plot_circosm` — internal per-sector renderer called once per
+  ``(sector, sumstat)`` pair inside the main loop of :func:`plot_circular`.
+  Mutates the :class:`pycirclize.Sector` object in place and returns
+  ``None``.
+"""'''
 
 from __future__ import annotations
 
@@ -31,24 +44,52 @@ def compute_track_radii_dict(
     pad: float = 1,
     annotate: bool = False,
 ) -> dict[str, tuple[float, float]]:
-    """Compute (r_start, r_end) tuples for *n_tracks* evenly-spaced tracks.
+    COMPUTE_RADII = '''"""Compute ``(r_start, r_end)`` tuples for *n_tracks* evenly-spaced radial bands.
+
+    Divides the usable radial space between *r_min* and *r_max* into
+    *n_tracks* bands of equal height, separated by gaps of *pad* units.  The
+    tracks are ordered from innermost (``'track_1'``) to outermost
+    (``'track_n'``).
 
     Parameters
     ----------
-    n_tracks:
-        Number of data tracks.
-    r_min, r_max:
-        Inner and outer radius of the full plotting area.
-    pad:
-        Spacing between consecutive tracks.
-    annotate:
-        If ``True``, add one extra track slot for an annotation ring.
+    n_tracks : int
+        Number of data tracks to accommodate.
+    r_min : float, optional
+        Inner boundary of the full plotting area (as a percentage of the
+        figure radius).  Default ``20``.
+    r_max : float, optional
+        Outer boundary of the full plotting area.  Default ``100``.
+    pad : float, optional
+        Gap in the same radius units between consecutive tracks.  Default ``1``.
+    annotate : bool, optional
+        If ``True``, an extra slot is reserved for the annotation ring by
+        incrementing *n_tracks* before computing heights.  The extra slot
+        is always placed at the outermost position.  Default ``False``.
 
     Returns
     -------
     dict
-        ``{"track_1": (start, end), "track_2": (start, end), …}``
-    """
+        Mapping of ``'track_i' → (r_start, r_end)`` for
+        ``i`` in ``1 … n_tracks`` (plus one extra entry when *annotate* is
+        ``True``).
+
+    Raises
+    ------
+    ValueError
+        If the total padding ``pad × (n_tracks − 1)`` exceeds the available
+        radial space ``r_max − r_min``.
+
+    Examples
+    --------
+    >>> from pycmplot.plotting.circular import compute_track_radii_dict
+    >>> radii = compute_track_radii_dict(n_tracks=3, r_min=20, r_max=100, pad=2)
+    >>> list(radii.items())
+    [('track_1', (20.0, 45.33...)),
+    ('track_2', (47.33..., 72.66...)),
+    ('track_3', (74.66..., 100.0))]
+    """'''
+
     if annotate:
         n_tracks += 1
 
@@ -98,30 +139,76 @@ def plot_circosm(
     colors: Optional[list[str]] = ['steelblue','orange'],
     no_track_labels: bool = False
 ) -> None:
-    """Plot a single chromosome's data onto a pycirclize sector track.
+    PLOT_CIRCOSM = '''"""Plot one track of summary statistics onto a single pycirclize sector.
 
-    This function is called once per (sector, sumstat) pair in the main
-    circular Manhattan loop.  It mutates *sector* in-place and returns
-    ``None``.  Lead-SNP collection is handled in the calling code.
+    This is a low-level internal function called once for every
+    ``(sector, sumstat)`` combination in the :func:`plot_circular` main loop.
+    It adds a scatter track to *sector* in-place and optionally draws
+    significance lines, y-axis ticks (on the first chromosome only), and
+    chromosome labels.  Returns ``None``.
 
     Parameters
     ----------
-    sector:
-        A :class:`pycirclize.Sector` object.
-    sector_radius:
-        ``(r_start, r_end)`` tuple for this track on the sector.
-    assoc:
-        Summary statistics DataFrame for **all** chromosomes (filtered to the
-        current sector chromosome inside the function).  Must have columns
-        ``CHR``, ``POS``, ``P`` (and ``logP`` if *logp* is ``True``).
-    sector_sizes:
-        Ordered dict of ``{chrom: [min_pos, max_pos]}`` for all sectors,
-        used to place labels on the first/last sector.
-    track_index:
-        0-based index of the current sumstat track (used for chromosome labels).
-    colors:
-        Two alternating colours for even/odd chromosomes.
-    """
+    sector : pycirclize.Sector
+        The pycirclize Sector object representing one chromosome arc.
+    sector_radius : tuple of (float, float)
+        ``(r_start, r_end)`` radial limits for this track within *sector*,
+        as returned by :func:`compute_track_radii_dict`.
+    annotation_r : tuple of (float, float) or None
+        Radial limits reserved for the annotation ring.  Passed for context
+        but not used directly inside this function.
+    assoc : pandas.DataFrame, optional
+        Full summary statistics DataFrame (all chromosomes).  Filtered to the
+        current sector's chromosome internally.  Must have columns ``CHR``,
+        ``POS``, ``P``, and ``logP`` (when *logp* is ``True``).
+    sector_sizes : dict, optional
+        Ordered mapping of ``chrom → [min_pos, max_pos]`` as returned by
+        :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`.  Used to
+        identify the first and last sectors for y-axis ticks and track labels.
+    chrom_label_loc : float or None
+        Radial position at which to draw the chromosome label.  Computed in
+        :func:`plot_circular` from *chrom_label_side*, *r_min*, and *r_max*.
+    chrom_label_size : float, optional
+        Font size for chromosome labels.  Default ``6``.
+    track_label_size : float, optional
+        Font size for the track (sumstat) label written on the spacer sector.
+        Default ``6``.
+    track_label_orientation : {'vertical', 'horizontal'}, optional
+        Orientation of the track label text.  Default ``'vertical'``.
+    track_index : int, optional
+        0-based index of the current sumstat track.  Chromosome labels are
+        only drawn on ``track_index == 0`` (or for chromosome X).
+        Default ``0``.
+    assoc_label : str, optional
+        Track label text (sumstat name) rendered on the spacer sector.
+    logp : bool, optional
+        If ``True``, use the ``logP`` column for y-values and threshold
+        comparisons.  Default ``True``.
+    signif_line : float, optional
+        Y-value at which to draw the genome-wide significance dashed line
+        (orange-red).  Default ``5e-8``.
+    signif_threshold : float, optional
+        Significance threshold used for y-axis scaling.  Default ``5e-8``.
+    suggest_line : float or bool, optional
+        Y-value for the suggestive significance dashed line (light blue).
+        Pass ``False`` or ``None`` to suppress.  Default ``1e-5``.
+    suggest_threshold : float, optional
+        Suggestive threshold value used for y-axis scaling.  Default ``1e-5``.
+    highlight : bool, optional
+        If ``True``, variants within significant loci (``in_locus == True``
+        after :func:`~pycmplot.stats.get_highlight_snps`) are rendered in
+        brown.  Default ``False``.
+    highlight_thresh : float, optional
+        P-value threshold passed to
+        :func:`~pycmplot.stats.get_highlight_snps` when *highlight* is
+        ``True``.  Default ``5e-8``.
+    colors : list of str, optional
+        Two alternating colours for even/odd chromosome numbers.
+        Default ``['steelblue', 'orange']``.
+    no_track_labels : bool, optional
+        Suppress the track label on the spacer sector.  Default ``False``.
+    """'''
+
     if colors is None:
         colors = ["steelblue", "orange"]
 
@@ -303,6 +390,121 @@ def plot_circular(
     output_dir: Optional[str] = '.',
     no_track_labels: bool = False
 ):
+    PLOT_CIRCULAR = '''"""Generate a multi-track Circos-style circular Manhattan plot.
+
+    Sets up a :class:`pycirclize.Circos` canvas with one arc sector per
+    chromosome, computes radial track extents, and calls :func:`plot_circosm`
+    once per ``(sector, sumstat)`` pair to populate each track with scatter
+    data and significance lines.  After all tracks are rendered, gene or SNP
+    annotations from *hits_table* are added to a dedicated annotation ring,
+    and a shared y-axis label is placed on the spacer sector.
+
+    Parameters
+    ----------
+    sumstats_loaded : dict
+        Mapping of ``label → [DataFrame, n_chroms]`` as returned by
+        :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`.  One
+        radial track is created per key.  The outermost track corresponds to
+        the first key after reversal of the radii dict.
+    sector_sizes : dict, optional
+        Ordered mapping of ``chrom → [min_pos, max_pos]`` defining the arc
+        length of each chromosome sector.  The last key is expected to be
+        ``'Spacer1'`` (automatically added by
+        :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`).
+    signif_lines : list of dict, optional
+        One ``{'genome': float, 'suggestive': float}`` dict per track in the
+        same order as *sumstats_loaded*, as returned by
+        :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`.
+    logp : bool, optional
+        Plot –log₁₀(p) radially.  Default ``False``.
+    pad : float, optional
+        Gap in radius units between consecutive tracks.  Default ``1``.
+    r_min : float, optional
+        Inner radius of the innermost track (as a percentage of the figure
+        radius).  Default ``0``.
+    r_max : float, optional
+        Outer radius of the outermost track.  Default ``100``.
+    annotate : {'SNP', 'GENE'} or falsy, optional
+        Annotation content for significant loci.  ``'GENE'`` uses
+        ``nearest_upstream_gene`` for genic hits and ``top_gene`` for
+        intergenic hits (italic text); ``'SNP'`` uses the ``SNP`` column
+        (regular text).  Pass ``None`` or ``False`` to disable annotations.
+        Default ``'SNP'``.
+    chrom_label_side : {'inside', 'outside'}, optional
+        Radial position of chromosome labels.  ``'inside'`` places them just
+        inside the innermost track; ``'outside'`` places them beyond the
+        outermost track.  Default ``'inside'``.
+    signif_line : float, optional
+        Genome-wide significance threshold value for the orange-red dashed
+        line.  Default ``5e-8``.
+    highlight : bool, optional
+        Render significant-locus variants in brown.  Default ``False``.
+    highlight_thresh : float, optional
+        P-value threshold for locus highlighting.  Default ``5e-8``.
+    colors : list of str, optional
+        Two alternating chromosome colours.  Default ``['steelblue', 'grey']``.
+    chrom_label_size : float, optional
+        Chromosome label font size.  Default ``6``.
+    track_label_size : float, optional
+        Track (sumstat) label font size.  Default ``6``.
+    track_label_orientation : {'vertical', 'horizontal'}, optional
+        Track label text orientation.  Default ``'vertical'``.
+    hits_table : pandas.DataFrame, optional
+        Hits summary table from
+        :func:`~pycmplot.annotation.get_hits_summary_table`.  Required for
+        annotations (``annotate`` truthy and ``hits_table`` non-empty).
+    annotation_size : float, optional
+        Font size for annotation labels.  Default ``6``.
+    highlight_line : bool, optional
+        Draw a dashed radial line from the innermost track to the annotation
+        ring for each annotated position.  Default ``False``.
+    plot_title : str, optional
+        Text placed in the centre of the circle and used as the output
+        file-name stem.
+    plot_title_size : float, optional
+        Font size for the centre title.  Default ``12``.
+    dpi : int, optional
+        Output resolution in dots per inch.  Default ``300``.
+    output_format : str, optional
+        Image format (``'png'``, ``'pdf'``, ``'svg'``, ``'jpg'``).
+        Default ``'png'``.
+    output_dir : str or pathlib.Path, optional
+        Output directory.  Default ``'.'``.
+    no_track_labels : bool, optional
+        Suppress track labels on the spacer sector.  Default ``False``.
+
+    Returns
+    -------
+    matplotlib.figure.Figure
+        The completed circular Manhattan figure (also saved to *output_dir*).
+
+    See Also
+    --------
+    plot_circular is the circular counterpart to
+    :func:`pycmplot.plotting.linear.plot_linear`.
+
+    compute_track_radii_dict :
+        Computes the ``(r_start, r_end)`` limits for each track.
+    plot_circosm :
+        Per-sector rendering function called inside the main loop.
+    pycmplot.io.get_sumstats_and_merged_sector_list :
+        Produces *sumstats_loaded*, *sector_sizes*, and *signif_lines*.
+
+    Examples
+    --------
+    >>> from pycmplot.plotting.circular import plot_circular
+    >>> fig = plot_circular(
+    ...     sumstats_loaded=loaded,
+    ...     sector_sizes=sectors,
+    ...     signif_lines=sig_lines,
+    ...     logp=True,
+    ...     highlight=True,
+    ...     annotate="GENE",
+    ...     hits_table=hits,
+    ...     plot_title="RBC_Traits",
+    ...     output_dir="./results",
+    ... )
+    """'''
 
     from pycirclize import Circos
 

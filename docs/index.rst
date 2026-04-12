@@ -1,0 +1,81 @@
+.. pycmplot documentation master file
+
+pycmplot
+========
+
+.. image:: https://img.shields.io/pypi/v/pycmplot.svg
+   :target: https://pypi.org/project/pycmplot/
+   :alt: PyPI version
+
+.. image:: https://img.shields.io/pypi/pyversions/pycmplot.svg
+   :target: https://pypi.org/project/pycmplot/
+   :alt: Python versions
+
+.. image:: https://readthedocs.org/projects/pycmplot/badge/?version=latest
+   :target: https://pycmplot.readthedocs.io/en/latest/
+   :alt: Documentation Status
+
+.. image:: https://img.shields.io/github/license/esohkevin/pycmplot.svg
+   :target: https://github.com/esohkevin/pycmplot/blob/main/LICENSE
+   :alt: License
+
+----
+
+**pycmplot** is a Python package for generating multi-track circular and linear
+Manhattan plots from GWAS summary statistics. It accepts any number of per-variant
+summary statistic files — GWAS, selection scans (iHS, FST, XP-EHH), or any
+column-delimited p-value table — and produces publication-ready Manhattan plots
+with automatic gene annotation, lead-SNP extraction, and optional hg19 → hg38
+coordinate liftover.
+
+Key features
+------------
+
+- **Multi-track stacked Manhattan plots** (linear and Circos-style circular) for
+  comparing GWAS signals across traits, populations, or imputation panels.
+- **Automatic column detection** — chromosome, position, SNP ID, p-value, and
+  genome build columns are inferred from common naming conventions.
+- **Lead-SNP and locus annotation** — nearest-gene lookup and a structured hits
+  summary table are generated alongside every plot.
+- **hg19 → hg38 liftover** — mix coordinate systems in one run; pycmplot
+  harmonises positions automatically via ``pyliftover``.
+- **Command-line interface and Python API** — use interactively in Jupyter or
+  integrate into a pipeline.
+
+Contents
+--------
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Getting Started
+
+   installation
+   quickstart
+
+.. toctree::
+   :maxdepth: 2
+   :caption: User Guide
+
+   cli
+   python_api_notebook
+
+.. toctree::
+   :maxdepth: 2
+   :caption: API Reference
+
+   api/index
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Project Info
+
+   changelog
+   contributing
+   license
+
+Indices and tables
+------------------
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`

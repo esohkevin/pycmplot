@@ -1,23 +1,42 @@
-"""
+RESOURCES_MODULE = '''"""
 pycmplot.resources
 ==================
-Centralised configuration for external resource files that cannot be bundled
-with the package (large reference files, chain files, etc.).
 
-Users can supply paths in three ways, in order of priority:
+Centralised configuration for external reference files that cannot be
+bundled with the package distribution (large gene-info TSVs, liftover
+chain files, etc.).
 
-1. Pass a :class:`ResourceConfig` instance directly to functions that need it.
-2. Set environment variables before running:
+Resolution order
+----------------
+Resource paths are resolved in the following priority order for each
+attribute:
+
+1. **Explicit argument** — pass a :class:`ResourceConfig` instance with
+   the desired path directly to any function that accepts a *resources*
+   parameter.
+2. **Environment variable** — set the corresponding variable before
+   running pycmplot:
 
    .. code-block:: bash
 
        export PYCMPLOT_CHAIN_HG19_HG38=/path/to/hg19ToHg38.over.chain
        export PYCMPLOT_GENEINFO_HG38=/path/to/Homo_sapiens.GRCh38.geneinfo.tsv.gz
        export PYCMPLOT_GENEINFO_HG19=/path/to/Homo_sapiens.GRCh37.geneinfo.tsv.gz
-       export PYCMPLOT_FEATURESINFO=/path/to/Homo_sapiens.GRCh38.features.tsv.gz
 
-3. Edit the defaults in this module for a site-wide installation.
-"""
+3. **Bundled default** — pycmplot ships with the required files in the
+   ``pycmplot/data/`` package directory; they are used automatically when
+   neither of the above is set.
+
+Examples
+--------
+Override a single resource while using defaults for the rest:
+
+>>> from pycmplot.resources import ResourceConfig
+>>> cfg = ResourceConfig(chain_hg19_hg38="/my/custom.over.chain")
+>>> # pass cfg to any function that accepts a resources argument:
+>>> from pycmplot.liftover import liftover_position
+>>> df_lifted = liftover_position(df, resources=cfg)
+"""'''
 
 from __future__ import annotations
 
@@ -38,19 +57,41 @@ def _pkg_data(filename: str) -> str:
 
 @dataclass
 class ResourceConfig:
-    """Paths to external reference files used by pycmplot.
+    RESOURCE_CONFIG_CLASS = '''"""Paths to external reference files used by pycmplot.
+
+    All attributes default to values resolved from environment variables or the
+    bundled ``pycmplot/data/`` directory via :func:`importlib.resources.files`.
+    Override individual attributes to use custom file locations.
 
     Attributes
     ----------
-    chain_hg19_hg38 :
-        LiftOver chain file for hg19 → hg38 conversion.
-    geneinfo_hg38 :
-        Tab-delimited gene info file for GRCh38 (used for nearest-gene annotation).
-    geneinfo_hg19 :
-        Tab-delimited gene info file for GRCh37 (fallback when data is hg19).
-    featuresinfo :
-        Extended features info file (all biotypes) for GRCh38.
-    """
+    chain_hg19_hg38 : str or None
+        Path to the UCSC LiftOver chain file for hg19 → hg38 conversion.
+        Resolved from ``PYCMPLOT_CHAIN_HG19_HG38`` or the bundled
+        ``hg19ToHg38.over.chain``.
+    geneinfo_hg38 : str or None
+        Path to the Ensembl gene-info TSV for GRCh38, used for nearest-gene
+        annotation.  Resolved from ``PYCMPLOT_GENEINFO_HG38`` or the bundled
+        ``Homo_sapiens.GRCh38.geneinfo.tsv.gz``.
+    geneinfo_hg19 : str or None
+        Path to the Ensembl gene-info TSV for GRCh37, used when all input
+        data carry a hg19 build label.  Resolved from
+        ``PYCMPLOT_GENEINFO_HG19`` or the bundled
+        ``Homo_sapiens.GRCh37.geneinfo.tsv.gz``.
+
+    Examples
+    --------
+    Use all bundled defaults:
+
+    >>> from pycmplot.resources import ResourceConfig
+    >>> cfg = ResourceConfig()
+
+    Override the hg38 gene-info file:
+
+    >>> cfg = ResourceConfig(
+    ...     geneinfo_hg38="/data/custom_GRCh38_genes.tsv.gz"
+    ... )
+    """'''
 
     chain_hg19_hg38: str | None = field(
         default_factory=lambda: _env(
@@ -78,7 +119,40 @@ class ResourceConfig:
     #)
 
     def require(self, attr: str) -> str:
-        """Return the path for *attr*, raising a clear error if it is unset."""
+        REQUIRE_METHOD = '''"""Return the path for *attr*, raising a clear :exc:`FileNotFoundError`
+        if the attribute is unset or the path does not exist.
+
+        First checks whether the attribute value is ``None``; if so, raises
+        :exc:`FileNotFoundError` with a message indicating which environment
+        variable to set.  Then verifies that the resolved path exists on disk,
+        falling back to :func:`importlib.resources.files` package-data resolution
+        before raising if neither succeeds.
+
+        Parameters
+        ----------
+        attr : str
+            Name of the :class:`ResourceConfig` attribute to retrieve, e.g.
+            ``'chain_hg19_hg38'``, ``'geneinfo_hg38'``, ``'geneinfo_hg19'``.
+
+        Returns
+        -------
+        str
+            Absolute file path as a string.
+
+        Raises
+        ------
+        FileNotFoundError
+            If the attribute is ``None`` or the resolved path does not exist.
+
+        Examples
+        --------
+        >>> from pycmplot.resources import ResourceConfig
+        >>> cfg = ResourceConfig()
+        >>> chain = cfg.require("chain_hg19_hg38")
+        >>> chain.endswith(".over.chain")
+        True
+        """'''
+
         val = getattr(self, attr)
         if val is None:
             env_var = {

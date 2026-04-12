@@ -1,0 +1,24 @@
+.. _python_api_notebook:
+
+Python API Tutorial
+===================
+
+The interactive tutorial below demonstrates the full Python API using real
+summary statistics data. It covers data loading, single- and multi-track
+linear Manhattan plots, circular Manhattan plots, liftover, and the hits
+summary table.
+
+.. note::
+   The notebook is rendered statically here. To run it interactively,
+   download it from the
+   `GitHub repository <https://github.com/esohkevin/pycmplot/blob/main/pycmplot_python_api.ipynb>`_
+   and open it in Jupyter:
+
+   .. code-block:: bash
+
+      jupyter notebook pycmplot_python_api.ipynb
+
+.. toctree::
+   :maxdepth: 2
+
+   ../pycmplot_python_api

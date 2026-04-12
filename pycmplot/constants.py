@@ -1,8 +1,33 @@
-"""
+CONSTANTS_MODULE = '''"""
 pycmplot.constants
 ==================
-Genome-level constants shared across modules.
-"""
+
+Genome-level constants shared across pycmplot modules.
+
+Contents
+--------
+hg38_chr_lengths : dict
+    GRCh38 chromosome lengths in base-pairs for chromosomes 1–22, X, and Y.
+    Used to compute Circos sector sizes when summary statistics do not
+    cover the full chromosome.
+
+BIOTYPE_WEIGHTS : dict
+    Numeric priority weights for Ensembl gene biotypes used by
+    :func:`~pycmplot.annotation._annotate_and_prioritize_variant` when
+    ranking candidate genes at intergenic loci.  Protein-coding genes and
+    general ``'gene'`` entries receive the highest weight (1.00); various
+    pseudogene classes receive the lowest (0.20–0.30).
+
+CHROM_ORDER : list of str
+    Standard chromosome ordering for autosomes 1–22 followed by X, Y, and
+    MT.  Used for natural-sort validation and display ordering.
+
+Notes
+-----
+``hg38_chr_lengths`` reflects the GRCh38 primary assembly (GCA_000001405).
+Values may differ slightly from builds that include alternate contigs or
+patches.
+"""'''
 
 # ---------------------------------------------------------------------------
 # hg38 chromosome lengths (GRCh38)
