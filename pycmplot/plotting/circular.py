@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 CIRCULAR_MODULE = '''"""
 pycmplot.plotting.circular
 ===========================
@@ -17,8 +19,6 @@ The module exposes two public functions and one internal per-sector helper:
   Mutates the :class:`pycirclize.Sector` object in place and returns
   ``None``.
 """'''
-
-from __future__ import annotations
 
 import logging
 import math
@@ -136,6 +136,7 @@ def plot_circosm(
     suggest_threshold: Optional[float] = 1e-5,
     highlight: bool = False,
     highlight_thresh: Optional[float] = 5e-8,
+    highight_color: str = 'brown',
     colors: Optional[list[str]] = ['steelblue','orange'],
     no_track_labels: bool = False
 ) -> None:
@@ -197,11 +198,14 @@ def plot_circosm(
     highlight : bool, optional
         If ``True``, variants within significant loci (``in_locus == True``
         after :func:`~pycmplot.stats.get_highlight_snps`) are rendered in
-        brown.  Default ``False``.
+        ``highight_color`` (see below).  Default ``False``.
     highlight_thresh : float, optional
         P-value threshold passed to
         :func:`~pycmplot.stats.get_highlight_snps` when *highlight* is
         ``True``.  Default ``5e-8``.
+    highight_color : str, optional
+        Color of highlighted positions when *highlight* is ``True``.
+        Default ``brown``. 
     colors : list of str, optional
         Two alternating colours for even/odd chromosome numbers.
         Default ``['steelblue', 'orange']``.
@@ -315,7 +319,7 @@ def plot_circosm(
 
     y_col = "logP" if logp else "P"
 
-    if highlight:      
+    if highlight:
         sig = assoc_chr[assoc_chr["in_locus"]]
         bg = assoc_chr[~assoc_chr["in_locus"]]
 
@@ -332,7 +336,7 @@ def plot_circosm(
                 sig["POS"].to_numpy(),
                 sig[y_col].to_numpy(),
                 vmin=v_min, vmax=v_max,
-                s=6, marker="o", color="brown",
+                s=6, marker="o", color=highight_color,
             )
     else:
         track.scatter(
@@ -369,20 +373,22 @@ def plot_circular(
     signif_lines: dict = None,
     logp: bool = False,
     pad: float = 1,
-    r_min: float = 0,
+    r_min: float = 20,
     r_max: float = 100,
-    annotate: str = 'SNP',
+    annotate: str = None,
     chrom_label_side: str = 'inside',
     signif_line: float = 5e-8,
     highlight: bool = False,
     highlight_thresh: float = 5e-8,
+    highight_color: str = 'brown',
+    highlight_line: bool = False,
+    highight_line_color: str = 'grey',
     colors: list[str] = ['steelblue', 'grey'],
     chrom_label_size: float = 6,
     track_label_size: float = 6,
     track_label_orientation: str = 'vertical',
     hits_table: pd.DataFrame = None,
     annotation_size: float = 6,
-    highlight_line: bool = False,
     plot_title: Optional[str] = None,
     plot_title_size: float = 12,
     dpi: Optional[int] = None,
@@ -441,6 +447,9 @@ def plot_circular(
         Render significant-locus variants in brown.  Default ``False``.
     highlight_thresh : float, optional
         P-value threshold for locus highlighting.  Default ``5e-8``.
+    highight_color : str, optional
+        Color of highlighted positions when *highlight* is ``True``.
+        Default ``brown``.         
     colors : list of str, optional
         Two alternating chromosome colours.  Default ``['steelblue', 'grey']``.
     chrom_label_size : float, optional
@@ -458,6 +467,8 @@ def plot_circular(
     highlight_line : bool, optional
         Draw a dashed radial line from the innermost track to the annotation
         ring for each annotated position.  Default ``False``.
+    highight_line_color : str, optional
+        Color of highlight line when *highlight_line* is ``True``.
     plot_title : str, optional
         Text placed in the centre of the circle and used as the output
         file-name stem.
@@ -593,6 +604,7 @@ def plot_circular(
                 suggest_threshold=sug_thresh,
                 highlight=highlight,
                 highlight_thresh=highlight_thresh,
+                highight_color=highight_color,
                 colors=colors,
                 no_track_labels=no_track_labels
             )
@@ -639,14 +651,16 @@ def plot_circular(
                     )
 
                     if highlight_line:
+                        if not highight_line_color:
+                            highight_line_color = 'grey'
                         sector_rlim = [t.r_lim for t in sector.tracks]
                         sector_min_r = min(sector_rlim)[0]
                         sector.line(
                             r=[sector_min_r, r_low],
                             start=pos,
                             end=pos,
-                            color="lightgrey",
-                            lw=0.4,
+                            color=highight_line_color,
+                            lw=0.5,
                             ls="--",
                         )
 

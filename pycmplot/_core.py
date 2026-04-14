@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 CORE_MODULE = '''"""
 pycmplot._core
 ==============
@@ -11,8 +13,6 @@ All imports are deferred inside :func:`main` so that
 ``import pycmplot`` remains fast regardless of the size of the dependency
 tree.
 """'''
-
-from __future__ import annotations
 
 import logging
 import warnings
@@ -123,7 +123,9 @@ def main() -> None:
     point_size       = args.point_size
     highlight        = args.highlight
     highlight_thresh = args.highlight_thresh
+    highight_color   = args.highight_color
     highlight_line   = args.highlight_line
+    highight_line_color = args.highight_line_color
     colors_raw       = args.colors
     r_min            = args.r_min
     r_max            = args.r_max
@@ -134,7 +136,7 @@ def main() -> None:
     plot_title       = args.plot_title
     plot_title_size  = args.plot_title_size
     track_heights    = args.track_heights
-    track_spacing    = args.track_spacing
+    linear_track_spacing    = args.linear_track_spacing
     no_track_labels  = args.no_track_labels
     chr_spacing      = args.chr_spacing
 
@@ -222,7 +224,9 @@ def main() -> None:
             signif_lines = signif_lines,
             highlight = highlight,
             highlight_thresh = highlight_thresh,
+            highight_color = highight_color,
             highlight_line = highlight_line,
+            highight_line_color = highight_line_color,
             colors = colors,
             chrom_label_side = chrom_label_side,
             chrom_label_size = chrom_label_size,
@@ -256,10 +260,13 @@ def main() -> None:
             point_size=point_size,
             highlight=highlight,
             highlight_thresh=highlight_thresh,
+            highight_color = highight_color,
+            highlight_line = highlight_line,
+            highight_line_color = highight_line_color,            
             annot_df=hits_table if not hits_table.empty else None,
             label_col="top_gene",
             chr_spacing=chr_spacing,
-            track_spacing=track_spacing,
+            linear_track_spacing=linear_track_spacing,
             colors=colors,
             signif_lines=signif_lines,
             plot_title=plot_title,

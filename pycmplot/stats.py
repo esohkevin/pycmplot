@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 MODULE_DOCSTRING = '''"""
 pycmplot.stats
 ==============
@@ -16,8 +18,6 @@ Both functions operate on a single-trait DataFrame.  When comparing multiple
 traits, call them independently per track; lead SNP extraction across traits
 is handled by :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`.
 """'''
-
-from __future__ import annotations
 
 import numpy as np
 import pandas as pd

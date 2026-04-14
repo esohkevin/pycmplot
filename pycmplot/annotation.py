@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 MODULE_DOCSTRING = '''"""
 pycmplot.annotation
 ====================
@@ -19,8 +21,6 @@ file is resolved through :class:`~pycmplot.resources.ResourceConfig`; custom
 paths can be supplied via the ``PYCMPLOT_GENEINFO_HG38`` /
 ``PYCMPLOT_GENEINFO_HG19`` environment variables.
 """'''
-
-from __future__ import annotations
 
 import bisect
 import logging

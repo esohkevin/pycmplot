@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 MODULE_DOCSTRING = '''"""
 pycmplot.liftover
 =================
@@ -20,8 +22,6 @@ overridden by setting the environment variable:
 
     export PYCMPLOT_CHAIN_HG19_HG38=/path/to/hg19ToHg38.over.chain
 """'''
-
-from __future__ import annotations
 
 import logging
 from typing import Optional

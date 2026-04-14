@@ -33,3 +33,8 @@ pycmplot = "pycmplot._core:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
+
+[tool.towncrier]
+directory = "docs"
+package = "pycmplot"
+package_dir = "pycmplot"

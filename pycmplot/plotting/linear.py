@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 LINEAR_MODULE = '''"""
 pycmplot.plotting.linear
 ========================
@@ -23,8 +25,6 @@ Internal helpers:
   :class:`~matplotlib.patches.FancyArrowPatch` arrows from spread gene
   labels down to their corresponding signal positions.
 """'''
-
-from __future__ import annotations
 
 import logging
 from typing import Optional
@@ -221,13 +221,16 @@ def plot_linearm(
     annot_df=None,
     highlight: bool = False,
     highlight_thresh: float = 5e-8,
+    highight_color: str = 'brown',
+    highlight_line: bool = False,
+    highight_line_color: str = 'grey',    
     trim_pval: Optional[float] = None,
     logp: bool = True,
     label_col: Optional[str] = "label",
     chr_order: Optional[list[str]] = None,
     chr_spacing: float = 9e6,
     track_heights: Optional[list[float]] = None,
-    track_spacing: float = 0.10,
+    linear_track_spacing: float = 0.10,
     point_size: float = 5,
     colors: Optional[list[str]] = ['steelblue','orange'],
     sig_lines: Optional[list[dict]] = None,
@@ -288,7 +291,7 @@ def plot_linearm(
         controls the annotation sub-panel; subsequent elements control the
         data tracks.  When ``None``, the annotation panel is given a weight
         of 1 and each data track a weight of 3.
-    track_spacing : float, optional
+    linear_track_spacing : float, optional
         Vertical ``hspace`` between tracks as a fraction of average track
         height.  Default ``0.10``.
     point_size : float, optional
@@ -416,16 +419,13 @@ def plot_linearm(
     gs = fig.add_gridspec(
         n_tracks + 1, 1,
         height_ratios=track_heights,
-        hspace=track_spacing,
+        hspace=linear_track_spacing,
     )
 
     ax_annot = fig.add_subplot(gs[0, 0])
     axes = [ax_annot]
     for i in range(n_tracks):
         axes.append(fig.add_subplot(gs[i + 1, 0], sharex=ax_annot))
-
-    if colors is None:
-        colors = ["gray", "steelblue"]
 
     # Per-track highlight colours from tab20 colormap
     cmap = plt.get_cmap("tab20")
@@ -450,7 +450,12 @@ def plot_linearm(
             if not sig.empty:
                 sig_y = sig["logP"] if logp else sig[p_col]
                 ax.scatter(sig["x"].to_numpy(), sig_y.to_numpy(), s=point_size,
-                           marker="o", color="brown")
+                           marker="o", color=highight_color)
+                # Vertical lines across all data tracks at highlight positions
+                for x in sig["x"].values:
+                    for ax in axes[1:]:
+                        ax.axvline(x, color=highight_line_color, alpha=0.5, linewidth=0.7,
+                                linestyle="--", zorder=0)
 
         if no_track_labels:
             pass
@@ -462,7 +467,7 @@ def plot_linearm(
             if "genome" in sl:
                 ax.axhline(y=sl["genome"], color="red", linestyle="--", linewidth=0.6)
             if "suggestive" in sl:
-                ax.axhline(y=sl["suggestive"], color="grey", linestyle="--", linewidth=0.5)
+                ax.axhline(y=sl["suggestive"], color="blue", linestyle="--", linewidth=0.5)
 
         ax.spines["top"].set_visible(False)
         ax.spines["right"].set_visible(False)
@@ -475,12 +480,6 @@ def plot_linearm(
     # Annotation track
     # ------------------------------------------------------------------
     if annot_df is not None:
-        # Vertical lines across all data tracks
-        for x in annot_df["x"].values:
-            for ax in axes[1:]:
-                ax.axvline(x, color="grey", alpha=0.45, linewidth=0.7,
-                           linestyle="--", zorder=0)
-
         _draw_annotation_arrows(
             ax_annot,
             annot_df,
@@ -517,7 +516,7 @@ def plot_linearm(
         ax.tick_params(axis="x", which="both", bottom=False, labelbottom=False)
         ax.spines["bottom"].set_visible(False)
 
-    plt.subplots_adjust(hspace=track_spacing, left=0.08)
+    plt.subplots_adjust(hspace=linear_track_spacing, left=0.08)
     plt.tight_layout()
 
     fig.text(
@@ -544,10 +543,13 @@ def plot_linear(
     point_size: Optional[float] = None,
     highlight: bool = False,
     highlight_thresh: float = 5e-8,
+    highight_color: str = 'brown',
+    highlight_line: bool = False,
+    highight_line_color: str = 'grey',    
     hits_table: Optional[pd.DataFrame] = None,
     label_col: Optional[str] = None,
     chr_spacing: Optional[float] = None,
-    track_spacing: Optional[float] = None,
+    linear_track_spacing: Optional[float] = None,
     colors: list[str] = None,
     signif_lines: Optional[dict] = None,
     plot_title: Optional[str] = None,
@@ -597,7 +599,7 @@ def plot_linear(
         default ``'label'``).
     chr_spacing : float, optional
         Horizontal gap between chromosomes in base-pairs.  Default ``9e6``.
-    track_spacing : float, optional
+    linear_track_spacing : float, optional
         Vertical space between tracks as a fraction of average track height.
         Default ``0.10``.
     colors : list of str, optional
@@ -680,11 +682,14 @@ def plot_linear(
         point_size=point_size,
         highlight=highlight,
         highlight_thresh=highlight_thresh,
+        highight_color = highight_color,
+        highlight_line = highlight_line,
+        highight_line_color = highight_line_color,          
         annot_df=hits_table if not hits_table.empty else None,
         label_col=label_col,
         chr_spacing=chr_spacing,
         track_heights=t_heights,
-        track_spacing=track_spacing,
+        linear_track_spacing=linear_track_spacing,
         colors=colors,
         sig_lines=signif_lines,
         plt_name=plt_name,

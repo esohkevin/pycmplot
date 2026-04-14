@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 CLI_MODULE = '''"""
 pycmplot.cli
 ============
@@ -14,8 +16,6 @@ Arguments are organised into four groups:
 * **Circular Only** — arguments specific to ``--mode cm``.
 * **Linear Only** — arguments specific to ``--mode lm`` (default).
 """'''
-
-from __future__ import annotations
 
 import argparse
 from pathlib import Path
@@ -378,17 +378,25 @@ def get_arguments(descmsg: str = DESCMSG) -> argparse.Namespace:
         help="P-value threshold for highlighting (default: 5e-8)."
     )
     opt.add_argument(
-        "-hl_line", "--highlight_line", action="store_true",
-        help="Draw vertical lines through highlighted positions."
-    )
+        "-hc", "--highight_color", default="brown", type=str, metavar="str",
+        help="Color of highlighted positions (default: brown)."
+    )     
     opt.add_argument(
-        "--colors", default="steelblue,silver", type=str, metavar="str",
+        "-hll", "--highlight_line", action="store_true",
+        help="Draw vertical dashed lines through highlighted positions."
+    )     
+    opt.add_argument(
+        "-hlc", "--highight_line_color", default="grey", type=str, metavar="str",
+        help="Color of highlight line (default: grey)."
+    )    
+    opt.add_argument(
+        "-col", "--colors", default="steelblue,silver", type=str, metavar="str",
         help="Two comma-separated alternating chromosome colours (default: steelblue,silver)."
     )
     opt.add_argument(
         "-st", "--sort_track",
         choices=["chrom_len", "label"], nargs="?",
-        const="chrom_len", default=None, type=str, #metavar="str",
+        const="chrom_len", default=None, type=str, 
         help="Sort tracks by chromosome count or label."
     )
     opt.add_argument(
@@ -427,7 +435,7 @@ def get_arguments(descmsg: str = DESCMSG) -> argparse.Namespace:
 
     # circular only
     cio.add_argument(
-        "--pad", default=1, type=int, metavar="int",
+        "-pad", "--circular_track_spacing", default=1, type=int, metavar="int",
         help="Space between circular tracks (default: 1)."
     )
     cio.add_argument(
@@ -450,11 +458,11 @@ def get_arguments(descmsg: str = DESCMSG) -> argparse.Namespace:
         help="Track label orientation (default: vertical)."
     )
     cio.add_argument(
-        "--r_min", default=20, type=int, metavar="int",
+        "-r_min", "--min_radius", default=20, type=int, metavar="int",
         help="Inner radius proportion (circular mode, default: 20)."
     )
     cio.add_argument(
-        "--r_max", default=100, type=int, metavar="int",
+        "-r_max", "--max_radius", default=100, type=int, metavar="int",
         help="Outer radius (circular mode, default: 100)."
     )
 
@@ -468,7 +476,7 @@ def get_arguments(descmsg: str = DESCMSG) -> argparse.Namespace:
         help="Spacing between chromosomes. Useful to reduce chromosome overlap (default: 9e6 or 9000000)."
     )
     lio.add_argument(
-        "-t_space", "--track_spacing", default=0.10, type=float, metavar="float",
+        "-t_space", "--linear_track_spacing", default=0.10, type=float, metavar="float",
         help="Space between linear tracks (default: 0.10)."
     )
 

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 MODULE_DOCSTRING = '''"""
 pycmplot.io
 ===========
@@ -20,8 +22,6 @@ This module is called automatically by the command-line entry point and by
 It is documented here for users who wish to load and pre-process summary
 statistics programmatically before passing them to the plotting functions.
 """'''
-
-from __future__ import annotations
 
 import csv
 import gzip
