@@ -1,0 +1,933 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pycmplot.plotting.circular &mdash; pycmplot 0.1.8 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=618afd55" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=22607128"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=f281be69"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            pycmplot
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#from-pypi-recommended">From PyPI (recommended)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#from-github-development-version">From GitHub (development version)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#using-a-virtual-environment">Using a virtual environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#verify-the-installation">Verify the installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../quickstart.html#input-file-format">Input file format</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../quickstart.html#linear-manhattan-plot-single-trait">Linear Manhattan plot (single trait)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../quickstart.html#multi-track-linear-manhattan-plot">Multi-track linear Manhattan plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../quickstart.html#circular-circos-style-manhattan-plot">Circular (Circos-style) Manhattan plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../quickstart.html#mixed-genome-builds-with-liftover">Mixed genome builds with liftover</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../quickstart.html#next-steps">Next steps</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command-Line Interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../cli.html#input-output-options">Input / output options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cli.html#column-auto-detection-options">Column auto-detection options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cli.html#plotting-behaviour-options">Plotting behaviour options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cli.html#example-commands">Example commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../cli.html#single-trait-linear-manhattan-plot">Single-trait linear Manhattan plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cli.html#three-trait-stacked-linear-manhattan-plot">Three-trait stacked linear Manhattan plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cli.html#circular-manhattan-plot">Circular Manhattan plot</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../python_api_notebook.html">Python API Tutorial</a><ul class="simple">
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/io.html">pycmplot.io</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pycmplot.io.detect_delimiter"><code class="docutils literal notranslate"><span class="pre">detect_delimiter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pycmplot.io.generate_random_string"><code class="docutils literal notranslate"><span class="pre">generate_random_string()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pycmplot.io.get_file_header"><code class="docutils literal notranslate"><span class="pre">get_file_header()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pycmplot.io.get_output_paths"><code class="docutils literal notranslate"><span class="pre">get_output_paths()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pycmplot.io.get_sumstats_and_merged_sector_list"><code class="docutils literal notranslate"><span class="pre">get_sumstats_and_merged_sector_list()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pycmplot.io.prep_pycmplot_input_info"><code class="docutils literal notranslate"><span class="pre">prep_pycmplot_input_info()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pycmplot.io.resolve_delimiter"><code class="docutils literal notranslate"><span class="pre">resolve_delimiter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pycmplot.io.smart_open"><code class="docutils literal notranslate"><span class="pre">smart_open()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pycmplot.io.strip_comma_separated_input_streams"><code class="docutils literal notranslate"><span class="pre">strip_comma_separated_input_streams()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/stats.html">pycmplot.stats</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/stats.html#pycmplot.stats.get_highlight_snps"><code class="docutils literal notranslate"><span class="pre">get_highlight_snps()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/stats.html#pycmplot.stats.get_lead_snps"><code class="docutils literal notranslate"><span class="pre">get_lead_snps()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/annotation.html">pycmplot.annotation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/annotation.html#pycmplot.annotation.get_hits_summary_table"><code class="docutils literal notranslate"><span class="pre">get_hits_summary_table()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/liftover.html">pycmplot.liftover</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/liftover.html#pycmplot.liftover.liftover_hg19_to_hg38"><code class="docutils literal notranslate"><span class="pre">liftover_hg19_to_hg38()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/liftover.html#pycmplot.liftover.liftover_position"><code class="docutils literal notranslate"><span class="pre">liftover_position()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/plotting.html">pycmplot.plotting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/plotting.html#pycmplot-plotting-linear">pycmplot.plotting.linear</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#pycmplot.plotting.linear.plot_linear"><code class="docutils literal notranslate"><span class="pre">plot_linear()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#pycmplot.plotting.linear.plot_linearm"><code class="docutils literal notranslate"><span class="pre">plot_linearm()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/plotting.html#pycmplot-plotting-circular">pycmplot.plotting.circular</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#pycmplot.plotting.circular.compute_track_radii_dict"><code class="docutils literal notranslate"><span class="pre">compute_track_radii_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#pycmplot.plotting.circular.plot_circosm"><code class="docutils literal notranslate"><span class="pre">plot_circosm()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#pycmplot.plotting.circular.plot_circular"><code class="docutils literal notranslate"><span class="pre">plot_circular()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/constants.html">pycmplot.constants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/resources.html">pycmplot.resources</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/resources.html#pycmplot.resources.ResourceConfig"><code class="docutils literal notranslate"><span class="pre">ResourceConfig</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/resources.html#pycmplot.resources.ResourceConfig.RESOURCE_CONFIG_CLASS"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.RESOURCE_CONFIG_CLASS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/resources.html#pycmplot.resources.ResourceConfig.chain_hg19_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.chain_hg19_hg38</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/resources.html#pycmplot.resources.ResourceConfig.geneinfo_hg19"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.geneinfo_hg19</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/resources.html#pycmplot.resources.ResourceConfig.geneinfo_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.geneinfo_hg38</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/resources.html#pycmplot.resources.ResourceConfig.require"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.require()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Version 0.1.8 (2026-04-14)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#added">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#fixed">Fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html#changelog">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#version-0-1-0-2026">Version 0.1.0 (2026)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#reporting-issues">Reporting issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#development-setup">Development setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#building-the-documentation-locally">Building the documentation locally</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#code-style">Code style</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../contributing.html#docstrings">Docstrings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pycmplot</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pycmplot.plotting.circular</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pycmplot.plotting.circular</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="n">CIRCULAR_MODULE</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;&quot;&quot;&quot;</span>
+<span class="s1">pycmplot.plotting.circular</span>
+<span class="s1">===========================</span>
+
+<span class="s1">Circos-style multi-track circular Manhattan plot.</span>
+
+<span class="s1">The module exposes two public functions and one internal per-sector helper:</span>
+
+<span class="s1">* :func:`plot_circular` — user-facing entry point.  Configures the</span>
+<span class="s1">  :class:`pycirclize.Circos` canvas, computes track radii, iterates over</span>
+<span class="s1">  sectors and tracks, renders gene/SNP annotations, and saves the figure.</span>
+<span class="s1">* :func:`compute_track_radii_dict` — divides the radial space between</span>
+<span class="s1">  *r_min* and *r_max* into *n_tracks* evenly-spaced, padded bands and</span>
+<span class="s1">  returns their ``(r_start, r_end)`` limits.</span>
+<span class="s1">* :func:`plot_circosm` — internal per-sector renderer called once per</span>
+<span class="s1">  ``(sector, sumstat)`` pair inside the main loop of :func:`plot_circular`.</span>
+<span class="s1">  Mutates the :class:`pycirclize.Sector` object in place and returns</span>
+<span class="s1">  ``None``.</span>
+<span class="s1">&quot;&quot;&quot;&#39;&#39;&#39;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pycmplot.io</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_output_paths</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pycmplot.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_highlight_snps</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Track radius calculator</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+<div class="viewcode-block" id="compute_track_radii_dict">
+<a class="viewcode-back" href="../../../api/plotting.html#pycmplot.plotting.circular.compute_track_radii_dict">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">compute_track_radii_dict</span><span class="p">(</span>
+    <span class="n">n_tracks</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">r_min</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
+    <span class="n">r_max</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="n">pad</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">annotate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+    <span class="n">COMPUTE_RADII</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;&quot;&quot;&quot;Compute ``(r_start, r_end)`` tuples for *n_tracks* evenly-spaced radial bands.</span>
+
+<span class="s1">    Divides the usable radial space between *r_min* and *r_max* into</span>
+<span class="s1">    *n_tracks* bands of equal height, separated by gaps of *pad* units.  The</span>
+<span class="s1">    tracks are ordered from innermost (``&#39;track_1&#39;``) to outermost</span>
+<span class="s1">    (``&#39;track_n&#39;``).</span>
+
+<span class="s1">    Parameters</span>
+<span class="s1">    ----------</span>
+<span class="s1">    n_tracks : int</span>
+<span class="s1">        Number of data tracks to accommodate.</span>
+<span class="s1">    r_min : float, optional</span>
+<span class="s1">        Inner boundary of the full plotting area (as a percentage of the</span>
+<span class="s1">        figure radius).  Default ``20``.</span>
+<span class="s1">    r_max : float, optional</span>
+<span class="s1">        Outer boundary of the full plotting area.  Default ``100``.</span>
+<span class="s1">    pad : float, optional</span>
+<span class="s1">        Gap in the same radius units between consecutive tracks.  Default ``1``.</span>
+<span class="s1">    annotate : bool, optional</span>
+<span class="s1">        If ``True``, an extra slot is reserved for the annotation ring by</span>
+<span class="s1">        incrementing *n_tracks* before computing heights.  The extra slot</span>
+<span class="s1">        is always placed at the outermost position.  Default ``False``.</span>
+
+<span class="s1">    Returns</span>
+<span class="s1">    -------</span>
+<span class="s1">    dict</span>
+<span class="s1">        Mapping of ``&#39;track_i&#39; → (r_start, r_end)`` for</span>
+<span class="s1">        ``i`` in ``1 … n_tracks`` (plus one extra entry when *annotate* is</span>
+<span class="s1">        ``True``).</span>
+
+<span class="s1">    Raises</span>
+<span class="s1">    ------</span>
+<span class="s1">    ValueError</span>
+<span class="s1">        If the total padding ``pad × (n_tracks − 1)`` exceeds the available</span>
+<span class="s1">        radial space ``r_max − r_min``.</span>
+
+<span class="s1">    Examples</span>
+<span class="s1">    --------</span>
+<span class="s1">    &gt;&gt;&gt; from pycmplot.plotting.circular import compute_track_radii_dict</span>
+<span class="s1">    &gt;&gt;&gt; radii = compute_track_radii_dict(n_tracks=3, r_min=20, r_max=100, pad=2)</span>
+<span class="s1">    &gt;&gt;&gt; list(radii.items())</span>
+<span class="s1">    [(&#39;track_1&#39;, (20.0, 45.33...)),</span>
+<span class="s1">    (&#39;track_2&#39;, (47.33..., 72.66...)),</span>
+<span class="s1">    (&#39;track_3&#39;, (74.66..., 100.0))]</span>
+<span class="s1">    &quot;&quot;&quot;&#39;&#39;&#39;</span>
+
+    <span class="k">if</span> <span class="n">annotate</span><span class="p">:</span>
+        <span class="n">n_tracks</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="n">total_space</span> <span class="o">=</span> <span class="n">r_max</span> <span class="o">-</span> <span class="n">r_min</span>
+    <span class="n">usable_space</span> <span class="o">=</span> <span class="n">total_space</span> <span class="o">-</span> <span class="n">pad</span> <span class="o">*</span> <span class="p">(</span><span class="n">n_tracks</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">usable_space</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Padding (</span><span class="si">{</span><span class="n">pad</span><span class="si">}</span><span class="s2">) is too large for </span><span class="si">{</span><span class="n">n_tracks</span><span class="si">}</span><span class="s2"> tracks in &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;radius range [</span><span class="si">{</span><span class="n">r_min</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">r_max</span><span class="si">}</span><span class="s2">].&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">track_height</span> <span class="o">=</span> <span class="n">usable_space</span> <span class="o">/</span> <span class="n">n_tracks</span>
+    <span class="n">radii</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">current</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">r_min</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_tracks</span><span class="p">):</span>
+        <span class="n">radii</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;track_</span><span class="si">{</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">current</span><span class="p">,</span> <span class="n">current</span> <span class="o">+</span> <span class="n">track_height</span><span class="p">)</span>
+        <span class="n">current</span> <span class="o">+=</span> <span class="n">track_height</span> <span class="o">+</span> <span class="n">pad</span>
+
+    <span class="k">return</span> <span class="n">radii</span></div>
+
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Per-chromosome circular Manhattan track</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+<div class="viewcode-block" id="plot_circosm">
+<a class="viewcode-back" href="../../../api/plotting.html#pycmplot.plotting.circular.plot_circosm">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_circosm</span><span class="p">(</span>
+    <span class="n">sector</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">sector_radius</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">annotation_r</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">assoc</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">sector_sizes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">chrom_label_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">chrom_label_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span>
+    <span class="n">track_label_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span>
+    <span class="n">track_label_orientation</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;vertical&quot;</span><span class="p">,</span>
+    <span class="n">track_index</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">assoc_label</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">logp</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">signif_line</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">5e-8</span><span class="p">,</span>
+    <span class="n">signif_threshold</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">5e-8</span><span class="p">,</span>
+    <span class="n">suggest_line</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e-5</span><span class="p">,</span>
+    <span class="n">suggest_threshold</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e-5</span><span class="p">,</span>
+    <span class="n">highlight</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">highlight_thresh</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">5e-8</span><span class="p">,</span>
+    <span class="n">highight_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;brown&#39;</span><span class="p">,</span>
+    <span class="n">colors</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;steelblue&#39;</span><span class="p">,</span><span class="s1">&#39;orange&#39;</span><span class="p">],</span>
+    <span class="n">no_track_labels</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">PLOT_CIRCOSM</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;&quot;&quot;&quot;Plot one track of summary statistics onto a single pycirclize sector.</span>
+
+<span class="s1">    This is a low-level internal function called once for every</span>
+<span class="s1">    ``(sector, sumstat)`` combination in the :func:`plot_circular` main loop.</span>
+<span class="s1">    It adds a scatter track to *sector* in-place and optionally draws</span>
+<span class="s1">    significance lines, y-axis ticks (on the first chromosome only), and</span>
+<span class="s1">    chromosome labels.  Returns ``None``.</span>
+
+<span class="s1">    Parameters</span>
+<span class="s1">    ----------</span>
+<span class="s1">    sector : pycirclize.Sector</span>
+<span class="s1">        The pycirclize Sector object representing one chromosome arc.</span>
+<span class="s1">    sector_radius : tuple of (float, float)</span>
+<span class="s1">        ``(r_start, r_end)`` radial limits for this track within *sector*,</span>
+<span class="s1">        as returned by :func:`compute_track_radii_dict`.</span>
+<span class="s1">    annotation_r : tuple of (float, float) or None</span>
+<span class="s1">        Radial limits reserved for the annotation ring.  Passed for context</span>
+<span class="s1">        but not used directly inside this function.</span>
+<span class="s1">    assoc : pandas.DataFrame, optional</span>
+<span class="s1">        Full summary statistics DataFrame (all chromosomes).  Filtered to the</span>
+<span class="s1">        current sector&#39;s chromosome internally.  Must have columns ``CHR``,</span>
+<span class="s1">        ``POS``, ``P``, and ``logP`` (when *logp* is ``True``).</span>
+<span class="s1">    sector_sizes : dict, optional</span>
+<span class="s1">        Ordered mapping of ``chrom → [min_pos, max_pos]`` as returned by</span>
+<span class="s1">        :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`.  Used to</span>
+<span class="s1">        identify the first and last sectors for y-axis ticks and track labels.</span>
+<span class="s1">    chrom_label_loc : float or None</span>
+<span class="s1">        Radial position at which to draw the chromosome label.  Computed in</span>
+<span class="s1">        :func:`plot_circular` from *chrom_label_side*, *r_min*, and *r_max*.</span>
+<span class="s1">    chrom_label_size : float, optional</span>
+<span class="s1">        Font size for chromosome labels.  Default ``6``.</span>
+<span class="s1">    track_label_size : float, optional</span>
+<span class="s1">        Font size for the track (sumstat) label written on the spacer sector.</span>
+<span class="s1">        Default ``6``.</span>
+<span class="s1">    track_label_orientation : {&#39;vertical&#39;, &#39;horizontal&#39;}, optional</span>
+<span class="s1">        Orientation of the track label text.  Default ``&#39;vertical&#39;``.</span>
+<span class="s1">    track_index : int, optional</span>
+<span class="s1">        0-based index of the current sumstat track.  Chromosome labels are</span>
+<span class="s1">        only drawn on ``track_index == 0`` (or for chromosome X).</span>
+<span class="s1">        Default ``0``.</span>
+<span class="s1">    assoc_label : str, optional</span>
+<span class="s1">        Track label text (sumstat name) rendered on the spacer sector.</span>
+<span class="s1">    logp : bool, optional</span>
+<span class="s1">        If ``True``, use the ``logP`` column for y-values and threshold</span>
+<span class="s1">        comparisons.  Default ``True``.</span>
+<span class="s1">    signif_line : float, optional</span>
+<span class="s1">        Y-value at which to draw the genome-wide significance dashed line</span>
+<span class="s1">        (orange-red).  Default ``5e-8``.</span>
+<span class="s1">    signif_threshold : float, optional</span>
+<span class="s1">        Significance threshold used for y-axis scaling.  Default ``5e-8``.</span>
+<span class="s1">    suggest_line : float or bool, optional</span>
+<span class="s1">        Y-value for the suggestive significance dashed line (light blue).</span>
+<span class="s1">        Pass ``False`` or ``None`` to suppress.  Default ``1e-5``.</span>
+<span class="s1">    suggest_threshold : float, optional</span>
+<span class="s1">        Suggestive threshold value used for y-axis scaling.  Default ``1e-5``.</span>
+<span class="s1">    highlight : bool, optional</span>
+<span class="s1">        If ``True``, variants within significant loci (``in_locus == True``</span>
+<span class="s1">        after :func:`~pycmplot.stats.get_highlight_snps`) are rendered in</span>
+<span class="s1">        ``highight_color`` (see below).  Default ``False``.</span>
+<span class="s1">    highlight_thresh : float, optional</span>
+<span class="s1">        P-value threshold passed to</span>
+<span class="s1">        :func:`~pycmplot.stats.get_highlight_snps` when *highlight* is</span>
+<span class="s1">        ``True``.  Default ``5e-8``.</span>
+<span class="s1">    highight_color : str, optional</span>
+<span class="s1">        Color of highlighted positions when *highlight* is ``True``.</span>
+<span class="s1">        Default ``brown``. </span>
+<span class="s1">    colors : list of str, optional</span>
+<span class="s1">        Two alternating colours for even/odd chromosome numbers.</span>
+<span class="s1">        Default ``[&#39;steelblue&#39;, &#39;orange&#39;]``.</span>
+<span class="s1">    no_track_labels : bool, optional</span>
+<span class="s1">        Suppress the track label on the spacer sector.  Default ``False``.</span>
+<span class="s1">    &quot;&quot;&quot;&#39;&#39;&#39;</span>
+
+    <span class="k">if</span> <span class="n">colors</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;steelblue&quot;</span><span class="p">,</span> <span class="s2">&quot;orange&quot;</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">highlight</span><span class="p">:</span>
+        <span class="n">assoc</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">get_highlight_snps</span><span class="p">(</span>
+            <span class="n">df</span><span class="o">=</span><span class="n">assoc</span><span class="p">,</span>
+            <span class="n">window</span><span class="o">=</span><span class="mi">500_000</span><span class="p">,</span>
+            <span class="n">highlight_thresh</span><span class="o">=</span><span class="n">highlight_thresh</span><span class="p">,</span>
+            <span class="n">logp</span><span class="o">=</span><span class="n">logp</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Processing sector: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">sector</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="n">assoc</span> <span class="o">=</span> <span class="n">assoc</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+    <span class="n">genome_wide_sig</span> <span class="o">=</span> <span class="n">signif_threshold</span>
+    <span class="n">suggestive</span> <span class="o">=</span> <span class="n">suggest_threshold</span>
+
+    <span class="n">assoc_uniq_chroms</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+
+    <span class="n">v_min</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;logP&quot;</span><span class="p">])))</span> <span class="k">if</span> <span class="n">logp</span> <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;P&quot;</span><span class="p">])))</span>
+    <span class="n">v_max</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;logP&quot;</span><span class="p">])))</span> <span class="k">if</span> <span class="n">logp</span> <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;P&quot;</span><span class="p">])))</span>
+    <span class="k">if</span> <span class="n">logp</span><span class="p">:</span>
+        <span class="n">v_max</span> <span class="o">+=</span> <span class="mi">2</span>
+        
+
+    <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">isna</span><span class="p">(</span><span class="n">v_max</span><span class="p">):</span>
+        <span class="n">v_max</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="n">sector_keys</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sector_sizes</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="c1"># Track label on the last (spacer) sector</span>
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="k">if</span> <span class="n">sector</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">sector_keys</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="n">lbl_track</span> <span class="o">=</span> <span class="n">sector</span><span class="o">.</span><span class="n">add_track</span><span class="p">(</span><span class="n">sector_radius</span><span class="p">)</span>
+        <span class="n">lbl_track</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="n">fc</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">no_track_labels</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">lbl_track</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+                <span class="n">assoc_label</span><span class="p">,</span>
+                <span class="n">x</span><span class="o">=</span><span class="p">(</span><span class="n">sector</span><span class="o">.</span><span class="n">end</span> <span class="o">-</span> <span class="n">sector</span><span class="o">.</span><span class="n">start</span><span class="p">)</span> <span class="o">/</span> <span class="mi">6</span><span class="p">,</span>
+                <span class="n">adjust_rotation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">orientation</span><span class="o">=</span><span class="n">track_label_orientation</span><span class="p">,</span>
+                <span class="n">size</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">track_label_size</span><span class="p">),</span>
+                <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
+                <span class="n">fontstyle</span><span class="o">=</span><span class="s2">&quot;normal&quot;</span><span class="p">,</span>
+                <span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;regular&quot;</span><span class="p">,</span>
+                <span class="n">multialignment</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">sector</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">assoc_uniq_chroms</span><span class="p">:</span>
+        <span class="k">return</span>
+
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="c1"># Chromosome label (first track only, or chrX)</span>
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="k">if</span> <span class="n">track_index</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">sector</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;X&quot;</span><span class="p">:</span>
+        <span class="n">sector</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+            <span class="n">sector</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;23&quot;</span><span class="p">,</span> <span class="s2">&quot;X&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">chrom_label_loc</span> <span class="o">==</span> <span class="s1">&#39;inside&#39;</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="s2">&quot;chr&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">sector</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;23&quot;</span><span class="p">,</span> <span class="s2">&quot;X&quot;</span><span class="p">)),</span>
+            <span class="n">r</span><span class="o">=</span><span class="n">chrom_label_loc</span><span class="p">,</span>
+            <span class="n">size</span><span class="o">=</span><span class="n">chrom_label_size</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="n">sector</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="n">fc</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ec</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="c1"># Y-axis ticks on the first chromosome</span>
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="k">if</span> <span class="n">sector</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">sector_keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+        <span class="n">yax_track</span> <span class="o">=</span> <span class="n">sector</span><span class="o">.</span><span class="n">add_track</span><span class="p">(</span><span class="n">sector_radius</span><span class="p">)</span>
+        <span class="n">yax_track</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="n">fc</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.08</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">logp</span><span class="p">:</span>
+            <span class="n">tick_step</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">yticks</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">yticks</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">yticks</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">:</span>
+                <span class="n">yticks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">v_min</span><span class="p">,</span> <span class="n">v_max</span><span class="p">,</span> <span class="n">tick_step</span><span class="p">)</span>
+                <span class="n">tick_step</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">yticks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">v_min</span><span class="p">,</span> <span class="n">v_max</span><span class="p">)</span>
+
+        <span class="n">yax_track</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span>
+            <span class="n">yticks</span><span class="p">,</span>
+            <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">t</span><span class="p">))</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">yticks</span><span class="p">],</span>
+            <span class="n">side</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span>
+            <span class="n">vmin</span><span class="o">=</span><span class="n">v_min</span><span class="p">,</span>
+            <span class="n">vmax</span><span class="o">=</span><span class="n">v_max</span><span class="p">,</span>
+            <span class="n">label_size</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="c1"># Data track</span>
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="n">assoc_chr</span> <span class="o">=</span> <span class="n">assoc</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">sector</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+    <span class="n">track</span> <span class="o">=</span> <span class="n">sector</span><span class="o">.</span><span class="n">add_track</span><span class="p">(</span><span class="n">sector_radius</span><span class="p">,</span> <span class="n">r_pad_ratio</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+    <span class="n">track</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="n">fc</span><span class="o">=</span><span class="s2">&quot;lightgrey&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.08</span><span class="p">)</span>
+
+    <span class="n">chrom_num</span> <span class="o">=</span> <span class="n">sector</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;23&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;Y&quot;</span><span class="p">,</span> <span class="s2">&quot;24&quot;</span><span class="p">)</span>
+    <span class="n">color</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">chrom_num</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">colors</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">y_col</span> <span class="o">=</span> <span class="s2">&quot;logP&quot;</span> <span class="k">if</span> <span class="n">logp</span> <span class="k">else</span> <span class="s2">&quot;P&quot;</span>
+
+    <span class="k">if</span> <span class="n">highlight</span><span class="p">:</span>
+        <span class="n">sig</span> <span class="o">=</span> <span class="n">assoc_chr</span><span class="p">[</span><span class="n">assoc_chr</span><span class="p">[</span><span class="s2">&quot;in_locus&quot;</span><span class="p">]]</span>
+        <span class="n">bg</span> <span class="o">=</span> <span class="n">assoc_chr</span><span class="p">[</span><span class="o">~</span><span class="n">assoc_chr</span><span class="p">[</span><span class="s2">&quot;in_locus&quot;</span><span class="p">]]</span>
+
+        <span class="n">track</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">bg</span><span class="p">,</span>
+            <span class="n">x</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">bg</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)),</span>
+            <span class="n">y</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">bg</span><span class="p">[</span><span class="n">y_col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)),</span>
+            <span class="n">vmin</span><span class="o">=</span><span class="n">v_min</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">v_max</span><span class="p">,</span>
+            <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">sig</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+            <span class="n">track</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+                <span class="n">sig</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
+                <span class="n">sig</span><span class="p">[</span><span class="n">y_col</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
+                <span class="n">vmin</span><span class="o">=</span><span class="n">v_min</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">v_max</span><span class="p">,</span>
+                <span class="n">s</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">highight_color</span><span class="p">,</span>
+            <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">track</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">assoc_chr</span><span class="p">,</span>
+            <span class="n">x</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">assoc_chr</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)),</span>
+            <span class="n">y</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">assoc_chr</span><span class="p">[</span><span class="n">y_col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)),</span>
+            <span class="n">vmin</span><span class="o">=</span><span class="n">v_min</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">v_max</span><span class="p">,</span>
+            <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="c1"># Significance lines</span>
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="k">if</span> <span class="n">signif_line</span><span class="p">:</span>
+        <span class="n">track</span><span class="o">.</span><span class="n">line</span><span class="p">(</span>
+            <span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="n">sector</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">sector</span><span class="o">.</span><span class="n">end</span><span class="p">],</span>
+            <span class="n">y</span><span class="o">=</span><span class="p">[</span><span class="n">genome_wide_sig</span><span class="p">,</span> <span class="n">genome_wide_sig</span><span class="p">],</span>
+            <span class="n">vmin</span><span class="o">=</span><span class="n">v_min</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">v_max</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="s2">&quot;orangered&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">suggest_line</span><span class="p">:</span>
+        <span class="n">track</span><span class="o">.</span><span class="n">line</span><span class="p">(</span>
+            <span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="n">sector</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">sector</span><span class="o">.</span><span class="n">end</span><span class="p">],</span>
+            <span class="n">y</span><span class="o">=</span><span class="p">[</span><span class="n">suggestive</span><span class="p">,</span> <span class="n">suggestive</span><span class="p">],</span>
+            <span class="n">vmin</span><span class="o">=</span><span class="n">v_min</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">v_max</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="s2">&quot;lightblue&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="plot_circular">
+<a class="viewcode-back" href="../../../api/plotting.html#pycmplot.plotting.circular.plot_circular">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_circular</span><span class="p">(</span>
+    <span class="n">sumstats_loaded</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+    <span class="n">sector_sizes</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">signif_lines</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">logp</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">pad</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">r_min</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
+    <span class="n">r_max</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
+    <span class="n">annotate</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">chrom_label_side</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;inside&#39;</span><span class="p">,</span>
+    <span class="n">signif_line</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">5e-8</span><span class="p">,</span>
+    <span class="n">highlight</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">highlight_thresh</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">5e-8</span><span class="p">,</span>
+    <span class="n">highight_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;brown&#39;</span><span class="p">,</span>
+    <span class="n">highlight_line</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">highight_line_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;grey&#39;</span><span class="p">,</span>
+    <span class="n">colors</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;steelblue&#39;</span><span class="p">,</span> <span class="s1">&#39;grey&#39;</span><span class="p">],</span>
+    <span class="n">chrom_label_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span>
+    <span class="n">track_label_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span>
+    <span class="n">track_label_orientation</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;vertical&#39;</span><span class="p">,</span>
+    <span class="n">hits_table</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">annotation_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span>
+    <span class="n">plot_title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">plot_title_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">12</span><span class="p">,</span>
+    <span class="n">dpi</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">output_format</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">output_dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span>
+    <span class="n">no_track_labels</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="p">):</span>
+    <span class="n">PLOT_CIRCULAR</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;&quot;&quot;&quot;Generate a multi-track Circos-style circular Manhattan plot.</span>
+
+<span class="s1">    Sets up a :class:`pycirclize.Circos` canvas with one arc sector per</span>
+<span class="s1">    chromosome, computes radial track extents, and calls :func:`plot_circosm`</span>
+<span class="s1">    once per ``(sector, sumstat)`` pair to populate each track with scatter</span>
+<span class="s1">    data and significance lines.  After all tracks are rendered, gene or SNP</span>
+<span class="s1">    annotations from *hits_table* are added to a dedicated annotation ring,</span>
+<span class="s1">    and a shared y-axis label is placed on the spacer sector.</span>
+
+<span class="s1">    Parameters</span>
+<span class="s1">    ----------</span>
+<span class="s1">    sumstats_loaded : dict</span>
+<span class="s1">        Mapping of ``label → [DataFrame, n_chroms]`` as returned by</span>
+<span class="s1">        :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`.  One</span>
+<span class="s1">        radial track is created per key.  The outermost track corresponds to</span>
+<span class="s1">        the first key after reversal of the radii dict.</span>
+<span class="s1">    sector_sizes : dict, optional</span>
+<span class="s1">        Ordered mapping of ``chrom → [min_pos, max_pos]`` defining the arc</span>
+<span class="s1">        length of each chromosome sector.  The last key is expected to be</span>
+<span class="s1">        ``&#39;Spacer1&#39;`` (automatically added by</span>
+<span class="s1">        :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`).</span>
+<span class="s1">    signif_lines : list of dict, optional</span>
+<span class="s1">        One ``{&#39;genome&#39;: float, &#39;suggestive&#39;: float}`` dict per track in the</span>
+<span class="s1">        same order as *sumstats_loaded*, as returned by</span>
+<span class="s1">        :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`.</span>
+<span class="s1">    logp : bool, optional</span>
+<span class="s1">        Plot –log₁₀(p) radially.  Default ``False``.</span>
+<span class="s1">    pad : float, optional</span>
+<span class="s1">        Gap in radius units between consecutive tracks.  Default ``1``.</span>
+<span class="s1">    r_min : float, optional</span>
+<span class="s1">        Inner radius of the innermost track (as a percentage of the figure</span>
+<span class="s1">        radius).  Default ``0``.</span>
+<span class="s1">    r_max : float, optional</span>
+<span class="s1">        Outer radius of the outermost track.  Default ``100``.</span>
+<span class="s1">    annotate : {&#39;SNP&#39;, &#39;GENE&#39;} or falsy, optional</span>
+<span class="s1">        Annotation content for significant loci.  ``&#39;GENE&#39;`` uses</span>
+<span class="s1">        ``nearest_upstream_gene`` for genic hits and ``top_gene`` for</span>
+<span class="s1">        intergenic hits (italic text); ``&#39;SNP&#39;`` uses the ``SNP`` column</span>
+<span class="s1">        (regular text).  Pass ``None`` or ``False`` to disable annotations.</span>
+<span class="s1">        Default ``&#39;SNP&#39;``.</span>
+<span class="s1">    chrom_label_side : {&#39;inside&#39;, &#39;outside&#39;}, optional</span>
+<span class="s1">        Radial position of chromosome labels.  ``&#39;inside&#39;`` places them just</span>
+<span class="s1">        inside the innermost track; ``&#39;outside&#39;`` places them beyond the</span>
+<span class="s1">        outermost track.  Default ``&#39;inside&#39;``.</span>
+<span class="s1">    signif_line : float, optional</span>
+<span class="s1">        Genome-wide significance threshold value for the orange-red dashed</span>
+<span class="s1">        line.  Default ``5e-8``.</span>
+<span class="s1">    highlight : bool, optional</span>
+<span class="s1">        Render significant-locus variants in brown.  Default ``False``.</span>
+<span class="s1">    highlight_thresh : float, optional</span>
+<span class="s1">        P-value threshold for locus highlighting.  Default ``5e-8``.</span>
+<span class="s1">    highight_color : str, optional</span>
+<span class="s1">        Color of highlighted positions when *highlight* is ``True``.</span>
+<span class="s1">        Default ``brown``.         </span>
+<span class="s1">    colors : list of str, optional</span>
+<span class="s1">        Two alternating chromosome colours.  Default ``[&#39;steelblue&#39;, &#39;grey&#39;]``.</span>
+<span class="s1">    chrom_label_size : float, optional</span>
+<span class="s1">        Chromosome label font size.  Default ``6``.</span>
+<span class="s1">    track_label_size : float, optional</span>
+<span class="s1">        Track (sumstat) label font size.  Default ``6``.</span>
+<span class="s1">    track_label_orientation : {&#39;vertical&#39;, &#39;horizontal&#39;}, optional</span>
+<span class="s1">        Track label text orientation.  Default ``&#39;vertical&#39;``.</span>
+<span class="s1">    hits_table : pandas.DataFrame, optional</span>
+<span class="s1">        Hits summary table from</span>
+<span class="s1">        :func:`~pycmplot.annotation.get_hits_summary_table`.  Required for</span>
+<span class="s1">        annotations (``annotate`` truthy and ``hits_table`` non-empty).</span>
+<span class="s1">    annotation_size : float, optional</span>
+<span class="s1">        Font size for annotation labels.  Default ``6``.</span>
+<span class="s1">    highlight_line : bool, optional</span>
+<span class="s1">        Draw a dashed radial line from the innermost track to the annotation</span>
+<span class="s1">        ring for each annotated position.  Default ``False``.</span>
+<span class="s1">    highight_line_color : str, optional</span>
+<span class="s1">        Color of highlight line when *highlight_line* is ``True``.</span>
+<span class="s1">    plot_title : str, optional</span>
+<span class="s1">        Text placed in the centre of the circle and used as the output</span>
+<span class="s1">        file-name stem.</span>
+<span class="s1">    plot_title_size : float, optional</span>
+<span class="s1">        Font size for the centre title.  Default ``12``.</span>
+<span class="s1">    dpi : int, optional</span>
+<span class="s1">        Output resolution in dots per inch.  Default ``300``.</span>
+<span class="s1">    output_format : str, optional</span>
+<span class="s1">        Image format (``&#39;png&#39;``, ``&#39;pdf&#39;``, ``&#39;svg&#39;``, ``&#39;jpg&#39;``).</span>
+<span class="s1">        Default ``&#39;png&#39;``.</span>
+<span class="s1">    output_dir : str or pathlib.Path, optional</span>
+<span class="s1">        Output directory.  Default ``&#39;.&#39;``.</span>
+<span class="s1">    no_track_labels : bool, optional</span>
+<span class="s1">        Suppress track labels on the spacer sector.  Default ``False``.</span>
+
+<span class="s1">    Returns</span>
+<span class="s1">    -------</span>
+<span class="s1">    matplotlib.figure.Figure</span>
+<span class="s1">        The completed circular Manhattan figure (also saved to *output_dir*).</span>
+
+<span class="s1">    See Also</span>
+<span class="s1">    --------</span>
+<span class="s1">    plot_circular is the circular counterpart to</span>
+<span class="s1">    :func:`pycmplot.plotting.linear.plot_linear`.</span>
+
+<span class="s1">    compute_track_radii_dict :</span>
+<span class="s1">        Computes the ``(r_start, r_end)`` limits for each track.</span>
+<span class="s1">    plot_circosm :</span>
+<span class="s1">        Per-sector rendering function called inside the main loop.</span>
+<span class="s1">    pycmplot.io.get_sumstats_and_merged_sector_list :</span>
+<span class="s1">        Produces *sumstats_loaded*, *sector_sizes*, and *signif_lines*.</span>
+
+<span class="s1">    Examples</span>
+<span class="s1">    --------</span>
+<span class="s1">    &gt;&gt;&gt; from pycmplot.plotting.circular import plot_circular</span>
+<span class="s1">    &gt;&gt;&gt; fig = plot_circular(</span>
+<span class="s1">    ...     sumstats_loaded=loaded,</span>
+<span class="s1">    ...     sector_sizes=sectors,</span>
+<span class="s1">    ...     signif_lines=sig_lines,</span>
+<span class="s1">    ...     logp=True,</span>
+<span class="s1">    ...     highlight=True,</span>
+<span class="s1">    ...     annotate=&quot;GENE&quot;,</span>
+<span class="s1">    ...     hits_table=hits,</span>
+<span class="s1">    ...     plot_title=&quot;RBC_Traits&quot;,</span>
+<span class="s1">    ...     output_dir=&quot;./results&quot;,</span>
+<span class="s1">    ... )</span>
+<span class="s1">    &quot;&quot;&quot;&#39;&#39;&#39;</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pycirclize</span><span class="w"> </span><span class="kn">import</span> <span class="n">Circos</span>
+
+    <span class="c1"># plot name</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sumstats_loaded</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="p">(</span>
+        <span class="n">plt_name</span><span class="p">,</span> 
+        <span class="n">table_out</span>
+    <span class="p">)</span> <span class="o">=</span> <span class="n">get_output_paths</span><span class="p">(</span>
+        <span class="n">labels</span><span class="p">,</span>
+        <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;cm&#39;</span><span class="p">,</span> 
+        <span class="n">logp</span><span class="o">=</span><span class="n">logp</span><span class="p">,</span> 
+        <span class="n">output_dir</span><span class="o">=</span><span class="n">output_dir</span><span class="p">,</span> 
+        <span class="n">plot_title</span><span class="o">=</span><span class="n">plot_title</span><span class="p">,</span> 
+        <span class="n">output_format</span><span class="o">=</span><span class="n">output_format</span>
+    <span class="p">)</span>
+
+    <span class="n">circos</span> <span class="o">=</span> <span class="n">Circos</span><span class="p">(</span><span class="n">sector_sizes</span><span class="p">,</span> <span class="n">space</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">plot_title</span><span class="p">:</span>
+        <span class="n">circos</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">plot_title</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">plot_title_size</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;normal&quot;</span><span class="p">)</span>
+
+    <span class="n">n_studies</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sumstats_loaded</span><span class="p">)</span>
+
+    <span class="n">radii</span> <span class="o">=</span> <span class="n">compute_track_radii_dict</span><span class="p">(</span>
+        <span class="n">n_tracks</span><span class="o">=</span><span class="n">n_studies</span><span class="p">,</span>
+        <span class="n">pad</span><span class="o">=</span><span class="n">pad</span><span class="p">,</span>
+        <span class="n">r_min</span><span class="o">=</span><span class="n">r_min</span><span class="p">,</span>
+        <span class="n">r_max</span><span class="o">=</span><span class="n">r_max</span><span class="p">,</span>
+        <span class="n">annotate</span><span class="o">=</span><span class="nb">bool</span><span class="p">(</span><span class="n">annotate</span><span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="n">annotation_track_key</span>    <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">radii</span><span class="p">))</span>
+    <span class="n">annotation_track_radius</span> <span class="o">=</span> <span class="n">radii</span><span class="p">[</span><span class="n">annotation_track_key</span><span class="p">]</span>
+
+    <span class="c1"># Reverse so outermost track is plotted first</span>
+    <span class="n">radii_reversed</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">radii</span><span class="o">.</span><span class="n">items</span><span class="p">())))</span>
+
+    <span class="n">inside_loc</span>  <span class="o">=</span> <span class="n">r_min</span> <span class="o">-</span> <span class="mi">3</span>
+    <span class="n">outside_loc</span> <span class="o">=</span> <span class="mi">101</span>
+    <span class="n">chrom_label_loc</span> <span class="o">=</span> <span class="n">outside_loc</span> <span class="k">if</span> <span class="n">chrom_label_side</span> <span class="o">==</span> <span class="s2">&quot;outside&quot;</span> <span class="k">else</span> <span class="n">inside_loc</span>
+
+    <span class="k">if</span> <span class="n">annotate</span><span class="p">:</span>
+        <span class="n">annot_key</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">radii_reversed</span><span class="p">))</span>
+        <span class="n">annot_r</span>   <span class="o">=</span> <span class="n">radii_reversed</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">annot_key</span><span class="p">)</span>
+        <span class="n">radii_reversed</span><span class="p">[</span><span class="s2">&quot;annot_track_r&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">annot_r</span>
+
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="p">(</span><span class="n">sector_radius</span><span class="p">,</span> <span class="n">sumstats_key</span><span class="p">,</span> <span class="n">sumstats_value</span><span class="p">,</span> <span class="n">signif_dict</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
+        <span class="nb">zip</span><span class="p">(</span>
+            <span class="n">radii_reversed</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span>
+            <span class="n">sumstats_loaded</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span>
+            <span class="n">sumstats_loaded</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span>
+            <span class="n">signif_lines</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">):</span>
+        <span class="n">assoc</span> <span class="o">=</span> <span class="n">sumstats_value</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;P&quot;</span><span class="p">]</span>   <span class="o">=</span> <span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;P&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+        <span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;23&quot;</span><span class="p">,</span> <span class="s2">&quot;X&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;24&quot;</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">)</span>
+        <span class="n">sumstat_name</span> <span class="o">=</span> <span class="n">sumstats_key</span>
+
+        <span class="n">sig_thresh</span> <span class="o">=</span> <span class="n">signif_dict</span><span class="p">[</span><span class="s2">&quot;genome&quot;</span><span class="p">]</span>
+        <span class="n">sug_thresh</span> <span class="o">=</span> <span class="n">signif_dict</span><span class="p">[</span><span class="s2">&quot;suggestive&quot;</span><span class="p">]</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SIGNIFICANCE THRESHOLD: </span><span class="si">{</span><span class="n">sig_thresh</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SUGGESTIVE THRESHOLD: </span><span class="si">{</span><span class="n">sug_thresh</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1">#if logp:</span>
+        <span class="c1">#    assoc[&quot;logP&quot;] = assoc[&quot;logP&quot;].dropna()</span>
+
+        <span class="k">for</span> <span class="n">sector</span> <span class="ow">in</span> <span class="n">circos</span><span class="o">.</span><span class="n">sectors</span><span class="p">:</span>
+            <span class="n">plot_circosm</span><span class="p">(</span>
+                <span class="n">sector</span><span class="o">=</span><span class="n">sector</span><span class="p">,</span>
+                <span class="n">sector_radius</span><span class="o">=</span><span class="n">sector_radius</span><span class="p">,</span>
+                <span class="n">annotation_r</span><span class="o">=</span><span class="n">annotation_track_radius</span> <span class="k">if</span> <span class="n">annotate</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">sector_sizes</span><span class="o">=</span><span class="n">sector_sizes</span><span class="p">,</span>
+                <span class="n">track_index</span><span class="o">=</span><span class="n">index</span><span class="p">,</span>
+                <span class="n">chrom_label_loc</span><span class="o">=</span><span class="n">chrom_label_loc</span><span class="p">,</span>
+                <span class="n">chrom_label_size</span><span class="o">=</span><span class="n">chrom_label_size</span><span class="p">,</span>
+                <span class="n">track_label_size</span><span class="o">=</span><span class="n">track_label_size</span><span class="p">,</span>
+                <span class="n">track_label_orientation</span><span class="o">=</span><span class="n">track_label_orientation</span><span class="p">,</span>
+                <span class="n">assoc</span><span class="o">=</span><span class="n">assoc</span><span class="p">,</span>
+                <span class="n">assoc_label</span><span class="o">=</span><span class="n">sumstat_name</span><span class="p">,</span>
+                <span class="n">logp</span><span class="o">=</span><span class="n">logp</span><span class="p">,</span>
+                <span class="n">signif_line</span><span class="o">=</span><span class="n">sig_thresh</span><span class="p">,</span>
+                <span class="n">signif_threshold</span><span class="o">=</span><span class="n">sig_thresh</span><span class="p">,</span>
+                <span class="n">suggest_line</span><span class="o">=</span><span class="kc">True</span> <span class="k">if</span> <span class="n">signif_line</span> <span class="k">else</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="n">suggest_threshold</span><span class="o">=</span><span class="n">sug_thresh</span><span class="p">,</span>
+                <span class="n">highlight</span><span class="o">=</span><span class="n">highlight</span><span class="p">,</span>
+                <span class="n">highlight_thresh</span><span class="o">=</span><span class="n">highlight_thresh</span><span class="p">,</span>
+                <span class="n">highight_color</span><span class="o">=</span><span class="n">highight_color</span><span class="p">,</span>
+                <span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span>
+                <span class="n">no_track_labels</span><span class="o">=</span><span class="n">no_track_labels</span>
+            <span class="p">)</span>
+
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="c1"># Circular: gene/SNP annotations</span>
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="k">if</span> <span class="n">annotate</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">hits_table</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">hits_table</span><span class="o">.</span><span class="n">iterrows</span><span class="p">()):</span>
+            <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">annotate</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;GENE&quot;</span><span class="p">:</span>
+                <span class="n">label</span>  <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;SNP&quot;</span><span class="p">]</span>
+                <span class="n">fstyle</span> <span class="o">=</span> <span class="s2">&quot;normal&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;genic&quot;</span><span class="p">]:</span>
+                    <span class="n">label</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;nearest_upstream_gene&quot;</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">label</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;top_gene&quot;</span><span class="p">]</span>
+                <span class="n">fstyle</span> <span class="o">=</span> <span class="s2">&quot;italic&quot;</span>
+
+            <span class="k">for</span> <span class="n">sector</span> <span class="ow">in</span> <span class="n">circos</span><span class="o">.</span><span class="n">sectors</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">])</span> <span class="o">==</span> <span class="n">sector</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+                    <span class="n">a_track</span> <span class="o">=</span> <span class="n">sector</span><span class="o">.</span><span class="n">add_track</span><span class="p">(</span><span class="n">annotation_track_radius</span><span class="p">)</span>
+                    <span class="n">a_track</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="n">fc</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ec</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+                    <span class="n">r_low</span>  <span class="o">=</span> <span class="n">annotation_track_radius</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">r_high</span> <span class="o">=</span> <span class="n">annotation_track_radius</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="n">r_pos</span>  <span class="o">=</span> <span class="n">r_low</span> <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">r_high</span>
+                    <span class="n">pos</span>    <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">]</span>
+
+                    <span class="n">a_track</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
+                        <span class="n">x</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span>
+                        <span class="n">label</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">label</span><span class="p">),</span>
+                        <span class="n">min_r</span><span class="o">=</span><span class="n">r_low</span><span class="p">,</span>
+                        <span class="n">max_r</span><span class="o">=</span><span class="n">r_low</span> <span class="o">+</span> <span class="mi">3</span><span class="p">,</span>
+                        <span class="n">label_size</span><span class="o">=</span><span class="n">annotation_size</span><span class="p">,</span>
+                        <span class="n">text_kws</span><span class="o">=</span><span class="p">{</span>
+                            <span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="s2">&quot;large&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                            <span class="s2">&quot;fontstyle&quot;</span><span class="p">:</span> <span class="n">fstyle</span><span class="p">,</span>
+                            <span class="s2">&quot;fontweight&quot;</span><span class="p">:</span> <span class="s2">&quot;normal&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;multialignment&quot;</span><span class="p">:</span> <span class="s2">&quot;left&quot;</span><span class="p">,</span>
+                        <span class="p">},</span>
+                    <span class="p">)</span>
+
+                    <span class="k">if</span> <span class="n">highlight_line</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="ow">not</span> <span class="n">highight_line_color</span><span class="p">:</span>
+                            <span class="n">highight_line_color</span> <span class="o">=</span> <span class="s1">&#39;grey&#39;</span>
+                        <span class="n">sector_rlim</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">r_lim</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">sector</span><span class="o">.</span><span class="n">tracks</span><span class="p">]</span>
+                        <span class="n">sector_min_r</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">sector_rlim</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="n">sector</span><span class="o">.</span><span class="n">line</span><span class="p">(</span>
+                            <span class="n">r</span><span class="o">=</span><span class="p">[</span><span class="n">sector_min_r</span><span class="p">,</span> <span class="n">r_low</span><span class="p">],</span>
+                            <span class="n">start</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span>
+                            <span class="n">end</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span>
+                            <span class="n">color</span><span class="o">=</span><span class="n">highight_line_color</span><span class="p">,</span>
+                            <span class="n">lw</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                            <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span>
+                        <span class="p">)</span>
+
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="c1"># Circular: single y-axis label on last sector</span>
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="k">for</span> <span class="n">sector</span> <span class="ow">in</span> <span class="n">circos</span><span class="o">.</span><span class="n">sectors</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">sector</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="nb">list</span><span class="p">(</span><span class="n">sector_sizes</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">logp</span><span class="p">:</span>
+                <span class="n">SUB</span> <span class="o">=</span> <span class="nb">str</span><span class="o">.</span><span class="n">maketrans</span><span class="p">(</span><span class="s2">&quot;0123456789&quot;</span><span class="p">,</span> <span class="s2">&quot;₀₁₂₃₄₅₆₇₈₉&quot;</span><span class="p">)</span>
+                <span class="n">y_label</span> <span class="o">=</span> <span class="s2">&quot;-log10(p-value)&quot;</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">SUB</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">y_label</span> <span class="o">=</span> <span class="s2">&quot;p-value&quot;</span>
+
+            <span class="n">sector_rlim</span>  <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">r_lim</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">sector</span><span class="o">.</span><span class="n">tracks</span><span class="p">]</span>
+            <span class="n">sector_min_r</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">sector_rlim</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">sector_max_r</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">sector_rlim</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+
+            <span class="n">sector</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+                <span class="n">y_label</span><span class="p">,</span>
+                <span class="n">x</span><span class="o">=</span><span class="n">sector</span><span class="o">.</span><span class="n">end</span> <span class="o">-</span> <span class="p">(</span><span class="n">sector</span><span class="o">.</span><span class="n">end</span> <span class="o">-</span> <span class="n">sector</span><span class="o">.</span><span class="n">start</span><span class="p">)</span> <span class="o">/</span> <span class="mi">5</span><span class="p">,</span>
+                <span class="n">r</span><span class="o">=</span><span class="p">(</span><span class="n">sector_min_r</span> <span class="o">+</span> <span class="n">sector_max_r</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+                    <span class="o">+</span> <span class="p">(</span><span class="n">sector_min_r</span> <span class="o">+</span> <span class="n">sector_max_r</span><span class="p">)</span> <span class="o">/</span> <span class="mi">12</span><span class="p">,</span>
+                <span class="n">adjust_rotation</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">ignore_range_error</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">size</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">track_label_size</span><span class="p">),</span>
+                <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
+                <span class="n">fontstyle</span><span class="o">=</span><span class="s2">&quot;italic&quot;</span><span class="p">,</span>
+                <span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;regular&quot;</span><span class="p">,</span>
+                <span class="n">rotation</span><span class="o">=</span><span class="mi">92</span><span class="p">,</span>
+                <span class="n">rotation_mode</span><span class="o">=</span><span class="s2">&quot;default&quot;</span><span class="p">,</span>
+                <span class="n">va</span><span class="o">=</span><span class="s2">&quot;top&quot;</span><span class="p">,</span>
+                <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">circos</span><span class="o">.</span><span class="n">plotfig</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">plt_name</span><span class="p">:</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">fname</span><span class="o">=</span><span class="n">plt_name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">dpi</span><span class="o">=</span><span class="n">dpi</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Saved circular Manhattan plot: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">plt_name</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">fig</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Kevin Esoh.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
