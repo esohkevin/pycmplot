@@ -1,4 +1,4 @@
-.. _changelog:
+.. include:: ../CHANGELOG.rst
 
 Changelog
 =========
@@ -6,10 +6,6 @@ Changelog
 All notable changes to pycmplot are documented here.
 This project follows `Semantic Versioning <https://semver.org/>`_.
 
-.. note::
-   Update this file with each PyPI release. Consider using
-   `towncrier <https://towncrier.readthedocs.io/>`_ to manage changelog
-   fragments automatically.
 
 Version 0.1.0 (2026)
 ---------------------

@@ -23,7 +23,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["pytest", "black", "ruff"]
+dev = ["pytest", "black", "ruff", "towncrier", "sphinx"]
 
 [tool.setuptools.package-data]
 pycmplot = ["data/*"]
@@ -35,6 +35,34 @@ pycmplot = "pycmplot._core:main"
 where = ["."]
 
 [tool.towncrier]
-directory = "docs"
 package = "pycmplot"
 package_dir = "pycmplot"
+filename = "CHANGELOG.rst"
+directory = "changelog.d"
+title_format = "Version {version} ({project_date})"
+issue_format = "`#{issue} <https://github.com/esohkevin/pycmplot/issues/{issue}>`_"
+
+[[tool.towncrier.type]]
+directory = "added"
+name = "Added"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "changed"
+name = "Changed"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "fixed"
+name = "Fixed"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "deprecated"
+name = "Deprecated"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "removed"
+name = "Removed"
+showcontent = true
