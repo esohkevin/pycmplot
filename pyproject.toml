@@ -4,10 +4,10 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pycmplot"
-version = "0.1.9"
+version = "0.2.0"
 description = "Multi-track circular and linear Manhattan plot generation for GWAS summary statistics"
 readme = "README.md"
-license = { text = "CC BY-NC-SA 4.0" }
+license = "CC-BY-NC-SA-4.0"
 authors = [{ name = "Kevin Esoh", email = "kesohku1@jh.edu" }]
 requires-python = ">=3.9"
 
@@ -33,6 +33,12 @@ pycmplot = "pycmplot._core:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
+exclude = [
+    "dist*", "changelog.d*", "build-pypi-package.md", 
+    "pycmplot_python_api.ipynb", "mit-license.txt", 
+    "pycmplot_docs", "docs"
+]
+
 
 [tool.towncrier]
 package = "pycmplot"
