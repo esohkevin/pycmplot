@@ -49,6 +49,9 @@ pvl_candidates = [pcol, 'P', 'P-value', 'Wald_P', 'pvalue', 'p_val', 'pval']
 bld_candidates = [build, 'BUILD', 'Genome', 'Genome_Build', 'Genome-build']
 ```
 
+> NB: Upper and lower cases of the candidates are also considered, making each candidate expanded 3 times.
+
+
 Since GWAS summary stats files can be very large, to improve speed and memory efficiency, it is 
 **highly recommended** to use `-tp, --trim_pval` with a value to exclude variants with p-value above a 
 certain threshold, e.g. `0.01 (1e-2)` or `0.001 (1e-3)`.
