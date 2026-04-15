@@ -59,6 +59,8 @@ certain threshold, e.g. `0.01 (1e-2)` or `0.001 (1e-3)`.
 A potential useful application is **comparative visualization** of results from multiple imputation panels, 
 multiple populations, or multiple traits to observe shared genetic architecture.
 
+Read more in the package documentation page: https://pycmplot.readthedocs.io/en/latest/
+
 ---
 
 ## Installation
