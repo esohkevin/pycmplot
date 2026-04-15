@@ -1,3 +1,16 @@
+Version 0.1.9 (2026-04-14)
+==========================
+
+Fixed
+-----
+
+- Fixed column name auto-detection:
+   - Expanded candidates list by adding lower and upper case versions for existing condidates.
+
+  Fixed ``build`` option for ``prep_pycmplot_input_info`` function.
+   - Updated it from optional to required parameter to be consistent with command line version.
+
+
 Version 0.1.8 (2026-04-14)
 ==========================
 

@@ -431,12 +431,12 @@ def get_output_paths(
 def prep_pycmplot_input_info(
     sum_stats: list[str],
     labels: list[str],
+    build: str,
     delim: Optional[str] = None,
     chrom: Optional[str] = None,
     pos: Optional[str] = None,
     snp: Optional[str] = None,
     pcol: Optional[str] = None,
-    build: Optional[str] = None
 ):
     PREP_INPUT_INFO = '''"""Resolve column names and delimiters for each summary statistics file.
 
@@ -453,6 +453,9 @@ def prep_pycmplot_input_info(
         Paths to one or more summary statistics files (gzip supported).
     labels : list of str
         Track labels in the same order as *sum_stats*.
+    build : str
+        Genome-build column name (candidates: ``'BUILD'``, ``'Genome'``,
+        ``'Genome_Build'``, ``'Genome-build'``, …).
     delim : str, optional
         Field delimiter shared by all files.  Accepts human-readable names
         (``'tab'``, ``'space'``, ``'comma'``) or single characters.  When
@@ -472,9 +475,6 @@ def prep_pycmplot_input_info(
     pcol : str, optional
         P-value column name (candidates: ``'P'``, ``'P-value'``,
         ``'pvalue'``, ``'p_val'``, ``'pval'``, ``'Wald_P'``).
-    build : str, optional
-        Genome-build column name (candidates: ``'BUILD'``, ``'Genome'``,
-        ``'Genome_Build'``, ``'Genome-build'``).
 
     Returns
     -------
@@ -516,11 +516,30 @@ def prep_pycmplot_input_info(
     # ------------------------------------------------------------------
     chr_candidates = [chrom, "CHR", "CHROM", "Chromosome", "#CHROM", "#CHR",
                     "Chrom", "chrom", "chr", "chromosome", "#chr", "#chrom"]
+    chr_candidates_l = [x.lower() for x in chr_candidates]
+    chr_candidates_u = [x.upper() for x in chr_candidates]
+    chr_candidates = chr_candidates + chr_candidates_l + chr_candidates_u
+                
     pos_candidates = [pos,   "BP", "POS", "bp", "pos", "Basepair"]
+    pos_candidates_l = [x.lower() for x in pos_candidates]
+    pos_candidates_u = [x.upper() for x in pos_candidates]
+    pos_candidates = pos_candidates + pos_candidates_l + pos_candidates_u
+
     snp_candidates = [snp,   "SNP", "RSID", "rsID", "MarkerName", "MarkerID",
                     "Predictor", "Marker", "SNPID", "ID"]
+    snp_candidates_l = [x.lower() for x in snp_candidates]
+    snp_candidates_u = [x.upper() for x in snp_candidates]
+    snp_candidates = snp_candidates + snp_candidates_l + snp_candidates_u
+
     pvl_candidates = [pcol,  "P", "P-value", "Wald_P", "pvalue", "p_val", "pval"]
+    pvl_candidates_l = [x.lower() for x in pvl_candidates]
+    pvl_candidates_u = [x.upper() for x in pvl_candidates]
+    pvl_candidates = pvl_candidates + pvl_candidates_l + pvl_candidates_u
+
     bld_candidates = [build, "BUILD", "Genome", "Genome_Build", "Genome-build"]
+    bld_candidates_l = [x.lower() for x in bld_candidates]
+    bld_candidates_u = [x.upper() for x in bld_candidates]
+    bld_candidates = bld_candidates + bld_candidates_l + bld_candidates_u
 
     # Remove None entries
     chr_candidates = [c for c in chr_candidates if c]
@@ -546,7 +565,7 @@ def prep_pycmplot_input_info(
             chrom_col = next(c for c in hdr if c in set(chr_candidates))
             pos_col   = next(c for c in hdr if c in set(pos_candidates))
             snp_col   = next(c for c in hdr if c in set(snp_candidates))
-            pcol      = next(c for c in hdr if c in set(pvl_candidates))
+            pcol           = next(c for c in hdr if c in set(pvl_candidates))
             bcol      = next(c for c in hdr if c in set(bld_candidates))
         except StopIteration as exc:
             sys.exit(

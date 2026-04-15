@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pycmplot.io &mdash; pycmplot 0.1.8 documentation</title>
+  <title>pycmplot.io &mdash; pycmplot 0.1.9 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=22607128"></script>
+      <script src="../../_static/documentation_options.js?v=8618f531"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -643,12 +643,12 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">prep_pycmplot_input_info</span><span class="p">(</span>
     <span class="n">sum_stats</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="n">labels</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">build</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">delim</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">chrom</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">pos</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">snp</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">pcol</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">build</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">):</span>
     <span class="n">PREP_INPUT_INFO</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;&quot;&quot;&quot;Resolve column names and delimiters for each summary statistics file.</span>
 
@@ -665,6 +665,9 @@
 <span class="s1">        Paths to one or more summary statistics files (gzip supported).</span>
 <span class="s1">    labels : list of str</span>
 <span class="s1">        Track labels in the same order as *sum_stats*.</span>
+<span class="s1">    build : str</span>
+<span class="s1">        Genome-build column name (candidates: ``&#39;BUILD&#39;``, ``&#39;Genome&#39;``,</span>
+<span class="s1">        ``&#39;Genome_Build&#39;``, ``&#39;Genome-build&#39;``, …).</span>
 <span class="s1">    delim : str, optional</span>
 <span class="s1">        Field delimiter shared by all files.  Accepts human-readable names</span>
 <span class="s1">        (``&#39;tab&#39;``, ``&#39;space&#39;``, ``&#39;comma&#39;``) or single characters.  When</span>
@@ -684,9 +687,6 @@
 <span class="s1">    pcol : str, optional</span>
 <span class="s1">        P-value column name (candidates: ``&#39;P&#39;``, ``&#39;P-value&#39;``,</span>
 <span class="s1">        ``&#39;pvalue&#39;``, ``&#39;p_val&#39;``, ``&#39;pval&#39;``, ``&#39;Wald_P&#39;``).</span>
-<span class="s1">    build : str, optional</span>
-<span class="s1">        Genome-build column name (candidates: ``&#39;BUILD&#39;``, ``&#39;Genome&#39;``,</span>
-<span class="s1">        ``&#39;Genome_Build&#39;``, ``&#39;Genome-build&#39;``).</span>
 
 <span class="s1">    Returns</span>
 <span class="s1">    -------</span>
@@ -728,11 +728,30 @@
     <span class="c1"># ------------------------------------------------------------------</span>
     <span class="n">chr_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">chrom</span><span class="p">,</span> <span class="s2">&quot;CHR&quot;</span><span class="p">,</span> <span class="s2">&quot;CHROM&quot;</span><span class="p">,</span> <span class="s2">&quot;Chromosome&quot;</span><span class="p">,</span> <span class="s2">&quot;#CHROM&quot;</span><span class="p">,</span> <span class="s2">&quot;#CHR&quot;</span><span class="p">,</span>
                     <span class="s2">&quot;Chrom&quot;</span><span class="p">,</span> <span class="s2">&quot;chrom&quot;</span><span class="p">,</span> <span class="s2">&quot;chr&quot;</span><span class="p">,</span> <span class="s2">&quot;chromosome&quot;</span><span class="p">,</span> <span class="s2">&quot;#chr&quot;</span><span class="p">,</span> <span class="s2">&quot;#chrom&quot;</span><span class="p">]</span>
+    <span class="n">chr_candidates_l</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">chr_candidates</span><span class="p">]</span>
+    <span class="n">chr_candidates_u</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">chr_candidates</span><span class="p">]</span>
+    <span class="n">chr_candidates</span> <span class="o">=</span> <span class="n">chr_candidates</span> <span class="o">+</span> <span class="n">chr_candidates_l</span> <span class="o">+</span> <span class="n">chr_candidates_u</span>
+                
     <span class="n">pos_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">pos</span><span class="p">,</span>   <span class="s2">&quot;BP&quot;</span><span class="p">,</span> <span class="s2">&quot;POS&quot;</span><span class="p">,</span> <span class="s2">&quot;bp&quot;</span><span class="p">,</span> <span class="s2">&quot;pos&quot;</span><span class="p">,</span> <span class="s2">&quot;Basepair&quot;</span><span class="p">]</span>
+    <span class="n">pos_candidates_l</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">pos_candidates</span><span class="p">]</span>
+    <span class="n">pos_candidates_u</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">pos_candidates</span><span class="p">]</span>
+    <span class="n">pos_candidates</span> <span class="o">=</span> <span class="n">pos_candidates</span> <span class="o">+</span> <span class="n">pos_candidates_l</span> <span class="o">+</span> <span class="n">pos_candidates_u</span>
+
     <span class="n">snp_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">snp</span><span class="p">,</span>   <span class="s2">&quot;SNP&quot;</span><span class="p">,</span> <span class="s2">&quot;RSID&quot;</span><span class="p">,</span> <span class="s2">&quot;rsID&quot;</span><span class="p">,</span> <span class="s2">&quot;MarkerName&quot;</span><span class="p">,</span> <span class="s2">&quot;MarkerID&quot;</span><span class="p">,</span>
                     <span class="s2">&quot;Predictor&quot;</span><span class="p">,</span> <span class="s2">&quot;Marker&quot;</span><span class="p">,</span> <span class="s2">&quot;SNPID&quot;</span><span class="p">,</span> <span class="s2">&quot;ID&quot;</span><span class="p">]</span>
+    <span class="n">snp_candidates_l</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">snp_candidates</span><span class="p">]</span>
+    <span class="n">snp_candidates_u</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">snp_candidates</span><span class="p">]</span>
+    <span class="n">snp_candidates</span> <span class="o">=</span> <span class="n">snp_candidates</span> <span class="o">+</span> <span class="n">snp_candidates_l</span> <span class="o">+</span> <span class="n">snp_candidates_u</span>
+
     <span class="n">pvl_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">pcol</span><span class="p">,</span>  <span class="s2">&quot;P&quot;</span><span class="p">,</span> <span class="s2">&quot;P-value&quot;</span><span class="p">,</span> <span class="s2">&quot;Wald_P&quot;</span><span class="p">,</span> <span class="s2">&quot;pvalue&quot;</span><span class="p">,</span> <span class="s2">&quot;p_val&quot;</span><span class="p">,</span> <span class="s2">&quot;pval&quot;</span><span class="p">]</span>
+    <span class="n">pvl_candidates_l</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">pvl_candidates</span><span class="p">]</span>
+    <span class="n">pvl_candidates_u</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">pvl_candidates</span><span class="p">]</span>
+    <span class="n">pvl_candidates</span> <span class="o">=</span> <span class="n">pvl_candidates</span> <span class="o">+</span> <span class="n">pvl_candidates_l</span> <span class="o">+</span> <span class="n">pvl_candidates_u</span>
+
     <span class="n">bld_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">build</span><span class="p">,</span> <span class="s2">&quot;BUILD&quot;</span><span class="p">,</span> <span class="s2">&quot;Genome&quot;</span><span class="p">,</span> <span class="s2">&quot;Genome_Build&quot;</span><span class="p">,</span> <span class="s2">&quot;Genome-build&quot;</span><span class="p">]</span>
+    <span class="n">bld_candidates_l</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">bld_candidates</span><span class="p">]</span>
+    <span class="n">bld_candidates_u</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">bld_candidates</span><span class="p">]</span>
+    <span class="n">bld_candidates</span> <span class="o">=</span> <span class="n">bld_candidates</span> <span class="o">+</span> <span class="n">bld_candidates_l</span> <span class="o">+</span> <span class="n">bld_candidates_u</span>
 
     <span class="c1"># Remove None entries</span>
     <span class="n">chr_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">chr_candidates</span> <span class="k">if</span> <span class="n">c</span><span class="p">]</span>
@@ -758,7 +777,7 @@
             <span class="n">chrom_col</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">hdr</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">chr_candidates</span><span class="p">))</span>
             <span class="n">pos_col</span>   <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">hdr</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">pos_candidates</span><span class="p">))</span>
             <span class="n">snp_col</span>   <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">hdr</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">snp_candidates</span><span class="p">))</span>
-            <span class="n">pcol</span>      <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">hdr</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">pvl_candidates</span><span class="p">))</span>
+            <span class="n">pcol</span>           <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">hdr</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">pvl_candidates</span><span class="p">))</span>
             <span class="n">bcol</span>      <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">hdr</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">bld_candidates</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">StopIteration</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
             <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span>
