@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-CORE_MODULE = '''"""
+CORE_MODULE = """
 pycmplot._core
 ==============
 
@@ -12,7 +12,7 @@ work to :mod:`pycmplot.io`, :mod:`pycmplot.plotting.linear`, and
 All imports are deferred inside :func:`main` so that
 ``import pycmplot`` remains fast regardless of the size of the dependency
 tree.
-"""'''
+"""
 
 import logging
 import warnings
@@ -26,7 +26,7 @@ logger = logging.getLogger(__name__)
 
 
 def main() -> None:
-    MAIN = '''"""Orchestrate the full pycmplot pipeline from the command line.
+    MAIN = """Orchestrate the full pycmplot pipeline from the command line.
 
     This function is registered as the ``pycmplot`` console-script entry point
     in ``pyproject.toml`` / ``setup.cfg``.  It performs the following steps in
@@ -75,7 +75,7 @@ def main() -> None:
         Linear Manhattan plotter called for ``--mode lm`` (default).
     pycmplot.plotting.circular.plot_circular :
         Circular Manhattan plotter called for ``--mode cm``.
-    """'''
+    """
 
     # ------------------------------------------------------------------
     # Deferred imports so ``import pycmplot`` remains fast
@@ -105,7 +105,8 @@ def main() -> None:
     chrom_arg        = args.chrom_column
     pos_arg          = args.pos_column
     snp_arg          = args.snp_column
-    build_arg        = args.build_column
+    build_arg        = args.build
+    buildc_arg       = args.build_column
     labels_raw       = args.labels
     pcol_arg         = args.pval_column
     logp             = args.logp
@@ -123,13 +124,13 @@ def main() -> None:
     point_size       = args.point_size
     highlight        = args.highlight
     highlight_thresh = args.highlight_thresh
-    highight_color   = args.highight_color
+    highlight_color   = args.highlight_color
     highlight_line   = args.highlight_line
-    highight_line_color = args.highight_line_color
+    highlight_line_color = args.highlight_line_color
     colors_raw       = args.colors
-    r_min            = args.r_min
-    r_max            = args.r_max
-    pad              = args.pad
+    r_min            = args.min_radius
+    r_max            = args.max_radius
+    pad              = args.circular_track_spacing
     output_format    = args.output_format
     output_dir       = args.output_dir
     dpi              = args.dpi
@@ -142,18 +143,20 @@ def main() -> None:
 
 
     # ------------------------------------------------------------------
-    # Sumstat, labels, colours, track heights str to list
+    # Sumstat, labels, colours, track heights [build] str to list
     # ------------------------------------------------------------------
     (
         sum_stats, 
         labels, 
         colors, 
-        t_heights
+        t_heights,
+        builds
     ) = strip_comma_separated_input_streams(
         sum_stats = sum_stats_raw,
         labels = labels_raw,
         colors_raw = colors_raw,
         track_heights = track_heights,
+        builds = build_arg if build_arg else None,
     )
 
     # ------------------------------------------------------------------
@@ -182,7 +185,8 @@ def main() -> None:
         pos = pos_arg,
         snp = snp_arg,
         pcol = pcol_arg,
-        build = build_arg
+        buildc = buildc_arg,
+        build = builds
     )
 
     # ------------------------------------------------------------------
@@ -213,6 +217,19 @@ def main() -> None:
     )
 
     # ------------------------------------------------------------------
+    # ANNOTATE BY
+    # ------------------------------------------------------------------
+    if annotate:
+        if str(annotate).upper() == "GENE":
+            label_col = 'top_gene'
+        elif str(annotate).upper() == "SNP":
+            label_col = 'SNP'
+        else:
+            label_col = annotate
+
+        logger.info(f"Anotate by: {label_col}")
+
+    # ------------------------------------------------------------------
     # CIRCULAR MANHATTAN
     # ------------------------------------------------------------------
     if mode.upper() == "CM":
@@ -224,15 +241,16 @@ def main() -> None:
             signif_lines = signif_lines,
             highlight = highlight,
             highlight_thresh = highlight_thresh,
-            highight_color = highight_color,
+            highlight_color = highlight_color,
             highlight_line = highlight_line,
-            highight_line_color = highight_line_color,
+            highlight_line_color = highlight_line_color,
             colors = colors,
             chrom_label_side = chrom_label_side,
             chrom_label_size = chrom_label_size,
             track_label_size = track_label_size,
             track_label_orientation = track_label_orientation,
             annotate = annotate,
+            label_col = label_col if annotate else None,
             annotation_size = annotation_size,
             hits_table = hits_table,
             sector_sizes = merged_assoc_sector_sizes,
@@ -253,24 +271,25 @@ def main() -> None:
     else:
         logger.info("Generating LINEAR MANHATTAN Plot ...")
         plot_linear(
-            sumstats_loaded = sumstats_loaded,
-            track_heights = t_heights,
+            sumstats_loaded=sumstats_loaded,
+            track_heights=t_heights,
             trim_pval=trim_pval,
             logp=True if logp else False,
             point_size=point_size,
             highlight=highlight,
             highlight_thresh=highlight_thresh,
-            highight_color = highight_color,
-            highlight_line = highlight_line,
-            highight_line_color = highight_line_color,            
-            annot_df=hits_table if not hits_table.empty else None,
-            label_col="top_gene",
+            highlight_color=highlight_color,
+            highlight_line=highlight_line,
+            highlight_line_color=highlight_line_color,
+            annotate=annotate,        
+            hits_table=hits_table if not hits_table.empty else None,
+            label_col=label_col if annotate else None,
             chr_spacing=chr_spacing,
             linear_track_spacing=linear_track_spacing,
             colors=colors,
             signif_lines=signif_lines,
             plot_title=plot_title,
-            no_track_labels = no_track_labels,
+            no_track_labels=no_track_labels,
             dpi=dpi,
             output_format=output_format,
             output_dir=output_dir,

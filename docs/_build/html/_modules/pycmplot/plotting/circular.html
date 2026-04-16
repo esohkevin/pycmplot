@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pycmplot.plotting.circular &mdash; pycmplot 0.1.9 documentation</title>
+  <title>pycmplot.plotting.circular &mdash; pycmplot 0.2.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=8618f531"></script>
+      <script src="../../../_static/documentation_options.js?v=37f418d5"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -142,9 +142,18 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Version 0.1.8 (2026-04-14)</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Version 0.2.1 (2026-04-16)</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#added">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#changed">Changed</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html#version-0-1-9-2026-04-14">Version 0.1.9 (2026-04-14)</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#fixed">Fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html#version-0-1-8-2026-04-14">Version 0.1.8 (2026-04-14)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id1">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id3">Fixed</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../changelog.html#changelog">Changelog</a><ul>
@@ -189,25 +198,25 @@
   <h1>Source code for pycmplot.plotting.circular</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="n">CIRCULAR_MODULE</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;&quot;&quot;&quot;</span>
-<span class="s1">pycmplot.plotting.circular</span>
-<span class="s1">===========================</span>
+<span class="n">CIRCULAR_MODULE</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">pycmplot.plotting.circular</span>
+<span class="s2">===========================</span>
 
-<span class="s1">Circos-style multi-track circular Manhattan plot.</span>
+<span class="s2">Circos-style multi-track circular Manhattan plot.</span>
 
-<span class="s1">The module exposes two public functions and one internal per-sector helper:</span>
+<span class="s2">The module exposes two public functions and one internal per-sector helper:</span>
 
-<span class="s1">* :func:`plot_circular` — user-facing entry point.  Configures the</span>
-<span class="s1">  :class:`pycirclize.Circos` canvas, computes track radii, iterates over</span>
-<span class="s1">  sectors and tracks, renders gene/SNP annotations, and saves the figure.</span>
-<span class="s1">* :func:`compute_track_radii_dict` — divides the radial space between</span>
-<span class="s1">  *r_min* and *r_max* into *n_tracks* evenly-spaced, padded bands and</span>
-<span class="s1">  returns their ``(r_start, r_end)`` limits.</span>
-<span class="s1">* :func:`plot_circosm` — internal per-sector renderer called once per</span>
-<span class="s1">  ``(sector, sumstat)`` pair inside the main loop of :func:`plot_circular`.</span>
-<span class="s1">  Mutates the :class:`pycirclize.Sector` object in place and returns</span>
-<span class="s1">  ``None``.</span>
-<span class="s1">&quot;&quot;&quot;&#39;&#39;&#39;</span>
+<span class="s2">* :func:`plot_circular` — user-facing entry point.  Configures the</span>
+<span class="s2">  :class:`pycirclize.Circos` canvas, computes track radii, iterates over</span>
+<span class="s2">  sectors and tracks, renders gene/SNP annotations, and saves the figure.</span>
+<span class="s2">* :func:`compute_track_radii_dict` — divides the radial space between</span>
+<span class="s2">  *r_min* and *r_max* into *n_tracks* evenly-spaced, padded bands and</span>
+<span class="s2">  returns their ``(r_start, r_end)`` limits.</span>
+<span class="s2">* :func:`plot_circosm` — internal per-sector renderer called once per</span>
+<span class="s2">  ``(sector, sumstat)`` pair inside the main loop of :func:`plot_circular`.</span>
+<span class="s2">  Mutates the :class:`pycirclize.Sector` object in place and returns</span>
+<span class="s2">  ``None``.</span>
+<span class="s2">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
@@ -235,51 +244,51 @@
     <span class="n">pad</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
     <span class="n">annotate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
-    <span class="n">COMPUTE_RADII</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;&quot;&quot;&quot;Compute ``(r_start, r_end)`` tuples for *n_tracks* evenly-spaced radial bands.</span>
+    <span class="n">COMPUTE_RADII</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Compute ``(r_start, r_end)`` tuples for *n_tracks* evenly-spaced radial bands.</span>
 
-<span class="s1">    Divides the usable radial space between *r_min* and *r_max* into</span>
-<span class="s1">    *n_tracks* bands of equal height, separated by gaps of *pad* units.  The</span>
-<span class="s1">    tracks are ordered from innermost (``&#39;track_1&#39;``) to outermost</span>
-<span class="s1">    (``&#39;track_n&#39;``).</span>
+<span class="s2">    Divides the usable radial space between *r_min* and *r_max* into</span>
+<span class="s2">    *n_tracks* bands of equal height, separated by gaps of *pad* units.  The</span>
+<span class="s2">    tracks are ordered from innermost (``&#39;track_1&#39;``) to outermost</span>
+<span class="s2">    (``&#39;track_n&#39;``).</span>
 
-<span class="s1">    Parameters</span>
-<span class="s1">    ----------</span>
-<span class="s1">    n_tracks : int</span>
-<span class="s1">        Number of data tracks to accommodate.</span>
-<span class="s1">    r_min : float, optional</span>
-<span class="s1">        Inner boundary of the full plotting area (as a percentage of the</span>
-<span class="s1">        figure radius).  Default ``20``.</span>
-<span class="s1">    r_max : float, optional</span>
-<span class="s1">        Outer boundary of the full plotting area.  Default ``100``.</span>
-<span class="s1">    pad : float, optional</span>
-<span class="s1">        Gap in the same radius units between consecutive tracks.  Default ``1``.</span>
-<span class="s1">    annotate : bool, optional</span>
-<span class="s1">        If ``True``, an extra slot is reserved for the annotation ring by</span>
-<span class="s1">        incrementing *n_tracks* before computing heights.  The extra slot</span>
-<span class="s1">        is always placed at the outermost position.  Default ``False``.</span>
+<span class="s2">    Parameters</span>
+<span class="s2">    ----------</span>
+<span class="s2">    n_tracks : int</span>
+<span class="s2">        Number of data tracks to accommodate.</span>
+<span class="s2">    r_min : float, optional</span>
+<span class="s2">        Inner boundary of the full plotting area (as a percentage of the</span>
+<span class="s2">        figure radius).  Default ``20``.</span>
+<span class="s2">    r_max : float, optional</span>
+<span class="s2">        Outer boundary of the full plotting area.  Default ``100``.</span>
+<span class="s2">    pad : float, optional</span>
+<span class="s2">        Gap in the same radius units between consecutive tracks.  Default ``1``.</span>
+<span class="s2">    annotate : bool, optional</span>
+<span class="s2">        If ``True``, an extra slot is reserved for the annotation ring by</span>
+<span class="s2">        incrementing *n_tracks* before computing heights.  The extra slot</span>
+<span class="s2">        is always placed at the outermost position.  Default ``False``.</span>
 
-<span class="s1">    Returns</span>
-<span class="s1">    -------</span>
-<span class="s1">    dict</span>
-<span class="s1">        Mapping of ``&#39;track_i&#39; → (r_start, r_end)`` for</span>
-<span class="s1">        ``i`` in ``1 … n_tracks`` (plus one extra entry when *annotate* is</span>
-<span class="s1">        ``True``).</span>
+<span class="s2">    Returns</span>
+<span class="s2">    -------</span>
+<span class="s2">    dict</span>
+<span class="s2">        Mapping of ``&#39;track_i&#39; → (r_start, r_end)`` for</span>
+<span class="s2">        ``i`` in ``1 … n_tracks`` (plus one extra entry when *annotate* is</span>
+<span class="s2">        ``True``).</span>
 
-<span class="s1">    Raises</span>
-<span class="s1">    ------</span>
-<span class="s1">    ValueError</span>
-<span class="s1">        If the total padding ``pad × (n_tracks − 1)`` exceeds the available</span>
-<span class="s1">        radial space ``r_max − r_min``.</span>
+<span class="s2">    Raises</span>
+<span class="s2">    ------</span>
+<span class="s2">    ValueError</span>
+<span class="s2">        If the total padding ``pad × (n_tracks − 1)`` exceeds the available</span>
+<span class="s2">        radial space ``r_max − r_min``.</span>
 
-<span class="s1">    Examples</span>
-<span class="s1">    --------</span>
-<span class="s1">    &gt;&gt;&gt; from pycmplot.plotting.circular import compute_track_radii_dict</span>
-<span class="s1">    &gt;&gt;&gt; radii = compute_track_radii_dict(n_tracks=3, r_min=20, r_max=100, pad=2)</span>
-<span class="s1">    &gt;&gt;&gt; list(radii.items())</span>
-<span class="s1">    [(&#39;track_1&#39;, (20.0, 45.33...)),</span>
-<span class="s1">    (&#39;track_2&#39;, (47.33..., 72.66...)),</span>
-<span class="s1">    (&#39;track_3&#39;, (74.66..., 100.0))]</span>
-<span class="s1">    &quot;&quot;&quot;&#39;&#39;&#39;</span>
+<span class="s2">    Examples</span>
+<span class="s2">    --------</span>
+<span class="s2">    &gt;&gt;&gt; from pycmplot.plotting.circular import compute_track_radii_dict</span>
+<span class="s2">    &gt;&gt;&gt; radii = compute_track_radii_dict(n_tracks=3, r_min=20, r_max=100, pad=2)</span>
+<span class="s2">    &gt;&gt;&gt; list(radii.items())</span>
+<span class="s2">    [(&#39;track_1&#39;, (20.0, 45.33...)),</span>
+<span class="s2">    (&#39;track_2&#39;, (47.33..., 72.66...)),</span>
+<span class="s2">    (&#39;track_3&#39;, (74.66..., 100.0))]</span>
+<span class="s2">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">annotate</span><span class="p">:</span>
         <span class="n">n_tracks</span> <span class="o">+=</span> <span class="mi">1</span>
@@ -317,10 +326,10 @@
     <span class="n">annotation_r</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">assoc</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">sector_sizes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">chrom_label_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">chrom_label_loc</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span>
     <span class="n">chrom_label_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span>
     <span class="n">track_label_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span>
-    <span class="n">track_label_orientation</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;vertical&quot;</span><span class="p">,</span>
+    <span class="n">track_label_orientation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;vertical&quot;</span><span class="p">,</span>
     <span class="n">track_index</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="n">assoc_label</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">logp</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -330,82 +339,82 @@
     <span class="n">suggest_threshold</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e-5</span><span class="p">,</span>
     <span class="n">highlight</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">highlight_thresh</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">5e-8</span><span class="p">,</span>
-    <span class="n">highight_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;brown&#39;</span><span class="p">,</span>
+    <span class="n">highlight_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;brown&#39;</span><span class="p">,</span>
     <span class="n">colors</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;steelblue&#39;</span><span class="p">,</span><span class="s1">&#39;orange&#39;</span><span class="p">],</span>
     <span class="n">no_track_labels</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="n">PLOT_CIRCOSM</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;&quot;&quot;&quot;Plot one track of summary statistics onto a single pycirclize sector.</span>
+    <span class="n">PLOT_CIRCOSM</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Plot one track of summary statistics onto a single pycirclize sector.</span>
 
-<span class="s1">    This is a low-level internal function called once for every</span>
-<span class="s1">    ``(sector, sumstat)`` combination in the :func:`plot_circular` main loop.</span>
-<span class="s1">    It adds a scatter track to *sector* in-place and optionally draws</span>
-<span class="s1">    significance lines, y-axis ticks (on the first chromosome only), and</span>
-<span class="s1">    chromosome labels.  Returns ``None``.</span>
+<span class="s2">    This is a low-level internal function called once for every</span>
+<span class="s2">    ``(sector, sumstat)`` combination in the :func:`plot_circular` main loop.</span>
+<span class="s2">    It adds a scatter track to *sector* in-place and optionally draws</span>
+<span class="s2">    significance lines, y-axis ticks (on the first chromosome only), and</span>
+<span class="s2">    chromosome labels.  Returns ``None``.</span>
 
-<span class="s1">    Parameters</span>
-<span class="s1">    ----------</span>
-<span class="s1">    sector : pycirclize.Sector</span>
-<span class="s1">        The pycirclize Sector object representing one chromosome arc.</span>
-<span class="s1">    sector_radius : tuple of (float, float)</span>
-<span class="s1">        ``(r_start, r_end)`` radial limits for this track within *sector*,</span>
-<span class="s1">        as returned by :func:`compute_track_radii_dict`.</span>
-<span class="s1">    annotation_r : tuple of (float, float) or None</span>
-<span class="s1">        Radial limits reserved for the annotation ring.  Passed for context</span>
-<span class="s1">        but not used directly inside this function.</span>
-<span class="s1">    assoc : pandas.DataFrame, optional</span>
-<span class="s1">        Full summary statistics DataFrame (all chromosomes).  Filtered to the</span>
-<span class="s1">        current sector&#39;s chromosome internally.  Must have columns ``CHR``,</span>
-<span class="s1">        ``POS``, ``P``, and ``logP`` (when *logp* is ``True``).</span>
-<span class="s1">    sector_sizes : dict, optional</span>
-<span class="s1">        Ordered mapping of ``chrom → [min_pos, max_pos]`` as returned by</span>
-<span class="s1">        :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`.  Used to</span>
-<span class="s1">        identify the first and last sectors for y-axis ticks and track labels.</span>
-<span class="s1">    chrom_label_loc : float or None</span>
-<span class="s1">        Radial position at which to draw the chromosome label.  Computed in</span>
-<span class="s1">        :func:`plot_circular` from *chrom_label_side*, *r_min*, and *r_max*.</span>
-<span class="s1">    chrom_label_size : float, optional</span>
-<span class="s1">        Font size for chromosome labels.  Default ``6``.</span>
-<span class="s1">    track_label_size : float, optional</span>
-<span class="s1">        Font size for the track (sumstat) label written on the spacer sector.</span>
-<span class="s1">        Default ``6``.</span>
-<span class="s1">    track_label_orientation : {&#39;vertical&#39;, &#39;horizontal&#39;}, optional</span>
-<span class="s1">        Orientation of the track label text.  Default ``&#39;vertical&#39;``.</span>
-<span class="s1">    track_index : int, optional</span>
-<span class="s1">        0-based index of the current sumstat track.  Chromosome labels are</span>
-<span class="s1">        only drawn on ``track_index == 0`` (or for chromosome X).</span>
-<span class="s1">        Default ``0``.</span>
-<span class="s1">    assoc_label : str, optional</span>
-<span class="s1">        Track label text (sumstat name) rendered on the spacer sector.</span>
-<span class="s1">    logp : bool, optional</span>
-<span class="s1">        If ``True``, use the ``logP`` column for y-values and threshold</span>
-<span class="s1">        comparisons.  Default ``True``.</span>
-<span class="s1">    signif_line : float, optional</span>
-<span class="s1">        Y-value at which to draw the genome-wide significance dashed line</span>
-<span class="s1">        (orange-red).  Default ``5e-8``.</span>
-<span class="s1">    signif_threshold : float, optional</span>
-<span class="s1">        Significance threshold used for y-axis scaling.  Default ``5e-8``.</span>
-<span class="s1">    suggest_line : float or bool, optional</span>
-<span class="s1">        Y-value for the suggestive significance dashed line (light blue).</span>
-<span class="s1">        Pass ``False`` or ``None`` to suppress.  Default ``1e-5``.</span>
-<span class="s1">    suggest_threshold : float, optional</span>
-<span class="s1">        Suggestive threshold value used for y-axis scaling.  Default ``1e-5``.</span>
-<span class="s1">    highlight : bool, optional</span>
-<span class="s1">        If ``True``, variants within significant loci (``in_locus == True``</span>
-<span class="s1">        after :func:`~pycmplot.stats.get_highlight_snps`) are rendered in</span>
-<span class="s1">        ``highight_color`` (see below).  Default ``False``.</span>
-<span class="s1">    highlight_thresh : float, optional</span>
-<span class="s1">        P-value threshold passed to</span>
-<span class="s1">        :func:`~pycmplot.stats.get_highlight_snps` when *highlight* is</span>
-<span class="s1">        ``True``.  Default ``5e-8``.</span>
-<span class="s1">    highight_color : str, optional</span>
-<span class="s1">        Color of highlighted positions when *highlight* is ``True``.</span>
-<span class="s1">        Default ``brown``. </span>
-<span class="s1">    colors : list of str, optional</span>
-<span class="s1">        Two alternating colours for even/odd chromosome numbers.</span>
-<span class="s1">        Default ``[&#39;steelblue&#39;, &#39;orange&#39;]``.</span>
-<span class="s1">    no_track_labels : bool, optional</span>
-<span class="s1">        Suppress the track label on the spacer sector.  Default ``False``.</span>
-<span class="s1">    &quot;&quot;&quot;&#39;&#39;&#39;</span>
+<span class="s2">    Parameters</span>
+<span class="s2">    ----------</span>
+<span class="s2">    sector : pycirclize.Sector</span>
+<span class="s2">        The pycirclize Sector object representing one chromosome arc.</span>
+<span class="s2">    sector_radius : tuple of (float, float)</span>
+<span class="s2">        ``(r_start, r_end)`` radial limits for this track within *sector*,</span>
+<span class="s2">        as returned by :func:`compute_track_radii_dict`.</span>
+<span class="s2">    annotation_r : tuple of (float, float) or None</span>
+<span class="s2">        Radial limits reserved for the annotation ring.  Passed for context</span>
+<span class="s2">        but not used directly inside this function.</span>
+<span class="s2">    assoc : pandas.DataFrame, optional</span>
+<span class="s2">        Full summary statistics DataFrame (all chromosomes).  Filtered to the</span>
+<span class="s2">        current sector&#39;s chromosome internally.  Must have columns ``CHR``,</span>
+<span class="s2">        ``POS``, ``P``, and ``logP`` (when *logp* is ``True``).</span>
+<span class="s2">    sector_sizes : dict, optional</span>
+<span class="s2">        Ordered mapping of ``chrom → [min_pos, max_pos]`` as returned by</span>
+<span class="s2">        :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`.  Used to</span>
+<span class="s2">        identify the first and last sectors for y-axis ticks and track labels.</span>
+<span class="s2">    chrom_label_loc : float or None</span>
+<span class="s2">        Radial position at which to draw the chromosome label.  Computed in</span>
+<span class="s2">        :func:`plot_circular` from *chrom_label_side*, *r_min*, and *r_max*.</span>
+<span class="s2">    chrom_label_size : float, optional</span>
+<span class="s2">        Font size for chromosome labels.  Default ``6``.</span>
+<span class="s2">    track_label_size : float, optional</span>
+<span class="s2">        Font size for the track (sumstat) label written on the spacer sector.</span>
+<span class="s2">        Default ``6``.</span>
+<span class="s2">    track_label_orientation : {&#39;vertical&#39;, &#39;horizontal&#39;}, optional</span>
+<span class="s2">        Orientation of the track label text.  Default ``&#39;vertical&#39;``.</span>
+<span class="s2">    track_index : int, optional</span>
+<span class="s2">        0-based index of the current sumstat track.  Chromosome labels are</span>
+<span class="s2">        only drawn on ``track_index == 0`` (or for chromosome X).</span>
+<span class="s2">        Default ``0``.</span>
+<span class="s2">    assoc_label : str, optional</span>
+<span class="s2">        Track label text (sumstat name) rendered on the spacer sector.</span>
+<span class="s2">    logp : bool, optional</span>
+<span class="s2">        If ``True``, use the ``logP`` column for y-values and threshold</span>
+<span class="s2">        comparisons.  Default ``True``.</span>
+<span class="s2">    signif_line : float, optional</span>
+<span class="s2">        Y-value at which to draw the genome-wide significance dashed line</span>
+<span class="s2">        (orange-red).  Default ``5e-8``.</span>
+<span class="s2">    signif_threshold : float, optional</span>
+<span class="s2">        Significance threshold used for y-axis scaling.  Default ``5e-8``.</span>
+<span class="s2">    suggest_line : float or bool, optional</span>
+<span class="s2">        Y-value for the suggestive significance dashed line (light blue).</span>
+<span class="s2">        Pass ``False`` or ``None`` to suppress.  Default ``1e-5``.</span>
+<span class="s2">    suggest_threshold : float, optional</span>
+<span class="s2">        Suggestive threshold value used for y-axis scaling.  Default ``1e-5``.</span>
+<span class="s2">    highlight : bool, optional</span>
+<span class="s2">        If ``True``, variants within significant loci (``in_locus == True``</span>
+<span class="s2">        after :func:`~pycmplot.stats.get_highlight_snps`) are rendered in</span>
+<span class="s2">        ``highlight_color`` (see below).  Default ``False``.</span>
+<span class="s2">    highlight_thresh : float, optional</span>
+<span class="s2">        P-value threshold passed to</span>
+<span class="s2">        :func:`~pycmplot.stats.get_highlight_snps` when *highlight* is</span>
+<span class="s2">        ``True``.  Default ``5e-8``.</span>
+<span class="s2">    highlight_color : str, optional</span>
+<span class="s2">        Color of highlighted positions when *highlight* is ``True``.</span>
+<span class="s2">        Default ``brown``. </span>
+<span class="s2">    colors : list of str, optional</span>
+<span class="s2">        Two alternating colours for even/odd chromosome numbers.</span>
+<span class="s2">        Default ``[&#39;steelblue&#39;, &#39;orange&#39;]``.</span>
+<span class="s2">    no_track_labels : bool, optional</span>
+<span class="s2">        Suppress the track label on the spacer sector.  Default ``False``.</span>
+<span class="s2">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">colors</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;steelblue&quot;</span><span class="p">,</span> <span class="s2">&quot;orange&quot;</span><span class="p">]</span>
@@ -417,8 +426,6 @@
             <span class="n">highlight_thresh</span><span class="o">=</span><span class="n">highlight_thresh</span><span class="p">,</span>
             <span class="n">logp</span><span class="o">=</span><span class="n">logp</span><span class="p">,</span>
         <span class="p">)</span>
-
-    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Processing sector: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">sector</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
 
     <span class="n">assoc</span> <span class="o">=</span> <span class="n">assoc</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
@@ -468,8 +475,12 @@
     <span class="c1"># Chromosome label (first track only, or chrX)</span>
     <span class="c1"># ------------------------------------------------------------------</span>
     <span class="k">if</span> <span class="n">track_index</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">sector</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;X&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">chrom_label_loc</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">:</span>
+            <span class="n">chr_label</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="s2">&quot;chr&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">sector</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;23&quot;</span><span class="p">,</span> <span class="s2">&quot;X&quot;</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span> 
+            <span class="n">chr_label</span> <span class="o">=</span> <span class="n">sector</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;23&quot;</span><span class="p">,</span> <span class="s2">&quot;X&quot;</span><span class="p">)</span>
         <span class="n">sector</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
-            <span class="n">sector</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;23&quot;</span><span class="p">,</span> <span class="s2">&quot;X&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">chrom_label_loc</span> <span class="o">==</span> <span class="s1">&#39;inside&#39;</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="s2">&quot;chr&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">sector</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;23&quot;</span><span class="p">,</span> <span class="s2">&quot;X&quot;</span><span class="p">)),</span>
+            <span class="n">chr_label</span><span class="p">,</span>
             <span class="n">r</span><span class="o">=</span><span class="n">chrom_label_loc</span><span class="p">,</span>
             <span class="n">size</span><span class="o">=</span><span class="n">chrom_label_size</span><span class="p">,</span>
         <span class="p">)</span>
@@ -530,7 +541,7 @@
                 <span class="n">sig</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
                 <span class="n">sig</span><span class="p">[</span><span class="n">y_col</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
                 <span class="n">vmin</span><span class="o">=</span><span class="n">v_min</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">v_max</span><span class="p">,</span>
-                <span class="n">s</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">highight_color</span><span class="p">,</span>
+                <span class="n">s</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">highlight_color</span><span class="p">,</span>
             <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">track</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
@@ -573,13 +584,14 @@
     <span class="n">r_min</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
     <span class="n">r_max</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
     <span class="n">annotate</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">label_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">chrom_label_side</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;inside&#39;</span><span class="p">,</span>
     <span class="n">signif_line</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">5e-8</span><span class="p">,</span>
     <span class="n">highlight</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">highlight_thresh</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">5e-8</span><span class="p">,</span>
-    <span class="n">highight_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;brown&#39;</span><span class="p">,</span>
+    <span class="n">highlight_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;brown&#39;</span><span class="p">,</span>
     <span class="n">highlight_line</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">highight_line_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;grey&#39;</span><span class="p">,</span>
+    <span class="n">highlight_line_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;grey&#39;</span><span class="p">,</span>
     <span class="n">colors</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;steelblue&#39;</span><span class="p">,</span> <span class="s1">&#39;grey&#39;</span><span class="p">],</span>
     <span class="n">chrom_label_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span>
     <span class="n">track_label_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span>
@@ -593,126 +605,126 @@
     <span class="n">output_dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span>
     <span class="n">no_track_labels</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="p">):</span>
-    <span class="n">PLOT_CIRCULAR</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;&quot;&quot;&quot;Generate a multi-track Circos-style circular Manhattan plot.</span>
+    <span class="n">PLOT_CIRCULAR</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Generate a multi-track Circos-style circular Manhattan plot.</span>
 
-<span class="s1">    Sets up a :class:`pycirclize.Circos` canvas with one arc sector per</span>
-<span class="s1">    chromosome, computes radial track extents, and calls :func:`plot_circosm`</span>
-<span class="s1">    once per ``(sector, sumstat)`` pair to populate each track with scatter</span>
-<span class="s1">    data and significance lines.  After all tracks are rendered, gene or SNP</span>
-<span class="s1">    annotations from *hits_table* are added to a dedicated annotation ring,</span>
-<span class="s1">    and a shared y-axis label is placed on the spacer sector.</span>
+<span class="s2">    Sets up a :class:`pycirclize.Circos` canvas with one arc sector per</span>
+<span class="s2">    chromosome, computes radial track extents, and calls :func:`plot_circosm`</span>
+<span class="s2">    once per ``(sector, sumstat)`` pair to populate each track with scatter</span>
+<span class="s2">    data and significance lines.  After all tracks are rendered, gene or SNP</span>
+<span class="s2">    annotations from *hits_table* are added to a dedicated annotation ring,</span>
+<span class="s2">    and a shared y-axis label is placed on the spacer sector.</span>
 
-<span class="s1">    Parameters</span>
-<span class="s1">    ----------</span>
-<span class="s1">    sumstats_loaded : dict</span>
-<span class="s1">        Mapping of ``label → [DataFrame, n_chroms]`` as returned by</span>
-<span class="s1">        :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`.  One</span>
-<span class="s1">        radial track is created per key.  The outermost track corresponds to</span>
-<span class="s1">        the first key after reversal of the radii dict.</span>
-<span class="s1">    sector_sizes : dict, optional</span>
-<span class="s1">        Ordered mapping of ``chrom → [min_pos, max_pos]`` defining the arc</span>
-<span class="s1">        length of each chromosome sector.  The last key is expected to be</span>
-<span class="s1">        ``&#39;Spacer1&#39;`` (automatically added by</span>
-<span class="s1">        :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`).</span>
-<span class="s1">    signif_lines : list of dict, optional</span>
-<span class="s1">        One ``{&#39;genome&#39;: float, &#39;suggestive&#39;: float}`` dict per track in the</span>
-<span class="s1">        same order as *sumstats_loaded*, as returned by</span>
-<span class="s1">        :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`.</span>
-<span class="s1">    logp : bool, optional</span>
-<span class="s1">        Plot –log₁₀(p) radially.  Default ``False``.</span>
-<span class="s1">    pad : float, optional</span>
-<span class="s1">        Gap in radius units between consecutive tracks.  Default ``1``.</span>
-<span class="s1">    r_min : float, optional</span>
-<span class="s1">        Inner radius of the innermost track (as a percentage of the figure</span>
-<span class="s1">        radius).  Default ``0``.</span>
-<span class="s1">    r_max : float, optional</span>
-<span class="s1">        Outer radius of the outermost track.  Default ``100``.</span>
-<span class="s1">    annotate : {&#39;SNP&#39;, &#39;GENE&#39;} or falsy, optional</span>
-<span class="s1">        Annotation content for significant loci.  ``&#39;GENE&#39;`` uses</span>
-<span class="s1">        ``nearest_upstream_gene`` for genic hits and ``top_gene`` for</span>
-<span class="s1">        intergenic hits (italic text); ``&#39;SNP&#39;`` uses the ``SNP`` column</span>
-<span class="s1">        (regular text).  Pass ``None`` or ``False`` to disable annotations.</span>
-<span class="s1">        Default ``&#39;SNP&#39;``.</span>
-<span class="s1">    chrom_label_side : {&#39;inside&#39;, &#39;outside&#39;}, optional</span>
-<span class="s1">        Radial position of chromosome labels.  ``&#39;inside&#39;`` places them just</span>
-<span class="s1">        inside the innermost track; ``&#39;outside&#39;`` places them beyond the</span>
-<span class="s1">        outermost track.  Default ``&#39;inside&#39;``.</span>
-<span class="s1">    signif_line : float, optional</span>
-<span class="s1">        Genome-wide significance threshold value for the orange-red dashed</span>
-<span class="s1">        line.  Default ``5e-8``.</span>
-<span class="s1">    highlight : bool, optional</span>
-<span class="s1">        Render significant-locus variants in brown.  Default ``False``.</span>
-<span class="s1">    highlight_thresh : float, optional</span>
-<span class="s1">        P-value threshold for locus highlighting.  Default ``5e-8``.</span>
-<span class="s1">    highight_color : str, optional</span>
-<span class="s1">        Color of highlighted positions when *highlight* is ``True``.</span>
-<span class="s1">        Default ``brown``.         </span>
-<span class="s1">    colors : list of str, optional</span>
-<span class="s1">        Two alternating chromosome colours.  Default ``[&#39;steelblue&#39;, &#39;grey&#39;]``.</span>
-<span class="s1">    chrom_label_size : float, optional</span>
-<span class="s1">        Chromosome label font size.  Default ``6``.</span>
-<span class="s1">    track_label_size : float, optional</span>
-<span class="s1">        Track (sumstat) label font size.  Default ``6``.</span>
-<span class="s1">    track_label_orientation : {&#39;vertical&#39;, &#39;horizontal&#39;}, optional</span>
-<span class="s1">        Track label text orientation.  Default ``&#39;vertical&#39;``.</span>
-<span class="s1">    hits_table : pandas.DataFrame, optional</span>
-<span class="s1">        Hits summary table from</span>
-<span class="s1">        :func:`~pycmplot.annotation.get_hits_summary_table`.  Required for</span>
-<span class="s1">        annotations (``annotate`` truthy and ``hits_table`` non-empty).</span>
-<span class="s1">    annotation_size : float, optional</span>
-<span class="s1">        Font size for annotation labels.  Default ``6``.</span>
-<span class="s1">    highlight_line : bool, optional</span>
-<span class="s1">        Draw a dashed radial line from the innermost track to the annotation</span>
-<span class="s1">        ring for each annotated position.  Default ``False``.</span>
-<span class="s1">    highight_line_color : str, optional</span>
-<span class="s1">        Color of highlight line when *highlight_line* is ``True``.</span>
-<span class="s1">    plot_title : str, optional</span>
-<span class="s1">        Text placed in the centre of the circle and used as the output</span>
-<span class="s1">        file-name stem.</span>
-<span class="s1">    plot_title_size : float, optional</span>
-<span class="s1">        Font size for the centre title.  Default ``12``.</span>
-<span class="s1">    dpi : int, optional</span>
-<span class="s1">        Output resolution in dots per inch.  Default ``300``.</span>
-<span class="s1">    output_format : str, optional</span>
-<span class="s1">        Image format (``&#39;png&#39;``, ``&#39;pdf&#39;``, ``&#39;svg&#39;``, ``&#39;jpg&#39;``).</span>
-<span class="s1">        Default ``&#39;png&#39;``.</span>
-<span class="s1">    output_dir : str or pathlib.Path, optional</span>
-<span class="s1">        Output directory.  Default ``&#39;.&#39;``.</span>
-<span class="s1">    no_track_labels : bool, optional</span>
-<span class="s1">        Suppress track labels on the spacer sector.  Default ``False``.</span>
+<span class="s2">    Parameters</span>
+<span class="s2">    ----------</span>
+<span class="s2">    sumstats_loaded : dict</span>
+<span class="s2">        Mapping of ``label → [DataFrame, n_chroms]`` as returned by</span>
+<span class="s2">        :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`.  One</span>
+<span class="s2">        radial track is created per key.  The outermost track corresponds to</span>
+<span class="s2">        the first key after reversal of the radii dict.</span>
+<span class="s2">    sector_sizes : dict, optional</span>
+<span class="s2">        Ordered mapping of ``chrom → [min_pos, max_pos]`` defining the arc</span>
+<span class="s2">        length of each chromosome sector.  The last key is expected to be</span>
+<span class="s2">        ``&#39;Spacer1&#39;`` (automatically added by</span>
+<span class="s2">        :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`).</span>
+<span class="s2">    signif_lines : list of dict, optional</span>
+<span class="s2">        One ``{&#39;genome&#39;: float, &#39;suggestive&#39;: float}`` dict per track in the</span>
+<span class="s2">        same order as *sumstats_loaded*, as returned by</span>
+<span class="s2">        :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`.</span>
+<span class="s2">    logp : bool, optional</span>
+<span class="s2">        Plot –log₁₀(p) radially.  Default ``False``.</span>
+<span class="s2">    pad : float, optional</span>
+<span class="s2">        Gap in radius units between consecutive tracks.  Default ``1``.</span>
+<span class="s2">    r_min : float, optional</span>
+<span class="s2">        Inner radius of the innermost track (as a percentage of the figure</span>
+<span class="s2">        radius).  Default ``0``.</span>
+<span class="s2">    r_max : float, optional</span>
+<span class="s2">        Outer radius of the outermost track.  Default ``100``.</span>
+<span class="s2">    annotate : {&#39;SNP&#39;, &#39;GENE&#39;} or falsy, optional</span>
+<span class="s2">        Annotation content for significant loci.  ``&#39;GENE&#39;`` uses</span>
+<span class="s2">        ``nearest_upstream_gene`` for genic hits and ``top_gene`` for</span>
+<span class="s2">        intergenic hits (italic text); ``&#39;SNP&#39;`` uses the ``SNP`` column</span>
+<span class="s2">        (regular text).  Pass ``None`` or ``False`` to disable annotations.</span>
+<span class="s2">        Default ``&#39;SNP&#39;``.</span>
+<span class="s2">    chrom_label_side : {&#39;inside&#39;, &#39;outside&#39;}, optional</span>
+<span class="s2">        Radial position of chromosome labels.  ``&#39;inside&#39;`` places them just</span>
+<span class="s2">        inside the innermost track; ``&#39;outside&#39;`` places them beyond the</span>
+<span class="s2">        outermost track.  Default ``&#39;inside&#39;``.</span>
+<span class="s2">    signif_line : float, optional</span>
+<span class="s2">        Genome-wide significance threshold value for the orange-red dashed</span>
+<span class="s2">        line.  Default ``5e-8``.</span>
+<span class="s2">    highlight : bool, optional</span>
+<span class="s2">        Render significant-locus variants in brown.  Default ``False``.</span>
+<span class="s2">    highlight_thresh : float, optional</span>
+<span class="s2">        P-value threshold for locus highlighting.  Default ``5e-8``.</span>
+<span class="s2">    highlight_color : str, optional</span>
+<span class="s2">        Color of highlighted positions when *highlight* is ``True``.</span>
+<span class="s2">        Default ``brown``.         </span>
+<span class="s2">    colors : list of str, optional</span>
+<span class="s2">        Two alternating chromosome colours.  Default ``[&#39;steelblue&#39;, &#39;grey&#39;]``.</span>
+<span class="s2">    chrom_label_size : float, optional</span>
+<span class="s2">        Chromosome label font size.  Default ``6``.</span>
+<span class="s2">    track_label_size : float, optional</span>
+<span class="s2">        Track (sumstat) label font size.  Default ``6``.</span>
+<span class="s2">    track_label_orientation : {&#39;vertical&#39;, &#39;horizontal&#39;}, optional</span>
+<span class="s2">        Track label text orientation.  Default ``&#39;vertical&#39;``.</span>
+<span class="s2">    hits_table : pandas.DataFrame, optional</span>
+<span class="s2">        Hits summary table from</span>
+<span class="s2">        :func:`~pycmplot.annotation.get_hits_summary_table`.  Required for</span>
+<span class="s2">        annotations (``annotate`` truthy and ``hits_table`` non-empty).</span>
+<span class="s2">    annotation_size : float, optional</span>
+<span class="s2">        Font size for annotation labels.  Default ``6``.</span>
+<span class="s2">    highlight_line : bool, optional</span>
+<span class="s2">        Draw a dashed radial line from the innermost track to the annotation</span>
+<span class="s2">        ring for each annotated position.  Default ``False``.</span>
+<span class="s2">    highlight_line_color : str, optional</span>
+<span class="s2">        Color of highlight line when *highlight_line* is ``True``.</span>
+<span class="s2">    plot_title : str, optional</span>
+<span class="s2">        Text placed in the centre of the circle and used as the output</span>
+<span class="s2">        file-name stem.</span>
+<span class="s2">    plot_title_size : float, optional</span>
+<span class="s2">        Font size for the centre title.  Default ``12``.</span>
+<span class="s2">    dpi : int, optional</span>
+<span class="s2">        Output resolution in dots per inch.  Default ``300``.</span>
+<span class="s2">    output_format : str, optional</span>
+<span class="s2">        Image format (``&#39;png&#39;``, ``&#39;pdf&#39;``, ``&#39;svg&#39;``, ``&#39;jpg&#39;``).</span>
+<span class="s2">        Default ``&#39;png&#39;``.</span>
+<span class="s2">    output_dir : str or pathlib.Path, optional</span>
+<span class="s2">        Output directory.  Default ``&#39;.&#39;``.</span>
+<span class="s2">    no_track_labels : bool, optional</span>
+<span class="s2">        Suppress track labels on the spacer sector.  Default ``False``.</span>
 
-<span class="s1">    Returns</span>
-<span class="s1">    -------</span>
-<span class="s1">    matplotlib.figure.Figure</span>
-<span class="s1">        The completed circular Manhattan figure (also saved to *output_dir*).</span>
+<span class="s2">    Returns</span>
+<span class="s2">    -------</span>
+<span class="s2">    matplotlib.figure.Figure</span>
+<span class="s2">        The completed circular Manhattan figure (also saved to *output_dir*).</span>
 
-<span class="s1">    See Also</span>
-<span class="s1">    --------</span>
-<span class="s1">    plot_circular is the circular counterpart to</span>
-<span class="s1">    :func:`pycmplot.plotting.linear.plot_linear`.</span>
+<span class="s2">    See Also</span>
+<span class="s2">    --------</span>
+<span class="s2">    plot_circular is the circular counterpart to</span>
+<span class="s2">    :func:`pycmplot.plotting.linear.plot_linear`.</span>
 
-<span class="s1">    compute_track_radii_dict :</span>
-<span class="s1">        Computes the ``(r_start, r_end)`` limits for each track.</span>
-<span class="s1">    plot_circosm :</span>
-<span class="s1">        Per-sector rendering function called inside the main loop.</span>
-<span class="s1">    pycmplot.io.get_sumstats_and_merged_sector_list :</span>
-<span class="s1">        Produces *sumstats_loaded*, *sector_sizes*, and *signif_lines*.</span>
+<span class="s2">    compute_track_radii_dict :</span>
+<span class="s2">        Computes the ``(r_start, r_end)`` limits for each track.</span>
+<span class="s2">    plot_circosm :</span>
+<span class="s2">        Per-sector rendering function called inside the main loop.</span>
+<span class="s2">    pycmplot.io.get_sumstats_and_merged_sector_list :</span>
+<span class="s2">        Produces *sumstats_loaded*, *sector_sizes*, and *signif_lines*.</span>
 
-<span class="s1">    Examples</span>
-<span class="s1">    --------</span>
-<span class="s1">    &gt;&gt;&gt; from pycmplot.plotting.circular import plot_circular</span>
-<span class="s1">    &gt;&gt;&gt; fig = plot_circular(</span>
-<span class="s1">    ...     sumstats_loaded=loaded,</span>
-<span class="s1">    ...     sector_sizes=sectors,</span>
-<span class="s1">    ...     signif_lines=sig_lines,</span>
-<span class="s1">    ...     logp=True,</span>
-<span class="s1">    ...     highlight=True,</span>
-<span class="s1">    ...     annotate=&quot;GENE&quot;,</span>
-<span class="s1">    ...     hits_table=hits,</span>
-<span class="s1">    ...     plot_title=&quot;RBC_Traits&quot;,</span>
-<span class="s1">    ...     output_dir=&quot;./results&quot;,</span>
-<span class="s1">    ... )</span>
-<span class="s1">    &quot;&quot;&quot;&#39;&#39;&#39;</span>
+<span class="s2">    Examples</span>
+<span class="s2">    --------</span>
+<span class="s2">    &gt;&gt;&gt; from pycmplot.plotting.circular import plot_circular</span>
+<span class="s2">    &gt;&gt;&gt; fig = plot_circular(</span>
+<span class="s2">    ...     sumstats_loaded=loaded,</span>
+<span class="s2">    ...     sector_sizes=sectors,</span>
+<span class="s2">    ...     signif_lines=sig_lines,</span>
+<span class="s2">    ...     logp=True,</span>
+<span class="s2">    ...     highlight=True,</span>
+<span class="s2">    ...     annotate=&quot;GENE&quot;,</span>
+<span class="s2">    ...     hits_table=hits,</span>
+<span class="s2">    ...     plot_title=&quot;RBC_Traits&quot;,</span>
+<span class="s2">    ...     output_dir=&quot;./results&quot;,</span>
+<span class="s2">    ... )</span>
+<span class="s2">    &quot;&quot;&quot;</span>
 
     <span class="kn">from</span><span class="w"> </span><span class="nn">pycirclize</span><span class="w"> </span><span class="kn">import</span> <span class="n">Circos</span>
 
@@ -752,7 +764,7 @@
     <span class="n">radii_reversed</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">radii</span><span class="o">.</span><span class="n">items</span><span class="p">())))</span>
 
     <span class="n">inside_loc</span>  <span class="o">=</span> <span class="n">r_min</span> <span class="o">-</span> <span class="mi">3</span>
-    <span class="n">outside_loc</span> <span class="o">=</span> <span class="mi">101</span>
+    <span class="n">outside_loc</span> <span class="o">=</span> <span class="mi">105</span>
     <span class="n">chrom_label_loc</span> <span class="o">=</span> <span class="n">outside_loc</span> <span class="k">if</span> <span class="n">chrom_label_side</span> <span class="o">==</span> <span class="s2">&quot;outside&quot;</span> <span class="k">else</span> <span class="n">inside_loc</span>
 
     <span class="k">if</span> <span class="n">annotate</span><span class="p">:</span>
@@ -775,11 +787,9 @@
 
         <span class="n">sig_thresh</span> <span class="o">=</span> <span class="n">signif_dict</span><span class="p">[</span><span class="s2">&quot;genome&quot;</span><span class="p">]</span>
         <span class="n">sug_thresh</span> <span class="o">=</span> <span class="n">signif_dict</span><span class="p">[</span><span class="s2">&quot;suggestive&quot;</span><span class="p">]</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SIGNIFICANCE THRESHOLD: </span><span class="si">{</span><span class="n">sig_thresh</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SUGGESTIVE THRESHOLD: </span><span class="si">{</span><span class="n">sug_thresh</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-        <span class="c1">#if logp:</span>
-        <span class="c1">#    assoc[&quot;logP&quot;] = assoc[&quot;logP&quot;].dropna()</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Plotting : </span><span class="si">{</span><span class="n">sumstat_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="c1">#logger.info(f&quot;SUGGESTIVE THRESHOLD: {sug_thresh}&quot;)</span>
 
         <span class="k">for</span> <span class="n">sector</span> <span class="ow">in</span> <span class="n">circos</span><span class="o">.</span><span class="n">sectors</span><span class="p">:</span>
             <span class="n">plot_circosm</span><span class="p">(</span>
@@ -801,7 +811,7 @@
                 <span class="n">suggest_threshold</span><span class="o">=</span><span class="n">sug_thresh</span><span class="p">,</span>
                 <span class="n">highlight</span><span class="o">=</span><span class="n">highlight</span><span class="p">,</span>
                 <span class="n">highlight_thresh</span><span class="o">=</span><span class="n">highlight_thresh</span><span class="p">,</span>
-                <span class="n">highight_color</span><span class="o">=</span><span class="n">highight_color</span><span class="p">,</span>
+                <span class="n">highlight_color</span><span class="o">=</span><span class="n">highlight_color</span><span class="p">,</span>
                 <span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span>
                 <span class="n">no_track_labels</span><span class="o">=</span><span class="n">no_track_labels</span>
             <span class="p">)</span>
@@ -811,16 +821,24 @@
     <span class="c1"># ------------------------------------------------------------------</span>
     <span class="k">if</span> <span class="n">annotate</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">hits_table</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">hits_table</span><span class="o">.</span><span class="n">iterrows</span><span class="p">()):</span>
-            <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">annotate</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;GENE&quot;</span><span class="p">:</span>
-                <span class="n">label</span>  <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;SNP&quot;</span><span class="p">]</span>
-                <span class="n">fstyle</span> <span class="o">=</span> <span class="s2">&quot;normal&quot;</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;genic&quot;</span><span class="p">]:</span>
-                    <span class="n">label</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;nearest_upstream_gene&quot;</span><span class="p">]</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">label</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;top_gene&quot;</span><span class="p">]</span>
-                <span class="n">fstyle</span> <span class="o">=</span> <span class="s2">&quot;italic&quot;</span>
-
+            <span class="n">label</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;SNP&#39;</span><span class="p">]</span>
+            <span class="n">fstyle</span> <span class="o">=</span> <span class="s2">&quot;normal&quot;</span> 
+            <span class="k">if</span> <span class="n">label_col</span><span class="p">:</span>
+                <span class="n">label_col</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">label_col</span><span class="p">)</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">label_col</span> <span class="o">==</span> <span class="s2">&quot;GENE&quot;</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;genic&quot;</span><span class="p">]:</span>
+                            <span class="n">label</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;nearest_upstream_gene&quot;</span><span class="p">]</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">label</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;top_gene&quot;</span><span class="p">]</span>
+                            <span class="n">fstyle</span> <span class="o">=</span> <span class="s2">&quot;italic&quot;</span>                       
+                    <span class="k">elif</span> <span class="n">label_col</span> <span class="o">!=</span> <span class="s2">&quot;SNP&quot;</span><span class="p">:</span>
+                        <span class="n">label</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="n">label_col</span><span class="p">]</span>
+                        <span class="n">fstyle</span> <span class="o">=</span> <span class="s2">&quot;italic&quot;</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;&#39;SNP&#39; column is used for annotation since &#39;</span><span class="si">%s</span><span class="s2">&#39; column could not be resolved in hits table.&quot;</span><span class="p">,</span> <span class="n">label_col</span><span class="p">)</span>
+                    <span class="k">pass</span>                
+            
             <span class="k">for</span> <span class="n">sector</span> <span class="ow">in</span> <span class="n">circos</span><span class="o">.</span><span class="n">sectors</span><span class="p">:</span>
                 <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">])</span> <span class="o">==</span> <span class="n">sector</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
                     <span class="n">a_track</span> <span class="o">=</span> <span class="n">sector</span><span class="o">.</span><span class="n">add_track</span><span class="p">(</span><span class="n">annotation_track_radius</span><span class="p">)</span>
@@ -848,15 +866,15 @@
                     <span class="p">)</span>
 
                     <span class="k">if</span> <span class="n">highlight_line</span><span class="p">:</span>
-                        <span class="k">if</span> <span class="ow">not</span> <span class="n">highight_line_color</span><span class="p">:</span>
-                            <span class="n">highight_line_color</span> <span class="o">=</span> <span class="s1">&#39;grey&#39;</span>
+                        <span class="k">if</span> <span class="ow">not</span> <span class="n">highlight_line_color</span><span class="p">:</span>
+                            <span class="n">highlight_line_color</span> <span class="o">=</span> <span class="s1">&#39;grey&#39;</span>
                         <span class="n">sector_rlim</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">r_lim</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">sector</span><span class="o">.</span><span class="n">tracks</span><span class="p">]</span>
                         <span class="n">sector_min_r</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">sector_rlim</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
                         <span class="n">sector</span><span class="o">.</span><span class="n">line</span><span class="p">(</span>
                             <span class="n">r</span><span class="o">=</span><span class="p">[</span><span class="n">sector_min_r</span><span class="p">,</span> <span class="n">r_low</span><span class="p">],</span>
                             <span class="n">start</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span>
                             <span class="n">end</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span>
-                            <span class="n">color</span><span class="o">=</span><span class="n">highight_line_color</span><span class="p">,</span>
+                            <span class="n">color</span><span class="o">=</span><span class="n">highlight_line_color</span><span class="p">,</span>
                             <span class="n">lw</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
                             <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span>
                         <span class="p">)</span>

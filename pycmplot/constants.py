@@ -1,4 +1,4 @@
-CONSTANTS_MODULE = '''"""
+CONSTANTS_MODULE = """
 pycmplot.constants
 ==================
 
@@ -27,7 +27,7 @@ Notes
 ``hg38_chr_lengths`` reflects the GRCh38 primary assembly (GCA_000001405).
 Values may differ slightly from builds that include alternate contigs or
 patches.
-"""'''
+"""
 
 # ---------------------------------------------------------------------------
 # hg38 chromosome lengths (GRCh38)

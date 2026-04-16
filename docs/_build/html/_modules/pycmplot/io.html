@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pycmplot.io &mdash; pycmplot 0.1.9 documentation</title>
+  <title>pycmplot.io &mdash; pycmplot 0.2.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=8618f531"></script>
+      <script src="../../_static/documentation_options.js?v=37f418d5"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -142,9 +142,18 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Version 0.1.8 (2026-04-14)</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Version 0.2.1 (2026-04-16)</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../changelog.html#added">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#changed">Changed</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html#version-0-1-9-2026-04-14">Version 0.1.9 (2026-04-14)</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../changelog.html#fixed">Fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html#version-0-1-8-2026-04-14">Version 0.1.8 (2026-04-14)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id1">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id3">Fixed</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../changelog.html#changelog">Changelog</a><ul>
@@ -189,28 +198,28 @@
   <h1>Source code for pycmplot.io</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="n">MODULE_DOCSTRING</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;&quot;&quot;&quot;</span>
-<span class="s1">pycmplot.io</span>
-<span class="s1">===========</span>
+<span class="n">MODULE_DOCSTRING</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">pycmplot.io</span>
+<span class="s2">===========</span>
 
-<span class="s1">Functions for loading, validating, and pre-processing GWAS summary statistics</span>
-<span class="s1">files.  Handles delimiter auto-detection (whitespace, tab, comma), gzip</span>
-<span class="s1">decompression, and resolution of column-name variants to the canonical set</span>
-<span class="s1">used throughout the package.</span>
+<span class="s2">Functions for loading, validating, and pre-processing GWAS summary statistics</span>
+<span class="s2">files.  Handles delimiter auto-detection (whitespace, tab, comma), gzip</span>
+<span class="s2">decompression, and resolution of column-name variants to the canonical set</span>
+<span class="s2">used throughout the package.</span>
 
-<span class="s1">The primary entry point for the plotting pipeline is</span>
-<span class="s1">:func:`get_sumstats_and_merged_sector_list`, which loads all tracks, runs</span>
-<span class="s1">coordinate liftover when needed, extracts lead SNPs, generates the hits</span>
-<span class="s1">summary table, and computes the merged Circos sector-size dictionary — all</span>
-<span class="s1">in a single call.</span>
+<span class="s2">The primary entry point for the plotting pipeline is</span>
+<span class="s2">:func:`get_sumstats_and_merged_sector_list`, which loads all tracks, runs</span>
+<span class="s2">coordinate liftover when needed, extracts lead SNPs, generates the hits</span>
+<span class="s2">summary table, and computes the merged Circos sector-size dictionary — all</span>
+<span class="s2">in a single call.</span>
 
-<span class="s1">Notes</span>
-<span class="s1">-----</span>
-<span class="s1">This module is called automatically by the command-line entry point and by</span>
-<span class="s1">:func:`pycmplot._core.main`; most users will not need to import it directly.</span>
-<span class="s1">It is documented here for users who wish to load and pre-process summary</span>
-<span class="s1">statistics programmatically before passing them to the plotting functions.</span>
-<span class="s1">&quot;&quot;&quot;&#39;&#39;&#39;</span>
+<span class="s2">Notes</span>
+<span class="s2">-----</span>
+<span class="s2">This module is called automatically by the command-line entry point and by</span>
+<span class="s2">:func:`pycmplot._core.main`; most users will not need to import it directly.</span>
+<span class="s2">It is documented here for users who wish to load and pre-process summary</span>
+<span class="s2">statistics programmatically before passing them to the plotting functions.</span>
+<span class="s2">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">csv</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">gzip</span>
@@ -239,28 +248,28 @@
 <div class="viewcode-block" id="smart_open">
 <a class="viewcode-back" href="../../api/io.html#pycmplot.io.smart_open">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">smart_open</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-    <span class="n">SMART_OPEN</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;&quot;&quot;&quot;Open a plain-text or gzip-compressed file transparently.</span>
+    <span class="n">SMART_OPEN</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Open a plain-text or gzip-compressed file transparently.</span>
 
-<span class="s1">    Detects gzip compression from the ``.gz`` file suffix; all other paths are</span>
-<span class="s1">    opened as plain text.</span>
+<span class="s2">    Detects gzip compression from the ``.gz`` file suffix; all other paths are</span>
+<span class="s2">    opened as plain text.</span>
 
-<span class="s1">    Parameters</span>
-<span class="s1">    ----------</span>
-<span class="s1">    file_path : str or pathlib.Path</span>
-<span class="s1">        Path to the file to open.</span>
+<span class="s2">    Parameters</span>
+<span class="s2">    ----------</span>
+<span class="s2">    file_path : str or pathlib.Path</span>
+<span class="s2">        Path to the file to open.</span>
 
-<span class="s1">    Returns</span>
-<span class="s1">    -------</span>
-<span class="s1">    io.TextIOWrapper or gzip.GzipFile</span>
-<span class="s1">        An open, readable text-mode file object.  Must be used as a context</span>
-<span class="s1">        manager (``with smart_open(...) as f: ...``).</span>
+<span class="s2">    Returns</span>
+<span class="s2">    -------</span>
+<span class="s2">    io.TextIOWrapper or gzip.GzipFile</span>
+<span class="s2">        An open, readable text-mode file object.  Must be used as a context</span>
+<span class="s2">        manager (``with smart_open(...) as f: ...``).</span>
 
-<span class="s1">    Examples</span>
-<span class="s1">    --------</span>
-<span class="s1">    &gt;&gt;&gt; from pycmplot.io import smart_open</span>
-<span class="s1">    &gt;&gt;&gt; with smart_open(&quot;HbF.tsv.gz&quot;) as f:</span>
-<span class="s1">    ...     header = f.readline()</span>
-<span class="s1">    &quot;&quot;&quot;&#39;&#39;&#39;</span>
+<span class="s2">    Examples</span>
+<span class="s2">    --------</span>
+<span class="s2">    &gt;&gt;&gt; from pycmplot.io import smart_open</span>
+<span class="s2">    &gt;&gt;&gt; with smart_open(&quot;HbF.tsv.gz&quot;) as f:</span>
+<span class="s2">    ...     header = f.readline()</span>
+<span class="s2">    &quot;&quot;&quot;</span>
 
     <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">suffix</span> <span class="o">==</span> <span class="s2">&quot;.gz&quot;</span><span class="p">:</span>
@@ -272,35 +281,35 @@
 <div class="viewcode-block" id="resolve_delimiter">
 <a class="viewcode-back" href="../../api/io.html#pycmplot.io.resolve_delimiter">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">resolve_delimiter</span><span class="p">(</span><span class="n">delim</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="n">RESOLVE_DELIMITER</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;&quot;&quot;&quot;Map a human-readable delimiter name to its single-character representation.</span>
+    <span class="n">RESOLVE_DELIMITER</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Map a human-readable delimiter name to its single-character representation.</span>
 
-<span class="s1">    Parameters</span>
-<span class="s1">    ----------</span>
-<span class="s1">    delim : str</span>
-<span class="s1">        A delimiter name — one of ``&#39;space&#39;``, ``&#39;tab&#39;``, ``&#39;comma&#39;``,</span>
-<span class="s1">        ``&#39;colon&#39;``, ``&#39;semi-colon&#39;``, ``&#39;semicolon&#39;`` — or a single bare</span>
-<span class="s1">        character (e.g. ``&#39;|&#39;``).  Matching is case-insensitive.</span>
+<span class="s2">    Parameters</span>
+<span class="s2">    ----------</span>
+<span class="s2">    delim : str</span>
+<span class="s2">        A delimiter name — one of ``&#39;space&#39;``, ``&#39;tab&#39;``, ``&#39;comma&#39;``,</span>
+<span class="s2">        ``&#39;colon&#39;``, ``&#39;semi-colon&#39;``, ``&#39;semicolon&#39;`` — or a single bare</span>
+<span class="s2">        character (e.g. ``&#39;|&#39;``).  Matching is case-insensitive.</span>
 
-<span class="s1">    Returns</span>
-<span class="s1">    -------</span>
-<span class="s1">    str</span>
-<span class="s1">        The corresponding single-character separator string.</span>
+<span class="s2">    Returns</span>
+<span class="s2">    -------</span>
+<span class="s2">    str</span>
+<span class="s2">        The corresponding single-character separator string.</span>
 
-<span class="s1">    Raises</span>
-<span class="s1">    ------</span>
-<span class="s1">    TypeError</span>
-<span class="s1">        If *delim* is not a string.</span>
-<span class="s1">    ValueError</span>
-<span class="s1">        If *delim* is neither a recognised name nor a single character.</span>
+<span class="s2">    Raises</span>
+<span class="s2">    ------</span>
+<span class="s2">    TypeError</span>
+<span class="s2">        If *delim* is not a string.</span>
+<span class="s2">    ValueError</span>
+<span class="s2">        If *delim* is neither a recognised name nor a single character.</span>
 
-<span class="s1">    Examples</span>
-<span class="s1">    --------</span>
-<span class="s1">    &gt;&gt;&gt; from pycmplot.io import resolve_delimiter</span>
-<span class="s1">    &gt;&gt;&gt; resolve_delimiter(&quot;tab&quot;)</span>
-<span class="s1">    &#39;</span><span class="se">\\</span><span class="s1">t&#39;</span>
-<span class="s1">    &gt;&gt;&gt; resolve_delimiter(&quot;,&quot;)</span>
-<span class="s1">    &#39;,&#39;</span>
-<span class="s1">    &quot;&quot;&quot;&#39;&#39;&#39;</span>
+<span class="s2">    Examples</span>
+<span class="s2">    --------</span>
+<span class="s2">    &gt;&gt;&gt; from pycmplot.io import resolve_delimiter</span>
+<span class="s2">    &gt;&gt;&gt; resolve_delimiter(&quot;tab&quot;)</span>
+<span class="s2">    &#39;</span><span class="se">\\</span><span class="s2">t&#39;</span>
+<span class="s2">    &gt;&gt;&gt; resolve_delimiter(&quot;,&quot;)</span>
+<span class="s2">    &#39;,&#39;</span>
+<span class="s2">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">delim</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Delimiter must be a string.&quot;</span><span class="p">)</span>
@@ -328,37 +337,37 @@
 <div class="viewcode-block" id="detect_delimiter">
 <a class="viewcode-back" href="../../api/io.html#pycmplot.io.detect_delimiter">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">detect_delimiter</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">sample_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5_000</span><span class="p">):</span>
-    <span class="n">DETECT_DELIMITER</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;&quot;&quot;&quot;Infer the field delimiter of a summary statistics file automatically.</span>
+    <span class="n">DETECT_DELIMITER</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Infer the field delimiter of a summary statistics file automatically.</span>
 
-<span class="s1">    Reads the first *sample_size* bytes of *file_path* and passes the content</span>
-<span class="s1">    to :class:`csv.Sniffer`.  Falls back to a character-frequency heuristic</span>
-<span class="s1">    (testing ``&#39;,&#39;``, ``&#39;</span><span class="se">\\</span><span class="s1">t&#39;``, ``&#39; &#39;``, ``&#39;;&#39;``, ``&#39;|&#39;``) if</span>
-<span class="s1">    :class:`csv.Sniffer` raises :class:`csv.Error`.</span>
+<span class="s2">    Reads the first *sample_size* bytes of *file_path* and passes the content</span>
+<span class="s2">    to :class:`csv.Sniffer`.  Falls back to a character-frequency heuristic</span>
+<span class="s2">    (testing ``&#39;,&#39;``, ``&#39;</span><span class="se">\\</span><span class="s2">t&#39;``, ``&#39; &#39;``, ``&#39;;&#39;``, ``&#39;|&#39;``) if</span>
+<span class="s2">    :class:`csv.Sniffer` raises :class:`csv.Error`.</span>
 
-<span class="s1">    Parameters</span>
-<span class="s1">    ----------</span>
-<span class="s1">    file_path : str or pathlib.Path</span>
-<span class="s1">        Path to the summary statistics file.  Gzip-compressed files (``.gz``)</span>
-<span class="s1">        are supported transparently via :func:`smart_open`.</span>
-<span class="s1">    sample_size : int, optional</span>
-<span class="s1">        Number of bytes to read for delimiter detection.  Default is ``5000``.</span>
+<span class="s2">    Parameters</span>
+<span class="s2">    ----------</span>
+<span class="s2">    file_path : str or pathlib.Path</span>
+<span class="s2">        Path to the summary statistics file.  Gzip-compressed files (``.gz``)</span>
+<span class="s2">        are supported transparently via :func:`smart_open`.</span>
+<span class="s2">    sample_size : int, optional</span>
+<span class="s2">        Number of bytes to read for delimiter detection.  Default is ``5000``.</span>
 
-<span class="s1">    Returns</span>
-<span class="s1">    -------</span>
-<span class="s1">    delimiter : str</span>
-<span class="s1">        The inferred single-character field separator (e.g. ``&#39;</span><span class="se">\\</span><span class="s1">t&#39;``,</span>
-<span class="s1">        ``&#39;,&#39;``, ``&#39; &#39;``).</span>
-<span class="s1">    dialect : csv.Dialect or None</span>
-<span class="s1">        The :class:`csv.Dialect` object returned by :class:`csv.Sniffer`, or</span>
-<span class="s1">        ``None`` when the fallback heuristic was used.</span>
+<span class="s2">    Returns</span>
+<span class="s2">    -------</span>
+<span class="s2">    delimiter : str</span>
+<span class="s2">        The inferred single-character field separator (e.g. ``&#39;</span><span class="se">\\</span><span class="s2">t&#39;``,</span>
+<span class="s2">        ``&#39;,&#39;``, ``&#39; &#39;``).</span>
+<span class="s2">    dialect : csv.Dialect or None</span>
+<span class="s2">        The :class:`csv.Dialect` object returned by :class:`csv.Sniffer`, or</span>
+<span class="s2">        ``None`` when the fallback heuristic was used.</span>
 
-<span class="s1">    Examples</span>
-<span class="s1">    --------</span>
-<span class="s1">    &gt;&gt;&gt; from pycmplot.io import detect_delimiter</span>
-<span class="s1">    &gt;&gt;&gt; delim, dialect = detect_delimiter(&quot;HbF.tsv.gz&quot;)</span>
-<span class="s1">    &gt;&gt;&gt; delim</span>
-<span class="s1">    &#39;</span><span class="se">\\</span><span class="s1">t&#39;</span>
-<span class="s1">    &quot;&quot;&quot;&#39;&#39;&#39;</span>
+<span class="s2">    Examples</span>
+<span class="s2">    --------</span>
+<span class="s2">    &gt;&gt;&gt; from pycmplot.io import detect_delimiter</span>
+<span class="s2">    &gt;&gt;&gt; delim, dialect = detect_delimiter(&quot;HbF.tsv.gz&quot;)</span>
+<span class="s2">    &gt;&gt;&gt; delim</span>
+<span class="s2">    &#39;</span><span class="se">\\</span><span class="s2">t&#39;</span>
+<span class="s2">    &quot;&quot;&quot;</span>
 
     <span class="k">with</span> <span class="n">smart_open</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="n">sample</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">sample_size</span><span class="p">)</span>
@@ -387,38 +396,38 @@
     <span class="n">delim</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">dialect</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-    <span class="n">GET_FILE_HEADER</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;&quot;&quot;&quot;Read and return the column names from the header line of a file.</span>
+    <span class="n">GET_FILE_HEADER</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Read and return the column names from the header line of a file.</span>
 
-<span class="s1">    Opens *file_path*, reads the first row using :class:`csv.DictReader`</span>
-<span class="s1">    configured with the supplied delimiter or dialect, and returns the field</span>
-<span class="s1">    names as an ordered list of strings.</span>
+<span class="s2">    Opens *file_path*, reads the first row using :class:`csv.DictReader`</span>
+<span class="s2">    configured with the supplied delimiter or dialect, and returns the field</span>
+<span class="s2">    names as an ordered list of strings.</span>
 
-<span class="s1">    Parameters</span>
-<span class="s1">    ----------</span>
-<span class="s1">    file_path : str or pathlib.Path</span>
-<span class="s1">        Path to the summary statistics file (plain text or ``.gz``).</span>
-<span class="s1">    delim : str, optional</span>
-<span class="s1">        Field separator character (e.g. ``&#39;</span><span class="se">\\</span><span class="s1">t&#39;``).  Takes priority over</span>
-<span class="s1">        *dialect* when both are provided.</span>
-<span class="s1">    dialect : csv.Dialect, optional</span>
-<span class="s1">        A :class:`csv.Dialect` object (e.g. as returned by</span>
-<span class="s1">        :func:`detect_delimiter`).  Used only when *delim* is ``None``.</span>
+<span class="s2">    Parameters</span>
+<span class="s2">    ----------</span>
+<span class="s2">    file_path : str or pathlib.Path</span>
+<span class="s2">        Path to the summary statistics file (plain text or ``.gz``).</span>
+<span class="s2">    delim : str, optional</span>
+<span class="s2">        Field separator character (e.g. ``&#39;</span><span class="se">\\</span><span class="s2">t&#39;``).  Takes priority over</span>
+<span class="s2">        *dialect* when both are provided.</span>
+<span class="s2">    dialect : csv.Dialect, optional</span>
+<span class="s2">        A :class:`csv.Dialect` object (e.g. as returned by</span>
+<span class="s2">        :func:`detect_delimiter`).  Used only when *delim* is ``None``.</span>
 
-<span class="s1">    Returns</span>
-<span class="s1">    -------</span>
-<span class="s1">    list of str</span>
-<span class="s1">        Ordered list of column names exactly as they appear in the file header.</span>
-<span class="s1">        Returns an empty list and logs a warning if the header cannot be</span>
-<span class="s1">        determined.</span>
+<span class="s2">    Returns</span>
+<span class="s2">    -------</span>
+<span class="s2">    list of str</span>
+<span class="s2">        Ordered list of column names exactly as they appear in the file header.</span>
+<span class="s2">        Returns an empty list and logs a warning if the header cannot be</span>
+<span class="s2">        determined.</span>
 
-<span class="s1">    Examples</span>
-<span class="s1">    --------</span>
-<span class="s1">    &gt;&gt;&gt; from pycmplot.io import detect_delimiter, get_file_header</span>
-<span class="s1">    &gt;&gt;&gt; delim, dialect = detect_delimiter(&quot;HbF.tsv.gz&quot;)</span>
-<span class="s1">    &gt;&gt;&gt; header = get_file_header(&quot;HbF.tsv.gz&quot;, delim=delim)</span>
-<span class="s1">    &gt;&gt;&gt; header[:4]</span>
-<span class="s1">    [&#39;CHR&#39;, &#39;POS&#39;, &#39;SNP&#39;, &#39;P&#39;]</span>
-<span class="s1">    &quot;&quot;&quot;&#39;&#39;&#39;</span>
+<span class="s2">    Examples</span>
+<span class="s2">    --------</span>
+<span class="s2">    &gt;&gt;&gt; from pycmplot.io import detect_delimiter, get_file_header</span>
+<span class="s2">    &gt;&gt;&gt; delim, dialect = detect_delimiter(&quot;HbF.tsv.gz&quot;)</span>
+<span class="s2">    &gt;&gt;&gt; header = get_file_header(&quot;HbF.tsv.gz&quot;, delim=delim)</span>
+<span class="s2">    &gt;&gt;&gt; header[:4]</span>
+<span class="s2">    [&#39;CHR&#39;, &#39;POS&#39;, &#39;SNP&#39;, &#39;P&#39;]</span>
+<span class="s2">    &quot;&quot;&quot;</span>
 
     <span class="k">with</span> <span class="n">smart_open</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
@@ -446,43 +455,61 @@
     <span class="n">labels</span><span class="p">,</span>
     <span class="n">colors_raw</span> <span class="o">=</span> <span class="s1">&#39;steelblue,grey&#39;</span><span class="p">,</span>
     <span class="n">track_heights</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">builds</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">):</span>
-    <span class="n">STRIP_COMMA</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;&quot;&quot;&quot;Parse comma-separated CLI strings into Python lists.</span>
+    <span class="n">STRIP_COMMA</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Parse comma-separated CLI strings into Python lists.</span>
 
-<span class="s1">    Converts the raw string arguments produced by ``argparse`` (e.g.</span>
-<span class="s1">    ``&quot;HbF.tsv.gz,MCV.txt.gz,MCH.tsv.gz&quot;``) into the lists expected by the</span>
-<span class="s1">    rest of the API.  Validates that *sum_stats* and *labels* have the same</span>
-<span class="s1">    number of elements.</span>
+<span class="s2">    Converts the raw string arguments produced by ``argparse`` (e.g.</span>
+<span class="s2">    ``&quot;HbF.tsv.gz,MCV.txt.gz,MCH.tsv.gz&quot;``) into the lists expected by the</span>
+<span class="s2">    rest of the API.  Validates that *sum_stats* and *labels* have the same</span>
+<span class="s2">    number of elements.</span>
 
-<span class="s1">    Parameters</span>
-<span class="s1">    ----------</span>
-<span class="s1">    sum_stats : str</span>
-<span class="s1">        Comma-separated list of summary statistics file paths.</span>
-<span class="s1">    labels : str</span>
-<span class="s1">        Comma-separated list of track labels.  Must contain the same number</span>
-<span class="s1">        of elements as *sum_stats*.</span>
-<span class="s1">    colors_raw : str, optional</span>
-<span class="s1">        Comma-separated list of matplotlib colour strings, one per track.</span>
-<span class="s1">        Default is ``&#39;steelblue,grey&#39;``.</span>
-<span class="s1">    track_heights : str, optional</span>
-<span class="s1">        Comma-separated list of relative track heights (floats), one per track.</span>
+<span class="s2">    Parameters</span>
+<span class="s2">    ----------</span>
+<span class="s2">    sum_stats : str</span>
+<span class="s2">        Comma-separated list of summary statistics file paths.</span>
+<span class="s2">    labels : str</span>
+<span class="s2">        Comma-separated list of track labels.  Must contain the same number</span>
+<span class="s2">        of elements as *sum_stats*.</span>
+<span class="s2">    colors_raw : str, optional</span>
+<span class="s2">        Comma-separated list of matplotlib colour strings, one per track.</span>
+<span class="s2">        Default is ``&#39;steelblue,grey&#39;``.</span>
+<span class="s2">    track_heights : str, optional</span>
+<span class="s2">        Comma-separated list of relative track heights (floats), one per track.</span>
 
-<span class="s1">    Returns</span>
-<span class="s1">    -------</span>
-<span class="s1">    sum_stats : list of str</span>
-<span class="s1">        Parsed file paths, whitespace-stripped.</span>
-<span class="s1">    labels : list of str</span>
-<span class="s1">        Parsed track labels, whitespace-stripped.</span>
-<span class="s1">    colors : list of str</span>
-<span class="s1">        Parsed colour strings, whitespace-stripped.</span>
-<span class="s1">    t_heights : list of float</span>
-<span class="s1">        Parsed track heights converted to ``float``.</span>
+<span class="s2">    Returns</span>
+<span class="s2">    -------</span>
+<span class="s2">    sum_stats : list of str</span>
+<span class="s2">        Parsed file paths, whitespace-stripped.</span>
+<span class="s2">    labels : list of str</span>
+<span class="s2">        Parsed track labels, whitespace-stripped.</span>
+<span class="s2">    colors : list of str</span>
+<span class="s2">        Parsed colour strings, whitespace-stripped.</span>
+<span class="s2">    t_heights : list of float</span>
+<span class="s2">        Parsed track heights converted to ``float``.</span>
 
-<span class="s1">    Raises</span>
-<span class="s1">    ------</span>
-<span class="s1">    SystemExit</span>
-<span class="s1">        If *sum_stats* and *labels* have different numbers of elements.</span>
-<span class="s1">    &quot;&quot;&quot;&#39;&#39;&#39;</span>
+<span class="s2">    Raises</span>
+<span class="s2">    ------</span>
+<span class="s2">    SystemExit</span>
+<span class="s2">        If *sum_stats* and *labels* have different numbers of elements.</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="c1"># Sumstat, labels str to list</span>
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="n">labels</span>     <span class="o">=</span> <span class="p">[</span><span class="n">lbl</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">lbl</span> <span class="ow">in</span> <span class="n">labels</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)]</span>
+    
+    <span class="n">sum_stats</span>  <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">sum_stats</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)]</span>
+
+    <span class="k">if</span> <span class="n">builds</span><span class="p">:</span>
+        <span class="n">builds</span>  <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">builds</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sum_stats</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">builds</span><span class="p">):</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span>
+                <span class="s2">&quot;Error: number of summary stats files, labels, and builds must match.</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;  Files:  </span><span class="si">{</span><span class="n">sum_stats</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;  Labels: </span><span class="si">{</span><span class="n">labels</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;  Builds: </span><span class="si">{</span><span class="n">builds</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sum_stats</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">):</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span>
@@ -492,13 +519,6 @@
         <span class="p">)</span>
 
     <span class="c1"># ------------------------------------------------------------------</span>
-    <span class="c1"># Sumstat, labels str to list</span>
-    <span class="c1"># ------------------------------------------------------------------</span>
-    <span class="n">labels</span>     <span class="o">=</span> <span class="p">[</span><span class="n">lbl</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">lbl</span> <span class="ow">in</span> <span class="n">labels</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)]</span>
-    
-    <span class="n">sum_stats</span>  <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">sum_stats</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)]</span>
-
-    <span class="c1"># ------------------------------------------------------------------</span>
     <span class="c1"># Colours str to list</span>
     <span class="c1"># ------------------------------------------------------------------</span>
     <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">colors_raw</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)]</span>
@@ -506,9 +526,12 @@
     <span class="c1"># ------------------------------------------------------------------</span>
     <span class="c1"># Linear track heights str to list</span>
     <span class="c1"># ------------------------------------------------------------------</span>
-    <span class="n">t_heights</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">track_heights</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)]</span>
+    <span class="k">if</span> <span class="n">track_heights</span><span class="p">:</span>
+        <span class="n">t_heights</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">track_heights</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">t_heights</span> <span class="o">=</span> <span class="kc">None</span>
 
-    <span class="k">return</span> <span class="n">sum_stats</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">colors</span><span class="p">,</span> <span class="n">t_heights</span></div>
+    <span class="k">return</span> <span class="n">sum_stats</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">colors</span><span class="p">,</span> <span class="n">t_heights</span><span class="p">,</span> <span class="n">builds</span></div>
 
 
 
@@ -518,29 +541,29 @@
 <div class="viewcode-block" id="generate_random_string">
 <a class="viewcode-back" href="../../api/io.html#pycmplot.io.generate_random_string">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">generate_random_string</span><span class="p">(</span><span class="n">length</span><span class="p">):</span>
-    <span class="n">GENERATE_RANDOM</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;&quot;&quot;&quot;Generate a random alphanumeric string.</span>
+    <span class="n">GENERATE_RANDOM</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Generate a random alphanumeric string.</span>
 
-<span class="s1">    Used internally to create a unique output file-name component when no</span>
-<span class="s1">    ``--plot_title`` is provided.</span>
+<span class="s2">    Used internally to create a unique output file-name component when no</span>
+<span class="s2">    ``--plot_title`` is provided.</span>
 
-<span class="s1">    Parameters</span>
-<span class="s1">    ----------</span>
-<span class="s1">    length : int</span>
-<span class="s1">        Number of characters in the output string.</span>
+<span class="s2">    Parameters</span>
+<span class="s2">    ----------</span>
+<span class="s2">    length : int</span>
+<span class="s2">        Number of characters in the output string.</span>
 
-<span class="s1">    Returns</span>
-<span class="s1">    -------</span>
-<span class="s1">    str</span>
-<span class="s1">        Random string drawn from ASCII letters (upper- and lower-case) and</span>
-<span class="s1">        digits (``[A-Za-z0-9]``).</span>
+<span class="s2">    Returns</span>
+<span class="s2">    -------</span>
+<span class="s2">    str</span>
+<span class="s2">        Random string drawn from ASCII letters (upper- and lower-case) and</span>
+<span class="s2">        digits (``[A-Za-z0-9]``).</span>
 
-<span class="s1">    Examples</span>
-<span class="s1">    --------</span>
-<span class="s1">    &gt;&gt;&gt; from pycmplot.io import generate_random_string</span>
-<span class="s1">    &gt;&gt;&gt; s = generate_random_string(10)</span>
-<span class="s1">    &gt;&gt;&gt; len(s)</span>
-<span class="s1">    10</span>
-<span class="s1">    &quot;&quot;&quot;&#39;&#39;&#39;</span>
+<span class="s2">    Examples</span>
+<span class="s2">    --------</span>
+<span class="s2">    &gt;&gt;&gt; from pycmplot.io import generate_random_string</span>
+<span class="s2">    &gt;&gt;&gt; s = generate_random_string(10)</span>
+<span class="s2">    &gt;&gt;&gt; len(s)</span>
+<span class="s2">    10</span>
+<span class="s2">    &quot;&quot;&quot;</span>
 
     <span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">string</span>
@@ -564,54 +587,54 @@
     <span class="n">plot_title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">output_format</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;png&#39;</span>
 <span class="p">):</span>
-    <span class="n">GET_OUTPUT_PATHS</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;&quot;&quot;&quot;Construct output file paths for the plot image and locus summary table.</span>
+    <span class="n">GET_OUTPUT_PATHS</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Construct output file paths for the plot image and locus summary table.</span>
 
-<span class="s1">    Creates *output_dir* (including any missing parent directories) and derives</span>
-<span class="s1">    deterministic, human-readable file names from the plot title, track labels,</span>
-<span class="s1">    plot mode, and y-axis scale.</span>
+<span class="s2">    Creates *output_dir* (including any missing parent directories) and derives</span>
+<span class="s2">    deterministic, human-readable file names from the plot title, track labels,</span>
+<span class="s2">    plot mode, and y-axis scale.</span>
 
-<span class="s1">    Parameters</span>
-<span class="s1">    ----------</span>
-<span class="s1">    labels : list of str</span>
-<span class="s1">        Track labels joined with underscores in the output file name.</span>
-<span class="s1">    mode : {&#39;lm&#39;, &#39;cm&#39;}, optional</span>
-<span class="s1">        Plot mode: ``&#39;lm&#39;`` for linear Manhattan, ``&#39;cm&#39;`` for circular.</span>
-<span class="s1">        Default is ``&#39;lm&#39;``.</span>
-<span class="s1">    logp : bool, optional</span>
-<span class="s1">        When ``True`` the string ``&#39;_logp&#39;`` is appended to the base name;</span>
-<span class="s1">        otherwise ``&#39;_pval&#39;`` is appended.  Default is ``False``.</span>
-<span class="s1">    output_dir : str or pathlib.Path, optional</span>
-<span class="s1">        Directory in which output files will be written.  Created with</span>
-<span class="s1">        ``mkdir(parents=True, exist_ok=True)`` if it does not already exist.</span>
-<span class="s1">        Default is ``&#39;.&#39;``.</span>
-<span class="s1">    plot_title : str, optional</span>
-<span class="s1">        Human-readable plot title.  Non-alphanumeric characters are stripped and</span>
-<span class="s1">        spaces replaced with underscores for safe use in file names.  When</span>
-<span class="s1">        ``None`` a 10-character random alphanumeric string is used instead.</span>
-<span class="s1">    output_format : str, optional</span>
-<span class="s1">        Image file extension without the leading dot (e.g. ``&#39;png&#39;``, ``&#39;pdf&#39;``,</span>
-<span class="s1">        ``&#39;svg&#39;``).  Default is ``&#39;png&#39;``.</span>
+<span class="s2">    Parameters</span>
+<span class="s2">    ----------</span>
+<span class="s2">    labels : list of str</span>
+<span class="s2">        Track labels joined with underscores in the output file name.</span>
+<span class="s2">    mode : {&#39;lm&#39;, &#39;cm&#39;}, optional</span>
+<span class="s2">        Plot mode: ``&#39;lm&#39;`` for linear Manhattan, ``&#39;cm&#39;`` for circular.</span>
+<span class="s2">        Default is ``&#39;lm&#39;``.</span>
+<span class="s2">    logp : bool, optional</span>
+<span class="s2">        When ``True`` the string ``&#39;_logp&#39;`` is appended to the base name;</span>
+<span class="s2">        otherwise ``&#39;_pval&#39;`` is appended.  Default is ``False``.</span>
+<span class="s2">    output_dir : str or pathlib.Path, optional</span>
+<span class="s2">        Directory in which output files will be written.  Created with</span>
+<span class="s2">        ``mkdir(parents=True, exist_ok=True)`` if it does not already exist.</span>
+<span class="s2">        Default is ``&#39;.&#39;``.</span>
+<span class="s2">    plot_title : str, optional</span>
+<span class="s2">        Human-readable plot title.  Non-alphanumeric characters are stripped and</span>
+<span class="s2">        spaces replaced with underscores for safe use in file names.  When</span>
+<span class="s2">        ``None`` a 10-character random alphanumeric string is used instead.</span>
+<span class="s2">    output_format : str, optional</span>
+<span class="s2">        Image file extension without the leading dot (e.g. ``&#39;png&#39;``, ``&#39;pdf&#39;``,</span>
+<span class="s2">        ``&#39;svg&#39;``).  Default is ``&#39;png&#39;``.</span>
 
-<span class="s1">    Returns</span>
-<span class="s1">    -------</span>
-<span class="s1">    plt_name : str</span>
-<span class="s1">        Absolute path to the output plot image file.</span>
-<span class="s1">    table_out : str</span>
-<span class="s1">        Absolute path to the output locus summary table TSV file.</span>
+<span class="s2">    Returns</span>
+<span class="s2">    -------</span>
+<span class="s2">    plt_name : str</span>
+<span class="s2">        Absolute path to the output plot image file.</span>
+<span class="s2">    table_out : str</span>
+<span class="s2">        Absolute path to the output locus summary table TSV file.</span>
 
-<span class="s1">    Examples</span>
-<span class="s1">    --------</span>
-<span class="s1">    &gt;&gt;&gt; from pycmplot.io import get_output_paths</span>
-<span class="s1">    &gt;&gt;&gt; plt_name, table_out = get_output_paths(</span>
-<span class="s1">    ...     labels=[&quot;HbF&quot;, &quot;MCV&quot;],</span>
-<span class="s1">    ...     mode=&quot;lm&quot;,</span>
-<span class="s1">    ...     logp=True,</span>
-<span class="s1">    ...     output_dir=&quot;./results&quot;,</span>
-<span class="s1">    ...     plot_title=&quot;RBC Traits&quot;,</span>
-<span class="s1">    ... )</span>
-<span class="s1">    &gt;&gt;&gt; plt_name</span>
-<span class="s1">    &#39;.../results/RBC_Traits_HbF_MCV_lm_logp.png&#39;</span>
-<span class="s1">    &quot;&quot;&quot;&#39;&#39;&#39;</span>
+<span class="s2">    Examples</span>
+<span class="s2">    --------</span>
+<span class="s2">    &gt;&gt;&gt; from pycmplot.io import get_output_paths</span>
+<span class="s2">    &gt;&gt;&gt; plt_name, table_out = get_output_paths(</span>
+<span class="s2">    ...     labels=[&quot;HbF&quot;, &quot;MCV&quot;],</span>
+<span class="s2">    ...     mode=&quot;lm&quot;,</span>
+<span class="s2">    ...     logp=True,</span>
+<span class="s2">    ...     output_dir=&quot;./results&quot;,</span>
+<span class="s2">    ...     plot_title=&quot;RBC Traits&quot;,</span>
+<span class="s2">    ... )</span>
+<span class="s2">    &gt;&gt;&gt; plt_name</span>
+<span class="s2">    &#39;.../results/RBC_Traits_HbF_MCV_lm_logp.png&#39;</span>
+<span class="s2">    &quot;&quot;&quot;</span>
 
     <span class="n">out_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">output_dir</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span>
 
@@ -622,6 +645,8 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="n">pltitle</span> <span class="o">=</span> <span class="n">generate_random_string</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 
+    <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[^a-zA-Z0-9\s]&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">]</span>
+
     <span class="n">plt_base</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">out_path</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">pltitle</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="s1">&#39;_&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">mode</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="n">suffix</span>     <span class="o">=</span> <span class="s2">&quot;_logp&quot;</span> <span class="k">if</span> <span class="n">logp</span> <span class="k">else</span> <span class="s2">&quot;_pval&quot;</span>
@@ -629,6 +654,7 @@
     <span class="n">plt_name</span>   <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">plt_base</span><span class="si">}{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">output_format</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
     
     <span class="n">table_out</span>  <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">plt_base</span><span class="si">}{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">_locus_summary_table.tsv&quot;</span>
+
 
     <span class="k">return</span> <span class="n">plt_name</span><span class="p">,</span> <span class="n">table_out</span></div>
 
@@ -643,77 +669,79 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">prep_pycmplot_input_info</span><span class="p">(</span>
     <span class="n">sum_stats</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="n">labels</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
-    <span class="n">build</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">buildc</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">build</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">delim</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">chrom</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">pos</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">snp</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">pcol</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
-    <span class="n">PREP_INPUT_INFO</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;&quot;&quot;&quot;Resolve column names and delimiters for each summary statistics file.</span>
+    <span class="n">PREP_INPUT_INFO</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Resolve column names and delimiters for each summary statistics file.</span>
 
-<span class="s1">    Iterates over every file in *sum_stats*, auto-detects (or uses the supplied)</span>
-<span class="s1">    delimiter, reads the file header, and maps each required column</span>
-<span class="s1">    (chromosome, position, SNP ID, p-value, genome build) to the first matching</span>
-<span class="s1">    entry in an ordered candidate-name list.  Returns a per-label mapping that</span>
-<span class="s1">    tells :func:`get_sumstats_and_merged_sector_list` exactly which columns to</span>
-<span class="s1">    read and how to rename them.</span>
+<span class="s2">    Iterates over every file in *sum_stats*, auto-detects (or uses the supplied)</span>
+<span class="s2">    delimiter, reads the file header, and maps each required column</span>
+<span class="s2">    (chromosome, position, SNP ID, p-value, genome build) to the first matching</span>
+<span class="s2">    entry in an ordered candidate-name list.  Returns a per-label mapping that</span>
+<span class="s2">    tells :func:`get_sumstats_and_merged_sector_list` exactly which columns to</span>
+<span class="s2">    read and how to rename them.</span>
 
-<span class="s1">    Parameters</span>
-<span class="s1">    ----------</span>
-<span class="s1">    sum_stats : list of str</span>
-<span class="s1">        Paths to one or more summary statistics files (gzip supported).</span>
-<span class="s1">    labels : list of str</span>
-<span class="s1">        Track labels in the same order as *sum_stats*.</span>
-<span class="s1">    build : str</span>
-<span class="s1">        Genome-build column name (candidates: ``&#39;BUILD&#39;``, ``&#39;Genome&#39;``,</span>
-<span class="s1">        ``&#39;Genome_Build&#39;``, ``&#39;Genome-build&#39;``, …).</span>
-<span class="s1">    delim : str, optional</span>
-<span class="s1">        Field delimiter shared by all files.  Accepts human-readable names</span>
-<span class="s1">        (``&#39;tab&#39;``, ``&#39;space&#39;``, ``&#39;comma&#39;``) or single characters.  When</span>
-<span class="s1">        ``None`` the delimiter is auto-detected independently for each file</span>
-<span class="s1">        using :func:`detect_delimiter`.</span>
-<span class="s1">    chrom : str, optional</span>
-<span class="s1">        Chromosome column name.  When ``None``, the first header field that</span>
-<span class="s1">        matches any built-in candidate (``&#39;CHR&#39;``, ``&#39;CHROM&#39;``, ``&#39;#CHROM&#39;``,</span>
-<span class="s1">        ``&#39;chrom&#39;``, ``&#39;chr&#39;``, …) is used.</span>
-<span class="s1">    pos : str, optional</span>
-<span class="s1">        Base-pair position column name (candidates: ``&#39;BP&#39;``, ``&#39;POS&#39;``,</span>
-<span class="s1">        ``&#39;bp&#39;``, ``&#39;pos&#39;``, ``&#39;Basepair&#39;``).</span>
-<span class="s1">    snp : str, optional</span>
-<span class="s1">        Variant / marker ID column name (candidates: ``&#39;SNP&#39;``, ``&#39;RSID&#39;``,</span>
-<span class="s1">        ``&#39;rsID&#39;``, ``&#39;MarkerName&#39;``, ``&#39;MarkerID&#39;``, ``&#39;SNPID&#39;``, ``&#39;ID&#39;``,</span>
-<span class="s1">        …).</span>
-<span class="s1">    pcol : str, optional</span>
-<span class="s1">        P-value column name (candidates: ``&#39;P&#39;``, ``&#39;P-value&#39;``,</span>
-<span class="s1">        ``&#39;pvalue&#39;``, ``&#39;p_val&#39;``, ``&#39;pval&#39;``, ``&#39;Wald_P&#39;``).</span>
+<span class="s2">    Parameters</span>
+<span class="s2">    ----------</span>
+<span class="s2">    sum_stats : list of str</span>
+<span class="s2">        Paths to one or more summary statistics files (gzip supported).</span>
+<span class="s2">    labels : list of str</span>
+<span class="s2">        Track labels in the same order as *sum_stats*.</span>
+<span class="s2">    build : str</span>
+<span class="s2">        Genome-build column name (candidates: ``&#39;BUILD&#39;``, ``&#39;Genome&#39;``,</span>
+<span class="s2">        ``&#39;Genome_Build&#39;``, ``&#39;Genome-build&#39;``, …).</span>
+<span class="s2">        Or list of genome builds supplied via ``--build``.</span>
+<span class="s2">    delim : str, optional</span>
+<span class="s2">        Field delimiter shared by all files.  Accepts human-readable names</span>
+<span class="s2">        (``&#39;tab&#39;``, ``&#39;space&#39;``, ``&#39;comma&#39;``) or single characters.  When</span>
+<span class="s2">        ``None`` the delimiter is auto-detected independently for each file</span>
+<span class="s2">        using :func:`detect_delimiter`.</span>
+<span class="s2">    chrom : str, optional</span>
+<span class="s2">        Chromosome column name.  When ``None``, the first header field that</span>
+<span class="s2">        matches any built-in candidate (``&#39;CHR&#39;``, ``&#39;CHROM&#39;``, ``&#39;#CHROM&#39;``,</span>
+<span class="s2">        ``&#39;chrom&#39;``, ``&#39;chr&#39;``, …) is used.</span>
+<span class="s2">    pos : str, optional</span>
+<span class="s2">        Base-pair position column name (candidates: ``&#39;BP&#39;``, ``&#39;POS&#39;``,</span>
+<span class="s2">        ``&#39;bp&#39;``, ``&#39;pos&#39;``, ``&#39;Basepair&#39;``).</span>
+<span class="s2">    snp : str, optional</span>
+<span class="s2">        Variant / marker ID column name (candidates: ``&#39;SNP&#39;``, ``&#39;RSID&#39;``,</span>
+<span class="s2">        ``&#39;rsID&#39;``, ``&#39;MarkerName&#39;``, ``&#39;MarkerID&#39;``, ``&#39;SNPID&#39;``, ``&#39;ID&#39;``,</span>
+<span class="s2">        …).</span>
+<span class="s2">    pcol : str, optional</span>
+<span class="s2">        P-value column name (candidates: ``&#39;P&#39;``, ``&#39;P-value&#39;``,</span>
+<span class="s2">        ``&#39;pvalue&#39;``, ``&#39;p_val&#39;``, ``&#39;pval&#39;``, ``&#39;Wald_P&#39;``).</span>
 
-<span class="s1">    Returns</span>
-<span class="s1">    -------</span>
-<span class="s1">    dict</span>
-<span class="s1">        Mapping of ``label → [old_columns, col_dtypes, rename_map, sep]``:</span>
+<span class="s2">    Returns</span>
+<span class="s2">    -------</span>
+<span class="s2">    dict</span>
+<span class="s2">        Mapping of ``label → [old_columns, col_dtypes, rename_map, sep]``:</span>
 
-<span class="s1">        * **old_columns** – list of the five original column names as found</span>
-<span class="s1">        in the file header.</span>
-<span class="s1">        * **col_dtypes** – ``{column_name: dtype}`` passed to</span>
-<span class="s1">        :func:`pandas.read_csv`.</span>
-<span class="s1">        * **rename_map** – ``{old_name: canonical_name}`` for</span>
-<span class="s1">        ``CHR``, ``POS``, ``SNP``, ``P``, ``BUILD``.</span>
-<span class="s1">        * **sep** – the resolved delimiter character for this file.</span>
+<span class="s2">        * **old_columns** – list of the five original column names as found</span>
+<span class="s2">        in the file header.</span>
+<span class="s2">        * **col_dtypes** – ``{column_name: dtype}`` passed to</span>
+<span class="s2">        :func:`pandas.read_csv`.</span>
+<span class="s2">        * **rename_map** – ``{old_name: canonical_name}`` for</span>
+<span class="s2">        ``CHR``, ``POS``, ``SNP``, ``P``, ``BUILD``.</span>
+<span class="s2">        * **sep** – the resolved delimiter character for this file.</span>
 
-<span class="s1">    Raises</span>
-<span class="s1">    ------</span>
-<span class="s1">    SystemExit</span>
-<span class="s1">        If any required column (chromosome, position, SNP ID, p-value, or</span>
-<span class="s1">        build) cannot be resolved from the file header.</span>
+<span class="s2">    Raises</span>
+<span class="s2">    ------</span>
+<span class="s2">    SystemExit</span>
+<span class="s2">        If any required column (chromosome, position, SNP ID, p-value, or</span>
+<span class="s2">        build) cannot be resolved from the file header.</span>
 
-<span class="s1">    See Also</span>
-<span class="s1">    --------</span>
-<span class="s1">    get_sumstats_and_merged_sector_list :</span>
-<span class="s1">        The main loading function that consumes the mapping returned here.</span>
-<span class="s1">    detect_delimiter :</span>
-<span class="s1">        Auto-detects the file delimiter when *delim* is ``None``.</span>
-<span class="s1">    &quot;&quot;&quot;&#39;&#39;&#39;</span>
+<span class="s2">    See Also</span>
+<span class="s2">    --------</span>
+<span class="s2">    get_sumstats_and_merged_sector_list :</span>
+<span class="s2">        The main loading function that consumes the mapping returned here.</span>
+<span class="s2">    detect_delimiter :</span>
+<span class="s2">        Auto-detects the file delimiter when *delim* is ``None``.</span>
+<span class="s2">    &quot;&quot;&quot;</span>
 
     <span class="c1"># ------------------------------------------------------------------</span>
     <span class="c1"># Resolve delimiter</span>
@@ -726,38 +754,38 @@
     <span class="c1"># ------------------------------------------------------------------</span>
     <span class="c1"># Column-name candidate lists for auto-resolution</span>
     <span class="c1"># ------------------------------------------------------------------</span>
-    <span class="n">chr_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">chrom</span><span class="p">,</span> <span class="s2">&quot;CHR&quot;</span><span class="p">,</span> <span class="s2">&quot;CHROM&quot;</span><span class="p">,</span> <span class="s2">&quot;Chromosome&quot;</span><span class="p">,</span> <span class="s2">&quot;#CHROM&quot;</span><span class="p">,</span> <span class="s2">&quot;#CHR&quot;</span><span class="p">,</span>
+    <span class="n">chr_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">,</span> <span class="s2">&quot;CHROM&quot;</span><span class="p">,</span> <span class="s2">&quot;Chromosome&quot;</span><span class="p">,</span> <span class="s2">&quot;#CHROM&quot;</span><span class="p">,</span> <span class="s2">&quot;#CHR&quot;</span><span class="p">,</span>
                     <span class="s2">&quot;Chrom&quot;</span><span class="p">,</span> <span class="s2">&quot;chrom&quot;</span><span class="p">,</span> <span class="s2">&quot;chr&quot;</span><span class="p">,</span> <span class="s2">&quot;chromosome&quot;</span><span class="p">,</span> <span class="s2">&quot;#chr&quot;</span><span class="p">,</span> <span class="s2">&quot;#chrom&quot;</span><span class="p">]</span>
     <span class="n">chr_candidates_l</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">chr_candidates</span><span class="p">]</span>
     <span class="n">chr_candidates_u</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">chr_candidates</span><span class="p">]</span>
-    <span class="n">chr_candidates</span> <span class="o">=</span> <span class="n">chr_candidates</span> <span class="o">+</span> <span class="n">chr_candidates_l</span> <span class="o">+</span> <span class="n">chr_candidates_u</span>
+    <span class="n">chr_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">chrom</span><span class="p">]</span> <span class="o">+</span> <span class="n">chr_candidates</span> <span class="o">+</span> <span class="n">chr_candidates_l</span> <span class="o">+</span> <span class="n">chr_candidates_u</span>
                 
-    <span class="n">pos_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">pos</span><span class="p">,</span>   <span class="s2">&quot;BP&quot;</span><span class="p">,</span> <span class="s2">&quot;POS&quot;</span><span class="p">,</span> <span class="s2">&quot;bp&quot;</span><span class="p">,</span> <span class="s2">&quot;pos&quot;</span><span class="p">,</span> <span class="s2">&quot;Basepair&quot;</span><span class="p">]</span>
+    <span class="n">pos_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;BP&quot;</span><span class="p">,</span> <span class="s2">&quot;POS&quot;</span><span class="p">,</span> <span class="s2">&quot;bp&quot;</span><span class="p">,</span> <span class="s2">&quot;pos&quot;</span><span class="p">,</span> <span class="s2">&quot;Basepair&quot;</span><span class="p">]</span>
     <span class="n">pos_candidates_l</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">pos_candidates</span><span class="p">]</span>
     <span class="n">pos_candidates_u</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">pos_candidates</span><span class="p">]</span>
-    <span class="n">pos_candidates</span> <span class="o">=</span> <span class="n">pos_candidates</span> <span class="o">+</span> <span class="n">pos_candidates_l</span> <span class="o">+</span> <span class="n">pos_candidates_u</span>
+    <span class="n">pos_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">pos</span><span class="p">]</span> <span class="o">+</span> <span class="n">pos_candidates</span> <span class="o">+</span> <span class="n">pos_candidates_l</span> <span class="o">+</span> <span class="n">pos_candidates_u</span>
 
-    <span class="n">snp_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">snp</span><span class="p">,</span>   <span class="s2">&quot;SNP&quot;</span><span class="p">,</span> <span class="s2">&quot;RSID&quot;</span><span class="p">,</span> <span class="s2">&quot;rsID&quot;</span><span class="p">,</span> <span class="s2">&quot;MarkerName&quot;</span><span class="p">,</span> <span class="s2">&quot;MarkerID&quot;</span><span class="p">,</span>
+    <span class="n">snp_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;SNP&quot;</span><span class="p">,</span> <span class="s2">&quot;RSID&quot;</span><span class="p">,</span> <span class="s2">&quot;rsID&quot;</span><span class="p">,</span> <span class="s2">&quot;MarkerName&quot;</span><span class="p">,</span> <span class="s2">&quot;MarkerID&quot;</span><span class="p">,</span>
                     <span class="s2">&quot;Predictor&quot;</span><span class="p">,</span> <span class="s2">&quot;Marker&quot;</span><span class="p">,</span> <span class="s2">&quot;SNPID&quot;</span><span class="p">,</span> <span class="s2">&quot;ID&quot;</span><span class="p">]</span>
     <span class="n">snp_candidates_l</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">snp_candidates</span><span class="p">]</span>
     <span class="n">snp_candidates_u</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">snp_candidates</span><span class="p">]</span>
-    <span class="n">snp_candidates</span> <span class="o">=</span> <span class="n">snp_candidates</span> <span class="o">+</span> <span class="n">snp_candidates_l</span> <span class="o">+</span> <span class="n">snp_candidates_u</span>
+    <span class="n">snp_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">snp</span><span class="p">]</span> <span class="o">+</span> <span class="n">snp_candidates</span> <span class="o">+</span> <span class="n">snp_candidates_l</span> <span class="o">+</span> <span class="n">snp_candidates_u</span>
 
-    <span class="n">pvl_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">pcol</span><span class="p">,</span>  <span class="s2">&quot;P&quot;</span><span class="p">,</span> <span class="s2">&quot;P-value&quot;</span><span class="p">,</span> <span class="s2">&quot;Wald_P&quot;</span><span class="p">,</span> <span class="s2">&quot;pvalue&quot;</span><span class="p">,</span> <span class="s2">&quot;p_val&quot;</span><span class="p">,</span> <span class="s2">&quot;pval&quot;</span><span class="p">]</span>
+    <span class="n">pvl_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;P&quot;</span><span class="p">,</span> <span class="s2">&quot;P-value&quot;</span><span class="p">,</span> <span class="s2">&quot;Wald_P&quot;</span><span class="p">,</span> <span class="s2">&quot;pvalue&quot;</span><span class="p">,</span> <span class="s2">&quot;p_val&quot;</span><span class="p">,</span> <span class="s2">&quot;pval&quot;</span><span class="p">]</span>
     <span class="n">pvl_candidates_l</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">pvl_candidates</span><span class="p">]</span>
     <span class="n">pvl_candidates_u</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">pvl_candidates</span><span class="p">]</span>
-    <span class="n">pvl_candidates</span> <span class="o">=</span> <span class="n">pvl_candidates</span> <span class="o">+</span> <span class="n">pvl_candidates_l</span> <span class="o">+</span> <span class="n">pvl_candidates_u</span>
-
-    <span class="n">bld_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">build</span><span class="p">,</span> <span class="s2">&quot;BUILD&quot;</span><span class="p">,</span> <span class="s2">&quot;Genome&quot;</span><span class="p">,</span> <span class="s2">&quot;Genome_Build&quot;</span><span class="p">,</span> <span class="s2">&quot;Genome-build&quot;</span><span class="p">]</span>
-    <span class="n">bld_candidates_l</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">bld_candidates</span><span class="p">]</span>
-    <span class="n">bld_candidates_u</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">bld_candidates</span><span class="p">]</span>
-    <span class="n">bld_candidates</span> <span class="o">=</span> <span class="n">bld_candidates</span> <span class="o">+</span> <span class="n">bld_candidates_l</span> <span class="o">+</span> <span class="n">bld_candidates_u</span>
+    <span class="n">pvl_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">pcol</span><span class="p">]</span> <span class="o">+</span> <span class="n">pvl_candidates</span> <span class="o">+</span> <span class="n">pvl_candidates_l</span> <span class="o">+</span> <span class="n">pvl_candidates_u</span>
 
     <span class="c1"># Remove None entries</span>
     <span class="n">chr_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">chr_candidates</span> <span class="k">if</span> <span class="n">c</span><span class="p">]</span>
     <span class="n">pos_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">pos_candidates</span> <span class="k">if</span> <span class="n">c</span><span class="p">]</span>
     <span class="n">snp_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">snp_candidates</span> <span class="k">if</span> <span class="n">c</span><span class="p">]</span>
     <span class="n">pvl_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">pvl_candidates</span> <span class="k">if</span> <span class="n">c</span><span class="p">]</span>
+
+    <span class="n">bld_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;BUILD&quot;</span><span class="p">,</span> <span class="s2">&quot;Genome&quot;</span><span class="p">,</span> <span class="s2">&quot;Genome_Build&quot;</span><span class="p">,</span> <span class="s2">&quot;Genome-build&quot;</span><span class="p">]</span>
+    <span class="n">bld_candidates_l</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">bld_candidates</span><span class="p">]</span>
+    <span class="n">bld_candidates_u</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">bld_candidates</span><span class="p">]</span>
+    <span class="n">bld_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">build</span><span class="p">]</span> <span class="o">+</span> <span class="n">bld_candidates</span> <span class="o">+</span> <span class="n">bld_candidates_l</span> <span class="o">+</span> <span class="n">bld_candidates_u</span>
     <span class="n">bld_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">bld_candidates</span> <span class="k">if</span> <span class="n">c</span><span class="p">]</span>
 
     <span class="c1"># ------------------------------------------------------------------</span>
@@ -778,7 +806,6 @@
             <span class="n">pos_col</span>   <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">hdr</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">pos_candidates</span><span class="p">))</span>
             <span class="n">snp_col</span>   <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">hdr</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">snp_candidates</span><span class="p">))</span>
             <span class="n">pcol</span>           <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">hdr</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">pvl_candidates</span><span class="p">))</span>
-            <span class="n">bcol</span>      <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">hdr</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">bld_candidates</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">StopIteration</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
             <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;Error: could not find a required column in </span><span class="si">{</span><span class="n">fpath</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span>
@@ -786,23 +813,59 @@
                 <span class="sa">f</span><span class="s2">&quot;  Details: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="p">)</span>
 
-        <span class="n">old_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">chrom_col</span><span class="p">,</span> <span class="n">pos_col</span><span class="p">,</span> <span class="n">snp_col</span><span class="p">,</span> <span class="n">pcol</span><span class="p">,</span> <span class="n">bcol</span><span class="p">]</span>
+        <span class="n">old_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">chrom_col</span><span class="p">,</span> <span class="n">pos_col</span><span class="p">,</span> <span class="n">snp_col</span><span class="p">,</span> <span class="n">pcol</span><span class="p">]</span>
         <span class="n">new_cols</span> <span class="o">=</span> <span class="p">{</span>
             <span class="n">chrom_col</span><span class="p">:</span> <span class="s2">&quot;CHR&quot;</span><span class="p">,</span>
             <span class="n">pos_col</span><span class="p">:</span>   <span class="s2">&quot;POS&quot;</span><span class="p">,</span>
             <span class="n">snp_col</span><span class="p">:</span>   <span class="s2">&quot;SNP&quot;</span><span class="p">,</span>
             <span class="n">pcol</span><span class="p">:</span>      <span class="s2">&quot;P&quot;</span><span class="p">,</span>
-            <span class="n">bcol</span><span class="p">:</span>      <span class="s2">&quot;BUILD&quot;</span><span class="p">,</span>
         <span class="p">}</span>
         <span class="n">col_dtypes</span> <span class="o">=</span> <span class="p">{</span>
             <span class="n">chrom_col</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-            <span class="n">pos_col</span><span class="p">:</span>   <span class="nb">object</span><span class="p">,</span>
+            <span class="n">pos_col</span><span class="p">:</span>   <span class="nb">int</span><span class="p">,</span>
             <span class="n">snp_col</span><span class="p">:</span>   <span class="nb">str</span><span class="p">,</span>
             <span class="n">pcol</span><span class="p">:</span>      <span class="nb">float</span><span class="p">,</span>
-            <span class="n">bcol</span><span class="p">:</span>      <span class="nb">str</span><span class="p">,</span>
         <span class="p">}</span>
 
-        <span class="n">sumstats_hdr_dic</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">old_cols</span><span class="p">,</span> <span class="n">col_dtypes</span><span class="p">,</span> <span class="n">new_cols</span><span class="p">,</span> <span class="n">file_sep</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">bld_candidates</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">build</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">fpath</span><span class="p">,</span> <span class="n">build</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">sum_stats</span><span class="p">,</span> <span class="n">build</span><span class="p">):</span>
+            <span class="n">sumstats_hdr_dic</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">old_cols</span><span class="p">,</span> <span class="n">col_dtypes</span><span class="p">,</span> <span class="n">new_cols</span><span class="p">,</span> <span class="n">file_sep</span><span class="p">,</span> <span class="n">build</span><span class="p">]</span>
+
+    <span class="k">elif</span> <span class="n">bld_candidates</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">fpath</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">sum_stats</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">bcol</span>      <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">hdr</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">bld_candidates</span><span class="p">))</span>
+            <span class="k">except</span> <span class="ne">StopIteration</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Error: could not find build column in </span><span class="si">{</span><span class="n">fpath</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;  Header: </span><span class="si">{</span><span class="n">hdr</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;  Details: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+
+            <span class="n">old_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">chrom_col</span><span class="p">,</span> <span class="n">pos_col</span><span class="p">,</span> <span class="n">snp_col</span><span class="p">,</span> <span class="n">pcol</span><span class="p">,</span> <span class="n">bcol</span><span class="p">]</span>
+            <span class="n">new_cols</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="n">chrom_col</span><span class="p">:</span> <span class="s2">&quot;CHR&quot;</span><span class="p">,</span>
+                <span class="n">pos_col</span><span class="p">:</span>   <span class="s2">&quot;POS&quot;</span><span class="p">,</span>
+                <span class="n">snp_col</span><span class="p">:</span>   <span class="s2">&quot;SNP&quot;</span><span class="p">,</span>
+                <span class="n">pcol</span><span class="p">:</span>      <span class="s2">&quot;P&quot;</span><span class="p">,</span>
+                <span class="n">bcol</span><span class="p">:</span>      <span class="s2">&quot;BUILD&quot;</span><span class="p">,</span>
+            <span class="p">}</span>
+            <span class="n">col_dtypes</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="n">chrom_col</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                <span class="n">pos_col</span><span class="p">:</span>   <span class="nb">int</span><span class="p">,</span>
+                <span class="n">snp_col</span><span class="p">:</span>   <span class="nb">str</span><span class="p">,</span>
+                <span class="n">pcol</span><span class="p">:</span>      <span class="nb">float</span><span class="p">,</span>
+                <span class="n">bcol</span><span class="p">:</span>      <span class="nb">str</span><span class="p">,</span>
+            <span class="p">}</span>
+
+            <span class="n">sumstats_hdr_dic</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">old_cols</span><span class="p">,</span> <span class="n">col_dtypes</span><span class="p">,</span> <span class="n">new_cols</span><span class="p">,</span> <span class="n">file_sep</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;No build column or builds specified. Summary stats will be</span>
+<span class="s2">        plotted in their respective coordinate systems.</span>
+<span class="s2">        If your data are in different coordinate systems, putting them in one plot</span>
+<span class="s2">        is not advisable, especially if ``--annotate`` is set!&quot;&quot;&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">fpath</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">sum_stats</span><span class="p">):</span>
+            <span class="n">sumstats_hdr_dic</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">old_cols</span><span class="p">,</span> <span class="n">col_dtypes</span><span class="p">,</span> <span class="n">new_cols</span><span class="p">,</span> <span class="n">file_sep</span><span class="p">]</span>
 
     <span class="k">return</span> <span class="n">sumstats_hdr_dic</span></div>
 
@@ -840,110 +903,110 @@
     <span class="n">suggest_threshold</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">resources</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ResourceConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
-    <span class="n">GET_SUMSTATS</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;&quot;&quot;&quot;Load summary statistics, run liftover, extract lead SNPs, and compute</span>
-<span class="s1">    merged Circos sector sizes.</span>
+    <span class="n">GET_SUMSTATS</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Load summary statistics, run liftover, extract lead SNPs, and compute</span>
+<span class="s2">    merged Circos sector sizes.</span>
 
-<span class="s1">    This is the primary data-loading function for the plotting pipeline.  For</span>
-<span class="s1">    each track it: reads the file using the column mapping from *file_info*,</span>
-<span class="s1">    optionally filters by *trim_pval*, normalises chromosome names</span>
-<span class="s1">    (``&#39;chr&#39;`` prefix stripped; ``&#39;23&#39;``→``&#39;X&#39;``, ``&#39;24&#39;``→``&#39;Y&#39;``,</span>
-<span class="s1">    ``&#39;M&#39;``/``&#39;MTDNA&#39;``→``&#39;MT&#39;``), lifts over hg19 coordinates when a build</span>
-<span class="s1">    column is present, and extracts lead SNPs.  After all tracks are loaded it</span>
-<span class="s1">    builds the hits summary table, derives significance thresholds, optionally</span>
-<span class="s1">    sorts tracks, and computes the merged sector-size dict consumed by both</span>
-<span class="s1">    plotters.</span>
+<span class="s2">    This is the primary data-loading function for the plotting pipeline.  For</span>
+<span class="s2">    each track it: reads the file using the column mapping from *file_info*,</span>
+<span class="s2">    optionally filters by *trim_pval*, normalises chromosome names</span>
+<span class="s2">    (``&#39;chr&#39;`` prefix stripped; ``&#39;23&#39;``→``&#39;X&#39;``, ``&#39;24&#39;``→``&#39;Y&#39;``,</span>
+<span class="s2">    ``&#39;M&#39;``/``&#39;MTDNA&#39;``→``&#39;MT&#39;``), lifts over hg19 coordinates when a build</span>
+<span class="s2">    column is present, and extracts lead SNPs.  After all tracks are loaded it</span>
+<span class="s2">    builds the hits summary table, derives significance thresholds, optionally</span>
+<span class="s2">    sorts tracks, and computes the merged sector-size dict consumed by both</span>
+<span class="s2">    plotters.</span>
 
-<span class="s1">    Parameters</span>
-<span class="s1">    ----------</span>
-<span class="s1">    sum_stats : list of str</span>
-<span class="s1">        Paths to summary statistics files (gzip supported).</span>
-<span class="s1">    labels : list of str</span>
-<span class="s1">        Track labels in the same order as *sum_stats*.</span>
-<span class="s1">    logp : bool, optional</span>
-<span class="s1">        If ``True``, a ``logP`` column (–log₁₀(P)) is added to every loaded</span>
-<span class="s1">        DataFrame and used for lead-SNP ranking and threshold-line computation.</span>
-<span class="s1">        Default is ``False``.</span>
-<span class="s1">    trim_pval : float, optional</span>
-<span class="s1">        Drop variants with ``P &gt; trim_pval`` before any further processing.</span>
-<span class="s1">        Strongly recommended for large files (e.g. ``0.01``).  Default is</span>
-<span class="s1">        ``None`` (no trimming; variants with ``P &gt; 1`` are still removed).</span>
-<span class="s1">    file_info : dict, optional</span>
-<span class="s1">        Column-resolution mapping as returned by</span>
-<span class="s1">        :func:`prep_pycmplot_input_info`.  Must be supplied for data to be</span>
-<span class="s1">        loaded.</span>
-<span class="s1">    sort_tracks : {&#39;label&#39;, &#39;chrom_len&#39;, None}, optional</span>
-<span class="s1">        Track ordering after loading.  ``&#39;label&#39;`` sorts alphabetically;</span>
-<span class="s1">        ``&#39;chrom_len&#39;`` sorts by the number of distinct chromosomes (most</span>
-<span class="s1">        chromosomes first).  ``None`` preserves input order.</span>
-<span class="s1">        Default is ``&#39;chrom_len&#39;``.</span>
-<span class="s1">    table_out : str, optional</span>
-<span class="s1">        File path at which to write the locus summary table TSV.  Passed</span>
-<span class="s1">        through to :func:`~pycmplot.annotation.get_hits_summary_table`.</span>
-<span class="s1">    signif_threshold : float, optional</span>
-<span class="s1">        Genome-wide significance threshold for lead-SNP extraction and the</span>
-<span class="s1">        significance line.  When ``None``, computed as</span>
-<span class="s1">        ``max(0.05 / N, 5e-8)`` where *N* is the variant count in the last</span>
-<span class="s1">        loaded track; falls back to ``5e-8`` when *trim_pval* is set.</span>
-<span class="s1">    signif_line : float, optional</span>
-<span class="s1">        Explicit significance-line value drawn on the plot.  When ``None``,</span>
-<span class="s1">        *signif_threshold* is used.  If *logp* is ``True`` and the value is</span>
-<span class="s1">        &lt; 1, it is converted to –log₁₀ scale automatically.</span>
-<span class="s1">    suggest_threshold : float, optional</span>
-<span class="s1">        Suggestive significance threshold for a second dashed line.  Defaults</span>
-<span class="s1">        to ``1e-5``.</span>
-<span class="s1">    resources : ResourceConfig, optional</span>
-<span class="s1">        :class:`~pycmplot.resources.ResourceConfig` instance supplying paths to</span>
-<span class="s1">        the liftover chain file and gene-info reference files.  Falls back to</span>
-<span class="s1">        :data:`~pycmplot.resources.default_resources`.</span>
+<span class="s2">    Parameters</span>
+<span class="s2">    ----------</span>
+<span class="s2">    sum_stats : list of str</span>
+<span class="s2">        Paths to summary statistics files (gzip supported).</span>
+<span class="s2">    labels : list of str</span>
+<span class="s2">        Track labels in the same order as *sum_stats*.</span>
+<span class="s2">    logp : bool, optional</span>
+<span class="s2">        If ``True``, a ``logP`` column (–log₁₀(P)) is added to every loaded</span>
+<span class="s2">        DataFrame and used for lead-SNP ranking and threshold-line computation.</span>
+<span class="s2">        Default is ``False``.</span>
+<span class="s2">    trim_pval : float, optional</span>
+<span class="s2">        Drop variants with ``P &gt; trim_pval`` before any further processing.</span>
+<span class="s2">        Strongly recommended for large files (e.g. ``0.01``).  Default is</span>
+<span class="s2">        ``None`` (no trimming; variants with ``P &gt; 1`` are still removed).</span>
+<span class="s2">    file_info : dict, optional</span>
+<span class="s2">        Column-resolution mapping as returned by</span>
+<span class="s2">        :func:`prep_pycmplot_input_info`.  Must be supplied for data to be</span>
+<span class="s2">        loaded.</span>
+<span class="s2">    sort_tracks : {&#39;label&#39;, &#39;chrom_len&#39;, None}, optional</span>
+<span class="s2">        Track ordering after loading.  ``&#39;label&#39;`` sorts alphabetically;</span>
+<span class="s2">        ``&#39;chrom_len&#39;`` sorts by the number of distinct chromosomes (most</span>
+<span class="s2">        chromosomes first).  ``None`` preserves input order.</span>
+<span class="s2">        Default is ``&#39;chrom_len&#39;``.</span>
+<span class="s2">    table_out : str, optional</span>
+<span class="s2">        File path at which to write the locus summary table TSV.  Passed</span>
+<span class="s2">        through to :func:`~pycmplot.annotation.get_hits_summary_table`.</span>
+<span class="s2">    signif_threshold : float, optional</span>
+<span class="s2">        Genome-wide significance threshold for lead-SNP extraction and the</span>
+<span class="s2">        significance line.  When ``None``, computed as</span>
+<span class="s2">        ``max(0.05 / N, 5e-8)`` where *N* is the variant count in the last</span>
+<span class="s2">        loaded track; falls back to ``5e-8`` when *trim_pval* is set.</span>
+<span class="s2">    signif_line : float, optional</span>
+<span class="s2">        Explicit significance-line value drawn on the plot.  When ``None``,</span>
+<span class="s2">        *signif_threshold* is used.  If *logp* is ``True`` and the value is</span>
+<span class="s2">        &lt; 1, it is converted to –log₁₀ scale automatically.</span>
+<span class="s2">    suggest_threshold : float, optional</span>
+<span class="s2">        Suggestive significance threshold for a second dashed line.  Defaults</span>
+<span class="s2">        to ``1e-5``.</span>
+<span class="s2">    resources : ResourceConfig, optional</span>
+<span class="s2">        :class:`~pycmplot.resources.ResourceConfig` instance supplying paths to</span>
+<span class="s2">        the liftover chain file and gene-info reference files.  Falls back to</span>
+<span class="s2">        :data:`~pycmplot.resources.default_resources`.</span>
 
-<span class="s1">    Returns</span>
-<span class="s1">    -------</span>
-<span class="s1">    merged_sector_sizes : dict</span>
-<span class="s1">        Mapping of ``chromosome → [min_pos, max_pos]`` across all tracks, in</span>
-<span class="s1">        natural chromosome order (``&#39;1&#39;``, ``&#39;2&#39;``, …, ``&#39;X&#39;``, ``&#39;Y&#39;``),</span>
-<span class="s1">        with a ``&#39;Spacer1&#39;`` entry appended for y-axis labelling.</span>
-<span class="s1">    sumstats_loaded : dict</span>
-<span class="s1">        Mapping of ``label → [DataFrame, n_chroms]``.  Each DataFrame</span>
-<span class="s1">        contains canonical columns ``CHR``, ``POS``, ``SNP``, ``P``,</span>
-<span class="s1">        ``BUILD``, ``LABEL``, and optionally ``logP``, ``OLD_POS``,</span>
-<span class="s1">        ``OLD_BUILD`` (when liftover was applied).</span>
-<span class="s1">    hits_table : pandas.DataFrame</span>
-<span class="s1">        Clumped locus summary table with nearest-gene annotations.  Empty</span>
-<span class="s1">        DataFrame when no variants pass the significance threshold.</span>
-<span class="s1">    signif_lines : list of dict</span>
-<span class="s1">        One ``{&#39;genome&#39;: float, &#39;suggestive&#39;: float}`` dict per track, in</span>
-<span class="s1">        the final sorted order.</span>
+<span class="s2">    Returns</span>
+<span class="s2">    -------</span>
+<span class="s2">    merged_sector_sizes : dict</span>
+<span class="s2">        Mapping of ``chromosome → [min_pos, max_pos]`` across all tracks, in</span>
+<span class="s2">        natural chromosome order (``&#39;1&#39;``, ``&#39;2&#39;``, …, ``&#39;X&#39;``, ``&#39;Y&#39;``),</span>
+<span class="s2">        with a ``&#39;Spacer1&#39;`` entry appended for y-axis labelling.</span>
+<span class="s2">    sumstats_loaded : dict</span>
+<span class="s2">        Mapping of ``label → [DataFrame, n_chroms]``.  Each DataFrame</span>
+<span class="s2">        contains canonical columns ``CHR``, ``POS``, ``SNP``, ``P``,</span>
+<span class="s2">        ``LABEL``, and optionally ``logP``, ``BUILD``, ``OLD_POS``,</span>
+<span class="s2">        ``OLD_BUILD`` (when build and liftover were applied).</span>
+<span class="s2">    hits_table : pandas.DataFrame</span>
+<span class="s2">        Clumped locus summary table with nearest-gene annotations.  Empty</span>
+<span class="s2">        DataFrame when no variants pass the significance threshold.</span>
+<span class="s2">    signif_lines : list of dict</span>
+<span class="s2">        One ``{&#39;genome&#39;: float, &#39;suggestive&#39;: float}`` dict per track, in</span>
+<span class="s2">        the final sorted order.</span>
 
-<span class="s1">    See Also</span>
-<span class="s1">    --------</span>
-<span class="s1">    prep_pycmplot_input_info :</span>
-<span class="s1">        Resolves column names and delimiters; its output is passed as</span>
-<span class="s1">        *file_info*.</span>
-<span class="s1">    pycmplot.annotation.get_hits_summary_table :</span>
-<span class="s1">        Gene annotation and distance-based clumping of the locus table.</span>
-<span class="s1">    pycmplot.liftover.liftover_position :</span>
-<span class="s1">        hg19 → hg38 coordinate conversion applied row-wise.</span>
+<span class="s2">    See Also</span>
+<span class="s2">    --------</span>
+<span class="s2">    prep_pycmplot_input_info :</span>
+<span class="s2">        Resolves column names and delimiters; its output is passed as</span>
+<span class="s2">        *file_info*.</span>
+<span class="s2">    pycmplot.annotation.get_hits_summary_table :</span>
+<span class="s2">        Gene annotation and distance-based clumping of the locus table.</span>
+<span class="s2">    pycmplot.liftover.liftover_position :</span>
+<span class="s2">        hg19 → hg38 coordinate conversion applied row-wise.</span>
 
-<span class="s1">    Examples</span>
-<span class="s1">    --------</span>
-<span class="s1">    &gt;&gt;&gt; from pycmplot.io import prep_pycmplot_input_info</span>
-<span class="s1">    &gt;&gt;&gt; from pycmplot.io import get_sumstats_and_merged_sector_list</span>
-<span class="s1">    &gt;&gt;&gt; files  = [&quot;HbF.tsv.gz&quot;, &quot;MCV.txt.gz&quot;]</span>
-<span class="s1">    &gt;&gt;&gt; labels = [&quot;HbF&quot;, &quot;MCV&quot;]</span>
-<span class="s1">    &gt;&gt;&gt; file_info = prep_pycmplot_input_info(files, labels)</span>
-<span class="s1">    &gt;&gt;&gt; sectors, loaded, hits, sig_lines = get_sumstats_and_merged_sector_list(</span>
-<span class="s1">    ...     sum_stats=files,</span>
-<span class="s1">    ...     labels=labels,</span>
-<span class="s1">    ...     logp=True,</span>
-<span class="s1">    ...     trim_pval=0.01,</span>
-<span class="s1">    ...     file_info=file_info,</span>
-<span class="s1">    ...     signif_threshold=5e-8,</span>
-<span class="s1">    ... )</span>
-<span class="s1">    &gt;&gt;&gt; list(sectors.keys())[:4]</span>
-<span class="s1">    [&#39;1&#39;, &#39;2&#39;, &#39;3&#39;, &#39;4&#39;]</span>
-<span class="s1">    &gt;&gt;&gt; hits.shape</span>
-<span class="s1">    (18, 12)</span>
-<span class="s1">    &quot;&quot;&quot;&#39;&#39;&#39;</span>
+<span class="s2">    Examples</span>
+<span class="s2">    --------</span>
+<span class="s2">    &gt;&gt;&gt; from pycmplot.io import prep_pycmplot_input_info</span>
+<span class="s2">    &gt;&gt;&gt; from pycmplot.io import get_sumstats_and_merged_sector_list</span>
+<span class="s2">    &gt;&gt;&gt; files  = [&quot;HbF.tsv.gz&quot;, &quot;MCV.txt.gz&quot;]</span>
+<span class="s2">    &gt;&gt;&gt; labels = [&quot;HbF&quot;, &quot;MCV&quot;]</span>
+<span class="s2">    &gt;&gt;&gt; file_info = prep_pycmplot_input_info(files, labels)</span>
+<span class="s2">    &gt;&gt;&gt; sectors, loaded, hits, sig_lines = get_sumstats_and_merged_sector_list(</span>
+<span class="s2">    ...     sum_stats=files,</span>
+<span class="s2">    ...     labels=labels,</span>
+<span class="s2">    ...     logp=True,</span>
+<span class="s2">    ...     trim_pval=0.01,</span>
+<span class="s2">    ...     file_info=file_info,</span>
+<span class="s2">    ...     signif_threshold=5e-8,</span>
+<span class="s2">    ... )</span>
+<span class="s2">    &gt;&gt;&gt; list(sectors.keys())[:4]</span>
+<span class="s2">    [&#39;1&#39;, &#39;2&#39;, &#39;3&#39;, &#39;4&#39;]</span>
+<span class="s2">    &gt;&gt;&gt; hits.shape</span>
+<span class="s2">    (18, 12)</span>
+<span class="s2">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">resources</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">resources</span> <span class="o">=</span> <span class="n">default_resources</span>
@@ -964,6 +1027,12 @@
         <span class="n">sumstat_newcols</span><span class="o">=</span> <span class="n">file_info</span><span class="p">[</span><span class="n">label</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
         <span class="n">sep</span>            <span class="o">=</span> <span class="n">file_info</span><span class="p">[</span><span class="n">label</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span>
 
+        <span class="n">build</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">build</span>      <span class="o">=</span> <span class="n">file_info</span><span class="p">[</span><span class="n">label</span><span class="p">][</span><span class="mi">4</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">pass</span>
+
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Loading </span><span class="si">%s</span><span class="s2"> from </span><span class="si">%s</span><span class="s2"> …&quot;</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">sumstats</span><span class="p">[</span><span class="n">label</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
             <span class="n">sumstats</span><span class="p">[</span><span class="n">label</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
@@ -972,6 +1041,10 @@
             <span class="n">usecols</span><span class="o">=</span><span class="n">sumstat_cols</span><span class="p">,</span>
             <span class="n">dtype</span><span class="o">=</span><span class="n">sumstat_dtypes</span><span class="p">,</span>
         <span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">sumstat_newcols</span><span class="p">)</span>
+
+        <span class="c1"># Add build column if not exist and build supplied</span>
+        <span class="k">if</span> <span class="n">build</span><span class="p">:</span>
+            <span class="n">df</span><span class="p">[</span><span class="s1">&#39;BUILD&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">build</span>
 
         <span class="c1"># Trim insignificant variants for faster plotting</span>
         <span class="k">if</span> <span class="n">trim_pval</span><span class="p">:</span>

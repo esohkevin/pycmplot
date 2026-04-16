@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-MODULE_DOCSTRING = '''"""
+MODULE_DOCSTRING = """
 pycmplot.annotation
 ====================
 
@@ -20,7 +20,7 @@ Annotation relies on a bundled Ensembl gene-info TSV (hg38 or hg19).  The
 file is resolved through :class:`~pycmplot.resources.ResourceConfig`; custom
 paths can be supplied via the ``PYCMPLOT_GENEINFO_HG38`` /
 ``PYCMPLOT_GENEINFO_HG19`` environment variables.
-"""'''
+"""
 
 import bisect
 import logging
@@ -41,7 +41,7 @@ logger = logging.getLogger(__name__)
 # ---------------------------------------------------------------------------
 
 def _build_genes_dict(genes_df: pd.DataFrame) -> dict:
-    BUILD_GENES_DICT = '''"""Build a chromosome-keyed interval dictionary with sorted start positions.
+    BUILD_GENES_DICT = """Build a chromosome-keyed interval dictionary with sorted start positions.
 
     Pre-processes the gene reference DataFrame into a structure that supports
     efficient O(log N) binary-search lookup of genes near a query position.
@@ -67,7 +67,7 @@ def _build_genes_dict(genes_df: pd.DataFrame) -> dict:
     -----
     This function is called once per :func:`get_hits_summary_table` invocation;
     the result is passed to :func:`_annotate_variant` for each lead SNP.
-    """'''
+    """
 
     genes_df = genes_df.sort_values(["CHR", "START"])
     genes_dict: dict = {}
@@ -98,7 +98,7 @@ def _annotate_variant(
     window: int = 500_000,
     promoter_window: int = 2_000,
 ) -> dict:
-    ANNOTATE_VARIANT = '''"""Return strand-aware nearest-gene annotation for a single variant.
+    ANNOTATE_VARIANT = """Return strand-aware nearest-gene annotation for a single variant.
 
     Searches the pre-built *genes_dict* within *window* bp of *pos* on
     *chrom*.  Reports the nearest upstream and downstream genes (relative to
@@ -138,7 +138,7 @@ def _annotate_variant(
         within *promoter_window* bp upstream of any TSS.
         * ``gene_density`` (int) – number of genes with any overlap in the
         search window.
-    """'''
+    """
 
     _empty = {
         "genic": False,
@@ -238,7 +238,7 @@ def _annotate_and_prioritize_variant(
     promoter_window: int = 2_000,
     biotype_weights: Optional[dict] = None,
 ) -> Optional[dict]:
-    ANNOTATE_PRIORITIZE = '''"""Score and rank candidate genes for a single variant using a composite
+    ANNOTATE_PRIORITIZE = """Score and rank candidate genes for a single variant using a composite
     priority metric.
 
     Builds a candidate gene set within *window* bp of *pos* on *chrom*, then
@@ -287,7 +287,7 @@ def _annotate_and_prioritize_variant(
         For intergenic variants, ``top_gene`` contains the two nearest flanking
         gene symbols joined by ``'-'`` (e.g. ``'HBB-HBD'``) and ``biotype``
         is set to ``'intergenic'``.
-    """'''
+    """
 
     if biotype_weights is None:
         biotype_weights = BIOTYPE_WEIGHTS
@@ -386,7 +386,7 @@ def _annotate_and_prioritize_variant(
 # ---------------------------------------------------------------------------
 
 def _clump_by_distance(df: pd.DataFrame, window_kb: int = 500) -> pd.DataFrame:
-    CLUMP_BY_DISTANCE = '''"""Reduce a lead-SNP table to one representative SNP per locus.
+    CLUMP_BY_DISTANCE = """Reduce a lead-SNP table to one representative SNP per locus.
 
     Applies greedy distance-based clumping within each chromosome group,
     starting from the most significant SNP (lowest ``P`` or highest ``logP``).
@@ -406,7 +406,7 @@ def _clump_by_distance(df: pd.DataFrame, window_kb: int = 500) -> pd.DataFrame:
     pandas.DataFrame
         Deduplicated locus representatives sorted by chromosome and position
         (natural sort order).
-    """'''
+    """
 
     window = window_kb * 1000
     clumped: list[pd.Series] = []
@@ -438,7 +438,7 @@ def get_hits_summary_table(
     table_out: Optional[str] = None,
     resources: Optional[ResourceConfig] = None,
 ) -> pd.DataFrame:
-    GET_HITS_SUMMARY_TABLE = '''"""Annotate lead SNPs with nearest genes and write the locus summary table.
+    GET_HITS_SUMMARY_TABLE = """Annotate lead SNPs with nearest genes and write the locus summary table.
 
     For each lead SNP in *leads_df*, runs two complementary annotation passes:
 
@@ -528,51 +528,54 @@ def get_hits_summary_table(
             SNP CHR       POS  top_gene           biotype
     0  rs123456   2  60718043    BCL11A    protein_coding
     1  rs789012  11   5246696       HBB    protein_coding
-    """'''
+    """
 
     if resources is None:
         resources = default_resources
 
     # Choose gene info file based on build
-    if "OLD_POS" not in leads_df.columns and list(set(leads_df["BUILD"])) == ["hg19"]:
-        geneinfo_path = resources.require("geneinfo_hg19")
+    if 'BUILD' in leads_df.columns:
+        if "OLD_POS" not in leads_df.columns and list(set(leads_df["BUILD"])) == ["hg19"]:
+            geneinfo_path = resources.require("geneinfo_hg19")
+        else:
+            geneinfo_path = resources.require("geneinfo_hg38")
+
+        logger.info("Loading gene info from: %s", geneinfo_path)
+        geneinfo = pd.read_csv(geneinfo_path, header=0, sep="\t")
+        genes_dict = _build_genes_dict(geneinfo)
+
+        window = window_kb * 1_000
+        records: list[dict] = []
+
+
+        logger.info("Annotating lead variants and generating hits summary table ...")
+        for _, row in leads_df.iterrows():
+            annotation = _annotate_variant(
+                chrom=row["CHR"],
+                pos=row["POS"],
+                genes_dict=genes_dict,
+                window=window,
+            )
+            prioritized = _annotate_and_prioritize_variant(
+                chrom=row["CHR"],
+                pos=row["POS"],
+                genes_df=geneinfo,
+                lead_snps_df=leads_df,
+                window=window,
+            )
+
+            record = {
+                **(row.to_dict()),
+                **(annotation if annotation is not None else {}),
+                **(prioritized if prioritized is not None else {}),
+            }
+            records.append(record)
+
+        locus_table = pd.DataFrame(records).sort_values(
+            ["CHR", "POS"], key=natsort.natsort_keygen()
+        )
     else:
-        geneinfo_path = resources.require("geneinfo_hg38")
-
-    logger.info("Loading gene info from: %s", geneinfo_path)
-    geneinfo = pd.read_csv(geneinfo_path, header=0, sep="\t")
-    genes_dict = _build_genes_dict(geneinfo)
-
-    window = window_kb * 1_000
-    records: list[dict] = []
-
-
-    logger.info("Annotating lead variants and generating hits summary table ...")
-    for _, row in leads_df.iterrows():
-        annotation = _annotate_variant(
-            chrom=row["CHR"],
-            pos=row["POS"],
-            genes_dict=genes_dict,
-            window=window,
-        )
-        prioritized = _annotate_and_prioritize_variant(
-            chrom=row["CHR"],
-            pos=row["POS"],
-            genes_df=geneinfo,
-            lead_snps_df=leads_df,
-            window=window,
-        )
-
-        record = {
-            **(row.to_dict()),
-            **(annotation if annotation is not None else {}),
-            **(prioritized if prioritized is not None else {}),
-        }
-        records.append(record)
-
-    locus_table = pd.DataFrame(records).sort_values(
-        ["CHR", "POS"], key=natsort.natsort_keygen()
-    )
+        locus_table = leads_df
 
     if table_out is not None:
         locus_table.to_csv(table_out, index=False, sep="\t", na_rep="None")

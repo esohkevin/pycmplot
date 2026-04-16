@@ -1,3 +1,25 @@
+Version 0.2.1 (2026-04-16)
+==========================
+
+Added
+-----
+
+- Added option to supply genome builds for summary stats files ``--build``` if 'BUILD' column is not in the files.
+      This is a revertion to earlier versions of the plotting script. 
+      Also made ``--build`` and ``--build_column`` optional allowing plotting to still proceed without genome build information.
+      However, caution must be taken when multiple summary stats files are provided with different coordinate systems.
+      For example, if ``--annotate`` is set, hits table generation will default to `hg38` coordinate, potentially leading to 
+      in accurate annotations for variants in different coordinates.
+
+
+Changed
+-------
+
+- Changed ``--annotate`` choices:
+      Expnaded choices from `snp` and `gene` to include other columns in hits table.
+      Also allowed for other columns in user supplied annotation table (available in python API only).
+
+
 Version 0.1.9 (2026-04-14)
 ==========================
 

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-CLI_MODULE = '''"""
+CLI_MODULE = """
 pycmplot.cli
 ============
 
@@ -15,7 +15,7 @@ Arguments are organised into four groups:
   colours, and output format (apply to both plot modes).
 * **Circular Only** — arguments specific to ``--mode cm``.
 * **Linear Only** — arguments specific to ``--mode lm`` (default).
-"""'''
+"""
 
 import argparse
 from pathlib import Path
@@ -30,7 +30,7 @@ DESCMSG = """
 
 
 def get_arguments(descmsg: str = DESCMSG) -> argparse.Namespace:
-    GET_ARGUMENTS = '''"""Parse and return command-line arguments for the pycmplot entry point.
+    GET_ARGUMENTS = """Parse and return command-line arguments for the pycmplot entry point.
 
     Parameters
     ----------
@@ -146,8 +146,10 @@ def get_arguments(descmsg: str = DESCMSG) -> argparse.Namespace:
             - Description
         * - ``annotate``
             - str
-            - Annotation content: ``'SNP'`` (rsID) or ``'GENE'`` (nearest
-            gene symbol).  Default ``'SNP'``.
+            - Annotation content: Annotate loci by column in hits table
+            ``'snp'`` (rsID), ``top_gene``, ``nearest_upstream_gene``, ``nearest_downstream_gene``, etc, 
+            or ``'gene'`` (let the package decide one of ``top_gene`` or ``nearest_upstream_gene``).  
+            Default ``'snp'``.
         * - ``annotation_size``
             - float
             - Font size for annotation labels.  Default ``6``.
@@ -263,7 +265,7 @@ def get_arguments(descmsg: str = DESCMSG) -> argparse.Namespace:
     --------
     pycmplot._core.main :
         Consumes the :class:`~argparse.Namespace` returned by this function.
-    """'''
+    """
 
     parser = argparse.ArgumentParser(
         prog="pycmplot",
@@ -293,10 +295,7 @@ def get_arguments(descmsg: str = DESCMSG) -> argparse.Namespace:
         ),
         required=True, type=str, metavar="str",
     )
-    req.add_argument(
-        "-b",   "--build_column",  required=True, type=str, metavar="str",
-        help="Genome build column name (containing hg18/hg19/hg38)."
-    )
+
 
     # ------------------------------------------------------------------
     # Optional
@@ -329,6 +328,23 @@ def get_arguments(descmsg: str = DESCMSG) -> argparse.Namespace:
         help="File delimiter (autodetected if omitted)."
     )
     opt.add_argument(
+        "-bc",   "--build_column",  required=False, type=str, metavar="str",
+        help="Name of column containing genome build (hg18/hg19/hg38). Or use ``--build`` below to supply genome builds per summary stat file."
+    )
+    opt.add_argument(
+        "-b","--build",
+        help="""
+        Comma-sperated list of genome build of summary stats file(s) listed in the same order as sumstats files.
+        (e.g. hg19,hg38,hg38,hg19 means: 
+            file1.txt.gz --> hg19
+            file2.txt.gz --> hg38
+            file3.tsv --> hg38 ... etc)
+        """,
+        required=False,
+        type=str,
+        metavar='str'        
+    )
+    opt.add_argument(
         "--logp", action="store_true",
         help="Plot −log₁₀(p) instead of raw p-values."
     )
@@ -355,11 +371,17 @@ def get_arguments(descmsg: str = DESCMSG) -> argparse.Namespace:
         default=None, const=1e-5, nargs="?", type=float, metavar="float",
         help="Suggestive significance threshold (default: 1e-5)."
     )
+
+    # CLASS TO HANDLE ANNOTATION VALUES NOT IN CHOICE LIST
+    class AllowAll(list):
+        def __contains__(self, item):
+            return True
+
     opt.add_argument(
         "-a", "--annotate",
-        choices=["SNP", "GENE"], nargs="?",
-        default="SNP", const="SNP", type=str, #metavar="str",
-        help="Annotate significant loci by SNP ID or nearest gene."
+        choices=AllowAll(["snp", "gene", "top_gene", "nearest_upstream_gene", "nearest_downstream_gene"]), nargs="?",
+        default=None, type=str, metavar="{snp,gene,top_gene,nearest_upstream_gene,nearest_downstream_gene,...}", const="SNP",
+        help="Annotate loci by column name in hits table (defaults to 'snp' if provided and no value set)."
     )
     opt.add_argument(
         "-p_size", "--point_size", default=6, type=float, metavar="float",
@@ -378,7 +400,7 @@ def get_arguments(descmsg: str = DESCMSG) -> argparse.Namespace:
         help="P-value threshold for highlighting (default: 5e-8)."
     )
     opt.add_argument(
-        "-hc", "--highight_color", default="brown", type=str, metavar="str",
+        "-hc", "--highlight_color", default="brown", type=str, metavar="str",
         help="Color of highlighted positions (default: brown)."
     )     
     opt.add_argument(
@@ -386,7 +408,7 @@ def get_arguments(descmsg: str = DESCMSG) -> argparse.Namespace:
         help="Draw vertical dashed lines through highlighted positions."
     )     
     opt.add_argument(
-        "-hlc", "--highight_line_color", default="grey", type=str, metavar="str",
+        "-hlc", "--highlight_line_color", default="grey", type=str, metavar="str",
         help="Color of highlight line (default: grey)."
     )    
     opt.add_argument(
@@ -444,7 +466,7 @@ def get_arguments(descmsg: str = DESCMSG) -> argparse.Namespace:
     )
     cio.add_argument(
         "-cl_side", "--chrom_label_side", choices=["inside", "outside"],
-        nargs="?", default="inside", const="inside", type=str,
+        nargs="?", default=None, const="inside", type=str,
         help="Chromosome label placement (default: inside)."
     )
     cio.add_argument(

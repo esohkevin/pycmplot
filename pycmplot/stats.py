@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-MODULE_DOCSTRING = '''"""
+MODULE_DOCSTRING = """
 pycmplot.stats
 ==============
 
@@ -17,7 +17,7 @@ Notes
 Both functions operate on a single-trait DataFrame.  When comparing multiple
 traits, call them independently per track; lead SNP extraction across traits
 is handled by :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`.
-"""'''
+"""
 
 import numpy as np
 import pandas as pd
@@ -29,7 +29,7 @@ def get_lead_snps(
     logp: bool = False,
     window: int = 500_000,
 ) -> pd.DataFrame:
-    GET_LEAD_SNPS = '''"""Identify independent lead SNPs by greedy distance-based clumping.
+    GET_LEAD_SNPS = """Identify independent lead SNPs by greedy distance-based clumping.
 
     Starting from the most significant variant, each subsequent variant is
     retained as a new lead only if it lies more than *window* base-pairs from
@@ -81,7 +81,7 @@ def get_lead_snps(
             SNP CHR       POS           P
     0  rs123456   2  60718043  1.20e-120
     1  rs789012  11   5246696  3.40e-85
-    """'''
+    """
 
     if logp:
         thresh = -np.log10(float(signif_threshold))
@@ -115,7 +115,7 @@ def get_highlight_snps(
     logp: bool = False,
     window: int = 500_000,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
-    GET_HIGHLIGHT_SNPS = '''"""Mark all variants within *window* bp of a lead SNP.
+    GET_HIGHLIGHT_SNPS = """Mark all variants within *window* bp of a lead SNP.
 
     Calls :func:`get_lead_snps` to identify independent loci, then sets an
     ``in_locus`` boolean flag on every variant whose chromosomal position falls
@@ -155,7 +155,7 @@ def get_highlight_snps(
     >>> df_ann, leads = get_highlight_snps(df, highlight_thresh=5e-8)
     >>> df_ann["in_locus"].sum()
     1842
-    """'''
+    """
 
     df = df.copy()
     df["in_locus"] = False

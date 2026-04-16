@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-CIRCULAR_MODULE = '''"""
+CIRCULAR_MODULE = """
 pycmplot.plotting.circular
 ===========================
 
@@ -18,7 +18,7 @@ The module exposes two public functions and one internal per-sector helper:
   ``(sector, sumstat)`` pair inside the main loop of :func:`plot_circular`.
   Mutates the :class:`pycirclize.Sector` object in place and returns
   ``None``.
-"""'''
+"""
 
 import logging
 import math
@@ -44,7 +44,7 @@ def compute_track_radii_dict(
     pad: float = 1,
     annotate: bool = False,
 ) -> dict[str, tuple[float, float]]:
-    COMPUTE_RADII = '''"""Compute ``(r_start, r_end)`` tuples for *n_tracks* evenly-spaced radial bands.
+    COMPUTE_RADII = """Compute ``(r_start, r_end)`` tuples for *n_tracks* evenly-spaced radial bands.
 
     Divides the usable radial space between *r_min* and *r_max* into
     *n_tracks* bands of equal height, separated by gaps of *pad* units.  The
@@ -88,7 +88,7 @@ def compute_track_radii_dict(
     [('track_1', (20.0, 45.33...)),
     ('track_2', (47.33..., 72.66...)),
     ('track_3', (74.66..., 100.0))]
-    """'''
+    """
 
     if annotate:
         n_tracks += 1
@@ -123,10 +123,10 @@ def plot_circosm(
     annotation_r=None,
     assoc: Optional[pd.DataFrame] = None,
     sector_sizes: Optional[dict] = None,
-    chrom_label_loc=None,
+    chrom_label_loc: Optional[float] = -3,
     chrom_label_size: float = 6,
     track_label_size: float = 6,
-    track_label_orientation: str = "vertical",
+    track_label_orientation: Optional[str] = "vertical",
     track_index: int = 0,
     assoc_label: Optional[str] = None,
     logp: bool = True,
@@ -136,11 +136,11 @@ def plot_circosm(
     suggest_threshold: Optional[float] = 1e-5,
     highlight: bool = False,
     highlight_thresh: Optional[float] = 5e-8,
-    highight_color: str = 'brown',
+    highlight_color: str = 'brown',
     colors: Optional[list[str]] = ['steelblue','orange'],
     no_track_labels: bool = False
 ) -> None:
-    PLOT_CIRCOSM = '''"""Plot one track of summary statistics onto a single pycirclize sector.
+    PLOT_CIRCOSM = """Plot one track of summary statistics onto a single pycirclize sector.
 
     This is a low-level internal function called once for every
     ``(sector, sumstat)`` combination in the :func:`plot_circular` main loop.
@@ -198,12 +198,12 @@ def plot_circosm(
     highlight : bool, optional
         If ``True``, variants within significant loci (``in_locus == True``
         after :func:`~pycmplot.stats.get_highlight_snps`) are rendered in
-        ``highight_color`` (see below).  Default ``False``.
+        ``highlight_color`` (see below).  Default ``False``.
     highlight_thresh : float, optional
         P-value threshold passed to
         :func:`~pycmplot.stats.get_highlight_snps` when *highlight* is
         ``True``.  Default ``5e-8``.
-    highight_color : str, optional
+    highlight_color : str, optional
         Color of highlighted positions when *highlight* is ``True``.
         Default ``brown``. 
     colors : list of str, optional
@@ -211,7 +211,7 @@ def plot_circosm(
         Default ``['steelblue', 'orange']``.
     no_track_labels : bool, optional
         Suppress the track label on the spacer sector.  Default ``False``.
-    """'''
+    """
 
     if colors is None:
         colors = ["steelblue", "orange"]
@@ -223,8 +223,6 @@ def plot_circosm(
             highlight_thresh=highlight_thresh,
             logp=logp,
         )
-
-    logger.info("Processing sector: %s", sector.name)
 
     assoc = assoc.copy()
     assoc["POS"] = assoc["POS"].fillna(0).astype(int)
@@ -274,8 +272,12 @@ def plot_circosm(
     # Chromosome label (first track only, or chrX)
     # ------------------------------------------------------------------
     if track_index == 0 or sector.name == "X":
+        if chrom_label_loc > 100:
+            chr_label = str("chr") + str(sector.name.replace("23", "X"))
+        else: 
+            chr_label = sector.name.replace("23", "X")
         sector.text(
-            sector.name.replace("23", "X") if chrom_label_loc == 'inside' else str("chr") + str(sector.name.replace("23", "X")),
+            chr_label,
             r=chrom_label_loc,
             size=chrom_label_size,
         )
@@ -336,7 +338,7 @@ def plot_circosm(
                 sig["POS"].to_numpy(),
                 sig[y_col].to_numpy(),
                 vmin=v_min, vmax=v_max,
-                s=6, marker="o", color=highight_color,
+                s=6, marker="o", color=highlight_color,
             )
     else:
         track.scatter(
@@ -376,13 +378,14 @@ def plot_circular(
     r_min: float = 20,
     r_max: float = 100,
     annotate: str = None,
+    label_col: str = None,
     chrom_label_side: str = 'inside',
     signif_line: float = 5e-8,
     highlight: bool = False,
     highlight_thresh: float = 5e-8,
-    highight_color: str = 'brown',
+    highlight_color: str = 'brown',
     highlight_line: bool = False,
-    highight_line_color: str = 'grey',
+    highlight_line_color: str = 'grey',
     colors: list[str] = ['steelblue', 'grey'],
     chrom_label_size: float = 6,
     track_label_size: float = 6,
@@ -396,7 +399,7 @@ def plot_circular(
     output_dir: Optional[str] = '.',
     no_track_labels: bool = False
 ):
-    PLOT_CIRCULAR = '''"""Generate a multi-track Circos-style circular Manhattan plot.
+    PLOT_CIRCULAR = """Generate a multi-track Circos-style circular Manhattan plot.
 
     Sets up a :class:`pycirclize.Circos` canvas with one arc sector per
     chromosome, computes radial track extents, and calls :func:`plot_circosm`
@@ -447,7 +450,7 @@ def plot_circular(
         Render significant-locus variants in brown.  Default ``False``.
     highlight_thresh : float, optional
         P-value threshold for locus highlighting.  Default ``5e-8``.
-    highight_color : str, optional
+    highlight_color : str, optional
         Color of highlighted positions when *highlight* is ``True``.
         Default ``brown``.         
     colors : list of str, optional
@@ -467,7 +470,7 @@ def plot_circular(
     highlight_line : bool, optional
         Draw a dashed radial line from the innermost track to the annotation
         ring for each annotated position.  Default ``False``.
-    highight_line_color : str, optional
+    highlight_line_color : str, optional
         Color of highlight line when *highlight_line* is ``True``.
     plot_title : str, optional
         Text placed in the centre of the circle and used as the output
@@ -515,7 +518,7 @@ def plot_circular(
     ...     plot_title="RBC_Traits",
     ...     output_dir="./results",
     ... )
-    """'''
+    """
 
     from pycirclize import Circos
 
@@ -555,7 +558,7 @@ def plot_circular(
     radii_reversed = dict(reversed(list(radii.items())))
 
     inside_loc  = r_min - 3
-    outside_loc = 101
+    outside_loc = 105
     chrom_label_loc = outside_loc if chrom_label_side == "outside" else inside_loc
 
     if annotate:
@@ -578,11 +581,9 @@ def plot_circular(
 
         sig_thresh = signif_dict["genome"]
         sug_thresh = signif_dict["suggestive"]
-        logger.info(f"SIGNIFICANCE THRESHOLD: {sig_thresh}")
-        logger.info(f"SUGGESTIVE THRESHOLD: {sug_thresh}")
 
-        #if logp:
-        #    assoc["logP"] = assoc["logP"].dropna()
+        logger.info(f"Plotting : {sumstat_name}")
+        #logger.info(f"SUGGESTIVE THRESHOLD: {sug_thresh}")
 
         for sector in circos.sectors:
             plot_circosm(
@@ -604,7 +605,7 @@ def plot_circular(
                 suggest_threshold=sug_thresh,
                 highlight=highlight,
                 highlight_thresh=highlight_thresh,
-                highight_color=highight_color,
+                highlight_color=highlight_color,
                 colors=colors,
                 no_track_labels=no_track_labels
             )
@@ -614,16 +615,24 @@ def plot_circular(
     # ------------------------------------------------------------------
     if annotate and not hits_table.empty:
         for i, (_, row) in enumerate(hits_table.iterrows()):
-            if str(annotate).upper() != "GENE":
-                label  = row["SNP"]
-                fstyle = "normal"
-            else:
-                if row["genic"]:
-                    label = row["nearest_upstream_gene"]
-                else:
-                    label = row["top_gene"]
-                fstyle = "italic"
-
+            label = row['SNP']
+            fstyle = "normal" 
+            if label_col:
+                label_col = str(label_col)
+                try:
+                    if label_col == "GENE":
+                        if row["genic"]:
+                            label = row["nearest_upstream_gene"]
+                        else:
+                            label = row["top_gene"]
+                            fstyle = "italic"                       
+                    elif label_col != "SNP":
+                        label = row[label_col]
+                        fstyle = "italic"
+                except Exception:
+                    logger.info("'SNP' column is used for annotation since '%s' column could not be resolved in hits table.", label_col)
+                    pass                
+            
             for sector in circos.sectors:
                 if str(row["CHR"]) == sector.name:
                     a_track = sector.add_track(annotation_track_radius)
@@ -651,15 +660,15 @@ def plot_circular(
                     )
 
                     if highlight_line:
-                        if not highight_line_color:
-                            highight_line_color = 'grey'
+                        if not highlight_line_color:
+                            highlight_line_color = 'grey'
                         sector_rlim = [t.r_lim for t in sector.tracks]
                         sector_min_r = min(sector_rlim)[0]
                         sector.line(
                             r=[sector_min_r, r_low],
                             start=pos,
                             end=pos,
-                            color=highight_line_color,
+                            color=highlight_line_color,
                             lw=0.5,
                             ls="--",
                         )

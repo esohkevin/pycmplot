@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-RESOURCES_MODULE = '''"""
+RESOURCES_MODULE = """
 pycmplot.resources
 ==================
 
@@ -38,7 +38,7 @@ Override a single resource while using defaults for the rest:
 >>> # pass cfg to any function that accepts a resources argument:
 >>> from pycmplot.liftover import liftover_position
 >>> df_lifted = liftover_position(df, resources=cfg)
-"""'''
+"""
 
 
 import os
@@ -58,7 +58,7 @@ def _pkg_data(filename: str) -> str:
 
 @dataclass
 class ResourceConfig:
-    RESOURCE_CONFIG_CLASS = '''"""Paths to external reference files used by pycmplot.
+    RESOURCE_CONFIG_CLASS = """Paths to external reference files used by pycmplot.
 
     All attributes default to values resolved from environment variables or the
     bundled ``pycmplot/data/`` directory via :func:`importlib.resources.files`.
@@ -92,7 +92,7 @@ class ResourceConfig:
     >>> cfg = ResourceConfig(
     ...     geneinfo_hg38="/data/custom_GRCh38_genes.tsv.gz"
     ... )
-    """'''
+    """
 
     chain_hg19_hg38: str | None = field(
         default_factory=lambda: _env(
@@ -120,7 +120,7 @@ class ResourceConfig:
     #)
 
     def require(self, attr: str) -> str:
-        REQUIRE_METHOD = '''"""Return the path for *attr*, raising a clear :exc:`FileNotFoundError`
+        REQUIRE_METHOD = """Return the path for *attr*, raising a clear :exc:`FileNotFoundError`
         if the attribute is unset or the path does not exist.
 
         First checks whether the attribute value is ``None``; if so, raises
@@ -152,7 +152,7 @@ class ResourceConfig:
         >>> chain = cfg.require("chain_hg19_hg38")
         >>> chain.endswith(".over.chain")
         True
-        """'''
+        """
 
         val = getattr(self, attr)
         if val is None:

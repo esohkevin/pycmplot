@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-MODULE_DOCSTRING = '''"""
+MODULE_DOCSTRING = """
 pycmplot.io
 ===========
 
@@ -21,7 +21,7 @@ This module is called automatically by the command-line entry point and by
 :func:`pycmplot._core.main`; most users will not need to import it directly.
 It is documented here for users who wish to load and pre-process summary
 statistics programmatically before passing them to the plotting functions.
-"""'''
+"""
 
 import csv
 import gzip
@@ -48,7 +48,7 @@ logger = logging.getLogger(__name__)
 # ---------------------------------------------------------------------------
 
 def smart_open(file_path: str):
-    SMART_OPEN = '''"""Open a plain-text or gzip-compressed file transparently.
+    SMART_OPEN = """Open a plain-text or gzip-compressed file transparently.
 
     Detects gzip compression from the ``.gz`` file suffix; all other paths are
     opened as plain text.
@@ -69,7 +69,7 @@ def smart_open(file_path: str):
     >>> from pycmplot.io import smart_open
     >>> with smart_open("HbF.tsv.gz") as f:
     ...     header = f.readline()
-    """'''
+    """
 
     path = Path(file_path)
     if path.suffix == ".gz":
@@ -78,7 +78,7 @@ def smart_open(file_path: str):
 
 
 def resolve_delimiter(delim: str) -> str:
-    RESOLVE_DELIMITER = '''"""Map a human-readable delimiter name to its single-character representation.
+    RESOLVE_DELIMITER = """Map a human-readable delimiter name to its single-character representation.
 
     Parameters
     ----------
@@ -106,7 +106,7 @@ def resolve_delimiter(delim: str) -> str:
     '\\t'
     >>> resolve_delimiter(",")
     ','
-    """'''
+    """
 
     if not isinstance(delim, str):
         raise TypeError("Delimiter must be a string.")
@@ -131,7 +131,7 @@ def resolve_delimiter(delim: str) -> str:
 
 
 def detect_delimiter(file_path: str, sample_size: int = 5_000):
-    DETECT_DELIMITER = '''"""Infer the field delimiter of a summary statistics file automatically.
+    DETECT_DELIMITER = """Infer the field delimiter of a summary statistics file automatically.
 
     Reads the first *sample_size* bytes of *file_path* and passes the content
     to :class:`csv.Sniffer`.  Falls back to a character-frequency heuristic
@@ -161,7 +161,7 @@ def detect_delimiter(file_path: str, sample_size: int = 5_000):
     >>> delim, dialect = detect_delimiter("HbF.tsv.gz")
     >>> delim
     '\\t'
-    """'''
+    """
 
     with smart_open(file_path) as f:
         sample = f.read(sample_size)
@@ -187,7 +187,7 @@ def get_file_header(
     delim: Optional[str] = None,
     dialect=None,
 ) -> list[str]:
-    GET_FILE_HEADER = '''"""Read and return the column names from the header line of a file.
+    GET_FILE_HEADER = """Read and return the column names from the header line of a file.
 
     Opens *file_path*, reads the first row using :class:`csv.DictReader`
     configured with the supplied delimiter or dialect, and returns the field
@@ -218,7 +218,7 @@ def get_file_header(
     >>> header = get_file_header("HbF.tsv.gz", delim=delim)
     >>> header[:4]
     ['CHR', 'POS', 'SNP', 'P']
-    """'''
+    """
 
     with smart_open(file_path) as f:
         try:
@@ -243,8 +243,9 @@ def strip_comma_separated_input_streams(
     labels,
     colors_raw = 'steelblue,grey',
     track_heights = None,
+    builds = None
 ):
-    STRIP_COMMA = '''"""Parse comma-separated CLI strings into Python lists.
+    STRIP_COMMA = """Parse comma-separated CLI strings into Python lists.
 
     Converts the raw string arguments produced by ``argparse`` (e.g.
     ``"HbF.tsv.gz,MCV.txt.gz,MCH.tsv.gz"``) into the lists expected by the
@@ -279,7 +280,24 @@ def strip_comma_separated_input_streams(
     ------
     SystemExit
         If *sum_stats* and *labels* have different numbers of elements.
-    """'''
+    """
+
+    # ------------------------------------------------------------------
+    # Sumstat, labels str to list
+    # ------------------------------------------------------------------
+    labels     = [lbl.strip() for lbl in labels.strip().split(",")]
+    
+    sum_stats  = [s.strip() for s in sum_stats.strip().split(",")]
+
+    if builds:
+        builds  = [s.strip() for s in builds.strip().split(",")]
+        if len(sum_stats) != len(labels) != len(builds):
+            sys.exit(
+                "Error: number of summary stats files, labels, and builds must match.\n"
+                f"  Files:  {sum_stats}\n"
+                f"  Labels: {labels}"
+                f"  Builds: {builds}"
+            )
 
     if len(sum_stats) != len(labels):
         sys.exit(
@@ -289,13 +307,6 @@ def strip_comma_separated_input_streams(
         )
 
     # ------------------------------------------------------------------
-    # Sumstat, labels str to list
-    # ------------------------------------------------------------------
-    labels     = [lbl.strip() for lbl in labels.strip().split(",")]
-    
-    sum_stats  = [s.strip() for s in sum_stats.strip().split(",")]
-
-    # ------------------------------------------------------------------
     # Colours str to list
     # ------------------------------------------------------------------
     colors = [c.strip() for c in colors_raw.strip().split(",")]
@@ -303,16 +314,19 @@ def strip_comma_separated_input_streams(
     # ------------------------------------------------------------------
     # Linear track heights str to list
     # ------------------------------------------------------------------
-    t_heights = [float(x) for x in track_heights.strip().split(",")]
+    if track_heights:
+        t_heights = [float(x) for x in track_heights.strip().split(",")]
+    else:
+        t_heights = None
 
-    return sum_stats, labels, colors, t_heights
+    return sum_stats, labels, colors, t_heights, builds
 
 
 # ------------------------------------------------------------------
 # Random string for output paths
 # ------------------------------------------------------------------
 def generate_random_string(length):
-    GENERATE_RANDOM = '''"""Generate a random alphanumeric string.
+    GENERATE_RANDOM = """Generate a random alphanumeric string.
 
     Used internally to create a unique output file-name component when no
     ``--plot_title`` is provided.
@@ -334,7 +348,7 @@ def generate_random_string(length):
     >>> s = generate_random_string(10)
     >>> len(s)
     10
-    """'''
+    """
 
     import random
     import string
@@ -355,7 +369,7 @@ def get_output_paths(
     plot_title: Optional[str] = None,
     output_format: Optional[str] = 'png'
 ):
-    GET_OUTPUT_PATHS = '''"""Construct output file paths for the plot image and locus summary table.
+    GET_OUTPUT_PATHS = """Construct output file paths for the plot image and locus summary table.
 
     Creates *output_dir* (including any missing parent directories) and derives
     deterministic, human-readable file names from the plot title, track labels,
@@ -402,7 +416,7 @@ def get_output_paths(
     ... )
     >>> plt_name
     '.../results/RBC_Traits_HbF_MCV_lm_logp.png'
-    """'''
+    """
 
     out_path = Path(output_dir).resolve()
 
@@ -413,6 +427,8 @@ def get_output_paths(
     else:
         pltitle = generate_random_string(10)
 
+    labels = [re.sub(r"[^a-zA-Z0-9\s]", "", x).replace(" ", "_") for x in labels]
+
     plt_base = str(out_path / f"{pltitle}_{'_'.join(labels)}_{mode.lower()}")
 
     suffix     = "_logp" if logp else "_pval"
@@ -420,6 +436,7 @@ def get_output_paths(
     plt_name   = f"{plt_base}{suffix}.{output_format.lower()}"
     
     table_out  = f"{plt_base}{suffix}_locus_summary_table.tsv"
+
 
     return plt_name, table_out
 
@@ -431,14 +448,15 @@ def get_output_paths(
 def prep_pycmplot_input_info(
     sum_stats: list[str],
     labels: list[str],
-    build: str,
+    buildc: Optional[str] = None,
+    build: list[str] = None,
     delim: Optional[str] = None,
     chrom: Optional[str] = None,
     pos: Optional[str] = None,
     snp: Optional[str] = None,
     pcol: Optional[str] = None,
 ):
-    PREP_INPUT_INFO = '''"""Resolve column names and delimiters for each summary statistics file.
+    PREP_INPUT_INFO = """Resolve column names and delimiters for each summary statistics file.
 
     Iterates over every file in *sum_stats*, auto-detects (or uses the supplied)
     delimiter, reads the file header, and maps each required column
@@ -456,6 +474,7 @@ def prep_pycmplot_input_info(
     build : str
         Genome-build column name (candidates: ``'BUILD'``, ``'Genome'``,
         ``'Genome_Build'``, ``'Genome-build'``, …).
+        Or list of genome builds supplied via ``--build``.
     delim : str, optional
         Field delimiter shared by all files.  Accepts human-readable names
         (``'tab'``, ``'space'``, ``'comma'``) or single characters.  When
@@ -501,7 +520,7 @@ def prep_pycmplot_input_info(
         The main loading function that consumes the mapping returned here.
     detect_delimiter :
         Auto-detects the file delimiter when *delim* is ``None``.
-    """'''
+    """
 
     # ------------------------------------------------------------------
     # Resolve delimiter
@@ -514,38 +533,38 @@ def prep_pycmplot_input_info(
     # ------------------------------------------------------------------
     # Column-name candidate lists for auto-resolution
     # ------------------------------------------------------------------
-    chr_candidates = [chrom, "CHR", "CHROM", "Chromosome", "#CHROM", "#CHR",
+    chr_candidates = ["CHR", "CHROM", "Chromosome", "#CHROM", "#CHR",
                     "Chrom", "chrom", "chr", "chromosome", "#chr", "#chrom"]
     chr_candidates_l = [x.lower() for x in chr_candidates]
     chr_candidates_u = [x.upper() for x in chr_candidates]
-    chr_candidates = chr_candidates + chr_candidates_l + chr_candidates_u
+    chr_candidates = [chrom] + chr_candidates + chr_candidates_l + chr_candidates_u
                 
-    pos_candidates = [pos,   "BP", "POS", "bp", "pos", "Basepair"]
+    pos_candidates = ["BP", "POS", "bp", "pos", "Basepair"]
     pos_candidates_l = [x.lower() for x in pos_candidates]
     pos_candidates_u = [x.upper() for x in pos_candidates]
-    pos_candidates = pos_candidates + pos_candidates_l + pos_candidates_u
+    pos_candidates = [pos] + pos_candidates + pos_candidates_l + pos_candidates_u
 
-    snp_candidates = [snp,   "SNP", "RSID", "rsID", "MarkerName", "MarkerID",
+    snp_candidates = ["SNP", "RSID", "rsID", "MarkerName", "MarkerID",
                     "Predictor", "Marker", "SNPID", "ID"]
     snp_candidates_l = [x.lower() for x in snp_candidates]
     snp_candidates_u = [x.upper() for x in snp_candidates]
-    snp_candidates = snp_candidates + snp_candidates_l + snp_candidates_u
+    snp_candidates = [snp] + snp_candidates + snp_candidates_l + snp_candidates_u
 
-    pvl_candidates = [pcol,  "P", "P-value", "Wald_P", "pvalue", "p_val", "pval"]
+    pvl_candidates = ["P", "P-value", "Wald_P", "pvalue", "p_val", "pval"]
     pvl_candidates_l = [x.lower() for x in pvl_candidates]
     pvl_candidates_u = [x.upper() for x in pvl_candidates]
-    pvl_candidates = pvl_candidates + pvl_candidates_l + pvl_candidates_u
-
-    bld_candidates = [build, "BUILD", "Genome", "Genome_Build", "Genome-build"]
-    bld_candidates_l = [x.lower() for x in bld_candidates]
-    bld_candidates_u = [x.upper() for x in bld_candidates]
-    bld_candidates = bld_candidates + bld_candidates_l + bld_candidates_u
+    pvl_candidates = [pcol] + pvl_candidates + pvl_candidates_l + pvl_candidates_u
 
     # Remove None entries
     chr_candidates = [c for c in chr_candidates if c]
     pos_candidates = [c for c in pos_candidates if c]
     snp_candidates = [c for c in snp_candidates if c]
     pvl_candidates = [c for c in pvl_candidates if c]
+
+    bld_candidates = ["BUILD", "Genome", "Genome_Build", "Genome-build"]
+    bld_candidates_l = [x.lower() for x in bld_candidates]
+    bld_candidates_u = [x.upper() for x in bld_candidates]
+    bld_candidates = [build] + bld_candidates + bld_candidates_l + bld_candidates_u
     bld_candidates = [c for c in bld_candidates if c]
 
     # ------------------------------------------------------------------
@@ -566,7 +585,6 @@ def prep_pycmplot_input_info(
             pos_col   = next(c for c in hdr if c in set(pos_candidates))
             snp_col   = next(c for c in hdr if c in set(snp_candidates))
             pcol           = next(c for c in hdr if c in set(pvl_candidates))
-            bcol      = next(c for c in hdr if c in set(bld_candidates))
         except StopIteration as exc:
             sys.exit(
                 f"Error: could not find a required column in {fpath}.\n"
@@ -574,23 +592,59 @@ def prep_pycmplot_input_info(
                 f"  Details: {exc}"
             )
 
-        old_cols = [chrom_col, pos_col, snp_col, pcol, bcol]
+        old_cols = [chrom_col, pos_col, snp_col, pcol]
         new_cols = {
             chrom_col: "CHR",
             pos_col:   "POS",
             snp_col:   "SNP",
             pcol:      "P",
-            bcol:      "BUILD",
         }
         col_dtypes = {
             chrom_col: str,
-            pos_col:   object,
+            pos_col:   int,
             snp_col:   str,
             pcol:      float,
-            bcol:      str,
         }
 
-        sumstats_hdr_dic[name] = [old_cols, col_dtypes, new_cols, file_sep]
+    if not bld_candidates and isinstance(build, list):
+        for name, fpath, build in zip(labels, sum_stats, build):
+            sumstats_hdr_dic[name] = [old_cols, col_dtypes, new_cols, file_sep, build]
+
+    elif bld_candidates:
+        for name, fpath in zip(labels, sum_stats):
+            try:
+                bcol      = next(c for c in hdr if c in set(bld_candidates))
+            except StopIteration as exc:
+                sys.exit(
+                    f"Error: could not find build column in {fpath}.\n"
+                    f"  Header: {hdr}\n"
+                    f"  Details: {exc}"
+                )
+
+            old_cols = [chrom_col, pos_col, snp_col, pcol, bcol]
+            new_cols = {
+                chrom_col: "CHR",
+                pos_col:   "POS",
+                snp_col:   "SNP",
+                pcol:      "P",
+                bcol:      "BUILD",
+            }
+            col_dtypes = {
+                chrom_col: str,
+                pos_col:   int,
+                snp_col:   str,
+                pcol:      float,
+                bcol:      str,
+            }
+
+            sumstats_hdr_dic[name] = [old_cols, col_dtypes, new_cols, file_sep]
+    else:
+        logger.warning("""No build column or builds specified. Summary stats will be
+        plotted in their respective coordinate systems.
+        If your data are in different coordinate systems, putting them in one plot
+        is not advisable, especially if ``--annotate`` is set!""")
+        for name, fpath in zip(labels, sum_stats):
+            sumstats_hdr_dic[name] = [old_cols, col_dtypes, new_cols, file_sep]
 
     return sumstats_hdr_dic
 
@@ -625,7 +679,7 @@ def get_sumstats_and_merged_sector_list(
     suggest_threshold: Optional[float] = None,
     resources: Optional[ResourceConfig] = None,
 ):
-    GET_SUMSTATS = '''"""Load summary statistics, run liftover, extract lead SNPs, and compute
+    GET_SUMSTATS = """Load summary statistics, run liftover, extract lead SNPs, and compute
     merged Circos sector sizes.
 
     This is the primary data-loading function for the plotting pipeline.  For
@@ -690,8 +744,8 @@ def get_sumstats_and_merged_sector_list(
     sumstats_loaded : dict
         Mapping of ``label → [DataFrame, n_chroms]``.  Each DataFrame
         contains canonical columns ``CHR``, ``POS``, ``SNP``, ``P``,
-        ``BUILD``, ``LABEL``, and optionally ``logP``, ``OLD_POS``,
-        ``OLD_BUILD`` (when liftover was applied).
+        ``LABEL``, and optionally ``logP``, ``BUILD``, ``OLD_POS``,
+        ``OLD_BUILD`` (when build and liftover were applied).
     hits_table : pandas.DataFrame
         Clumped locus summary table with nearest-gene annotations.  Empty
         DataFrame when no variants pass the significance threshold.
@@ -728,7 +782,7 @@ def get_sumstats_and_merged_sector_list(
     ['1', '2', '3', '4']
     >>> hits.shape
     (18, 12)
-    """'''
+    """
 
     if resources is None:
         resources = default_resources
@@ -749,6 +803,12 @@ def get_sumstats_and_merged_sector_list(
         sumstat_newcols= file_info[label][2]
         sep            = file_info[label][3]
 
+        build = None
+        try:
+            build      = file_info[label][4]
+        except Exception:
+            pass
+
         logger.info("Loading %s from %s …", label, sumstats[label][0])
         df = pd.read_csv(
             sumstats[label][0],
@@ -757,6 +817,10 @@ def get_sumstats_and_merged_sector_list(
             usecols=sumstat_cols,
             dtype=sumstat_dtypes,
         ).rename(columns=sumstat_newcols)
+
+        # Add build column if not exist and build supplied
+        if build:
+            df['BUILD'] = build
 
         # Trim insignificant variants for faster plotting
         if trim_pval:

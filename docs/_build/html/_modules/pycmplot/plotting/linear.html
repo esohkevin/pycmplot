@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pycmplot.plotting.linear &mdash; pycmplot 0.1.8 documentation</title>
+  <title>pycmplot.plotting.linear &mdash; pycmplot 0.2.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=22607128"></script>
+      <script src="../../../_static/documentation_options.js?v=37f418d5"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -142,9 +142,18 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Version 0.1.8 (2026-04-14)</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Version 0.2.1 (2026-04-16)</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#added">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#changed">Changed</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html#version-0-1-9-2026-04-14">Version 0.1.9 (2026-04-14)</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#fixed">Fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html#version-0-1-8-2026-04-14">Version 0.1.8 (2026-04-14)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id1">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id3">Fixed</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../changelog.html#changelog">Changelog</a><ul>
@@ -189,31 +198,31 @@
   <h1>Source code for pycmplot.plotting.linear</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="n">LINEAR_MODULE</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;&quot;&quot;&quot;</span>
-<span class="s1">pycmplot.plotting.linear</span>
-<span class="s1">========================</span>
+<span class="n">LINEAR_MODULE</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">pycmplot.plotting.linear</span>
+<span class="s2">========================</span>
 
-<span class="s1">Multi-track stacked linear Manhattan plot.</span>
+<span class="s2">Multi-track stacked linear Manhattan plot.</span>
 
-<span class="s1">The module exposes two public functions:</span>
+<span class="s2">The module exposes two public functions:</span>
 
-<span class="s1">* :func:`plot_linear` — the user-facing entry point.  Accepts the</span>
-<span class="s1">  ``sumstats_loaded`` dict produced by</span>
-<span class="s1">  :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`, resolves</span>
-<span class="s1">  output paths, and delegates rendering to :func:`plot_linearm`.</span>
-<span class="s1">* :func:`plot_linearm` — the core rendering engine.  Accepts a list of</span>
-<span class="s1">  DataFrames and a fully resolved set of plotting parameters, builds the</span>
-<span class="s1">  matplotlib figure, draws all tracks, and saves the file.</span>
+<span class="s2">* :func:`plot_linear` — the user-facing entry point.  Accepts the</span>
+<span class="s2">  ``sumstats_loaded`` dict produced by</span>
+<span class="s2">  :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`, resolves</span>
+<span class="s2">  output paths, and delegates rendering to :func:`plot_linearm`.</span>
+<span class="s2">* :func:`plot_linearm` — the core rendering engine.  Accepts a list of</span>
+<span class="s2">  DataFrames and a fully resolved set of plotting parameters, builds the</span>
+<span class="s2">  matplotlib figure, draws all tracks, and saves the file.</span>
 
-<span class="s1">Internal helpers:</span>
+<span class="s2">Internal helpers:</span>
 
-<span class="s1">* :func:`_cluster_annotations_by_chr` — groups annotation points that</span>
-<span class="s1">  are close together on the same chromosome so label-spreading can be</span>
-<span class="s1">  applied per cluster rather than globally.</span>
-<span class="s1">* :func:`_draw_annotation_arrows` — places angled</span>
-<span class="s1">  :class:`~matplotlib.patches.FancyArrowPatch` arrows from spread gene</span>
-<span class="s1">  labels down to their corresponding signal positions.</span>
-<span class="s1">&quot;&quot;&quot;&#39;&#39;&#39;</span>
+<span class="s2">* :func:`_cluster_annotations_by_chr` — groups annotation points that</span>
+<span class="s2">  are close together on the same chromosome so label-spreading can be</span>
+<span class="s2">  applied per cluster rather than globally.</span>
+<span class="s2">* :func:`_draw_annotation_arrows` — places angled</span>
+<span class="s2">  :class:`~matplotlib.patches.FancyArrowPatch` arrows from spread gene</span>
+<span class="s2">  labels down to their corresponding signal positions.</span>
+<span class="s2">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
@@ -243,32 +252,32 @@
     <span class="n">x_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;x&quot;</span><span class="p">,</span>
     <span class="n">window_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">50e6</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">]:</span>
-    <span class="n">CLUSTER_ANNOTS</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;&quot;&quot;&quot;Cluster annotation points within each chromosome by genomic proximity.</span>
+    <span class="n">CLUSTER_ANNOTS</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Cluster annotation points within each chromosome by genomic proximity.</span>
 
-<span class="s1">    Groups rows of *annot_df* on the same chromosome into clusters such that</span>
-<span class="s1">    consecutive points within *window_size* base-pairs are placed in the same</span>
-<span class="s1">    cluster.  Clusters are used by :func:`_draw_annotation_arrows` to</span>
-<span class="s1">    determine independent label-spreading regions.</span>
+<span class="s2">    Groups rows of *annot_df* on the same chromosome into clusters such that</span>
+<span class="s2">    consecutive points within *window_size* base-pairs are placed in the same</span>
+<span class="s2">    cluster.  Clusters are used by :func:`_draw_annotation_arrows` to</span>
+<span class="s2">    determine independent label-spreading regions.</span>
 
-<span class="s1">    Parameters</span>
-<span class="s1">    ----------</span>
-<span class="s1">    annot_df : pandas.DataFrame</span>
-<span class="s1">        Annotation DataFrame containing at least *chr_col* and *x_col*</span>
-<span class="s1">        (cumulative x-axis position).</span>
-<span class="s1">    chr_col : str, optional</span>
-<span class="s1">        Name of the chromosome column.  Default ``&#39;CHR&#39;``.</span>
-<span class="s1">    x_col : str, optional</span>
-<span class="s1">        Name of the cumulative x-axis position column.  Default ``&#39;x&#39;``.</span>
-<span class="s1">    window_size : float, optional</span>
-<span class="s1">        Maximum gap in cumulative x-axis units between two points that should</span>
-<span class="s1">        be considered part of the same cluster.  Default ``50e6`` (50 Mb).</span>
+<span class="s2">    Parameters</span>
+<span class="s2">    ----------</span>
+<span class="s2">    annot_df : pandas.DataFrame</span>
+<span class="s2">        Annotation DataFrame containing at least *chr_col* and *x_col*</span>
+<span class="s2">        (cumulative x-axis position).</span>
+<span class="s2">    chr_col : str, optional</span>
+<span class="s2">        Name of the chromosome column.  Default ``&#39;CHR&#39;``.</span>
+<span class="s2">    x_col : str, optional</span>
+<span class="s2">        Name of the cumulative x-axis position column.  Default ``&#39;x&#39;``.</span>
+<span class="s2">    window_size : float, optional</span>
+<span class="s2">        Maximum gap in cumulative x-axis units between two points that should</span>
+<span class="s2">        be considered part of the same cluster.  Default ``50e6`` (50 Mb).</span>
 
-<span class="s1">    Returns</span>
-<span class="s1">    -------</span>
-<span class="s1">    list of list</span>
-<span class="s1">        Each inner list contains the integer index values of *annot_df* rows</span>
-<span class="s1">        that form one cluster.</span>
-<span class="s1">    &quot;&quot;&quot;&#39;&#39;&#39;</span>
+<span class="s2">    Returns</span>
+<span class="s2">    -------</span>
+<span class="s2">    list of list</span>
+<span class="s2">        Each inner list contains the integer index values of *annot_df* rows</span>
+<span class="s2">        that form one cluster.</span>
+<span class="s2">    &quot;&quot;&quot;</span>
 
     <span class="n">clusters</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">_chr_name</span><span class="p">,</span> <span class="n">df_chr</span> <span class="ow">in</span> <span class="n">annot_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">chr_col</span><span class="p">):</span>
@@ -289,7 +298,7 @@
     <span class="k">return</span> <span class="n">clusters</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_draw_annotation_arrows</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_draw_annotation_arrows_2</span><span class="p">(</span>
     <span class="n">ax</span><span class="p">,</span>
     <span class="n">annot_df</span><span class="p">,</span>
     <span class="n">chr_col</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -300,43 +309,43 @@
     <span class="n">y_tip</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
     <span class="n">y_text</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.55</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="n">DRAW_ARROWS</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;&quot;&quot;&quot;Draw angled arrow annotations from gene-label text to signal positions.</span>
+    <span class="n">DRAW_ARROWS</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Draw angled arrow annotations from gene-label text to signal positions.</span>
 
-<span class="s1">    For each significant locus in *annot_df*, places the gene/SNP label text</span>
-<span class="s1">    above the track and connects it to the corresponding scatter-plot point</span>
-<span class="s1">    with a curved :class:`~matplotlib.patches.FancyArrowPatch` arrow.  Labels</span>
-<span class="s1">    within the same chromosome are spread horizontally to avoid overlap; the</span>
-<span class="s1">    arrow curvature direction (clockwise/counter-clockwise arc) is determined</span>
-<span class="s1">    automatically from the sign of the horizontal displacement.</span>
+<span class="s2">    For each significant locus in *annot_df*, places the gene/SNP label text</span>
+<span class="s2">    above the track and connects it to the corresponding scatter-plot point</span>
+<span class="s2">    with a curved :class:`~matplotlib.patches.FancyArrowPatch` arrow.  Labels</span>
+<span class="s2">    within the same chromosome are spread horizontally to avoid overlap; the</span>
+<span class="s2">    arrow curvature direction (clockwise/counter-clockwise arc) is determined</span>
+<span class="s2">    automatically from the sign of the horizontal displacement.</span>
 
-<span class="s1">    The function operates on *ax* (the annotation sub-panel at the top of the</span>
-<span class="s1">    figure) and returns ``None`` — it modifies the axes in place.</span>
+<span class="s2">    The function operates on *ax* (the annotation sub-panel at the top of the</span>
+<span class="s2">    figure) and returns ``None`` — it modifies the axes in place.</span>
 
-<span class="s1">    Parameters</span>
-<span class="s1">    ----------</span>
-<span class="s1">    ax : matplotlib.axes.Axes</span>
-<span class="s1">        The annotation axes (top sub-panel, invisible background).</span>
-<span class="s1">    annot_df : pandas.DataFrame</span>
-<span class="s1">        Lead-SNP annotation DataFrame with columns *chr_col*, ``&#39;x&#39;``</span>
-<span class="s1">        (cumulative x-axis position), and *label_col*.</span>
-<span class="s1">    chr_col : str</span>
-<span class="s1">        Name of the chromosome column.</span>
-<span class="s1">    label_col : str</span>
-<span class="s1">        Name of the column containing the text labels (gene symbols or rsIDs).</span>
-<span class="s1">    offsets : dict</span>
-<span class="s1">        Mapping of ``chromosome → cumulative_x_start`` as computed from the</span>
-<span class="s1">        main track data.</span>
-<span class="s1">    chr_max : dict</span>
-<span class="s1">        Mapping of ``chromosome → max_position`` for each chromosome.</span>
-<span class="s1">    spread_width : float, optional</span>
-<span class="s1">        Horizontal spacing between adjacent labels within a cluster.</span>
-<span class="s1">        Default ``60e6`` (60 Mb).</span>
-<span class="s1">    y_tip : float, optional</span>
-<span class="s1">        y-coordinate (in axes data units, 0–1) of the arrowhead tip.</span>
-<span class="s1">        Default ``0.0``.</span>
-<span class="s1">    y_text : float, optional</span>
-<span class="s1">        y-coordinate of the label text anchor.  Default ``0.55``.</span>
-<span class="s1">    &quot;&quot;&quot;&#39;&#39;&#39;</span>
+<span class="s2">    Parameters</span>
+<span class="s2">    ----------</span>
+<span class="s2">    ax : matplotlib.axes.Axes</span>
+<span class="s2">        The annotation axes (top sub-panel, invisible background).</span>
+<span class="s2">    annot_df : pandas.DataFrame</span>
+<span class="s2">        Lead-SNP annotation DataFrame with columns *chr_col*, ``&#39;x&#39;``</span>
+<span class="s2">        (cumulative x-axis position), and *label_col*.</span>
+<span class="s2">    chr_col : str</span>
+<span class="s2">        Name of the chromosome column.</span>
+<span class="s2">    label_col : str</span>
+<span class="s2">        Name of the column containing the text labels (gene symbols or rsIDs).</span>
+<span class="s2">    offsets : dict</span>
+<span class="s2">        Mapping of ``chromosome → cumulative_x_start`` as computed from the</span>
+<span class="s2">        main track data.</span>
+<span class="s2">    chr_max : dict</span>
+<span class="s2">        Mapping of ``chromosome → max_position`` for each chromosome.</span>
+<span class="s2">    spread_width : float, optional</span>
+<span class="s2">        Horizontal spacing between adjacent labels within a cluster.</span>
+<span class="s2">        Default ``60e6`` (60 Mb).</span>
+<span class="s2">    y_tip : float, optional</span>
+<span class="s2">        y-coordinate (in axes data units, 0–1) of the arrowhead tip.</span>
+<span class="s2">        Default ``0.0``.</span>
+<span class="s2">    y_text : float, optional</span>
+<span class="s2">        y-coordinate of the label text anchor.  Default ``0.55``.</span>
+<span class="s2">    &quot;&quot;&quot;</span>
 
     <span class="n">annot_df</span> <span class="o">=</span> <span class="n">annot_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="n">chr_col</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">],</span> <span class="n">key</span><span class="o">=</span><span class="n">natsort_keygen</span><span class="p">())</span>
     <span class="n">last_xtext</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">-</span> <span class="n">spread_width</span>
@@ -400,6 +409,156 @@
         <span class="n">last_xtext</span> <span class="o">=</span> <span class="n">x_texts</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
 
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_draw_annotation_arrows</span><span class="p">(</span>
+    <span class="n">ax</span><span class="p">,</span>
+    <span class="n">annot_df</span><span class="p">,</span>
+    <span class="n">chr_col</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">label_col</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">offsets</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+    <span class="n">chr_max</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+    <span class="n">spread_width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">60e6</span><span class="p">,</span>
+    <span class="n">isolation_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">80e6</span><span class="p">,</span>   <span class="c1"># above this → straight (Tier 1)</span>
+    <span class="n">stack_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">10e6</span><span class="p">,</span>       <span class="c1"># below this → stack (Tier 3)</span>
+    <span class="n">max_tilt</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">45</span><span class="p">,</span>                <span class="c1"># max angleA departure from vertical</span>
+    <span class="n">y_tip</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+    <span class="n">y_text</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.55</span><span class="p">,</span>
+    <span class="n">y_stack_step</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.12</span><span class="p">,</span>          <span class="c1"># vertical gap between stacked labels</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+    <span class="n">annot_df</span> <span class="o">=</span> <span class="n">annot_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="n">chr_col</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">],</span> <span class="n">key</span><span class="o">=</span><span class="n">natsort_keygen</span><span class="p">())</span>
+    <span class="n">last_xtext</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">-</span> <span class="n">spread_width</span>
+
+    <span class="k">for</span> <span class="n">chr_name</span><span class="p">,</span> <span class="n">df_chr</span> <span class="ow">in</span> <span class="n">annot_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">chr_col</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">df_chr</span>  <span class="o">=</span> <span class="n">df_chr</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+        <span class="n">chr_start</span> <span class="o">=</span> <span class="n">offsets</span><span class="p">[</span><span class="n">chr_name</span><span class="p">]</span>
+        <span class="n">chr_end</span>   <span class="o">=</span> <span class="n">offsets</span><span class="p">[</span><span class="n">chr_name</span><span class="p">]</span> <span class="o">+</span> <span class="n">chr_max</span><span class="p">[</span><span class="n">chr_name</span><span class="p">]</span>
+        <span class="n">chr_range</span> <span class="o">=</span> <span class="n">chr_end</span> <span class="o">-</span> <span class="n">chr_start</span>
+
+        <span class="n">x_signals</span> <span class="o">=</span> <span class="n">df_chr</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">labels</span>    <span class="o">=</span> <span class="n">df_chr</span><span class="p">[</span><span class="n">label_col</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">n</span>         <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_signals</span><span class="p">)</span>
+
+        <span class="c1"># ------------------------------------------------------------------</span>
+        <span class="c1"># Assign each signal to a tier based on nearest-neighbour distance</span>
+        <span class="c1"># ------------------------------------------------------------------</span>
+        <span class="n">tiers</span>   <span class="o">=</span> <span class="p">[]</span>   <span class="c1"># 1=straight, 2=angled, 3=stacked</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">x_sig</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">x_signals</span><span class="p">):</span>
+            <span class="n">neighbours</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">x_signals</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+            <span class="n">min_dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">neighbours</span> <span class="o">-</span> <span class="n">x_sig</span><span class="p">))</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">neighbours</span><span class="p">)</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+
+            <span class="k">if</span> <span class="n">min_dist</span> <span class="o">&gt;=</span> <span class="n">isolation_threshold</span><span class="p">:</span>
+                <span class="n">tiers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">min_dist</span> <span class="o">&lt;=</span> <span class="n">stack_threshold</span><span class="p">:</span>
+                <span class="n">tiers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">tiers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+        <span class="c1"># ------------------------------------------------------------------</span>
+        <span class="c1"># Compute label x and y positions per tier</span>
+        <span class="c1"># ------------------------------------------------------------------</span>
+        <span class="n">x_texts</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">y_texts</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># --- Tier 2: spread positions (same logic as before) ---</span>
+        <span class="n">spread_indices</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tiers</span><span class="p">)</span> <span class="k">if</span> <span class="n">t</span> <span class="o">==</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="n">spread_positions</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">if</span> <span class="n">spread_indices</span><span class="p">:</span>
+            <span class="n">sw</span> <span class="o">=</span> <span class="n">spread_width</span>
+            <span class="n">pad</span> <span class="o">=</span> <span class="n">sw</span> <span class="o">/</span> <span class="nb">int</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">sw</span><span class="p">)[:</span><span class="mi">2</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span>
+            <span class="k">while</span> <span class="n">sw</span> <span class="o">&gt;</span> <span class="n">chr_range</span> <span class="ow">and</span> <span class="n">sw</span> <span class="o">&gt;</span> <span class="n">pad</span><span class="p">:</span>
+                <span class="n">sw</span> <span class="o">-=</span> <span class="n">pad</span>
+
+            <span class="n">sig_start</span>   <span class="o">=</span> <span class="n">x_signals</span><span class="p">[</span><span class="n">spread_indices</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+            <span class="n">xmin</span>        <span class="o">=</span> <span class="n">sig_start</span> <span class="o">-</span> <span class="n">sw</span>
+            <span class="n">positions</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmin</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">spread_indices</span><span class="p">)</span> <span class="o">*</span> <span class="n">sw</span><span class="p">,</span> <span class="n">sw</span><span class="p">)</span>
+
+            <span class="k">while</span> <span class="n">positions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">last_xtext</span><span class="p">:</span>
+                <span class="n">positions</span> <span class="o">=</span> <span class="n">positions</span> <span class="o">+</span> <span class="n">sw</span>
+
+            <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">spread_indices</span><span class="p">):</span>
+                <span class="n">spread_positions</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">positions</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+
+        <span class="c1"># --- Tier 3: build stacks ---</span>
+        <span class="c1"># Group Tier 3 signals that are within stack_threshold of each other</span>
+        <span class="n">stack_groups</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">used</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">x_sig</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">x_signals</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">tiers</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">3</span> <span class="ow">or</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">used</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">group</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span><span class="p">]</span>
+            <span class="n">used</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">tiers</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x_signals</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="n">x_sig</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">stack_threshold</span><span class="p">:</span>
+                    <span class="n">group</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+                    <span class="n">used</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+            <span class="n">stack_groups</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+
+        <span class="n">stack_positions</span> <span class="o">=</span> <span class="p">{}</span>   <span class="c1"># k → (x_label, y_label)</span>
+        <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">stack_groups</span><span class="p">:</span>
+            <span class="c1"># Place all labels in the group at the mean x of their signals</span>
+            <span class="n">x_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x_signals</span><span class="p">[</span><span class="n">group</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">rank</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">group</span><span class="p">):</span>
+                <span class="c1"># stack upward: rank 0 at y_text, rank 1 just above, etc.</span>
+                <span class="n">stack_positions</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">x_mean</span><span class="p">,</span> <span class="n">y_text</span> <span class="o">+</span> <span class="n">rank</span> <span class="o">*</span> <span class="n">y_stack_step</span><span class="p">)</span>
+
+        <span class="c1"># --- Assemble final positions ---</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">tiers</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">x_texts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x_signals</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+                <span class="n">y_texts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y_text</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">tiers</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">x_texts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">spread_positions</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+                <span class="n">y_texts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y_text</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>  <span class="c1"># Tier 3</span>
+                <span class="n">xp</span><span class="p">,</span> <span class="n">yp</span> <span class="o">=</span> <span class="n">stack_positions</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+                <span class="n">x_texts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">xp</span><span class="p">)</span>
+                <span class="n">y_texts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">yp</span><span class="p">)</span>
+
+        <span class="c1"># ------------------------------------------------------------------</span>
+        <span class="c1"># Draw arrows and labels</span>
+        <span class="c1"># ------------------------------------------------------------------</span>
+        <span class="k">for</span> <span class="n">x_sig</span><span class="p">,</span> <span class="n">x_txt</span><span class="p">,</span> <span class="n">y_txt</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x_signals</span><span class="p">,</span> <span class="n">x_texts</span><span class="p">,</span> <span class="n">y_texts</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+            <span class="n">dx</span>    <span class="o">=</span> <span class="n">x_txt</span> <span class="o">-</span> <span class="n">x_sig</span>
+            <span class="n">tilt</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">((</span><span class="n">dx</span> <span class="o">/</span> <span class="p">(</span><span class="n">spread_width</span> <span class="o">*</span> <span class="mi">2</span><span class="p">))</span> <span class="o">*</span> <span class="n">max_tilt</span><span class="p">,</span> <span class="o">-</span><span class="n">max_tilt</span><span class="p">,</span> <span class="n">max_tilt</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">tilt</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">conn_style</span> <span class="o">=</span> <span class="s2">&quot;arc3,rad=0&quot;</span>          <span class="c1"># perfectly straight</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">angle_a</span>    <span class="o">=</span> <span class="mi">90</span> <span class="o">+</span> <span class="n">tilt</span>
+                <span class="n">angle_b</span>    <span class="o">=</span> <span class="mi">90</span>
+                <span class="n">conn_style</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;angle3,angleA=</span><span class="si">{</span><span class="n">angle_a</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">,angleB=</span><span class="si">{</span><span class="n">angle_b</span><span class="si">}</span><span class="s2">&quot;</span>
+
+            <span class="n">arrow</span> <span class="o">=</span> <span class="n">FancyArrowPatch</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x_txt</span><span class="p">,</span> <span class="n">y_txt</span><span class="p">),</span>
+                <span class="p">(</span><span class="n">x_sig</span><span class="p">,</span> <span class="n">y_tip</span> <span class="o">-</span> <span class="mf">0.05</span><span class="p">),</span>
+                <span class="n">arrowstyle</span><span class="o">=</span><span class="s2">&quot;-|&gt;&quot;</span><span class="p">,</span>
+                <span class="n">mutation_scale</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+                <span class="n">lw</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="s2">&quot;grey&quot;</span><span class="p">,</span>
+                <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                <span class="n">connectionstyle</span><span class="o">=</span><span class="n">conn_style</span><span class="p">,</span>
+                <span class="n">transform</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">transData</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">arrow</span><span class="p">)</span>
+
+            <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+                <span class="n">x_txt</span><span class="p">,</span>
+                <span class="n">y_txt</span> <span class="o">+</span> <span class="mf">0.02</span><span class="p">,</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">label</span><span class="p">),</span>
+                <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span>
+                <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span>
+                <span class="n">va</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span><span class="p">,</span>
+                <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                <span class="n">clip_on</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
+                <span class="n">fontstyle</span><span class="o">=</span><span class="s2">&quot;italic&quot;</span><span class="p">,</span>
+                <span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;regular&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="n">last_xtext</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">x_texts</span><span class="p">)</span>
+
 <span class="c1"># ---------------------------------------------------------------------------</span>
 <span class="c1"># Public function</span>
 <span class="c1"># ---------------------------------------------------------------------------</span>
@@ -409,15 +568,16 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">plot_linearm</span><span class="p">(</span>
     <span class="n">tracks</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
     <span class="n">track_labels</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">annot_df</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">annot_df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">annotate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">highlight</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">highlight_thresh</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">5e-8</span><span class="p">,</span>
-    <span class="n">highight_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;brown&#39;</span><span class="p">,</span>
+    <span class="n">highlight_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;brown&#39;</span><span class="p">,</span>
     <span class="n">highlight_line</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">highight_line_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;grey&#39;</span><span class="p">,</span>    
+    <span class="n">highlight_line_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;grey&#39;</span><span class="p">,</span>
     <span class="n">trim_pval</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">logp</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="n">label_col</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;label&quot;</span><span class="p">,</span>
+    <span class="n">label_col</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;SNP&#39;</span><span class="p">,</span>
     <span class="n">chr_order</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">chr_spacing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">9e6</span><span class="p">,</span>
     <span class="n">track_heights</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -431,102 +591,102 @@
     <span class="n">dpi</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">300</span><span class="p">,</span>
     <span class="n">figsize</span><span class="p">:</span> <span class="nb">tuple</span> <span class="o">=</span> <span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span>
 <span class="p">):</span>
-    <span class="n">PLOT_LINEARM</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;&quot;&quot;&quot;Core rendering engine for the multi-track stacked linear Manhattan plot.</span>
+    <span class="n">PLOT_LINEARM</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Core rendering engine for the multi-track stacked linear Manhattan plot.</span>
 
-<span class="s1">    Builds a :class:`~matplotlib.figure.Figure` with one annotation sub-panel</span>
-<span class="s1">    at the top (for gene/SNP labels and connecting arrows) and *n* data tracks</span>
-<span class="s1">    below it, one per element of *tracks*.  All tracks share the same</span>
-<span class="s1">    cumulative x-axis.</span>
+<span class="s2">    Builds a :class:`~matplotlib.figure.Figure` with one annotation sub-panel</span>
+<span class="s2">    at the top (for gene/SNP labels and connecting arrows) and *n* data tracks</span>
+<span class="s2">    below it, one per element of *tracks*.  All tracks share the same</span>
+<span class="s2">    cumulative x-axis.</span>
 
-<span class="s1">    This function is called by the higher-level :func:`plot_linear` wrapper and</span>
-<span class="s1">    is not normally invoked directly.</span>
+<span class="s2">    This function is called by the higher-level :func:`plot_linear` wrapper and</span>
+<span class="s2">    is not normally invoked directly.</span>
 
-<span class="s1">    Parameters</span>
-<span class="s1">    ----------</span>
-<span class="s1">    tracks : list of pandas.DataFrame</span>
-<span class="s1">        One DataFrame per GWAS trait.  Each must have columns ``CHR``,</span>
-<span class="s1">        ``POS``, ``P``, and ``logP`` (when *logp* is ``True``).  The</span>
-<span class="s1">        DataFrames are pre-processed internally (chromosome normalisation,</span>
-<span class="s1">        highlighting, cumulative x-axis computation).</span>
-<span class="s1">    track_labels : list of str, optional</span>
-<span class="s1">        Y-axis label for each track, in the same order as *tracks*.</span>
-<span class="s1">        Defaults to ``[&#39;Track 1&#39;, &#39;Track 2&#39;, …]``.</span>
-<span class="s1">    annot_df : pandas.DataFrame, optional</span>
-<span class="s1">        Annotation DataFrame (typically the hits summary table).  Must have</span>
-<span class="s1">        columns ``CHR``, ``POS``, and *label_col*.  When provided, a dashed</span>
-<span class="s1">        vertical guide line is drawn through every annotated position across</span>
-<span class="s1">        all tracks, and gene/SNP label arrows are drawn in the top sub-panel.</span>
-<span class="s1">    highlight : bool, optional</span>
-<span class="s1">        If ``True``, variants within 500 kb of a lead SNP (as determined by</span>
-<span class="s1">        :func:`~pycmplot.stats.get_highlight_snps`) are rendered in brown.</span>
-<span class="s1">        Default ``False``.</span>
-<span class="s1">    highlight_thresh : float, optional</span>
-<span class="s1">        P-value threshold used for locus highlighting.  Default ``5e-8``.</span>
-<span class="s1">    trim_pval : float, optional</span>
-<span class="s1">        Reserved for future use; trimming is currently handled upstream in</span>
-<span class="s1">        :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`.</span>
-<span class="s1">    logp : bool, optional</span>
-<span class="s1">        If ``True``, plot –log₁₀(p) on the y-axis; requires a ``logP``</span>
-<span class="s1">        column in each DataFrame.  Default ``True``.</span>
-<span class="s1">    label_col : str, optional</span>
-<span class="s1">        Column in *annot_df* to use as annotation text labels (e.g.</span>
-<span class="s1">        ``&#39;top_gene&#39;``).  Default ``&#39;label&#39;``.</span>
-<span class="s1">    chr_order : list of str, optional</span>
-<span class="s1">        Chromosome display order.  Defaults to</span>
-<span class="s1">        :data:`~pycmplot.constants.CHROM_ORDER` (autosomes 1–22, X, Y, MT).</span>
-<span class="s1">    chr_spacing : float, optional</span>
-<span class="s1">        Gap in base-pairs inserted between consecutive chromosomes on the</span>
-<span class="s1">        x-axis.  Default ``9e6``.</span>
-<span class="s1">    track_heights : list of float, optional</span>
-<span class="s1">        Relative height ratios for the gridspec rows.  The first element</span>
-<span class="s1">        controls the annotation sub-panel; subsequent elements control the</span>
-<span class="s1">        data tracks.  When ``None``, the annotation panel is given a weight</span>
-<span class="s1">        of 1 and each data track a weight of 3.</span>
-<span class="s1">    linear_track_spacing : float, optional</span>
-<span class="s1">        Vertical ``hspace`` between tracks as a fraction of average track</span>
-<span class="s1">        height.  Default ``0.10``.</span>
-<span class="s1">    point_size : float, optional</span>
-<span class="s1">        Scatter-plot point size passed to :func:`matplotlib.axes.Axes.scatter`.</span>
-<span class="s1">        Default ``5``.</span>
-<span class="s1">    colors : list of str, optional</span>
-<span class="s1">        Two alternating matplotlib colour strings for even/odd chromosomes.</span>
-<span class="s1">        Default ``[&#39;steelblue&#39;, &#39;orange&#39;]``.</span>
-<span class="s1">    sig_lines : list of dict, optional</span>
-<span class="s1">        One ``{&#39;genome&#39;: float, &#39;suggestive&#39;: float}`` dict per track.</span>
-<span class="s1">        ``&#39;genome&#39;`` values are drawn as red dashed lines; ``&#39;suggestive&#39;``</span>
-<span class="s1">        values as grey dashed lines.</span>
-<span class="s1">    plt_name : str, optional</span>
-<span class="s1">        Full output file path (including extension).  When provided the figure</span>
-<span class="s1">        is saved to disk.</span>
-<span class="s1">    no_track_labels : bool, optional</span>
-<span class="s1">        If ``True``, track y-axis labels are suppressed.  Default ``False``.</span>
-<span class="s1">    fig_format : str, optional</span>
-<span class="s1">        Output image format (``&#39;png&#39;``, ``&#39;pdf&#39;``, ``&#39;svg&#39;``).  Inferred</span>
-<span class="s1">        from *plt_name*&#39;s extension when ``None``.</span>
-<span class="s1">    dpi : int, optional</span>
-<span class="s1">        Output resolution in dots per inch.  Default ``300``.</span>
-<span class="s1">    figsize : tuple of (float, float), optional</span>
-<span class="s1">        Figure dimensions ``(width, height)`` in inches.  Default ``(15, 9)``.</span>
+<span class="s2">    Parameters</span>
+<span class="s2">    ----------</span>
+<span class="s2">    tracks : list of pandas.DataFrame</span>
+<span class="s2">        One DataFrame per GWAS trait.  Each must have columns ``CHR``,</span>
+<span class="s2">        ``POS``, ``P``, and ``logP`` (when *logp* is ``True``).  The</span>
+<span class="s2">        DataFrames are pre-processed internally (chromosome normalisation,</span>
+<span class="s2">        highlighting, cumulative x-axis computation).</span>
+<span class="s2">    track_labels : list of str, optional</span>
+<span class="s2">        Y-axis label for each track, in the same order as *tracks*.</span>
+<span class="s2">        Defaults to ``[&#39;Track 1&#39;, &#39;Track 2&#39;, …]``.</span>
+<span class="s2">    annot_df : pandas.DataFrame, optional</span>
+<span class="s2">        Annotation DataFrame (typically the hits summary table).  Must have</span>
+<span class="s2">        columns ``CHR``, ``POS``, and *label_col*.  When provided, a dashed</span>
+<span class="s2">        vertical guide line is drawn through every annotated position across</span>
+<span class="s2">        all tracks, and gene/SNP label arrows are drawn in the top sub-panel.</span>
+<span class="s2">    highlight : bool, optional</span>
+<span class="s2">        If ``True``, variants within 500 kb of a lead SNP (as determined by</span>
+<span class="s2">        :func:`~pycmplot.stats.get_highlight_snps`) are rendered in brown.</span>
+<span class="s2">        Default ``False``.</span>
+<span class="s2">    highlight_thresh : float, optional</span>
+<span class="s2">        P-value threshold used for locus highlighting.  Default ``5e-8``.</span>
+<span class="s2">    trim_pval : float, optional</span>
+<span class="s2">        Reserved for future use; trimming is currently handled upstream in</span>
+<span class="s2">        :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`.</span>
+<span class="s2">    logp : bool, optional</span>
+<span class="s2">        If ``True``, plot –log₁₀(p) on the y-axis; requires a ``logP``</span>
+<span class="s2">        column in each DataFrame.  Default ``True``.</span>
+<span class="s2">    label_col : str, optional</span>
+<span class="s2">        Column in *annot_df* to use as annotation text labels (e.g.</span>
+<span class="s2">        ``&#39;top_gene&#39;``).  Default ``&#39;label&#39;``.</span>
+<span class="s2">    chr_order : list of str, optional</span>
+<span class="s2">        Chromosome display order.  Defaults to</span>
+<span class="s2">        :data:`~pycmplot.constants.CHROM_ORDER` (autosomes 1–22, X, Y, MT).</span>
+<span class="s2">    chr_spacing : float, optional</span>
+<span class="s2">        Gap in base-pairs inserted between consecutive chromosomes on the</span>
+<span class="s2">        x-axis.  Default ``9e6``.</span>
+<span class="s2">    track_heights : list of float, optional</span>
+<span class="s2">        Relative height ratios for the gridspec rows.  The first element</span>
+<span class="s2">        controls the annotation sub-panel; subsequent elements control the</span>
+<span class="s2">        data tracks.  When ``None``, the annotation panel is given a weight</span>
+<span class="s2">        of 1 and each data track a weight of 3.</span>
+<span class="s2">    linear_track_spacing : float, optional</span>
+<span class="s2">        Vertical ``hspace`` between tracks as a fraction of average track</span>
+<span class="s2">        height.  Default ``0.10``.</span>
+<span class="s2">    point_size : float, optional</span>
+<span class="s2">        Scatter-plot point size passed to :func:`matplotlib.axes.Axes.scatter`.</span>
+<span class="s2">        Default ``5``.</span>
+<span class="s2">    colors : list of str, optional</span>
+<span class="s2">        Two alternating matplotlib colour strings for even/odd chromosomes.</span>
+<span class="s2">        Default ``[&#39;steelblue&#39;, &#39;orange&#39;]``.</span>
+<span class="s2">    sig_lines : list of dict, optional</span>
+<span class="s2">        One ``{&#39;genome&#39;: float, &#39;suggestive&#39;: float}`` dict per track.</span>
+<span class="s2">        ``&#39;genome&#39;`` values are drawn as red dashed lines; ``&#39;suggestive&#39;``</span>
+<span class="s2">        values as grey dashed lines.</span>
+<span class="s2">    plt_name : str, optional</span>
+<span class="s2">        Full output file path (including extension).  When provided the figure</span>
+<span class="s2">        is saved to disk.</span>
+<span class="s2">    no_track_labels : bool, optional</span>
+<span class="s2">        If ``True``, track y-axis labels are suppressed.  Default ``False``.</span>
+<span class="s2">    fig_format : str, optional</span>
+<span class="s2">        Output image format (``&#39;png&#39;``, ``&#39;pdf&#39;``, ``&#39;svg&#39;``).  Inferred</span>
+<span class="s2">        from *plt_name*&#39;s extension when ``None``.</span>
+<span class="s2">    dpi : int, optional</span>
+<span class="s2">        Output resolution in dots per inch.  Default ``300``.</span>
+<span class="s2">    figsize : tuple of (float, float), optional</span>
+<span class="s2">        Figure dimensions ``(width, height)`` in inches.  Default ``(15, 9)``.</span>
 
-<span class="s1">    Returns</span>
-<span class="s1">    -------</span>
-<span class="s1">    fig : matplotlib.figure.Figure</span>
-<span class="s1">        The completed figure.</span>
-<span class="s1">    axes : list of matplotlib.axes.Axes</span>
-<span class="s1">        All axes in the figure: ``axes[0]`` is the annotation sub-panel;</span>
-<span class="s1">        ``axes[1:]`` are the data-track axes in the same order as *tracks*.</span>
+<span class="s2">    Returns</span>
+<span class="s2">    -------</span>
+<span class="s2">    fig : matplotlib.figure.Figure</span>
+<span class="s2">        The completed figure.</span>
+<span class="s2">    axes : list of matplotlib.axes.Axes</span>
+<span class="s2">        All axes in the figure: ``axes[0]`` is the annotation sub-panel;</span>
+<span class="s2">        ``axes[1:]`` are the data-track axes in the same order as *tracks*.</span>
 
-<span class="s1">    See Also</span>
-<span class="s1">    --------</span>
-<span class="s1">    plot_linear :</span>
-<span class="s1">        User-facing wrapper that extracts DataFrames from the</span>
-<span class="s1">        ``sumstats_loaded`` dict and resolves output paths before calling</span>
-<span class="s1">        this function.</span>
-<span class="s1">    _draw_annotation_arrows :</span>
-<span class="s1">        Called internally to render gene/SNP label arrows in ``axes[0]``.</span>
-<span class="s1">    pycmplot.stats.get_highlight_snps :</span>
-<span class="s1">        Called internally when *highlight* is ``True``.</span>
-<span class="s1">    &quot;&quot;&quot;&#39;&#39;&#39;</span>
+<span class="s2">    See Also</span>
+<span class="s2">    --------</span>
+<span class="s2">    plot_linear :</span>
+<span class="s2">        User-facing wrapper that extracts DataFrames from the</span>
+<span class="s2">        ``sumstats_loaded`` dict and resolves output paths before calling</span>
+<span class="s2">        this function.</span>
+<span class="s2">    _draw_annotation_arrows :</span>
+<span class="s2">        Called internally to render gene/SNP label arrows in ``axes[0]``.</span>
+<span class="s2">    pycmplot.stats.get_highlight_snps :</span>
+<span class="s2">        Called internally when *highlight* is ``True``.</span>
+<span class="s2">    &quot;&quot;&quot;</span>
 
     <span class="n">chr_col</span> <span class="o">=</span> <span class="s2">&quot;CHR&quot;</span>
     <span class="n">pos_col</span> <span class="o">=</span> <span class="s2">&quot;POS&quot;</span>
@@ -604,19 +764,26 @@
     <span class="n">n_tracks</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tracks</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">track_heights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">track_heights</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">n_tracks</span>
+        <span class="n">track_heights</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">n_tracks</span> <span class="k">if</span> <span class="n">annotate</span> <span class="k">else</span> <span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">n_tracks</span>
 
     <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
+    <span class="n">gs_tracks</span> <span class="o">=</span> <span class="n">n_tracks</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">annotate</span> <span class="k">else</span> <span class="n">n_tracks</span>
     <span class="n">gs</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_gridspec</span><span class="p">(</span>
-        <span class="n">n_tracks</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">gs_tracks</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span>
         <span class="n">height_ratios</span><span class="o">=</span><span class="n">track_heights</span><span class="p">,</span>
         <span class="n">hspace</span><span class="o">=</span><span class="n">linear_track_spacing</span><span class="p">,</span>
     <span class="p">)</span>
 
-    <span class="n">ax_annot</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-    <span class="n">axes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ax_annot</span><span class="p">]</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_tracks</span><span class="p">):</span>
-        <span class="n">axes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">sharex</span><span class="o">=</span><span class="n">ax_annot</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">annotate</span><span class="p">:</span>
+        <span class="n">ax_annot</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="n">axes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ax_annot</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_tracks</span><span class="p">):</span>
+            <span class="n">axes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">sharex</span><span class="o">=</span><span class="n">ax_annot</span><span class="p">))</span>        
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">first_ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="n">axes</span> <span class="o">=</span> <span class="p">[</span><span class="n">first_ax</span><span class="p">]</span>        
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_tracks</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">axes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">gs</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">sharex</span><span class="o">=</span><span class="n">first_ax</span><span class="p">))</span>
 
     <span class="c1"># Per-track highlight colours from tab20 colormap</span>
     <span class="n">cmap</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s2">&quot;tab20&quot;</span><span class="p">)</span>
@@ -627,41 +794,50 @@
     <span class="c1"># ------------------------------------------------------------------</span>
     <span class="n">t_labels</span> <span class="o">=</span> <span class="n">track_labels</span> <span class="ow">or</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;Track </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_tracks</span><span class="p">)]</span>
 
+    <span class="k">if</span> <span class="n">annotate</span><span class="p">:</span>
+        <span class="n">loop_axes</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">loop_axes</span> <span class="o">=</span> <span class="n">axes</span>
+
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">t_label</span><span class="p">,</span> <span class="n">h_color</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
-        <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">tracks</span><span class="p">,</span> <span class="n">t_labels</span><span class="p">,</span> <span class="n">hex_colors</span><span class="p">)</span>
+        <span class="nb">zip</span><span class="p">(</span><span class="n">loop_axes</span><span class="p">,</span> <span class="n">tracks</span><span class="p">,</span> <span class="n">t_labels</span><span class="p">,</span> <span class="n">hex_colors</span><span class="p">)</span>
     <span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Plotting: </span><span class="si">%s</span><span class="s2"> ...&quot;</span><span class="p">,</span> <span class="n">t_label</span><span class="p">)</span>
+
         <span class="n">color_cycle</span> <span class="o">=</span> <span class="p">[</span><span class="n">colors</span><span class="p">[</span><span class="n">j</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors</span><span class="p">)]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;chr_idx&quot;</span><span class="p">]]</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="n">p_col</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">]</span>
 
         <span class="n">y_vals</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;logP&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="n">logp</span> <span class="k">else</span> <span class="n">df</span><span class="p">[</span><span class="n">p_col</span><span class="p">]</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">],</span> <span class="n">y_vals</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color_cycle</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">point_size</span><span class="p">)</span>
 
+        <span class="c1"># Track labels</span>
+        <span class="k">if</span> <span class="n">no_track_labels</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">t_label</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+
         <span class="k">if</span> <span class="n">highlight</span><span class="p">:</span>
             <span class="n">sig</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;in_locus&quot;</span><span class="p">]]</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">sig</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
                 <span class="n">sig_y</span> <span class="o">=</span> <span class="n">sig</span><span class="p">[</span><span class="s2">&quot;logP&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="n">logp</span> <span class="k">else</span> <span class="n">sig</span><span class="p">[</span><span class="n">p_col</span><span class="p">]</span>
                 <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">sig</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span> <span class="n">sig_y</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span> <span class="n">s</span><span class="o">=</span><span class="n">point_size</span><span class="p">,</span>
-                           <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">highight_color</span><span class="p">)</span>
+                           <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">highlight_color</span><span class="p">)</span>
                 <span class="c1"># Vertical lines across all data tracks at highlight positions</span>
-                <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">sig</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">:</span>
-                    <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
-                        <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">highight_line_color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
-                                <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">no_track_labels</span><span class="p">:</span>
-            <span class="k">pass</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">t_label</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">highlight_line</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">sig</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">:</span>
+                        <span class="k">for</span> <span class="n">_ax</span> <span class="ow">in</span> <span class="n">loop_axes</span><span class="p">:</span>
+                            <span class="n">_ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">highlight_line_color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                                    <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">sig_lines</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">sig_lines</span><span class="p">):</span>
             <span class="n">sl</span> <span class="o">=</span> <span class="n">sig_lines</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
             <span class="k">if</span> <span class="s2">&quot;genome&quot;</span> <span class="ow">in</span> <span class="n">sl</span><span class="p">:</span>
                 <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">sl</span><span class="p">[</span><span class="s2">&quot;genome&quot;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
             <span class="k">if</span> <span class="s2">&quot;suggestive&quot;</span> <span class="ow">in</span> <span class="n">sl</span><span class="p">:</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">sl</span><span class="p">[</span><span class="s2">&quot;suggestive&quot;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">sl</span><span class="p">[</span><span class="s2">&quot;suggestive&quot;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
 
-        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s2">&quot;top&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s2">&quot;right&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[[</span><span class="s2">&quot;top&quot;</span><span class="p">,</span> <span class="s2">&quot;right&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
 
         <span class="n">left_pad</span> <span class="o">=</span> <span class="n">chr_spacing</span> <span class="o">*</span> <span class="mf">0.2</span>
         <span class="n">xmax</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">offsets</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">+</span> <span class="n">chr_max</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">chr_order</span><span class="p">)</span>
@@ -670,19 +846,37 @@
     <span class="c1"># ------------------------------------------------------------------</span>
     <span class="c1"># Annotation track</span>
     <span class="c1"># ------------------------------------------------------------------</span>
-    <span class="k">if</span> <span class="n">annot_df</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">annotate</span> <span class="ow">and</span> <span class="n">annot_df</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        _draw_annotation_arrows(</span>
+<span class="sd">            ax_annot,</span>
+<span class="sd">            annot_df,</span>
+<span class="sd">            chr_col=chr_col,</span>
+<span class="sd">            label_col=label_col,</span>
+<span class="sd">            offsets=offsets,</span>
+<span class="sd">            chr_max=chr_max,</span>
+<span class="sd">            spread_width=60e6,</span>
+<span class="sd">        )</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="n">_draw_annotation_arrows</span><span class="p">(</span>
-            <span class="n">ax_annot</span><span class="p">,</span>
-            <span class="n">annot_df</span><span class="p">,</span>
+            <span class="n">ax</span><span class="o">=</span><span class="n">ax_annot</span><span class="p">,</span>
+            <span class="n">annot_df</span><span class="o">=</span><span class="n">annot_df</span><span class="p">,</span>
             <span class="n">chr_col</span><span class="o">=</span><span class="n">chr_col</span><span class="p">,</span>
             <span class="n">label_col</span><span class="o">=</span><span class="n">label_col</span><span class="p">,</span>
             <span class="n">offsets</span><span class="o">=</span><span class="n">offsets</span><span class="p">,</span>
             <span class="n">chr_max</span><span class="o">=</span><span class="n">chr_max</span><span class="p">,</span>
             <span class="n">spread_width</span><span class="o">=</span><span class="mf">60e6</span><span class="p">,</span>
+            <span class="n">isolation_threshold</span><span class="o">=</span><span class="mf">80e6</span><span class="p">,</span>   <span class="c1"># above this → straight (Tier 1)</span>
+            <span class="n">stack_threshold</span><span class="o">=</span><span class="mf">10e6</span><span class="p">,</span>       <span class="c1"># below this → stack (Tier 3)</span>
+            <span class="n">max_tilt</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span>                <span class="c1"># max angleA departure from vertical</span>
+            <span class="n">y_tip</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+            <span class="n">y_text</span><span class="o">=</span><span class="mf">0.55</span><span class="p">,</span>
+            <span class="n">y_stack_step</span><span class="o">=</span><span class="mf">0.12</span><span class="p">,</span>          <span class="c1"># vertical gap between stacked labels</span>
         <span class="p">)</span>
 
-    <span class="n">ax_annot</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">ax_annot</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+        <span class="n">ax_annot</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">ax_annot</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
 
     <span class="c1"># ------------------------------------------------------------------</span>
     <span class="c1"># Chromosome labels on x-axis</span>
@@ -705,13 +899,13 @@
 
     <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelbottom</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s2">&quot;bottom&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[[</span><span class="s2">&quot;top&quot;</span><span class="p">,</span> <span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="s2">&quot;bottom&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">hspace</span><span class="o">=</span><span class="n">linear_track_spacing</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="mf">0.08</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 
     <span class="n">fig</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
-        <span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span>
+        <span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span>
         <span class="s2">&quot;-log</span><span class="se">\u2081\u2080</span><span class="s2">(p-value)&quot;</span> <span class="k">if</span> <span class="n">logp</span> <span class="k">else</span> <span class="n">p_col</span><span class="p">,</span>
         <span class="n">va</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
         <span class="n">rotation</span><span class="o">=</span><span class="s2">&quot;vertical&quot;</span><span class="p">,</span>
@@ -737,10 +931,11 @@
     <span class="n">point_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">highlight</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">highlight_thresh</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">5e-8</span><span class="p">,</span>
-    <span class="n">highight_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;brown&#39;</span><span class="p">,</span>
+    <span class="n">highlight_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;brown&#39;</span><span class="p">,</span>
     <span class="n">highlight_line</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">highight_line_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;grey&#39;</span><span class="p">,</span>    
+    <span class="n">highlight_line_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;grey&#39;</span><span class="p">,</span>    
     <span class="n">hits_table</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">annotate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">label_col</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">chr_spacing</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">linear_track_spacing</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -753,99 +948,99 @@
     <span class="n">output_dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span>
     <span class="n">figsize</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">tuple</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
-    <span class="n">PLOT_LINEAR</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;&quot;&quot;&quot;Generate a multi-track stacked linear Manhattan plot.</span>
+    <span class="n">PLOT_LINEAR</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Generate a multi-track stacked linear Manhattan plot.</span>
 
-<span class="s1">    This is the primary user-facing entry point for linear Manhattan plots.</span>
-<span class="s1">    It extracts DataFrames and labels from *sumstats_loaded*, resolves output</span>
-<span class="s1">    file paths, then delegates all rendering to :func:`plot_linearm`.</span>
+<span class="s2">    This is the primary user-facing entry point for linear Manhattan plots.</span>
+<span class="s2">    It extracts DataFrames and labels from *sumstats_loaded*, resolves output</span>
+<span class="s2">    file paths, then delegates all rendering to :func:`plot_linearm`.</span>
 
-<span class="s1">    Parameters</span>
-<span class="s1">    ----------</span>
-<span class="s1">    sumstats_loaded : dict</span>
-<span class="s1">        Mapping of ``label → [DataFrame, n_chroms]`` as returned by</span>
-<span class="s1">        :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`.  One</span>
-<span class="s1">        track is created per key; the DataFrames must have canonical columns</span>
-<span class="s1">        ``CHR``, ``POS``, ``P``, and ``logP`` (when *logp* is ``True``).</span>
-<span class="s1">    trim_pval : float, optional</span>
-<span class="s1">        Reserved; trimming is applied upstream.  Default ``None``.</span>
-<span class="s1">    track_heights : list of float, optional</span>
-<span class="s1">        Comma-parsed relative track heights (e.g. ``[2.0, 2.0, 1.5]``).</span>
-<span class="s1">        Passed directly to :func:`plot_linearm` as the gridspec height</span>
-<span class="s1">        ratios for the data tracks.  When ``None``, all tracks are equal.</span>
-<span class="s1">    logp : bool, optional</span>
-<span class="s1">        Plot –log₁₀(p) on the y-axis.  Default ``False``.</span>
-<span class="s1">    point_size : float, optional</span>
-<span class="s1">        Scatter-plot point size.  Default uses :func:`plot_linearm`&#39;s</span>
-<span class="s1">        default (``5``).</span>
-<span class="s1">    highlight : bool, optional</span>
-<span class="s1">        Render significant-locus variants in brown.  Default ``False``.</span>
-<span class="s1">    highlight_thresh : float, optional</span>
-<span class="s1">        P-value threshold for locus highlighting.  Default ``5e-8``.</span>
-<span class="s1">    hits_table : pandas.DataFrame, optional</span>
-<span class="s1">        Annotation DataFrame (hits summary table from</span>
-<span class="s1">        :func:`~pycmplot.annotation.get_hits_summary_table`).  Must contain</span>
-<span class="s1">        columns ``CHR``, ``POS``, and *label_col*.  Passed to</span>
-<span class="s1">        :func:`plot_linearm` as ``annot_df``.  ``None`` or an empty</span>
-<span class="s1">        DataFrame suppresses annotations.</span>
-<span class="s1">    label_col : str, optional</span>
-<span class="s1">        Column in *hits_table* to use as annotation text (e.g.</span>
-<span class="s1">        ``&#39;top_gene&#39;``).  Default ``None`` (falls back to :func:`plot_linearm`</span>
-<span class="s1">        default ``&#39;label&#39;``).</span>
-<span class="s1">    chr_spacing : float, optional</span>
-<span class="s1">        Horizontal gap between chromosomes in base-pairs.  Default ``9e6``.</span>
-<span class="s1">    linear_track_spacing : float, optional</span>
-<span class="s1">        Vertical space between tracks as a fraction of average track height.</span>
-<span class="s1">        Default ``0.10``.</span>
-<span class="s1">    colors : list of str, optional</span>
-<span class="s1">        Two alternating chromosome colours.  Default ``[&#39;steelblue&#39;, &#39;silver&#39;]``.</span>
-<span class="s1">    signif_lines : list of dict, optional</span>
-<span class="s1">        One ``{&#39;genome&#39;: float, &#39;suggestive&#39;: float}`` dict per track, in</span>
-<span class="s1">        the same order as *sumstats_loaded*.  Produced by</span>
-<span class="s1">        :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`.</span>
-<span class="s1">    plot_title : str, optional</span>
-<span class="s1">        Human-readable title used as the output file-name stem.  Passed to</span>
-<span class="s1">        :func:`~pycmplot.io.get_output_paths`.</span>
-<span class="s1">    no_track_labels : bool, optional</span>
-<span class="s1">        Suppress track y-axis labels.  Default ``False``.</span>
-<span class="s1">    dpi : int, optional</span>
-<span class="s1">        Output resolution in dots per inch.  Default ``300``.</span>
-<span class="s1">    output_format : str, optional</span>
-<span class="s1">        Image format (``&#39;png&#39;``, ``&#39;pdf&#39;``, ``&#39;svg&#39;``, ``&#39;jpg&#39;``).</span>
-<span class="s1">        Default ``&#39;png&#39;``.</span>
-<span class="s1">    output_dir : str or pathlib.Path, optional</span>
-<span class="s1">        Directory in which to save the output files.  Default ``&#39;.&#39;``.</span>
-<span class="s1">    figsize : tuple of (float, float), optional</span>
-<span class="s1">        Figure dimensions ``(width, height)`` in inches.  Default ``(15, 9)``.</span>
+<span class="s2">    Parameters</span>
+<span class="s2">    ----------</span>
+<span class="s2">    sumstats_loaded : dict</span>
+<span class="s2">        Mapping of ``label → [DataFrame, n_chroms]`` as returned by</span>
+<span class="s2">        :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`.  One</span>
+<span class="s2">        track is created per key; the DataFrames must have canonical columns</span>
+<span class="s2">        ``CHR``, ``POS``, ``P``, and ``logP`` (when *logp* is ``True``).</span>
+<span class="s2">    trim_pval : float, optional</span>
+<span class="s2">        Reserved; trimming is applied upstream.  Default ``None``.</span>
+<span class="s2">    track_heights : list of float, optional</span>
+<span class="s2">        Comma-parsed relative track heights (e.g. ``[2.0, 2.0, 1.5]``).</span>
+<span class="s2">        Passed directly to :func:`plot_linearm` as the gridspec height</span>
+<span class="s2">        ratios for the data tracks.  When ``None``, all tracks are equal.</span>
+<span class="s2">    logp : bool, optional</span>
+<span class="s2">        Plot –log₁₀(p) on the y-axis.  Default ``False``.</span>
+<span class="s2">    point_size : float, optional</span>
+<span class="s2">        Scatter-plot point size.  Default uses :func:`plot_linearm`&#39;s</span>
+<span class="s2">        default (``5``).</span>
+<span class="s2">    highlight : bool, optional</span>
+<span class="s2">        Render significant-locus variants in brown.  Default ``False``.</span>
+<span class="s2">    highlight_thresh : float, optional</span>
+<span class="s2">        P-value threshold for locus highlighting.  Default ``5e-8``.</span>
+<span class="s2">    hits_table : pandas.DataFrame, optional</span>
+<span class="s2">        Annotation DataFrame (hits summary table from</span>
+<span class="s2">        :func:`~pycmplot.annotation.get_hits_summary_table`).  Must contain</span>
+<span class="s2">        columns ``CHR``, ``POS``, and *label_col*.  Passed to</span>
+<span class="s2">        :func:`plot_linearm` as ``annot_df``.  ``None`` or an empty</span>
+<span class="s2">        DataFrame suppresses annotations.</span>
+<span class="s2">    label_col : str, optional</span>
+<span class="s2">        Column in *hits_table* to use as annotation text (e.g.</span>
+<span class="s2">        ``&#39;top_gene&#39;``).  Default ``None`` (falls back to :func:`plot_linearm`</span>
+<span class="s2">        default ``&#39;label&#39;``).</span>
+<span class="s2">    chr_spacing : float, optional</span>
+<span class="s2">        Horizontal gap between chromosomes in base-pairs.  Default ``9e6``.</span>
+<span class="s2">    linear_track_spacing : float, optional</span>
+<span class="s2">        Vertical space between tracks as a fraction of average track height.</span>
+<span class="s2">        Default ``0.10``.</span>
+<span class="s2">    colors : list of str, optional</span>
+<span class="s2">        Two alternating chromosome colours.  Default ``[&#39;steelblue&#39;, &#39;silver&#39;]``.</span>
+<span class="s2">    signif_lines : list of dict, optional</span>
+<span class="s2">        One ``{&#39;genome&#39;: float, &#39;suggestive&#39;: float}`` dict per track, in</span>
+<span class="s2">        the same order as *sumstats_loaded*.  Produced by</span>
+<span class="s2">        :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`.</span>
+<span class="s2">    plot_title : str, optional</span>
+<span class="s2">        Human-readable title used as the output file-name stem.  Passed to</span>
+<span class="s2">        :func:`~pycmplot.io.get_output_paths`.</span>
+<span class="s2">    no_track_labels : bool, optional</span>
+<span class="s2">        Suppress track y-axis labels.  Default ``False``.</span>
+<span class="s2">    dpi : int, optional</span>
+<span class="s2">        Output resolution in dots per inch.  Default ``300``.</span>
+<span class="s2">    output_format : str, optional</span>
+<span class="s2">        Image format (``&#39;png&#39;``, ``&#39;pdf&#39;``, ``&#39;svg&#39;``, ``&#39;jpg&#39;``).</span>
+<span class="s2">        Default ``&#39;png&#39;``.</span>
+<span class="s2">    output_dir : str or pathlib.Path, optional</span>
+<span class="s2">        Directory in which to save the output files.  Default ``&#39;.&#39;``.</span>
+<span class="s2">    figsize : tuple of (float, float), optional</span>
+<span class="s2">        Figure dimensions ``(width, height)`` in inches.  Default ``(15, 9)``.</span>
 
-<span class="s1">    Returns</span>
-<span class="s1">    -------</span>
-<span class="s1">    fig : matplotlib.figure.Figure</span>
-<span class="s1">        The completed figure.</span>
-<span class="s1">    axes : list of matplotlib.axes.Axes</span>
-<span class="s1">        All axes: ``axes[0]`` is the annotation sub-panel; ``axes[1:]``</span>
-<span class="s1">        are the per-track data axes.</span>
+<span class="s2">    Returns</span>
+<span class="s2">    -------</span>
+<span class="s2">    fig : matplotlib.figure.Figure</span>
+<span class="s2">        The completed figure.</span>
+<span class="s2">    axes : list of matplotlib.axes.Axes</span>
+<span class="s2">        All axes: ``axes[0]`` is the annotation sub-panel; ``axes[1:]``</span>
+<span class="s2">        are the per-track data axes.</span>
 
-<span class="s1">    See Also</span>
-<span class="s1">    --------</span>
-<span class="s1">    plot_linearm :</span>
-<span class="s1">        The underlying rendering engine called by this function.</span>
-<span class="s1">    pycmplot.io.get_sumstats_and_merged_sector_list :</span>
-<span class="s1">        Produces *sumstats_loaded* and *signif_lines*.</span>
+<span class="s2">    See Also</span>
+<span class="s2">    --------</span>
+<span class="s2">    plot_linearm :</span>
+<span class="s2">        The underlying rendering engine called by this function.</span>
+<span class="s2">    pycmplot.io.get_sumstats_and_merged_sector_list :</span>
+<span class="s2">        Produces *sumstats_loaded* and *signif_lines*.</span>
 
-<span class="s1">    Examples</span>
-<span class="s1">    --------</span>
-<span class="s1">    &gt;&gt;&gt; from pycmplot.plotting.linear import plot_linear</span>
-<span class="s1">    &gt;&gt;&gt; fig, axes = plot_linear(</span>
-<span class="s1">    ...     sumstats_loaded=loaded,</span>
-<span class="s1">    ...     logp=True,</span>
-<span class="s1">    ...     highlight=True,</span>
-<span class="s1">    ...     hits_table=hits,</span>
-<span class="s1">    ...     label_col=&quot;top_gene&quot;,</span>
-<span class="s1">    ...     signif_lines=sig_lines,</span>
-<span class="s1">    ...     plot_title=&quot;RBC_Traits&quot;,</span>
-<span class="s1">    ...     output_dir=&quot;./results&quot;,</span>
-<span class="s1">    ... )</span>
-<span class="s1">    &quot;&quot;&quot;&#39;&#39;&#39;</span>
+<span class="s2">    Examples</span>
+<span class="s2">    --------</span>
+<span class="s2">    &gt;&gt;&gt; from pycmplot.plotting.linear import plot_linear</span>
+<span class="s2">    &gt;&gt;&gt; fig, axes = plot_linear(</span>
+<span class="s2">    ...     sumstats_loaded=loaded,</span>
+<span class="s2">    ...     logp=True,</span>
+<span class="s2">    ...     highlight=True,</span>
+<span class="s2">    ...     hits_table=hits,</span>
+<span class="s2">    ...     label_col=&quot;top_gene&quot;,</span>
+<span class="s2">    ...     signif_lines=sig_lines,</span>
+<span class="s2">    ...     plot_title=&quot;RBC_Traits&quot;,</span>
+<span class="s2">    ...     output_dir=&quot;./results&quot;,</span>
+<span class="s2">    ... )</span>
+<span class="s2">    &quot;&quot;&quot;</span>
 
     <span class="n">dfs</span>      <span class="o">=</span> <span class="p">[</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">sumstats_loaded</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span>
     <span class="n">t_labels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sumstats_loaded</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
@@ -854,6 +1049,20 @@
         <span class="n">t_heights</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">t_heights</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">track_heights</span><span class="p">]</span>
+
+    <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;SNP&#39;</span>
+    <span class="k">if</span> <span class="n">annotate</span><span class="p">:</span>
+        <span class="n">label_col</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">label_col</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">label_col</span> <span class="o">==</span> <span class="s2">&quot;GENE&quot;</span><span class="p">:</span>
+                <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;top_gene&quot;</span>
+            <span class="k">elif</span> <span class="n">label_col</span> <span class="o">!=</span> <span class="s2">&quot;SNP&quot;</span><span class="p">:</span>
+                <span class="n">label</span> <span class="o">=</span> <span class="n">label_col</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;&#39;SNP&#39; column is used for annotation since &#39;</span><span class="si">%s</span><span class="s2">&#39; column could not be resolved in hits table.&quot;</span><span class="p">,</span> <span class="n">label_col</span><span class="p">)</span>
+            <span class="k">pass</span>         
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;LABEL COL: </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="c1"># plot name</span>
     <span class="p">(</span>
@@ -876,11 +1085,12 @@
         <span class="n">point_size</span><span class="o">=</span><span class="n">point_size</span><span class="p">,</span>
         <span class="n">highlight</span><span class="o">=</span><span class="n">highlight</span><span class="p">,</span>
         <span class="n">highlight_thresh</span><span class="o">=</span><span class="n">highlight_thresh</span><span class="p">,</span>
-        <span class="n">highight_color</span> <span class="o">=</span> <span class="n">highight_color</span><span class="p">,</span>
+        <span class="n">highlight_color</span> <span class="o">=</span> <span class="n">highlight_color</span><span class="p">,</span>
         <span class="n">highlight_line</span> <span class="o">=</span> <span class="n">highlight_line</span><span class="p">,</span>
-        <span class="n">highight_line_color</span> <span class="o">=</span> <span class="n">highight_line_color</span><span class="p">,</span>          
-        <span class="n">annot_df</span><span class="o">=</span><span class="n">hits_table</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">hits_table</span><span class="o">.</span><span class="n">empty</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">label_col</span><span class="o">=</span><span class="n">label_col</span><span class="p">,</span>
+        <span class="n">highlight_line_color</span> <span class="o">=</span> <span class="n">highlight_line_color</span><span class="p">,</span>
+        <span class="n">annotate</span><span class="o">=</span><span class="n">annotate</span><span class="p">,</span>        
+        <span class="n">annot_df</span><span class="o">=</span><span class="n">hits_table</span> <span class="k">if</span> <span class="n">hits_table</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">hits_table</span><span class="o">.</span><span class="n">empty</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">label_col</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
         <span class="n">chr_spacing</span><span class="o">=</span><span class="n">chr_spacing</span><span class="p">,</span>
         <span class="n">track_heights</span><span class="o">=</span><span class="n">t_heights</span><span class="p">,</span>
         <span class="n">linear_track_spacing</span><span class="o">=</span><span class="n">linear_track_spacing</span><span class="p">,</span>

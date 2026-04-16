@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-MODULE_DOCSTRING = '''"""
+MODULE_DOCSTRING = """
 pycmplot.liftover
 =================
 
@@ -21,7 +21,7 @@ overridden by setting the environment variable:
 .. code-block:: bash
 
     export PYCMPLOT_CHAIN_HG19_HG38=/path/to/hg19ToHg38.over.chain
-"""'''
+"""
 
 import logging
 from typing import Optional
@@ -40,7 +40,7 @@ _lo_cache: dict[str, object] = {}
 
 
 def _get_liftover(chain_path: str):
-    GET_LIFTOVER = '''"""Return a cached :class:`~pyliftover.LiftOver` for *chain_path*.
+    GET_LIFTOVER = """Return a cached :class:`~pyliftover.LiftOver` for *chain_path*.
 
     Loads the chain file on first call and stores the resulting
     :class:`~pyliftover.LiftOver` instance in a module-level dict.  Subsequent
@@ -57,7 +57,7 @@ def _get_liftover(chain_path: str):
     -------
     pyliftover.LiftOver
         A ready-to-use liftover object for the specified chain file.
-    """'''
+    """
 
     if chain_path not in _lo_cache:
         from pyliftover import LiftOver  # deferred import
@@ -76,7 +76,7 @@ def liftover_hg19_to_hg38(
     pos: int,
     resources: Optional[ResourceConfig] = None,
 ) -> Optional[int]:
-    LIFTOVER_HG19_TO_HG38 = '''"""Convert a single hg19 position to its hg38 equivalent.
+    LIFTOVER_HG19_TO_HG38 = """Convert a single hg19 position to its hg38 equivalent.
 
     Uses a lazily loaded and cached :class:`~pyliftover.LiftOver` object backed
     by the chain file specified in *resources*.  When multiple hg38 mappings
@@ -118,7 +118,7 @@ def liftover_hg19_to_hg38(
     >>> new_pos = liftover_hg19_to_hg38("11", 5246695)
     >>> new_pos
     5225465
-    """'''
+    """
 
     if resources is None:
         resources = default_resources
@@ -138,7 +138,7 @@ def liftover_position(
     df: pd.DataFrame,
     resources: Optional[ResourceConfig] = None,
 ) -> pd.DataFrame:
-    LIFTOVER_POSITION = '''"""Liftover all hg19 rows in *df* from hg19 to hg38 coordinates.
+    LIFTOVER_POSITION = """Liftover all hg19 rows in *df* from hg19 to hg38 coordinates.
 
     Iterates over every row in *df* and calls :func:`liftover_hg19_to_hg38`
     for rows whose ``BUILD`` column equals ``'hg19'``.  Rows with other build
@@ -188,7 +188,7 @@ def liftover_position(
     array(['hg38'], dtype=object)
     >>> "OLD_POS" in df_hg38.columns
     True
-    """'''
+    """
 
     if resources is None:
         resources = default_resources

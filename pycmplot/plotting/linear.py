@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-LINEAR_MODULE = '''"""
+LINEAR_MODULE = """
 pycmplot.plotting.linear
 ========================
 
@@ -24,7 +24,7 @@ Internal helpers:
 * :func:`_draw_annotation_arrows` — places angled
   :class:`~matplotlib.patches.FancyArrowPatch` arrows from spread gene
   labels down to their corresponding signal positions.
-"""'''
+"""
 
 import logging
 from typing import Optional
@@ -54,7 +54,7 @@ def _cluster_annotations_by_chr(
     x_col: str = "x",
     window_size: float = 50e6,
 ) -> list[list]:
-    CLUSTER_ANNOTS = '''"""Cluster annotation points within each chromosome by genomic proximity.
+    CLUSTER_ANNOTS = """Cluster annotation points within each chromosome by genomic proximity.
 
     Groups rows of *annot_df* on the same chromosome into clusters such that
     consecutive points within *window_size* base-pairs are placed in the same
@@ -79,7 +79,7 @@ def _cluster_annotations_by_chr(
     list of list
         Each inner list contains the integer index values of *annot_df* rows
         that form one cluster.
-    """'''
+    """
 
     clusters: list[list] = []
     for _chr_name, df_chr in annot_df.groupby(chr_col):
@@ -100,7 +100,7 @@ def _cluster_annotations_by_chr(
     return clusters
 
 
-def _draw_annotation_arrows(
+def _draw_annotation_arrows_2(
     ax,
     annot_df,
     chr_col: str,
@@ -111,7 +111,7 @@ def _draw_annotation_arrows(
     y_tip: float = 0.0,
     y_text: float = 0.55,
 ) -> None:
-    DRAW_ARROWS = '''"""Draw angled arrow annotations from gene-label text to signal positions.
+    DRAW_ARROWS = """Draw angled arrow annotations from gene-label text to signal positions.
 
     For each significant locus in *annot_df*, places the gene/SNP label text
     above the track and connects it to the corresponding scatter-plot point
@@ -147,7 +147,7 @@ def _draw_annotation_arrows(
         Default ``0.0``.
     y_text : float, optional
         y-coordinate of the label text anchor.  Default ``0.55``.
-    """'''
+    """
 
     annot_df = annot_df.sort_values(by=[chr_col, "x"], key=natsort_keygen())
     last_xtext = 0 - spread_width
@@ -211,6 +211,156 @@ def _draw_annotation_arrows(
         last_xtext = x_texts[-1]
 
 
+
+def _draw_annotation_arrows(
+    ax,
+    annot_df,
+    chr_col: str,
+    label_col: str,
+    offsets: dict,
+    chr_max: dict,
+    spread_width: float = 60e6,
+    isolation_threshold: float = 80e6,   # above this → straight (Tier 1)
+    stack_threshold: float = 10e6,       # below this → stack (Tier 3)
+    max_tilt: float = 45,                # max angleA departure from vertical
+    y_tip: float = 0.0,
+    y_text: float = 0.55,
+    y_stack_step: float = 0.12,          # vertical gap between stacked labels
+) -> None:
+
+    annot_df = annot_df.sort_values(by=[chr_col, "x"], key=natsort_keygen())
+    last_xtext = 0 - spread_width
+
+    for chr_name, df_chr in annot_df.groupby(chr_col, sort=False):
+        df_chr  = df_chr.sort_values("x")
+        chr_start = offsets[chr_name]
+        chr_end   = offsets[chr_name] + chr_max[chr_name]
+        chr_range = chr_end - chr_start
+
+        x_signals = df_chr["x"].values
+        labels    = df_chr[label_col].values
+        n         = len(x_signals)
+
+        # ------------------------------------------------------------------
+        # Assign each signal to a tier based on nearest-neighbour distance
+        # ------------------------------------------------------------------
+        tiers   = []   # 1=straight, 2=angled, 3=stacked
+        for k, x_sig in enumerate(x_signals):
+            neighbours = np.delete(x_signals, k)
+            min_dist = np.min(np.abs(neighbours - x_sig)) if len(neighbours) else np.inf
+
+            if min_dist >= isolation_threshold:
+                tiers.append(1)
+            elif min_dist <= stack_threshold:
+                tiers.append(3)
+            else:
+                tiers.append(2)
+
+        # ------------------------------------------------------------------
+        # Compute label x and y positions per tier
+        # ------------------------------------------------------------------
+        x_texts = []
+        y_texts = []
+
+        # --- Tier 2: spread positions (same logic as before) ---
+        spread_indices = [k for k, t in enumerate(tiers) if t == 2]
+        spread_positions = {}
+
+        if spread_indices:
+            sw = spread_width
+            pad = sw / int(str(sw)[:2]) / 2
+            while sw > chr_range and sw > pad:
+                sw -= pad
+
+            sig_start   = x_signals[spread_indices[0]]
+            xmin        = sig_start - sw
+            positions   = np.arange(xmin, xmin + len(spread_indices) * sw, sw)
+
+            while positions[0] <= last_xtext:
+                positions = positions + sw
+
+            for j, k in enumerate(spread_indices):
+                spread_positions[k] = positions[j]
+
+        # --- Tier 3: build stacks ---
+        # Group Tier 3 signals that are within stack_threshold of each other
+        stack_groups = []
+        used = set()
+        for k, x_sig in enumerate(x_signals):
+            if tiers[k] != 3 or k in used:
+                continue
+            group = [k]
+            used.add(k)
+            for j in range(k + 1, n):
+                if tiers[j] == 3 and abs(x_signals[j] - x_sig) <= stack_threshold:
+                    group.append(j)
+                    used.add(j)
+            stack_groups.append(group)
+
+        stack_positions = {}   # k → (x_label, y_label)
+        for group in stack_groups:
+            # Place all labels in the group at the mean x of their signals
+            x_mean = np.mean(x_signals[group])
+            for rank, k in enumerate(group):
+                # stack upward: rank 0 at y_text, rank 1 just above, etc.
+                stack_positions[k] = (x_mean, y_text + rank * y_stack_step)
+
+        # --- Assemble final positions ---
+        for k in range(n):
+            if tiers[k] == 1:
+                x_texts.append(x_signals[k])
+                y_texts.append(y_text)
+            elif tiers[k] == 2:
+                x_texts.append(spread_positions[k])
+                y_texts.append(y_text)
+            else:  # Tier 3
+                xp, yp = stack_positions[k]
+                x_texts.append(xp)
+                y_texts.append(yp)
+
+        # ------------------------------------------------------------------
+        # Draw arrows and labels
+        # ------------------------------------------------------------------
+        for x_sig, x_txt, y_txt, label in zip(x_signals, x_texts, y_texts, labels):
+            dx    = x_txt - x_sig
+            tilt  = np.clip((dx / (spread_width * 2)) * max_tilt, -max_tilt, max_tilt)
+
+            if abs(tilt) < 2:
+                conn_style = "arc3,rad=0"          # perfectly straight
+            else:
+                angle_a    = 90 + tilt
+                angle_b    = 90
+                conn_style = f"angle3,angleA={angle_a:.1f},angleB={angle_b}"
+
+            arrow = FancyArrowPatch(
+                (x_txt, y_txt),
+                (x_sig, y_tip - 0.05),
+                arrowstyle="-|>",
+                mutation_scale=12,
+                lw=0.6,
+                color="grey",
+                alpha=0.5,
+                connectionstyle=conn_style,
+                transform=ax.transData,
+            )
+            ax.add_patch(arrow)
+
+            ax.text(
+                x_txt,
+                y_txt + 0.02,
+                str(label),
+                rotation=45,
+                ha="left",
+                va="bottom",
+                fontsize=10,
+                clip_on=False,
+                color="black",
+                fontstyle="italic",
+                fontweight="regular",
+            )
+
+        last_xtext = max(x_texts)
+
 # ---------------------------------------------------------------------------
 # Public function
 # ---------------------------------------------------------------------------
@@ -218,15 +368,16 @@ def _draw_annotation_arrows(
 def plot_linearm(
     tracks: list,
     track_labels: Optional[list[str]] = None,
-    annot_df=None,
+    annot_df: pd.DataFrame = None,
+    annotate: bool = False,
     highlight: bool = False,
     highlight_thresh: float = 5e-8,
-    highight_color: str = 'brown',
+    highlight_color: str = 'brown',
     highlight_line: bool = False,
-    highight_line_color: str = 'grey',    
+    highlight_line_color: str = 'grey',
     trim_pval: Optional[float] = None,
     logp: bool = True,
-    label_col: Optional[str] = "label",
+    label_col: Optional[str] = 'SNP',
     chr_order: Optional[list[str]] = None,
     chr_spacing: float = 9e6,
     track_heights: Optional[list[float]] = None,
@@ -240,7 +391,7 @@ def plot_linearm(
     dpi: int = 300,
     figsize: tuple = (15, 9),
 ):
-    PLOT_LINEARM = '''"""Core rendering engine for the multi-track stacked linear Manhattan plot.
+    PLOT_LINEARM = """Core rendering engine for the multi-track stacked linear Manhattan plot.
 
     Builds a :class:`~matplotlib.figure.Figure` with one annotation sub-panel
     at the top (for gene/SNP labels and connecting arrows) and *n* data tracks
@@ -335,7 +486,7 @@ def plot_linearm(
         Called internally to render gene/SNP label arrows in ``axes[0]``.
     pycmplot.stats.get_highlight_snps :
         Called internally when *highlight* is ``True``.
-    """'''
+    """
 
     chr_col = "CHR"
     pos_col = "POS"
@@ -413,19 +564,26 @@ def plot_linearm(
     n_tracks = len(tracks)
 
     if track_heights is None:
-        track_heights = [1] + [3] * n_tracks
+        track_heights = [1] + [3] * n_tracks if annotate else [3] * n_tracks
 
     fig = plt.figure(figsize=figsize)
+    gs_tracks = n_tracks + 1 if annotate else n_tracks
     gs = fig.add_gridspec(
-        n_tracks + 1, 1,
+        gs_tracks, 1,
         height_ratios=track_heights,
         hspace=linear_track_spacing,
     )
 
-    ax_annot = fig.add_subplot(gs[0, 0])
-    axes = [ax_annot]
-    for i in range(n_tracks):
-        axes.append(fig.add_subplot(gs[i + 1, 0], sharex=ax_annot))
+    if annotate:
+        ax_annot = fig.add_subplot(gs[0, 0])
+        axes = [ax_annot]
+        for i in range(n_tracks):
+            axes.append(fig.add_subplot(gs[i + 1, 0], sharex=ax_annot))        
+    else:
+        first_ax = fig.add_subplot(gs[0, 0])
+        axes = [first_ax]        
+        for i in range(n_tracks-1):
+            axes.append(fig.add_subplot(gs[i+1, 0], sharex=first_ax))
 
     # Per-track highlight colours from tab20 colormap
     cmap = plt.get_cmap("tab20")
@@ -436,41 +594,50 @@ def plot_linearm(
     # ------------------------------------------------------------------
     t_labels = track_labels or [f"Track {i+1}" for i in range(n_tracks)]
 
+    if annotate:
+        loop_axes = axes[1:]
+    else:
+        loop_axes = axes
+
     for i, (ax, df, t_label, h_color) in enumerate(
-        zip(axes[1:], tracks, t_labels, hex_colors)
+        zip(loop_axes, tracks, t_labels, hex_colors)
     ):
+        logger.info("Plotting: %s ...", t_label)
+
         color_cycle = [colors[j % len(colors)] for j in df["chr_idx"]]
         df = df[df[p_col] >= 0]
 
         y_vals = df["logP"] if logp else df[p_col]
         ax.scatter(df["x"], y_vals, c=color_cycle, s=point_size)
 
+        # Track labels
+        if no_track_labels:
+            pass
+        else:
+            ax.set_ylabel(t_label, color="black")
+
         if highlight:
             sig = df[df["in_locus"]]
             if not sig.empty:
                 sig_y = sig["logP"] if logp else sig[p_col]
                 ax.scatter(sig["x"].to_numpy(), sig_y.to_numpy(), s=point_size,
-                           marker="o", color=highight_color)
+                           marker="o", color=highlight_color)
                 # Vertical lines across all data tracks at highlight positions
-                for x in sig["x"].values:
-                    for ax in axes[1:]:
-                        ax.axvline(x, color=highight_line_color, alpha=0.5, linewidth=0.7,
-                                linestyle="--", zorder=0)
-
-        if no_track_labels:
-            pass
-        else:
-            ax.set_ylabel(t_label, color="black")
+                if highlight_line:
+                    for x in sig["x"].values:
+                        for _ax in loop_axes:
+                            _ax.axvline(x, color=highlight_line_color, alpha=0.2, linewidth=0.5,
+                                    linestyle="--", zorder=0)
 
         if sig_lines is not None and i < len(sig_lines):
             sl = sig_lines[i]
             if "genome" in sl:
                 ax.axhline(y=sl["genome"], color="red", linestyle="--", linewidth=0.6)
             if "suggestive" in sl:
-                ax.axhline(y=sl["suggestive"], color="blue", linestyle="--", linewidth=0.5)
+                ax.axhline(y=sl["suggestive"], color="blue", linestyle="--", linewidth=0.6)
 
-        ax.spines["top"].set_visible(False)
-        ax.spines["right"].set_visible(False)
+        ax.spines[["top", "right"]].set_visible(False)
+
 
         left_pad = chr_spacing * 0.2
         xmax = max(offsets[c] + chr_max[c] for c in chr_order)
@@ -479,7 +646,8 @@ def plot_linearm(
     # ------------------------------------------------------------------
     # Annotation track
     # ------------------------------------------------------------------
-    if annot_df is not None:
+    if annotate and annot_df is not None:
+        """
         _draw_annotation_arrows(
             ax_annot,
             annot_df,
@@ -489,9 +657,26 @@ def plot_linearm(
             chr_max=chr_max,
             spread_width=60e6,
         )
+        """
 
-    ax_annot.set_ylim(0, 1)
-    ax_annot.axis("off")
+        _draw_annotation_arrows(
+            ax=ax_annot,
+            annot_df=annot_df,
+            chr_col=chr_col,
+            label_col=label_col,
+            offsets=offsets,
+            chr_max=chr_max,
+            spread_width=60e6,
+            isolation_threshold=80e6,   # above this → straight (Tier 1)
+            stack_threshold=10e6,       # below this → stack (Tier 3)
+            max_tilt=45,                # max angleA departure from vertical
+            y_tip=0.0,
+            y_text=0.55,
+            y_stack_step=0.12,          # vertical gap between stacked labels
+        )
+
+        ax_annot.set_ylim(0, 1)
+        ax_annot.axis("off")
 
     # ------------------------------------------------------------------
     # Chromosome labels on x-axis
@@ -514,13 +699,13 @@ def plot_linearm(
 
     for ax in axes[:-1]:
         ax.tick_params(axis="x", which="both", bottom=False, labelbottom=False)
-        ax.spines["bottom"].set_visible(False)
+        ax.spines[["top", "right", "bottom"]].set_visible(False)
 
     plt.subplots_adjust(hspace=linear_track_spacing, left=0.08)
     plt.tight_layout()
 
     fig.text(
-        0, 0.5,
+        0.02, 0.5,
         "-log\u2081\u2080(p-value)" if logp else p_col,
         va="center",
         rotation="vertical",
@@ -543,10 +728,11 @@ def plot_linear(
     point_size: Optional[float] = None,
     highlight: bool = False,
     highlight_thresh: float = 5e-8,
-    highight_color: str = 'brown',
+    highlight_color: str = 'brown',
     highlight_line: bool = False,
-    highight_line_color: str = 'grey',    
+    highlight_line_color: str = 'grey',    
     hits_table: Optional[pd.DataFrame] = None,
+    annotate: bool = False,
     label_col: Optional[str] = None,
     chr_spacing: Optional[float] = None,
     linear_track_spacing: Optional[float] = None,
@@ -559,7 +745,7 @@ def plot_linear(
     output_dir: Optional[str] = '.',
     figsize: Optional[tuple] = None,
 ):
-    PLOT_LINEAR = '''"""Generate a multi-track stacked linear Manhattan plot.
+    PLOT_LINEAR = """Generate a multi-track stacked linear Manhattan plot.
 
     This is the primary user-facing entry point for linear Manhattan plots.
     It extracts DataFrames and labels from *sumstats_loaded*, resolves output
@@ -651,7 +837,7 @@ def plot_linear(
     ...     plot_title="RBC_Traits",
     ...     output_dir="./results",
     ... )
-    """'''
+    """
 
     dfs      = [v[0] for v in sumstats_loaded.values()]
     t_labels = list(sumstats_loaded.keys())
@@ -660,6 +846,20 @@ def plot_linear(
         t_heights = None
     else:
         t_heights = [float(x) for x in track_heights]
+
+    label = 'SNP'
+    if annotate:
+        label_col = str(label_col)
+        try:
+            if label_col == "GENE":
+                label = "top_gene"
+            elif label_col != "SNP":
+                label = label_col
+        except Exception:
+            logger.info("'SNP' column is used for annotation since '%s' column could not be resolved in hits table.", label_col)
+            pass         
+
+        logger.info(f"LABEL COL: {label}")
 
     # plot name
     (
@@ -682,11 +882,12 @@ def plot_linear(
         point_size=point_size,
         highlight=highlight,
         highlight_thresh=highlight_thresh,
-        highight_color = highight_color,
+        highlight_color = highlight_color,
         highlight_line = highlight_line,
-        highight_line_color = highight_line_color,          
-        annot_df=hits_table if not hits_table.empty else None,
-        label_col=label_col,
+        highlight_line_color = highlight_line_color,
+        annotate=annotate,        
+        annot_df=hits_table if hits_table is not None and not hits_table.empty else None,
+        label_col=label,
         chr_spacing=chr_spacing,
         track_heights=t_heights,
         linear_track_spacing=linear_track_spacing,

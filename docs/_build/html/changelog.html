@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Version 0.1.8 (2026-04-14) &mdash; pycmplot 0.1.9 documentation</title>
+  <title>Version 0.2.1 (2026-04-16) &mdash; pycmplot 0.2.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=8618f531"></script>
+      <script src="_static/documentation_options.js?v=37f418d5"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -145,9 +145,18 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Version 0.1.8 (2026-04-14)</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Version 0.2.1 (2026-04-16)</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#added">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#changed">Changed</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#version-0-1-9-2026-04-14">Version 0.1.9 (2026-04-14)</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#fixed">Fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#version-0-1-8-2026-04-14">Version 0.1.8 (2026-04-14)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">Fixed</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="#changelog">Changelog</a><ul>
@@ -179,7 +188,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Version 0.1.8 (2026-04-14)</li>
+      <li class="breadcrumb-item active">Version 0.2.1 (2026-04-16)</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/changelog.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -189,10 +198,57 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="version-0-1-8-2026-04-14">
-<h1>Version 0.1.8 (2026-04-14)<a class="headerlink" href="#version-0-1-8-2026-04-14" title="Link to this heading"></a></h1>
+  <section id="version-0-2-1-2026-04-16">
+<h1>Version 0.2.1 (2026-04-16)<a class="headerlink" href="#version-0-2-1-2026-04-16" title="Link to this heading"></a></h1>
 <section id="added">
 <h2>Added<a class="headerlink" href="#added" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><dl class="simple">
+<dt>Added option to supply genome builds for summary stats files <code class="docutils literal notranslate"><span class="pre">--build`</span></code> if ‘BUILD’ column is not in the files.</dt><dd><p>This is a revertion to earlier versions of the plotting script.
+Also made <code class="docutils literal notranslate"><span class="pre">--build</span></code> and <code class="docutils literal notranslate"><span class="pre">--build_column</span></code> optional allowing plotting to still proceed without genome build information.
+However, caution must be taken when multiple summary stats files are provided with different coordinate systems.
+For example, if <code class="docutils literal notranslate"><span class="pre">--annotate</span></code> is set, hits table generation will default to <cite>hg38</cite> coordinate, potentially leading to
+in accurate annotations for variants in different coordinates.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+<section id="changed">
+<h2>Changed<a class="headerlink" href="#changed" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><dl class="simple">
+<dt>Changed <code class="docutils literal notranslate"><span class="pre">--annotate</span></code> choices:</dt><dd><p>Expnaded choices from <cite>snp</cite> and <cite>gene</cite> to include other columns in hits table.
+Also allowed for other columns in user supplied annotation table (available in python API only).</p>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+</section>
+<section id="version-0-1-9-2026-04-14">
+<h1>Version 0.1.9 (2026-04-14)<a class="headerlink" href="#version-0-1-9-2026-04-14" title="Link to this heading"></a></h1>
+<section id="fixed">
+<h2>Fixed<a class="headerlink" href="#fixed" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><dl class="simple">
+<dt>Fixed column name auto-detection:</dt><dd><ul>
+<li><p>Expanded candidates list by adding lower and upper case versions for existing condidates.</p></li>
+</ul>
+</dd>
+<dt>Fixed <code class="docutils literal notranslate"><span class="pre">build</span></code> option for <code class="docutils literal notranslate"><span class="pre">prep_pycmplot_input_info</span></code> function.</dt><dd><ul>
+<li><p>Updated it from optional to required parameter to be consistent with command line version.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+</section>
+<section id="version-0-1-8-2026-04-14">
+<h1>Version 0.1.8 (2026-04-14)<a class="headerlink" href="#version-0-1-8-2026-04-14" title="Link to this heading"></a></h1>
+<section id="id1">
+<h2>Added<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
 <ul>
 <li><p>Added options to specify color of highlighted positions <code class="docutils literal notranslate"><span class="pre">highlight_color</span></code>
 and line running through highlighted positions <code class="docutils literal notranslate"><span class="pre">highlight_line_color</span></code>.</p>
@@ -202,8 +258,8 @@ and line running through highlighted positions <code class="docutils literal not
 </li>
 </ul>
 </section>
-<section id="fixed">
-<h2>Fixed<a class="headerlink" href="#fixed" title="Link to this heading"></a></h2>
+<section id="id3">
+<h2>Fixed<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
 <ul>
 <li><p>Fixed bug with __future__ import.</p>
 <p>Fixed command-line short form for <code class="docutils literal notranslate"><span class="pre">--highlight_line</span></code>. (<a class="reference external" href="https://github.com/esohkevin/pycmplot/issues/2">#2</a>)</p>

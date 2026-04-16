@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pycmplot.resources &mdash; pycmplot 0.1.8 documentation</title>
+  <title>pycmplot.resources &mdash; pycmplot 0.2.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=22607128"></script>
+      <script src="../../_static/documentation_options.js?v=37f418d5"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -142,9 +142,18 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Version 0.1.8 (2026-04-14)</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Version 0.2.1 (2026-04-16)</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../changelog.html#added">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#changed">Changed</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html#version-0-1-9-2026-04-14">Version 0.1.9 (2026-04-14)</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../changelog.html#fixed">Fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html#version-0-1-8-2026-04-14">Version 0.1.8 (2026-04-14)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id1">Added</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id3">Fixed</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../changelog.html#changelog">Changelog</a><ul>
@@ -189,45 +198,45 @@
   <h1>Source code for pycmplot.resources</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="n">RESOURCES_MODULE</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;&quot;&quot;&quot;</span>
-<span class="s1">pycmplot.resources</span>
-<span class="s1">==================</span>
+<span class="n">RESOURCES_MODULE</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">pycmplot.resources</span>
+<span class="s2">==================</span>
 
-<span class="s1">Centralised configuration for external reference files that cannot be</span>
-<span class="s1">bundled with the package distribution (large gene-info TSVs, liftover</span>
-<span class="s1">chain files, etc.).</span>
+<span class="s2">Centralised configuration for external reference files that cannot be</span>
+<span class="s2">bundled with the package distribution (large gene-info TSVs, liftover</span>
+<span class="s2">chain files, etc.).</span>
 
-<span class="s1">Resolution order</span>
-<span class="s1">----------------</span>
-<span class="s1">Resource paths are resolved in the following priority order for each</span>
-<span class="s1">attribute:</span>
+<span class="s2">Resolution order</span>
+<span class="s2">----------------</span>
+<span class="s2">Resource paths are resolved in the following priority order for each</span>
+<span class="s2">attribute:</span>
 
-<span class="s1">1. **Explicit argument** — pass a :class:`ResourceConfig` instance with</span>
-<span class="s1">   the desired path directly to any function that accepts a *resources*</span>
-<span class="s1">   parameter.</span>
-<span class="s1">2. **Environment variable** — set the corresponding variable before</span>
-<span class="s1">   running pycmplot:</span>
+<span class="s2">1. **Explicit argument** — pass a :class:`ResourceConfig` instance with</span>
+<span class="s2">   the desired path directly to any function that accepts a *resources*</span>
+<span class="s2">   parameter.</span>
+<span class="s2">2. **Environment variable** — set the corresponding variable before</span>
+<span class="s2">   running pycmplot:</span>
 
-<span class="s1">   .. code-block:: bash</span>
+<span class="s2">   .. code-block:: bash</span>
 
-<span class="s1">       export PYCMPLOT_CHAIN_HG19_HG38=/path/to/hg19ToHg38.over.chain</span>
-<span class="s1">       export PYCMPLOT_GENEINFO_HG38=/path/to/Homo_sapiens.GRCh38.geneinfo.tsv.gz</span>
-<span class="s1">       export PYCMPLOT_GENEINFO_HG19=/path/to/Homo_sapiens.GRCh37.geneinfo.tsv.gz</span>
+<span class="s2">       export PYCMPLOT_CHAIN_HG19_HG38=/path/to/hg19ToHg38.over.chain</span>
+<span class="s2">       export PYCMPLOT_GENEINFO_HG38=/path/to/Homo_sapiens.GRCh38.geneinfo.tsv.gz</span>
+<span class="s2">       export PYCMPLOT_GENEINFO_HG19=/path/to/Homo_sapiens.GRCh37.geneinfo.tsv.gz</span>
 
-<span class="s1">3. **Bundled default** — pycmplot ships with the required files in the</span>
-<span class="s1">   ``pycmplot/data/`` package directory; they are used automatically when</span>
-<span class="s1">   neither of the above is set.</span>
+<span class="s2">3. **Bundled default** — pycmplot ships with the required files in the</span>
+<span class="s2">   ``pycmplot/data/`` package directory; they are used automatically when</span>
+<span class="s2">   neither of the above is set.</span>
 
-<span class="s1">Examples</span>
-<span class="s1">--------</span>
-<span class="s1">Override a single resource while using defaults for the rest:</span>
+<span class="s2">Examples</span>
+<span class="s2">--------</span>
+<span class="s2">Override a single resource while using defaults for the rest:</span>
 
-<span class="s1">&gt;&gt;&gt; from pycmplot.resources import ResourceConfig</span>
-<span class="s1">&gt;&gt;&gt; cfg = ResourceConfig(chain_hg19_hg38=&quot;/my/custom.over.chain&quot;)</span>
-<span class="s1">&gt;&gt;&gt; # pass cfg to any function that accepts a resources argument:</span>
-<span class="s1">&gt;&gt;&gt; from pycmplot.liftover import liftover_position</span>
-<span class="s1">&gt;&gt;&gt; df_lifted = liftover_position(df, resources=cfg)</span>
-<span class="s1">&quot;&quot;&quot;&#39;&#39;&#39;</span>
+<span class="s2">&gt;&gt;&gt; from pycmplot.resources import ResourceConfig</span>
+<span class="s2">&gt;&gt;&gt; cfg = ResourceConfig(chain_hg19_hg38=&quot;/my/custom.over.chain&quot;)</span>
+<span class="s2">&gt;&gt;&gt; # pass cfg to any function that accepts a resources argument:</span>
+<span class="s2">&gt;&gt;&gt; from pycmplot.liftover import liftover_position</span>
+<span class="s2">&gt;&gt;&gt; df_lifted = liftover_position(df, resources=cfg)</span>
+<span class="s2">&quot;&quot;&quot;</span>
 
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
@@ -249,41 +258,41 @@
 <a class="viewcode-back" href="../../api/resources.html#pycmplot.resources.ResourceConfig">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">ResourceConfig</span><span class="p">:</span>
-    <span class="n">RESOURCE_CONFIG_CLASS</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;&quot;&quot;&quot;Paths to external reference files used by pycmplot.</span>
+    <span class="n">RESOURCE_CONFIG_CLASS</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Paths to external reference files used by pycmplot.</span>
 
-<span class="s1">    All attributes default to values resolved from environment variables or the</span>
-<span class="s1">    bundled ``pycmplot/data/`` directory via :func:`importlib.resources.files`.</span>
-<span class="s1">    Override individual attributes to use custom file locations.</span>
+<span class="s2">    All attributes default to values resolved from environment variables or the</span>
+<span class="s2">    bundled ``pycmplot/data/`` directory via :func:`importlib.resources.files`.</span>
+<span class="s2">    Override individual attributes to use custom file locations.</span>
 
-<span class="s1">    Attributes</span>
-<span class="s1">    ----------</span>
-<span class="s1">    chain_hg19_hg38 : str or None</span>
-<span class="s1">        Path to the UCSC LiftOver chain file for hg19 → hg38 conversion.</span>
-<span class="s1">        Resolved from ``PYCMPLOT_CHAIN_HG19_HG38`` or the bundled</span>
-<span class="s1">        ``hg19ToHg38.over.chain``.</span>
-<span class="s1">    geneinfo_hg38 : str or None</span>
-<span class="s1">        Path to the Ensembl gene-info TSV for GRCh38, used for nearest-gene</span>
-<span class="s1">        annotation.  Resolved from ``PYCMPLOT_GENEINFO_HG38`` or the bundled</span>
-<span class="s1">        ``Homo_sapiens.GRCh38.geneinfo.tsv.gz``.</span>
-<span class="s1">    geneinfo_hg19 : str or None</span>
-<span class="s1">        Path to the Ensembl gene-info TSV for GRCh37, used when all input</span>
-<span class="s1">        data carry a hg19 build label.  Resolved from</span>
-<span class="s1">        ``PYCMPLOT_GENEINFO_HG19`` or the bundled</span>
-<span class="s1">        ``Homo_sapiens.GRCh37.geneinfo.tsv.gz``.</span>
+<span class="s2">    Attributes</span>
+<span class="s2">    ----------</span>
+<span class="s2">    chain_hg19_hg38 : str or None</span>
+<span class="s2">        Path to the UCSC LiftOver chain file for hg19 → hg38 conversion.</span>
+<span class="s2">        Resolved from ``PYCMPLOT_CHAIN_HG19_HG38`` or the bundled</span>
+<span class="s2">        ``hg19ToHg38.over.chain``.</span>
+<span class="s2">    geneinfo_hg38 : str or None</span>
+<span class="s2">        Path to the Ensembl gene-info TSV for GRCh38, used for nearest-gene</span>
+<span class="s2">        annotation.  Resolved from ``PYCMPLOT_GENEINFO_HG38`` or the bundled</span>
+<span class="s2">        ``Homo_sapiens.GRCh38.geneinfo.tsv.gz``.</span>
+<span class="s2">    geneinfo_hg19 : str or None</span>
+<span class="s2">        Path to the Ensembl gene-info TSV for GRCh37, used when all input</span>
+<span class="s2">        data carry a hg19 build label.  Resolved from</span>
+<span class="s2">        ``PYCMPLOT_GENEINFO_HG19`` or the bundled</span>
+<span class="s2">        ``Homo_sapiens.GRCh37.geneinfo.tsv.gz``.</span>
 
-<span class="s1">    Examples</span>
-<span class="s1">    --------</span>
-<span class="s1">    Use all bundled defaults:</span>
+<span class="s2">    Examples</span>
+<span class="s2">    --------</span>
+<span class="s2">    Use all bundled defaults:</span>
 
-<span class="s1">    &gt;&gt;&gt; from pycmplot.resources import ResourceConfig</span>
-<span class="s1">    &gt;&gt;&gt; cfg = ResourceConfig()</span>
+<span class="s2">    &gt;&gt;&gt; from pycmplot.resources import ResourceConfig</span>
+<span class="s2">    &gt;&gt;&gt; cfg = ResourceConfig()</span>
 
-<span class="s1">    Override the hg38 gene-info file:</span>
+<span class="s2">    Override the hg38 gene-info file:</span>
 
-<span class="s1">    &gt;&gt;&gt; cfg = ResourceConfig(</span>
-<span class="s1">    ...     geneinfo_hg38=&quot;/data/custom_GRCh38_genes.tsv.gz&quot;</span>
-<span class="s1">    ... )</span>
-<span class="s1">    &quot;&quot;&quot;&#39;&#39;&#39;</span>
+<span class="s2">    &gt;&gt;&gt; cfg = ResourceConfig(</span>
+<span class="s2">    ...     geneinfo_hg38=&quot;/data/custom_GRCh38_genes.tsv.gz&quot;</span>
+<span class="s2">    ... )</span>
+<span class="s2">    &quot;&quot;&quot;</span>
 
     <span class="n">chain_hg19_hg38</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span>
         <span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">_env</span><span class="p">(</span>
@@ -313,39 +322,39 @@
 <div class="viewcode-block" id="ResourceConfig.require">
 <a class="viewcode-back" href="../../api/resources.html#pycmplot.resources.ResourceConfig.require">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">require</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="n">REQUIRE_METHOD</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;&quot;&quot;&quot;Return the path for *attr*, raising a clear :exc:`FileNotFoundError`</span>
-<span class="s1">        if the attribute is unset or the path does not exist.</span>
+        <span class="n">REQUIRE_METHOD</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Return the path for *attr*, raising a clear :exc:`FileNotFoundError`</span>
+<span class="s2">        if the attribute is unset or the path does not exist.</span>
 
-<span class="s1">        First checks whether the attribute value is ``None``; if so, raises</span>
-<span class="s1">        :exc:`FileNotFoundError` with a message indicating which environment</span>
-<span class="s1">        variable to set.  Then verifies that the resolved path exists on disk,</span>
-<span class="s1">        falling back to :func:`importlib.resources.files` package-data resolution</span>
-<span class="s1">        before raising if neither succeeds.</span>
+<span class="s2">        First checks whether the attribute value is ``None``; if so, raises</span>
+<span class="s2">        :exc:`FileNotFoundError` with a message indicating which environment</span>
+<span class="s2">        variable to set.  Then verifies that the resolved path exists on disk,</span>
+<span class="s2">        falling back to :func:`importlib.resources.files` package-data resolution</span>
+<span class="s2">        before raising if neither succeeds.</span>
 
-<span class="s1">        Parameters</span>
-<span class="s1">        ----------</span>
-<span class="s1">        attr : str</span>
-<span class="s1">            Name of the :class:`ResourceConfig` attribute to retrieve, e.g.</span>
-<span class="s1">            ``&#39;chain_hg19_hg38&#39;``, ``&#39;geneinfo_hg38&#39;``, ``&#39;geneinfo_hg19&#39;``.</span>
+<span class="s2">        Parameters</span>
+<span class="s2">        ----------</span>
+<span class="s2">        attr : str</span>
+<span class="s2">            Name of the :class:`ResourceConfig` attribute to retrieve, e.g.</span>
+<span class="s2">            ``&#39;chain_hg19_hg38&#39;``, ``&#39;geneinfo_hg38&#39;``, ``&#39;geneinfo_hg19&#39;``.</span>
 
-<span class="s1">        Returns</span>
-<span class="s1">        -------</span>
-<span class="s1">        str</span>
-<span class="s1">            Absolute file path as a string.</span>
+<span class="s2">        Returns</span>
+<span class="s2">        -------</span>
+<span class="s2">        str</span>
+<span class="s2">            Absolute file path as a string.</span>
 
-<span class="s1">        Raises</span>
-<span class="s1">        ------</span>
-<span class="s1">        FileNotFoundError</span>
-<span class="s1">            If the attribute is ``None`` or the resolved path does not exist.</span>
+<span class="s2">        Raises</span>
+<span class="s2">        ------</span>
+<span class="s2">        FileNotFoundError</span>
+<span class="s2">            If the attribute is ``None`` or the resolved path does not exist.</span>
 
-<span class="s1">        Examples</span>
-<span class="s1">        --------</span>
-<span class="s1">        &gt;&gt;&gt; from pycmplot.resources import ResourceConfig</span>
-<span class="s1">        &gt;&gt;&gt; cfg = ResourceConfig()</span>
-<span class="s1">        &gt;&gt;&gt; chain = cfg.require(&quot;chain_hg19_hg38&quot;)</span>
-<span class="s1">        &gt;&gt;&gt; chain.endswith(&quot;.over.chain&quot;)</span>
-<span class="s1">        True</span>
-<span class="s1">        &quot;&quot;&quot;&#39;&#39;&#39;</span>
+<span class="s2">        Examples</span>
+<span class="s2">        --------</span>
+<span class="s2">        &gt;&gt;&gt; from pycmplot.resources import ResourceConfig</span>
+<span class="s2">        &gt;&gt;&gt; cfg = ResourceConfig()</span>
+<span class="s2">        &gt;&gt;&gt; chain = cfg.require(&quot;chain_hg19_hg38&quot;)</span>
+<span class="s2">        &gt;&gt;&gt; chain.endswith(&quot;.over.chain&quot;)</span>
+<span class="s2">        True</span>
+<span class="s2">        &quot;&quot;&quot;</span>
 
         <span class="n">val</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">val</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
