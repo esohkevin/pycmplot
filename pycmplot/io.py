@@ -683,6 +683,7 @@ def get_sumstats_and_merged_sector_list(
     signif_line: Optional[float] = None,
     suggest_threshold: Optional[float] = None,
     resources: Optional[ResourceConfig] = None,
+    hg38_chr_lengths = hg38_chr_lengths,
 ):
     GET_SUMSTATS = """Load summary statistics, run liftover, extract lead SNPs, and compute
     merged Circos sector sizes.
