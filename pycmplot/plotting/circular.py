@@ -380,6 +380,7 @@ def plot_circular(
     annotate: str = None,
     label_col: str = None,
     chrom_label_side: str = 'inside',
+    chrom_label_size: float = 6,
     signif_line: float = 5e-8,
     highlight: bool = False,
     highlight_thresh: float = 5e-8,
@@ -387,7 +388,6 @@ def plot_circular(
     highlight_line: bool = False,
     highlight_line_color: str = 'grey',
     colors: list[str] = ['steelblue', 'grey'],
-    chrom_label_size: float = 6,
     track_label_size: float = 6,
     track_label_orientation: str = 'vertical',
     hits_table: pd.DataFrame = None,
@@ -526,7 +526,8 @@ def plot_circular(
     labels = list(sumstats_loaded.keys())
     (
         plt_name, 
-        table_out
+        table_out,
+        plt_base,
     ) = get_output_paths(
         labels,
         mode='cm', 
@@ -558,13 +559,15 @@ def plot_circular(
     radii_reversed = dict(reversed(list(radii.items())))
 
     inside_loc  = r_min - 3
-    outside_loc = 105
-    chrom_label_loc = outside_loc if chrom_label_side == "outside" else inside_loc
+    outside_loc = r_max + 4
 
     if annotate:
         annot_key = next(iter(radii_reversed))
         annot_r   = radii_reversed.pop(annot_key)
+        outside_loc = max(list(radii_reversed.values())[0]) + 2
         radii_reversed["annot_track_r"] = annot_r
+
+    chrom_label_loc = outside_loc if chrom_label_side == "outside" else inside_loc
 
     for index, (sector_radius, sumstats_key, sumstats_value, signif_dict) in enumerate(
         zip(
@@ -647,7 +650,7 @@ def plot_circular(
                         x=pos,
                         label=str(label),
                         min_r=r_low,
-                        max_r=r_low + 3,
+                        max_r=r_low + 6,
                         label_size=annotation_size,
                         text_kws={
                             "size": "large",
@@ -668,8 +671,9 @@ def plot_circular(
                             r=[sector_min_r, r_low],
                             start=pos,
                             end=pos,
+                            alpha=0.4,
                             color=highlight_line_color,
-                            lw=0.5,
+                            lw=0.4,
                             ls="--",
                         )
 
@@ -709,6 +713,6 @@ def plot_circular(
 
     if plt_name:
         fig.savefig(fname=plt_name.lower(), dpi=dpi)
-        logger.info("Saved circular Manhattan plot: %s", plt_name)
+        logger.info("Saved circular Manhattan plot: %s", plt_name.lower())
 
     return fig

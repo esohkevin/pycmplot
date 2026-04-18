@@ -329,29 +329,50 @@ def get_arguments(descmsg: str = DESCMSG) -> argparse.Namespace:
     )
     opt.add_argument(
         "-bc",   "--build_column",  required=False, type=str, metavar="str",
-        help="Name of column containing genome build (hg18/hg19/hg38). Or use ``--build`` below to supply genome builds per summary stat file."
-    )
+                     help=("Name of column containing genome build (hg18/hg19/hg38)." 
+                         "Or use ``--build`` below to supply genome builds per summary stat file."
+                    ))
     opt.add_argument(
-        "-b","--build",
-        help="""
-        Comma-sperated list of genome build of summary stats file(s) listed in the same order as sumstats files.
-        (e.g. hg19,hg38,hg38,hg19 means: 
-            file1.txt.gz --> hg19
-            file2.txt.gz --> hg38
-            file3.tsv --> hg38 ... etc)
-        """,
-        required=False,
-        type=str,
-        metavar='str'        
+        "-b","--build", required=False, type=str, metavar='str',
+        help=
+        """Comma-sperated list of genome build of summary stats file(s) listed 
+        in the same order as sumstats files. e.g. hg19,hg38,hg38,hg19 means:
+        file1.txt.gz --> hg19
+        file2.txt.gz --> hg38
+        file3.tsv --> hg38 ... etc
+        """
     )
     opt.add_argument(
         "--logp", action="store_true",
         help="Plot −log₁₀(p) instead of raw p-values."
     )
-    opt.add_argument(
-        "-qq", "--qq_plot", action="store_true",
-        help="Also generate a QQ-plot."
-    )
+    opt.add_argument("-qq", "--qq_plot", action="store_true",
+                     help="Generate QQ-plot(s) alongside the Manhattan plot.")
+    opt.add_argument("-qq_sep", "--qq_separate", action="store_true",
+                     help=(
+                         "Save one QQ-plot file per sumstat instead of a "
+                         "combined multi-panel figure. Only used when -qq is set."
+                     ))
+    opt.add_argument("-qq_cols", "--qq_ncols", default=3, type=int, metavar="int",
+                     help="Number of columns in the combined QQ-plot grid (default: 3).")
+    opt.add_argument("-qq_thin", "--qq_thin", action="store_true", default=False,
+                     help=(
+                         "Thin null-like p-values before QQ plotting for speed (default: off)."
+                         "Include this flag to turn on for speed."
+                    ))
+    opt.add_argument("-thin_below", "--thin_below", type=float, metavar="float", default=0.01,
+                     help=(
+                         "P-value threshold below which all points are always kept."
+                         "Points above this threshold are downsampled (default: 0.01)."
+                     ))
+    opt.add_argument("-qq_max_pts", "--qq_max_points", default=50000, type=int, metavar="int",
+                     help="Max points to plot per QQ track after thinning (default: 50000).")
+    opt.add_argument("-qq_ov", "--qq_overlay", action="store_true",
+                     help=(
+                         "Plot all sumstats on a single overlaid QQ-plot, "
+                         "each coloured by label with lambda in the legend. "
+                         "Only used when -qq is set."
+                     ))
     opt.add_argument(
         "-tp", "--trim_pval", type=float, metavar="float",
         help="Trim variants with p > this value before plotting."

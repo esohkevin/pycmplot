@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Version 0.2.1 (2026-04-16) &mdash; pycmplot 0.2.1 documentation</title>
+  <title>Changelog &mdash; pycmplot 0.2.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -145,22 +145,14 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Version 0.2.1 (2026-04-16)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#added">Added</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#changed">Changed</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">0.2.2 — 2026-04-18</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="#version-0-1-9-2026-04-14">Version 0.1.9 (2026-04-14)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#fixed">Fixed</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="#version-0-2-1-2026-04-16">Version 0.2.1 (2026-04-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#version-0-1-9-2026-04-14">Version 0.1.9 (2026-04-14)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#version-0-1-8-2026-04-14">Version 0.1.8 (2026-04-14)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id1">Added</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">Fixed</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="#changelog">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#version-0-1-0-2026">Version 0.1.0 (2026)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">0.1.0 — 2026-04-18</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a><ul>
@@ -188,7 +180,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Version 0.2.1 (2026-04-16)</li>
+      <li class="breadcrumb-item active">Changelog</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/changelog.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -198,10 +190,108 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="version-0-2-1-2026-04-16">
+  <section id="changelog">
+<h1>Changelog<a class="headerlink" href="#changelog" title="Link to this heading"></a></h1>
+<p>All notable changes to <strong>pycmplot</strong> are documented here.
+Format follows <a class="reference external" href="https://keepachangelog.com/en/1.0.0/">Keep a Changelog</a>.
+Versioning follows <a class="reference external" href="https://semver.org/">Semantic Versioning</a>.</p>
+<hr class="docutils" />
+<section id="id1">
+<h2>0.2.2 — 2026-04-18<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<p>Added</p>
+<p><strong>QQ plots</strong> (<code class="docutils literal notranslate"><span class="pre">pycmplot.plotting.qq</span></code>)</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">plot_qq_single()</span></code></dt><dd><p>Draws a single QQ plot onto a provided Matplotlib <code class="docutils literal notranslate"><span class="pre">Axes</span></code>.
+Includes a 95% confidence interval band (derived from the beta
+distribution), diagonal null line, optional genome-wide significance
+line, and genomic inflation factor λ annotation.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">plot_qq_combined()</span></code></dt><dd><p>Plots all sumstats as individual panels arranged in a configurable
+column grid in a single figure.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">plot_qq_separate()</span></code></dt><dd><p>Saves one QQ plot file per sumstat, named
+<code class="docutils literal notranslate"><span class="pre">{stem}_{label}.{format}</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">plot_qq_overlay()</span></code></dt><dd><p>Plots all sumstats on a single shared axes, each coloured by label
+with λ values embedded in the legend entries.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">thin_pvals()</span></code></dt><dd><p>Log-uniform p-value thinning helper for fast QQ plotting.
+Selects up to <code class="docutils literal notranslate"><span class="pre">max_points</span></code> evenly-spaced positions along the
+−log₁₀(p) axis so the null bulk is sparse and the significant tail
+is dense, with no hard threshold boundary and no visible seam.
+Lambda is always computed on the full unfiltered array before
+thinning.</p>
+</dd>
+</dl>
+<p><strong>CLI flags</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 35.0%" />
+<col style="width: 65.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Flag</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-qq</span></code> / <code class="docutils literal notranslate"><span class="pre">--qq_plot</span></code></p></td>
+<td><p>Generate QQ plot(s) alongside the Manhattan plot.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">-qq_sep</span></code> / <code class="docutils literal notranslate"><span class="pre">--qq_separate</span></code></p></td>
+<td><p>Save one file per sumstat instead of a combined figure.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-qq_ov</span></code> / <code class="docutils literal notranslate"><span class="pre">--qq_overlay</span></code></p></td>
+<td><p>Overlay all sumstats on a single QQ axes.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">-qq_cols</span></code> / <code class="docutils literal notranslate"><span class="pre">--qq_ncols</span></code></p></td>
+<td><p>Number of columns in the combined grid (default: 3).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-qq_max_pts</span></code> / <code class="docutils literal notranslate"><span class="pre">--qq_max_points</span></code></p></td>
+<td><p>Maximum points per track after thinning (default: 50 000).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">-qq_no_thin</span></code> / <code class="docutils literal notranslate"><span class="pre">--qq_no_thin</span></code></p></td>
+<td><p>Disable thinning and plot all points (slow for large datasets).</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Performance</strong></p>
+<ul class="simple">
+<li><p><strong>Log-uniform p-value thinning</strong> reduces a 10 M-SNP dataset to
+≤ 50 000 plotted points with no perceptible visual difference.
+Thinning is on by default for all QQ functions and can be disabled
+with <code class="docutils literal notranslate"><span class="pre">thin=False</span></code> (API) or <code class="docutils literal notranslate"><span class="pre">--qq_no_thin</span></code> (CLI).</p></li>
+<li><p><strong>Rasterised scatter</strong> (<code class="docutils literal notranslate"><span class="pre">rasterized=True</span></code>) renders the point cloud
+as a bitmap inside PDF/SVG output, reducing file sizes from hundreds
+of MB to a few MB for large datasets.</p></li>
+</ul>
+<p>Fixed</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">_qq_arrays</span></code> — reversed observed array</dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">observed</span></code> array was reversed with <code class="docutils literal notranslate"><span class="pre">[::-1]</span></code>, pairing the
+largest expected quantile with the smallest observed value and
+breaking the diagonal entirely.  Removed the reversal so rank <em>i</em>
+correctly maps to the <em>i</em>-th smallest p-value.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">thin_pvals</span></code> — zero bulk budget</dt><dd><blockquote>
+<div><p>When the tail region alone exceeded <code class="docutils literal notranslate"><span class="pre">max_points</span></code>, the bulk budget
+became zero and all null-region points were silently dropped, leaving
+the diagonal invisible below −log₁₀(p) = 2.  Replaced the two-region
+split with seamless log-uniform thinning, eliminating both the
+zero-budget bug and the visible seam at the threshold boundary.</p>
+</div></blockquote>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">_plot_circularm</span></code> — track label space</dt><dd><p>Increased space between first and last tracks to improve visibility of
+track labels, and y-axis and its label</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</section>
+<hr class="docutils" />
+<section id="version-0-2-1-2026-04-16">
 <h1>Version 0.2.1 (2026-04-16)<a class="headerlink" href="#version-0-2-1-2026-04-16" title="Link to this heading"></a></h1>
-<section id="added">
-<h2>Added<a class="headerlink" href="#added" title="Link to this heading"></a></h2>
+<p>Added</p>
 <ul class="simple">
 <li><dl class="simple">
 <dt>Added option to supply genome builds for summary stats files <code class="docutils literal notranslate"><span class="pre">--build`</span></code> if ‘BUILD’ column is not in the files.</dt><dd><p>This is a revertion to earlier versions of the plotting script.
@@ -213,9 +303,7 @@ in accurate annotations for variants in different coordinates.</p>
 </dl>
 </li>
 </ul>
-</section>
-<section id="changed">
-<h2>Changed<a class="headerlink" href="#changed" title="Link to this heading"></a></h2>
+<p>Changed</p>
 <ul class="simple">
 <li><dl class="simple">
 <dt>Changed <code class="docutils literal notranslate"><span class="pre">--annotate</span></code> choices:</dt><dd><p>Expnaded choices from <cite>snp</cite> and <cite>gene</cite> to include other columns in hits table.
@@ -225,11 +313,9 @@ Also allowed for other columns in user supplied annotation table (available in p
 </li>
 </ul>
 </section>
-</section>
 <section id="version-0-1-9-2026-04-14">
 <h1>Version 0.1.9 (2026-04-14)<a class="headerlink" href="#version-0-1-9-2026-04-14" title="Link to this heading"></a></h1>
-<section id="fixed">
-<h2>Fixed<a class="headerlink" href="#fixed" title="Link to this heading"></a></h2>
+<p>Fixed</p>
 <ul class="simple">
 <li><dl class="simple">
 <dt>Fixed column name auto-detection:</dt><dd><ul>
@@ -244,11 +330,9 @@ Also allowed for other columns in user supplied annotation table (available in p
 </li>
 </ul>
 </section>
-</section>
 <section id="version-0-1-8-2026-04-14">
 <h1>Version 0.1.8 (2026-04-14)<a class="headerlink" href="#version-0-1-8-2026-04-14" title="Link to this heading"></a></h1>
-<section id="id1">
-<h2>Added<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<p>Added</p>
 <ul>
 <li><p>Added options to specify color of highlighted positions <code class="docutils literal notranslate"><span class="pre">highlight_color</span></code>
 and line running through highlighted positions <code class="docutils literal notranslate"><span class="pre">highlight_line_color</span></code>.</p>
@@ -257,37 +341,79 @@ and line running through highlighted positions <code class="docutils literal not
 <code class="docutils literal notranslate"><span class="pre">-pad</span></code> (<a class="reference external" href="https://github.com/esohkevin/pycmplot/issues/1">#1</a>)</p>
 </li>
 </ul>
-</section>
-<section id="id3">
-<h2>Fixed<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<p>Fixed</p>
 <ul>
 <li><p>Fixed bug with __future__ import.</p>
 <p>Fixed command-line short form for <code class="docutils literal notranslate"><span class="pre">--highlight_line</span></code>. (<a class="reference external" href="https://github.com/esohkevin/pycmplot/issues/2">#2</a>)</p>
 </li>
 </ul>
-</section>
-</section>
-<section id="changelog">
-<h1>Changelog<a class="headerlink" href="#changelog" title="Link to this heading"></a></h1>
-<p>All notable changes to pycmplot are documented here.
-This project follows <a class="reference external" href="https://semver.org/">Semantic Versioning</a>.</p>
-<section id="version-0-1-0-2026">
-<h2>Version 0.1.0 (2026)<a class="headerlink" href="#version-0-1-0-2026" title="Link to this heading"></a></h2>
-<p>Initial public release.</p>
-<p><strong>Added</strong></p>
+<hr class="docutils" />
+<section id="id4">
+<h2>0.1.0 — 2026-04-18<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<p>Initial release.</p>
+<p>Added</p>
+<p><strong>Package structure</strong></p>
 <ul class="simple">
-<li><p>Multi-track stacked linear Manhattan plots (<code class="docutils literal notranslate"><span class="pre">--mode</span> <span class="pre">lm</span></code>).</p></li>
-<li><p>Circos-style circular Manhattan plots (<code class="docutils literal notranslate"><span class="pre">--mode</span> <span class="pre">cm</span></code>).</p></li>
-<li><p>Automatic column detection for chromosome, position, SNP ID, p-value,
-and genome-build columns.</p></li>
-<li><p>hg19 → hg38 coordinate liftover via <code class="docutils literal notranslate"><span class="pre">pyliftover</span></code>.</p></li>
-<li><p>Nearest-gene annotation and structured hits summary table output.</p></li>
-<li><p>Cluster-aware label spreading and intelligent arrow-angle calculation
-for dense genomic regions.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">--trim_pval</span></code> option for memory-efficient processing of large files.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">--sort_track</span></code> option to order tracks by label or chromosome length.</p></li>
-<li><p>Full Python API mirroring the command-line interface.</p></li>
-<li><p>Interactive Jupyter notebook tutorial.</p></li>
+<li><p>Installable Python package with <code class="docutils literal notranslate"><span class="pre">src/</span></code> layout, <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code>,
+<code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code>, and a <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> compatibility shim for older
+setuptools.</p></li>
+<li><p>Console script entry point: <code class="docutils literal notranslate"><span class="pre">pycmplot</span></code> (also runnable as
+<code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">pycmplot</span></code>).</p></li>
+</ul>
+<p><strong>Modules</strong></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">constants</span></code></dt><dd><p>hg38 chromosome lengths, biotype priority weights, and standard
+chromosome order.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">resources</span></code></dt><dd><p><code class="docutils literal notranslate"><span class="pre">ResourceConfig</span></code> dataclass for configuring external reference file
+paths (liftover chain, gene info files) via constructor arguments or
+environment variables (<code class="docutils literal notranslate"><span class="pre">PYCMPLOT_CHAIN_HG19_HG38</span></code>,
+<code class="docutils literal notranslate"><span class="pre">PYCMPLOT_GENEINFO_HG38</span></code>, <code class="docutils literal notranslate"><span class="pre">PYCMPLOT_GENEINFO_HG19</span></code>,
+<code class="docutils literal notranslate"><span class="pre">PYCMPLOT_FEATURESINFO</span></code>).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">liftover</span></code></dt><dd><p>Lazy-initialised hg19 → hg38 coordinate conversion.  The
+<code class="docutils literal notranslate"><span class="pre">LiftOver</span></code> object is created on first use rather than at import
+time, preventing <code class="docutils literal notranslate"><span class="pre">FileNotFoundError</span></code> on systems where the chain
+file is not configured.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">stats</span></code></dt><dd><p><code class="docutils literal notranslate"><span class="pre">get_lead_snps()</span></code> (greedy distance clumping) and
+<code class="docutils literal notranslate"><span class="pre">get_highlight_snps()</span></code> (locus window flagging).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">io</span></code></dt><dd><p>Summary statistics loading, auto-detection of file delimiters, and
+<code class="docutils literal notranslate"><span class="pre">get_sumstats_and_merged_sector_list()</span></code> for Circos sector-size
+computation.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">annotation</span></code></dt><dd><p>Strand-aware nearest-gene annotation with biotype-weighted
+prioritisation, promoter flagging, and <code class="docutils literal notranslate"><span class="pre">get_hits_summary_table()</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">plotting.linear</span></code></dt><dd><p><code class="docutils literal notranslate"><span class="pre">multi_track_linear_manhattan()</span></code>: multi-track linear Manhattan
+plot with per-track significance lines, locus highlighting, and
+gene/SNP annotation arrows.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">plotting.circular</span></code></dt><dd><p><code class="docutils literal notranslate"><span class="pre">plot_circosm()</span></code>: per-chromosome Circos track plotter.
+<code class="docutils literal notranslate"><span class="pre">compute_track_radii_dict()</span></code>: dynamic track radius calculator.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">cli</span></code></dt><dd><p>Full <code class="docutils literal notranslate"><span class="pre">argparse</span></code> CLI with required and optional argument groups.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">_core</span></code></dt><dd><p><code class="docutils literal notranslate"><span class="pre">main()</span></code> orchestration function wiring CLI → data loading →
+plotting.</p>
+</dd>
+</dl>
+<p>Fixed</p>
+<p>Relative to the original monolithic script:</p>
+<ul class="simple">
+<li><p>Module-level <code class="docutils literal notranslate"><span class="pre">LiftOver(hardcoded_path)</span></code> call replaced with a lazy
+singleton so importing the package no longer raises
+<code class="docutils literal notranslate"><span class="pre">FileNotFoundError</span></code>.</p></li>
+<li><p>Three hardcoded <code class="docutils literal notranslate"><span class="pre">/vast/awonkam1/...</span></code> resource paths replaced with
+<code class="docutils literal notranslate"><span class="pre">ResourceConfig</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">highlight</span></code> was used as a free variable inside
+<code class="docutils literal notranslate"><span class="pre">get_sumstats_and_merged_sector_list</span></code> — promoted to an explicit
+parameter.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">geneinfo</span></code> was used as an implicit closure variable inside
+<code class="docutils literal notranslate"><span class="pre">build_locus_summary</span></code> — now passed explicitly.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">suggest_line</span></code> was used before assignment in certain code paths —
+initialisation reordered.</p></li>
 </ul>
 </section>
 </section>
