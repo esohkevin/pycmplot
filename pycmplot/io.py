@@ -39,6 +39,7 @@ import pandas as pd
 from pycmplot.stats import get_lead_snps, get_highlight_snps
 from pycmplot.annotation import get_hits_summary_table
 from pycmplot.resources import ResourceConfig, default_resources
+from pycmplot.constants import hg38_chr_lengths
 
 logger = logging.getLogger(__name__)
 
@@ -635,7 +636,7 @@ def prep_pycmplot_input_info(
             }
             col_dtypes = {
                 chrom_col: str,
-                pos_col:   int,
+                pos_col:   object,
                 snp_col:   str,
                 pcol:      float,
                 bcol:      str,
@@ -863,6 +864,7 @@ def get_sumstats_and_merged_sector_list(
         if "BUILD" in df.columns and "hg19" in df["BUILD"].unique():
             logger.info("Converting hg19 coordinates to hg38 ...")
             sumstats_loaded[label][0] = liftover_position(df, resources=resources)
+            liftover = True
 
         # Lead SNPs
         logger.info("Extracting variants to highlight ...")
@@ -956,9 +958,13 @@ def get_sumstats_and_merged_sector_list(
 
         assoc_dic: dict[str, list] = {}
         for chrom in assoc["CHR"].unique():
+            # Ensure sector sizes are within chrom ranges if liftover
+            if liftover:
+                hg38_chr_lengths = {k.replace("chr",""): v for k, v in hg38_chr_lengths.items()}
+                chrom_max = max(list(hg38_chr_lengths.values())[chrom])
             sub = assoc[assoc["CHR"] == chrom]
             lo_val = max(sub["POS"].min() - 1_000_000, 0)
-            hi_val = sub["POS"].max()
+            hi_val = min(sub["POS"].max(), chrom_max)
             assoc_dic[str(chrom)] = [lo_val, hi_val]
 
         min_dic_val = min(assoc_dic.values())
