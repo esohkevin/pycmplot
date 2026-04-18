@@ -229,13 +229,13 @@ def main() -> None:
     # ------------------------------------------------------------------
     # ANNOTATE BY
     # ------------------------------------------------------------------
+    label_col = 'SNP'
     if annotate:
-        if str(annotate).upper() == "GENE":
+        if str(annotate).upper() == "GENE" and 'top_gene' in hits_table.columns:
             label_col = 'top_gene'
-        elif str(annotate).upper() == "SNP":
-            label_col = 'SNP'
-        else:
+        elif label_col in hits_table.columns:
             label_col = annotate
+        
 
         logger.info(f"Anotate by: {label_col}")
 
