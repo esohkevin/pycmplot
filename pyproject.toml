@@ -36,7 +36,7 @@ where = ["."]
 exclude = [
     "dist*", "changelog.d*", "build-pypi-package.md", 
     "pycmplot_python_api.ipynb", "mit-license.txt", 
-    "pycmplot_docs", "docs"
+    "pycmplot_docs", "docs", "CHANGELOG.rst"
 ]
 
 

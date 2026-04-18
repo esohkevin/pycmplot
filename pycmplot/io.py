@@ -563,13 +563,13 @@ def prep_pycmplot_input_info(
     snp_candidates = [c for c in snp_candidates if c]
     pvl_candidates = [c for c in pvl_candidates if c]
 
-    bld_candidates = []
-    if buildc:
-        bld_candidates = ["BUILD", "Genome", "Genome_Build", "Genome-build"]
-        bld_candidates_l = [x.lower() for x in bld_candidates]
-        bld_candidates_u = [x.upper() for x in bld_candidates]
-        bld_candidates = [buildc] + bld_candidates + bld_candidates_l + bld_candidates_u
-        bld_candidates = [c for c in bld_candidates if c]
+    #if buildc:
+    bld_candidates = ["BUILD", "Genome", "Genome_Build", "Genome-build"]
+    bld_candidates_l = [x.lower() for x in bld_candidates]
+    bld_candidates_u = [x.upper() for x in bld_candidates]
+    bld_candidates = [buildc] + bld_candidates + bld_candidates_l + bld_candidates_u
+    bld_candidates = [c for c in bld_candidates if c]
+
 
     # ------------------------------------------------------------------
     # Resolve column names per file
