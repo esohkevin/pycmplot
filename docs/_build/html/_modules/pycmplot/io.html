@@ -142,22 +142,22 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Version 0.2.1 (2026-04-16)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#added">Added</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#changed">Changed</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id1">0.2.2 — 2026-04-18</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#added">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#fixed">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../changelog.html#version-0-1-9-2026-04-14">Version 0.1.9 (2026-04-14)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#fixed">Fixed</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html#version-0-2-1-2026-04-16">Version 0.2.1 (2026-04-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html#version-0-1-9-2026-04-14">Version 0.1.9 (2026-04-14)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../changelog.html#version-0-1-8-2026-04-14">Version 0.1.8 (2026-04-14)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id1">Added</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id3">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id4">0.1.0 — 2026-04-18</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id5">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id6">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../changelog.html#changelog">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#version-0-1-0-2026">Version 0.1.0 (2026)</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a><ul>
@@ -503,7 +503,9 @@
 
     <span class="k">if</span> <span class="n">builds</span><span class="p">:</span>
         <span class="n">builds</span>  <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">builds</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)]</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sum_stats</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">builds</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sum_stats</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">builds</span><span class="p">):</span>
+            <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span>
             <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span>
                 <span class="s2">&quot;Error: number of summary stats files, labels, and builds must match.</span><span class="se">\n</span><span class="s2">&quot;</span>
                 <span class="sa">f</span><span class="s2">&quot;  Files:  </span><span class="si">{</span><span class="n">sum_stats</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
@@ -647,16 +649,16 @@
 
     <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[^a-zA-Z0-9\s]&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">]</span>
 
-    <span class="n">plt_base</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">out_path</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">pltitle</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="s1">&#39;_&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">mode</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-
     <span class="n">suffix</span>     <span class="o">=</span> <span class="s2">&quot;_logp&quot;</span> <span class="k">if</span> <span class="n">logp</span> <span class="k">else</span> <span class="s2">&quot;_pval&quot;</span>
 
-    <span class="n">plt_name</span>   <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">plt_base</span><span class="si">}{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">output_format</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">plt_base</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">out_path</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">pltitle</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="s1">&#39;_&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">mode</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">plt_name</span>   <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">plt_base</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">output_format</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
     
-    <span class="n">table_out</span>  <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">plt_base</span><span class="si">}{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">_locus_summary_table.tsv&quot;</span>
+    <span class="n">table_out</span>  <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">plt_base</span><span class="si">}</span><span class="s2">_locus_summary_table.tsv&quot;</span>
 
 
-    <span class="k">return</span> <span class="n">plt_name</span><span class="p">,</span> <span class="n">table_out</span></div>
+    <span class="k">return</span> <span class="n">plt_name</span><span class="p">,</span> <span class="n">table_out</span><span class="p">,</span> <span class="n">plt_base</span></div>
 
 
 
@@ -782,11 +784,13 @@
     <span class="n">snp_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">snp_candidates</span> <span class="k">if</span> <span class="n">c</span><span class="p">]</span>
     <span class="n">pvl_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">pvl_candidates</span> <span class="k">if</span> <span class="n">c</span><span class="p">]</span>
 
-    <span class="n">bld_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;BUILD&quot;</span><span class="p">,</span> <span class="s2">&quot;Genome&quot;</span><span class="p">,</span> <span class="s2">&quot;Genome_Build&quot;</span><span class="p">,</span> <span class="s2">&quot;Genome-build&quot;</span><span class="p">]</span>
-    <span class="n">bld_candidates_l</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">bld_candidates</span><span class="p">]</span>
-    <span class="n">bld_candidates_u</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">bld_candidates</span><span class="p">]</span>
-    <span class="n">bld_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">build</span><span class="p">]</span> <span class="o">+</span> <span class="n">bld_candidates</span> <span class="o">+</span> <span class="n">bld_candidates_l</span> <span class="o">+</span> <span class="n">bld_candidates_u</span>
-    <span class="n">bld_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">bld_candidates</span> <span class="k">if</span> <span class="n">c</span><span class="p">]</span>
+    <span class="n">bld_candidates</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">buildc</span><span class="p">:</span>
+        <span class="n">bld_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;BUILD&quot;</span><span class="p">,</span> <span class="s2">&quot;Genome&quot;</span><span class="p">,</span> <span class="s2">&quot;Genome_Build&quot;</span><span class="p">,</span> <span class="s2">&quot;Genome-build&quot;</span><span class="p">]</span>
+        <span class="n">bld_candidates_l</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">bld_candidates</span><span class="p">]</span>
+        <span class="n">bld_candidates_u</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">bld_candidates</span><span class="p">]</span>
+        <span class="n">bld_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">buildc</span><span class="p">]</span> <span class="o">+</span> <span class="n">bld_candidates</span> <span class="o">+</span> <span class="n">bld_candidates_l</span> <span class="o">+</span> <span class="n">bld_candidates_u</span>
+        <span class="n">bld_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">bld_candidates</span> <span class="k">if</span> <span class="n">c</span><span class="p">]</span>
 
     <span class="c1"># ------------------------------------------------------------------</span>
     <span class="c1"># Resolve column names per file</span>
@@ -1019,6 +1023,7 @@
     <span class="p">}</span>
 
     <span class="n">sumstats_loaded</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">pval_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">all_lead_snps</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">sumstats</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">file_info</span> <span class="ow">or</span> <span class="p">{})</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
@@ -1041,6 +1046,11 @@
             <span class="n">usecols</span><span class="o">=</span><span class="n">sumstat_cols</span><span class="p">,</span>
             <span class="n">dtype</span><span class="o">=</span><span class="n">sumstat_dtypes</span><span class="p">,</span>
         <span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">sumstat_newcols</span><span class="p">)</span>
+
+        <span class="c1"># Get dict of p-values for qq-plotting before applying trim_pval</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Extracting raw p-values for qq-plotting ...&quot;</span><span class="p">)</span>
+        <span class="n">pval_dict</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;P&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
+
 
         <span class="c1"># Add build column if not exist and build supplied</span>
         <span class="k">if</span> <span class="n">build</span><span class="p">:</span>
@@ -1141,7 +1151,13 @@
         <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">sumstats</span>
     <span class="p">]</span>
 
-    <span class="c1"># Optionally sort tracks</span>
+
+    <span class="c1"># sort dicts by user-supplied order</span>
+    <span class="n">sumstats_loaded</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">sumstats_loaded</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">labels</span> <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">sumstats_loaded</span><span class="p">}</span>
+    <span class="n">pval_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">pval_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">labels</span> <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">pval_dict</span><span class="p">}</span>
+    
+
+    <span class="c1"># or sort by user option</span>
     <span class="k">if</span> <span class="n">sort_tracks</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">sort_tracks</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;label&quot;</span><span class="p">:</span>
             <span class="n">sumstats_loaded</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">sumstats_loaded</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
@@ -1152,6 +1168,7 @@
                     <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">item</span><span class="p">:</span> <span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">natsort</span><span class="o">.</span><span class="n">natsort_keygen</span><span class="p">()(</span><span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">])),</span>
                 <span class="p">)</span>
             <span class="p">)</span>
+       
 
     <span class="c1"># Compute per-sumstat sector sizes (chrom → [min_pos, max_pos])</span>
     <span class="n">assoc_sector_sizes_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1165,7 +1182,7 @@
         <span class="k">for</span> <span class="n">chrom</span> <span class="ow">in</span> <span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
             <span class="n">sub</span> <span class="o">=</span> <span class="n">assoc</span><span class="p">[</span><span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">chrom</span><span class="p">]</span>
             <span class="n">lo_val</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">sub</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1_000_000</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-            <span class="n">hi_val</span> <span class="o">=</span> <span class="n">sub</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1_000_000</span>
+            <span class="n">hi_val</span> <span class="o">=</span> <span class="n">sub</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
             <span class="n">assoc_dic</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">chrom</span><span class="p">)]</span> <span class="o">=</span> <span class="p">[</span><span class="n">lo_val</span><span class="p">,</span> <span class="n">hi_val</span><span class="p">]</span>
 
         <span class="n">min_dic_val</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">assoc_dic</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
@@ -1179,12 +1196,12 @@
 
     <span class="c1"># Add spacer sector for y-axis labelling</span>
     <span class="k">if</span> <span class="n">min_dic_val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">:</span>
-            <span class="n">merged</span><span class="p">[</span><span class="s2">&quot;Spacer1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="o">+</span> <span class="n">x</span> <span class="o">/</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">min_dic_val</span><span class="p">]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">merged</span><span class="p">[</span><span class="s2">&quot;Spacer1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="o">*</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">min_dic_val</span><span class="p">]</span>
+        <span class="c1">#if len(labels) &lt;= 5:</span>
+        <span class="c1">#    merged[&quot;Spacer1&quot;] = [x + x / 2 for x in min_dic_val]</span>
+        <span class="c1">#else:</span>
+        <span class="n">merged</span><span class="p">[</span><span class="s2">&quot;Spacer1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="o">*</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">min_dic_val</span><span class="p">]</span>
 
-    <span class="k">return</span> <span class="n">merged</span><span class="p">,</span> <span class="n">sumstats_loaded</span><span class="p">,</span> <span class="n">hits_table</span><span class="p">,</span> <span class="n">signif_lines</span></div>
+    <span class="k">return</span> <span class="n">merged</span><span class="p">,</span> <span class="n">sumstats_loaded</span><span class="p">,</span> <span class="n">hits_table</span><span class="p">,</span> <span class="n">signif_lines</span><span class="p">,</span> <span class="n">pval_dict</span></div>
 
 </pre></div>
 

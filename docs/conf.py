@@ -12,7 +12,7 @@ sys.path.insert(0, os.path.abspath(".."))
 project = "pycmplot"
 copyright = "2026, Kevin Esoh"
 author = "Kevin Esoh"
-release = "0.2.1"  # update to match PyPI version
+release = "0.2.2"  # update to match PyPI version
 
 # -- General configuration -----------------------------------------------------
 extensions = [

@@ -92,6 +92,7 @@ def main() -> None:
     )
     from pycmplot.plotting.linear import plot_linear
     from pycmplot.plotting.circular import plot_circular
+    from pycmplot.plotting.qq import plot_qq_combined, plot_qq_separate, plot_qq_overlay
     from pycmplot.resources import ResourceConfig
 
     # ------------------------------------------------------------------
@@ -110,6 +111,13 @@ def main() -> None:
     labels_raw       = args.labels
     pcol_arg         = args.pval_column
     logp             = args.logp
+    qq               = args.qq_plot
+    qq_separate      = args.qq_separate
+    qq_ncols         = args.qq_ncols
+    qq_thin          = args.qq_thin
+    thin_below       = args.thin_below
+    qq_max_points    = args.qq_max_points
+    qq_overlay       = args.qq_overlay    
     chrom_label_size = args.chrom_label_size
     chrom_label_side = args.chrom_label_side
     track_label_size = args.track_label_size
@@ -164,7 +172,8 @@ def main() -> None:
     # ------------------------------------------------------------------
     (
         plt_name, 
-        table_out 
+        table_out,
+        plt_base, 
     ) = get_output_paths(
         labels,
         mode = mode,
@@ -202,6 +211,7 @@ def main() -> None:
         sumstats_loaded,
         hits_table,
         signif_lines,
+        pval_dict,
     ) = get_sumstats_and_merged_sector_list(
         sum_stats=sum_stats,
         labels=labels,
@@ -296,6 +306,52 @@ def main() -> None:
             figsize=(15, 9)
         )
 
+    # ------------------------------------------------------------------
+    # QQ PLOT
+    # ------------------------------------------------------------------
+    if qq and sumstats_loaded:
+        logger.info("Generating QQ Plot(s) ...")
+        qq_stem = f"{plt_base}_qq"
+ 
+        if qq_separate:
+            plot_qq_separate(
+                pval_dict=pval_dict,
+                thin=qq_thin,
+                thin_below=thin_below,
+                max_points=qq_max_points,                
+                output_path=qq_stem,
+                colors=colors,
+                signif_threshold=signif_threshold or 5e-8,
+                dpi=dpi,
+                fig_format=output_format,
+            )
+        elif qq_overlay:
+            plot_qq_overlay(
+                pval_dict=pval_dict,
+                thin=qq_thin,
+                thin_below=thin_below,
+                max_points=qq_max_points,                
+                colors=colors,
+                signif_threshold=signif_threshold or 5e-8,
+                dpi=dpi,
+                title=plot_title,
+                output_path=f"{qq_stem}_overlay",
+                fig_format=output_format,
+            )
+        else:
+            plot_qq_combined(
+                pval_dict=pval_dict,
+                thin=qq_thin,
+                thin_below=thin_below,
+                max_points=qq_max_points,
+                colors=colors,
+                ncols=qq_ncols,
+                signif_threshold=signif_threshold or 5e-8,
+                dpi=dpi,
+                title=plot_title,
+                output_path=f"{qq_stem}_combined",
+                fig_format=output_format,
+            )
 
 if __name__ == "__main__":
     main()

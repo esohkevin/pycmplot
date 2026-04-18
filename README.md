@@ -157,7 +157,8 @@ pycmplot \
 | `-b, --build` | Comma-separated genome builds of sumstats  | off |
 | `-bc, --build_column` | Genome build column name (containing hg18/hg19/hg38) | off |
 | `-m, --mode` | `lm` linear or `cm` circular | `lm` |
-| `-qq, --qq_plot` | Also generate a QQ-plot | off (coming soon...) |
+| `-qq, --qq_plot` | Also generate a QQ-plot | off |
+| `-qq_thin, --qq_thin` | Thin p-values for faster QQ-plotting | off |
 | `--logp` | Plot -log10(p) | off |
 | `-sig, --signif_threshold` | Genome-wide significance threshold | off (auto 0.05/N) |
 | `-sigl, --signif_line` | Value for genome-wide significance line if different from `-sig` | 5e-8 |

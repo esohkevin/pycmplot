@@ -142,22 +142,22 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Version 0.2.1 (2026-04-16)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#added">Added</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#changed">Changed</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id1">0.2.2 — 2026-04-18</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../changelog.html#added">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../changelog.html#fixed">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html#version-0-1-9-2026-04-14">Version 0.1.9 (2026-04-14)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#fixed">Fixed</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html#version-0-2-1-2026-04-16">Version 0.2.1 (2026-04-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html#version-0-1-9-2026-04-14">Version 0.1.9 (2026-04-14)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../changelog.html#version-0-1-8-2026-04-14">Version 0.1.8 (2026-04-14)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id1">Added</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id3">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id4">0.1.0 — 2026-04-18</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../changelog.html#id5">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../changelog.html#id6">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html#changelog">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#version-0-1-0-2026">Version 0.1.0 (2026)</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a><ul>
@@ -298,7 +298,7 @@
     <span class="k">return</span> <span class="n">clusters</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_draw_annotation_arrows_2</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_draw_annotation_arrows</span><span class="p">(</span>
     <span class="n">ax</span><span class="p">,</span>
     <span class="n">annot_df</span><span class="p">,</span>
     <span class="n">chr_col</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -410,7 +410,7 @@
 
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_draw_annotation_arrows</span><span class="p">(</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_draw_annotation_arrows_2</span><span class="p">(</span>
     <span class="n">ax</span><span class="p">,</span>
     <span class="n">annot_df</span><span class="p">,</span>
     <span class="n">chr_col</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -539,6 +539,118 @@
                 <span class="n">color</span><span class="o">=</span><span class="s2">&quot;grey&quot;</span><span class="p">,</span>
                 <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
                 <span class="n">connectionstyle</span><span class="o">=</span><span class="n">conn_style</span><span class="p">,</span>
+                <span class="n">transform</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">transData</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">arrow</span><span class="p">)</span>
+
+            <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+                <span class="n">x_txt</span><span class="p">,</span>
+                <span class="n">y_txt</span> <span class="o">+</span> <span class="mf">0.02</span><span class="p">,</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">label</span><span class="p">),</span>
+                <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span>
+                <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span>
+                <span class="n">va</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span><span class="p">,</span>
+                <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                <span class="n">clip_on</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
+                <span class="n">fontstyle</span><span class="o">=</span><span class="s2">&quot;italic&quot;</span><span class="p">,</span>
+                <span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;regular&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="n">last_xtext</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">x_texts</span><span class="p">)</span>
+
+
+<span class="c1"># Using cumulative distance for anntations and separating clusters</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_draw_annotation_arrows_3</span><span class="p">(</span>
+    <span class="n">ax</span><span class="p">,</span>
+    <span class="n">annot_df</span><span class="p">,</span>
+    <span class="n">chr_col</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">label_col</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">offsets</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+    <span class="n">chr_max</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+    <span class="n">spread_width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">60e6</span><span class="p">,</span>
+    <span class="n">isolation_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">80e6</span><span class="p">,</span>
+    <span class="n">stack_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">10e6</span><span class="p">,</span>
+    <span class="n">y_text_base</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.55</span><span class="p">,</span>
+    <span class="n">y_stack_step</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.02</span><span class="p">,</span>
+    <span class="n">max_rad</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.35</span><span class="p">,</span>
+    <span class="n">y_tip</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+    <span class="n">annot_df</span> <span class="o">=</span> <span class="n">annot_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="n">chr_col</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">],</span> <span class="n">key</span><span class="o">=</span><span class="n">natsort_keygen</span><span class="p">())</span>
+    <span class="n">last_xtext</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">-</span> <span class="n">spread_width</span>
+
+    <span class="k">for</span> <span class="n">chr_name</span><span class="p">,</span> <span class="n">df_chr</span> <span class="ow">in</span> <span class="n">annot_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">chr_col</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">df_chr</span>    <span class="o">=</span> <span class="n">df_chr</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+        <span class="n">chr_start</span> <span class="o">=</span> <span class="n">offsets</span><span class="p">[</span><span class="n">chr_name</span><span class="p">]</span>
+        <span class="n">chr_end</span>   <span class="o">=</span> <span class="n">offsets</span><span class="p">[</span><span class="n">chr_name</span><span class="p">]</span> <span class="o">+</span> <span class="n">chr_max</span><span class="p">[</span><span class="n">chr_name</span><span class="p">]</span>
+        <span class="n">chr_range</span> <span class="o">=</span> <span class="n">chr_end</span> <span class="o">-</span> <span class="n">chr_start</span>
+
+        <span class="n">x_signals</span> <span class="o">=</span> <span class="n">df_chr</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">labels</span>    <span class="o">=</span> <span class="n">df_chr</span><span class="p">[</span><span class="n">label_col</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">n</span>         <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_signals</span><span class="p">)</span>
+
+        <span class="c1"># ------------------------------------------------------------------</span>
+        <span class="c1"># Compute label x positions (spread or straight)</span>
+        <span class="c1"># ------------------------------------------------------------------</span>
+        <span class="n">x_texts</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">x_sig</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">x_signals</span><span class="p">):</span>
+            <span class="n">neighbours</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">x_signals</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+            <span class="n">min_dist</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">neighbours</span> <span class="o">-</span> <span class="n">x_sig</span><span class="p">))</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">neighbours</span><span class="p">)</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+
+            <span class="k">if</span> <span class="n">min_dist</span> <span class="o">&gt;=</span> <span class="n">isolation_threshold</span><span class="p">:</span>
+                <span class="n">x_texts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x_sig</span><span class="p">)</span>          <span class="c1"># Tier 1: sit directly above</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">x_texts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>            <span class="c1"># Tier 2: needs spreading</span>
+
+        <span class="n">spread_indices</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">x_texts</span><span class="p">)</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">spread_indices</span><span class="p">:</span>
+            <span class="n">sw</span>  <span class="o">=</span> <span class="n">spread_width</span>
+            <span class="n">pad</span> <span class="o">=</span> <span class="n">sw</span> <span class="o">/</span> <span class="nb">int</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">sw</span><span class="p">)[:</span><span class="mi">2</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span>
+            <span class="k">while</span> <span class="n">sw</span> <span class="o">&gt;</span> <span class="n">chr_range</span> <span class="ow">and</span> <span class="n">sw</span> <span class="o">&gt;</span> <span class="n">pad</span><span class="p">:</span>
+                <span class="n">sw</span> <span class="o">-=</span> <span class="n">pad</span>
+
+            <span class="n">sig_start</span> <span class="o">=</span> <span class="n">x_signals</span><span class="p">[</span><span class="n">spread_indices</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+            <span class="n">xmin</span>      <span class="o">=</span> <span class="n">sig_start</span> <span class="o">-</span> <span class="n">sw</span>
+            <span class="n">positions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmin</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">spread_indices</span><span class="p">)</span> <span class="o">*</span> <span class="n">sw</span><span class="p">,</span> <span class="n">sw</span><span class="p">)</span>
+
+            <span class="k">while</span> <span class="n">positions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">last_xtext</span><span class="p">:</span>
+                <span class="n">positions</span> <span class="o">=</span> <span class="n">positions</span> <span class="o">+</span> <span class="n">sw</span>
+
+            <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">spread_indices</span><span class="p">):</span>
+                <span class="n">x_texts</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">positions</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+
+        <span class="c1"># ------------------------------------------------------------------</span>
+        <span class="c1"># Compute label y positions using cumulative x distance</span>
+        <span class="c1"># ------------------------------------------------------------------</span>
+        <span class="n">y_texts</span> <span class="o">=</span> <span class="p">[</span><span class="n">y_text_base</span><span class="p">]</span> <span class="o">*</span> <span class="n">n</span>
+
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+            <span class="n">cum_dist</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x_texts</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">-</span> <span class="n">x_texts</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">cum_dist</span> <span class="o">&lt;=</span> <span class="n">stack_threshold</span><span class="p">:</span>
+                <span class="c1"># too close to previous label — stack upward adaptively</span>
+                <span class="n">y_texts</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_texts</span><span class="p">[</span><span class="n">k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">y_stack_step</span> <span class="o">+</span> <span class="p">(</span>
+                    <span class="n">y_stack_step</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">cum_dist</span> <span class="o">/</span> <span class="n">stack_threshold</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">y_texts</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_text_base</span>     <span class="c1"># far enough — reset to baseline</span>
+
+        <span class="c1"># ------------------------------------------------------------------</span>
+        <span class="c1"># Draw arrows and labels</span>
+        <span class="c1"># ------------------------------------------------------------------</span>
+        <span class="k">for</span> <span class="n">x_sig</span><span class="p">,</span> <span class="n">x_txt</span><span class="p">,</span> <span class="n">y_txt</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x_signals</span><span class="p">,</span> <span class="n">x_texts</span><span class="p">,</span> <span class="n">y_texts</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+            <span class="n">dx</span>  <span class="o">=</span> <span class="n">x_txt</span> <span class="o">-</span> <span class="n">x_sig</span>
+            <span class="n">rad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">dx</span> <span class="o">/</span> <span class="p">(</span><span class="n">spread_width</span> <span class="o">*</span> <span class="mi">2</span><span class="p">),</span> <span class="o">-</span><span class="n">max_rad</span><span class="p">,</span> <span class="n">max_rad</span><span class="p">)</span>
+
+            <span class="n">arrow</span> <span class="o">=</span> <span class="n">FancyArrowPatch</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">x_txt</span><span class="p">,</span> <span class="n">y_txt</span><span class="p">),</span>
+                <span class="p">(</span><span class="n">x_sig</span><span class="p">,</span> <span class="n">y_tip</span> <span class="o">-</span> <span class="mf">0.05</span><span class="p">),</span>
+                <span class="n">arrowstyle</span><span class="o">=</span><span class="s2">&quot;-|&gt;&quot;</span><span class="p">,</span>
+                <span class="n">mutation_scale</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+                <span class="n">lw</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="s2">&quot;grey&quot;</span><span class="p">,</span>
+                <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                <span class="n">connectionstyle</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;arc3,rad=</span><span class="si">{</span><span class="n">rad</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
                 <span class="n">transform</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">transData</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">arrow</span><span class="p">)</span>
@@ -847,33 +959,53 @@
     <span class="c1"># Annotation track</span>
     <span class="c1"># ------------------------------------------------------------------</span>
     <span class="k">if</span> <span class="n">annotate</span> <span class="ow">and</span> <span class="n">annot_df</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        _draw_annotation_arrows(</span>
-<span class="sd">            ax_annot,</span>
-<span class="sd">            annot_df,</span>
-<span class="sd">            chr_col=chr_col,</span>
-<span class="sd">            label_col=label_col,</span>
-<span class="sd">            offsets=offsets,</span>
-<span class="sd">            chr_max=chr_max,</span>
-<span class="sd">            spread_width=60e6,</span>
-<span class="sd">        )</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
+        
+        
         <span class="n">_draw_annotation_arrows</span><span class="p">(</span>
-            <span class="n">ax</span><span class="o">=</span><span class="n">ax_annot</span><span class="p">,</span>
-            <span class="n">annot_df</span><span class="o">=</span><span class="n">annot_df</span><span class="p">,</span>
+            <span class="n">ax_annot</span><span class="p">,</span>
+            <span class="n">annot_df</span><span class="p">,</span>
             <span class="n">chr_col</span><span class="o">=</span><span class="n">chr_col</span><span class="p">,</span>
             <span class="n">label_col</span><span class="o">=</span><span class="n">label_col</span><span class="p">,</span>
             <span class="n">offsets</span><span class="o">=</span><span class="n">offsets</span><span class="p">,</span>
             <span class="n">chr_max</span><span class="o">=</span><span class="n">chr_max</span><span class="p">,</span>
             <span class="n">spread_width</span><span class="o">=</span><span class="mf">60e6</span><span class="p">,</span>
-            <span class="n">isolation_threshold</span><span class="o">=</span><span class="mf">80e6</span><span class="p">,</span>   <span class="c1"># above this → straight (Tier 1)</span>
-            <span class="n">stack_threshold</span><span class="o">=</span><span class="mf">10e6</span><span class="p">,</span>       <span class="c1"># below this → stack (Tier 3)</span>
-            <span class="n">max_tilt</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span>                <span class="c1"># max angleA departure from vertical</span>
-            <span class="n">y_tip</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-            <span class="n">y_text</span><span class="o">=</span><span class="mf">0.55</span><span class="p">,</span>
-            <span class="n">y_stack_step</span><span class="o">=</span><span class="mf">0.12</span><span class="p">,</span>          <span class="c1"># vertical gap between stacked labels</span>
         <span class="p">)</span>
+<span class="w">        </span>
+
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        _draw_annotation_arrows_2(</span>
+<span class="sd">            ax=ax_annot,</span>
+<span class="sd">            annot_df=annot_df,</span>
+<span class="sd">            chr_col=chr_col,</span>
+<span class="sd">            label_col=label_col,</span>
+<span class="sd">            offsets=offsets,</span>
+<span class="sd">            chr_max=chr_max,</span>
+<span class="sd">            spread_width=60e6,</span>
+<span class="sd">            isolation_threshold=40e6,   # above this → straight (Tier 1)</span>
+<span class="sd">            stack_threshold=10e6,       # below this → stack (Tier 3)</span>
+<span class="sd">            max_tilt=45,                # max angleA departure from vertical</span>
+<span class="sd">            y_tip=0.0,</span>
+<span class="sd">            y_text=0.55,</span>
+<span class="sd">            y_stack_step=0.12,          # vertical gap between stacked labels</span>
+<span class="sd">        )</span>
+<span class="sd">        </span>
+
+<span class="sd">        _draw_annotation_arrows_3(</span>
+<span class="sd">            ax=ax_annot,</span>
+<span class="sd">            annot_df=annot_df,</span>
+<span class="sd">            chr_col=chr_col,</span>
+<span class="sd">            label_col=label_col,</span>
+<span class="sd">            offsets=offsets,</span>
+<span class="sd">            chr_max=chr_max,</span>
+<span class="sd">            spread_width=60e6,</span>
+<span class="sd">            isolation_threshold=80e6,</span>
+<span class="sd">            stack_threshold=90e6,</span>
+<span class="sd">            y_text_base=0.55,</span>
+<span class="sd">            y_stack_step=0.03,</span>
+<span class="sd">            max_rad=0.35,</span>
+<span class="sd">            y_tip=0.0,</span>
+<span class="sd">        )</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">ax_annot</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
         <span class="n">ax_annot</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
@@ -1062,12 +1194,11 @@
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;&#39;SNP&#39; column is used for annotation since &#39;</span><span class="si">%s</span><span class="s2">&#39; column could not be resolved in hits table.&quot;</span><span class="p">,</span> <span class="n">label_col</span><span class="p">)</span>
             <span class="k">pass</span>         
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;LABEL COL: </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-
     <span class="c1"># plot name</span>
     <span class="p">(</span>
         <span class="n">plt_name</span><span class="p">,</span> 
-        <span class="n">table_out</span>
+        <span class="n">table_out</span><span class="p">,</span>
+        <span class="n">plt_base</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">=</span> <span class="n">get_output_paths</span><span class="p">(</span>
         <span class="n">labels</span> <span class="o">=</span> <span class="n">t_labels</span><span class="p">,</span>
         <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;lm&#39;</span><span class="p">,</span> 

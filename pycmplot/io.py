@@ -291,7 +291,9 @@ def strip_comma_separated_input_streams(
 
     if builds:
         builds  = [s.strip() for s in builds.strip().split(",")]
-        if len(sum_stats) != len(labels) != len(builds):
+        if len(sum_stats) == len(labels) == len(builds):
+            pass
+        else:
             sys.exit(
                 "Error: number of summary stats files, labels, and builds must match.\n"
                 f"  Files:  {sum_stats}\n"
@@ -429,16 +431,16 @@ def get_output_paths(
 
     labels = [re.sub(r"[^a-zA-Z0-9\s]", "", x).replace(" ", "_") for x in labels]
 
-    plt_base = str(out_path / f"{pltitle}_{'_'.join(labels)}_{mode.lower()}")
-
     suffix     = "_logp" if logp else "_pval"
 
-    plt_name   = f"{plt_base}{suffix}.{output_format.lower()}"
+    plt_base = str(out_path / f"{pltitle}_{'_'.join(labels)}_{mode.lower()}{suffix}")
+
+    plt_name   = f"{plt_base}.{output_format.lower()}"
     
-    table_out  = f"{plt_base}{suffix}_locus_summary_table.tsv"
+    table_out  = f"{plt_base}_locus_summary_table.tsv"
 
 
-    return plt_name, table_out
+    return plt_name, table_out, plt_base
 
 
 
@@ -561,11 +563,13 @@ def prep_pycmplot_input_info(
     snp_candidates = [c for c in snp_candidates if c]
     pvl_candidates = [c for c in pvl_candidates if c]
 
-    bld_candidates = ["BUILD", "Genome", "Genome_Build", "Genome-build"]
-    bld_candidates_l = [x.lower() for x in bld_candidates]
-    bld_candidates_u = [x.upper() for x in bld_candidates]
-    bld_candidates = [build] + bld_candidates + bld_candidates_l + bld_candidates_u
-    bld_candidates = [c for c in bld_candidates if c]
+    bld_candidates = []
+    if buildc:
+        bld_candidates = ["BUILD", "Genome", "Genome_Build", "Genome-build"]
+        bld_candidates_l = [x.lower() for x in bld_candidates]
+        bld_candidates_u = [x.upper() for x in bld_candidates]
+        bld_candidates = [buildc] + bld_candidates + bld_candidates_l + bld_candidates_u
+        bld_candidates = [c for c in bld_candidates if c]
 
     # ------------------------------------------------------------------
     # Resolve column names per file
@@ -795,6 +799,7 @@ def get_sumstats_and_merged_sector_list(
     }
 
     sumstats_loaded: dict[str, list] = {}
+    pval_dict: dict[str, np.ndarray | pd.Series] = {}
     all_lead_snps: list[pd.DataFrame] = []
 
     for label in sumstats.keys() & (file_info or {}).keys():
@@ -817,6 +822,11 @@ def get_sumstats_and_merged_sector_list(
             usecols=sumstat_cols,
             dtype=sumstat_dtypes,
         ).rename(columns=sumstat_newcols)
+
+        # Get dict of p-values for qq-plotting before applying trim_pval
+        logger.info("Extracting raw p-values for qq-plotting ...")
+        pval_dict[label] = df["P"].dropna().astype(float).values
+
 
         # Add build column if not exist and build supplied
         if build:
@@ -917,7 +927,13 @@ def get_sumstats_and_merged_sector_list(
         for _ in sumstats
     ]
 
-    # Optionally sort tracks
+
+    # sort dicts by user-supplied order
+    sumstats_loaded = {key: sumstats_loaded[key] for key in labels if key in sumstats_loaded}
+    pval_dict = {key: pval_dict[key] for key in labels if key in pval_dict}
+    
+
+    # or sort by user option
     if sort_tracks is not None:
         if sort_tracks.lower() == "label":
             sumstats_loaded = dict(sorted(sumstats_loaded.items()))
@@ -928,6 +944,7 @@ def get_sumstats_and_merged_sector_list(
                     key=lambda item: (item[0], natsort.natsort_keygen()(item[1][1])),
                 )
             )
+       
 
     # Compute per-sumstat sector sizes (chrom → [min_pos, max_pos])
     assoc_sector_sizes_list: list[dict] = []
@@ -941,7 +958,7 @@ def get_sumstats_and_merged_sector_list(
         for chrom in assoc["CHR"].unique():
             sub = assoc[assoc["CHR"] == chrom]
             lo_val = max(sub["POS"].min() - 1_000_000, 0)
-            hi_val = sub["POS"].max() + 1_000_000
+            hi_val = sub["POS"].max()
             assoc_dic[str(chrom)] = [lo_val, hi_val]
 
         min_dic_val = min(assoc_dic.values())
@@ -955,9 +972,9 @@ def get_sumstats_and_merged_sector_list(
 
     # Add spacer sector for y-axis labelling
     if min_dic_val is not None:
-        if len(labels) <= 5:
-            merged["Spacer1"] = [x + x / 2 for x in min_dic_val]
-        else:
-            merged["Spacer1"] = [x * 2 for x in min_dic_val]
+        #if len(labels) <= 5:
+        #    merged["Spacer1"] = [x + x / 2 for x in min_dic_val]
+        #else:
+        merged["Spacer1"] = [x * 2 for x in min_dic_val]
 
-    return merged, sumstats_loaded, hits_table, signif_lines
+    return merged, sumstats_loaded, hits_table, signif_lines, pval_dict

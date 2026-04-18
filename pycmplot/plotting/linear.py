@@ -100,7 +100,7 @@ def _cluster_annotations_by_chr(
     return clusters
 
 
-def _draw_annotation_arrows_2(
+def _draw_annotation_arrows(
     ax,
     annot_df,
     chr_col: str,
@@ -212,7 +212,7 @@ def _draw_annotation_arrows_2(
 
 
 
-def _draw_annotation_arrows(
+def _draw_annotation_arrows_2(
     ax,
     annot_df,
     chr_col: str,
@@ -341,6 +341,118 @@ def _draw_annotation_arrows(
                 color="grey",
                 alpha=0.5,
                 connectionstyle=conn_style,
+                transform=ax.transData,
+            )
+            ax.add_patch(arrow)
+
+            ax.text(
+                x_txt,
+                y_txt + 0.02,
+                str(label),
+                rotation=45,
+                ha="left",
+                va="bottom",
+                fontsize=10,
+                clip_on=False,
+                color="black",
+                fontstyle="italic",
+                fontweight="regular",
+            )
+
+        last_xtext = max(x_texts)
+
+
+# Using cumulative distance for anntations and separating clusters
+def _draw_annotation_arrows_3(
+    ax,
+    annot_df,
+    chr_col: str,
+    label_col: str,
+    offsets: dict,
+    chr_max: dict,
+    spread_width: float = 60e6,
+    isolation_threshold: float = 80e6,
+    stack_threshold: float = 10e6,
+    y_text_base: float = 0.55,
+    y_stack_step: float = 0.02,
+    max_rad: float = 0.35,
+    y_tip: float = 0.0,
+) -> None:
+
+    annot_df = annot_df.sort_values(by=[chr_col, "x"], key=natsort_keygen())
+    last_xtext = 0 - spread_width
+
+    for chr_name, df_chr in annot_df.groupby(chr_col, sort=False):
+        df_chr    = df_chr.sort_values("x")
+        chr_start = offsets[chr_name]
+        chr_end   = offsets[chr_name] + chr_max[chr_name]
+        chr_range = chr_end - chr_start
+
+        x_signals = df_chr["x"].values
+        labels    = df_chr[label_col].values
+        n         = len(x_signals)
+
+        # ------------------------------------------------------------------
+        # Compute label x positions (spread or straight)
+        # ------------------------------------------------------------------
+        x_texts = []
+        for k, x_sig in enumerate(x_signals):
+            neighbours = np.delete(x_signals, k)
+            min_dist   = np.min(np.abs(neighbours - x_sig)) if len(neighbours) else np.inf
+
+            if min_dist >= isolation_threshold:
+                x_texts.append(x_sig)          # Tier 1: sit directly above
+            else:
+                x_texts.append(None)            # Tier 2: needs spreading
+
+        spread_indices = [k for k, v in enumerate(x_texts) if v is None]
+        if spread_indices:
+            sw  = spread_width
+            pad = sw / int(str(sw)[:2]) / 2
+            while sw > chr_range and sw > pad:
+                sw -= pad
+
+            sig_start = x_signals[spread_indices[0]]
+            xmin      = sig_start - sw
+            positions = np.arange(xmin, xmin + len(spread_indices) * sw, sw)
+
+            while positions[0] <= last_xtext:
+                positions = positions + sw
+
+            for j, k in enumerate(spread_indices):
+                x_texts[k] = positions[j]
+
+        # ------------------------------------------------------------------
+        # Compute label y positions using cumulative x distance
+        # ------------------------------------------------------------------
+        y_texts = [y_text_base] * n
+
+        for k in range(1, n):
+            cum_dist = abs(x_texts[k] - x_texts[k - 1])
+            if cum_dist <= stack_threshold:
+                # too close to previous label — stack upward adaptively
+                y_texts[k] = y_texts[k - 1] + y_stack_step + (
+                    y_stack_step * (1 - cum_dist / stack_threshold)
+                )
+            else:
+                y_texts[k] = y_text_base     # far enough — reset to baseline
+
+        # ------------------------------------------------------------------
+        # Draw arrows and labels
+        # ------------------------------------------------------------------
+        for x_sig, x_txt, y_txt, label in zip(x_signals, x_texts, y_texts, labels):
+            dx  = x_txt - x_sig
+            rad = np.clip(dx / (spread_width * 2), -max_rad, max_rad)
+
+            arrow = FancyArrowPatch(
+                (x_txt, y_txt),
+                (x_sig, y_tip - 0.05),
+                arrowstyle="-|>",
+                mutation_scale=12,
+                lw=0.6,
+                color="grey",
+                alpha=0.5,
+                connectionstyle=f"arc3,rad={rad}",
                 transform=ax.transData,
             )
             ax.add_patch(arrow)
@@ -647,7 +759,8 @@ def plot_linearm(
     # Annotation track
     # ------------------------------------------------------------------
     if annotate and annot_df is not None:
-        """
+        
+        
         _draw_annotation_arrows(
             ax_annot,
             annot_df,
@@ -657,9 +770,10 @@ def plot_linearm(
             chr_max=chr_max,
             spread_width=60e6,
         )
-        """
+        
 
-        _draw_annotation_arrows(
+        """
+        _draw_annotation_arrows_2(
             ax=ax_annot,
             annot_df=annot_df,
             chr_col=chr_col,
@@ -667,13 +781,31 @@ def plot_linearm(
             offsets=offsets,
             chr_max=chr_max,
             spread_width=60e6,
-            isolation_threshold=80e6,   # above this → straight (Tier 1)
+            isolation_threshold=40e6,   # above this → straight (Tier 1)
             stack_threshold=10e6,       # below this → stack (Tier 3)
             max_tilt=45,                # max angleA departure from vertical
             y_tip=0.0,
             y_text=0.55,
             y_stack_step=0.12,          # vertical gap between stacked labels
         )
+        
+
+        _draw_annotation_arrows_3(
+            ax=ax_annot,
+            annot_df=annot_df,
+            chr_col=chr_col,
+            label_col=label_col,
+            offsets=offsets,
+            chr_max=chr_max,
+            spread_width=60e6,
+            isolation_threshold=80e6,
+            stack_threshold=90e6,
+            y_text_base=0.55,
+            y_stack_step=0.03,
+            max_rad=0.35,
+            y_tip=0.0,
+        )
+        """
 
         ax_annot.set_ylim(0, 1)
         ax_annot.axis("off")
@@ -859,12 +991,11 @@ def plot_linear(
             logger.info("'SNP' column is used for annotation since '%s' column could not be resolved in hits table.", label_col)
             pass         
 
-        logger.info(f"LABEL COL: {label}")
-
     # plot name
     (
         plt_name, 
-        table_out
+        table_out,
+        plt_base,
     ) = get_output_paths(
         labels = t_labels,
         mode='lm', 

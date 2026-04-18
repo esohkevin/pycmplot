@@ -142,22 +142,22 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Version 0.2.1 (2026-04-16)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#added">Added</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#changed">Changed</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id1">0.2.2 — 2026-04-18</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../changelog.html#added">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../changelog.html#fixed">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html#version-0-1-9-2026-04-14">Version 0.1.9 (2026-04-14)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#fixed">Fixed</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html#version-0-2-1-2026-04-16">Version 0.2.1 (2026-04-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html#version-0-1-9-2026-04-14">Version 0.1.9 (2026-04-14)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../changelog.html#version-0-1-8-2026-04-14">Version 0.1.8 (2026-04-14)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id1">Added</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id3">Fixed</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id4">0.1.0 — 2026-04-18</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../changelog.html#id5">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../changelog.html#id6">Fixed</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html#changelog">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#version-0-1-0-2026">Version 0.1.0 (2026)</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a><ul>
@@ -586,6 +586,7 @@
     <span class="n">annotate</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">label_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">chrom_label_side</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;inside&#39;</span><span class="p">,</span>
+    <span class="n">chrom_label_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span>
     <span class="n">signif_line</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">5e-8</span><span class="p">,</span>
     <span class="n">highlight</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">highlight_thresh</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">5e-8</span><span class="p">,</span>
@@ -593,7 +594,6 @@
     <span class="n">highlight_line</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">highlight_line_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;grey&#39;</span><span class="p">,</span>
     <span class="n">colors</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;steelblue&#39;</span><span class="p">,</span> <span class="s1">&#39;grey&#39;</span><span class="p">],</span>
-    <span class="n">chrom_label_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span>
     <span class="n">track_label_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span>
     <span class="n">track_label_orientation</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;vertical&#39;</span><span class="p">,</span>
     <span class="n">hits_table</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -732,7 +732,8 @@
     <span class="n">labels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sumstats_loaded</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
     <span class="p">(</span>
         <span class="n">plt_name</span><span class="p">,</span> 
-        <span class="n">table_out</span>
+        <span class="n">table_out</span><span class="p">,</span>
+        <span class="n">plt_base</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">=</span> <span class="n">get_output_paths</span><span class="p">(</span>
         <span class="n">labels</span><span class="p">,</span>
         <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;cm&#39;</span><span class="p">,</span> 
@@ -764,13 +765,15 @@
     <span class="n">radii_reversed</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">radii</span><span class="o">.</span><span class="n">items</span><span class="p">())))</span>
 
     <span class="n">inside_loc</span>  <span class="o">=</span> <span class="n">r_min</span> <span class="o">-</span> <span class="mi">3</span>
-    <span class="n">outside_loc</span> <span class="o">=</span> <span class="mi">105</span>
-    <span class="n">chrom_label_loc</span> <span class="o">=</span> <span class="n">outside_loc</span> <span class="k">if</span> <span class="n">chrom_label_side</span> <span class="o">==</span> <span class="s2">&quot;outside&quot;</span> <span class="k">else</span> <span class="n">inside_loc</span>
+    <span class="n">outside_loc</span> <span class="o">=</span> <span class="n">r_max</span> <span class="o">+</span> <span class="mi">4</span>
 
     <span class="k">if</span> <span class="n">annotate</span><span class="p">:</span>
         <span class="n">annot_key</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">radii_reversed</span><span class="p">))</span>
         <span class="n">annot_r</span>   <span class="o">=</span> <span class="n">radii_reversed</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">annot_key</span><span class="p">)</span>
+        <span class="n">outside_loc</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">radii_reversed</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="mi">2</span>
         <span class="n">radii_reversed</span><span class="p">[</span><span class="s2">&quot;annot_track_r&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">annot_r</span>
+
+    <span class="n">chrom_label_loc</span> <span class="o">=</span> <span class="n">outside_loc</span> <span class="k">if</span> <span class="n">chrom_label_side</span> <span class="o">==</span> <span class="s2">&quot;outside&quot;</span> <span class="k">else</span> <span class="n">inside_loc</span>
 
     <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="p">(</span><span class="n">sector_radius</span><span class="p">,</span> <span class="n">sumstats_key</span><span class="p">,</span> <span class="n">sumstats_value</span><span class="p">,</span> <span class="n">signif_dict</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
         <span class="nb">zip</span><span class="p">(</span>
@@ -853,7 +856,7 @@
                         <span class="n">x</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span>
                         <span class="n">label</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">label</span><span class="p">),</span>
                         <span class="n">min_r</span><span class="o">=</span><span class="n">r_low</span><span class="p">,</span>
-                        <span class="n">max_r</span><span class="o">=</span><span class="n">r_low</span> <span class="o">+</span> <span class="mi">3</span><span class="p">,</span>
+                        <span class="n">max_r</span><span class="o">=</span><span class="n">r_low</span> <span class="o">+</span> <span class="mi">6</span><span class="p">,</span>
                         <span class="n">label_size</span><span class="o">=</span><span class="n">annotation_size</span><span class="p">,</span>
                         <span class="n">text_kws</span><span class="o">=</span><span class="p">{</span>
                             <span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="s2">&quot;large&quot;</span><span class="p">,</span>
@@ -874,8 +877,9 @@
                             <span class="n">r</span><span class="o">=</span><span class="p">[</span><span class="n">sector_min_r</span><span class="p">,</span> <span class="n">r_low</span><span class="p">],</span>
                             <span class="n">start</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span>
                             <span class="n">end</span><span class="o">=</span><span class="n">pos</span><span class="p">,</span>
+                            <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span>
                             <span class="n">color</span><span class="o">=</span><span class="n">highlight_line_color</span><span class="p">,</span>
-                            <span class="n">lw</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                            <span class="n">lw</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span>
                             <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span>
                         <span class="p">)</span>
 
@@ -915,7 +919,7 @@
 
     <span class="k">if</span> <span class="n">plt_name</span><span class="p">:</span>
         <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">fname</span><span class="o">=</span><span class="n">plt_name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">dpi</span><span class="o">=</span><span class="n">dpi</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Saved circular Manhattan plot: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">plt_name</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Saved circular Manhattan plot: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">plt_name</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
 
     <span class="k">return</span> <span class="n">fig</span></div>
 
