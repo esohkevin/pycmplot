@@ -565,12 +565,13 @@ def prep_pycmplot_input_info(
     pvl_candidates = [c for c in pvl_candidates if c]
 
     #if buildc:
-    bld_candidates = ["BUILD", "Genome", "Genome_Build", "Genome-build"]
-    bld_candidates_l = [x.lower() for x in bld_candidates]
-    bld_candidates_u = [x.upper() for x in bld_candidates]
-    bld_candidates = [buildc] + bld_candidates + bld_candidates_l + bld_candidates_u
-    bld_candidates = [c for c in bld_candidates if c]
-
+    bld_candidates = buildc
+    if not bld_candidates:
+        bld_candidates = ["BUILD", "Genome", "Genome_Build", "Genome-build"]
+        bld_candidates_l = [x.lower() for x in bld_candidates]
+        bld_candidates_u = [x.upper() for x in bld_candidates]
+        bld_candidates = [buildc] + bld_candidates + bld_candidates_l + bld_candidates_u
+        bld_candidates = [c for c in bld_candidates if c]
 
     # ------------------------------------------------------------------
     # Resolve column names per file
@@ -826,7 +827,7 @@ def get_sumstats_and_merged_sector_list(
         ).rename(columns=sumstat_newcols)
 
         # Get dict of p-values for qq-plotting before applying trim_pval
-        logger.info("Extracting raw p-values for qq-plotting ...")
+        logger.info("Extracting raw p-values for QQ-plotting ...")
         pval_dict[label] = df["P"].dropna().astype(float).values
 
 
@@ -836,7 +837,7 @@ def get_sumstats_and_merged_sector_list(
 
         # Trim insignificant variants for faster plotting
         if trim_pval:
-            logger.info("Excluding variants with p-value less than %s ...", trim_pval)
+            logger.info("Excluding variants with p-value less than %s to speed up Manhattan plotting ...", trim_pval)
             df = df[df["P"].astype(float) <= float(trim_pval)]
         else:
             df = df[df["P"].astype(float) <= 1]
@@ -959,13 +960,18 @@ def get_sumstats_and_merged_sector_list(
 
         assoc_dic: dict[str, list] = {}
         for chrom in assoc["CHR"].unique():
-            # Ensure sector sizes are within chrom ranges if liftover
-            if liftover:
-                hg38_chr_lengths = {k.replace("chr",""): v for k, v in hg38_chr_lengths.items()}
-                chrom_max = max(list(hg38_chr_lengths.values())[chrom])
             sub = assoc[assoc["CHR"] == chrom]
             lo_val = max(sub["POS"].min() - 1_000_000, 0)
-            hi_val = min(sub["POS"].max(), chrom_max)
+            hi_val = sub["POS"].max()
+            chrom_max = hi_val
+
+            # Ensure sector sizes are within chrom ranges if liftover
+            if liftover:
+                logger.info("Limiting sector sizes to chromosome ranges for liftover sumstats ...")
+                hg38_chr_lengths = {k.replace("chr",""): v for k, v in hg38_chr_lengths.items()}
+                chrom_max = hg38_chr_lengths[chrom]
+
+            hi_val = min(hi_val, chrom_max)
             assoc_dic[str(chrom)] = [lo_val, hi_val]
 
         min_dic_val = min(assoc_dic.values())

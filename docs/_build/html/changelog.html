@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Changelog &mdash; pycmplot 0.2.1 documentation</title>
+  <title>Changelog &mdash; pycmplot 0.2.3 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=37f418d5"></script>
+      <script src="_static/documentation_options.js?v=a47416a6"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -147,12 +147,13 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#id1">0.2.2 — 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">0.2.2 — 2026-04-18</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="#version-0-2-1-2026-04-16">Version 0.2.1 (2026-04-16)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#version-0-1-9-2026-04-14">Version 0.1.9 (2026-04-14)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#version-0-1-8-2026-04-14">Version 0.1.8 (2026-04-14)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id4">0.1.0 — 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">0.1.0 — 2026-04-18</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a><ul>
@@ -198,6 +199,14 @@ Versioning follows <a class="reference external" href="https://semver.org/">Sema
 <hr class="docutils" />
 <section id="id1">
 <h2>0.2.2 — 2026-04-18<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<p>Fixed</p>
+<ul class="simple">
+<li><p>Issue with <cite>BUILD</cite> column detection when <code class="docutils literal notranslate"><span class="pre">--build_column</span></code> is not supplied has been fixed.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="id2">
+<h2>0.2.2 — 2026-04-18<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
 <p>Added</p>
 <p><strong>QQ plots</strong> (<code class="docutils literal notranslate"><span class="pre">pycmplot.plotting.qq</span></code>)</p>
 <dl class="simple">
@@ -293,15 +302,15 @@ track labels, and y-axis and its label</p>
 <h1>Version 0.2.1 (2026-04-16)<a class="headerlink" href="#version-0-2-1-2026-04-16" title="Link to this heading"></a></h1>
 <p>Added</p>
 <ul class="simple">
-<li><dl class="simple">
-<dt>Added option to supply genome builds for summary stats files <code class="docutils literal notranslate"><span class="pre">--build`</span></code> if ‘BUILD’ column is not in the files.</dt><dd><p>This is a revertion to earlier versions of the plotting script.
-Also made <code class="docutils literal notranslate"><span class="pre">--build</span></code> and <code class="docutils literal notranslate"><span class="pre">--build_column</span></code> optional allowing plotting to still proceed without genome build information.
-However, caution must be taken when multiple summary stats files are provided with different coordinate systems.
-For example, if <code class="docutils literal notranslate"><span class="pre">--annotate</span></code> is set, hits table generation will default to <cite>hg38</cite> coordinate, potentially leading to
-in accurate annotations for variants in different coordinates.</p>
-</dd>
-</dl>
-</li>
+<li><p>Added option to supply genome builds for summary stats files <code class="docutils literal notranslate"><span class="pre">--build`</span></code>
+if ‘BUILD’ column is not in the files.
+This is a revertion to earlier versions of the plotting script.</p></li>
+<li><p>Also made <code class="docutils literal notranslate"><span class="pre">--build</span></code> and <code class="docutils literal notranslate"><span class="pre">--build_column</span></code> optional allowing plotting to still
+proceed without genome build information.</p></li>
+<li><p>However, caution must be taken when multiple summary stats files are provided
+with different coordinate systems.</p></li>
+<li><p>For example, if <code class="docutils literal notranslate"><span class="pre">--annotate</span></code> is set, hits table generation will default to <cite>hg38</cite>
+coordinate, potentially leading to in accurate annotations for variants in different coordinates.</p></li>
 </ul>
 <p>Changed</p>
 <ul class="simple">
@@ -338,18 +347,18 @@ Also allowed for other columns in user supplied annotation table (available in p
 and line running through highlighted positions <code class="docutils literal notranslate"><span class="pre">highlight_line_color</span></code>.</p>
 <p>Added command-line short forms for <code class="docutils literal notranslate"><span class="pre">--colors</span></code>.</p>
 <p>Added command-line long forms for <code class="docutils literal notranslate"><span class="pre">-r_min</span></code>, <code class="docutils literal notranslate"><span class="pre">-r_max</span></code>, <code class="docutils literal notranslate"><span class="pre">-t_space</span></code>, and
-<code class="docutils literal notranslate"><span class="pre">-pad</span></code> (<a class="reference external" href="https://github.com/esohkevin/pycmplot/issues/1">#1</a>)</p>
+<code class="docutils literal notranslate"><span class="pre">-pad</span></code></p>
 </li>
 </ul>
 <p>Fixed</p>
 <ul>
 <li><p>Fixed bug with __future__ import.</p>
-<p>Fixed command-line short form for <code class="docutils literal notranslate"><span class="pre">--highlight_line</span></code>. (<a class="reference external" href="https://github.com/esohkevin/pycmplot/issues/2">#2</a>)</p>
+<p>Fixed command-line short form for <code class="docutils literal notranslate"><span class="pre">--highlight_line</span></code>.</p>
 </li>
 </ul>
 <hr class="docutils" />
-<section id="id4">
-<h2>0.1.0 — 2026-04-18<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<section id="id3">
+<h2>0.1.0 — 2026-04-18<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
 <p>Initial release.</p>
 <p>Added</p>
 <p><strong>Package structure</strong></p>
