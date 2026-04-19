@@ -75,6 +75,9 @@ pip install pycmplot
 ```bash
 git clone https://github.com/esohkevin/pycmplot.git
 
+# or with most recent updates from development branch
+# git clone -b dev https://github.com/esohkevin/pycmplot.git
+
 cd pycmplot
 
 pip install -e .
@@ -181,26 +184,12 @@ A demonstration of how to use the python API is provided in this notebook: https
 
 ---
 
-## Package structure
+## Contributing
 
-```
-pycmplot/
-├── pyproject.toml
-├── setup.py
-├── setup.cfg
-├── README.md
-└── pycmplot/
-      ├── __init__.py          # public API exports
-      ├── __main__.py          # python -m pycmplot
-      ├── _core.py             # main() orchestration
-      ├── cli.py               # argparse definitions
-      ├── constants.py         # chromosome lengths, biotype weights
-      ├── resources.py         # external resource path config
-      ├── io.py                # sumstat loading, delimiter detection
-      ├── stats.py             # get_lead_snps, get_highlight_snps
-      ├── liftover.py          # lazy hg19→hg38 liftover
-      ├── annotation.py        # nearest-gene annotation, hits table
-      └── plotting/
-          ├── __init__.py
-          ├── linear.py        # plot_linear
-          └── circular.py      # plot_circular, compute_track_radii_dict
+See how to contribute here https://github.com/esohkevin/pycmplot?tab=contributing-ov-file
+
+
+## Contribution
+
+- [Kevin Esoh](https://github.com/esohkevin)
+
