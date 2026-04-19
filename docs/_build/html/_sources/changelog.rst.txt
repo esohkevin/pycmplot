@@ -9,6 +9,17 @@ Versioning follows `Semantic Versioning <https://semver.org/>`_.
 
 ----
 
+
+0.2.2 — 2026-04-18
+-------------------
+
+Fixed
+
+- Issue with `BUILD` column detection when ``--build_column`` is not supplied has been fixed.
+
+----
+
+
 0.2.2 — 2026-04-18
 -------------------
 
@@ -102,12 +113,15 @@ Version 0.2.1 (2026-04-16)
 Added
 
 
-- Added option to supply genome builds for summary stats files ``--build``` if 'BUILD' column is not in the files.
-      This is a revertion to earlier versions of the plotting script. 
-      Also made ``--build`` and ``--build_column`` optional allowing plotting to still proceed without genome build information.
-      However, caution must be taken when multiple summary stats files are provided with different coordinate systems.
-      For example, if ``--annotate`` is set, hits table generation will default to `hg38` coordinate, potentially leading to 
-      in accurate annotations for variants in different coordinates.
+- Added option to supply genome builds for summary stats files ``--build``` 
+  if 'BUILD' column is not in the files.
+  This is a revertion to earlier versions of the plotting script. 
+- Also made ``--build`` and ``--build_column`` optional allowing plotting to still 
+  proceed without genome build information.
+- However, caution must be taken when multiple summary stats files are provided 
+  with different coordinate systems.
+- For example, if ``--annotate`` is set, hits table generation will default to `hg38` 
+  coordinate, potentially leading to in accurate annotations for variants in different coordinates.
 
 
 Changed
@@ -143,7 +157,7 @@ Added
   Added command-line short forms for ``--colors``.
 
   Added command-line long forms for ``-r_min``, ``-r_max``, ``-t_space``, and
-  ``-pad`` (`#1 <https://github.com/esohkevin/pycmplot/issues/1>`_)
+  ``-pad``
 
 
 Fixed
@@ -151,7 +165,7 @@ Fixed
 
 - Fixed bug with __future__ import.
 
-  Fixed command-line short form for ``--highlight_line``. (`#2 <https://github.com/esohkevin/pycmplot/issues/2>`_)
+  Fixed command-line short form for ``--highlight_line``.
 
 
 ----
