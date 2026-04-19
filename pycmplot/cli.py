@@ -328,12 +328,12 @@ def get_arguments(descmsg: str = DESCMSG) -> argparse.Namespace:
         help="File delimiter (autodetected if omitted)."
     )
     opt.add_argument(
-        "-bc",   "--build_column",  required=False, type=str, metavar="str",
+        "-bc",   "--build_column", default=None, required=False, type=str, metavar="str",
                      help=("Name of column containing genome build (hg18/hg19/hg38)." 
                          "Or use ``--build`` below to supply genome builds per summary stat file."
                     ))
     opt.add_argument(
-        "-b","--build", required=False, type=str, metavar='str',
+        "-b","--build", default=None, required=False, type=str, metavar='str',
         help=
         """Comma-sperated list of genome build of summary stats file(s) listed 
         in the same order as sumstats files. e.g. hg19,hg38,hg38,hg19 means:

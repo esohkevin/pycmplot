@@ -564,15 +564,6 @@ def prep_pycmplot_input_info(
     snp_candidates = [c for c in snp_candidates if c]
     pvl_candidates = [c for c in pvl_candidates if c]
 
-    #if buildc:
-    bld_candidates = buildc
-    if not bld_candidates:
-        bld_candidates = ["BUILD", "Genome", "Genome_Build", "Genome-build"]
-        bld_candidates_l = [x.lower() for x in bld_candidates]
-        bld_candidates_u = [x.upper() for x in bld_candidates]
-        bld_candidates = [buildc] + bld_candidates + bld_candidates_l + bld_candidates_u
-        bld_candidates = [c for c in bld_candidates if c]
-
     # ------------------------------------------------------------------
     # Resolve column names per file
     # ------------------------------------------------------------------
@@ -612,21 +603,28 @@ def prep_pycmplot_input_info(
             pcol:      float,
         }
 
-    if not bld_candidates and isinstance(build, list):
+    # CHECK BUILD COLUMN
+    if buildc:
+        bld_candidates = buildc
+    else:
+        bld_candidates = ["BUILD", "Genome", "Genome_Build", "Genome-build"]
+        bld_candidates_l = [x.lower() for x in bld_candidates]
+        bld_candidates_u = [x.upper() for x in bld_candidates]
+        bld_candidates = [buildc] + bld_candidates + bld_candidates_l + bld_candidates_u
+        bld_candidates = [c for c in bld_candidates if c]
+
+    try:
+        bcol = next(c for c in hdr if c in set(bld_candidates))
+    except Exception:
+        bcol = False
+
+
+    if not bcol and isinstance(build, list):
         for name, fpath, build in zip(labels, sum_stats, build):
             sumstats_hdr_dic[name] = [old_cols, col_dtypes, new_cols, file_sep, build]
 
-    elif bld_candidates:
+    elif bcol:
         for name, fpath in zip(labels, sum_stats):
-            try:
-                bcol      = next(c for c in hdr if c in set(bld_candidates))
-            except StopIteration as exc:
-                sys.exit(
-                    f"Error: could not find build column in {fpath}.\n"
-                    f"  Header: {hdr}\n"
-                    f"  Details: {exc}"
-                )
-
             old_cols = [chrom_col, pos_col, snp_col, pcol, bcol]
             new_cols = {
                 chrom_col: "CHR",
@@ -645,7 +643,7 @@ def prep_pycmplot_input_info(
 
             sumstats_hdr_dic[name] = [old_cols, col_dtypes, new_cols, file_sep]
     else:
-        logger.warning("""No build column or builds specified. Summary stats will be
+        logger.warning("""No build column or builds detected. Summary stats will be
         plotted in their respective coordinate systems.
         If your data are in different coordinate systems, putting them in one plot
         is not advisable, especially if ``--annotate`` is set!""")
@@ -967,7 +965,6 @@ def get_sumstats_and_merged_sector_list(
 
             # Ensure sector sizes are within chrom ranges if liftover
             if liftover:
-                logger.info("Limiting sector sizes to chromosome ranges for liftover sumstats ...")
                 hg38_chr_lengths = {k.replace("chr",""): v for k, v in hg38_chr_lengths.items()}
                 chrom_max = hg38_chr_lengths[chrom]
 
@@ -976,6 +973,8 @@ def get_sumstats_and_merged_sector_list(
 
         min_dic_val = min(assoc_dic.values())
         assoc_sector_sizes_list.append(assoc_dic)
+        # Ensure POS values out of the chrom range are excluded
+        assoc = assoc[~assoc["POS"] > hi_val]
 
     merged = _merge_min_max_lists(assoc_sector_sizes_list)
     merged = dict(natsort.natsorted(merged.items(), key=lambda item: item[0]))
