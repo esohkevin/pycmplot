@@ -30,6 +30,7 @@ import numpy as np
 import pandas as pd
 
 from pycmplot.resources import ResourceConfig, default_resources
+from pycmplot.constants import hg38_chr_lengths
 
 logger = logging.getLogger(__name__)
 
@@ -136,6 +137,7 @@ def liftover_hg19_to_hg38(
 
 def liftover_position(
     df: pd.DataFrame,
+    hg38_chr_lengths = hg38_chr_lengths,
     resources: Optional[ResourceConfig] = None,
 ) -> pd.DataFrame:
     LIFTOVER_POSITION = """Liftover all hg19 rows in *df* from hg19 to hg38 coordinates.
@@ -190,6 +192,8 @@ def liftover_position(
     True
     """
 
+    hg38_chr_lengths = {k.replace("chr",""): v for k, v in hg38_chr_lengths.items()}
+
     if resources is None:
         resources = default_resources
 
@@ -208,4 +212,10 @@ def liftover_position(
     df["BUILD"] = "hg38"
     df["POS"] = new_positions
     df["POS"] = df["POS"].fillna(0).astype(int)
-    return df[df["POS"] != 0]
+    clean_df = []
+    for chrom in df["CHR"].unique():
+        chr_df = df[df["CHR"] == chrom]
+        chr_df = chr_df[chr_df["POS"] <= hg38_chr_lengths[chrom]]
+        clean_df = pd.concat([pd.DataFrame(clean_df), pd.DataFrame(chr_df)], axis = 0, ignore_index=True)
+
+    return clean_df[clean_df["POS"] != 0]

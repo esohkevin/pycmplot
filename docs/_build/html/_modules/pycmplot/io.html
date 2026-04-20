@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pycmplot.io &mdash; pycmplot 0.2.3 documentation</title>
+  <title>pycmplot.io &mdash; pycmplot 0.2.4 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=a47416a6"></script>
+      <script src="../../_static/documentation_options.js?v=6ffd866b"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -778,15 +778,6 @@
     <span class="n">snp_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">snp_candidates</span> <span class="k">if</span> <span class="n">c</span><span class="p">]</span>
     <span class="n">pvl_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">pvl_candidates</span> <span class="k">if</span> <span class="n">c</span><span class="p">]</span>
 
-    <span class="c1">#if buildc:</span>
-    <span class="n">bld_candidates</span> <span class="o">=</span> <span class="n">buildc</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">bld_candidates</span><span class="p">:</span>
-        <span class="n">bld_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;BUILD&quot;</span><span class="p">,</span> <span class="s2">&quot;Genome&quot;</span><span class="p">,</span> <span class="s2">&quot;Genome_Build&quot;</span><span class="p">,</span> <span class="s2">&quot;Genome-build&quot;</span><span class="p">]</span>
-        <span class="n">bld_candidates_l</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">bld_candidates</span><span class="p">]</span>
-        <span class="n">bld_candidates_u</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">bld_candidates</span><span class="p">]</span>
-        <span class="n">bld_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">buildc</span><span class="p">]</span> <span class="o">+</span> <span class="n">bld_candidates</span> <span class="o">+</span> <span class="n">bld_candidates_l</span> <span class="o">+</span> <span class="n">bld_candidates_u</span>
-        <span class="n">bld_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">bld_candidates</span> <span class="k">if</span> <span class="n">c</span><span class="p">]</span>
-
     <span class="c1"># ------------------------------------------------------------------</span>
     <span class="c1"># Resolve column names per file</span>
     <span class="c1"># ------------------------------------------------------------------</span>
@@ -826,21 +817,28 @@
             <span class="n">pcol</span><span class="p">:</span>      <span class="nb">float</span><span class="p">,</span>
         <span class="p">}</span>
 
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">bld_candidates</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">build</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+    <span class="c1"># CHECK BUILD COLUMN</span>
+    <span class="k">if</span> <span class="n">buildc</span><span class="p">:</span>
+        <span class="n">bld_candidates</span> <span class="o">=</span> <span class="n">buildc</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">bld_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;BUILD&quot;</span><span class="p">,</span> <span class="s2">&quot;Genome&quot;</span><span class="p">,</span> <span class="s2">&quot;Genome_Build&quot;</span><span class="p">,</span> <span class="s2">&quot;Genome-build&quot;</span><span class="p">]</span>
+        <span class="n">bld_candidates_l</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">bld_candidates</span><span class="p">]</span>
+        <span class="n">bld_candidates_u</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">bld_candidates</span><span class="p">]</span>
+        <span class="n">bld_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">buildc</span><span class="p">]</span> <span class="o">+</span> <span class="n">bld_candidates</span> <span class="o">+</span> <span class="n">bld_candidates_l</span> <span class="o">+</span> <span class="n">bld_candidates_u</span>
+        <span class="n">bld_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">bld_candidates</span> <span class="k">if</span> <span class="n">c</span><span class="p">]</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">bcol</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">hdr</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">bld_candidates</span><span class="p">))</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="n">bcol</span> <span class="o">=</span> <span class="kc">False</span>
+
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">bcol</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">build</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">fpath</span><span class="p">,</span> <span class="n">build</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">sum_stats</span><span class="p">,</span> <span class="n">build</span><span class="p">):</span>
             <span class="n">sumstats_hdr_dic</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">old_cols</span><span class="p">,</span> <span class="n">col_dtypes</span><span class="p">,</span> <span class="n">new_cols</span><span class="p">,</span> <span class="n">file_sep</span><span class="p">,</span> <span class="n">build</span><span class="p">]</span>
 
-    <span class="k">elif</span> <span class="n">bld_candidates</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">bcol</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">fpath</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">sum_stats</span><span class="p">):</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">bcol</span>      <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">hdr</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">bld_candidates</span><span class="p">))</span>
-            <span class="k">except</span> <span class="ne">StopIteration</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Error: could not find build column in </span><span class="si">{</span><span class="n">fpath</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;  Header: </span><span class="si">{</span><span class="n">hdr</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;  Details: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">&quot;</span>
-                <span class="p">)</span>
-
             <span class="n">old_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">chrom_col</span><span class="p">,</span> <span class="n">pos_col</span><span class="p">,</span> <span class="n">snp_col</span><span class="p">,</span> <span class="n">pcol</span><span class="p">,</span> <span class="n">bcol</span><span class="p">]</span>
             <span class="n">new_cols</span> <span class="o">=</span> <span class="p">{</span>
                 <span class="n">chrom_col</span><span class="p">:</span> <span class="s2">&quot;CHR&quot;</span><span class="p">,</span>
@@ -859,7 +857,7 @@
 
             <span class="n">sumstats_hdr_dic</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">old_cols</span><span class="p">,</span> <span class="n">col_dtypes</span><span class="p">,</span> <span class="n">new_cols</span><span class="p">,</span> <span class="n">file_sep</span><span class="p">]</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;No build column or builds specified. Summary stats will be</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;No build column or builds detected. Summary stats will be</span>
 <span class="s2">        plotted in their respective coordinate systems.</span>
 <span class="s2">        If your data are in different coordinate systems, putting them in one plot</span>
 <span class="s2">        is not advisable, especially if ``--annotate`` is set!&quot;&quot;&quot;</span><span class="p">)</span>
@@ -1180,15 +1178,14 @@
             <span class="n">sub</span> <span class="o">=</span> <span class="n">assoc</span><span class="p">[</span><span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">chrom</span><span class="p">]</span>
             <span class="n">lo_val</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">sub</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1_000_000</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
             <span class="n">hi_val</span> <span class="o">=</span> <span class="n">sub</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
-            <span class="n">chrom_max</span> <span class="o">=</span> <span class="n">hi_val</span>
 
             <span class="c1"># Ensure sector sizes are within chrom ranges if liftover</span>
-            <span class="k">if</span> <span class="n">liftover</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Limiting sector sizes to chromosome ranges for liftover sumstats ...&quot;</span><span class="p">)</span>
-                <span class="n">hg38_chr_lengths</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;chr&quot;</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">):</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">hg38_chr_lengths</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
-                <span class="n">chrom_max</span> <span class="o">=</span> <span class="n">hg38_chr_lengths</span><span class="p">[</span><span class="n">chrom</span><span class="p">]</span>
+            <span class="c1">#chrom_max = hi_val</span>
+            <span class="c1">#if liftover:</span>
+            <span class="c1">#    hg38_chr_lengths = {k.replace(&quot;chr&quot;,&quot;&quot;): v for k, v in hg38_chr_lengths.items()}</span>
+            <span class="c1">#    chrom_max = hg38_chr_lengths[chrom]</span>
+            <span class="c1">#hi_val = min(hi_val, chrom_max)</span>
 
-            <span class="n">hi_val</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">hi_val</span><span class="p">,</span> <span class="n">chrom_max</span><span class="p">)</span>
             <span class="n">assoc_dic</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">chrom</span><span class="p">)]</span> <span class="o">=</span> <span class="p">[</span><span class="n">lo_val</span><span class="p">,</span> <span class="n">hi_val</span><span class="p">]</span>
 
         <span class="n">min_dic_val</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">assoc_dic</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>

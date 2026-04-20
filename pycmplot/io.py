@@ -961,20 +961,18 @@ def get_sumstats_and_merged_sector_list(
             sub = assoc[assoc["CHR"] == chrom]
             lo_val = max(sub["POS"].min() - 1_000_000, 0)
             hi_val = sub["POS"].max()
-            chrom_max = hi_val
 
             # Ensure sector sizes are within chrom ranges if liftover
-            if liftover:
-                hg38_chr_lengths = {k.replace("chr",""): v for k, v in hg38_chr_lengths.items()}
-                chrom_max = hg38_chr_lengths[chrom]
+            #chrom_max = hi_val
+            #if liftover:
+            #    hg38_chr_lengths = {k.replace("chr",""): v for k, v in hg38_chr_lengths.items()}
+            #    chrom_max = hg38_chr_lengths[chrom]
+            #hi_val = min(hi_val, chrom_max)
 
-            hi_val = min(hi_val, chrom_max)
             assoc_dic[str(chrom)] = [lo_val, hi_val]
 
         min_dic_val = min(assoc_dic.values())
         assoc_sector_sizes_list.append(assoc_dic)
-        # Ensure POS values out of the chrom range are excluded
-        assoc = assoc[~assoc["POS"] > hi_val]
 
     merged = _merge_min_max_lists(assoc_sector_sizes_list)
     merged = dict(natsort.natsorted(merged.items(), key=lambda item: item[0]))

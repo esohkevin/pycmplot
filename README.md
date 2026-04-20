@@ -189,7 +189,7 @@ A demonstration of how to use the python API is provided in this notebook: https
 See how to contribute here https://github.com/esohkevin/pycmplot?tab=contributing-ov-file
 
 
-## Contribution
+## Contributors
 
 - [Kevin Esoh](https://github.com/esohkevin)
 
