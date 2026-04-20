@@ -6,7 +6,7 @@ Installation
 Requirements
 ------------
 
-pycmplot requires **Python 3.8 or later**. The following packages are installed
+pycmplot requires **Python 3.9 or later**. The following packages are installed
 automatically as dependencies:
 
 .. list-table::
@@ -17,6 +17,8 @@ automatically as dependencies:
      - Purpose
    * - ``pandas``, ``numpy``
      - Data loading and numerical operations
+   * - ``scipy``
+     - Beta-distribution confidence bands for QQ plots
    * - ``matplotlib``
      - Plotting backend
    * - ``pycirclize``

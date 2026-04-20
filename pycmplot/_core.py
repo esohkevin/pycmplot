@@ -1,62 +1,62 @@
-from __future__ import annotations
-
-CORE_MODULE = """
+"""
 pycmplot._core
 ==============
 
 Main entry point that orchestrates CLI argument parsing, data loading, and
 plot dispatch.  This module is intentionally thin: it delegates all heavy
-work to :mod:`pycmplot.io`, :mod:`pycmplot.plotting.linear`, and
-:mod:`pycmplot.plotting.circular`.
+work to :mod:`pycmplot.io`, :mod:`pycmplot.plotting.linear`,
+:mod:`pycmplot.plotting.circular`, and :mod:`pycmplot.plotting.qq`.
 
 All imports are deferred inside :func:`main` so that
 ``import pycmplot`` remains fast regardless of the size of the dependency
 tree.
 """
 
+from __future__ import annotations
+
 import logging
 import warnings
+import sys
 
 # Suppress noisy font-manager warnings before any matplotlib import
 logging.getLogger("matplotlib.font_manager").setLevel(logging.ERROR)
 warnings.filterwarnings("ignore")
 
-logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
+logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s", stream=sys.stdout)
 logger = logging.getLogger(__name__)
 
 
 def main() -> None:
-    MAIN = """Orchestrate the full pycmplot pipeline from the command line.
+    """Orchestrate the full pycmplot pipeline from the command line.
 
     This function is registered as the ``pycmplot`` console-script entry point
     in ``pyproject.toml`` / ``setup.cfg``.  It performs the following steps in
     order:
 
     1. **Parse CLI arguments** via :func:`~pycmplot.cli.get_arguments`.
-    2. **Parse comma-separated inputs** (files, labels, colours, track heights)
-    into Python lists via
-    :func:`~pycmplot.io.strip_comma_separated_input_streams`.
+    2. **Parse comma-separated inputs** (files, labels, colours, track heights,
+       builds) into Python lists via
+       :func:`~pycmplot.io.strip_comma_separated_input_streams`.
     3. **Construct output paths** (plot image and locus summary table TSV) via
-    :func:`~pycmplot.io.get_output_paths`.
+       :func:`~pycmplot.io.get_output_paths`.
     4. **Resolve column names** for every input file via
-    :func:`~pycmplot.io.prep_pycmplot_input_info`.
+       :func:`~pycmplot.io.prep_pycmplot_input_info`.
     5. **Load data** — reads summary statistics, normalises chromosome names,
-    runs hg19 → hg38 liftover if needed, extracts lead SNPs, generates the
-    hits summary table, and computes merged Circos sector sizes via
-    :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`.
-    6. **Dispatch plotting** — calls
-    :func:`~pycmplot.plotting.circular.plot_circular` when ``--mode cm``,
-    or :func:`~pycmplot.plotting.linear.plot_linear` otherwise.
-
-    Parameters
-    ----------
-    None
-        All input is taken from ``sys.argv`` via :mod:`argparse`.
+       runs hg19 → hg38 liftover if needed, extracts lead SNPs, generates the
+       hits summary table, and computes merged Circos sector sizes via
+       :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`.
+    6. **Dispatch Manhattan plot** — calls
+       :func:`~pycmplot.plotting.circular.plot_circular` when ``--mode cm``,
+       or :func:`~pycmplot.plotting.linear.plot_linear` otherwise.
+    7. **Optional QQ plot** — when ``--qq_plot`` is set, dispatches to one of
+       :func:`~pycmplot.plotting.qq.plot_qq_combined` (default),
+       :func:`~pycmplot.plotting.qq.plot_qq_separate` (``--qq_separate``), or
+       :func:`~pycmplot.plotting.qq.plot_qq_overlay` (``--qq_overlay``).
 
     Returns
     -------
     None
-        Saves the plot image and locus summary table to the directory
+        Saves the plot image(s) and locus summary table to the directory
         specified by ``--output_dir``.
 
     Raises
@@ -194,8 +194,8 @@ def main() -> None:
         pos = pos_arg,
         snp = snp_arg,
         pcol = pcol_arg,
-        buildc = buildc_arg,
-        build = builds
+        build_column = buildc_arg,
+        build_list = builds
     )
 
     # ------------------------------------------------------------------
@@ -206,38 +206,42 @@ def main() -> None:
     # ------------------------------------------------------------------
     # Load data, compute sectors, get hits table
     # ------------------------------------------------------------------
-    (
-        merged_assoc_sector_sizes,
-        sumstats_loaded,
-        hits_table,
-        signif_lines,
-        pval_dict,
-    ) = get_sumstats_and_merged_sector_list(
+    pycmplot_dict = get_sumstats_and_merged_sector_list(
         sum_stats=sum_stats,
         labels=labels,
         trim_pval=trim_pval,
         logp=logp,
         file_info=sumstats_hdr_dic,
         sort_tracks=sort_track,
-        table_out=table_out,
+        table_out=plt_base,
         signif_threshold=signif_threshold,
         signif_line=signif_line,
         suggest_threshold=suggest_threshold,
         resources=resources,
     )
 
+    merged_assoc_sector_sizes = pycmplot_dict["sectors"]
+    sumstats_loaded = pycmplot_dict["dfs"]
+    hits_table = pycmplot_dict["annot"]
+    signif_lines = pycmplot_dict["lines"]
+    pval_dict = pycmplot_dict["pvals"]
+
     # ------------------------------------------------------------------
     # ANNOTATE BY
     # ------------------------------------------------------------------
     label_col = 'SNP'
-    if annotate:
+    if annotate and not hits_table.empty:
         if str(annotate).upper() == "GENE" and 'top_gene' in hits_table.columns:
             label_col = 'top_gene'
-        elif label_col in hits_table.columns:
+        elif annotate in hits_table.columns:
             label_col = annotate
-        
+        else:
+            logger.warning(
+                "Annotation column '%s' not found in hits table; "
+                "falling back to 'SNP'.", annotate,
+            )
 
-        logger.info(f"Anotate by: {label_col}")
+        logger.info("Annotate by: %s", label_col)
 
     # ------------------------------------------------------------------
     # CIRCULAR MANHATTAN
@@ -316,6 +320,7 @@ def main() -> None:
         if qq_separate:
             plot_qq_separate(
                 pval_dict=pval_dict,
+                base_name=plot_title,
                 thin=qq_thin,
                 thin_below=thin_below,
                 max_points=qq_max_points,                

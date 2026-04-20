@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pycmplot.stats &mdash; pycmplot 0.2.1 documentation</title>
+  <title>pycmplot.stats &mdash; pycmplot 0.2.5 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,9 +14,9 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=37f418d5"></script>
-      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
-      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/documentation_options.js?v=cb850272"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
       <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../../_static/copybutton.js?v=f281be69"></script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -56,9 +56,14 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quickstart</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#input-file-format">Input file format</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#linear-manhattan-plot-single-trait">Linear Manhattan plot (single trait)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#multi-track-linear-manhattan-plot">Multi-track linear Manhattan plot</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#circular-circos-style-manhattan-plot">Circular (Circos-style) Manhattan plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#command-line">Command line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#python-api">Python API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart.html#linear-manhattan-plot-single-trait">Linear Manhattan plot (single trait)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart.html#multi-track-linear-manhattan-plot">Multi-track linear Manhattan plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart.html#circular-circos-style-manhattan-plot">Circular (Circos-style) Manhattan plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart.html#qq-plots">QQ plots</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#mixed-genome-builds-with-liftover">Mixed genome builds with liftover</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#next-steps">Next steps</a></li>
 </ul>
@@ -70,10 +75,13 @@
 <li class="toctree-l2"><a class="reference internal" href="../../cli.html#input-output-options">Input / output options</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../cli.html#column-auto-detection-options">Column auto-detection options</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../cli.html#plotting-behaviour-options">Plotting behaviour options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli.html#qq-plot-options">QQ plot options</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../cli.html#example-commands">Example commands</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../cli.html#single-trait-linear-manhattan-plot">Single-trait linear Manhattan plot</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../cli.html#three-trait-stacked-linear-manhattan-plot">Three-trait stacked linear Manhattan plot</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../cli.html#circular-manhattan-plot">Circular Manhattan plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../cli.html#manhattan-plot-with-companion-qq-plots">Manhattan plot with companion QQ plots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../cli.html#supplying-per-file-genome-builds">Supplying per-file genome builds</a></li>
 </ul>
 </li>
 </ul>
@@ -86,6 +94,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../api/io.html">pycmplot.io</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/io.html#module-pycmplot.io">pycmplot.io</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/io.html#pycmplot.io.detect_delimiter"><code class="docutils literal notranslate"><span class="pre">detect_delimiter()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/io.html#pycmplot.io.generate_random_string"><code class="docutils literal notranslate"><span class="pre">generate_random_string()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/io.html#pycmplot.io.get_file_header"><code class="docutils literal notranslate"><span class="pre">get_file_header()</span></code></a></li>
@@ -98,40 +107,70 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/stats.html">pycmplot.stats</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/stats.html#module-pycmplot.stats">pycmplot.stats</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/stats.html#pycmplot.stats.get_highlight_snps"><code class="docutils literal notranslate"><span class="pre">get_highlight_snps()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/stats.html#pycmplot.stats.get_lead_snps"><code class="docutils literal notranslate"><span class="pre">get_lead_snps()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/annotation.html">pycmplot.annotation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/annotation.html#module-pycmplot.annotation">pycmplot.annotation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/annotation.html#gene-reference-files">Gene reference files</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/annotation.html#pycmplot.annotation.get_hits_summary_table"><code class="docutils literal notranslate"><span class="pre">get_hits_summary_table()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/liftover.html">pycmplot.liftover</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/liftover.html#module-pycmplot.liftover">pycmplot.liftover</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/liftover.html#resource-configuration">Resource configuration</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/liftover.html#pycmplot.liftover.liftover_hg19_to_hg38"><code class="docutils literal notranslate"><span class="pre">liftover_hg19_to_hg38()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/liftover.html#pycmplot.liftover.liftover_position"><code class="docutils literal notranslate"><span class="pre">liftover_position()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/plotting.html">pycmplot.plotting</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../api/plotting.html#pycmplot-plotting-linear">pycmplot.plotting.linear</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#module-pycmplot.plotting.linear">pycmplot.plotting.linear</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.linear.plot_linear"><code class="docutils literal notranslate"><span class="pre">plot_linear()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.linear.plot_linearm"><code class="docutils literal notranslate"><span class="pre">plot_linearm()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/plotting.html#pycmplot-plotting-circular">pycmplot.plotting.circular</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#module-pycmplot.plotting.circular">pycmplot.plotting.circular</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.circular.compute_track_radii_dict"><code class="docutils literal notranslate"><span class="pre">compute_track_radii_dict()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.circular.plot_circosm"><code class="docutils literal notranslate"><span class="pre">plot_circosm()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.circular.plot_circular"><code class="docutils literal notranslate"><span class="pre">plot_circular()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/plotting.html#pycmplot-plotting-qq">pycmplot.plotting.qq</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.qq.plot_qq_combined"><code class="docutils literal notranslate"><span class="pre">plot_qq_combined()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.qq.plot_qq_overlay"><code class="docutils literal notranslate"><span class="pre">plot_qq_overlay()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.qq.plot_qq_separate"><code class="docutils literal notranslate"><span class="pre">plot_qq_separate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.qq.plot_qq_single"><code class="docutils literal notranslate"><span class="pre">plot_qq_single()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.qq.thin_pvals"><code class="docutils literal notranslate"><span class="pre">thin_pvals()</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/constants.html">pycmplot.constants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/constants.html">pycmplot.constants</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/constants.html#module-pycmplot.constants">pycmplot.constants</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/constants.html#contents">Contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/resources.html">pycmplot.resources</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/resources.html#module-pycmplot.resources">pycmplot.resources</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/resources.html#resolution-order">Resolution order</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/resources.html#pycmplot.resources.ResourceConfig"><code class="docutils literal notranslate"><span class="pre">ResourceConfig</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../api/resources.html#pycmplot.resources.ResourceConfig.RESOURCE_CONFIG_CLASS"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.RESOURCE_CONFIG_CLASS</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/resources.html#pycmplot.resources.ResourceConfig.chain_hg19_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.chain_hg19_hg38</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../api/resources.html#pycmplot.resources.ResourceConfig.geneinfo_hg19"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.geneinfo_hg19</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/resources.html#pycmplot.resources.ResourceConfig.geneinfo_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.geneinfo_hg38</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/resources.html#pycmplot.resources.ResourceConfig.geneinfo_hg19"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.geneinfo_hg19</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/resources.html#id0"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.chain_hg19_hg38</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/resources.html#id2"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.geneinfo_hg19</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/resources.html#id3"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.geneinfo_hg38</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/resources.html#pycmplot.resources.ResourceConfig.require"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.require()</span></code></a></li>
 </ul>
 </li>
@@ -142,22 +181,13 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Version 0.2.1 (2026-04-16)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#added">Added</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#changed">Changed</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../changelog.html#version-0-1-9-2026-04-14">Version 0.1.9 (2026-04-14)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#fixed">Fixed</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../changelog.html#version-0-1-8-2026-04-14">Version 0.1.8 (2026-04-14)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id1">Added</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id3">Fixed</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../changelog.html#changelog">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#version-0-1-0-2026">Version 0.1.0 (2026)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id1">0.2.5 — 2026-04-20</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id2">0.2.2 — 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id3">0.2.1 — 2026-04-16</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id4">0.1.9 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id5">0.1.8 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id6">0.1.0 — 2026-04-18</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a><ul>
@@ -196,26 +226,26 @@
            <div itemprop="articleBody">
              
   <h1>Source code for pycmplot.stats</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">pycmplot.stats</span>
+<span class="sd">==============</span>
 
-<span class="n">MODULE_DOCSTRING</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">pycmplot.stats</span>
-<span class="s2">==============</span>
+<span class="sd">Statistical utilities for identifying independent lead SNPs and locus</span>
+<span class="sd">boundaries from GWAS summary statistics.</span>
 
-<span class="s2">Statistical utilities for identifying independent lead SNPs and locus</span>
-<span class="s2">boundaries from GWAS summary statistics.</span>
+<span class="sd">:func:`get_lead_snps` applies greedy distance-based clumping to return one</span>
+<span class="sd">representative SNP per independent locus.  :func:`get_highlight_snps` extends</span>
+<span class="sd">that to mark all variants within a locus window, enabling per-locus colouring</span>
+<span class="sd">on Manhattan plots.</span>
 
-<span class="s2">:func:`get_lead_snps` applies greedy distance-based clumping to return one</span>
-<span class="s2">representative SNP per independent locus.  :func:`get_highlight_snps` extends</span>
-<span class="s2">that to mark all variants within a locus window, enabling per-locus colouring</span>
-<span class="s2">on Manhattan plots.</span>
+<span class="sd">Notes</span>
+<span class="sd">-----</span>
+<span class="sd">Both functions operate on a single-trait DataFrame.  When comparing multiple</span>
+<span class="sd">traits, call them independently per track; lead SNP extraction across traits</span>
+<span class="sd">is handled by :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`.</span>
+<span class="sd">&quot;&quot;&quot;</span>
 
-<span class="s2">Notes</span>
-<span class="s2">-----</span>
-<span class="s2">Both functions operate on a single-trait DataFrame.  When comparing multiple</span>
-<span class="s2">traits, call them independently per track; lead SNP extraction across traits</span>
-<span class="s2">is handled by :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`.</span>
-<span class="s2">&quot;&quot;&quot;</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
@@ -229,59 +259,59 @@
     <span class="n">logp</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">window</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">500_000</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
-    <span class="n">GET_LEAD_SNPS</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Identify independent lead SNPs by greedy distance-based clumping.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Identify independent lead SNPs by greedy distance-based clumping.</span>
 
-<span class="s2">    Starting from the most significant variant, each subsequent variant is</span>
-<span class="s2">    retained as a new lead only if it lies more than *window* base-pairs from</span>
-<span class="s2">    all previously accepted leads on the same chromosome.</span>
+<span class="sd">    Starting from the most significant variant, each subsequent variant is</span>
+<span class="sd">    retained as a new lead only if it lies more than *window* base-pairs from</span>
+<span class="sd">    all previously accepted leads on the same chromosome.</span>
 
-<span class="s2">    Parameters</span>
-<span class="s2">    ----------</span>
-<span class="s2">    df : pandas.DataFrame</span>
-<span class="s2">        Summary statistics with canonical columns ``CHR``, ``POS``, ``P``.</span>
-<span class="s2">        When *logp* is ``True``, a ``logP`` column (–log₁₀(P)) must also be</span>
-<span class="s2">        present.</span>
-<span class="s2">    signif_threshold : float, optional</span>
-<span class="s2">        Significance cutoff.  When *logp* is ``False``, variants with</span>
-<span class="s2">        ``P &gt; signif_threshold`` are excluded; when *logp* is ``True``,</span>
-<span class="s2">        variants with ``logP &lt; -log10(signif_threshold)`` are excluded.</span>
-<span class="s2">        Default is ``5e-8``.</span>
-<span class="s2">    logp : bool, optional</span>
-<span class="s2">        If ``True``, filter and rank by the ``logP`` column (descending)</span>
-<span class="s2">        instead of ``P`` (ascending).  Default is ``False``.</span>
-<span class="s2">    window : int, optional</span>
-<span class="s2">        Clumping window half-width in base-pairs.  A candidate SNP is</span>
-<span class="s2">        excluded if it falls within *window* bp of any already-accepted lead</span>
-<span class="s2">        on the same chromosome.  Default is ``500_000`` (500 kb).</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pandas.DataFrame</span>
+<span class="sd">        Summary statistics with canonical columns ``CHR``, ``POS``, ``P``.</span>
+<span class="sd">        When *logp* is ``True``, a ``logP`` column (–log₁₀(P)) must also be</span>
+<span class="sd">        present.</span>
+<span class="sd">    signif_threshold : float, optional</span>
+<span class="sd">        Significance cutoff.  When *logp* is ``False``, variants with</span>
+<span class="sd">        ``P &gt; signif_threshold`` are excluded; when *logp* is ``True``,</span>
+<span class="sd">        variants with ``logP &lt; -log10(signif_threshold)`` are excluded.</span>
+<span class="sd">        Default is ``5e-8``.</span>
+<span class="sd">    logp : bool, optional</span>
+<span class="sd">        If ``True``, filter and rank by the ``logP`` column (descending)</span>
+<span class="sd">        instead of ``P`` (ascending).  Default is ``False``.</span>
+<span class="sd">    window : int, optional</span>
+<span class="sd">        Clumping window half-width in base-pairs.  A candidate SNP is</span>
+<span class="sd">        excluded if it falls within *window* bp of any already-accepted lead</span>
+<span class="sd">        on the same chromosome.  Default is ``500_000`` (500 kb).</span>
 
-<span class="s2">    Returns</span>
-<span class="s2">    -------</span>
-<span class="s2">    pandas.DataFrame</span>
-<span class="s2">        Subset of *df* containing only the lead SNPs, one row per independent</span>
-<span class="s2">        locus, in the order they were selected (most significant first within</span>
-<span class="s2">        each chromosome).</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pandas.DataFrame</span>
+<span class="sd">        Subset of *df* containing only the lead SNPs, one row per independent</span>
+<span class="sd">        locus, in the order they were selected (most significant first within</span>
+<span class="sd">        each chromosome).</span>
 
-<span class="s2">    Notes</span>
-<span class="s2">    -----</span>
-<span class="s2">    This is a **distance-only** approach; it does not use linkage disequilibrium</span>
-<span class="s2">    information.  Users requiring LD-based clumping should post-process the</span>
-<span class="s2">    returned table with PLINK or a dedicated LD-clumping tool.</span>
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This is a **distance-only** approach; it does not use linkage disequilibrium</span>
+<span class="sd">    information.  Users requiring LD-based clumping should post-process the</span>
+<span class="sd">    returned table with PLINK or a dedicated LD-clumping tool.</span>
 
-<span class="s2">    See Also</span>
-<span class="s2">    --------</span>
-<span class="s2">    get_highlight_snps :</span>
-<span class="s2">        Returns all variants within locus windows and adds an ``in_locus``</span>
-<span class="s2">        flag column.</span>
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    get_highlight_snps :</span>
+<span class="sd">        Returns all variants within locus windows and adds an ``in_locus``</span>
+<span class="sd">        flag column.</span>
 
-<span class="s2">    Examples</span>
-<span class="s2">    --------</span>
-<span class="s2">    &gt;&gt;&gt; from pycmplot.stats import get_lead_snps</span>
-<span class="s2">    &gt;&gt;&gt; leads = get_lead_snps(df, signif_threshold=5e-8, logp=True, window=500_000)</span>
-<span class="s2">    &gt;&gt;&gt; leads[[&quot;SNP&quot;, &quot;CHR&quot;, &quot;POS&quot;, &quot;P&quot;]].head()</span>
-<span class="s2">            SNP CHR       POS           P</span>
-<span class="s2">    0  rs123456   2  60718043  1.20e-120</span>
-<span class="s2">    1  rs789012  11   5246696  3.40e-85</span>
-<span class="s2">    &quot;&quot;&quot;</span>
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from pycmplot.stats import get_lead_snps</span>
+<span class="sd">    &gt;&gt;&gt; leads = get_lead_snps(df, signif_threshold=5e-8, logp=True, window=500_000)</span>
+<span class="sd">    &gt;&gt;&gt; leads[[&quot;SNP&quot;, &quot;CHR&quot;, &quot;POS&quot;, &quot;P&quot;]].head()</span>
+<span class="sd">            SNP CHR       POS           P</span>
+<span class="sd">    0  rs123456   2  60718043  1.20e-120</span>
+<span class="sd">    1  rs789012  11   5246696  3.40e-85</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">logp</span><span class="p">:</span>
         <span class="n">thresh</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">signif_threshold</span><span class="p">))</span>
@@ -318,47 +348,47 @@
     <span class="n">logp</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">window</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">500_000</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]:</span>
-    <span class="n">GET_HIGHLIGHT_SNPS</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Mark all variants within *window* bp of a lead SNP.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Mark all variants within *window* bp of a lead SNP.</span>
 
-<span class="s2">    Calls :func:`get_lead_snps` to identify independent loci, then sets an</span>
-<span class="s2">    ``in_locus`` boolean flag on every variant whose chromosomal position falls</span>
-<span class="s2">    within ±*window* bp of any lead SNP on the same chromosome.</span>
+<span class="sd">    Calls :func:`get_lead_snps` to identify independent loci, then sets an</span>
+<span class="sd">    ``in_locus`` boolean flag on every variant whose chromosomal position falls</span>
+<span class="sd">    within ±*window* bp of any lead SNP on the same chromosome.</span>
 
-<span class="s2">    Parameters</span>
-<span class="s2">    ----------</span>
-<span class="s2">    df : pandas.DataFrame</span>
-<span class="s2">        Summary statistics with canonical columns ``CHR``, ``POS``, ``P``</span>
-<span class="s2">        (and ``logP`` when *logp* is ``True``).</span>
-<span class="s2">    highlight_thresh : float, optional</span>
-<span class="s2">        Significance threshold passed to :func:`get_lead_snps`.  Default is</span>
-<span class="s2">        ``5e-8``.</span>
-<span class="s2">    logp : bool, optional</span>
-<span class="s2">        If ``True``, use the ``logP`` column for thresholding and ranking.</span>
-<span class="s2">        Default is ``False``.</span>
-<span class="s2">    window : int, optional</span>
-<span class="s2">        Half-width of the locus window in base-pairs.  Defaults to</span>
-<span class="s2">        ``500_000`` (500 kb).</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pandas.DataFrame</span>
+<span class="sd">        Summary statistics with canonical columns ``CHR``, ``POS``, ``P``</span>
+<span class="sd">        (and ``logP`` when *logp* is ``True``).</span>
+<span class="sd">    highlight_thresh : float, optional</span>
+<span class="sd">        Significance threshold passed to :func:`get_lead_snps`.  Default is</span>
+<span class="sd">        ``5e-8``.</span>
+<span class="sd">    logp : bool, optional</span>
+<span class="sd">        If ``True``, use the ``logP`` column for thresholding and ranking.</span>
+<span class="sd">        Default is ``False``.</span>
+<span class="sd">    window : int, optional</span>
+<span class="sd">        Half-width of the locus window in base-pairs.  Defaults to</span>
+<span class="sd">        ``500_000`` (500 kb).</span>
 
-<span class="s2">    Returns</span>
-<span class="s2">    -------</span>
-<span class="s2">    df_annotated : pandas.DataFrame</span>
-<span class="s2">        A copy of *df* with an additional boolean column ``in_locus``.</span>
-<span class="s2">        Variants inside at least one locus window have ``in_locus = True``.</span>
-<span class="s2">    leads_df : pandas.DataFrame</span>
-<span class="s2">        The lead-SNP DataFrame returned by :func:`get_lead_snps`.</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    df_annotated : pandas.DataFrame</span>
+<span class="sd">        A copy of *df* with an additional boolean column ``in_locus``.</span>
+<span class="sd">        Variants inside at least one locus window have ``in_locus = True``.</span>
+<span class="sd">    leads_df : pandas.DataFrame</span>
+<span class="sd">        The lead-SNP DataFrame returned by :func:`get_lead_snps`.</span>
 
-<span class="s2">    See Also</span>
-<span class="s2">    --------</span>
-<span class="s2">    get_lead_snps :</span>
-<span class="s2">        Used internally to identify independent loci.</span>
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    get_lead_snps :</span>
+<span class="sd">        Used internally to identify independent loci.</span>
 
-<span class="s2">    Examples</span>
-<span class="s2">    --------</span>
-<span class="s2">    &gt;&gt;&gt; from pycmplot.stats import get_highlight_snps</span>
-<span class="s2">    &gt;&gt;&gt; df_ann, leads = get_highlight_snps(df, highlight_thresh=5e-8)</span>
-<span class="s2">    &gt;&gt;&gt; df_ann[&quot;in_locus&quot;].sum()</span>
-<span class="s2">    1842</span>
-<span class="s2">    &quot;&quot;&quot;</span>
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from pycmplot.stats import get_highlight_snps</span>
+<span class="sd">    &gt;&gt;&gt; df_ann, leads = get_highlight_snps(df, highlight_thresh=5e-8)</span>
+<span class="sd">    &gt;&gt;&gt; df_ann[&quot;in_locus&quot;].sum()</span>
+<span class="sd">    1842</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="n">df</span><span class="p">[</span><span class="s2">&quot;in_locus&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
@@ -366,7 +396,7 @@
     <span class="n">leads_df</span> <span class="o">=</span> <span class="n">get_lead_snps</span><span class="p">(</span>
         <span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">,</span>
         <span class="n">signif_threshold</span><span class="o">=</span><span class="n">highlight_thresh</span><span class="p">,</span>
-        <span class="n">logp</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">logp</span><span class="o">=</span><span class="n">logp</span><span class="p">,</span>
         <span class="n">window</span><span class="o">=</span><span class="n">window</span><span class="p">,</span>
     <span class="p">)</span>
 

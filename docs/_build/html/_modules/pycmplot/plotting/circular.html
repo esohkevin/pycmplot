@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pycmplot.plotting.circular &mdash; pycmplot 0.2.4 documentation</title>
+  <title>pycmplot.plotting.circular &mdash; pycmplot 0.2.5 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=6ffd866b"></script>
+      <script src="../../../_static/documentation_options.js?v=cb850272"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -56,9 +56,14 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quickstart</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../quickstart.html#input-file-format">Input file format</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../quickstart.html#linear-manhattan-plot-single-trait">Linear Manhattan plot (single trait)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../quickstart.html#multi-track-linear-manhattan-plot">Multi-track linear Manhattan plot</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../quickstart.html#circular-circos-style-manhattan-plot">Circular (Circos-style) Manhattan plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../quickstart.html#command-line">Command line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../quickstart.html#python-api">Python API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../quickstart.html#linear-manhattan-plot-single-trait">Linear Manhattan plot (single trait)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../quickstart.html#multi-track-linear-manhattan-plot">Multi-track linear Manhattan plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../quickstart.html#circular-circos-style-manhattan-plot">Circular (Circos-style) Manhattan plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../quickstart.html#qq-plots">QQ plots</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../../quickstart.html#mixed-genome-builds-with-liftover">Mixed genome builds with liftover</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../quickstart.html#next-steps">Next steps</a></li>
 </ul>
@@ -70,10 +75,13 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../cli.html#input-output-options">Input / output options</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../cli.html#column-auto-detection-options">Column auto-detection options</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../cli.html#plotting-behaviour-options">Plotting behaviour options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cli.html#qq-plot-options">QQ plot options</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../cli.html#example-commands">Example commands</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../cli.html#single-trait-linear-manhattan-plot">Single-trait linear Manhattan plot</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../cli.html#three-trait-stacked-linear-manhattan-plot">Three-trait stacked linear Manhattan plot</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../cli.html#circular-manhattan-plot">Circular Manhattan plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cli.html#manhattan-plot-with-companion-qq-plots">Manhattan plot with companion QQ plots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cli.html#supplying-per-file-genome-builds">Supplying per-file genome builds</a></li>
 </ul>
 </li>
 </ul>
@@ -86,6 +94,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">API Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/io.html">pycmplot.io</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#module-pycmplot.io">pycmplot.io</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pycmplot.io.detect_delimiter"><code class="docutils literal notranslate"><span class="pre">detect_delimiter()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pycmplot.io.generate_random_string"><code class="docutils literal notranslate"><span class="pre">generate_random_string()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pycmplot.io.get_file_header"><code class="docutils literal notranslate"><span class="pre">get_file_header()</span></code></a></li>
@@ -98,37 +107,65 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/stats.html">pycmplot.stats</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/stats.html#module-pycmplot.stats">pycmplot.stats</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/stats.html#pycmplot.stats.get_highlight_snps"><code class="docutils literal notranslate"><span class="pre">get_highlight_snps()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/stats.html#pycmplot.stats.get_lead_snps"><code class="docutils literal notranslate"><span class="pre">get_lead_snps()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/annotation.html">pycmplot.annotation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/annotation.html#module-pycmplot.annotation">pycmplot.annotation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/annotation.html#gene-reference-files">Gene reference files</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/annotation.html#pycmplot.annotation.get_hits_summary_table"><code class="docutils literal notranslate"><span class="pre">get_hits_summary_table()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/liftover.html">pycmplot.liftover</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/liftover.html#module-pycmplot.liftover">pycmplot.liftover</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/liftover.html#resource-configuration">Resource configuration</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/liftover.html#pycmplot.liftover.liftover_hg19_to_hg38"><code class="docutils literal notranslate"><span class="pre">liftover_hg19_to_hg38()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/liftover.html#pycmplot.liftover.liftover_position"><code class="docutils literal notranslate"><span class="pre">liftover_position()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/plotting.html">pycmplot.plotting</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/plotting.html#pycmplot-plotting-linear">pycmplot.plotting.linear</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#module-pycmplot.plotting.linear">pycmplot.plotting.linear</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#pycmplot.plotting.linear.plot_linear"><code class="docutils literal notranslate"><span class="pre">plot_linear()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#pycmplot.plotting.linear.plot_linearm"><code class="docutils literal notranslate"><span class="pre">plot_linearm()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/plotting.html#pycmplot-plotting-circular">pycmplot.plotting.circular</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#module-pycmplot.plotting.circular">pycmplot.plotting.circular</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#pycmplot.plotting.circular.compute_track_radii_dict"><code class="docutils literal notranslate"><span class="pre">compute_track_radii_dict()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#pycmplot.plotting.circular.plot_circosm"><code class="docutils literal notranslate"><span class="pre">plot_circosm()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#pycmplot.plotting.circular.plot_circular"><code class="docutils literal notranslate"><span class="pre">plot_circular()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/plotting.html#pycmplot-plotting-qq">pycmplot.plotting.qq</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#pycmplot.plotting.qq.plot_qq_combined"><code class="docutils literal notranslate"><span class="pre">plot_qq_combined()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#pycmplot.plotting.qq.plot_qq_overlay"><code class="docutils literal notranslate"><span class="pre">plot_qq_overlay()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#pycmplot.plotting.qq.plot_qq_separate"><code class="docutils literal notranslate"><span class="pre">plot_qq_separate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#pycmplot.plotting.qq.plot_qq_single"><code class="docutils literal notranslate"><span class="pre">plot_qq_single()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#pycmplot.plotting.qq.thin_pvals"><code class="docutils literal notranslate"><span class="pre">thin_pvals()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../../api/constants.html">pycmplot.constants</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/constants.html">pycmplot.constants</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/constants.html#module-pycmplot.constants">pycmplot.constants</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/constants.html#contents">Contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/resources.html">pycmplot.resources</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/resources.html#module-pycmplot.resources">pycmplot.resources</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/resources.html#resolution-order">Resolution order</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/resources.html#pycmplot.resources.ResourceConfig"><code class="docutils literal notranslate"><span class="pre">ResourceConfig</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../api/resources.html#pycmplot.resources.ResourceConfig.RESOURCE_CONFIG_CLASS"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.RESOURCE_CONFIG_CLASS</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/resources.html#pycmplot.resources.ResourceConfig.chain_hg19_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.chain_hg19_hg38</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/resources.html#pycmplot.resources.ResourceConfig.geneinfo_hg19"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.geneinfo_hg19</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/resources.html#pycmplot.resources.ResourceConfig.geneinfo_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.geneinfo_hg38</span></code></a></li>
@@ -143,14 +180,12 @@
 <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id1">0.2.2 — 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id1">0.2.5 — 2026-04-20</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id2">0.2.2 — 2026-04-18</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html#version-0-2-1-2026-04-16">Version 0.2.1 (2026-04-16)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html#version-0-1-9-2026-04-14">Version 0.1.9 (2026-04-14)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html#version-0-1-8-2026-04-14">Version 0.1.8 (2026-04-14)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id3">0.1.0 — 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id3">0.2.1 — 2026-04-16</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id4">0.1.9 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id5">0.1.8 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id6">0.1.0 — 2026-04-18</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a><ul>
@@ -189,27 +224,27 @@
            <div itemprop="articleBody">
              
   <h1>Source code for pycmplot.plotting.circular</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">pycmplot.plotting.circular</span>
+<span class="sd">===========================</span>
 
-<span class="n">CIRCULAR_MODULE</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">pycmplot.plotting.circular</span>
-<span class="s2">===========================</span>
+<span class="sd">Circos-style multi-track circular Manhattan plot.</span>
 
-<span class="s2">Circos-style multi-track circular Manhattan plot.</span>
+<span class="sd">The module exposes two public functions and one internal per-sector helper:</span>
 
-<span class="s2">The module exposes two public functions and one internal per-sector helper:</span>
+<span class="sd">* :func:`plot_circular` — user-facing entry point.  Configures the</span>
+<span class="sd">  :class:`pycirclize.Circos` canvas, computes track radii, iterates over</span>
+<span class="sd">  sectors and tracks, renders gene/SNP annotations, and saves the figure.</span>
+<span class="sd">* :func:`compute_track_radii_dict` — divides the radial space between</span>
+<span class="sd">  *r_min* and *r_max* into *n_tracks* evenly-spaced, padded bands and</span>
+<span class="sd">  returns their ``(r_start, r_end)`` limits.</span>
+<span class="sd">* :func:`plot_circosm` — internal per-sector renderer called once per</span>
+<span class="sd">  ``(sector, sumstat)`` pair inside the main loop of :func:`plot_circular`.</span>
+<span class="sd">  Mutates the :class:`pycirclize.Sector` object in place and returns</span>
+<span class="sd">  ``None``.</span>
+<span class="sd">&quot;&quot;&quot;</span>
 
-<span class="s2">* :func:`plot_circular` — user-facing entry point.  Configures the</span>
-<span class="s2">  :class:`pycirclize.Circos` canvas, computes track radii, iterates over</span>
-<span class="s2">  sectors and tracks, renders gene/SNP annotations, and saves the figure.</span>
-<span class="s2">* :func:`compute_track_radii_dict` — divides the radial space between</span>
-<span class="s2">  *r_min* and *r_max* into *n_tracks* evenly-spaced, padded bands and</span>
-<span class="s2">  returns their ``(r_start, r_end)`` limits.</span>
-<span class="s2">* :func:`plot_circosm` — internal per-sector renderer called once per</span>
-<span class="s2">  ``(sector, sumstat)`` pair inside the main loop of :func:`plot_circular`.</span>
-<span class="s2">  Mutates the :class:`pycirclize.Sector` object in place and returns</span>
-<span class="s2">  ``None``.</span>
-<span class="s2">&quot;&quot;&quot;</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
@@ -237,51 +272,51 @@
     <span class="n">pad</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
     <span class="n">annotate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
-    <span class="n">COMPUTE_RADII</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Compute ``(r_start, r_end)`` tuples for *n_tracks* evenly-spaced radial bands.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute ``(r_start, r_end)`` tuples for *n_tracks* evenly-spaced radial bands.</span>
 
-<span class="s2">    Divides the usable radial space between *r_min* and *r_max* into</span>
-<span class="s2">    *n_tracks* bands of equal height, separated by gaps of *pad* units.  The</span>
-<span class="s2">    tracks are ordered from innermost (``&#39;track_1&#39;``) to outermost</span>
-<span class="s2">    (``&#39;track_n&#39;``).</span>
+<span class="sd">    Divides the usable radial space between *r_min* and *r_max* into</span>
+<span class="sd">    *n_tracks* bands of equal height, separated by gaps of *pad* units.  The</span>
+<span class="sd">    tracks are ordered from innermost (``&#39;track_1&#39;``) to outermost</span>
+<span class="sd">    (``&#39;track_n&#39;``).</span>
 
-<span class="s2">    Parameters</span>
-<span class="s2">    ----------</span>
-<span class="s2">    n_tracks : int</span>
-<span class="s2">        Number of data tracks to accommodate.</span>
-<span class="s2">    r_min : float, optional</span>
-<span class="s2">        Inner boundary of the full plotting area (as a percentage of the</span>
-<span class="s2">        figure radius).  Default ``20``.</span>
-<span class="s2">    r_max : float, optional</span>
-<span class="s2">        Outer boundary of the full plotting area.  Default ``100``.</span>
-<span class="s2">    pad : float, optional</span>
-<span class="s2">        Gap in the same radius units between consecutive tracks.  Default ``1``.</span>
-<span class="s2">    annotate : bool, optional</span>
-<span class="s2">        If ``True``, an extra slot is reserved for the annotation ring by</span>
-<span class="s2">        incrementing *n_tracks* before computing heights.  The extra slot</span>
-<span class="s2">        is always placed at the outermost position.  Default ``False``.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n_tracks : int</span>
+<span class="sd">        Number of data tracks to accommodate.</span>
+<span class="sd">    r_min : float, optional</span>
+<span class="sd">        Inner boundary of the full plotting area (as a percentage of the</span>
+<span class="sd">        figure radius).  Default ``20``.</span>
+<span class="sd">    r_max : float, optional</span>
+<span class="sd">        Outer boundary of the full plotting area.  Default ``100``.</span>
+<span class="sd">    pad : float, optional</span>
+<span class="sd">        Gap in the same radius units between consecutive tracks.  Default ``1``.</span>
+<span class="sd">    annotate : bool, optional</span>
+<span class="sd">        If ``True``, an extra slot is reserved for the annotation ring by</span>
+<span class="sd">        incrementing *n_tracks* before computing heights.  The extra slot</span>
+<span class="sd">        is always placed at the outermost position.  Default ``False``.</span>
 
-<span class="s2">    Returns</span>
-<span class="s2">    -------</span>
-<span class="s2">    dict</span>
-<span class="s2">        Mapping of ``&#39;track_i&#39; → (r_start, r_end)`` for</span>
-<span class="s2">        ``i`` in ``1 … n_tracks`` (plus one extra entry when *annotate* is</span>
-<span class="s2">        ``True``).</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        Mapping of ``&#39;track_i&#39; → (r_start, r_end)`` for</span>
+<span class="sd">        ``i`` in ``1 … n_tracks`` (plus one extra entry when *annotate* is</span>
+<span class="sd">        ``True``).</span>
 
-<span class="s2">    Raises</span>
-<span class="s2">    ------</span>
-<span class="s2">    ValueError</span>
-<span class="s2">        If the total padding ``pad × (n_tracks − 1)`` exceeds the available</span>
-<span class="s2">        radial space ``r_max − r_min``.</span>
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If the total padding ``pad × (n_tracks − 1)`` exceeds the available</span>
+<span class="sd">        radial space ``r_max − r_min``.</span>
 
-<span class="s2">    Examples</span>
-<span class="s2">    --------</span>
-<span class="s2">    &gt;&gt;&gt; from pycmplot.plotting.circular import compute_track_radii_dict</span>
-<span class="s2">    &gt;&gt;&gt; radii = compute_track_radii_dict(n_tracks=3, r_min=20, r_max=100, pad=2)</span>
-<span class="s2">    &gt;&gt;&gt; list(radii.items())</span>
-<span class="s2">    [(&#39;track_1&#39;, (20.0, 45.33...)),</span>
-<span class="s2">    (&#39;track_2&#39;, (47.33..., 72.66...)),</span>
-<span class="s2">    (&#39;track_3&#39;, (74.66..., 100.0))]</span>
-<span class="s2">    &quot;&quot;&quot;</span>
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from pycmplot.plotting.circular import compute_track_radii_dict</span>
+<span class="sd">    &gt;&gt;&gt; radii = compute_track_radii_dict(n_tracks=3, r_min=20, r_max=100, pad=2)</span>
+<span class="sd">    &gt;&gt;&gt; list(radii.items())</span>
+<span class="sd">    [(&#39;track_1&#39;, (20.0, 45.33...)),</span>
+<span class="sd">    (&#39;track_2&#39;, (47.33..., 72.66...)),</span>
+<span class="sd">    (&#39;track_3&#39;, (74.66..., 100.0))]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">annotate</span><span class="p">:</span>
         <span class="n">n_tracks</span> <span class="o">+=</span> <span class="mi">1</span>
@@ -336,78 +371,78 @@
     <span class="n">colors</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;steelblue&#39;</span><span class="p">,</span><span class="s1">&#39;orange&#39;</span><span class="p">],</span>
     <span class="n">no_track_labels</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="n">PLOT_CIRCOSM</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Plot one track of summary statistics onto a single pycirclize sector.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot one track of summary statistics onto a single pycirclize sector.</span>
 
-<span class="s2">    This is a low-level internal function called once for every</span>
-<span class="s2">    ``(sector, sumstat)`` combination in the :func:`plot_circular` main loop.</span>
-<span class="s2">    It adds a scatter track to *sector* in-place and optionally draws</span>
-<span class="s2">    significance lines, y-axis ticks (on the first chromosome only), and</span>
-<span class="s2">    chromosome labels.  Returns ``None``.</span>
+<span class="sd">    This is a low-level internal function called once for every</span>
+<span class="sd">    ``(sector, sumstat)`` combination in the :func:`plot_circular` main loop.</span>
+<span class="sd">    It adds a scatter track to *sector* in-place and optionally draws</span>
+<span class="sd">    significance lines, y-axis ticks (on the first chromosome only), and</span>
+<span class="sd">    chromosome labels.  Returns ``None``.</span>
 
-<span class="s2">    Parameters</span>
-<span class="s2">    ----------</span>
-<span class="s2">    sector : pycirclize.Sector</span>
-<span class="s2">        The pycirclize Sector object representing one chromosome arc.</span>
-<span class="s2">    sector_radius : tuple of (float, float)</span>
-<span class="s2">        ``(r_start, r_end)`` radial limits for this track within *sector*,</span>
-<span class="s2">        as returned by :func:`compute_track_radii_dict`.</span>
-<span class="s2">    annotation_r : tuple of (float, float) or None</span>
-<span class="s2">        Radial limits reserved for the annotation ring.  Passed for context</span>
-<span class="s2">        but not used directly inside this function.</span>
-<span class="s2">    assoc : pandas.DataFrame, optional</span>
-<span class="s2">        Full summary statistics DataFrame (all chromosomes).  Filtered to the</span>
-<span class="s2">        current sector&#39;s chromosome internally.  Must have columns ``CHR``,</span>
-<span class="s2">        ``POS``, ``P``, and ``logP`` (when *logp* is ``True``).</span>
-<span class="s2">    sector_sizes : dict, optional</span>
-<span class="s2">        Ordered mapping of ``chrom → [min_pos, max_pos]`` as returned by</span>
-<span class="s2">        :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`.  Used to</span>
-<span class="s2">        identify the first and last sectors for y-axis ticks and track labels.</span>
-<span class="s2">    chrom_label_loc : float or None</span>
-<span class="s2">        Radial position at which to draw the chromosome label.  Computed in</span>
-<span class="s2">        :func:`plot_circular` from *chrom_label_side*, *r_min*, and *r_max*.</span>
-<span class="s2">    chrom_label_size : float, optional</span>
-<span class="s2">        Font size for chromosome labels.  Default ``6``.</span>
-<span class="s2">    track_label_size : float, optional</span>
-<span class="s2">        Font size for the track (sumstat) label written on the spacer sector.</span>
-<span class="s2">        Default ``6``.</span>
-<span class="s2">    track_label_orientation : {&#39;vertical&#39;, &#39;horizontal&#39;}, optional</span>
-<span class="s2">        Orientation of the track label text.  Default ``&#39;vertical&#39;``.</span>
-<span class="s2">    track_index : int, optional</span>
-<span class="s2">        0-based index of the current sumstat track.  Chromosome labels are</span>
-<span class="s2">        only drawn on ``track_index == 0`` (or for chromosome X).</span>
-<span class="s2">        Default ``0``.</span>
-<span class="s2">    assoc_label : str, optional</span>
-<span class="s2">        Track label text (sumstat name) rendered on the spacer sector.</span>
-<span class="s2">    logp : bool, optional</span>
-<span class="s2">        If ``True``, use the ``logP`` column for y-values and threshold</span>
-<span class="s2">        comparisons.  Default ``True``.</span>
-<span class="s2">    signif_line : float, optional</span>
-<span class="s2">        Y-value at which to draw the genome-wide significance dashed line</span>
-<span class="s2">        (orange-red).  Default ``5e-8``.</span>
-<span class="s2">    signif_threshold : float, optional</span>
-<span class="s2">        Significance threshold used for y-axis scaling.  Default ``5e-8``.</span>
-<span class="s2">    suggest_line : float or bool, optional</span>
-<span class="s2">        Y-value for the suggestive significance dashed line (light blue).</span>
-<span class="s2">        Pass ``False`` or ``None`` to suppress.  Default ``1e-5``.</span>
-<span class="s2">    suggest_threshold : float, optional</span>
-<span class="s2">        Suggestive threshold value used for y-axis scaling.  Default ``1e-5``.</span>
-<span class="s2">    highlight : bool, optional</span>
-<span class="s2">        If ``True``, variants within significant loci (``in_locus == True``</span>
-<span class="s2">        after :func:`~pycmplot.stats.get_highlight_snps`) are rendered in</span>
-<span class="s2">        ``highlight_color`` (see below).  Default ``False``.</span>
-<span class="s2">    highlight_thresh : float, optional</span>
-<span class="s2">        P-value threshold passed to</span>
-<span class="s2">        :func:`~pycmplot.stats.get_highlight_snps` when *highlight* is</span>
-<span class="s2">        ``True``.  Default ``5e-8``.</span>
-<span class="s2">    highlight_color : str, optional</span>
-<span class="s2">        Color of highlighted positions when *highlight* is ``True``.</span>
-<span class="s2">        Default ``brown``. </span>
-<span class="s2">    colors : list of str, optional</span>
-<span class="s2">        Two alternating colours for even/odd chromosome numbers.</span>
-<span class="s2">        Default ``[&#39;steelblue&#39;, &#39;orange&#39;]``.</span>
-<span class="s2">    no_track_labels : bool, optional</span>
-<span class="s2">        Suppress the track label on the spacer sector.  Default ``False``.</span>
-<span class="s2">    &quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    sector : pycirclize.Sector</span>
+<span class="sd">        The pycirclize Sector object representing one chromosome arc.</span>
+<span class="sd">    sector_radius : tuple of (float, float)</span>
+<span class="sd">        ``(r_start, r_end)`` radial limits for this track within *sector*,</span>
+<span class="sd">        as returned by :func:`compute_track_radii_dict`.</span>
+<span class="sd">    annotation_r : tuple of (float, float) or None</span>
+<span class="sd">        Radial limits reserved for the annotation ring.  Passed for context</span>
+<span class="sd">        but not used directly inside this function.</span>
+<span class="sd">    assoc : pandas.DataFrame, optional</span>
+<span class="sd">        Full summary statistics DataFrame (all chromosomes).  Filtered to the</span>
+<span class="sd">        current sector&#39;s chromosome internally.  Must have columns ``CHR``,</span>
+<span class="sd">        ``POS``, ``P``, and ``logP`` (when *logp* is ``True``).</span>
+<span class="sd">    sector_sizes : dict, optional</span>
+<span class="sd">        Ordered mapping of ``chrom → [min_pos, max_pos]`` as returned by</span>
+<span class="sd">        :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`.  Used to</span>
+<span class="sd">        identify the first and last sectors for y-axis ticks and track labels.</span>
+<span class="sd">    chrom_label_loc : float or None</span>
+<span class="sd">        Radial position at which to draw the chromosome label.  Computed in</span>
+<span class="sd">        :func:`plot_circular` from *chrom_label_side*, *r_min*, and *r_max*.</span>
+<span class="sd">    chrom_label_size : float, optional</span>
+<span class="sd">        Font size for chromosome labels.  Default ``6``.</span>
+<span class="sd">    track_label_size : float, optional</span>
+<span class="sd">        Font size for the track (sumstat) label written on the spacer sector.</span>
+<span class="sd">        Default ``6``.</span>
+<span class="sd">    track_label_orientation : {&#39;vertical&#39;, &#39;horizontal&#39;}, optional</span>
+<span class="sd">        Orientation of the track label text.  Default ``&#39;vertical&#39;``.</span>
+<span class="sd">    track_index : int, optional</span>
+<span class="sd">        0-based index of the current sumstat track.  Chromosome labels are</span>
+<span class="sd">        only drawn on ``track_index == 0`` (or for chromosome X).</span>
+<span class="sd">        Default ``0``.</span>
+<span class="sd">    assoc_label : str, optional</span>
+<span class="sd">        Track label text (sumstat name) rendered on the spacer sector.</span>
+<span class="sd">    logp : bool, optional</span>
+<span class="sd">        If ``True``, use the ``logP`` column for y-values and threshold</span>
+<span class="sd">        comparisons.  Default ``True``.</span>
+<span class="sd">    signif_line : float, optional</span>
+<span class="sd">        Y-value at which to draw the genome-wide significance dashed line</span>
+<span class="sd">        (orange-red).  Default ``5e-8``.</span>
+<span class="sd">    signif_threshold : float, optional</span>
+<span class="sd">        Significance threshold used for y-axis scaling.  Default ``5e-8``.</span>
+<span class="sd">    suggest_line : float or bool, optional</span>
+<span class="sd">        Y-value for the suggestive significance dashed line (light blue).</span>
+<span class="sd">        Pass ``False`` or ``None`` to suppress.  Default ``1e-5``.</span>
+<span class="sd">    suggest_threshold : float, optional</span>
+<span class="sd">        Suggestive threshold value used for y-axis scaling.  Default ``1e-5``.</span>
+<span class="sd">    highlight : bool, optional</span>
+<span class="sd">        If ``True``, variants within significant loci (``in_locus == True``</span>
+<span class="sd">        after :func:`~pycmplot.stats.get_highlight_snps`) are rendered in</span>
+<span class="sd">        ``highlight_color`` (see below).  Default ``False``.</span>
+<span class="sd">    highlight_thresh : float, optional</span>
+<span class="sd">        P-value threshold passed to</span>
+<span class="sd">        :func:`~pycmplot.stats.get_highlight_snps` when *highlight* is</span>
+<span class="sd">        ``True``.  Default ``5e-8``.</span>
+<span class="sd">    highlight_color : str, optional</span>
+<span class="sd">        Color of highlighted positions when *highlight* is ``True``.</span>
+<span class="sd">        Default ``brown``. </span>
+<span class="sd">    colors : list of str, optional</span>
+<span class="sd">        Two alternating colours for even/odd chromosome numbers.</span>
+<span class="sd">        Default ``[&#39;steelblue&#39;, &#39;orange&#39;]``.</span>
+<span class="sd">    no_track_labels : bool, optional</span>
+<span class="sd">        Suppress the track label on the spacer sector.  Default ``False``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">colors</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;steelblue&quot;</span><span class="p">,</span> <span class="s2">&quot;orange&quot;</span><span class="p">]</span>
@@ -586,7 +621,7 @@
     <span class="n">highlight_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;brown&#39;</span><span class="p">,</span>
     <span class="n">highlight_line</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">highlight_line_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;grey&#39;</span><span class="p">,</span>
-    <span class="n">colors</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;steelblue&#39;</span><span class="p">,</span> <span class="s1">&#39;grey&#39;</span><span class="p">],</span>
+    <span class="n">colors</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;steelblue&#39;</span><span class="p">,</span><span class="s1">&#39;silver&#39;</span><span class="p">],</span>
     <span class="n">track_label_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span>
     <span class="n">track_label_orientation</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;vertical&#39;</span><span class="p">,</span>
     <span class="n">hits_table</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -594,130 +629,127 @@
     <span class="n">plot_title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">plot_title_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">12</span><span class="p">,</span>
     <span class="n">dpi</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">output_format</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">output_format</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;png&#39;</span><span class="p">,</span>
     <span class="n">output_dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span>
     <span class="n">no_track_labels</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="p">):</span>
-    <span class="n">PLOT_CIRCULAR</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Generate a multi-track Circos-style circular Manhattan plot.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate a multi-track Circos-style circular Manhattan plot.</span>
 
-<span class="s2">    Sets up a :class:`pycirclize.Circos` canvas with one arc sector per</span>
-<span class="s2">    chromosome, computes radial track extents, and calls :func:`plot_circosm`</span>
-<span class="s2">    once per ``(sector, sumstat)`` pair to populate each track with scatter</span>
-<span class="s2">    data and significance lines.  After all tracks are rendered, gene or SNP</span>
-<span class="s2">    annotations from *hits_table* are added to a dedicated annotation ring,</span>
-<span class="s2">    and a shared y-axis label is placed on the spacer sector.</span>
+<span class="sd">    Sets up a :class:`pycirclize.Circos` canvas with one arc sector per</span>
+<span class="sd">    chromosome, computes radial track extents, and calls :func:`plot_circosm`</span>
+<span class="sd">    once per ``(sector, sumstat)`` pair to populate each track with scatter</span>
+<span class="sd">    data and significance lines.  After all tracks are rendered, gene or SNP</span>
+<span class="sd">    annotations from *hits_table* are added to a dedicated annotation ring,</span>
+<span class="sd">    and a shared y-axis label is placed on the spacer sector.</span>
 
-<span class="s2">    Parameters</span>
-<span class="s2">    ----------</span>
-<span class="s2">    sumstats_loaded : dict</span>
-<span class="s2">        Mapping of ``label → [DataFrame, n_chroms]`` as returned by</span>
-<span class="s2">        :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`.  One</span>
-<span class="s2">        radial track is created per key.  The outermost track corresponds to</span>
-<span class="s2">        the first key after reversal of the radii dict.</span>
-<span class="s2">    sector_sizes : dict, optional</span>
-<span class="s2">        Ordered mapping of ``chrom → [min_pos, max_pos]`` defining the arc</span>
-<span class="s2">        length of each chromosome sector.  The last key is expected to be</span>
-<span class="s2">        ``&#39;Spacer1&#39;`` (automatically added by</span>
-<span class="s2">        :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`).</span>
-<span class="s2">    signif_lines : list of dict, optional</span>
-<span class="s2">        One ``{&#39;genome&#39;: float, &#39;suggestive&#39;: float}`` dict per track in the</span>
-<span class="s2">        same order as *sumstats_loaded*, as returned by</span>
-<span class="s2">        :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`.</span>
-<span class="s2">    logp : bool, optional</span>
-<span class="s2">        Plot –log₁₀(p) radially.  Default ``False``.</span>
-<span class="s2">    pad : float, optional</span>
-<span class="s2">        Gap in radius units between consecutive tracks.  Default ``1``.</span>
-<span class="s2">    r_min : float, optional</span>
-<span class="s2">        Inner radius of the innermost track (as a percentage of the figure</span>
-<span class="s2">        radius).  Default ``0``.</span>
-<span class="s2">    r_max : float, optional</span>
-<span class="s2">        Outer radius of the outermost track.  Default ``100``.</span>
-<span class="s2">    annotate : {&#39;SNP&#39;, &#39;GENE&#39;} or falsy, optional</span>
-<span class="s2">        Annotation content for significant loci.  ``&#39;GENE&#39;`` uses</span>
-<span class="s2">        ``nearest_upstream_gene`` for genic hits and ``top_gene`` for</span>
-<span class="s2">        intergenic hits (italic text); ``&#39;SNP&#39;`` uses the ``SNP`` column</span>
-<span class="s2">        (regular text).  Pass ``None`` or ``False`` to disable annotations.</span>
-<span class="s2">        Default ``&#39;SNP&#39;``.</span>
-<span class="s2">    chrom_label_side : {&#39;inside&#39;, &#39;outside&#39;}, optional</span>
-<span class="s2">        Radial position of chromosome labels.  ``&#39;inside&#39;`` places them just</span>
-<span class="s2">        inside the innermost track; ``&#39;outside&#39;`` places them beyond the</span>
-<span class="s2">        outermost track.  Default ``&#39;inside&#39;``.</span>
-<span class="s2">    signif_line : float, optional</span>
-<span class="s2">        Genome-wide significance threshold value for the orange-red dashed</span>
-<span class="s2">        line.  Default ``5e-8``.</span>
-<span class="s2">    highlight : bool, optional</span>
-<span class="s2">        Render significant-locus variants in brown.  Default ``False``.</span>
-<span class="s2">    highlight_thresh : float, optional</span>
-<span class="s2">        P-value threshold for locus highlighting.  Default ``5e-8``.</span>
-<span class="s2">    highlight_color : str, optional</span>
-<span class="s2">        Color of highlighted positions when *highlight* is ``True``.</span>
-<span class="s2">        Default ``brown``.         </span>
-<span class="s2">    colors : list of str, optional</span>
-<span class="s2">        Two alternating chromosome colours.  Default ``[&#39;steelblue&#39;, &#39;grey&#39;]``.</span>
-<span class="s2">    chrom_label_size : float, optional</span>
-<span class="s2">        Chromosome label font size.  Default ``6``.</span>
-<span class="s2">    track_label_size : float, optional</span>
-<span class="s2">        Track (sumstat) label font size.  Default ``6``.</span>
-<span class="s2">    track_label_orientation : {&#39;vertical&#39;, &#39;horizontal&#39;}, optional</span>
-<span class="s2">        Track label text orientation.  Default ``&#39;vertical&#39;``.</span>
-<span class="s2">    hits_table : pandas.DataFrame, optional</span>
-<span class="s2">        Hits summary table from</span>
-<span class="s2">        :func:`~pycmplot.annotation.get_hits_summary_table`.  Required for</span>
-<span class="s2">        annotations (``annotate`` truthy and ``hits_table`` non-empty).</span>
-<span class="s2">    annotation_size : float, optional</span>
-<span class="s2">        Font size for annotation labels.  Default ``6``.</span>
-<span class="s2">    highlight_line : bool, optional</span>
-<span class="s2">        Draw a dashed radial line from the innermost track to the annotation</span>
-<span class="s2">        ring for each annotated position.  Default ``False``.</span>
-<span class="s2">    highlight_line_color : str, optional</span>
-<span class="s2">        Color of highlight line when *highlight_line* is ``True``.</span>
-<span class="s2">    plot_title : str, optional</span>
-<span class="s2">        Text placed in the centre of the circle and used as the output</span>
-<span class="s2">        file-name stem.</span>
-<span class="s2">    plot_title_size : float, optional</span>
-<span class="s2">        Font size for the centre title.  Default ``12``.</span>
-<span class="s2">    dpi : int, optional</span>
-<span class="s2">        Output resolution in dots per inch.  Default ``300``.</span>
-<span class="s2">    output_format : str, optional</span>
-<span class="s2">        Image format (``&#39;png&#39;``, ``&#39;pdf&#39;``, ``&#39;svg&#39;``, ``&#39;jpg&#39;``).</span>
-<span class="s2">        Default ``&#39;png&#39;``.</span>
-<span class="s2">    output_dir : str or pathlib.Path, optional</span>
-<span class="s2">        Output directory.  Default ``&#39;.&#39;``.</span>
-<span class="s2">    no_track_labels : bool, optional</span>
-<span class="s2">        Suppress track labels on the spacer sector.  Default ``False``.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    sumstats_loaded : dict</span>
+<span class="sd">        Mapping of ``label → [DataFrame, n_chroms]`` as returned by</span>
+<span class="sd">        :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`.  One</span>
+<span class="sd">        radial track is created per key.  The outermost track corresponds to</span>
+<span class="sd">        the first key after reversal of the radii dict.</span>
+<span class="sd">    sector_sizes : dict, optional</span>
+<span class="sd">        Ordered mapping of ``chrom → [min_pos, max_pos]`` defining the arc</span>
+<span class="sd">        length of each chromosome sector.  The last key is expected to be</span>
+<span class="sd">        ``&#39;Spacer1&#39;`` (automatically added by</span>
+<span class="sd">        :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`).</span>
+<span class="sd">    signif_lines : list of dict, optional</span>
+<span class="sd">        One ``{&#39;genome&#39;: float, &#39;suggestive&#39;: float}`` dict per track in the</span>
+<span class="sd">        same order as *sumstats_loaded*, as returned by</span>
+<span class="sd">        :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`.</span>
+<span class="sd">    logp : bool, optional</span>
+<span class="sd">        Plot –log₁₀(p) radially.  Default ``False``.</span>
+<span class="sd">    pad : float, optional</span>
+<span class="sd">        Gap in radius units between consecutive tracks.  Default ``1``.</span>
+<span class="sd">    r_min : float, optional</span>
+<span class="sd">        Inner radius of the innermost track (as a percentage of the figure</span>
+<span class="sd">        radius).  Default ``0``.</span>
+<span class="sd">    r_max : float, optional</span>
+<span class="sd">        Outer radius of the outermost track.  Default ``100``.</span>
+<span class="sd">    annotate : {&#39;SNP&#39;, &#39;GENE&#39;} or falsy, optional</span>
+<span class="sd">        Annotation content for significant loci.  ``&#39;GENE&#39;`` uses</span>
+<span class="sd">        ``nearest_upstream_gene`` for genic hits and ``top_gene`` for</span>
+<span class="sd">        intergenic hits (italic text); ``&#39;SNP&#39;`` uses the ``SNP`` column</span>
+<span class="sd">        (regular text).  Pass ``None`` or ``False`` to disable annotations.</span>
+<span class="sd">        Default ``&#39;SNP&#39;``.</span>
+<span class="sd">    chrom_label_side : {&#39;inside&#39;, &#39;outside&#39;}, optional</span>
+<span class="sd">        Radial position of chromosome labels.  ``&#39;inside&#39;`` places them just</span>
+<span class="sd">        inside the innermost track; ``&#39;outside&#39;`` places them beyond the</span>
+<span class="sd">        outermost track.  Default ``&#39;inside&#39;``.</span>
+<span class="sd">    signif_line : float, optional</span>
+<span class="sd">        Genome-wide significance threshold value for the orange-red dashed</span>
+<span class="sd">        line.  Default ``5e-8``.</span>
+<span class="sd">    highlight : bool, optional</span>
+<span class="sd">        Render significant-locus variants in brown.  Default ``False``.</span>
+<span class="sd">    highlight_thresh : float, optional</span>
+<span class="sd">        P-value threshold for locus highlighting.  Default ``5e-8``.</span>
+<span class="sd">    highlight_color : str, optional</span>
+<span class="sd">        Color of highlighted positions when *highlight* is ``True``.</span>
+<span class="sd">        Default ``brown``.         </span>
+<span class="sd">    colors : list of str, optional</span>
+<span class="sd">        Two alternating chromosome colours.  Default ``[&#39;steelblue&#39;, &#39;grey&#39;]``.</span>
+<span class="sd">    chrom_label_size : float, optional</span>
+<span class="sd">        Chromosome label font size.  Default ``6``.</span>
+<span class="sd">    track_label_size : float, optional</span>
+<span class="sd">        Track (sumstat) label font size.  Default ``6``.</span>
+<span class="sd">    track_label_orientation : {&#39;vertical&#39;, &#39;horizontal&#39;}, optional</span>
+<span class="sd">        Track label text orientation.  Default ``&#39;vertical&#39;``.</span>
+<span class="sd">    hits_table : pandas.DataFrame, optional</span>
+<span class="sd">        Hits summary table from</span>
+<span class="sd">        :func:`~pycmplot.annotation.get_hits_summary_table`.  Required for</span>
+<span class="sd">        annotations (``annotate`` truthy and ``hits_table`` non-empty).</span>
+<span class="sd">    annotation_size : float, optional</span>
+<span class="sd">        Font size for annotation labels.  Default ``6``.</span>
+<span class="sd">    highlight_line : bool, optional</span>
+<span class="sd">        Draw a dashed radial line from the innermost track to the annotation</span>
+<span class="sd">        ring for each annotated position.  Default ``False``.</span>
+<span class="sd">    highlight_line_color : str, optional</span>
+<span class="sd">        Color of highlight line when *highlight_line* is ``True``.</span>
+<span class="sd">    plot_title : str, optional</span>
+<span class="sd">        Text placed in the centre of the circle and used as the output</span>
+<span class="sd">        file-name stem.</span>
+<span class="sd">    plot_title_size : float, optional</span>
+<span class="sd">        Font size for the centre title.  Default ``12``.</span>
+<span class="sd">    dpi : int, optional</span>
+<span class="sd">        Output resolution in dots per inch.  Default ``300``.</span>
+<span class="sd">    output_format : str, optional</span>
+<span class="sd">        Image format (``&#39;png&#39;``, ``&#39;pdf&#39;``, ``&#39;svg&#39;``, ``&#39;jpg&#39;``).</span>
+<span class="sd">        Default ``&#39;png&#39;``.</span>
+<span class="sd">    output_dir : str or pathlib.Path, optional</span>
+<span class="sd">        Output directory.  Default ``&#39;.&#39;``.</span>
+<span class="sd">    no_track_labels : bool, optional</span>
+<span class="sd">        Suppress track labels on the spacer sector.  Default ``False``.</span>
 
-<span class="s2">    Returns</span>
-<span class="s2">    -------</span>
-<span class="s2">    matplotlib.figure.Figure</span>
-<span class="s2">        The completed circular Manhattan figure (also saved to *output_dir*).</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    matplotlib.figure.Figure</span>
+<span class="sd">        The completed circular Manhattan figure (also saved to *output_dir*).</span>
 
-<span class="s2">    See Also</span>
-<span class="s2">    --------</span>
-<span class="s2">    plot_circular is the circular counterpart to</span>
-<span class="s2">    :func:`pycmplot.plotting.linear.plot_linear`.</span>
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    pycmplot.plotting.linear.plot_linear :</span>
+<span class="sd">        Linear (stacked) counterpart to this function.</span>
+<span class="sd">    compute_track_radii_dict :</span>
+<span class="sd">        Computes the ``(r_start, r_end)`` limits for each track.</span>
+<span class="sd">    pycmplot.io.get_sumstats_and_merged_sector_list :</span>
+<span class="sd">        Produces *sumstats_loaded*, *sector_sizes*, and *signif_lines*.</span>
 
-<span class="s2">    compute_track_radii_dict :</span>
-<span class="s2">        Computes the ``(r_start, r_end)`` limits for each track.</span>
-<span class="s2">    plot_circosm :</span>
-<span class="s2">        Per-sector rendering function called inside the main loop.</span>
-<span class="s2">    pycmplot.io.get_sumstats_and_merged_sector_list :</span>
-<span class="s2">        Produces *sumstats_loaded*, *sector_sizes*, and *signif_lines*.</span>
-
-<span class="s2">    Examples</span>
-<span class="s2">    --------</span>
-<span class="s2">    &gt;&gt;&gt; from pycmplot.plotting.circular import plot_circular</span>
-<span class="s2">    &gt;&gt;&gt; fig = plot_circular(</span>
-<span class="s2">    ...     sumstats_loaded=loaded,</span>
-<span class="s2">    ...     sector_sizes=sectors,</span>
-<span class="s2">    ...     signif_lines=sig_lines,</span>
-<span class="s2">    ...     logp=True,</span>
-<span class="s2">    ...     highlight=True,</span>
-<span class="s2">    ...     annotate=&quot;GENE&quot;,</span>
-<span class="s2">    ...     hits_table=hits,</span>
-<span class="s2">    ...     plot_title=&quot;RBC_Traits&quot;,</span>
-<span class="s2">    ...     output_dir=&quot;./results&quot;,</span>
-<span class="s2">    ... )</span>
-<span class="s2">    &quot;&quot;&quot;</span>
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from pycmplot.plotting.circular import plot_circular</span>
+<span class="sd">    &gt;&gt;&gt; fig = plot_circular(</span>
+<span class="sd">    ...     sumstats_loaded=loaded,</span>
+<span class="sd">    ...     sector_sizes=sectors,</span>
+<span class="sd">    ...     signif_lines=sig_lines,</span>
+<span class="sd">    ...     logp=True,</span>
+<span class="sd">    ...     highlight=True,</span>
+<span class="sd">    ...     annotate=&quot;GENE&quot;,</span>
+<span class="sd">    ...     hits_table=hits,</span>
+<span class="sd">    ...     plot_title=&quot;RBC_Traits&quot;,</span>
+<span class="sd">    ...     output_dir=&quot;./results&quot;,</span>
+<span class="sd">    ... )</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="kn">from</span><span class="w"> </span><span class="nn">pycirclize</span><span class="w"> </span><span class="kn">import</span> <span class="n">Circos</span>
 
@@ -767,6 +799,14 @@
         <span class="n">radii_reversed</span><span class="p">[</span><span class="s2">&quot;annot_track_r&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">annot_r</span>
 
     <span class="n">chrom_label_loc</span> <span class="o">=</span> <span class="n">outside_loc</span> <span class="k">if</span> <span class="n">chrom_label_side</span> <span class="o">==</span> <span class="s2">&quot;outside&quot;</span> <span class="k">else</span> <span class="n">inside_loc</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">signif_lines</span><span class="p">:</span>
+        <span class="n">signif_line</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">signif_line</span><span class="p">)</span> <span class="k">if</span> <span class="n">signif_line</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">signif_line</span>
+        <span class="n">suggest_line</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mf">1e-5</span><span class="p">)</span>
+        <span class="n">signif_lines</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">{</span><span class="s2">&quot;genome&quot;</span><span class="p">:</span> <span class="n">signif_line</span><span class="p">,</span> <span class="s2">&quot;suggestive&quot;</span><span class="p">:</span> <span class="n">suggest_line</span><span class="p">}</span>
+            <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">sumstats_loaded</span>
+        <span class="p">]</span>      
 
     <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="p">(</span><span class="n">sector_radius</span><span class="p">,</span> <span class="n">sumstats_key</span><span class="p">,</span> <span class="n">sumstats_value</span><span class="p">,</span> <span class="n">signif_dict</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
         <span class="nb">zip</span><span class="p">(</span>
@@ -912,10 +952,10 @@
 
     <span class="k">if</span> <span class="n">plt_name</span><span class="p">:</span>
         <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">fname</span><span class="o">=</span><span class="n">plt_name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">dpi</span><span class="o">=</span><span class="n">dpi</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Saved circular Manhattan plot: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">plt_name</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Saved circular Manhattan plot: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">plt_name</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span></div>
 
-    <span class="k">return</span> <span class="n">fig</span></div>
 
+    <span class="c1">#return fig</span>
 </pre></div>
 
            </div>

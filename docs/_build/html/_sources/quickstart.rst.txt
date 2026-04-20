@@ -19,102 +19,196 @@ common names) are:
 - P-value or test statistic (e.g. ``P``, ``pvalue``, ``Wald_P``)
 
 Optionally, a genome-build column (``hg19`` / ``hg38``) enables automatic
-liftover (see :ref:`cli_liftover`).
+liftover (see :ref:`cli_liftover`). Alternatively, pass per-file builds on
+the command line with ``--build hg19,hg38,...``.
 
 .. tip::
    For large summary statistics files, always pass ``--trim_pval 0.01`` to
    discard variants with p > 0.01 before plotting. This can reduce memory usage
    by an order of magnitude.
 
-Linear Manhattan plot (single trait)
--------------------------------------
+Command line
+------------
 
-**Command line**
+Most users will use the CLI. The typical invocation for a multi-track plot is:
 
 .. code-block:: bash
 
    pycmplot \
-     --sum_stats HbF.tsv.gz \
-     --labels HbF \
+     --sum_stats HbF.tsv.gz,MCV.txt.gz,MCH.tsv.gz \
+     --labels HbF,MCV,MCH \
      --logp \
      --signif_line \
      --highlight \
      --annotate GENE \
-     --output_dir ./results \
-     --output_format png \
-     --dpi 300
+     --trim_pval 0.01 \
+     --output_dir ./results
 
-**Python API**
+For the full CLI reference, see :ref:`cli`.
+
+Python API
+----------
+
+The Python API exposes the same pipeline as the CLI, with three explicit
+steps: (1) resolve per-file column names, (2) load and pre-process the
+summary statistics, (3) render the plot. The rendering functions take the
+``sumstats_loaded`` dictionary produced in step 2.
+
+Linear Manhattan plot (single trait)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
-   from pycmplot import plot_linear
+   from pycmplot import (
+       prep_pycmplot_input_info,
+       get_sumstats_and_merged_sector_list,
+       plot_linear,
+   )
 
-   plot_linear(
-       sum_stats=["HbF.tsv.gz"],
-       labels=["HbF"],
+   files  = ["HbF.tsv.gz"]
+   labels = ["HbF"]
+
+   # 1. Resolve per-file column names and delimiters
+   file_info = prep_pycmplot_input_info(
+       sum_stats=files,
+       labels=labels,
+   )
+
+   # 2. Load data, run liftover (if needed), extract lead SNPs,
+   #    build the hits table, and compute merged sector sizes
+   result = get_sumstats_and_merged_sector_list(
+       sum_stats=files,
+       labels=labels,
        logp=True,
-       signif_line=True,
-       highlight=True,
+       trim_pval=0.01,
+       file_info=file_info,
+       signif_threshold=5e-8,
+   )
+
+   # 3. Render the plot
+   plot_linear(
+       sumstats_loaded=result["dfs"],
+       logp=True,
+       signif_lines=result["lines"],
+       hits_table=result["annot"],
        annotate="GENE",
+       label_col="top_gene",
+       colors=["steelblue", "silver"],
        output_dir="./results",
        output_format="png",
        dpi=300,
    )
 
 Multi-track linear Manhattan plot
-----------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Compare signals across three RBC traits in a single stacked figure:
+Compare three RBC traits in a single stacked figure:
 
 .. code-block:: python
 
-   from pycmplot import plot_linear
+   files  = ["HbF.tsv.gz", "MCV.txt.gz", "MCH.tsv.gz"]
+   labels = ["HbF", "MCV", "MCH"]
+
+   file_info = prep_pycmplot_input_info(sum_stats=files, labels=labels)
+
+   result = get_sumstats_and_merged_sector_list(
+       sum_stats=files,
+       labels=labels,
+       logp=True,
+       trim_pval=0.01,
+       file_info=file_info,
+       signif_threshold=5e-8,
+   )
 
    plot_linear(
-       sum_stats=["HbF.tsv.gz", "MCV.txt.gz", "MCH.tsv.gz"],
-       labels=["HbF", "MCV", "MCH"],
+       sumstats_loaded=result["dfs"],
        logp=True,
-       signif_line=True,
-       highlight=True,
+       signif_lines=result["lines"],
+       hits_table=result["annot"],
        annotate="GENE",
+       label_col="top_gene",
+       colors=["steelblue", "silver"],
        output_dir="./results",
    )
 
 Circular (Circos-style) Manhattan plot
-----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: python
 
    from pycmplot import plot_circular
 
    plot_circular(
-       sum_stats=["HbF.tsv.gz", "MCV.tsv.gz"],
-       labels=["HbF", "MCV"],
-       trim_pval=0.01,
+       sumstats_loaded=result["dfs"],
+       sector_sizes=result["sectors"],
        logp=True,
-       signif_threshold=True,
+       signif_lines=result["lines"],
+       hits_table=result["annot"],
+       annotate="GENE",
+       label_col="top_gene",
+       colors=["steelblue", "silver"],
        plot_title="RBC Traits",
        output_dir="./results",
    )
 
-Mixed genome builds with liftover
------------------------------------
+QQ plots
+~~~~~~~~
 
-If your summary statistics were generated on different reference panels (hg19
-and hg38), add a build column to each file, concatenate them, and pass the
-column name:
+Each of the QQ functions accepts the ``pvals`` dictionary returned by
+:func:`~pycmplot.io.get_sumstats_and_merged_sector_list`:
+
+.. code-block:: python
+
+   from pycmplot import plot_qq_combined, plot_qq_overlay, plot_qq_separate
+
+   # Grid of per-track QQ panels
+   plot_qq_combined(
+       pval_dict=result["pvals"],
+       thin=True,
+       max_points=50_000,
+       ncols=3,
+       title="RBC Traits",
+       output_path="./results/rbc_qq",
+       fig_format="png",
+   )
+
+   # All traits overlaid on one axes, with lambda in the legend
+   plot_qq_overlay(
+       pval_dict=result["pvals"],
+       thin=True,
+       max_points=50_000,
+       title="RBC Traits",
+       output_path="./results/rbc_qq_overlay",
+       fig_format="png",
+   )
+
+   # One file per trait
+   plot_qq_separate(
+       pval_dict=result["pvals"],
+       base_name="RBC",
+       thin=True,
+       max_points=50_000,
+       output_path="./results/rbc_qq",
+       fig_format="png",
+   )
+
+Mixed genome builds with liftover
+---------------------------------
+
+If your summary statistics were generated on different reference panels
+(hg19 and hg38), pycmplot can liftover hg19 coordinates to hg38 before
+plotting. Supply the builds either through a ``BUILD`` column in the files
+or by passing ``--build`` (CLI) / ``build_list=`` (API):
 
 .. code-block:: bash
 
    pycmplot \
-     --sum_stats combined.tsv.gz \
-     --labels MyTrait \
-     --build_column BUILD \
+     --sum_stats study_hg19.tsv.gz,study_hg38.tsv.gz \
+     --labels Study_A,Study_B \
+     --build hg19,hg38 \
      --logp \
+     --annotate GENE \
      --output_dir ./results
-
-pycmplot will liftover all hg19 positions to hg38 before plotting.
 
 Next steps
 ----------

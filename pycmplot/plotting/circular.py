@@ -1,6 +1,4 @@
-from __future__ import annotations
-
-CIRCULAR_MODULE = """
+"""
 pycmplot.plotting.circular
 ===========================
 
@@ -19,6 +17,8 @@ The module exposes two public functions and one internal per-sector helper:
   Mutates the :class:`pycirclize.Sector` object in place and returns
   ``None``.
 """
+
+from __future__ import annotations
 
 import logging
 import math
@@ -44,7 +44,7 @@ def compute_track_radii_dict(
     pad: float = 1,
     annotate: bool = False,
 ) -> dict[str, tuple[float, float]]:
-    COMPUTE_RADII = """Compute ``(r_start, r_end)`` tuples for *n_tracks* evenly-spaced radial bands.
+    """Compute ``(r_start, r_end)`` tuples for *n_tracks* evenly-spaced radial bands.
 
     Divides the usable radial space between *r_min* and *r_max* into
     *n_tracks* bands of equal height, separated by gaps of *pad* units.  The
@@ -140,7 +140,7 @@ def plot_circosm(
     colors: Optional[list[str]] = ['steelblue','orange'],
     no_track_labels: bool = False
 ) -> None:
-    PLOT_CIRCOSM = """Plot one track of summary statistics onto a single pycirclize sector.
+    """Plot one track of summary statistics onto a single pycirclize sector.
 
     This is a low-level internal function called once for every
     ``(sector, sumstat)`` combination in the :func:`plot_circular` main loop.
@@ -387,7 +387,7 @@ def plot_circular(
     highlight_color: str = 'brown',
     highlight_line: bool = False,
     highlight_line_color: str = 'grey',
-    colors: list[str] = ['steelblue', 'grey'],
+    colors: list[str] = ['steelblue','silver'],
     track_label_size: float = 6,
     track_label_orientation: str = 'vertical',
     hits_table: pd.DataFrame = None,
@@ -395,11 +395,11 @@ def plot_circular(
     plot_title: Optional[str] = None,
     plot_title_size: float = 12,
     dpi: Optional[int] = None,
-    output_format: Optional[str] = None,
+    output_format: Optional[str] = 'png',
     output_dir: Optional[str] = '.',
     no_track_labels: bool = False
 ):
-    PLOT_CIRCULAR = """Generate a multi-track Circos-style circular Manhattan plot.
+    """Generate a multi-track Circos-style circular Manhattan plot.
 
     Sets up a :class:`pycirclize.Circos` canvas with one arc sector per
     chromosome, computes radial track extents, and calls :func:`plot_circosm`
@@ -494,13 +494,10 @@ def plot_circular(
 
     See Also
     --------
-    plot_circular is the circular counterpart to
-    :func:`pycmplot.plotting.linear.plot_linear`.
-
+    pycmplot.plotting.linear.plot_linear :
+        Linear (stacked) counterpart to this function.
     compute_track_radii_dict :
         Computes the ``(r_start, r_end)`` limits for each track.
-    plot_circosm :
-        Per-sector rendering function called inside the main loop.
     pycmplot.io.get_sumstats_and_merged_sector_list :
         Produces *sumstats_loaded*, *sector_sizes*, and *signif_lines*.
 
@@ -568,6 +565,14 @@ def plot_circular(
         radii_reversed["annot_track_r"] = annot_r
 
     chrom_label_loc = outside_loc if chrom_label_side == "outside" else inside_loc
+
+    if not signif_lines:
+        signif_line = -np.log10(signif_line) if signif_line < 1 else signif_line
+        suggest_line = -np.log10(1e-5)
+        signif_lines = [
+            {"genome": signif_line, "suggestive": suggest_line}
+            for _ in sumstats_loaded
+        ]      
 
     for index, (sector_radius, sumstats_key, sumstats_value, signif_dict) in enumerate(
         zip(
@@ -715,4 +720,4 @@ def plot_circular(
         fig.savefig(fname=plt_name.lower(), dpi=dpi)
         logger.info("Saved circular Manhattan plot: %s", plt_name.lower())
 
-    return fig
+    #return fig

@@ -1,6 +1,4 @@
-from __future__ import annotations
-
-MODULE_DOCSTRING = """
+"""
 pycmplot.stats
 ==============
 
@@ -19,6 +17,8 @@ traits, call them independently per track; lead SNP extraction across traits
 is handled by :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`.
 """
 
+from __future__ import annotations
+
 import numpy as np
 import pandas as pd
 
@@ -29,7 +29,7 @@ def get_lead_snps(
     logp: bool = False,
     window: int = 500_000,
 ) -> pd.DataFrame:
-    GET_LEAD_SNPS = """Identify independent lead SNPs by greedy distance-based clumping.
+    """Identify independent lead SNPs by greedy distance-based clumping.
 
     Starting from the most significant variant, each subsequent variant is
     retained as a new lead only if it lies more than *window* base-pairs from
@@ -115,7 +115,7 @@ def get_highlight_snps(
     logp: bool = False,
     window: int = 500_000,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
-    GET_HIGHLIGHT_SNPS = """Mark all variants within *window* bp of a lead SNP.
+    """Mark all variants within *window* bp of a lead SNP.
 
     Calls :func:`get_lead_snps` to identify independent loci, then sets an
     ``in_locus`` boolean flag on every variant whose chromosomal position falls
@@ -163,7 +163,7 @@ def get_highlight_snps(
     leads_df = get_lead_snps(
         df=df,
         signif_threshold=highlight_thresh,
-        logp=False,
+        logp=logp,
         window=window,
     )
 

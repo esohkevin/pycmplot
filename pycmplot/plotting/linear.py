@@ -1,6 +1,4 @@
-from __future__ import annotations
-
-LINEAR_MODULE = """
+"""
 pycmplot.plotting.linear
 ========================
 
@@ -25,6 +23,8 @@ Internal helpers:
   :class:`~matplotlib.patches.FancyArrowPatch` arrows from spread gene
   labels down to their corresponding signal positions.
 """
+
+from __future__ import annotations
 
 import logging
 from typing import Optional
@@ -54,7 +54,7 @@ def _cluster_annotations_by_chr(
     x_col: str = "x",
     window_size: float = 50e6,
 ) -> list[list]:
-    CLUSTER_ANNOTS = """Cluster annotation points within each chromosome by genomic proximity.
+    """Cluster annotation points within each chromosome by genomic proximity.
 
     Groups rows of *annot_df* on the same chromosome into clusters such that
     consecutive points within *window_size* base-pairs are placed in the same
@@ -111,7 +111,7 @@ def _draw_annotation_arrows(
     y_tip: float = 0.0,
     y_text: float = 0.55,
 ) -> None:
-    DRAW_ARROWS = """Draw angled arrow annotations from gene-label text to signal positions.
+    """Draw angled arrow annotations from gene-label text to signal positions.
 
     For each significant locus in *annot_df*, places the gene/SNP label text
     above the track and connects it to the corresponding scatter-plot point
@@ -503,7 +503,7 @@ def plot_linearm(
     dpi: int = 300,
     figsize: tuple = (15, 9),
 ):
-    PLOT_LINEARM = """Core rendering engine for the multi-track stacked linear Manhattan plot.
+    """Core rendering engine for the multi-track stacked linear Manhattan plot.
 
     Builds a :class:`~matplotlib.figure.Figure` with one annotation sub-panel
     at the top (for gene/SNP labels and connecting arrows) and *n* data tracks
@@ -873,11 +873,11 @@ def plot_linear(
     plot_title: Optional[str] = None,
     no_track_labels: bool = False,
     dpi: Optional[int] = None,
-    output_format: Optional[str] = None,
+    output_format: Optional[str] = 'png',
     output_dir: Optional[str] = '.',
     figsize: Optional[tuple] = None,
 ):
-    PLOT_LINEAR = """Generate a multi-track stacked linear Manhattan plot.
+    """Generate a multi-track stacked linear Manhattan plot.
 
     This is the primary user-facing entry point for linear Manhattan plots.
     It extracts DataFrames and labels from *sumstats_loaded*, resolves output
@@ -1031,4 +1031,4 @@ def plot_linear(
         figsize=figsize,
     )
 
-    return fig, axes
+    return axes

@@ -61,9 +61,18 @@ column names fall outside the recognised defaults.
    * - ``-p``, ``--pval_column``
      - *auto*
      - Name of the p-value (or test statistic) column.
-   * - ``-b``, ``--build_column``
+   * - ``-d``, ``--delim``
      - *auto*
-     - Name of the genome build column (values: ``hg19``, ``hg38``).
+     - Field delimiter (``tab``, ``space``, ``comma``, ``colon``,
+       ``semi-colon``). Auto-detected when omitted.
+   * - ``-bc``, ``--build_column``
+     - *auto*
+     - Name of an in-file genome build column (values: ``hg19``, ``hg38``).
+   * - ``-b``, ``--build``
+     - *none*
+     - Comma-separated list of per-file genome builds in the same order as
+       ``--sum_stats``, used when the files have no build column
+       (e.g. ``hg19,hg38``).
 
 .. _cli_liftover:
 
@@ -95,9 +104,23 @@ Plotting behaviour options
    * - ``-hl``, ``--highlight``
      - off
      - Highlight significant loci with a distinct colour.
+   * - ``-hc``, ``--highlight_color``
+     - ``brown``
+     - Colour for highlighted variants.
+   * - ``-hll``, ``--highlight_line``
+     - off
+     - Draw a vertical dashed line through each highlighted locus.
+   * - ``-hlc``, ``--highlight_line_color``
+     - ``grey``
+     - Colour of the highlight line.
+   * - ``-ht``, ``--highlight_thresh``
+     - ``5e-8``
+     - P-value threshold for highlighting.
    * - ``-a``, ``--annotate``
      - ``SNP``
-     - Annotate significant hits with ``SNP`` IDs or nearest ``GENE`` names.
+     - Annotate significant hits with ``SNP`` IDs, nearest ``GENE`` names,
+       or any column available in the hits table (e.g. ``top_gene``,
+       ``nearest_upstream_gene``).
    * - ``-tp``, ``--trim_pval``
      - off
      - Exclude variants with p-value above this threshold (e.g. ``0.01``)
@@ -109,9 +132,39 @@ Plotting behaviour options
    * - ``--plot_title``
      - *(none)*
      - Title string printed above the plot.
+
+QQ plot options
+---------------
+
+.. list-table::
+   :widths: 30 15 55
+   :header-rows: 1
+
+   * - Flag
+     - Default
+     - Description
    * - ``-qq``, ``--qq_plot``
      - off
-     - Generate a QQ-plot alongside the Manhattan plot *(coming soon)*.
+     - Generate QQ plot(s) alongside the Manhattan plot.
+   * - ``-qq_sep``, ``--qq_separate``
+     - off
+     - Save one QQ-plot file per summary statistics file.
+   * - ``-qq_ov``, ``--qq_overlay``
+     - off
+     - Overlay all sumstats on a single shared QQ axes, with λ in the legend.
+   * - ``-qq_cols``, ``--qq_ncols``
+     - ``3``
+     - Number of columns in the combined QQ-plot grid.
+   * - ``-qq_thin``, ``--qq_thin``
+     - off
+     - Enable log-uniform p-value thinning for fast QQ plotting.
+   * - ``-thin_below``, ``--thin_below``
+     - ``0.01``
+     - P-value threshold below which all points are kept (points above are
+       downsampled when thinning is enabled).
+   * - ``-qq_max_pts``, ``--qq_max_points``
+     - ``50000``
+     - Maximum points plotted per QQ track after thinning.
 
 Example commands
 ----------------
@@ -160,4 +213,36 @@ Circular Manhattan plot
      --logp \
      --signif_threshold \
      --plot_title "RBC Traits" \
+     --output_dir ./results
+
+Manhattan plot with companion QQ plots
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+   pycmplot \
+     --sum_stats HbF.tsv.gz,MCV.tsv.gz,MCH.tsv.gz \
+     --labels HbF,MCV,MCH \
+     --logp \
+     --signif_line \
+     --annotate GENE \
+     --qq_plot \
+     --qq_thin \
+     --qq_ncols 3 \
+     --output_dir ./results
+
+Supplying per-file genome builds
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When summary statistics files do not carry a ``BUILD`` column, supply the
+builds in the same order as ``--sum_stats``:
+
+.. code-block:: bash
+
+   pycmplot \
+     --sum_stats hg19_study.tsv.gz,hg38_study.tsv.gz \
+     --labels Study_A,Study_B \
+     --build hg19,hg38 \
+     --logp \
+     --annotate GENE \
      --output_dir ./results

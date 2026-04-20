@@ -1,0 +1,18 @@
+/* pycmplot custom styles */
+
+/* Widen the content area slightly */
+.wy-nav-content {
+    max-width: 960px;
+}
+
+/* Make parameter tables slightly more compact */
+table.docutils td, table.docutils th {
+    padding: 4px 8px;
+}
+
+/* Distinguish inline code in parameter descriptions */
+code.docutils {
+    background-color: #f0f4f8;
+    border-radius: 3px;
+    padding: 1px 4px;
+}

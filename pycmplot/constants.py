@@ -1,4 +1,4 @@
-CONSTANTS_MODULE = """
+"""
 pycmplot.constants
 ==================
 

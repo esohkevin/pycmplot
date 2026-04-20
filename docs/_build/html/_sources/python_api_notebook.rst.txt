@@ -21,4 +21,4 @@ summary table.
 .. toctree::
    :maxdepth: 2
 
-   ../pycmplot_python_api
+   pycmplot_python_api

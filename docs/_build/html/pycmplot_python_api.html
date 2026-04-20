@@ -1,0 +1,2110 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Python API for the pycmplot package &mdash; pycmplot 0.2.5 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/nbsphinx-code-cells.css?v=2aa19091" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=618afd55" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=cb850272"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API Reference" href="api/index.html" />
+    <link rel="prev" title="Python API Tutorial" href="python_api_notebook.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pycmplot
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#from-pypi-recommended">From PyPI (recommended)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#from-github-development-version">From GitHub (development version)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#using-a-virtual-environment">Using a virtual environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#verify-the-installation">Verify the installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#input-file-format">Input file format</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#command-line">Command line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#python-api">Python API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="quickstart.html#linear-manhattan-plot-single-trait">Linear Manhattan plot (single trait)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quickstart.html#multi-track-linear-manhattan-plot">Multi-track linear Manhattan plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quickstart.html#circular-circos-style-manhattan-plot">Circular (Circos-style) Manhattan plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quickstart.html#qq-plots">QQ plots</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#mixed-genome-builds-with-liftover">Mixed genome builds with liftover</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#next-steps">Next steps</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="cli.html">Command-Line Interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cli.html#input-output-options">Input / output options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cli.html#column-auto-detection-options">Column auto-detection options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cli.html#plotting-behaviour-options">Plotting behaviour options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cli.html#qq-plot-options">QQ plot options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cli.html#example-commands">Example commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cli.html#single-trait-linear-manhattan-plot">Single-trait linear Manhattan plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cli.html#three-trait-stacked-linear-manhattan-plot">Three-trait stacked linear Manhattan plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cli.html#circular-manhattan-plot">Circular Manhattan plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cli.html#manhattan-plot-with-companion-qq-plots">Manhattan plot with companion QQ plots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cli.html#supplying-per-file-genome-builds">Supplying per-file genome builds</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="python_api_notebook.html">Python API Tutorial</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Python API for the pycmplot package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Installation">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Import-the-package-functions">Import the package functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Getting-help">Getting help</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Example-plotting">Example plotting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Important-notes">Important notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Generating-a-linear-plot">Generating a linear plot</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#No-highlighting-of-significant-loci">No highlighting of significant loci</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Highlighting-significant-loci-and-annotating-by-SNP">Highlighting significant loci and annotating by SNP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Highlighting-by-a-different-p-value-threshold-and-changing-plot-colors-and-removing-track-labels">Highlighting by a different p-value threshold and changing plot colors and removing track labels</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Generating-circular-plots">Generating circular plots</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Controling-the-inner-circle-size">Controling the inner circle size</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Ensuring-all-highlighted-loci-are-also-annotated">Ensuring all highlighted loci are also annotated</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Explicitly-speficying-directory-where-output-files-should-be-stored">Explicitly speficying directory where output files should be stored</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Handling-other-use-cases-and-QQ-plots">Handling other use cases and QQ-plots</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#QQ-Plotting">QQ-Plotting</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Overlaying-multiple">Overlaying multiple</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Separate-qq-plots-saved-in-separate-figures">Separate qq-plots saved in separate figures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Combined-multi-panel">Combined multi-panel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Flexible-handling-of-each-qq-plot-using-the-base-plot_qq_single-function-directly">Flexible handling of each qq-plot using the base <code class="docutils literal notranslate"><span class="pre">plot_qq_single</span></code> function directly</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Final-Notes">Final Notes</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/io.html">pycmplot.io</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/io.html#module-pycmplot.io">pycmplot.io</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/io.html#pycmplot.io.detect_delimiter"><code class="docutils literal notranslate"><span class="pre">detect_delimiter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/io.html#pycmplot.io.generate_random_string"><code class="docutils literal notranslate"><span class="pre">generate_random_string()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/io.html#pycmplot.io.get_file_header"><code class="docutils literal notranslate"><span class="pre">get_file_header()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/io.html#pycmplot.io.get_output_paths"><code class="docutils literal notranslate"><span class="pre">get_output_paths()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/io.html#pycmplot.io.get_sumstats_and_merged_sector_list"><code class="docutils literal notranslate"><span class="pre">get_sumstats_and_merged_sector_list()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/io.html#pycmplot.io.prep_pycmplot_input_info"><code class="docutils literal notranslate"><span class="pre">prep_pycmplot_input_info()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/io.html#pycmplot.io.resolve_delimiter"><code class="docutils literal notranslate"><span class="pre">resolve_delimiter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/io.html#pycmplot.io.smart_open"><code class="docutils literal notranslate"><span class="pre">smart_open()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/io.html#pycmplot.io.strip_comma_separated_input_streams"><code class="docutils literal notranslate"><span class="pre">strip_comma_separated_input_streams()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/stats.html">pycmplot.stats</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/stats.html#module-pycmplot.stats">pycmplot.stats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/stats.html#pycmplot.stats.get_highlight_snps"><code class="docutils literal notranslate"><span class="pre">get_highlight_snps()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/stats.html#pycmplot.stats.get_lead_snps"><code class="docutils literal notranslate"><span class="pre">get_lead_snps()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/annotation.html">pycmplot.annotation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#module-pycmplot.annotation">pycmplot.annotation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/annotation.html#gene-reference-files">Gene reference files</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.get_hits_summary_table"><code class="docutils literal notranslate"><span class="pre">get_hits_summary_table()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/liftover.html">pycmplot.liftover</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/liftover.html#module-pycmplot.liftover">pycmplot.liftover</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/liftover.html#resource-configuration">Resource configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/liftover.html#pycmplot.liftover.liftover_hg19_to_hg38"><code class="docutils literal notranslate"><span class="pre">liftover_hg19_to_hg38()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/liftover.html#pycmplot.liftover.liftover_position"><code class="docutils literal notranslate"><span class="pre">liftover_position()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/plotting.html">pycmplot.plotting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/plotting.html#pycmplot-plotting-linear">pycmplot.plotting.linear</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/plotting.html#module-pycmplot.plotting.linear">pycmplot.plotting.linear</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.linear.plot_linear"><code class="docutils literal notranslate"><span class="pre">plot_linear()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.linear.plot_linearm"><code class="docutils literal notranslate"><span class="pre">plot_linearm()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/plotting.html#pycmplot-plotting-circular">pycmplot.plotting.circular</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/plotting.html#module-pycmplot.plotting.circular">pycmplot.plotting.circular</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.circular.compute_track_radii_dict"><code class="docutils literal notranslate"><span class="pre">compute_track_radii_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.circular.plot_circosm"><code class="docutils literal notranslate"><span class="pre">plot_circosm()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.circular.plot_circular"><code class="docutils literal notranslate"><span class="pre">plot_circular()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/plotting.html#pycmplot-plotting-qq">pycmplot.plotting.qq</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.plot_qq_combined"><code class="docutils literal notranslate"><span class="pre">plot_qq_combined()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.plot_qq_overlay"><code class="docutils literal notranslate"><span class="pre">plot_qq_overlay()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.plot_qq_separate"><code class="docutils literal notranslate"><span class="pre">plot_qq_separate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.plot_qq_single"><code class="docutils literal notranslate"><span class="pre">plot_qq_single()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.thin_pvals"><code class="docutils literal notranslate"><span class="pre">thin_pvals()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/constants.html">pycmplot.constants</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/constants.html#module-pycmplot.constants">pycmplot.constants</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/constants.html#contents">Contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/resources.html">pycmplot.resources</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/resources.html#module-pycmplot.resources">pycmplot.resources</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/resources.html#resolution-order">Resolution order</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/resources.html#pycmplot.resources.ResourceConfig"><code class="docutils literal notranslate"><span class="pre">ResourceConfig</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/resources.html#pycmplot.resources.ResourceConfig.chain_hg19_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.chain_hg19_hg38</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/resources.html#pycmplot.resources.ResourceConfig.geneinfo_hg19"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.geneinfo_hg19</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/resources.html#pycmplot.resources.ResourceConfig.geneinfo_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.geneinfo_hg38</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/resources.html#pycmplot.resources.ResourceConfig.require"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.require()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id1">0.2.5 — 2026-04-20</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id2">0.2.2 — 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id3">0.2.1 — 2026-04-16</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id4">0.1.9 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id5">0.1.8 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id6">0.1.0 — 2026-04-18</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#reporting-issues">Reporting issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#development-setup">Development setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#building-the-documentation-locally">Building the documentation locally</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#code-style">Code style</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#docstrings">Docstrings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pycmplot</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="python_api_notebook.html">Python API Tutorial</a></li>
+      <li class="breadcrumb-item active">Python API for the pycmplot package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/pycmplot_python_api.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Python-API-for-the-pycmplot-package">
+<h1>Python API for the pycmplot package<a class="headerlink" href="#Python-API-for-the-pycmplot-package" title="Link to this heading"></a></h1>
+<hr class="docutils" />
+<section id="Installation">
+<h2>Installation<a class="headerlink" href="#Installation" title="Link to this heading"></a></h2>
+<p>Follow instructions in <a class="reference external" href="https://pypi.org/project/pycmplot/">https://pypi.org/project/pycmplot/</a></p>
+<hr class="docutils" />
+</section>
+<section id="Import-the-package-functions">
+<h2>Import the package functions<a class="headerlink" href="#Import-the-package-functions" title="Link to this heading"></a></h2>
+<p>Eight main functions are involved in generating plots</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">prep_pycmplot_input_info</span></code>: formats input streams correctly for data processing function</p>
+<ul>
+<li><p>–&gt; auto-detects chrom, pos, snp, pval, and build columns</p></li>
+<li><p>–&gt; auto-detects delimiter</p></li>
+<li><p>–&gt; returns a dictionary with these information that the function below needs to appropriately handle sumstats.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">get_sumstats_and_merged_sector_list</span></code>: processes sumstat for plotting functions (work horse of the package)</p>
+<ul>
+<li><p>–&gt; trims variants based on <code class="docutils literal notranslate"><span class="pre">trim_pval</span></code> threshold to increase speed and memory efficiency of plotting functions</p></li>
+<li><p>–&gt; fixes chrom labels</p></li>
+<li><p>–&gt; adds <strong>logP</strong> column if specified</p></li>
+<li><p>–&gt; adds a <strong>LABEL</strong> column which is simply the labels provided by user.</p></li>
+<li><p>–&gt; converts hg19 to hg38 genome build</p></li>
+<li><p>–&gt; identifies lead SNPs based on significance threshold and generates hits table</p></li>
+<li><p>–&gt; generates sector size dictionary for circular plots</p></li>
+<li><p>–&gt; generates dictionary of genome-wide significance and suggestive thresholds per summary stat</p></li>
+<li><p>–&gt; returns a <strong>pycmplot_dict</strong> dictionary containing input information for plotting functions. These include (these are the dict keys):</p>
+<ul>
+<li><p><strong>sectors</strong>: a dictionary of sector sizes for circular plotting.</p></li>
+<li><p><strong>dfs</strong>: the loaded summary stats with <code class="docutils literal notranslate"><span class="pre">trim_pval</span></code> applied if set.</p></li>
+<li><p><strong>annot</strong>: a hits summary table generated for potential annotation.</p></li>
+<li><p><strong>lines</strong>: a dictionary of values to use to plot genome-wide significance and suggestive lines.</p></li>
+<li><p><strong>pvals</strong>: a dictionary of raw p-values extracted for qq-plotting before applying <code class="docutils literal notranslate"><span class="pre">trim_pval</span></code> for Manhattan plotting.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">plot_linear</span></code>: generates linear Manhattan plots</p>
+<ul>
+<li><p>–&gt; returns plt.Axes</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">plot_circular</span></code>: generates circular Manhattan plots</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">plot_qq_single</span></code>: generates a qq-plot in user-supplied axis.</p>
+<ul>
+<li><p>Useful in creating customized multi-panel qq-plots in one figure.</p></li>
+<li><p>–&gt; returns plt.Axes</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">plot_qq_separate</span></code>: generates separate qq-plots per sumstat in different figures.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">plot_qq_overlay</span></code>: generates qq-plots in one figures on a single shared axes with different colors per sumstat, and lambda values included in legend.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">plot_qq_combined</span></code>: generates multi-panel qq-plots using <code class="docutils literal notranslate"><span class="pre">plot_qq_single</span></code> arranged in a configurable column grid in a single figure.</p></li>
+</ul>
+<p><strong>NB:</strong> &gt; <em>Auto-detection of column names and delimiter is very important when dealing with multiple sumstats from different projects or tools with different &gt; column naming styles.</em></p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pycmplot</span><span class="w"> </span><span class="kn">import</span> <span class="n">prep_pycmplot_input_info</span><span class="p">,</span> <span class="n">get_sumstats_and_merged_sector_list</span><span class="p">,</span> <span class="n">plot_linear</span><span class="p">,</span> <span class="n">plot_circular</span><span class="p">,</span> <span class="n">plot_qq_single</span><span class="p">,</span> <span class="n">plot_qq_separate</span><span class="p">,</span> <span class="n">plot_qq_overlay</span><span class="p">,</span> <span class="n">plot_qq_combined</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Getting-help">
+<h2>Getting help<a class="headerlink" href="#Getting-help" title="Link to this heading"></a></h2>
+<p>To see the options of a function, simply run <code class="docutils literal notranslate"><span class="pre">help(function_name)</span></code></p>
+<p>Example:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">help(prep_pycmplot_input_info)</span></code></p></li>
+</ul>
+</section>
+</section>
+<section id="Example-plotting">
+<h1>Example plotting<a class="headerlink" href="#Example-plotting" title="Link to this heading"></a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sumstats_list</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;/data/awonkam1/kesoh/gwas/sitt/sumher/pycmplot/sitt_all_panels_nHbF_agecut-5_kvik1.step2.assoc.gz&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;/data/awonkam1/kesoh/gwas/sitt/sumher/pycmplot/sitt_all_panels_nMCV_agecut-5_kvik1.step2.assoc.gz&#39;</span>
+<span class="p">]</span>
+<span class="n">labels_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;HbF&#39;</span><span class="p">,</span><span class="s1">&#39;MCV&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sumstat_info_dict</span> <span class="o">=</span> <span class="n">prep_pycmplot_input_info</span><span class="p">(</span>
+    <span class="n">sum_stats</span><span class="o">=</span><span class="n">sumstats_list</span><span class="p">,</span>
+    <span class="n">labels</span><span class="o">=</span><span class="n">labels_list</span>
+<span class="p">)</span>
+
+<span class="c1"># take a look at the dictionary: the function has auto-detected column names and delimiter</span>
+<span class="n">sumstat_info_dict</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;HbF&#39;: [[&#39;CHR&#39;, &#39;POS&#39;, &#39;SNP&#39;, &#39;P&#39;, &#39;BUILD&#39;],
+  {&#39;CHR&#39;: str, &#39;POS&#39;: object, &#39;SNP&#39;: str, &#39;P&#39;: float, &#39;BUILD&#39;: str},
+  {&#39;CHR&#39;: &#39;CHR&#39;, &#39;POS&#39;: &#39;POS&#39;, &#39;SNP&#39;: &#39;SNP&#39;, &#39;P&#39;: &#39;P&#39;, &#39;BUILD&#39;: &#39;BUILD&#39;},
+  &#39;\t&#39;],
+ &#39;MCV&#39;: [[&#39;CHR&#39;, &#39;POS&#39;, &#39;SNP&#39;, &#39;P&#39;, &#39;BUILD&#39;],
+  {&#39;CHR&#39;: str, &#39;POS&#39;: object, &#39;SNP&#39;: str, &#39;P&#39;: float, &#39;BUILD&#39;: str},
+  {&#39;CHR&#39;: &#39;CHR&#39;, &#39;POS&#39;: &#39;POS&#39;, &#39;SNP&#39;: &#39;SNP&#39;, &#39;P&#39;: &#39;P&#39;, &#39;BUILD&#39;: &#39;BUILD&#39;},
+  &#39;\t&#39;]}
+</pre></div></div>
+</div>
+<section id="Important-notes">
+<h2>Important notes<a class="headerlink" href="#Important-notes" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Hits table will be generated here containing variants and their gene annotations at the set significance threshold using the <code class="docutils literal notranslate"><span class="pre">signific_threshold</span></code> option.</p></li>
+<li><p>If say you use a different p-value threshold to highlight positions in the plotting functions, those positions will be highlighted but will not be annotated because annotations in the <code class="docutils literal notranslate"><span class="pre">hits_table</span></code> were generated using a different p-value threshold.</p></li>
+<li><p>If you wish to annotate all highlighted positions, then use the same <code class="docutils literal notranslate"><span class="pre">signif_threshold</span></code> and <code class="docutils literal notranslate"><span class="pre">highlight_threshold</span></code> everywhere.</p></li>
+<li><p>For instance, below we use the default genome-wide significance threshold by not setting any value</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pycmplot_dict</span> <span class="o">=</span> <span class="n">get_sumstats_and_merged_sector_list</span><span class="p">(</span>
+    <span class="n">sum_stats</span><span class="o">=</span><span class="n">sumstats_list</span><span class="p">,</span>
+    <span class="n">labels</span><span class="o">=</span><span class="n">labels_list</span><span class="p">,</span>
+    <span class="n">file_info</span><span class="o">=</span><span class="n">sumstat_info_dict</span><span class="p">,</span>
+    <span class="n">logp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">table_out</span><span class="o">=</span><span class="s2">&quot;test_pycmplot_python_api&quot;</span><span class="p">,</span>
+    <span class="n">trim_pval</span><span class="o">=</span><span class="mf">0.001</span>
+<span class="p">)</span>
+
+<span class="n">merged_assoc_sector_sizes</span> <span class="o">=</span> <span class="n">pycmplot_dict</span><span class="p">[</span><span class="s2">&quot;sectors&quot;</span><span class="p">]</span>
+<span class="n">sumstats_loaded</span> <span class="o">=</span> <span class="n">pycmplot_dict</span><span class="p">[</span><span class="s2">&quot;dfs&quot;</span><span class="p">]</span>
+<span class="n">hits_table</span> <span class="o">=</span> <span class="n">pycmplot_dict</span><span class="p">[</span><span class="s2">&quot;annot&quot;</span><span class="p">]</span>
+<span class="n">signif_lines</span> <span class="o">=</span> <span class="n">pycmplot_dict</span><span class="p">[</span><span class="s2">&quot;lines&quot;</span><span class="p">]</span>
+<span class="n">pval_dict</span> <span class="o">=</span> <span class="n">pycmplot_dict</span><span class="p">[</span><span class="s2">&quot;pvals&quot;</span><span class="p">]</span>
+
+<span class="n">hits_table</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>CHR</th>
+      <th>POS</th>
+      <th>SNP</th>
+      <th>P</th>
+      <th>BUILD</th>
+      <th>logP</th>
+      <th>LABEL</th>
+      <th>OLD_POS</th>
+      <th>OLD_BUILD</th>
+      <th>genic</th>
+      <th>...</th>
+      <th>promoter_upstream_flag</th>
+      <th>gene_density</th>
+      <th>top_gene</th>
+      <th>biotype</th>
+      <th>priority_score</th>
+      <th>distance</th>
+      <th>promoter_flag</th>
+      <th>distance_score</th>
+      <th>biotype_weight</th>
+      <th>promoter_bonus</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>60493111</td>
+      <td>2:60493111:SNV</td>
+      <td>3.039700e-18</td>
+      <td>hg38</td>
+      <td>17.517169</td>
+      <td>HbF</td>
+      <td>60493111</td>
+      <td>hg38</td>
+      <td>True</td>
+      <td>...</td>
+      <td>False</td>
+      <td>46</td>
+      <td>BCL11A</td>
+      <td>protein_coding</td>
+      <td>4.0</td>
+      <td>0</td>
+      <td>False</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>16</td>
+      <td>258003</td>
+      <td>16:258003:SNV</td>
+      <td>1.094200e-13</td>
+      <td>hg38</td>
+      <td>12.960903</td>
+      <td>MCV</td>
+      <td>258003</td>
+      <td>hg38</td>
+      <td>True</td>
+      <td>...</td>
+      <td>False</td>
+      <td>150</td>
+      <td>FAM234A</td>
+      <td>protein_coding</td>
+      <td>4.0</td>
+      <td>0</td>
+      <td>False</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>2 rows × 24 columns</p>
+</div></div>
+</div>
+</section>
+<section id="Generating-a-linear-plot">
+<h2>Generating a linear plot<a class="headerlink" href="#Generating-a-linear-plot" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>We use the results of the function above.</p></li>
+<li><p>We will use the <strong>top_gene</strong> column of the hits table for annotation</p></li>
+</ul>
+<section id="No-highlighting-of-significant-loci">
+<h3>No highlighting of significant loci<a class="headerlink" href="#No-highlighting-of-significant-loci" title="Link to this heading"></a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plot_linear</span><span class="p">(</span>
+    <span class="n">sumstats_loaded</span><span class="o">=</span><span class="n">sumstats_loaded</span><span class="p">,</span>
+    <span class="n">track_heights</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">hits_table</span><span class="o">=</span><span class="n">hits_table</span><span class="p">,</span>
+    <span class="n">plot_title</span><span class="o">=</span><span class="s2">&quot;test_pycmplot_python_api&quot;</span><span class="p">,</span>
+    <span class="n">label_col</span><span class="o">=</span><span class="s1">&#39;top_gene&#39;</span><span class="p">,</span>
+    <span class="n">output_format</span><span class="o">=</span><span class="s1">&#39;png&#39;</span><span class="p">,</span>
+    <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">chr_spacing</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+    <span class="n">point_size</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">signif_lines</span><span class="o">=</span><span class="n">signif_lines</span><span class="p">,</span>
+    <span class="n">logp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;steelblue&#39;</span><span class="p">,</span><span class="s1">&#39;orange&#39;</span><span class="p">],</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+    <span class="n">trim_pval</span><span class="o">=</span><span class="mf">0.001</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/pycmplot_python_api_13_0.png" src="_images/pycmplot_python_api_13_0.png" />
+</div>
+</div>
+</section>
+<section id="Highlighting-significant-loci-and-annotating-by-SNP">
+<h3>Highlighting significant loci and annotating by SNP<a class="headerlink" href="#Highlighting-significant-loci-and-annotating-by-SNP" title="Link to this heading"></a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plot_linear</span><span class="p">(</span>
+    <span class="n">sumstats_loaded</span><span class="o">=</span><span class="n">sumstats_loaded</span><span class="p">,</span>
+    <span class="n">track_heights</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">hits_table</span><span class="o">=</span><span class="n">hits_table</span><span class="p">,</span>
+    <span class="n">plot_title</span><span class="o">=</span><span class="s2">&quot;test_pycmplot_python_api&quot;</span><span class="p">,</span>
+    <span class="n">label_col</span><span class="o">=</span><span class="s1">&#39;SNP&#39;</span><span class="p">,</span>
+    <span class="n">output_format</span><span class="o">=</span><span class="s1">&#39;png&#39;</span><span class="p">,</span>
+    <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">chr_spacing</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+    <span class="n">point_size</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">signif_lines</span><span class="o">=</span><span class="n">signif_lines</span><span class="p">,</span>
+    <span class="n">highlight</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">logp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;steelblue&#39;</span><span class="p">,</span><span class="s1">&#39;orange&#39;</span><span class="p">],</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+    <span class="n">trim_pval</span><span class="o">=</span><span class="mf">0.001</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/pycmplot_python_api_15_0.png" src="_images/pycmplot_python_api_15_0.png" />
+</div>
+</div>
+</section>
+<section id="Highlighting-by-a-different-p-value-threshold-and-changing-plot-colors-and-removing-track-labels">
+<h3>Highlighting by a different p-value threshold and changing plot colors and removing track labels<a class="headerlink" href="#Highlighting-by-a-different-p-value-threshold-and-changing-plot-colors-and-removing-track-labels" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Notice that a chrX locus is highlighted but not annotated.</p></li>
+<li><p>This is because it did not meat the default significance threshold used in the data preparation function that generated the hits table.</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plot_linear</span><span class="p">(</span>
+    <span class="n">sumstats_loaded</span><span class="o">=</span><span class="n">sumstats_loaded</span><span class="p">,</span>
+    <span class="n">track_heights</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">no_track_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">hits_table</span><span class="o">=</span><span class="n">hits_table</span><span class="p">,</span>
+    <span class="n">plot_title</span><span class="o">=</span><span class="s2">&quot;test_pycmplot_python_api&quot;</span><span class="p">,</span>
+    <span class="n">label_col</span><span class="o">=</span><span class="s1">&#39;nearest_upstream_gene&#39;</span><span class="p">,</span>
+    <span class="n">output_format</span><span class="o">=</span><span class="s1">&#39;png&#39;</span><span class="p">,</span>
+    <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">chr_spacing</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+    <span class="n">point_size</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">signif_lines</span><span class="o">=</span><span class="n">signif_lines</span><span class="p">,</span>
+    <span class="n">highlight</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">highlight_thresh</span><span class="o">=</span><span class="mf">1e-7</span><span class="p">,</span>
+    <span class="n">logp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;silver&#39;</span><span class="p">,</span><span class="s1">&#39;lightblue&#39;</span><span class="p">],</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+    <span class="n">trim_pval</span><span class="o">=</span><span class="mf">0.001</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/pycmplot_python_api_17_0.png" src="_images/pycmplot_python_api_17_0.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="Generating-circular-plots">
+<h2>Generating circular plots<a class="headerlink" href="#Generating-circular-plots" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Here, we specify gene annotation by the <code class="docutils literal notranslate"><span class="pre">annotate</span></code> argument.</p></li>
+<li><p>It takes either <code class="docutils literal notranslate"><span class="pre">SNP</span></code> or <code class="docutils literal notranslate"><span class="pre">GENE</span></code>. When <code class="docutils literal notranslate"><span class="pre">GENE</span></code> is specified, the <code class="docutils literal notranslate"><span class="pre">top_gene</span></code> column in the hits table will be used.</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plot_circular</span><span class="p">(</span>
+    <span class="n">sumstats_loaded</span><span class="o">=</span><span class="n">sumstats_loaded</span><span class="p">,</span>
+    <span class="n">hits_table</span><span class="o">=</span><span class="n">hits_table</span><span class="p">,</span>
+    <span class="n">sector_sizes</span><span class="o">=</span><span class="n">merged_sector_sizes</span><span class="p">,</span>
+    <span class="n">annotate</span><span class="o">=</span><span class="s2">&quot;GENE&quot;</span><span class="p">,</span>
+    <span class="n">plot_title</span><span class="o">=</span><span class="s2">&quot;Large Inner Circle: r_min = 40&quot;</span><span class="p">,</span>
+    <span class="c1">#label_col=&#39;top_gene&#39;,</span>
+    <span class="n">output_format</span><span class="o">=</span><span class="s1">&#39;png&#39;</span><span class="p">,</span>
+    <span class="n">annotation_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
+    <span class="n">highlight</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">pad</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">r_min</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span>
+    <span class="n">r_max</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">signif_lines</span><span class="o">=</span><span class="n">signif_lines</span><span class="p">,</span>
+    <span class="n">logp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;steelblue&#39;</span><span class="p">,</span><span class="s1">&#39;orange&#39;</span><span class="p">],</span>
+    <span class="c1">#figsize=(10, 4),</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/pycmplot_python_api_19_0.png" src="_images/pycmplot_python_api_19_0.png" />
+</div>
+</div>
+<section id="Controling-the-inner-circle-size">
+<h3>Controling the inner circle size<a class="headerlink" href="#Controling-the-inner-circle-size" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>The inner circle size is controled by the <code class="docutils literal notranslate"><span class="pre">r_min</span></code> (minimum radius) argument. It indicates the proportion of the figure the inner circle occupies.</p></li>
+<li><p>When dealing with a few sumstats, it should be appropriate to use a relatively high value so the tracks (Manhattan plots) a well represented.</p></li>
+<li><p>With many more sumstats, <code class="docutils literal notranslate"><span class="pre">r_min</span></code> should be lower. For instance, I have noticed that <code class="docutils literal notranslate"><span class="pre">r_min</span> <span class="pre">=</span> <span class="pre">20</span></code> works well for &gt;= 4 sumstats. 20 is thus the default when <code class="docutils literal notranslate"><span class="pre">r_min</span></code> is not set.</p></li>
+<li><p>The total size of the circle is also determined by <code class="docutils literal notranslate"><span class="pre">r_max</span></code> (maximum radius). It is recommended to always use the default of 100.</p></li>
+<li><p>For instance, we will use <code class="docutils literal notranslate"><span class="pre">r_min</span> <span class="pre">=</span> <span class="pre">10</span></code> below so you see that the plot looks messy with 2 sumstats.</p></li>
+<li><p>We can control the size of the plot title using <code class="docutils literal notranslate"><span class="pre">plot_title_size</span></code>. However, anything fitted within that tiny space would not be visible.</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plot_circular</span><span class="p">(</span>
+    <span class="n">sumstats_loaded</span><span class="o">=</span><span class="n">sumstats_loaded</span><span class="p">,</span>
+    <span class="n">hits_table</span><span class="o">=</span><span class="n">hits_table</span><span class="p">,</span>
+    <span class="n">sector_sizes</span><span class="o">=</span><span class="n">merged_sector_sizes</span><span class="p">,</span>
+    <span class="n">annotate</span><span class="o">=</span><span class="s2">&quot;GENE&quot;</span><span class="p">,</span>
+    <span class="n">plot_title</span><span class="o">=</span><span class="s2">&quot;Small Inner Circle: r_min = 10&quot;</span><span class="p">,</span>
+    <span class="c1">#label_col=&#39;top_gene&#39;,</span>
+    <span class="n">output_format</span><span class="o">=</span><span class="s1">&#39;png&#39;</span><span class="p">,</span>
+    <span class="n">annotation_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
+    <span class="n">highlight</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">pad</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">r_min</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">r_max</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">signif_lines</span><span class="o">=</span><span class="n">signif_lines</span><span class="p">,</span>
+    <span class="n">logp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;steelblue&#39;</span><span class="p">,</span><span class="s1">&#39;orange&#39;</span><span class="p">],</span>
+    <span class="c1">#figsize=(10, 4),</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/pycmplot_python_api_21_0.png" src="_images/pycmplot_python_api_21_0.png" />
+</div>
+</div>
+<section id="We-can-make-it-look-better-by-placing-chrom-labels-outside,-and-excluding-plot-title-and-track-labels">
+<h4>We can make it look better by placing chrom labels outside, and excluding plot title and track labels<a class="headerlink" href="#We-can-make-it-look-better-by-placing-chrom-labels-outside,-and-excluding-plot-title-and-track-labels" title="Link to this heading"></a></h4>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plot_circular</span><span class="p">(</span>
+    <span class="n">sumstats_loaded</span><span class="o">=</span><span class="n">sumstats_loaded</span><span class="p">,</span>
+    <span class="n">hits_table</span><span class="o">=</span><span class="n">hits_table</span><span class="p">,</span>
+    <span class="n">sector_sizes</span><span class="o">=</span><span class="n">merged_sector_sizes</span><span class="p">,</span>
+    <span class="n">annotate</span><span class="o">=</span><span class="s2">&quot;GENE&quot;</span><span class="p">,</span>
+    <span class="c1">#plot_title=&quot;test_pycmplot_python_api&quot;,</span>
+    <span class="n">chrom_label_side</span><span class="o">=</span><span class="s1">&#39;outside&#39;</span><span class="p">,</span>
+    <span class="n">output_format</span><span class="o">=</span><span class="s1">&#39;png&#39;</span><span class="p">,</span>
+    <span class="n">annotation_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
+    <span class="n">highlight</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">highlight_line</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">no_track_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">pad</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">r_min</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">r_max</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">signif_lines</span><span class="o">=</span><span class="n">signif_lines</span><span class="p">,</span>
+    <span class="n">logp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;steelblue&#39;</span><span class="p">,</span><span class="s1">&#39;orange&#39;</span><span class="p">],</span>
+    <span class="c1">#figsize=(10, 4),</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/pycmplot_python_api_23_0.png" src="_images/pycmplot_python_api_23_0.png" />
+</div>
+</div>
+</section>
+<section id="SNP-Annotation,-highlight-threshold-and-color-change">
+<h4>SNP Annotation, highlight threshold and color change<a class="headerlink" href="#SNP-Annotation,-highlight-threshold-and-color-change" title="Link to this heading"></a></h4>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plot_circular</span><span class="p">(</span>
+    <span class="n">sumstats_loaded</span><span class="o">=</span><span class="n">sumstats_loaded</span><span class="p">,</span>
+    <span class="n">hits_table</span><span class="o">=</span><span class="n">hits_table</span><span class="p">,</span>
+    <span class="n">sector_sizes</span><span class="o">=</span><span class="n">merged_sector_sizes</span><span class="p">,</span>
+    <span class="n">annotate</span><span class="o">=</span><span class="s2">&quot;SNP&quot;</span><span class="p">,</span>
+    <span class="n">plot_title</span><span class="o">=</span><span class="s2">&quot;SNP Annotation&quot;</span><span class="p">,</span>
+    <span class="c1">#label_col=&#39;top_gene&#39;,</span>
+    <span class="n">output_format</span><span class="o">=</span><span class="s1">&#39;png&#39;</span><span class="p">,</span>
+    <span class="n">annotation_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
+    <span class="n">highlight</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">highlight_line</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">highlight_thresh</span><span class="o">=</span><span class="mf">1e-7</span><span class="p">,</span>
+    <span class="n">pad</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">r_min</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span>
+    <span class="n">r_max</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">signif_lines</span><span class="o">=</span><span class="n">signif_lines</span><span class="p">,</span>
+    <span class="n">logp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;silver&#39;</span><span class="p">,</span><span class="s1">&#39;lightblue&#39;</span><span class="p">],</span>
+    <span class="c1">#figsize=(10, 4),</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/pycmplot_python_api_25_0.png" src="_images/pycmplot_python_api_25_0.png" />
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="Ensuring-all-highlighted-loci-are-also-annotated">
+<h2>Ensuring all highlighted loci are also annotated<a class="headerlink" href="#Ensuring-all-highlighted-loci-are-also-annotated" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>We set the same <code class="docutils literal notranslate"><span class="pre">signif_threshold</span></code> and <code class="docutils literal notranslate"><span class="pre">highlight_thresh</span></code> values.</p></li>
+<li><p>Remember you can give these outputs any name: <code class="docutils literal notranslate"><span class="pre">merged_sector_sizes</span></code>, <code class="docutils literal notranslate"><span class="pre">sumstats_loaded</span></code>, <code class="docutils literal notranslate"><span class="pre">hits_table</span></code>, <code class="docutils literal notranslate"><span class="pre">signif_lines</span></code></p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pycmplot_dict</span> <span class="o">=</span> <span class="n">get_sumstats_and_merged_sector_list</span><span class="p">(</span>
+    <span class="n">sum_stats</span><span class="o">=</span><span class="n">sumstats_list</span><span class="p">,</span>
+    <span class="n">labels</span><span class="o">=</span><span class="n">labels_list</span><span class="p">,</span>
+    <span class="n">file_info</span><span class="o">=</span><span class="n">sumstat_info_dict</span><span class="p">,</span>
+    <span class="n">logp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">table_out</span><span class="o">=</span><span class="s2">&quot;test_pycmplot_python_api&quot;</span><span class="p">,</span>
+    <span class="n">trim_pval</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span>
+    <span class="n">signif_threshold</span><span class="o">=</span><span class="mf">1e-7</span>
+<span class="p">)</span>
+
+<span class="n">merged_assoc_sector_sizes</span> <span class="o">=</span> <span class="n">pycmplot_dict</span><span class="p">[</span><span class="s2">&quot;sectors&quot;</span><span class="p">]</span>
+<span class="n">sumstats_loaded</span> <span class="o">=</span> <span class="n">pycmplot_dict</span><span class="p">[</span><span class="s2">&quot;dfs&quot;</span><span class="p">]</span>
+<span class="n">hits_table</span> <span class="o">=</span> <span class="n">pycmplot_dict</span><span class="p">[</span><span class="s2">&quot;annot&quot;</span><span class="p">]</span>
+<span class="n">signif_lines</span> <span class="o">=</span> <span class="n">pycmplot_dict</span><span class="p">[</span><span class="s2">&quot;lines&quot;</span><span class="p">]</span>
+<span class="n">pval_dict</span> <span class="o">=</span> <span class="n">pycmplot_dict</span><span class="p">[</span><span class="s2">&quot;pvals&quot;</span><span class="p">]</span>
+
+<span class="n">hits_table</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>CHR</th>
+      <th>POS</th>
+      <th>SNP</th>
+      <th>P</th>
+      <th>BUILD</th>
+      <th>logP</th>
+      <th>LABEL</th>
+      <th>OLD_POS</th>
+      <th>OLD_BUILD</th>
+      <th>genic</th>
+      <th>...</th>
+      <th>promoter_upstream_flag</th>
+      <th>gene_density</th>
+      <th>top_gene</th>
+      <th>biotype</th>
+      <th>priority_score</th>
+      <th>distance</th>
+      <th>promoter_flag</th>
+      <th>distance_score</th>
+      <th>biotype_weight</th>
+      <th>promoter_bonus</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>60493111</td>
+      <td>2:60493111:SNV</td>
+      <td>3.039700e-18</td>
+      <td>hg38</td>
+      <td>17.517169</td>
+      <td>HbF</td>
+      <td>60493111</td>
+      <td>hg38</td>
+      <td>True</td>
+      <td>...</td>
+      <td>False</td>
+      <td>46.0</td>
+      <td>BCL11A</td>
+      <td>protein_coding</td>
+      <td>4.0</td>
+      <td>0</td>
+      <td>False</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>16</td>
+      <td>258003</td>
+      <td>16:258003:SNV</td>
+      <td>1.094200e-13</td>
+      <td>hg38</td>
+      <td>12.960903</td>
+      <td>MCV</td>
+      <td>258003</td>
+      <td>hg38</td>
+      <td>True</td>
+      <td>...</td>
+      <td>False</td>
+      <td>150.0</td>
+      <td>FAM234A</td>
+      <td>protein_coding</td>
+      <td>4.0</td>
+      <td>0</td>
+      <td>False</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>X</td>
+      <td>63094194</td>
+      <td>23:62313664:SNV</td>
+      <td>5.633700e-08</td>
+      <td>hg38</td>
+      <td>7.249206</td>
+      <td>HbF</td>
+      <td>62313664</td>
+      <td>hg19</td>
+      <td>False</td>
+      <td>...</td>
+      <td>False</td>
+      <td>NaN</td>
+      <td>SPIN4-ARHGEF9</td>
+      <td>intergenic</td>
+      <td>NaN</td>
+      <td>253034-540773</td>
+      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+<p>3 rows × 24 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig1</span> <span class="o">=</span> <span class="n">plot_circular</span><span class="p">(</span>
+    <span class="n">sumstats_loaded</span><span class="o">=</span><span class="n">sumstats_loaded</span><span class="p">,</span>
+    <span class="n">hits_table</span><span class="o">=</span><span class="n">hits_table</span><span class="p">,</span>
+    <span class="n">sector_sizes</span><span class="o">=</span><span class="n">merged_sector_sizes</span><span class="p">,</span>
+    <span class="n">annotate</span><span class="o">=</span><span class="s2">&quot;GENE&quot;</span><span class="p">,</span>
+    <span class="n">plot_title</span><span class="o">=</span><span class="s2">&quot;Highlight Pval Change&quot;</span><span class="p">,</span>
+    <span class="n">plot_title_size</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span>
+    <span class="c1">#label_col=&#39;top_gene&#39;,</span>
+    <span class="n">output_format</span><span class="o">=</span><span class="s1">&#39;png&#39;</span><span class="p">,</span>
+    <span class="n">annotation_size</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+    <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
+    <span class="n">highlight</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">highlight_thresh</span><span class="o">=</span><span class="mf">1e-7</span><span class="p">,</span>
+    <span class="n">highlight_line</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">pad</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">r_min</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span>
+    <span class="n">r_max</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">signif_lines</span><span class="o">=</span><span class="n">signif_lines</span><span class="p">,</span>
+    <span class="n">logp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;steelblue&#39;</span><span class="p">,</span><span class="s1">&#39;lightblue&#39;</span><span class="p">],</span>
+    <span class="c1">#figsize=(10, 4),</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/pycmplot_python_api_29_0.png" src="_images/pycmplot_python_api_29_0.png" />
+</div>
+</div>
+<section id="Explicitly-speficying-directory-where-output-files-should-be-stored">
+<h3>Explicitly speficying directory where output files should be stored<a class="headerlink" href="#Explicitly-speficying-directory-where-output-files-should-be-stored" title="Link to this heading"></a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig2</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plot_linear</span><span class="p">(</span>
+    <span class="n">sumstats_loaded</span><span class="o">=</span><span class="n">sumstats_loaded</span><span class="p">,</span>
+    <span class="n">track_heights</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
+    <span class="n">hits_table</span><span class="o">=</span><span class="n">hits_table</span><span class="p">,</span>
+    <span class="n">plot_title</span><span class="o">=</span><span class="s2">&quot;test_pycmplot_python_api&quot;</span><span class="p">,</span>
+    <span class="n">output_dir</span><span class="o">=</span><span class="s1">&#39;/home/kesohku1/projects/gwas/&#39;</span><span class="p">,</span> <span class="c1"># &lt;--- output directory</span>
+    <span class="n">label_col</span><span class="o">=</span><span class="s1">&#39;top_gene&#39;</span><span class="p">,</span>
+    <span class="n">output_format</span><span class="o">=</span><span class="s1">&#39;png&#39;</span><span class="p">,</span>
+    <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">chr_spacing</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+    <span class="n">point_size</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">highlight</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">highlight_thresh</span><span class="o">=</span><span class="mf">1e-7</span><span class="p">,</span>
+    <span class="n">signif_lines</span><span class="o">=</span><span class="n">signif_lines</span><span class="p">,</span>
+    <span class="n">logp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;steelblue&#39;</span><span class="p">,</span><span class="s1">&#39;lightblue&#39;</span><span class="p">],</span>
+    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="c1"># (with, height)</span>
+    <span class="n">trim_pval</span><span class="o">=</span><span class="mf">0.001</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/pycmplot_python_api_31_0.png" src="_images/pycmplot_python_api_31_0.png" />
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="Handling-other-use-cases-and-QQ-plots">
+<h1>Handling other use cases and QQ-plots<a class="headerlink" href="#Handling-other-use-cases-and-QQ-plots" title="Link to this heading"></a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># susmtats</span>
+<span class="n">sumstats_no_build_col_list</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;/data/awonkam1/kesoh/gwas/sitt/sumher/kgp/nHbF/kgp-r2-0.60-maf-0.01_nHbF_agecut-5_kvik1.step2.assoc.gz&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;/data/awonkam1/kesoh/gwas/sitt/sumher/h3a/nMCV/h3a-r2-0.60-maf-0.01_nMCV_agecut-5_kvik1.step2.assoc.gz&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;/data/awonkam1/kesoh/gwas/sitt/sumher/gmv2p1/nHb/gmv2p1-r2-0.60-maf-0.01_nHb_agecut-5_kvik1.step2.assoc.gz&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;/data/awonkam1/kesoh/gwas/sitt/sumher/gmv2p2/nRBC/gmv2p2-r2-0.60-maf-0.01_nRBC_agecut-5_kvik1.step2.assoc.gz&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;/data/awonkam1/kesoh/gwas/sitt/sumher/caapa/nHCT/caapa-r2-0.60-maf-0.01_nHCT_agecut-5_kvik1.step2.assoc.gz&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;/data/awonkam1/kesoh/gwas/sitt/sumher/topmed/nMCH/topmed-r2-0.60-maf-0.01_nMCH_agecut-5_kvik1.step2.assoc.gz&quot;</span>
+<span class="p">]</span>
+
+<span class="c1"># labels, same order as sumstatst</span>
+<span class="n">label_list</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;HbF&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;MCV&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Hb&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;RBC&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;HCT&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;MCH&quot;</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sumstats_info_dict</span> <span class="o">=</span> <span class="n">prep_pycmplot_input_info</span><span class="p">(</span>
+    <span class="n">sum_stats</span><span class="o">=</span><span class="n">sumstats_no_build_col_list</span><span class="p">,</span>
+    <span class="n">labels</span><span class="o">=</span><span class="n">label_list</span>
+<span class="p">)</span>
+
+<span class="n">sumstats_info_dict</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[WARNING] No build column or builds detected. Summary stats will be
+        plotted in their respective coordinate systems.
+        If your data are in different coordinate systems, putting them in one plot
+        is not advisable, especially if ``--annotate`` is set!
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;HbF&#39;: [[&#39;Chromosome&#39;, &#39;Basepair&#39;, &#39;Predictor&#39;, &#39;Wald_P&#39;],
+  {&#39;Chromosome&#39;: str, &#39;Basepair&#39;: int, &#39;Predictor&#39;: str, &#39;Wald_P&#39;: float},
+  {&#39;Chromosome&#39;: &#39;CHR&#39;, &#39;Basepair&#39;: &#39;POS&#39;, &#39;Predictor&#39;: &#39;SNP&#39;, &#39;Wald_P&#39;: &#39;P&#39;},
+  &#39;\t&#39;],
+ &#39;MCV&#39;: [[&#39;Chromosome&#39;, &#39;Basepair&#39;, &#39;Predictor&#39;, &#39;Wald_P&#39;],
+  {&#39;Chromosome&#39;: str, &#39;Basepair&#39;: int, &#39;Predictor&#39;: str, &#39;Wald_P&#39;: float},
+  {&#39;Chromosome&#39;: &#39;CHR&#39;, &#39;Basepair&#39;: &#39;POS&#39;, &#39;Predictor&#39;: &#39;SNP&#39;, &#39;Wald_P&#39;: &#39;P&#39;},
+  &#39;\t&#39;],
+ &#39;Hb&#39;: [[&#39;Chromosome&#39;, &#39;Basepair&#39;, &#39;Predictor&#39;, &#39;Wald_P&#39;],
+  {&#39;Chromosome&#39;: str, &#39;Basepair&#39;: int, &#39;Predictor&#39;: str, &#39;Wald_P&#39;: float},
+  {&#39;Chromosome&#39;: &#39;CHR&#39;, &#39;Basepair&#39;: &#39;POS&#39;, &#39;Predictor&#39;: &#39;SNP&#39;, &#39;Wald_P&#39;: &#39;P&#39;},
+  &#39;\t&#39;],
+ &#39;RBC&#39;: [[&#39;Chromosome&#39;, &#39;Basepair&#39;, &#39;Predictor&#39;, &#39;Wald_P&#39;],
+  {&#39;Chromosome&#39;: str, &#39;Basepair&#39;: int, &#39;Predictor&#39;: str, &#39;Wald_P&#39;: float},
+  {&#39;Chromosome&#39;: &#39;CHR&#39;, &#39;Basepair&#39;: &#39;POS&#39;, &#39;Predictor&#39;: &#39;SNP&#39;, &#39;Wald_P&#39;: &#39;P&#39;},
+  &#39;\t&#39;],
+ &#39;HCT&#39;: [[&#39;Chromosome&#39;, &#39;Basepair&#39;, &#39;Predictor&#39;, &#39;Wald_P&#39;],
+  {&#39;Chromosome&#39;: str, &#39;Basepair&#39;: int, &#39;Predictor&#39;: str, &#39;Wald_P&#39;: float},
+  {&#39;Chromosome&#39;: &#39;CHR&#39;, &#39;Basepair&#39;: &#39;POS&#39;, &#39;Predictor&#39;: &#39;SNP&#39;, &#39;Wald_P&#39;: &#39;P&#39;},
+  &#39;\t&#39;],
+ &#39;MCH&#39;: [[&#39;Chromosome&#39;, &#39;Basepair&#39;, &#39;Predictor&#39;, &#39;Wald_P&#39;],
+  {&#39;Chromosome&#39;: str, &#39;Basepair&#39;: int, &#39;Predictor&#39;: str, &#39;Wald_P&#39;: float},
+  {&#39;Chromosome&#39;: &#39;CHR&#39;, &#39;Basepair&#39;: &#39;POS&#39;, &#39;Predictor&#39;: &#39;SNP&#39;, &#39;Wald_P&#39;: &#39;P&#39;},
+  &#39;\t&#39;]}
+</pre></div></div>
+</div>
+<p><strong>NB: Note the warning about no build information</strong></p>
+<p>Also notice that there is a mix of imputation panels in ‘hg19’ and ‘hg38’ build coordinates.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pycmplot_dict</span> <span class="o">=</span> <span class="n">get_sumstats_and_merged_sector_list</span><span class="p">(</span>
+    <span class="n">sum_stats</span><span class="o">=</span><span class="n">sumstats_no_build_col_list</span><span class="p">,</span>
+    <span class="n">labels</span><span class="o">=</span><span class="n">label_list</span><span class="p">,</span>
+    <span class="n">file_info</span><span class="o">=</span><span class="n">sumstats_info_dict</span><span class="p">,</span>
+    <span class="n">logp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">table_out</span><span class="o">=</span><span class="s2">&quot;no_build_info&quot;</span><span class="p">,</span>
+    <span class="n">trim_pval</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span>
+    <span class="n">signif_threshold</span><span class="o">=</span><span class="mf">1e-7</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[INFO] Loading HbF from /data/awonkam1/kesoh/gwas/sitt/sumher/kgp/nHbF/kgp-r2-0.60-maf-0.01_nHbF_agecut-5_kvik1.step2.assoc.gz …
+[INFO] Extracting raw p-values for QQ-plotting ...
+[INFO] Excluding variants with p-value less than 0.001 to speed up Manhattan plotting ...
+[INFO] Adding a &#39;logP&#39; column ...
+[INFO] Normalizing chromosome names {&#34;23&#34;: &#34;X&#34;, &#34;24&#34;: &#34;Y&#34;, &#34;M&#34;: &#34;MT&#34;, &#34;MTDNA&#34;: &#34;MT&#34;} ...
+[INFO] Extracting variants to highlight ...
+[INFO] Loading RBC from /data/awonkam1/kesoh/gwas/sitt/sumher/gmv2p2/nRBC/gmv2p2-r2-0.60-maf-0.01_nRBC_agecut-5_kvik1.step2.assoc.gz …
+[INFO] Extracting raw p-values for QQ-plotting ...
+[INFO] Excluding variants with p-value less than 0.001 to speed up Manhattan plotting ...
+[INFO] Adding a &#39;logP&#39; column ...
+[INFO] Normalizing chromosome names {&#34;23&#34;: &#34;X&#34;, &#34;24&#34;: &#34;Y&#34;, &#34;M&#34;: &#34;MT&#34;, &#34;MTDNA&#34;: &#34;MT&#34;} ...
+[INFO] Extracting variants to highlight ...
+[INFO] Loading MCV from /data/awonkam1/kesoh/gwas/sitt/sumher/h3a/nMCV/h3a-r2-0.60-maf-0.01_nMCV_agecut-5_kvik1.step2.assoc.gz …
+[INFO] Extracting raw p-values for QQ-plotting ...
+[INFO] Excluding variants with p-value less than 0.001 to speed up Manhattan plotting ...
+[INFO] Adding a &#39;logP&#39; column ...
+[INFO] Normalizing chromosome names {&#34;23&#34;: &#34;X&#34;, &#34;24&#34;: &#34;Y&#34;, &#34;M&#34;: &#34;MT&#34;, &#34;MTDNA&#34;: &#34;MT&#34;} ...
+[INFO] Extracting variants to highlight ...
+[INFO] Loading Hb from /data/awonkam1/kesoh/gwas/sitt/sumher/gmv2p1/nHb/gmv2p1-r2-0.60-maf-0.01_nHb_agecut-5_kvik1.step2.assoc.gz …
+[INFO] Extracting raw p-values for QQ-plotting ...
+[INFO] Excluding variants with p-value less than 0.001 to speed up Manhattan plotting ...
+[INFO] Adding a &#39;logP&#39; column ...
+[INFO] Normalizing chromosome names {&#34;23&#34;: &#34;X&#34;, &#34;24&#34;: &#34;Y&#34;, &#34;M&#34;: &#34;MT&#34;, &#34;MTDNA&#34;: &#34;MT&#34;} ...
+[INFO] Extracting variants to highlight ...
+[INFO] Loading MCH from /data/awonkam1/kesoh/gwas/sitt/sumher/topmed/nMCH/topmed-r2-0.60-maf-0.01_nMCH_agecut-5_kvik1.step2.assoc.gz …
+[INFO] Extracting raw p-values for QQ-plotting ...
+[INFO] Excluding variants with p-value less than 0.001 to speed up Manhattan plotting ...
+[INFO] Adding a &#39;logP&#39; column ...
+[INFO] Normalizing chromosome names {&#34;23&#34;: &#34;X&#34;, &#34;24&#34;: &#34;Y&#34;, &#34;M&#34;: &#34;MT&#34;, &#34;MTDNA&#34;: &#34;MT&#34;} ...
+[INFO] Extracting variants to highlight ...
+[INFO] Loading HCT from /data/awonkam1/kesoh/gwas/sitt/sumher/caapa/nHCT/caapa-r2-0.60-maf-0.01_nHCT_agecut-5_kvik1.step2.assoc.gz …
+[INFO] Extracting raw p-values for QQ-plotting ...
+[INFO] Excluding variants with p-value less than 0.001 to speed up Manhattan plotting ...
+[INFO] Adding a &#39;logP&#39; column ...
+[INFO] Normalizing chromosome names {&#34;23&#34;: &#34;X&#34;, &#34;24&#34;: &#34;Y&#34;, &#34;M&#34;: &#34;MT&#34;, &#34;MTDNA&#34;: &#34;MT&#34;} ...
+[INFO] Extracting variants to highlight ...
+[INFO] Locus summary written to: no_build_info.tsv
+</pre></div></div>
+</div>
+<hr class="docutils" />
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pycmplot_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+dict_keys([&#39;sectors&#39;, &#39;dfs&#39;, &#39;annot&#39;, &#39;lines&#39;, &#39;pvals&#39;])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pycmplot_dict</span><span class="p">[</span><span class="s2">&quot;sectors&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;1&#39;: [1310551, 248406983],
+ &#39;2&#39;: [0, 241760212],
+ &#39;3&#39;: [0, 197863134],
+ &#39;4&#39;: [0, 190705620],
+ &#39;5&#39;: [0, 181138716],
+ &#39;6&#39;: [0, 170746947],
+ &#39;7&#39;: [0, 159088708],
+ &#39;8&#39;: [0, 144656280],
+ &#39;9&#39;: [0, 140171117],
+ &#39;10&#39;: [0, 134955752],
+ &#39;11&#39;: [0, 135072575],
+ &#39;12&#39;: [0, 132758138],
+ &#39;13&#39;: [18076444, 114061271],
+ &#39;14&#39;: [19272226, 105539859],
+ &#39;15&#39;: [22400483, 101942574],
+ &#39;16&#39;: [0, 89820497],
+ &#39;17&#39;: [0, 83094852],
+ &#39;18&#39;: [0, 79785225],
+ &#39;19&#39;: [0, 58605740],
+ &#39;20&#39;: [0, 64276603],
+ &#39;21&#39;: [12853295, 48039473],
+ &#39;22&#39;: [15917910, 50704264],
+ &#39;X&#39;: [2556489, 154982868],
+ &#39;Spacer1&#39;: [0, 126973296]}
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pycmplot_dict</span><span class="p">[</span><span class="s2">&quot;dfs&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+dict_keys([&#39;HCT&#39;, &#39;Hb&#39;, &#39;HbF&#39;, &#39;MCH&#39;, &#39;MCV&#39;, &#39;RBC&#39;])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pycmplot_dict</span><span class="p">[</span><span class="s2">&quot;lines&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[{&#39;genome&#39;: 7.0, &#39;suggestive&#39;: 5.0},
+ {&#39;genome&#39;: 7.0, &#39;suggestive&#39;: 5.0},
+ {&#39;genome&#39;: 7.0, &#39;suggestive&#39;: 5.0},
+ {&#39;genome&#39;: 7.0, &#39;suggestive&#39;: 5.0},
+ {&#39;genome&#39;: 7.0, &#39;suggestive&#39;: 5.0},
+ {&#39;genome&#39;: 7.0, &#39;suggestive&#39;: 5.0}]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pycmplot_dict</span><span class="p">[</span><span class="s2">&quot;pvals&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;HbF&#39;: array([0.80238 , 0.1593  , 0.70696 , ..., 0.10506 , 0.044299, 0.044299]),
+ &#39;MCV&#39;: array([0.43549 , 0.38235 , 0.23061 , ..., 0.24768 , 0.7078  , 0.015747]),
+ &#39;Hb&#39;: array([0.36697, 0.84087, 0.84771, ..., 0.91971, 0.7597 , 0.61939]),
+ &#39;RBC&#39;: array([0.46497, 0.10017, 0.34216, ..., 0.98986, 0.33426, 0.4835 ]),
+ &#39;HCT&#39;: array([0.66248, 0.96457, 0.79573, ..., 0.38697, 0.64664, 0.55925]),
+ &#39;MCH&#39;: array([0.94428, 0.96713, 0.86231, ..., 0.35127, 0.4025 , 0.38731])}
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sectors_sizes</span> <span class="o">=</span> <span class="n">pycmplot_dict</span><span class="p">[</span><span class="s2">&quot;sectors&quot;</span><span class="p">]</span>
+<span class="n">sumstast_loaded</span> <span class="o">=</span> <span class="n">pycmplot_dict</span><span class="p">[</span><span class="s2">&quot;dfs&quot;</span><span class="p">]</span>
+<span class="n">annot_df</span> <span class="o">=</span> <span class="n">pycmplot_dict</span><span class="p">[</span><span class="s2">&quot;annot&quot;</span><span class="p">]</span>
+<span class="n">sig_lines</span> <span class="o">=</span> <span class="n">pycmplot_dict</span><span class="p">[</span><span class="s2">&quot;lines&quot;</span><span class="p">]</span>
+<span class="n">pval_dict</span> <span class="o">=</span> <span class="n">pycmplot_dict</span><span class="p">[</span><span class="s2">&quot;pvals&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">annot_df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>CHR</th>
+      <th>SNP</th>
+      <th>POS</th>
+      <th>P</th>
+      <th>logP</th>
+      <th>LABEL</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2</td>
+      <td>2:60721347</td>
+      <td>60721347</td>
+      <td>1.567800e-16</td>
+      <td>15.804709</td>
+      <td>HbF</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>16</td>
+      <td>16:258003:G:A</td>
+      <td>258003</td>
+      <td>1.094200e-13</td>
+      <td>12.960903</td>
+      <td>MCV</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<ul class="simple">
+<li><p>Is this a true reflection of the data?</p></li>
+<li><p>Or is this an artefact of lack of build information during annotation?</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_circular</span><span class="p">(</span>
+    <span class="n">sumstats_loaded</span><span class="o">=</span><span class="n">sumstast_loaded</span><span class="p">,</span>
+    <span class="n">sector_sizes</span><span class="o">=</span><span class="n">sectors_sizes</span><span class="p">,</span>
+    <span class="n">annotate</span><span class="o">=</span><span class="s1">&#39;gene&#39;</span><span class="p">,</span> <span class="c1"># remember there was no build info hence hits table was not annotated with genes. Let&#39;s see plotting behaviour in this scenario</span>
+    <span class="n">label_col</span><span class="o">=</span><span class="s1">&#39;top_gene&#39;</span><span class="p">,</span>
+    <span class="n">logp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">highlight</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">hits_table</span><span class="o">=</span><span class="n">annot_df</span><span class="p">,</span>
+    <span class="n">plot_title</span><span class="o">=</span><span class="s2">&quot;No Build Info&quot;</span><span class="p">,</span>
+    <span class="n">r_min</span><span class="o">=</span><span class="mi">30</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[INFO] Plotting : HCT
+[INFO] Plotting : Hb
+[INFO] Plotting : HbF
+[INFO] Plotting : MCH
+[INFO] Plotting : MCV
+[INFO] Plotting : RBC
+[INFO] &#39;SNP&#39; column is used for annotation since &#39;top_gene&#39; column could not be resolved in hits table.
+[INFO] &#39;SNP&#39; column is used for annotation since &#39;top_gene&#39; column could not be resolved in hits table.
+[INFO] Saved circular Manhattan plot: /home/kesohku1/projects/gwas/scripts/pycmplot/no_build_info_hct_hb_hbf_mch_mcv_rbc_cm_logp.png
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/pycmplot_python_api_46_1.png" src="_images/pycmplot_python_api_46_1.png" />
+</div>
+</div>
+<hr class="docutils" />
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># susmtats</span>
+<span class="n">sumstats_no_build_col_list</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;/data/awonkam1/kesoh/gwas/sitt/sumher/kgp/nHbF/kgp-r2-0.60-maf-0.01_nHbF_agecut-5_kvik1.step2.assoc.gz&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;/data/awonkam1/kesoh/gwas/sitt/sumher/h3a/nMCV/h3a-r2-0.60-maf-0.01_nMCV_agecut-5_kvik1.step2.assoc.gz&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;/data/awonkam1/kesoh/gwas/sitt/sumher/gmv2p1/nHb/gmv2p1-r2-0.60-maf-0.01_nHb_agecut-5_kvik1.step2.assoc.gz&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;/data/awonkam1/kesoh/gwas/sitt/sumher/gmv2p2/nRBC/gmv2p2-r2-0.60-maf-0.01_nRBC_agecut-5_kvik1.step2.assoc.gz&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;/data/awonkam1/kesoh/gwas/sitt/sumher/caapa/nHCT/caapa-r2-0.60-maf-0.01_nHCT_agecut-5_kvik1.step2.assoc.gz&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;/data/awonkam1/kesoh/gwas/sitt/sumher/topmed/nMCH/topmed-r2-0.60-maf-0.01_nMCH_agecut-5_kvik1.step2.assoc.gz&quot;</span>
+<span class="p">]</span>
+
+<span class="c1"># labels, same order as sumstatst</span>
+<span class="n">label_list</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;HbF&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;MCV&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Hb&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;RBC&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;HCT&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;MCH&quot;</span>
+<span class="p">]</span>
+
+<span class="c1"># supplying sumstat builds, same order as sumstatst and labels</span>
+<span class="n">build_list</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;hg19&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;hg38&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;hg19&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;hg38&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;hg19&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;hg38&quot;</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sumstats_info_dict</span> <span class="o">=</span> <span class="n">prep_pycmplot_input_info</span><span class="p">(</span>
+    <span class="n">sum_stats</span><span class="o">=</span><span class="n">sumstats_no_build_col_list</span><span class="p">,</span>
+    <span class="n">labels</span><span class="o">=</span><span class="n">label_list</span><span class="p">,</span>
+    <span class="n">build_list</span><span class="o">=</span><span class="n">build_list</span>
+<span class="p">)</span>
+
+<span class="n">sumstats_info_dict</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;HbF&#39;: [[&#39;Chromosome&#39;, &#39;Basepair&#39;, &#39;Predictor&#39;, &#39;Wald_P&#39;],
+  {&#39;Chromosome&#39;: str, &#39;Basepair&#39;: int, &#39;Predictor&#39;: str, &#39;Wald_P&#39;: float},
+  {&#39;Chromosome&#39;: &#39;CHR&#39;, &#39;Basepair&#39;: &#39;POS&#39;, &#39;Predictor&#39;: &#39;SNP&#39;, &#39;Wald_P&#39;: &#39;P&#39;},
+  &#39;\t&#39;,
+  &#39;hg19&#39;],
+ &#39;MCV&#39;: [[&#39;Chromosome&#39;, &#39;Basepair&#39;, &#39;Predictor&#39;, &#39;Wald_P&#39;],
+  {&#39;Chromosome&#39;: str, &#39;Basepair&#39;: int, &#39;Predictor&#39;: str, &#39;Wald_P&#39;: float},
+  {&#39;Chromosome&#39;: &#39;CHR&#39;, &#39;Basepair&#39;: &#39;POS&#39;, &#39;Predictor&#39;: &#39;SNP&#39;, &#39;Wald_P&#39;: &#39;P&#39;},
+  &#39;\t&#39;,
+  &#39;hg38&#39;],
+ &#39;Hb&#39;: [[&#39;Chromosome&#39;, &#39;Basepair&#39;, &#39;Predictor&#39;, &#39;Wald_P&#39;],
+  {&#39;Chromosome&#39;: str, &#39;Basepair&#39;: int, &#39;Predictor&#39;: str, &#39;Wald_P&#39;: float},
+  {&#39;Chromosome&#39;: &#39;CHR&#39;, &#39;Basepair&#39;: &#39;POS&#39;, &#39;Predictor&#39;: &#39;SNP&#39;, &#39;Wald_P&#39;: &#39;P&#39;},
+  &#39;\t&#39;,
+  &#39;hg19&#39;],
+ &#39;RBC&#39;: [[&#39;Chromosome&#39;, &#39;Basepair&#39;, &#39;Predictor&#39;, &#39;Wald_P&#39;],
+  {&#39;Chromosome&#39;: str, &#39;Basepair&#39;: int, &#39;Predictor&#39;: str, &#39;Wald_P&#39;: float},
+  {&#39;Chromosome&#39;: &#39;CHR&#39;, &#39;Basepair&#39;: &#39;POS&#39;, &#39;Predictor&#39;: &#39;SNP&#39;, &#39;Wald_P&#39;: &#39;P&#39;},
+  &#39;\t&#39;,
+  &#39;hg38&#39;],
+ &#39;HCT&#39;: [[&#39;Chromosome&#39;, &#39;Basepair&#39;, &#39;Predictor&#39;, &#39;Wald_P&#39;],
+  {&#39;Chromosome&#39;: str, &#39;Basepair&#39;: int, &#39;Predictor&#39;: str, &#39;Wald_P&#39;: float},
+  {&#39;Chromosome&#39;: &#39;CHR&#39;, &#39;Basepair&#39;: &#39;POS&#39;, &#39;Predictor&#39;: &#39;SNP&#39;, &#39;Wald_P&#39;: &#39;P&#39;},
+  &#39;\t&#39;,
+  &#39;hg19&#39;],
+ &#39;MCH&#39;: [[&#39;Chromosome&#39;, &#39;Basepair&#39;, &#39;Predictor&#39;, &#39;Wald_P&#39;],
+  {&#39;Chromosome&#39;: str, &#39;Basepair&#39;: int, &#39;Predictor&#39;: str, &#39;Wald_P&#39;: float},
+  {&#39;Chromosome&#39;: &#39;CHR&#39;, &#39;Basepair&#39;: &#39;POS&#39;, &#39;Predictor&#39;: &#39;SNP&#39;, &#39;Wald_P&#39;: &#39;P&#39;},
+  &#39;\t&#39;,
+  &#39;hg38&#39;]}
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pycmplot_dict</span> <span class="o">=</span> <span class="n">get_sumstats_and_merged_sector_list</span><span class="p">(</span>
+    <span class="n">sum_stats</span><span class="o">=</span><span class="n">sumstats_no_build_col_list</span><span class="p">,</span>
+    <span class="n">labels</span><span class="o">=</span><span class="n">label_list</span><span class="p">,</span>
+    <span class="n">file_info</span><span class="o">=</span><span class="n">sumstats_info_dict</span><span class="p">,</span>
+    <span class="n">logp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">table_out</span><span class="o">=</span><span class="s2">&quot;with_build_info&quot;</span><span class="p">,</span>
+    <span class="n">trim_pval</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span>
+    <span class="n">signif_threshold</span><span class="o">=</span><span class="mf">1e-7</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[INFO] Loading HbF from /data/awonkam1/kesoh/gwas/sitt/sumher/kgp/nHbF/kgp-r2-0.60-maf-0.01_nHbF_agecut-5_kvik1.step2.assoc.gz …
+[INFO] Extracting raw p-values for QQ-plotting ...
+[INFO] Excluding variants with p-value less than 0.001 to speed up Manhattan plotting ...
+[INFO] Adding a &#39;logP&#39; column ...
+[INFO] Normalizing chromosome names {&#34;23&#34;: &#34;X&#34;, &#34;24&#34;: &#34;Y&#34;, &#34;M&#34;: &#34;MT&#34;, &#34;MTDNA&#34;: &#34;MT&#34;} ...
+[INFO] Converting hg19 coordinates to hg38 ...
+[INFO] Loading LiftOver chain file: /home/kesohku1/projects/gwas/scripts/pycmplot/pycmplot/data/hg19ToHg38.over.chain
+[INFO] Extracting variants to highlight ...
+[INFO] Loading Hb from /data/awonkam1/kesoh/gwas/sitt/sumher/gmv2p1/nHb/gmv2p1-r2-0.60-maf-0.01_nHb_agecut-5_kvik1.step2.assoc.gz …
+[INFO] Extracting raw p-values for QQ-plotting ...
+[INFO] Excluding variants with p-value less than 0.001 to speed up Manhattan plotting ...
+[INFO] Adding a &#39;logP&#39; column ...
+[INFO] Normalizing chromosome names {&#34;23&#34;: &#34;X&#34;, &#34;24&#34;: &#34;Y&#34;, &#34;M&#34;: &#34;MT&#34;, &#34;MTDNA&#34;: &#34;MT&#34;} ...
+[INFO] Converting hg19 coordinates to hg38 ...
+[INFO] Extracting variants to highlight ...
+[INFO] Loading RBC from /data/awonkam1/kesoh/gwas/sitt/sumher/gmv2p2/nRBC/gmv2p2-r2-0.60-maf-0.01_nRBC_agecut-5_kvik1.step2.assoc.gz …
+[INFO] Extracting raw p-values for QQ-plotting ...
+[INFO] Excluding variants with p-value less than 0.001 to speed up Manhattan plotting ...
+[INFO] Adding a &#39;logP&#39; column ...
+[INFO] Normalizing chromosome names {&#34;23&#34;: &#34;X&#34;, &#34;24&#34;: &#34;Y&#34;, &#34;M&#34;: &#34;MT&#34;, &#34;MTDNA&#34;: &#34;MT&#34;} ...
+[INFO] Extracting variants to highlight ...
+[INFO] Loading MCV from /data/awonkam1/kesoh/gwas/sitt/sumher/h3a/nMCV/h3a-r2-0.60-maf-0.01_nMCV_agecut-5_kvik1.step2.assoc.gz …
+[INFO] Extracting raw p-values for QQ-plotting ...
+[INFO] Excluding variants with p-value less than 0.001 to speed up Manhattan plotting ...
+[INFO] Adding a &#39;logP&#39; column ...
+[INFO] Normalizing chromosome names {&#34;23&#34;: &#34;X&#34;, &#34;24&#34;: &#34;Y&#34;, &#34;M&#34;: &#34;MT&#34;, &#34;MTDNA&#34;: &#34;MT&#34;} ...
+[INFO] Extracting variants to highlight ...
+[INFO] Loading MCH from /data/awonkam1/kesoh/gwas/sitt/sumher/topmed/nMCH/topmed-r2-0.60-maf-0.01_nMCH_agecut-5_kvik1.step2.assoc.gz …
+[INFO] Extracting raw p-values for QQ-plotting ...
+[INFO] Excluding variants with p-value less than 0.001 to speed up Manhattan plotting ...
+[INFO] Adding a &#39;logP&#39; column ...
+[INFO] Normalizing chromosome names {&#34;23&#34;: &#34;X&#34;, &#34;24&#34;: &#34;Y&#34;, &#34;M&#34;: &#34;MT&#34;, &#34;MTDNA&#34;: &#34;MT&#34;} ...
+[INFO] Extracting variants to highlight ...
+[INFO] Loading HCT from /data/awonkam1/kesoh/gwas/sitt/sumher/caapa/nHCT/caapa-r2-0.60-maf-0.01_nHCT_agecut-5_kvik1.step2.assoc.gz …
+[INFO] Extracting raw p-values for QQ-plotting ...
+[INFO] Excluding variants with p-value less than 0.001 to speed up Manhattan plotting ...
+[INFO] Adding a &#39;logP&#39; column ...
+[INFO] Normalizing chromosome names {&#34;23&#34;: &#34;X&#34;, &#34;24&#34;: &#34;Y&#34;, &#34;M&#34;: &#34;MT&#34;, &#34;MTDNA&#34;: &#34;MT&#34;} ...
+[INFO] Converting hg19 coordinates to hg38 ...
+[INFO] Extracting variants to highlight ...
+[INFO] Loading gene info from: /home/kesohku1/projects/gwas/scripts/pycmplot/pycmplot/data/Homo_sapiens.GRCh38.geneinfo.tsv.gz
+[INFO] Annotating lead variants and generating hits summary table ...
+[INFO] Locus summary written to: no_build_info.tsv
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sectors_sizes</span> <span class="o">=</span> <span class="n">pycmplot_dict</span><span class="p">[</span><span class="s2">&quot;sectors&quot;</span><span class="p">]</span>
+<span class="n">sumstast_loaded</span> <span class="o">=</span> <span class="n">pycmplot_dict</span><span class="p">[</span><span class="s2">&quot;dfs&quot;</span><span class="p">]</span>
+<span class="n">annot_df</span> <span class="o">=</span> <span class="n">pycmplot_dict</span><span class="p">[</span><span class="s2">&quot;annot&quot;</span><span class="p">]</span>
+<span class="n">sig_lines</span> <span class="o">=</span> <span class="n">pycmplot_dict</span><span class="p">[</span><span class="s2">&quot;lines&quot;</span><span class="p">]</span>
+<span class="n">pval_dict</span> <span class="o">=</span> <span class="n">pycmplot_dict</span><span class="p">[</span><span class="s2">&quot;pvals&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">annot_df</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>CHR</th>
+      <th>SNP</th>
+      <th>POS</th>
+      <th>P</th>
+      <th>BUILD</th>
+      <th>logP</th>
+      <th>LABEL</th>
+      <th>OLD_POS</th>
+      <th>OLD_BUILD</th>
+      <th>genic</th>
+      <th>...</th>
+      <th>promoter_upstream_flag</th>
+      <th>gene_density</th>
+      <th>top_gene</th>
+      <th>biotype</th>
+      <th>priority_score</th>
+      <th>distance</th>
+      <th>promoter_flag</th>
+      <th>distance_score</th>
+      <th>biotype_weight</th>
+      <th>promoter_bonus</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2</td>
+      <td>2:60721347</td>
+      <td>60494212</td>
+      <td>1.567800e-16</td>
+      <td>hg38</td>
+      <td>15.804709</td>
+      <td>HbF</td>
+      <td>60721347.0</td>
+      <td>hg19</td>
+      <td>True</td>
+      <td>...</td>
+      <td>False</td>
+      <td>46</td>
+      <td>BCL11A</td>
+      <td>protein_coding</td>
+      <td>4.0</td>
+      <td>0</td>
+      <td>False</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>16</td>
+      <td>16:258003:G:A</td>
+      <td>258003</td>
+      <td>1.094200e-13</td>
+      <td>hg38</td>
+      <td>12.960903</td>
+      <td>MCV</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>True</td>
+      <td>...</td>
+      <td>False</td>
+      <td>150</td>
+      <td>FAM234A</td>
+      <td>protein_coding</td>
+      <td>4.0</td>
+      <td>0</td>
+      <td>False</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>2 rows × 24 columns</p>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sumstast_loaded</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+dict_keys([&#39;HbF&#39;, &#39;MCV&#39;, &#39;Hb&#39;, &#39;RBC&#39;, &#39;HCT&#39;, &#39;MCH&#39;])
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_circular</span><span class="p">(</span>
+    <span class="n">sumstats_loaded</span><span class="o">=</span><span class="n">sumstast_loaded</span><span class="p">,</span>
+    <span class="n">sector_sizes</span><span class="o">=</span><span class="n">sectors_sizes</span><span class="p">,</span>
+    <span class="n">annotate</span><span class="o">=</span><span class="s1">&#39;gene&#39;</span><span class="p">,</span> <span class="c1"># remember there was no build info hence hits table was not annotated with genes. Let&#39;s see plotting behaviour in this scenario</span>
+    <span class="n">label_col</span><span class="o">=</span><span class="s1">&#39;top_gene&#39;</span><span class="p">,</span>
+    <span class="n">logp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">highlight</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">hits_table</span><span class="o">=</span><span class="n">annot_df</span><span class="p">,</span>
+    <span class="n">plot_title</span><span class="o">=</span><span class="s2">&quot;With Build Info&quot;</span><span class="p">,</span>
+    <span class="n">r_min</span><span class="o">=</span><span class="mi">30</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[INFO] Plotting : HbF
+[INFO] Plotting : MCV
+[INFO] Plotting : Hb
+[INFO] Plotting : RBC
+[INFO] Plotting : HCT
+[INFO] Plotting : MCH
+[INFO] Saved circular Manhattan plot: /home/kesohku1/projects/gwas/scripts/pycmplot/with_build_info_hbf_mcv_hb_rbc_hct_mch_cm_logp.png
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/pycmplot_python_api_54_1.png" src="_images/pycmplot_python_api_54_1.png" />
+</div>
+</div>
+<hr class="docutils" />
+<section id="QQ-Plotting">
+<h2>QQ-Plotting<a class="headerlink" href="#QQ-Plotting" title="Link to this heading"></a></h2>
+<section id="Overlaying-multiple">
+<h3>Overlaying multiple<a class="headerlink" href="#Overlaying-multiple" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">thin</span></code> to speed up plotting. Otherwise, using all variants is extremely slow.</p></li>
+<li><p>By setting <code class="docutils literal notranslate"><span class="pre">thin_below</span></code>, you apply thinning to only variants with p-value &gt;= the value set. That is near the null base.</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pval_dict</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;HbF&#39;: array([0.80238 , 0.1593  , 0.70696 , ..., 0.10506 , 0.044299, 0.044299]),
+ &#39;MCV&#39;: array([0.43549 , 0.38235 , 0.23061 , ..., 0.24768 , 0.7078  , 0.015747]),
+ &#39;Hb&#39;: array([0.36697, 0.84087, 0.84771, ..., 0.91971, 0.7597 , 0.61939]),
+ &#39;RBC&#39;: array([0.46497, 0.10017, 0.34216, ..., 0.98986, 0.33426, 0.4835 ]),
+ &#39;HCT&#39;: array([0.66248, 0.96457, 0.79573, ..., 0.38697, 0.64664, 0.55925]),
+ &#39;MCH&#39;: array([0.94428, 0.96713, 0.86231, ..., 0.35127, 0.4025 , 0.38731])}
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_qq_overlay</span><span class="p">(</span><span class="n">pval_dict</span><span class="o">=</span><span class="n">pval_dict</span><span class="p">,</span> <span class="n">thin</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">thin_below</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[INFO] Saved combined QQ plot: None.png
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(&lt;Figure size 600x600 with 1 Axes&gt;,
+ &lt;Axes: xlabel=&#39;Expected −log₁₀(p)&#39;, ylabel=&#39;Observed −log₁₀(p)&#39;&gt;)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/pycmplot_python_api_57_2.png" src="_images/pycmplot_python_api_57_2.png" />
+</div>
+</div>
+</section>
+<section id="Separate-qq-plots-saved-in-separate-figures">
+<h3>Separate qq-plots saved in separate figures<a class="headerlink" href="#Separate-qq-plots-saved-in-separate-figures" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>As ‘png’ and ‘pdf’</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># png</span>
+<span class="n">plot_qq_separate</span><span class="p">(</span>
+    <span class="n">pval_dict</span><span class="o">=</span><span class="n">pval_dict</span><span class="p">,</span>
+    <span class="n">thin</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">thin_below</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span>
+    <span class="n">output_path</span><span class="o">=</span><span class="s2">&quot;/home/kesohku1/projects/gwas/scripts/figs/&quot;</span><span class="p">,</span>
+    <span class="n">base_name</span><span class="o">=</span><span class="s2">&quot;test&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># pdf rasterized: low memory</span>
+<span class="n">plot_qq_separate</span><span class="p">(</span>
+    <span class="n">pval_dict</span><span class="o">=</span><span class="n">pval_dict</span><span class="p">,</span>
+    <span class="n">thin</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">thin_below</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span>
+    <span class="n">output_path</span><span class="o">=</span><span class="s2">&quot;/home/kesohku1/projects/gwas/scripts/figs/&quot;</span><span class="p">,</span>
+    <span class="n">base_name</span><span class="o">=</span><span class="s2">&quot;test_rasterized&quot;</span><span class="p">,</span>
+    <span class="n">fig_format</span><span class="o">=</span><span class="s1">&#39;pdf&#39;</span><span class="p">,</span>
+    <span class="n">rasterized</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># pdf not rasterized: higher memory</span>
+<span class="n">plot_qq_separate</span><span class="p">(</span>
+    <span class="n">pval_dict</span><span class="o">=</span><span class="n">pval_dict</span><span class="p">,</span>
+    <span class="n">thin</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">thin_below</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span>
+    <span class="n">output_path</span><span class="o">=</span><span class="s2">&quot;/home/kesohku1/projects/gwas/scripts/figs/&quot;</span><span class="p">,</span>
+    <span class="n">base_name</span><span class="o">=</span><span class="s2">&quot;test_not_rasterized&quot;</span><span class="p">,</span>
+    <span class="n">fig_format</span><span class="o">=</span><span class="s1">&#39;pdf&#39;</span><span class="p">,</span>
+    <span class="n">rasterized</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[INFO] Saved QQ plot: /home/kesohku1/projects/gwas/scripts/figs/test_HbF_MCV_Hb_RBC_HCT_MCH_qq_pval_HbF.png
+[INFO] Saved QQ plot: /home/kesohku1/projects/gwas/scripts/figs/test_HbF_MCV_Hb_RBC_HCT_MCH_qq_pval_MCV.png
+[INFO] Saved QQ plot: /home/kesohku1/projects/gwas/scripts/figs/test_HbF_MCV_Hb_RBC_HCT_MCH_qq_pval_Hb.png
+[INFO] Saved QQ plot: /home/kesohku1/projects/gwas/scripts/figs/test_HbF_MCV_Hb_RBC_HCT_MCH_qq_pval_RBC.png
+[INFO] Saved QQ plot: /home/kesohku1/projects/gwas/scripts/figs/test_HbF_MCV_Hb_RBC_HCT_MCH_qq_pval_HCT.png
+[INFO] Saved QQ plot: /home/kesohku1/projects/gwas/scripts/figs/test_HbF_MCV_Hb_RBC_HCT_MCH_qq_pval_MCH.png
+[INFO] Saved QQ plot: /home/kesohku1/projects/gwas/scripts/figs/testrasterized_HbF_MCV_Hb_RBC_HCT_MCH_qq_pval_HbF.pdf
+[INFO] Saved QQ plot: /home/kesohku1/projects/gwas/scripts/figs/testrasterized_HbF_MCV_Hb_RBC_HCT_MCH_qq_pval_MCV.pdf
+[INFO] Saved QQ plot: /home/kesohku1/projects/gwas/scripts/figs/testrasterized_HbF_MCV_Hb_RBC_HCT_MCH_qq_pval_Hb.pdf
+[INFO] Saved QQ plot: /home/kesohku1/projects/gwas/scripts/figs/testrasterized_HbF_MCV_Hb_RBC_HCT_MCH_qq_pval_RBC.pdf
+[INFO] Saved QQ plot: /home/kesohku1/projects/gwas/scripts/figs/testrasterized_HbF_MCV_Hb_RBC_HCT_MCH_qq_pval_HCT.pdf
+[INFO] Saved QQ plot: /home/kesohku1/projects/gwas/scripts/figs/testrasterized_HbF_MCV_Hb_RBC_HCT_MCH_qq_pval_MCH.pdf
+[INFO] Saved QQ plot: /home/kesohku1/projects/gwas/scripts/figs/testnotrasterized_HbF_MCV_Hb_RBC_HCT_MCH_qq_pval_HbF.pdf
+[INFO] Saved QQ plot: /home/kesohku1/projects/gwas/scripts/figs/testnotrasterized_HbF_MCV_Hb_RBC_HCT_MCH_qq_pval_MCV.pdf
+[INFO] Saved QQ plot: /home/kesohku1/projects/gwas/scripts/figs/testnotrasterized_HbF_MCV_Hb_RBC_HCT_MCH_qq_pval_Hb.pdf
+[INFO] Saved QQ plot: /home/kesohku1/projects/gwas/scripts/figs/testnotrasterized_HbF_MCV_Hb_RBC_HCT_MCH_qq_pval_RBC.pdf
+[INFO] Saved QQ plot: /home/kesohku1/projects/gwas/scripts/figs/testnotrasterized_HbF_MCV_Hb_RBC_HCT_MCH_qq_pval_HCT.pdf
+[INFO] Saved QQ plot: /home/kesohku1/projects/gwas/scripts/figs/testnotrasterized_HbF_MCV_Hb_RBC_HCT_MCH_qq_pval_MCH.pdf
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;/home/kesohku1/projects/gwas/scripts/figs/testnotrasterized_HbF_MCV_Hb_RBC_HCT_MCH_qq_pval_HbF.pdf&#39;,
+ &#39;/home/kesohku1/projects/gwas/scripts/figs/testnotrasterized_HbF_MCV_Hb_RBC_HCT_MCH_qq_pval_MCV.pdf&#39;,
+ &#39;/home/kesohku1/projects/gwas/scripts/figs/testnotrasterized_HbF_MCV_Hb_RBC_HCT_MCH_qq_pval_Hb.pdf&#39;,
+ &#39;/home/kesohku1/projects/gwas/scripts/figs/testnotrasterized_HbF_MCV_Hb_RBC_HCT_MCH_qq_pval_RBC.pdf&#39;,
+ &#39;/home/kesohku1/projects/gwas/scripts/figs/testnotrasterized_HbF_MCV_Hb_RBC_HCT_MCH_qq_pval_HCT.pdf&#39;,
+ &#39;/home/kesohku1/projects/gwas/scripts/figs/testnotrasterized_HbF_MCV_Hb_RBC_HCT_MCH_qq_pval_MCH.pdf&#39;]
+</pre></div></div>
+</div>
+</section>
+<section id="Combined-multi-panel">
+<h3>Combined multi-panel<a class="headerlink" href="#Combined-multi-panel" title="Link to this heading"></a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_qq_combined</span><span class="p">(</span><span class="n">pval_dict</span><span class="o">=</span><span class="n">pval_dict</span><span class="p">,</span> <span class="n">thin</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">thin_below</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(&lt;Figure size 1350x900 with 6 Axes&gt;,
+ [&lt;Axes: title={&#39;center&#39;: &#39;HbF&#39;}, xlabel=&#39;Expected −log₁₀(p)&#39;, ylabel=&#39;Observed −log₁₀(p)&#39;&gt;,
+  &lt;Axes: title={&#39;center&#39;: &#39;MCV&#39;}, xlabel=&#39;Expected −log₁₀(p)&#39;, ylabel=&#39;Observed −log₁₀(p)&#39;&gt;,
+  &lt;Axes: title={&#39;center&#39;: &#39;Hb&#39;}, xlabel=&#39;Expected −log₁₀(p)&#39;, ylabel=&#39;Observed −log₁₀(p)&#39;&gt;,
+  &lt;Axes: title={&#39;center&#39;: &#39;RBC&#39;}, xlabel=&#39;Expected −log₁₀(p)&#39;, ylabel=&#39;Observed −log₁₀(p)&#39;&gt;,
+  &lt;Axes: title={&#39;center&#39;: &#39;HCT&#39;}, xlabel=&#39;Expected −log₁₀(p)&#39;, ylabel=&#39;Observed −log₁₀(p)&#39;&gt;,
+  &lt;Axes: title={&#39;center&#39;: &#39;MCH&#39;}, xlabel=&#39;Expected −log₁₀(p)&#39;, ylabel=&#39;Observed −log₁₀(p)&#39;&gt;])
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/pycmplot_python_api_61_1.png" src="_images/pycmplot_python_api_61_1.png" />
+</div>
+</div>
+<section id="Customizing-the-grid-arrangement">
+<h4>Customizing the grid arrangement<a class="headerlink" href="#Customizing-the-grid-arrangement" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">ncols</span></code> (number of columns)</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_qq_combined</span><span class="p">(</span><span class="n">pval_dict</span><span class="o">=</span><span class="n">pval_dict</span><span class="p">,</span> <span class="n">thin</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">thin_below</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(&lt;Figure size 900x1350 with 6 Axes&gt;,
+ [&lt;Axes: title={&#39;center&#39;: &#39;HbF&#39;}, xlabel=&#39;Expected −log₁₀(p)&#39;, ylabel=&#39;Observed −log₁₀(p)&#39;&gt;,
+  &lt;Axes: title={&#39;center&#39;: &#39;MCV&#39;}, xlabel=&#39;Expected −log₁₀(p)&#39;, ylabel=&#39;Observed −log₁₀(p)&#39;&gt;,
+  &lt;Axes: title={&#39;center&#39;: &#39;Hb&#39;}, xlabel=&#39;Expected −log₁₀(p)&#39;, ylabel=&#39;Observed −log₁₀(p)&#39;&gt;,
+  &lt;Axes: title={&#39;center&#39;: &#39;RBC&#39;}, xlabel=&#39;Expected −log₁₀(p)&#39;, ylabel=&#39;Observed −log₁₀(p)&#39;&gt;,
+  &lt;Axes: title={&#39;center&#39;: &#39;HCT&#39;}, xlabel=&#39;Expected −log₁₀(p)&#39;, ylabel=&#39;Observed −log₁₀(p)&#39;&gt;,
+  &lt;Axes: title={&#39;center&#39;: &#39;MCH&#39;}, xlabel=&#39;Expected −log₁₀(p)&#39;, ylabel=&#39;Observed −log₁₀(p)&#39;&gt;])
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/pycmplot_python_api_63_1.png" src="_images/pycmplot_python_api_63_1.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="Flexible-handling-of-each-qq-plot-using-the-base-plot_qq_single-function-directly">
+<h3>Flexible handling of each qq-plot using the base <code class="docutils literal notranslate"><span class="pre">plot_qq_single</span></code> function directly<a class="headerlink" href="#Flexible-handling-of-each-qq-plot-using-the-base-plot_qq_single-function-directly" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Define your own axes</p></li>
+<li><p>Pass them to <code class="docutils literal notranslate"><span class="pre">ax</span></code> parameter</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span> <span class="n">squeeze</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">plot_qq_single</span><span class="p">(</span><span class="n">thin</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">thin_below</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">pvals</span><span class="o">=</span><span class="n">pval_dict</span><span class="p">[</span><span class="s2">&quot;HbF&quot;</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">ci</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">show_lambda</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plot_qq_single</span><span class="p">(</span><span class="n">thin</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">thin_below</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">pvals</span><span class="o">=</span><span class="n">pval_dict</span><span class="p">[</span><span class="s2">&quot;MCV&quot;</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">ci</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">show_lambda</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
+<span class="n">plot_qq_single</span><span class="p">(</span><span class="n">thin</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">thin_below</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">pvals</span><span class="o">=</span><span class="n">pval_dict</span><span class="p">[</span><span class="s2">&quot;RBC&quot;</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">],</span> <span class="n">ci</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">show_lambda</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">)</span>
+<span class="n">plot_qq_single</span><span class="p">(</span><span class="n">thin</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">thin_below</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">pvals</span><span class="o">=</span><span class="n">pval_dict</span><span class="p">[</span><span class="s2">&quot;MCH&quot;</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">ci</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">show_lambda</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;grey&quot;</span><span class="p">)</span>
+<span class="n">plot_qq_single</span><span class="p">(</span><span class="n">thin</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">thin_below</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">pvals</span><span class="o">=</span><span class="n">pval_dict</span><span class="p">[</span><span class="s2">&quot;HCT&quot;</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">ci</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">show_lambda</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;green&quot;</span><span class="p">)</span>
+<span class="n">plot_qq_single</span><span class="p">(</span><span class="n">thin</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">thin_below</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">pvals</span><span class="o">=</span><span class="n">pval_dict</span><span class="p">[</span><span class="s2">&quot;Hb&quot;</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">],</span> <span class="n">ci</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">show_lambda</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/pycmplot_python_api_65_0.png" src="_images/pycmplot_python_api_65_0.png" />
+</div>
+</div>
+<section id="Or-overlay-them-by-simply-using-the-same-axis">
+<h4>Or overlay them by simply using the same axis<a class="headerlink" href="#Or-overlay-them-by-simply-using-the-same-axis" title="Link to this heading"></a></h4>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.colors</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mcolors</span>
+
+<span class="c1"># We will need separate colors for the sumstats</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">pval_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+<span class="n">cmap</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s2">&quot;tab10&quot;</span><span class="p">)</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="n">mcolors</span><span class="o">.</span><span class="n">to_hex</span><span class="p">(</span><span class="n">cmap</span><span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">10</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">colors</span><span class="p">):</span>
+    <span class="n">plot_qq_single</span><span class="p">(</span>
+        <span class="n">thin</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">thin_below</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span>
+        <span class="n">pvals</span><span class="o">=</span><span class="n">pval_dict</span><span class="p">[</span><span class="n">label</span><span class="p">],</span>
+        <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">,</span>
+        <span class="n">ci</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
+        <span class="n">show_lambda</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="c1"># However, `plot_qq_overlay` and `plot_qq_combined` handle `show_lambda` better.</span>
+    <span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/pycmplot_python_api_67_0.png" src="_images/pycmplot_python_api_67_0.png" />
+</div>
+</div>
+</section>
+<section id="This-gives-us-the-flexibility-to-place-multiple-overlay-plots-on-one-figure">
+<h4>This gives us the flexibility to place multiple overlay plots on one figure<a class="headerlink" href="#This-gives-us-the-flexibility-to-place-multiple-overlay-plots-on-one-figure" title="Link to this heading"></a></h4>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.colors</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">mcolors</span>
+
+<span class="c1"># We will need separate colors for the sumstats</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">pval_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+<span class="n">cmap</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s2">&quot;tab10&quot;</span><span class="p">)</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="n">mcolors</span><span class="o">.</span><span class="n">to_hex</span><span class="p">(</span><span class="n">cmap</span><span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">10</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">squeeze</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">colors</span><span class="p">):</span>
+    <span class="n">plot_qq_single</span><span class="p">(</span>
+        <span class="n">thin</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">thin_below</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span>
+        <span class="n">pvals</span><span class="o">=</span><span class="n">pval_dict</span><span class="p">[</span><span class="n">label</span><span class="p">],</span>
+        <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+        <span class="n">ci</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Plot 1&quot;</span><span class="p">,</span>
+        <span class="n">show_lambda</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="c1"># However, `plot_qq_overlay` and `plot_qq_combined` handle `show_lambda` better.</span>
+    <span class="p">)</span>
+
+<span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">colors</span><span class="p">):</span>
+    <span class="n">plot_qq_single</span><span class="p">(</span>
+        <span class="n">thin</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">thin_below</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span>
+        <span class="n">pvals</span><span class="o">=</span><span class="n">pval_dict</span><span class="p">[</span><span class="n">label</span><span class="p">],</span>
+        <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+        <span class="n">ci</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Plot 2&quot;</span><span class="p">,</span>
+        <span class="n">show_lambda</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="c1"># However, `plot_qq_overlay` and `plot_qq_combined` handle `show_lambda` better.</span>
+    <span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="_images/pycmplot_python_api_69_0.png" src="_images/pycmplot_python_api_69_0.png" />
+</div>
+</div>
+</section>
+</section>
+</section>
+</section>
+<hr class="docutils" />
+<section id="Final-Notes">
+<h1>Final Notes<a class="headerlink" href="#Final-Notes" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">prep_pycmplot_input_info</span></code> function saves the hits table as a TAB delimited file (.tsv) with the plot title provided combined with the labels and type of plot (lm or cm).</p></li>
+<li><p>If plot title is not provided, the function generates a random string for the file name and plot name.</p></li>
+<li><p>All files are saved in the user provided output directory using <code class="docutils literal notranslate"><span class="pre">output_dir</span></code>. If not provided, the current directory <code class="docutils literal notranslate"><span class="pre">'.'</span></code> is used.</p></li>
+</ul>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="python_api_notebook.html" class="btn btn-neutral float-left" title="Python API Tutorial" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="api/index.html" class="btn btn-neutral float-right" title="API Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Kevin Esoh.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
