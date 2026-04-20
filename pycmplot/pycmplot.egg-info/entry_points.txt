@@ -1,2 +1,0 @@
-[console_scripts]
-pycmplot = src._core:main
