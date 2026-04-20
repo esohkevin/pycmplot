@@ -1,2 +1,3 @@
 pycmplot-README.bak
 pycmplot/__pycache__/*
+pycmplot/pycmplot.egg-info/*
