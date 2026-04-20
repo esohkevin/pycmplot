@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pycmplot"
-version = "0.2.4"
+version = "0.2.5"
 description = "Multi-track circular and linear Manhattan plot generation for GWAS summary statistics"
 readme = "README.md"
 license = "CC-BY-NC-SA-4.0"

@@ -40,6 +40,7 @@ import matplotlib.colors as mcolors
 import numpy as np
 import pandas as pd
 from scipy.stats import beta as beta_dist
+from pycmplot.io import get_output_paths
 
 logger = logging.getLogger(__name__)
 
@@ -259,6 +260,20 @@ def plot_qq_single(
     -------
     plt.Axes
     """
+
+    # Guard against the common mistake of passing a numpy array of Axes
+    # (e.g. from plt.subplots(1, 2)) instead of a single Axes object.
+    if not hasattr(ax, "fill_between"):
+        raise TypeError(
+            "'ax' must be a single Matplotlib Axes object, but received "
+            f"{type(ax).__name__}.\n"
+            "If you created the figure with plt.subplots(nrows, ncols), "
+            "index the returned array, e.g.:\n"
+            "  fig, axes = plt.subplots(1, 2)\n"
+            "  plot_qq_single(pvals, ax=axes[0])"
+        )
+ 
+
     pvals_full = np.asarray(pvals, dtype=float)
     pvals_full = pvals_full[np.isfinite(pvals_full) & (pvals_full > 0) & (pvals_full <= 1)]
 
@@ -433,6 +448,7 @@ def plot_qq_combined(
 
 def plot_qq_separate(
     pval_dict: dict[str, np.ndarray | pd.Series],
+    base_name: str = None,
     output_path: str = ".",
     colors: Optional[list[str]] = None,
     point_size: float = 8,
@@ -466,6 +482,21 @@ def plot_qq_separate(
     -------
     List of output file paths.
     """
+
+    labels = pval_dict.keys()
+
+    # plot name
+    (
+        plt_name, 
+        table_out,
+        plt_base,
+    ) = get_output_paths(
+        labels = labels,
+        mode='qq',
+        output_dir=output_path, 
+        plot_title=base_name, 
+        output_format=fig_format
+    )
 
     n = len(pval_dict)
 
@@ -501,7 +532,7 @@ def plot_qq_separate(
         plt.tight_layout()
 
         safe_label = label.replace(" ", "_").replace("/", "-")
-        out_path = f"{output_path}_{safe_label}.{fig_format}"
+        out_path = f"{plt_base}_{safe_label}.{fig_format}"
         fig.savefig(out_path, format=fig_format, dpi=dpi, bbox_inches="tight")
         plt.close(fig)
         logger.info("Saved QQ plot: %s", out_path)
@@ -554,6 +585,22 @@ def plot_qq_overlay(
     -------
     (fig, ax)
     """
+
+    labels = pval_dict.keys()
+
+    # plot name
+    (
+        plt_name, 
+        table_out,
+        plt_base,
+    ) = get_output_paths(
+        labels = labels,
+        mode='qq',
+        output_dir=output_path,
+        plot_title=title, 
+        output_format=fig_format
+    )
+
     n = len(pval_dict)
     if n == 0:
         raise ValueError("pval_dict is empty.")
@@ -637,7 +684,7 @@ def plot_qq_overlay(
 
     if output_path:
         fmt = fig_format or Path(output_path).suffix.lstrip(".") or "png"
-        fig.savefig(f"{output_path}.{fmt}", format=fmt, dpi=dpi, bbox_inches="tight")
-        logger.info("Saved combined QQ plot: %s", f"{output_path}.{fmt}")
+        fig.savefig(f"{plt_base}.{fmt}", format=fmt, dpi=dpi, bbox_inches="tight")
+        logger.info("Saved overlay QQ plot: %s", f"{plt_base}.{fmt}")
 
     return fig, ax

@@ -12,7 +12,7 @@ sys.path.insert(0, os.path.abspath(".."))
 project = "pycmplot"
 copyright = "2026, Kevin Esoh"
 author = "Kevin Esoh"
-release = "0.2.4"  # update to match PyPI version
+release = "0.2.5"  # update to match PyPI version
 
 # -- General configuration -----------------------------------------------------
 extensions = [
@@ -70,7 +70,6 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", "**.ipynb_checkpoints"]
 html_theme = "sphinx_rtd_theme"
 html_theme_options = {
     "logo_only": False,
-    "display_version": True,
     "prev_next_buttons_location": "bottom",
     "style_nav_header_background": "#2980B9",
     "collapse_navigation": False,

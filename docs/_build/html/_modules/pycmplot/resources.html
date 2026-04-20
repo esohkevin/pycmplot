@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pycmplot.resources &mdash; pycmplot 0.2.1 documentation</title>
+  <title>pycmplot.resources &mdash; pycmplot 0.2.5 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=37f418d5"></script>
+      <script src="../../_static/documentation_options.js?v=cb850272"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -56,9 +56,14 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quickstart</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#input-file-format">Input file format</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#linear-manhattan-plot-single-trait">Linear Manhattan plot (single trait)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#multi-track-linear-manhattan-plot">Multi-track linear Manhattan plot</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#circular-circos-style-manhattan-plot">Circular (Circos-style) Manhattan plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#command-line">Command line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#python-api">Python API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart.html#linear-manhattan-plot-single-trait">Linear Manhattan plot (single trait)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart.html#multi-track-linear-manhattan-plot">Multi-track linear Manhattan plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart.html#circular-circos-style-manhattan-plot">Circular (Circos-style) Manhattan plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart.html#qq-plots">QQ plots</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#mixed-genome-builds-with-liftover">Mixed genome builds with liftover</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#next-steps">Next steps</a></li>
 </ul>
@@ -70,10 +75,13 @@
 <li class="toctree-l2"><a class="reference internal" href="../../cli.html#input-output-options">Input / output options</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../cli.html#column-auto-detection-options">Column auto-detection options</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../cli.html#plotting-behaviour-options">Plotting behaviour options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli.html#qq-plot-options">QQ plot options</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../cli.html#example-commands">Example commands</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../cli.html#single-trait-linear-manhattan-plot">Single-trait linear Manhattan plot</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../cli.html#three-trait-stacked-linear-manhattan-plot">Three-trait stacked linear Manhattan plot</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../cli.html#circular-manhattan-plot">Circular Manhattan plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../cli.html#manhattan-plot-with-companion-qq-plots">Manhattan plot with companion QQ plots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../cli.html#supplying-per-file-genome-builds">Supplying per-file genome builds</a></li>
 </ul>
 </li>
 </ul>
@@ -86,6 +94,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../api/io.html">pycmplot.io</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/io.html#module-pycmplot.io">pycmplot.io</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/io.html#pycmplot.io.detect_delimiter"><code class="docutils literal notranslate"><span class="pre">detect_delimiter()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/io.html#pycmplot.io.generate_random_string"><code class="docutils literal notranslate"><span class="pre">generate_random_string()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/io.html#pycmplot.io.get_file_header"><code class="docutils literal notranslate"><span class="pre">get_file_header()</span></code></a></li>
@@ -98,37 +107,65 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/stats.html">pycmplot.stats</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/stats.html#module-pycmplot.stats">pycmplot.stats</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/stats.html#pycmplot.stats.get_highlight_snps"><code class="docutils literal notranslate"><span class="pre">get_highlight_snps()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/stats.html#pycmplot.stats.get_lead_snps"><code class="docutils literal notranslate"><span class="pre">get_lead_snps()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/annotation.html">pycmplot.annotation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/annotation.html#module-pycmplot.annotation">pycmplot.annotation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/annotation.html#gene-reference-files">Gene reference files</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/annotation.html#pycmplot.annotation.get_hits_summary_table"><code class="docutils literal notranslate"><span class="pre">get_hits_summary_table()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/liftover.html">pycmplot.liftover</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/liftover.html#module-pycmplot.liftover">pycmplot.liftover</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/liftover.html#resource-configuration">Resource configuration</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/liftover.html#pycmplot.liftover.liftover_hg19_to_hg38"><code class="docutils literal notranslate"><span class="pre">liftover_hg19_to_hg38()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/liftover.html#pycmplot.liftover.liftover_position"><code class="docutils literal notranslate"><span class="pre">liftover_position()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/plotting.html">pycmplot.plotting</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../api/plotting.html#pycmplot-plotting-linear">pycmplot.plotting.linear</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#module-pycmplot.plotting.linear">pycmplot.plotting.linear</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.linear.plot_linear"><code class="docutils literal notranslate"><span class="pre">plot_linear()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.linear.plot_linearm"><code class="docutils literal notranslate"><span class="pre">plot_linearm()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/plotting.html#pycmplot-plotting-circular">pycmplot.plotting.circular</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#module-pycmplot.plotting.circular">pycmplot.plotting.circular</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.circular.compute_track_radii_dict"><code class="docutils literal notranslate"><span class="pre">compute_track_radii_dict()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.circular.plot_circosm"><code class="docutils literal notranslate"><span class="pre">plot_circosm()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.circular.plot_circular"><code class="docutils literal notranslate"><span class="pre">plot_circular()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/plotting.html#pycmplot-plotting-qq">pycmplot.plotting.qq</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.qq.plot_qq_combined"><code class="docutils literal notranslate"><span class="pre">plot_qq_combined()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.qq.plot_qq_overlay"><code class="docutils literal notranslate"><span class="pre">plot_qq_overlay()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.qq.plot_qq_separate"><code class="docutils literal notranslate"><span class="pre">plot_qq_separate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.qq.plot_qq_single"><code class="docutils literal notranslate"><span class="pre">plot_qq_single()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.qq.thin_pvals"><code class="docutils literal notranslate"><span class="pre">thin_pvals()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../api/constants.html">pycmplot.constants</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/constants.html">pycmplot.constants</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/constants.html#module-pycmplot.constants">pycmplot.constants</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/constants.html#contents">Contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/resources.html">pycmplot.resources</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/resources.html#module-pycmplot.resources">pycmplot.resources</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/resources.html#resolution-order">Resolution order</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/resources.html#pycmplot.resources.ResourceConfig"><code class="docutils literal notranslate"><span class="pre">ResourceConfig</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../api/resources.html#pycmplot.resources.ResourceConfig.RESOURCE_CONFIG_CLASS"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.RESOURCE_CONFIG_CLASS</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/resources.html#pycmplot.resources.ResourceConfig.chain_hg19_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.chain_hg19_hg38</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/resources.html#pycmplot.resources.ResourceConfig.geneinfo_hg19"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.geneinfo_hg19</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/resources.html#pycmplot.resources.ResourceConfig.geneinfo_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.geneinfo_hg38</span></code></a></li>
@@ -142,22 +179,13 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Version 0.2.1 (2026-04-16)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#added">Added</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#changed">Changed</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../changelog.html#version-0-1-9-2026-04-14">Version 0.1.9 (2026-04-14)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#fixed">Fixed</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../changelog.html#version-0-1-8-2026-04-14">Version 0.1.8 (2026-04-14)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id1">Added</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id3">Fixed</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../changelog.html#changelog">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#version-0-1-0-2026">Version 0.1.0 (2026)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id1">0.2.5 — 2026-04-20</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id2">0.2.2 — 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id3">0.2.1 — 2026-04-16</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id4">0.1.9 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id5">0.1.8 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id6">0.1.0 — 2026-04-18</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a><ul>
@@ -196,53 +224,52 @@
            <div itemprop="articleBody">
              
   <h1>Source code for pycmplot.resources</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">pycmplot.resources</span>
+<span class="sd">==================</span>
 
-<span class="n">RESOURCES_MODULE</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">pycmplot.resources</span>
-<span class="s2">==================</span>
+<span class="sd">Centralised configuration for external reference files that cannot be</span>
+<span class="sd">bundled with the package distribution (large gene-info TSVs, liftover</span>
+<span class="sd">chain files, etc.).</span>
 
-<span class="s2">Centralised configuration for external reference files that cannot be</span>
-<span class="s2">bundled with the package distribution (large gene-info TSVs, liftover</span>
-<span class="s2">chain files, etc.).</span>
+<span class="sd">Resolution order</span>
+<span class="sd">----------------</span>
+<span class="sd">Resource paths are resolved in the following priority order for each</span>
+<span class="sd">attribute:</span>
 
-<span class="s2">Resolution order</span>
-<span class="s2">----------------</span>
-<span class="s2">Resource paths are resolved in the following priority order for each</span>
-<span class="s2">attribute:</span>
+<span class="sd">1. **Explicit argument** — pass a :class:`ResourceConfig` instance with</span>
+<span class="sd">   the desired path directly to any function that accepts a *resources*</span>
+<span class="sd">   parameter.</span>
+<span class="sd">2. **Environment variable** — set the corresponding variable before</span>
+<span class="sd">   running pycmplot:</span>
 
-<span class="s2">1. **Explicit argument** — pass a :class:`ResourceConfig` instance with</span>
-<span class="s2">   the desired path directly to any function that accepts a *resources*</span>
-<span class="s2">   parameter.</span>
-<span class="s2">2. **Environment variable** — set the corresponding variable before</span>
-<span class="s2">   running pycmplot:</span>
+<span class="sd">   .. code-block:: bash</span>
 
-<span class="s2">   .. code-block:: bash</span>
+<span class="sd">       export PYCMPLOT_CHAIN_HG19_HG38=/path/to/hg19ToHg38.over.chain</span>
+<span class="sd">       export PYCMPLOT_GENEINFO_HG38=/path/to/Homo_sapiens.GRCh38.geneinfo.tsv.gz</span>
+<span class="sd">       export PYCMPLOT_GENEINFO_HG19=/path/to/Homo_sapiens.GRCh37.geneinfo.tsv.gz</span>
 
-<span class="s2">       export PYCMPLOT_CHAIN_HG19_HG38=/path/to/hg19ToHg38.over.chain</span>
-<span class="s2">       export PYCMPLOT_GENEINFO_HG38=/path/to/Homo_sapiens.GRCh38.geneinfo.tsv.gz</span>
-<span class="s2">       export PYCMPLOT_GENEINFO_HG19=/path/to/Homo_sapiens.GRCh37.geneinfo.tsv.gz</span>
+<span class="sd">3. **Bundled default** — pycmplot ships with the required files in the</span>
+<span class="sd">   ``pycmplot/data/`` package directory; they are used automatically when</span>
+<span class="sd">   neither of the above is set.</span>
 
-<span class="s2">3. **Bundled default** — pycmplot ships with the required files in the</span>
-<span class="s2">   ``pycmplot/data/`` package directory; they are used automatically when</span>
-<span class="s2">   neither of the above is set.</span>
+<span class="sd">Examples</span>
+<span class="sd">--------</span>
+<span class="sd">Override a single resource while using defaults for the rest:</span>
 
-<span class="s2">Examples</span>
-<span class="s2">--------</span>
-<span class="s2">Override a single resource while using defaults for the rest:</span>
+<span class="sd">&gt;&gt;&gt; from pycmplot.resources import ResourceConfig</span>
+<span class="sd">&gt;&gt;&gt; cfg = ResourceConfig(chain_hg19_hg38=&quot;/my/custom.over.chain&quot;)</span>
+<span class="sd">&gt;&gt;&gt; # pass cfg to any function that accepts a resources argument:</span>
+<span class="sd">&gt;&gt;&gt; from pycmplot.liftover import liftover_position</span>
+<span class="sd">&gt;&gt;&gt; df_lifted = liftover_position(df, resources=cfg)</span>
+<span class="sd">&quot;&quot;&quot;</span>
 
-<span class="s2">&gt;&gt;&gt; from pycmplot.resources import ResourceConfig</span>
-<span class="s2">&gt;&gt;&gt; cfg = ResourceConfig(chain_hg19_hg38=&quot;/my/custom.over.chain&quot;)</span>
-<span class="s2">&gt;&gt;&gt; # pass cfg to any function that accepts a resources argument:</span>
-<span class="s2">&gt;&gt;&gt; from pycmplot.liftover import liftover_position</span>
-<span class="s2">&gt;&gt;&gt; df_lifted = liftover_position(df, resources=cfg)</span>
-<span class="s2">&quot;&quot;&quot;</span>
-
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">importlib.resources</span><span class="w"> </span><span class="kn">import</span> <span class="n">files</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">importlib.resources</span><span class="w"> </span><span class="kn">import</span> <span class="n">files</span><span class="p">,</span> <span class="n">as_file</span>
 
 <span class="c1"># define _env</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">_env</span><span class="p">(</span><span class="n">var</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
@@ -258,41 +285,39 @@
 <a class="viewcode-back" href="../../api/resources.html#pycmplot.resources.ResourceConfig">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">ResourceConfig</span><span class="p">:</span>
-    <span class="n">RESOURCE_CONFIG_CLASS</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Paths to external reference files used by pycmplot.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Paths to external reference files used by pycmplot.</span>
 
-<span class="s2">    All attributes default to values resolved from environment variables or the</span>
-<span class="s2">    bundled ``pycmplot/data/`` directory via :func:`importlib.resources.files`.</span>
-<span class="s2">    Override individual attributes to use custom file locations.</span>
+<span class="sd">    Dataclass grouping the three on-disk resources required by pycmplot:</span>
 
-<span class="s2">    Attributes</span>
-<span class="s2">    ----------</span>
-<span class="s2">    chain_hg19_hg38 : str or None</span>
-<span class="s2">        Path to the UCSC LiftOver chain file for hg19 → hg38 conversion.</span>
-<span class="s2">        Resolved from ``PYCMPLOT_CHAIN_HG19_HG38`` or the bundled</span>
-<span class="s2">        ``hg19ToHg38.over.chain``.</span>
-<span class="s2">    geneinfo_hg38 : str or None</span>
-<span class="s2">        Path to the Ensembl gene-info TSV for GRCh38, used for nearest-gene</span>
-<span class="s2">        annotation.  Resolved from ``PYCMPLOT_GENEINFO_HG38`` or the bundled</span>
-<span class="s2">        ``Homo_sapiens.GRCh38.geneinfo.tsv.gz``.</span>
-<span class="s2">    geneinfo_hg19 : str or None</span>
-<span class="s2">        Path to the Ensembl gene-info TSV for GRCh37, used when all input</span>
-<span class="s2">        data carry a hg19 build label.  Resolved from</span>
-<span class="s2">        ``PYCMPLOT_GENEINFO_HG19`` or the bundled</span>
-<span class="s2">        ``Homo_sapiens.GRCh37.geneinfo.tsv.gz``.</span>
+<span class="sd">    - ``chain_hg19_hg38`` -- UCSC LiftOver chain file for hg19 to hg38</span>
+<span class="sd">      conversion. Resolved from ``PYCMPLOT_CHAIN_HG19_HG38`` or the bundled</span>
+<span class="sd">      ``hg19ToHg38.over.chain``.</span>
+<span class="sd">    - ``geneinfo_hg38`` -- Ensembl gene-info TSV for GRCh38, used for</span>
+<span class="sd">      nearest-gene annotation. Resolved from ``PYCMPLOT_GENEINFO_HG38`` or</span>
+<span class="sd">      the bundled ``Homo_sapiens.GRCh38.geneinfo.tsv.gz``.</span>
+<span class="sd">    - ``geneinfo_hg19`` -- Ensembl gene-info TSV for GRCh37, used when</span>
+<span class="sd">      input data carry a hg19 build label. Resolved from</span>
+<span class="sd">      ``PYCMPLOT_GENEINFO_HG19`` or the bundled</span>
+<span class="sd">      ``Homo_sapiens.GRCh37.geneinfo.tsv.gz``.</span>
 
-<span class="s2">    Examples</span>
-<span class="s2">    --------</span>
-<span class="s2">    Use all bundled defaults:</span>
+<span class="sd">    All three attributes default to values resolved from environment</span>
+<span class="sd">    variables or the bundled ``pycmplot/data/`` directory via</span>
+<span class="sd">    :func:`importlib.resources.files`. Override individual attributes to use</span>
+<span class="sd">    custom file locations.</span>
 
-<span class="s2">    &gt;&gt;&gt; from pycmplot.resources import ResourceConfig</span>
-<span class="s2">    &gt;&gt;&gt; cfg = ResourceConfig()</span>
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Use all bundled defaults:</span>
 
-<span class="s2">    Override the hg38 gene-info file:</span>
+<span class="sd">    &gt;&gt;&gt; from pycmplot.resources import ResourceConfig</span>
+<span class="sd">    &gt;&gt;&gt; cfg = ResourceConfig()</span>
 
-<span class="s2">    &gt;&gt;&gt; cfg = ResourceConfig(</span>
-<span class="s2">    ...     geneinfo_hg38=&quot;/data/custom_GRCh38_genes.tsv.gz&quot;</span>
-<span class="s2">    ... )</span>
-<span class="s2">    &quot;&quot;&quot;</span>
+<span class="sd">    Override the hg38 gene-info file:</span>
+
+<span class="sd">    &gt;&gt;&gt; cfg = ResourceConfig(</span>
+<span class="sd">    ...     geneinfo_hg38=&quot;/data/custom_GRCh38_genes.tsv.gz&quot;</span>
+<span class="sd">    ... )</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">chain_hg19_hg38</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span>
         <span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">_env</span><span class="p">(</span>
@@ -322,39 +347,38 @@
 <div class="viewcode-block" id="ResourceConfig.require">
 <a class="viewcode-back" href="../../api/resources.html#pycmplot.resources.ResourceConfig.require">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">require</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="n">REQUIRE_METHOD</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Return the path for *attr*, raising a clear :exc:`FileNotFoundError`</span>
-<span class="s2">        if the attribute is unset or the path does not exist.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the path for *attr*, raising a clear :exc:`FileNotFoundError` if the attribute is unset or the path does not exist.</span>
 
-<span class="s2">        First checks whether the attribute value is ``None``; if so, raises</span>
-<span class="s2">        :exc:`FileNotFoundError` with a message indicating which environment</span>
-<span class="s2">        variable to set.  Then verifies that the resolved path exists on disk,</span>
-<span class="s2">        falling back to :func:`importlib.resources.files` package-data resolution</span>
-<span class="s2">        before raising if neither succeeds.</span>
+<span class="sd">        First checks whether the attribute value is ``None``; if so, raises</span>
+<span class="sd">        :exc:`FileNotFoundError` with a message indicating which environment</span>
+<span class="sd">        variable to set.  Then verifies that the resolved path exists on disk,</span>
+<span class="sd">        falling back to :func:`importlib.resources.files` package-data resolution</span>
+<span class="sd">        before raising if neither succeeds.</span>
 
-<span class="s2">        Parameters</span>
-<span class="s2">        ----------</span>
-<span class="s2">        attr : str</span>
-<span class="s2">            Name of the :class:`ResourceConfig` attribute to retrieve, e.g.</span>
-<span class="s2">            ``&#39;chain_hg19_hg38&#39;``, ``&#39;geneinfo_hg38&#39;``, ``&#39;geneinfo_hg19&#39;``.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        attr : str</span>
+<span class="sd">            Name of the :class:`ResourceConfig` attribute to retrieve, e.g.</span>
+<span class="sd">            ``&#39;chain_hg19_hg38&#39;``, ``&#39;geneinfo_hg38&#39;``, ``&#39;geneinfo_hg19&#39;``.</span>
 
-<span class="s2">        Returns</span>
-<span class="s2">        -------</span>
-<span class="s2">        str</span>
-<span class="s2">            Absolute file path as a string.</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        str</span>
+<span class="sd">            Absolute file path as a string.</span>
 
-<span class="s2">        Raises</span>
-<span class="s2">        ------</span>
-<span class="s2">        FileNotFoundError</span>
-<span class="s2">            If the attribute is ``None`` or the resolved path does not exist.</span>
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        FileNotFoundError</span>
+<span class="sd">            If the attribute is ``None`` or the resolved path does not exist.</span>
 
-<span class="s2">        Examples</span>
-<span class="s2">        --------</span>
-<span class="s2">        &gt;&gt;&gt; from pycmplot.resources import ResourceConfig</span>
-<span class="s2">        &gt;&gt;&gt; cfg = ResourceConfig()</span>
-<span class="s2">        &gt;&gt;&gt; chain = cfg.require(&quot;chain_hg19_hg38&quot;)</span>
-<span class="s2">        &gt;&gt;&gt; chain.endswith(&quot;.over.chain&quot;)</span>
-<span class="s2">        True</span>
-<span class="s2">        &quot;&quot;&quot;</span>
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; from pycmplot.resources import ResourceConfig</span>
+<span class="sd">        &gt;&gt;&gt; cfg = ResourceConfig()</span>
+<span class="sd">        &gt;&gt;&gt; chain = cfg.require(&quot;chain_hg19_hg38&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; chain.endswith(&quot;.over.chain&quot;)</span>
+<span class="sd">        True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">val</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">val</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -383,10 +407,9 @@
             <span class="k">pass</span>
 
         <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Resource file not found: </span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;Check the path set for &#39;</span><span class="si">{</span><span class="n">attr</span><span class="si">}</span><span class="s2">&#39;.&quot;</span>
-            <span class="p">)</span>
-        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="p">)</span></div>
+            <span class="sa">f</span><span class="s2">&quot;Resource file not found: </span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Check the path set for &#39;</span><span class="si">{</span><span class="n">attr</span><span class="si">}</span><span class="s2">&#39;.&quot;</span>
+        <span class="p">)</span></div>
 </div>
 
 

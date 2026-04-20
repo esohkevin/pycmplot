@@ -1,6 +1,4 @@
-from __future__ import annotations
-
-MODULE_DOCSTRING = """
+"""
 pycmplot.liftover
 =================
 
@@ -23,6 +21,8 @@ overridden by setting the environment variable:
     export PYCMPLOT_CHAIN_HG19_HG38=/path/to/hg19ToHg38.over.chain
 """
 
+from __future__ import annotations
+
 import logging
 from typing import Optional
 
@@ -41,7 +41,7 @@ _lo_cache: dict[str, object] = {}
 
 
 def _get_liftover(chain_path: str):
-    GET_LIFTOVER = """Return a cached :class:`~pyliftover.LiftOver` for *chain_path*.
+    """Return a cached :class:`~pyliftover.LiftOver` for *chain_path*.
 
     Loads the chain file on first call and stores the resulting
     :class:`~pyliftover.LiftOver` instance in a module-level dict.  Subsequent
@@ -77,7 +77,7 @@ def liftover_hg19_to_hg38(
     pos: int,
     resources: Optional[ResourceConfig] = None,
 ) -> Optional[int]:
-    LIFTOVER_HG19_TO_HG38 = """Convert a single hg19 position to its hg38 equivalent.
+    """Convert a single hg19 position to its hg38 equivalent.
 
     Uses a lazily loaded and cached :class:`~pyliftover.LiftOver` object backed
     by the chain file specified in *resources*.  When multiple hg38 mappings
@@ -90,7 +90,7 @@ def liftover_hg19_to_hg38(
         ``'X'``).  The prefix is added internally before querying pyliftover.
     pos : int
         0-based hg19 position, as expected by :class:`pyliftover.LiftOver`.
-    resources : ResourceConfig, optional
+    resources : ResourceConfig | Target Build Version, optional
         :class:`~pycmplot.resources.ResourceConfig` instance.  Falls back to
         :data:`~pycmplot.resources.default_resources` when ``None``.
 
@@ -137,10 +137,10 @@ def liftover_hg19_to_hg38(
 
 def liftover_position(
     df: pd.DataFrame,
-    hg38_chr_lengths = hg38_chr_lengths,
+    hg38_chr_limits: dict = None,
     resources: Optional[ResourceConfig] = None,
 ) -> pd.DataFrame:
-    LIFTOVER_POSITION = """Liftover all hg19 rows in *df* from hg19 to hg38 coordinates.
+    """Liftover all hg19 rows in *df* from hg19 to hg38 coordinates.
 
     Iterates over every row in *df* and calls :func:`liftover_hg19_to_hg38`
     for rows whose ``BUILD`` column equals ``'hg19'``.  Rows with other build
@@ -192,10 +192,13 @@ def liftover_position(
     True
     """
 
-    hg38_chr_lengths = {k.replace("chr",""): v for k, v in hg38_chr_lengths.items()}
 
     if resources is None:
         resources = default_resources
+
+    if hg38_chr_limits is None:
+        hg38_chr_limits = {k.replace("chr",""): v for k, v in hg38_chr_lengths.items()}
+        
 
     df = df.copy()
     df["POS"] = df["POS"].astype(int)
@@ -212,10 +215,22 @@ def liftover_position(
     df["BUILD"] = "hg38"
     df["POS"] = new_positions
     df["POS"] = df["POS"].fillna(0).astype(int)
-    clean_df = []
+
+    clean_frames: list[pd.DataFrame] = []
     for chrom in df["CHR"].unique():
         chr_df = df[df["CHR"] == chrom]
-        chr_df = chr_df[chr_df["POS"] <= hg38_chr_lengths[chrom]]
-        clean_df = pd.concat([pd.DataFrame(clean_df), pd.DataFrame(chr_df)], axis = 0, ignore_index=True)
+        chr_limit = hg38_chr_limits.get(str(chrom))
+        if chr_limit is not None:
+            chr_df = chr_df[chr_df["POS"] <= chr_limit]
+        else:
+            logger.warning(
+                "Chromosome %r not in hg38 chromosome-length table; "
+                "keeping all variants without range check.", chrom,
+            )
+        clean_frames.append(chr_df)
 
+    if not clean_frames:
+        return df.iloc[0:0]
+
+    clean_df = pd.concat(clean_frames, axis=0, ignore_index=True)
     return clean_df[clean_df["POS"] != 0]

@@ -1,3 +1,5 @@
 pycmplot-README.bak
 pycmplot/__pycache__/*
 pycmplot/pycmplot.egg-info/*
+pycmplot/plotting/__pycache__/*
+dist/*

@@ -3,8 +3,9 @@
 pycmplot.plotting
 =================
 
-The plotting subpackage contains two modules: one for linear (stacked)
-Manhattan plots and one for circular (Circos-style) Manhattan plots.
+The plotting subpackage contains three modules: one for linear (stacked)
+Manhattan plots, one for circular (Circos-style) Manhattan plots, and one
+for QQ plots.
 
 pycmplot.plotting.linear
 -------------------------
@@ -30,6 +31,23 @@ relative to its data range.
 .. currentmodule:: pycmplot.plotting.circular
 
 .. automodule:: pycmplot.plotting.circular
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+pycmplot.plotting.qq
+---------------------
+
+Produces QQ plots with 95 % beta-distribution confidence bands, optional
+genome-wide significance lines, and genomic inflation (λ) annotation.
+Supports log-uniform point thinning for fast plotting of large datasets.
+Three high-level layouts are provided: combined (grid of per-trait
+panels), separate (one file per trait), and overlay (all traits on one
+shared axes).
+
+.. currentmodule:: pycmplot.plotting.qq
+
+.. automodule:: pycmplot.plotting.qq
    :members:
    :undoc-members:
    :show-inheritance:

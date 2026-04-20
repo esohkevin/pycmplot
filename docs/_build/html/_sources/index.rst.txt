@@ -33,6 +33,9 @@ Key features
 
 - **Multi-track stacked Manhattan plots** (linear and Circos-style circular) for
   comparing GWAS signals across traits, populations, or imputation panels.
+- **QQ plots** with 95 % confidence bands, genomic inflation (λ) annotation,
+  log-uniform point thinning for large datasets, and combined / separate /
+  overlay layouts.
 - **Automatic column detection** — chromosome, position, SNP ID, p-value, and
   genome build columns are inferred from common naming conventions.
 - **Lead-SNP and locus annotation** — nearest-gene lookup and a structured hits

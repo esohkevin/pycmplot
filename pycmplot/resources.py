@@ -1,6 +1,4 @@
-from __future__ import annotations
-
-RESOURCES_MODULE = """
+"""
 pycmplot.resources
 ==================
 
@@ -40,11 +38,12 @@ Override a single resource while using defaults for the rest:
 >>> df_lifted = liftover_position(df, resources=cfg)
 """
 
+from __future__ import annotations
 
 import os
 from dataclasses import dataclass, field
 from pathlib import Path
-from importlib.resources import files
+from importlib.resources import files, as_file
 
 # define _env
 def _env(var: str, default: str | None = None) -> str | None:
@@ -58,27 +57,25 @@ def _pkg_data(filename: str) -> str:
 
 @dataclass
 class ResourceConfig:
-    RESOURCE_CONFIG_CLASS = """Paths to external reference files used by pycmplot.
+    """Paths to external reference files used by pycmplot.
 
-    All attributes default to values resolved from environment variables or the
-    bundled ``pycmplot/data/`` directory via :func:`importlib.resources.files`.
-    Override individual attributes to use custom file locations.
+    Dataclass grouping the three on-disk resources required by pycmplot:
 
-    Attributes
-    ----------
-    chain_hg19_hg38 : str or None
-        Path to the UCSC LiftOver chain file for hg19 → hg38 conversion.
-        Resolved from ``PYCMPLOT_CHAIN_HG19_HG38`` or the bundled
-        ``hg19ToHg38.over.chain``.
-    geneinfo_hg38 : str or None
-        Path to the Ensembl gene-info TSV for GRCh38, used for nearest-gene
-        annotation.  Resolved from ``PYCMPLOT_GENEINFO_HG38`` or the bundled
-        ``Homo_sapiens.GRCh38.geneinfo.tsv.gz``.
-    geneinfo_hg19 : str or None
-        Path to the Ensembl gene-info TSV for GRCh37, used when all input
-        data carry a hg19 build label.  Resolved from
-        ``PYCMPLOT_GENEINFO_HG19`` or the bundled
-        ``Homo_sapiens.GRCh37.geneinfo.tsv.gz``.
+    - ``chain_hg19_hg38`` -- UCSC LiftOver chain file for hg19 to hg38
+      conversion. Resolved from ``PYCMPLOT_CHAIN_HG19_HG38`` or the bundled
+      ``hg19ToHg38.over.chain``.
+    - ``geneinfo_hg38`` -- Ensembl gene-info TSV for GRCh38, used for
+      nearest-gene annotation. Resolved from ``PYCMPLOT_GENEINFO_HG38`` or
+      the bundled ``Homo_sapiens.GRCh38.geneinfo.tsv.gz``.
+    - ``geneinfo_hg19`` -- Ensembl gene-info TSV for GRCh37, used when
+      input data carry a hg19 build label. Resolved from
+      ``PYCMPLOT_GENEINFO_HG19`` or the bundled
+      ``Homo_sapiens.GRCh37.geneinfo.tsv.gz``.
+
+    All three attributes default to values resolved from environment
+    variables or the bundled ``pycmplot/data/`` directory via
+    :func:`importlib.resources.files`. Override individual attributes to use
+    custom file locations.
 
     Examples
     --------
@@ -120,8 +117,7 @@ class ResourceConfig:
     #)
 
     def require(self, attr: str) -> str:
-        REQUIRE_METHOD = """Return the path for *attr*, raising a clear :exc:`FileNotFoundError`
-        if the attribute is unset or the path does not exist.
+        """Return the path for *attr*, raising a clear :exc:`FileNotFoundError` if the attribute is unset or the path does not exist.
 
         First checks whether the attribute value is ``None``; if so, raises
         :exc:`FileNotFoundError` with a message indicating which environment
@@ -181,10 +177,9 @@ class ResourceConfig:
             pass
 
         raise FileNotFoundError(
-                f"Resource file not found: {val}\n"
-                f"Check the path set for '{attr}'."
-            )
-        return str(path)
+            f"Resource file not found: {val}\n"
+            f"Check the path set for '{attr}'."
+        )
 
 
 # Module-level default instance — picks up environment variables automatically.

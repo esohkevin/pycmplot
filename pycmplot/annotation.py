@@ -1,6 +1,4 @@
-from __future__ import annotations
-
-MODULE_DOCSTRING = """
+"""
 pycmplot.annotation
 ====================
 
@@ -22,6 +20,8 @@ paths can be supplied via the ``PYCMPLOT_GENEINFO_HG38`` /
 ``PYCMPLOT_GENEINFO_HG19`` environment variables.
 """
 
+from __future__ import annotations
+
 import bisect
 import logging
 from typing import Optional
@@ -41,7 +41,7 @@ logger = logging.getLogger(__name__)
 # ---------------------------------------------------------------------------
 
 def _build_genes_dict(genes_df: pd.DataFrame) -> dict:
-    BUILD_GENES_DICT = """Build a chromosome-keyed interval dictionary with sorted start positions.
+    """Build a chromosome-keyed interval dictionary with sorted start positions.
 
     Pre-processes the gene reference DataFrame into a structure that supports
     efficient O(log N) binary-search lookup of genes near a query position.
@@ -98,7 +98,7 @@ def _annotate_variant(
     window: int = 500_000,
     promoter_window: int = 2_000,
 ) -> dict:
-    ANNOTATE_VARIANT = """Return strand-aware nearest-gene annotation for a single variant.
+    """Return strand-aware nearest-gene annotation for a single variant.
 
     Searches the pre-built *genes_dict* within *window* bp of *pos* on
     *chrom*.  Reports the nearest upstream and downstream genes (relative to
@@ -238,8 +238,7 @@ def _annotate_and_prioritize_variant(
     promoter_window: int = 2_000,
     biotype_weights: Optional[dict] = None,
 ) -> Optional[dict]:
-    ANNOTATE_PRIORITIZE = """Score and rank candidate genes for a single variant using a composite
-    priority metric.
+    """Score and rank candidate genes for a single variant using a composite priority metric.
 
     Builds a candidate gene set within *window* bp of *pos* on *chrom*, then
     scores each candidate on four additive components:
@@ -386,7 +385,7 @@ def _annotate_and_prioritize_variant(
 # ---------------------------------------------------------------------------
 
 def _clump_by_distance(df: pd.DataFrame, window_kb: int = 500) -> pd.DataFrame:
-    CLUMP_BY_DISTANCE = """Reduce a lead-SNP table to one representative SNP per locus.
+    """Reduce a lead-SNP table to one representative SNP per locus.
 
     Applies greedy distance-based clumping within each chromosome group,
     starting from the most significant SNP (lowest ``P`` or highest ``logP``).
@@ -438,7 +437,7 @@ def get_hits_summary_table(
     table_out: Optional[str] = None,
     resources: Optional[ResourceConfig] = None,
 ) -> pd.DataFrame:
-    GET_HITS_SUMMARY_TABLE = """Annotate lead SNPs with nearest genes and write the locus summary table.
+    """Annotate lead SNPs with nearest genes and write the locus summary table.
 
     For each lead SNP in *leads_df*, runs two complementary annotation passes:
 
@@ -475,33 +474,21 @@ def get_hits_summary_table(
         Clumped locus summary table.  Contains all columns from *leads_df*
         plus annotation fields from both passes, including:
 
-        .. list-table::
-        :widths: 30 70
-        :header-rows: 1
-
-        * - Column
-            - Description
-        * - ``genic``
-            - ``True`` when the lead SNP overlaps a gene body
-        * - ``nearest_upstream_gene``
-            - Nearest upstream gene symbol (strand-aware)
-        * - ``upstream_distance``
-            - Distance to ``nearest_upstream_gene`` in bp
-        * - ``nearest_downstream_gene``
-            - Nearest downstream gene symbol (strand-aware)
-        * - ``downstream_distance``
-            - Distance to ``nearest_downstream_gene`` in bp
-        * - ``promoter_upstream_flag``
-            - ``True`` when the SNP is within 2 kb upstream of a TSS
-        * - ``gene_density``
-            - Number of genes within the search window
-        * - ``top_gene``
-            - Top-priority gene from the scoring pass
-        * - ``biotype``
-            - Ensembl biotype of ``top_gene`` (``'intergenic'`` when no
-            genic overlap)
-        * - ``priority_score``
-            - Composite priority score (genic hits only)
+        - ``genic`` — ``True`` when the lead SNP overlaps a gene body.
+        - ``nearest_upstream_gene`` — nearest upstream gene symbol
+          (strand-aware).
+        - ``upstream_distance`` — distance to ``nearest_upstream_gene`` in bp.
+        - ``nearest_downstream_gene`` — nearest downstream gene symbol
+          (strand-aware).
+        - ``downstream_distance`` — distance to ``nearest_downstream_gene`` in
+          bp.
+        - ``promoter_upstream_flag`` — ``True`` when the SNP is within 2 kb
+          upstream of a TSS.
+        - ``gene_density`` — number of genes within the search window.
+        - ``top_gene`` — top-priority gene from the scoring pass.
+        - ``biotype`` — Ensembl biotype of ``top_gene`` (``'intergenic'`` when
+          no genic overlap).
+        - ``priority_score`` — composite priority score (genic hits only).
 
     Notes
     -----
@@ -578,7 +565,8 @@ def get_hits_summary_table(
         locus_table = leads_df
 
     if table_out is not None:
-        locus_table.to_csv(table_out, index=False, sep="\t", na_rep="None")
-        logger.info("Locus summary written to: %s", table_out)
+        outpath = table_out.replace(" ", "_").lower() + '.tsv'
+        locus_table.to_csv(outpath, index=False, sep="\t", na_rep="None")
+        logger.info("Locus summary written to: %s", outpath)
 
     return _clump_by_distance(locus_table, window_kb=window_kb)

@@ -1,6 +1,4 @@
-from __future__ import annotations
-
-CLI_MODULE = """
+"""
 pycmplot.cli
 ============
 
@@ -17,6 +15,8 @@ Arguments are organised into four groups:
 * **Linear Only** — arguments specific to ``--mode lm`` (default).
 """
 
+from __future__ import annotations
+
 import argparse
 from pathlib import Path
 
@@ -30,7 +30,7 @@ DESCMSG = """
 
 
 def get_arguments(descmsg: str = DESCMSG) -> argparse.Namespace:
-    GET_ARGUMENTS = """Parse and return command-line arguments for the pycmplot entry point.
+    """Parse and return command-line arguments for the pycmplot entry point.
 
     Parameters
     ----------
@@ -41,225 +41,142 @@ def get_arguments(descmsg: str = DESCMSG) -> argparse.Namespace:
     Returns
     -------
     argparse.Namespace
-        Parsed argument namespace.  Attributes are grouped below.
+        Parsed argument namespace containing the attributes listed below.
 
-        **Required**
+    Notes
+    -----
+    **Required arguments**
 
-        .. list-table::
-        :widths: 28 12 60
-        :header-rows: 1
+    ``sum_stats`` : str
+        Comma-separated list of summary statistics file paths.
+    ``labels`` : str
+        Comma-separated track labels, same order as ``sum_stats``.
 
-        * - Attribute
-            - Type
-            - Description
-        * - ``sum_stats``
-            - str
-            - Comma-separated list of summary statistics file paths.
-        * - ``labels``
-            - str
-            - Comma-separated track labels, same order as ``sum_stats``.
-        * - ``build_column``
-            - str
-            - Column name containing genome-build values (``hg19`` /
-            ``hg38``).
+    **Input / column resolution**
 
-        **Optional — input / column resolution**
+    ``mode`` : {'lm', 'cm'}
+        Plot mode: ``'lm'`` (linear, default) or ``'cm'`` (circular).
+    ``chrom_column``, ``pos_column``, ``snp_column``, ``pval_column`` : str or None
+        Column names in the summary statistics files.  Auto-detected when
+        ``None``.
+    ``delim`` : {'tab', 'space', 'comma', 'colon', 'semi-colon'} or None
+        File delimiter name; auto-detected when ``None``.
+    ``build_column`` : str or None
+        Column name containing per-variant genome-build values
+        (``hg19`` / ``hg38``).
+    ``build`` : str or None
+        Comma-separated list of genome builds per summary statistics file,
+        in the same order as ``sum_stats``.  Alternative to ``build_column``.
 
-        .. list-table::
-        :widths: 28 12 60
-        :header-rows: 1
+    **Data filtering**
 
-        * - Attribute
-            - Type
-            - Description
-        * - ``mode``
-            - str
-            - Plot mode: ``'lm'`` (linear, default) or ``'cm'`` (circular).
-        * - ``chrom_column``
-            - str or None
-            - Chromosome column name; auto-detected when ``None``.
-        * - ``pos_column``
-            - str or None
-            - Base-pair position column name; auto-detected when ``None``.
-        * - ``snp_column``
-            - str or None
-            - Variant / marker ID column name; auto-detected when ``None``.
-        * - ``pval_column``
-            - str or None
-            - P-value column name; auto-detected when ``None``.
-        * - ``delim``
-            - str or None
-            - Delimiter name (``'tab'``, ``'space'``, ``'comma'``,
-            ``'colon'``, ``'semi-colon'``); auto-detected when ``None``.
+    ``logp`` : bool
+        Plot −log₁₀(p) on the y-axis when ``True``.
+    ``trim_pval`` : float or None
+        Drop variants with p > this value before plotting.
+        Strongly recommended for large files (e.g. ``0.01``).
 
-        **Optional — data filtering**
+    **QQ plot**
 
-        .. list-table::
-        :widths: 28 12 60
-        :header-rows: 1
+    ``qq_plot`` : bool
+        Generate a QQ-plot alongside the Manhattan plot.
+    ``qq_separate`` : bool
+        Save one QQ-plot file per sumstat instead of a combined figure.
+    ``qq_overlay`` : bool
+        Overlay all sumstats on a single QQ axis.
+    ``qq_ncols`` : int
+        Number of columns in the combined QQ grid.  Default ``3``.
+    ``qq_thin`` : bool
+        Enable log-uniform p-value thinning for fast QQ plotting.
+    ``thin_below`` : float
+        P-value threshold below which all points are retained; points
+        above are downsampled.  Default ``0.01``.
+    ``qq_max_points`` : int
+        Maximum points plotted per QQ track after thinning.
+        Default ``50_000``.
 
-        * - Attribute
-            - Type
-            - Description
-        * - ``logp``
-            - bool
-            - Plot –log₁₀(p) on the y-axis when ``True``.
-        * - ``qq_plot``
-            - bool
-            - Generate a QQ-plot alongside the Manhattan plot
-            *(not yet implemented)*.
-        * - ``trim_pval``
-            - float or None
-            - Drop variants with p > this value before plotting.
-            Strongly recommended for large files (e.g. ``0.01``).
+    **Significance thresholds**
 
-        **Optional — significance thresholds**
+    ``signif_threshold`` : float or None
+        Genome-wide significance threshold for lead-SNP extraction.
+        Defaults to ``5e-8`` when the flag is passed without a value.
+    ``signif_line`` : float or None
+        Value of the significance line drawn on the plot.
+        Defaults to ``5e-8`` when the flag is passed without a value.
+    ``suggest_threshold`` : float or None
+        Suggestive significance threshold for a second dashed line.
+        Defaults to ``1e-5`` when the flag is passed without a value.
 
-        .. list-table::
-        :widths: 28 12 60
-        :header-rows: 1
+    **Annotation and highlighting**
 
-        * - Attribute
-            - Type
-            - Description
-        * - ``signif_threshold``
-            - float or None
-            - Genome-wide significance threshold for lead-SNP extraction.
-            Defaults to ``5e-8`` when the flag is passed without a value.
-        * - ``signif_line``
-            - float or None
-            - Explicit value for the significance line drawn on the plot.
-            Defaults to ``5e-8`` when the flag is passed without a value.
-        * - ``suggest_threshold``
-            - float or None
-            - Suggestive significance threshold for a second dashed line.
-            Defaults to ``1e-5`` when the flag is passed without a value.
+    ``annotate`` : str
+        Annotation column name in the hits table: ``'snp'`` (rsID),
+        ``'top_gene'``, ``'nearest_upstream_gene'``,
+        ``'nearest_downstream_gene'``, or ``'gene'`` (let the package
+        decide one of ``top_gene`` / ``nearest_upstream_gene``).
+    ``annotation_size`` : float
+        Font size for annotation labels.  Default ``6``.
+    ``point_size`` : float
+        Scatter-plot point size.  Default ``6``.
+    ``highlight`` : bool
+        Colour all variants in significant loci distinctly.
+    ``highlight_thresh`` : float
+        P-value threshold for locus highlighting.  Default ``5e-8``.
+    ``highlight_color`` : str
+        Colour for highlighted points.  Default ``'brown'``.
+    ``highlight_line`` : bool
+        Draw vertical lines through highlighted locus positions.
+    ``highlight_line_color`` : str
+        Colour of highlight lines.  Default ``'grey'``.
 
-        **Optional — annotation and highlighting**
+    **Appearance and output**
 
-        .. list-table::
-        :widths: 28 12 60
-        :header-rows: 1
+    ``colors`` : str
+        Two comma-separated alternating chromosome colours.
+        Default ``'steelblue,silver'``.
+    ``sort_track`` : {'chrom_len', 'label'} or None
+        Track sort order.
+    ``no_track_labels`` : bool
+        Suppress track label rendering when ``True``.
+    ``plot_title`` : str
+        Plot title and output file stem.  Default ``'MyCMplot'``.
+    ``plot_title_size`` : float
+        Plot title font size.  Default ``8``.
+    ``output_dir`` : pathlib.Path
+        Output directory.  Default ``Path('.')``.
+    ``output_format`` : {'png', 'pdf', 'svg', 'jpg'}
+        Image format.  Default ``'png'``.
+    ``dpi`` : int
+        Output resolution in dots per inch.  Default ``300``.
+    ``force`` : bool
+        Overwrite existing output files when ``True``.
 
-        * - Attribute
-            - Type
-            - Description
-        * - ``annotate``
-            - str
-            - Annotation content: Annotate loci by column in hits table
-            ``'snp'`` (rsID), ``top_gene``, ``nearest_upstream_gene``, ``nearest_downstream_gene``, etc, 
-            or ``'gene'`` (let the package decide one of ``top_gene`` or ``nearest_upstream_gene``).  
-            Default ``'snp'``.
-        * - ``annotation_size``
-            - float
-            - Font size for annotation labels.  Default ``6``.
-        * - ``point_size``
-            - float
-            - Scatter-plot point size.  Default ``6``.
-        * - ``highlight``
-            - bool
-            - Colour all variants in significant loci distinctly.
-        * - ``highlight_thresh``
-            - float
-            - P-value threshold for locus highlighting.  Default ``5e-8``.
-        * - ``highlight_line``
-            - bool
-            - Draw vertical lines through highlighted locus positions.
+    **Circular-only arguments** (``--mode cm``)
 
-        **Optional — appearance and output**
+    ``circular_track_spacing`` : int
+        Gap between circular tracks.  Default ``1``.
+    ``chrom_label_size`` : float
+        Chromosome label font size.  Default ``6``.
+    ``chrom_label_side`` : {'inside', 'outside'}
+        Chromosome label placement.  Default ``'inside'``.
+    ``track_label_size`` : float
+        Track label font size.  Default ``6``.
+    ``track_label_orientation`` : {'vertical', 'horizontal'}
+        Track label orientation.  Default ``'vertical'``.
+    ``min_radius`` : int
+        Inner radius of the innermost track.  Default ``20``.
+    ``max_radius`` : int
+        Outer radius of the outermost track.  Default ``100``.
 
-        .. list-table::
-        :widths: 28 12 60
-        :header-rows: 1
+    **Linear-only arguments** (``--mode lm``)
 
-        * - Attribute
-            - Type
-            - Description
-        * - ``colors``
-            - str
-            - Two comma-separated alternating chromosome colours.
-            Default ``'steelblue,silver'``.
-        * - ``sort_track``
-            - str or None
-            - Track sort order: ``'chrom_len'`` or ``'label'``.
-        * - ``no_track_labels``
-            - bool
-            - Suppress track label rendering when ``True``.
-        * - ``plot_title``
-            - str
-            - Plot title and output file stem.  Default ``'MyCMplot'``.
-        * - ``plot_title_size``
-            - float
-            - Plot title font size.  Default ``8``.
-        * - ``output_dir``
-            - pathlib.Path
-            - Output directory.  Default ``Path('.')``.
-        * - ``output_format``
-            - str
-            - Image format: ``'png'``, ``'pdf'``, ``'svg'``, or ``'jpg'``.
-            Default ``'png'``.
-        * - ``dpi``
-            - int
-            - Output resolution in dots per inch.  Default ``300``.
-        * - ``force``
-            - bool
-            - Overwrite existing output files when ``True``.
-
-        **Circular-only arguments** (``--mode cm``)
-
-        .. list-table::
-        :widths: 28 12 60
-        :header-rows: 1
-
-        * - Attribute
-            - Type
-            - Description
-        * - ``pad``
-            - int
-            - Gap between circular tracks.  Default ``1``.
-        * - ``chrom_label_size``
-            - float
-            - Chromosome label font size.  Default ``6``.
-        * - ``chrom_label_side``
-            - str
-            - Chromosome label placement: ``'inside'`` or ``'outside'``.
-            Default ``'inside'``.
-        * - ``track_label_size``
-            - float
-            - Track label font size.  Default ``6``.
-        * - ``track_label_orientation``
-            - str
-            - Track label orientation: ``'vertical'`` or ``'horizontal'``.
-            Default ``'vertical'``.
-        * - ``r_min``
-            - int
-            - Inner radius proportion for the innermost track.
-            Default ``20``.
-        * - ``r_max``
-            - int
-            - Outer radius proportion for the outermost track.
-            Default ``100``.
-
-        **Linear-only arguments** (``--mode lm``)
-
-        .. list-table::
-        :widths: 28 12 60
-        :header-rows: 1
-
-        * - Attribute
-            - Type
-            - Description
-        * - ``track_heights``
-            - str or None
-            - Comma-separated relative track heights (e.g. ``'2,2,1.5'``).
-        * - ``chr_spacing``
-            - float
-            - Horizontal gap between chromosomes in base-pairs.
-            Default ``9e6``.
-        * - ``track_spacing``
-            - float
-            - Vertical gap between tracks as a fraction of track height.
-            Default ``0.10``.
+    ``track_heights`` : str or None
+        Comma-separated relative track heights (e.g. ``'2,2,1.5'``).
+    ``chr_spacing`` : float
+        Horizontal gap between chromosomes in base-pairs.  Default ``9e6``.
+    ``linear_track_spacing`` : float
+        Vertical gap between tracks as a fraction of track height.
+        Default ``0.10``.
 
     See Also
     --------
@@ -487,7 +404,7 @@ def get_arguments(descmsg: str = DESCMSG) -> argparse.Namespace:
     )
     cio.add_argument(
         "-cl_side", "--chrom_label_side", choices=["inside", "outside"],
-        nargs="?", default=None, const="inside", type=str,
+        nargs="?", default='inside', const="inside", type=str,
         help="Chromosome label placement (default: inside)."
     )
     cio.add_argument(
