@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pycmplot.liftover &mdash; pycmplot 0.2.1 documentation</title>
+  <title>pycmplot.liftover &mdash; pycmplot 0.2.4 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=37f418d5"></script>
+      <script src="../../_static/documentation_options.js?v=6ffd866b"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -142,22 +142,15 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Version 0.2.1 (2026-04-16)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#added">Added</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#changed">Changed</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id1">0.2.2 — 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id2">0.2.2 — 2026-04-18</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../changelog.html#version-0-1-9-2026-04-14">Version 0.1.9 (2026-04-14)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#fixed">Fixed</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html#version-0-2-1-2026-04-16">Version 0.2.1 (2026-04-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html#version-0-1-9-2026-04-14">Version 0.1.9 (2026-04-14)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../changelog.html#version-0-1-8-2026-04-14">Version 0.1.8 (2026-04-14)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id1">Added</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id3">Fixed</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../changelog.html#changelog">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#version-0-1-0-2026">Version 0.1.0 (2026)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id3">0.1.0 — 2026-04-18</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a><ul>
@@ -228,6 +221,7 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pycmplot.resources</span><span class="w"> </span><span class="kn">import</span> <span class="n">ResourceConfig</span><span class="p">,</span> <span class="n">default_resources</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pycmplot.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">hg38_chr_lengths</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -339,6 +333,7 @@
 <a class="viewcode-back" href="../../api/liftover.html#pycmplot.liftover.liftover_position">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">liftover_position</span><span class="p">(</span>
     <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
+    <span class="n">hg38_chr_lengths</span> <span class="o">=</span> <span class="n">hg38_chr_lengths</span><span class="p">,</span>
     <span class="n">resources</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ResourceConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
     <span class="n">LIFTOVER_POSITION</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;Liftover all hg19 rows in *df* from hg19 to hg38 coordinates.</span>
@@ -393,6 +388,8 @@
 <span class="s2">    True</span>
 <span class="s2">    &quot;&quot;&quot;</span>
 
+    <span class="n">hg38_chr_lengths</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;chr&quot;</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">):</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">hg38_chr_lengths</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
     <span class="k">if</span> <span class="n">resources</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">resources</span> <span class="o">=</span> <span class="n">default_resources</span>
 
@@ -411,7 +408,13 @@
     <span class="n">df</span><span class="p">[</span><span class="s2">&quot;BUILD&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;hg38&quot;</span>
     <span class="n">df</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_positions</span>
     <span class="n">df</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">]</span></div>
+    <span class="n">clean_df</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">chrom</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
+        <span class="n">chr_df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">chrom</span><span class="p">]</span>
+        <span class="n">chr_df</span> <span class="o">=</span> <span class="n">chr_df</span><span class="p">[</span><span class="n">chr_df</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">hg38_chr_lengths</span><span class="p">[</span><span class="n">chrom</span><span class="p">]]</span>
+        <span class="n">clean_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">clean_df</span><span class="p">),</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">chr_df</span><span class="p">)],</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">clean_df</span><span class="p">[</span><span class="n">clean_df</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">]</span></div>
 
 </pre></div>
 
