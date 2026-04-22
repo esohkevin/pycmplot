@@ -7,16 +7,22 @@ name = "pycmplot"
 version = "0.2.6"
 description = "Multi-track circular and linear Manhattan plot generation for GWAS summary statistics"
 readme = "README.md"
-license = "CC-BY-NC-SA-4.0"
+license = "MIT"
 license-files = ["LICEN[CS]E*"]
 authors = [{ name = "Kevin Esoh", email = "kesohku1@jh.edu" }]
 requires-python = ">=3.9"
 
 classifiers = [
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Operating System :: OS Independent",
     "Intended Audience :: Science/Research",
-    "",
+    "Natural Language :: English",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+    "Topic :: Scientific/Engineering :: Visualization",
 ]
 
 dependencies = [
@@ -28,7 +34,6 @@ dependencies = [
     "natsort>=8.0",
     "adjustText>=0.8",
     "pyliftover>=0.4",
-    "tqdm>=4.66.2",
 ]
 
 [project.optional-dependencies]
