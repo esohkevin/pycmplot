@@ -8,6 +8,26 @@ and this project adheres to `Semantic Versioning <https://semver.org/>`_.
 
 ----
 
+0.2.5 — 2026-04-21
+------------------
+
+**Fixed**
+
+- Annotation in circular plotting when **GENE** selected but **SNP** 
+  annotated.
+
+**Added**
+
+- Information about the sumstats printed to screen now includes number 
+  of variants pre and post trimming, memory usage, and progress bar.
+
+**Changed**
+
+- Enhanced memory efficiency by changing **CHR** and **BUILD** columns 
+  dtypes from ``str`` to ``category`` in ``io.py``
+
+----
+
 0.2.5 — 2026-04-20
 ------------------
 
@@ -34,16 +54,55 @@ and this project adheres to `Semantic Versioning <https://semver.org/>`_.
   label.
 - ``resources.ResourceConfig.require`` now imports ``as_file`` from
   ``importlib.resources`` so the bundled-resource fallback no longer raises
-  ``NameError``.
+  ``NameError``. The fallback also now verifies that the resolved file
+  actually exists before returning, rather than silently returning a
+  phantom path.
+- ``prep_pycmplot_input_info`` no longer emits a spurious "no build column
+  detected" warning when the input files contain a ``BUILD`` column. The
+  check previously inspected the length of the top-level info list, which
+  only distinguishes the ``--build`` path from the no-build path; the fix
+  also checks whether a build column was appended to ``old_cols``.
+- Linear Manhattan plot: per-track labels and the shared
+  ``-log₁₀(p-value)`` y-axis label no longer overlap in the left margin.
+  Track labels are now rendered as a right-aligned sub-title above each
+  axes (``ax.set_title(..., loc='right')``), which keeps them out of the
+  data region entirely — so labels remain legible for dense null tracks,
+  iHS/F_ST/XP-EHH panels, or any other plot where data can reach the
+  upper-right corner.  The figure also reserves an explicit left strip
+  for the shared y-label via ``fig.subplots_adjust`` instead of relying
+  on ``tight_layout`` (which was incompatible with the shared-x gridspec
+  and silently emitted a matplotlib warning).
+- Linear Manhattan plot: the ``df = df[df[p_col] >= 0]`` sanity filter is
+  now only applied when plotting ``-log₁₀(p)``. For non-p-value
+  statistics (iHS, XP-EHH, Fay & Wu's H) negative values are legitimate
+  and are preserved.  The filter was also previously applied *after*
+  ``color_cycle`` was constructed, which caused a latent
+  ``ValueError: 'c' argument has N elements, which is inconsistent with
+  'x' and 'y'`` whenever the filter actually dropped rows.
 
 **Added**
 
+- ``--ylabel`` / ``-yl`` flag (and ``ylabel=`` kwarg on
+  :func:`~pycmplot.plotting.linear.plot_linear` and
+  :func:`~pycmplot.plotting.linear.plot_linearm`) for overriding the
+  shared y-axis label on linear Manhattan plots.  Intended for non-p-value
+  statistics, e.g. ``--ylabel 'iHS'`` or ``--ylabel 'F_ST'``.
 - All QQ-plotting functions (:func:`~pycmplot.plotting.qq.plot_qq_single`,
   :func:`~pycmplot.plotting.qq.plot_qq_combined`,
   :func:`~pycmplot.plotting.qq.plot_qq_separate`,
   :func:`~pycmplot.plotting.qq.plot_qq_overlay`) are now re-exported at the
   top level (``from pycmplot import plot_qq_combined``) and through the
   :mod:`pycmplot.plotting` subpackage.
+- **hg18 → hg38 liftover.** ``BUILD`` column values of ``hg18`` (or
+  ``--build hg18``) now trigger direct hg18 → hg38 coordinate conversion
+  via a bundled UCSC chain file
+  (``pycmplot/data/hg18ToHg38.over.chain.gz``). A new
+  :func:`~pycmplot.liftover.liftover_hg18_to_hg38` helper and
+  ``ResourceConfig.chain_hg18_hg38`` attribute (overridable via
+  ``PYCMPLOT_CHAIN_HG18_HG38``) are exposed alongside the existing
+  hg19 → hg38 path. Together these cover virtually all publicly available
+  GWAS summary statistics.
+- ``python -m pycmplot`` entry point (via a new ``__main__.py``).
 - New Jupyter notebook demonstrating QQ-plotting workflows.
 - All module-, class-, and function-level docstrings now use the bare
   ``"""..."""`` form so that Sphinx autodoc / numpydoc and

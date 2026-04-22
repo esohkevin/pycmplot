@@ -67,12 +67,14 @@ column names fall outside the recognised defaults.
        ``semi-colon``). Auto-detected when omitted.
    * - ``-bc``, ``--build_column``
      - *auto*
-     - Name of an in-file genome build column (values: ``hg19``, ``hg38``).
+     - Name of an in-file genome build column (values: ``hg18``, ``hg19``,
+       ``hg38``).
    * - ``-b``, ``--build``
      - *none*
      - Comma-separated list of per-file genome builds in the same order as
        ``--sum_stats``, used when the files have no build column
-       (e.g. ``hg19,hg38``).
+       (e.g. ``hg19,hg38,hg18``). ``hg18`` and ``hg19`` coordinates are
+       lifted to ``hg38`` automatically before plotting.
 
 .. _cli_liftover:
 

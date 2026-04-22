@@ -63,7 +63,7 @@ def get_arguments(descmsg: str = DESCMSG) -> argparse.Namespace:
         File delimiter name; auto-detected when ``None``.
     ``build_column`` : str or None
         Column name containing per-variant genome-build values
-        (``hg19`` / ``hg38``).
+        (``hg18`` / ``hg19`` / ``hg38``).
     ``build`` : str or None
         Comma-separated list of genome builds per summary statistics file,
         in the same order as ``sum_stats``.  Alternative to ``build_column``.
@@ -138,6 +138,10 @@ def get_arguments(descmsg: str = DESCMSG) -> argparse.Namespace:
         Track sort order.
     ``no_track_labels`` : bool
         Suppress track label rendering when ``True``.
+    ``ylabel`` : str or None
+        Shared y-axis label for linear Manhattan plots.  Override the
+        default (``"-log₁₀(p-value)"`` or the p-value column name) for
+        non-p-value statistics such as ``"iHS"`` or ``"F_ST"``.
     ``plot_title`` : str
         Plot title and output file stem.  Default ``'MyCMplot'``.
     ``plot_title_size`` : float
@@ -252,11 +256,14 @@ def get_arguments(descmsg: str = DESCMSG) -> argparse.Namespace:
     opt.add_argument(
         "-b","--build", default=None, required=False, type=str, metavar='str',
         help=
-        """Comma-sperated list of genome build of summary stats file(s) listed 
-        in the same order as sumstats files. e.g. hg19,hg38,hg38,hg19 means:
+        """Comma-separated list of genome build of summary stats file(s) listed
+        in the same order as sumstats files. Accepted values: hg18, hg19, hg38.
+        E.g. hg19,hg38,hg38,hg18 means:
         file1.txt.gz --> hg19
         file2.txt.gz --> hg38
-        file3.tsv --> hg38 ... etc
+        file3.tsv --> hg38
+        file4.tsv --> hg18 ... etc
+        hg18 and hg19 coordinates are lifted to hg38 before plotting.
         """
     )
     opt.add_argument(
@@ -365,7 +372,17 @@ def get_arguments(descmsg: str = DESCMSG) -> argparse.Namespace:
             "Exclude track labels from plot. (default: False)"
         ),
         action="store_true"
-    )    
+    )
+    opt.add_argument(
+        "-yl", "--ylabel",
+        default=None, type=str, metavar="str",
+        help=(
+            "Shared y-axis label for linear Manhattan plots (left margin). "
+            "Useful for non-p-value statistics such as iHS, F_ST or "
+            "XP-EHH (e.g. --ylabel 'iHS'). Defaults to '-log10(p-value)' "
+            "when --logp is set, otherwise the p-value column name."
+        )
+    )
     opt.add_argument(
         "-plt", "--plot_title", default="MyCMplot", type=str, metavar="str",
         help="Plot plot_title / output file stem."
@@ -439,7 +456,10 @@ def get_arguments(descmsg: str = DESCMSG) -> argparse.Namespace:
         "-t_space", "--linear_track_spacing", default=0.10, type=float, metavar="float",
         help="Space between linear tracks (default: 0.10)."
     )
-
+    lio.add_argument(
+        "-figsize", "--figure_size", default='10,4', required=False, type=str, metavar="str",
+        help="Linear plot figure size (default: 10,4 for width,height)."
+    )
     opt.add_argument(
         "-h", "--help", action="help",
         help="Show this help message and exit."

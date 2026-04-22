@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pycmplot.plotting.linear &mdash; pycmplot 0.2.5 documentation</title>
+  <title>pycmplot.plotting.linear &mdash; pycmplot 0.2.6 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=cb850272"></script>
+      <script src="../../../_static/documentation_options.js?v=fc7d8818"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -97,7 +97,10 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html#Important-notes">Important notes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html#Generating-a-linear-plot">Generating a linear plot</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../pycmplot_python_api.html#No-highlighting-of-significant-loci">No highlighting of significant loci</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../pycmplot_python_api.html#Highlighting-significant-loci-and-annotating-by-SNP">Highlighting significant loci and annotating by SNP</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html#id1">Generating a linear plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html#Highlighting-significant-loci-and-annotating-by-SNP">Highlighting significant loci and annotating by SNP</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../pycmplot_python_api.html#Highlighting-by-a-different-p-value-threshold-and-changing-plot-colors-and-removing-track-labels">Highlighting by a different p-value threshold and changing plot colors and removing track labels</a></li>
 </ul>
 </li>
@@ -112,11 +115,15 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../pycmplot_python_api.html#Handling-other-use-cases-and-QQ-plots">Handling other use cases and QQ-plots</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html#Summary-stats-without-BUILD-column-and-no-build-information-provided">Summary stats without <strong>BUILD</strong> column and no <code class="docutils literal notranslate"><span class="pre">build</span></code> information provided</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html#Supplying-builds-with-summary-stats">Supplying builds with summary stats</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html#QQ-Plotting">QQ-Plotting</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../pycmplot_python_api.html#Overlaying-multiple">Overlaying multiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../pycmplot_python_api.html#Separate-qq-plots-saved-in-separate-figures">Separate qq-plots saved in separate figures</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../pycmplot_python_api.html#Combined-multi-panel">Combined multi-panel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../pycmplot_python_api.html#Flexible-handling-of-each-qq-plot-using-the-base-plot_qq_single-function-directly">Flexible handling of each qq-plot using the base <code class="docutils literal notranslate"><span class="pre">plot_qq_single</span></code> function directly</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../pycmplot_python_api.html#Or-overlay-them-by-simply-using-the-same-axis">Or overlay them by simply using the same axis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../pycmplot_python_api.html#This-gives-us-the-flexibility-to-place-multiple-overlay-plots-on-one-figure">This gives us the flexibility to place multiple overlay plots on one figure</a></li>
 </ul>
 </li>
 </ul>
@@ -152,14 +159,17 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../api/annotation.html#gene-reference-files">Gene reference files</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/annotation.html#pycmplot.annotation.get_annotation_column"><code class="docutils literal notranslate"><span class="pre">get_annotation_column()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/annotation.html#pycmplot.annotation.get_hits_summary_table"><code class="docutils literal notranslate"><span class="pre">get_hits_summary_table()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/liftover.html">pycmplot.liftover</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/liftover.html#module-pycmplot.liftover">pycmplot.liftover</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/liftover.html#supported-conversions">Supported conversions</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/liftover.html#resource-configuration">Resource configuration</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/liftover.html#pycmplot.liftover.liftover_hg18_to_hg38"><code class="docutils literal notranslate"><span class="pre">liftover_hg18_to_hg38()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/liftover.html#pycmplot.liftover.liftover_hg19_to_hg38"><code class="docutils literal notranslate"><span class="pre">liftover_hg19_to_hg38()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/liftover.html#pycmplot.liftover.liftover_position"><code class="docutils literal notranslate"><span class="pre">liftover_position()</span></code></a></li>
 </ul>
@@ -201,6 +211,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/resources.html#pycmplot.resources.ResourceConfig"><code class="docutils literal notranslate"><span class="pre">ResourceConfig</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/resources.html#pycmplot.resources.ResourceConfig.chain_hg18_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.chain_hg18_hg38</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/resources.html#pycmplot.resources.ResourceConfig.chain_hg19_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.chain_hg19_hg38</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/resources.html#pycmplot.resources.ResourceConfig.geneinfo_hg19"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.geneinfo_hg19</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/resources.html#pycmplot.resources.ResourceConfig.geneinfo_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.geneinfo_hg38</span></code></a></li>
@@ -215,12 +226,13 @@
 <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id1">0.2.5 — 2026-04-20</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id2">0.2.2 — 2026-04-18</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id3">0.2.1 — 2026-04-16</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id4">0.1.9 — 2026-04-14</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id5">0.1.8 — 2026-04-14</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id6">0.1.0 — 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id1">0.2.5 — 2026-04-21</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id2">0.2.5 — 2026-04-20</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id3">0.2.2 — 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id4">0.2.1 — 2026-04-16</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id5">0.1.9 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id6">0.1.8 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id7">0.1.0 — 2026-04-18</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a><ul>
@@ -301,6 +313,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">pycmplot.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">CHROM_ORDER</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pycmplot.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_highlight_snps</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pycmplot.io</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_output_paths</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pycmplot.annotation</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_annotation_column</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -370,7 +383,7 @@
     <span class="n">chr_max</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
     <span class="n">spread_width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">60e6</span><span class="p">,</span>
     <span class="n">y_tip</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
-    <span class="n">y_text</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.55</span><span class="p">,</span>
+    <span class="n">y_text</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.35</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Draw angled arrow annotations from gene-label text to signal positions.</span>
 
@@ -762,6 +775,7 @@
     <span class="n">sig_lines</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">plt_name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">no_track_labels</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">ylabel</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">fig_format</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">dpi</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">300</span><span class="p">,</span>
     <span class="n">figsize</span><span class="p">:</span> <span class="nb">tuple</span> <span class="o">=</span> <span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span>
@@ -834,7 +848,14 @@
 <span class="sd">        Full output file path (including extension).  When provided the figure</span>
 <span class="sd">        is saved to disk.</span>
 <span class="sd">    no_track_labels : bool, optional</span>
-<span class="sd">        If ``True``, track y-axis labels are suppressed.  Default ``False``.</span>
+<span class="sd">        If ``True``, per-track labels are suppressed.  Default ``False``.</span>
+<span class="sd">    ylabel : str, optional</span>
+<span class="sd">        Shared y-axis label rendered on the left of the figure.  Use this</span>
+<span class="sd">        to set a sensible label for non-p-value statistics such as iHS,</span>
+<span class="sd">        FST or XP-EHH (e.g. ``ylabel=&quot;iHS&quot;``).  When ``None`` (the</span>
+<span class="sd">        default), the label is derived automatically:</span>
+<span class="sd">        ``&quot;-log₁₀(p-value)&quot;`` when *logp* is ``True``, otherwise the</span>
+<span class="sd">        p-value column name (``&quot;P&quot;``).</span>
 <span class="sd">    fig_format : str, optional</span>
 <span class="sd">        Output image format (``&#39;png&#39;``, ``&#39;pdf&#39;``, ``&#39;svg&#39;``).  Inferred</span>
 <span class="sd">        from *plt_name*&#39;s extension when ``None``.</span>
@@ -979,17 +1000,33 @@
     <span class="p">):</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Plotting: </span><span class="si">%s</span><span class="s2"> ...&quot;</span><span class="p">,</span> <span class="n">t_label</span><span class="p">)</span>
 
-        <span class="n">color_cycle</span> <span class="o">=</span> <span class="p">[</span><span class="n">colors</span><span class="p">[</span><span class="n">j</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors</span><span class="p">)]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;chr_idx&quot;</span><span class="p">]]</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="n">p_col</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="c1"># Sanity filter.  When plotting -log10(p) we assume the P column is a</span>
+        <span class="c1"># p-value and drop non-positive entries (a common product of upstream</span>
+        <span class="c1"># NaN -&gt; 0 coercion or mistyped headers).  When plotting raw values</span>
+        <span class="c1"># we keep every ro(w, since selection statistics such as iHS, XP-EHH</span>
+        <span class="c1"># or Fay &amp; Wu&#39;s H can legitimately be negative.  color_cycle is</span>
+        <span class="c1"># computed *after* filtering so the color array always aligns with</span>
+        <span class="c1"># the scatter x/y arrays.</span>
+        <span class="k">if</span> <span class="n">logp</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="n">p_col</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">]</span>
 
+        <span class="n">color_cycle</span> <span class="o">=</span> <span class="p">[</span><span class="n">colors</span><span class="p">[</span><span class="n">j</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors</span><span class="p">)]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;chr_idx&quot;</span><span class="p">]]</span>
         <span class="n">y_vals</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;logP&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="n">logp</span> <span class="k">else</span> <span class="n">df</span><span class="p">[</span><span class="n">p_col</span><span class="p">]</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">],</span> <span class="n">y_vals</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">color_cycle</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">point_size</span><span class="p">)</span>
 
-        <span class="c1"># Track labels</span>
-        <span class="k">if</span> <span class="n">no_track_labels</span><span class="p">:</span>
-            <span class="k">pass</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">t_label</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+        <span class="c1"># Track labels — rendered vertically in the right margin (just past</span>
+        <span class="c1"># the last chromosome), orthogonal to the track-stacking direction.</span>
+        <span class="c1"># This keeps the label out of the data region, survives arbitrarily</span>
+        <span class="c1"># tight packing (``linear_track_spacing=0`` onward), and never</span>
+        <span class="c1"># collides with the shared y-axis label on the left.</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">no_track_labels</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+                <span class="mf">1.005</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">t_label</span><span class="p">,</span>
+                <span class="n">transform</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">transAxes</span><span class="p">,</span>
+                <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+                <span class="n">rotation</span><span class="o">=-</span><span class="mi">90</span><span class="p">,</span>
+                <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+            <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">highlight</span><span class="p">:</span>
             <span class="n">sig</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;in_locus&quot;</span><span class="p">]]</span>
@@ -1001,15 +1038,15 @@
                 <span class="k">if</span> <span class="n">highlight_line</span><span class="p">:</span>
                     <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">sig</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">:</span>
                         <span class="k">for</span> <span class="n">_ax</span> <span class="ow">in</span> <span class="n">loop_axes</span><span class="p">:</span>
-                            <span class="n">_ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">highlight_line_color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                            <span class="n">_ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">highlight_line_color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span>
                                     <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">sig_lines</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">sig_lines</span><span class="p">):</span>
             <span class="n">sl</span> <span class="o">=</span> <span class="n">sig_lines</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
             <span class="k">if</span> <span class="s2">&quot;genome&quot;</span> <span class="ow">in</span> <span class="n">sl</span><span class="p">:</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">sl</span><span class="p">[</span><span class="s2">&quot;genome&quot;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">sl</span><span class="p">[</span><span class="s2">&quot;genome&quot;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
             <span class="k">if</span> <span class="s2">&quot;suggestive&quot;</span> <span class="ow">in</span> <span class="n">sl</span><span class="p">:</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">sl</span><span class="p">[</span><span class="s2">&quot;suggestive&quot;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">sl</span><span class="p">[</span><span class="s2">&quot;suggestive&quot;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
 
         <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[[</span><span class="s2">&quot;top&quot;</span><span class="p">,</span> <span class="s2">&quot;right&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 
@@ -1022,7 +1059,6 @@
     <span class="c1"># Annotation track</span>
     <span class="c1"># ------------------------------------------------------------------</span>
     <span class="k">if</span> <span class="n">annotate</span> <span class="ow">and</span> <span class="n">annot_df</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        
         
         <span class="n">_draw_annotation_arrows</span><span class="p">(</span>
             <span class="n">ax_annot</span><span class="p">,</span>
@@ -1096,12 +1132,34 @@
         <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">labelbottom</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[[</span><span class="s2">&quot;top&quot;</span><span class="p">,</span> <span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="s2">&quot;bottom&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 
-    <span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">hspace</span><span class="o">=</span><span class="n">linear_track_spacing</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="mf">0.08</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="c1"># Explicit margins keep the shared y-axis label (added below as</span>
+    <span class="c1"># ``fig.text``) in its own reserved strip on the left of the figure.</span>
+    <span class="c1"># We avoid ``tight_layout`` here because the annotation panel shares</span>
+    <span class="c1"># ``sharex`` with the data tracks inside a custom ``GridSpec``, which</span>
+    <span class="c1"># triggers a matplotlib &quot;not compatible with tight_layout&quot; warning</span>
+    <span class="c1"># without actually helping the layout.</span>
+    <span class="c1"># Reserve margins explicitly: the left strip holds the shared y-axis</span>
+    <span class="c1"># label, the right strip holds the per-track labels placed just past</span>
+    <span class="c1"># the last chromosome.  ``hspace`` is forwarded verbatim so users can</span>
+    <span class="c1"># set ``linear_track_spacing=0`` to stack tracks flush against each</span>
+    <span class="c1"># other — the right-side track labels remain readable because they</span>
+    <span class="c1"># are orthogonal to the stacking direction.</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span>
+        <span class="n">left</span><span class="o">=</span><span class="mf">0.09</span><span class="p">,</span>
+        <span class="n">right</span><span class="o">=</span><span class="mf">0.94</span><span class="p">,</span>
+        <span class="n">top</span><span class="o">=</span><span class="mf">0.96</span><span class="p">,</span>
+        <span class="n">bottom</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+        <span class="n">hspace</span><span class="o">=</span><span class="n">linear_track_spacing</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">ylabel</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ylabel_text</span> <span class="o">=</span> <span class="s2">&quot;-log</span><span class="se">\u2081\u2080</span><span class="s2">(p-value)&quot;</span> <span class="k">if</span> <span class="n">logp</span> <span class="k">else</span> <span class="n">p_col</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ylabel_text</span> <span class="o">=</span> <span class="n">ylabel</span>
 
     <span class="n">fig</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
-        <span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span>
-        <span class="s2">&quot;-log</span><span class="se">\u2081\u2080</span><span class="s2">(p-value)&quot;</span> <span class="k">if</span> <span class="n">logp</span> <span class="k">else</span> <span class="n">p_col</span><span class="p">,</span>
+        <span class="mf">0.015</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span>
+        <span class="n">ylabel_text</span><span class="p">,</span>
         <span class="n">va</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
         <span class="n">rotation</span><span class="o">=</span><span class="s2">&quot;vertical&quot;</span><span class="p">,</span>
         <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
@@ -1130,7 +1188,7 @@
     <span class="n">highlight_line</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">highlight_line_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;grey&#39;</span><span class="p">,</span>    
     <span class="n">hits_table</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">annotate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">annotate</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">label_col</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">chr_spacing</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">linear_track_spacing</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1138,6 +1196,7 @@
     <span class="n">signif_lines</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">plot_title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">no_track_labels</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">ylabel</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">dpi</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">output_format</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;png&#39;</span><span class="p">,</span>
     <span class="n">output_dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span>
@@ -1196,7 +1255,12 @@
 <span class="sd">        Human-readable title used as the output file-name stem.  Passed to</span>
 <span class="sd">        :func:`~pycmplot.io.get_output_paths`.</span>
 <span class="sd">    no_track_labels : bool, optional</span>
-<span class="sd">        Suppress track y-axis labels.  Default ``False``.</span>
+<span class="sd">        Suppress per-track labels.  Default ``False``.</span>
+<span class="sd">    ylabel : str, optional</span>
+<span class="sd">        Override the shared y-axis label (left margin).  Useful for</span>
+<span class="sd">        non-p-value statistics such as iHS, F_ST or XP-EHH (e.g.</span>
+<span class="sd">        ``ylabel=&quot;iHS&quot;``).  When ``None`` (the default), the label is</span>
+<span class="sd">        ``&quot;-log₁₀(p-value)&quot;`` if *logp* is ``True`` and ``&quot;P&quot;`` otherwise.</span>
 <span class="sd">    dpi : int, optional</span>
 <span class="sd">        Output resolution in dots per inch.  Default ``300``.</span>
 <span class="sd">    output_format : str, optional</span>
@@ -1245,17 +1309,12 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="n">t_heights</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">track_heights</span><span class="p">]</span>
 
-    <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;SNP&#39;</span>
-    <span class="k">if</span> <span class="n">annotate</span><span class="p">:</span>
-        <span class="n">label_col</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">label_col</span><span class="p">)</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">label_col</span> <span class="o">==</span> <span class="s2">&quot;GENE&quot;</span><span class="p">:</span>
-                <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;top_gene&quot;</span>
-            <span class="k">elif</span> <span class="n">label_col</span> <span class="o">!=</span> <span class="s2">&quot;SNP&quot;</span><span class="p">:</span>
-                <span class="n">label</span> <span class="o">=</span> <span class="n">label_col</span>
-        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;&#39;SNP&#39; column is used for annotation since &#39;</span><span class="si">%s</span><span class="s2">&#39; column could not be resolved in hits table.&quot;</span><span class="p">,</span> <span class="n">label_col</span><span class="p">)</span>
-            <span class="k">pass</span>         
+
+    <span class="n">label</span> <span class="o">=</span> <span class="n">get_annotation_column</span><span class="p">(</span>
+        <span class="n">annotate</span> <span class="o">=</span> <span class="n">annotate</span><span class="p">,</span>
+        <span class="n">hits_table</span><span class="o">=</span><span class="n">hits_table</span><span class="p">,</span>
+        <span class="n">label_col</span><span class="o">=</span><span class="n">label_col</span>
+    <span class="p">)</span>
 
     <span class="c1"># plot name</span>
     <span class="p">(</span>
@@ -1292,6 +1351,7 @@
         <span class="n">sig_lines</span><span class="o">=</span><span class="n">signif_lines</span><span class="p">,</span>
         <span class="n">plt_name</span><span class="o">=</span><span class="n">plt_name</span><span class="p">,</span>
         <span class="n">no_track_labels</span> <span class="o">=</span> <span class="n">no_track_labels</span><span class="p">,</span>
+        <span class="n">ylabel</span><span class="o">=</span><span class="n">ylabel</span><span class="p">,</span>
         <span class="n">dpi</span><span class="o">=</span><span class="n">dpi</span><span class="p">,</span>
         <span class="n">fig_format</span><span class="o">=</span><span class="n">output_format</span><span class="p">,</span>
         <span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">,</span>

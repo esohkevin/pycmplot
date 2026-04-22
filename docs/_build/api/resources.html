@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pycmplot.resources &mdash; pycmplot 0.2.5 documentation</title>
+  <title>pycmplot.resources &mdash; pycmplot 0.2.6 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../_static/documentation_options.js?v=cb850272"></script>
+      <script src="../_static/documentation_options.js?v=fc7d8818"></script>
       <script src="../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -100,7 +100,10 @@
 <li class="toctree-l3"><a class="reference internal" href="../pycmplot_python_api.html#Important-notes">Important notes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../pycmplot_python_api.html#Generating-a-linear-plot">Generating a linear plot</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../pycmplot_python_api.html#No-highlighting-of-significant-loci">No highlighting of significant loci</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../pycmplot_python_api.html#Highlighting-significant-loci-and-annotating-by-SNP">Highlighting significant loci and annotating by SNP</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../pycmplot_python_api.html#id1">Generating a linear plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pycmplot_python_api.html#Highlighting-significant-loci-and-annotating-by-SNP">Highlighting significant loci and annotating by SNP</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../pycmplot_python_api.html#Highlighting-by-a-different-p-value-threshold-and-changing-plot-colors-and-removing-track-labels">Highlighting by a different p-value threshold and changing plot colors and removing track labels</a></li>
 </ul>
 </li>
@@ -115,11 +118,15 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../pycmplot_python_api.html#Handling-other-use-cases-and-QQ-plots">Handling other use cases and QQ-plots</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pycmplot_python_api.html#Summary-stats-without-BUILD-column-and-no-build-information-provided">Summary stats without <strong>BUILD</strong> column and no <code class="docutils literal notranslate"><span class="pre">build</span></code> information provided</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pycmplot_python_api.html#Supplying-builds-with-summary-stats">Supplying builds with summary stats</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../pycmplot_python_api.html#QQ-Plotting">QQ-Plotting</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../pycmplot_python_api.html#Overlaying-multiple">Overlaying multiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../pycmplot_python_api.html#Separate-qq-plots-saved-in-separate-figures">Separate qq-plots saved in separate figures</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../pycmplot_python_api.html#Combined-multi-panel">Combined multi-panel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../pycmplot_python_api.html#Flexible-handling-of-each-qq-plot-using-the-base-plot_qq_single-function-directly">Flexible handling of each qq-plot using the base <code class="docutils literal notranslate"><span class="pre">plot_qq_single</span></code> function directly</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pycmplot_python_api.html#Or-overlay-them-by-simply-using-the-same-axis">Or overlay them by simply using the same axis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pycmplot_python_api.html#This-gives-us-the-flexibility-to-place-multiple-overlay-plots-on-one-figure">This gives us the flexibility to place multiple overlay plots on one figure</a></li>
 </ul>
 </li>
 </ul>
@@ -155,14 +162,17 @@
 <li class="toctree-l4"><a class="reference internal" href="annotation.html#gene-reference-files">Gene reference files</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="annotation.html#pycmplot.annotation.get_annotation_column"><code class="docutils literal notranslate"><span class="pre">get_annotation_column()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="annotation.html#pycmplot.annotation.get_hits_summary_table"><code class="docutils literal notranslate"><span class="pre">get_hits_summary_table()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="liftover.html">pycmplot.liftover</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="liftover.html#module-pycmplot.liftover">pycmplot.liftover</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="liftover.html#supported-conversions">Supported conversions</a></li>
 <li class="toctree-l4"><a class="reference internal" href="liftover.html#resource-configuration">Resource configuration</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="liftover.html#pycmplot.liftover.liftover_hg18_to_hg38"><code class="docutils literal notranslate"><span class="pre">liftover_hg18_to_hg38()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="liftover.html#pycmplot.liftover.liftover_hg19_to_hg38"><code class="docutils literal notranslate"><span class="pre">liftover_hg19_to_hg38()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="liftover.html#pycmplot.liftover.liftover_position"><code class="docutils literal notranslate"><span class="pre">liftover_position()</span></code></a></li>
 </ul>
@@ -204,6 +214,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#pycmplot.resources.ResourceConfig"><code class="docutils literal notranslate"><span class="pre">ResourceConfig</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pycmplot.resources.ResourceConfig.chain_hg18_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.chain_hg18_hg38</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pycmplot.resources.ResourceConfig.chain_hg19_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.chain_hg19_hg38</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pycmplot.resources.ResourceConfig.geneinfo_hg19"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.geneinfo_hg19</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pycmplot.resources.ResourceConfig.geneinfo_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.geneinfo_hg38</span></code></a></li>
@@ -218,12 +229,13 @@
 <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id1">0.2.5 — 2026-04-20</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id2">0.2.2 — 2026-04-18</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id3">0.2.1 — 2026-04-16</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id4">0.1.9 — 2026-04-14</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id5">0.1.8 — 2026-04-14</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id6">0.1.0 — 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id1">0.2.5 — 2026-04-21</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id2">0.2.5 — 2026-04-20</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id3">0.2.2 — 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id4">0.2.1 — 2026-04-16</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id5">0.1.9 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id6">0.1.8 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id7">0.1.0 — 2026-04-18</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a><ul>
@@ -284,7 +296,8 @@ the desired path directly to any function that accepts a <em>resources</em>
 parameter.</p></li>
 <li><p><strong>Environment variable</strong> — set the corresponding variable before
 running pycmplot:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PYCMPLOT_CHAIN_HG19_HG38</span><span class="o">=</span>/path/to/hg19ToHg38.over.chain
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PYCMPLOT_CHAIN_HG19_HG38</span><span class="o">=</span>/path/to/hg19ToHg38.over.chain.gz
+<span class="nb">export</span><span class="w"> </span><span class="nv">PYCMPLOT_CHAIN_HG18_HG38</span><span class="o">=</span>/path/to/hg18ToHg38.over.chain.gz
 <span class="nb">export</span><span class="w"> </span><span class="nv">PYCMPLOT_GENEINFO_HG38</span><span class="o">=</span>/path/to/Homo_sapiens.GRCh38.geneinfo.tsv.gz
 <span class="nb">export</span><span class="w"> </span><span class="nv">PYCMPLOT_GENEINFO_HG19</span><span class="o">=</span>/path/to/Homo_sapiens.GRCh37.geneinfo.tsv.gz
 </pre></div>
@@ -297,7 +310,7 @@ neither of the above is set.</p></li>
 <p class="rubric">Examples</p>
 <p>Override a single resource while using defaults for the rest:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pycmplot.resources</span><span class="w"> </span><span class="kn">import</span> <span class="n">ResourceConfig</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">cfg</span> <span class="o">=</span> <span class="n">ResourceConfig</span><span class="p">(</span><span class="n">chain_hg19_hg38</span><span class="o">=</span><span class="s2">&quot;/my/custom.over.chain&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cfg</span> <span class="o">=</span> <span class="n">ResourceConfig</span><span class="p">(</span><span class="n">chain_hg19_hg38</span><span class="o">=</span><span class="s2">&quot;/my/custom.over.chain.gz&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># pass cfg to any function that accepts a resources argument:</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pycmplot.liftover</span><span class="w"> </span><span class="kn">import</span> <span class="n">liftover_position</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">df_lifted</span> <span class="o">=</span> <span class="n">liftover_position</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">resources</span><span class="o">=</span><span class="n">cfg</span><span class="p">)</span>
@@ -307,14 +320,18 @@ neither of the above is set.</p></li>
 </section>
 <dl class="py class">
 <dt class="sig sig-object py" id="pycmplot.resources.ResourceConfig">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">pycmplot.resources.</span></span><span class="sig-name descname"><span class="pre">ResourceConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chain_hg19_hg38</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geneinfo_hg38</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geneinfo_hg19</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycmplot/resources.html#ResourceConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycmplot.resources.ResourceConfig" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">pycmplot.resources.</span></span><span class="sig-name descname"><span class="pre">ResourceConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chain_hg19_hg38</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chain_hg18_hg38</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geneinfo_hg38</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geneinfo_hg19</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycmplot/resources.html#ResourceConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycmplot.resources.ResourceConfig" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Paths to external reference files used by pycmplot.</p>
-<p>Dataclass grouping the three on-disk resources required by pycmplot:</p>
+<p>Dataclass grouping the on-disk resources required by pycmplot:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">chain_hg19_hg38</span></code> – UCSC LiftOver chain file for hg19 to hg38
 conversion. Resolved from <code class="docutils literal notranslate"><span class="pre">PYCMPLOT_CHAIN_HG19_HG38</span></code> or the bundled
-<code class="docutils literal notranslate"><span class="pre">hg19ToHg38.over.chain</span></code>.</p></li>
+<code class="docutils literal notranslate"><span class="pre">hg19ToHg38.over.chain.gz</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">chain_hg18_hg38</span></code> – UCSC LiftOver chain file for hg18 to hg38
+conversion. Resolved from <code class="docutils literal notranslate"><span class="pre">PYCMPLOT_CHAIN_HG18_HG38</span></code> or the bundled
+<code class="docutils literal notranslate"><span class="pre">hg18ToHg38.over.chain.gz</span></code>. Only required when any input summary
+statistics file carries a <code class="docutils literal notranslate"><span class="pre">hg18</span></code> build label.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">geneinfo_hg38</span></code> – Ensembl gene-info TSV for GRCh38, used for
 nearest-gene annotation. Resolved from <code class="docutils literal notranslate"><span class="pre">PYCMPLOT_GENEINFO_HG38</span></code> or
 the bundled <code class="docutils literal notranslate"><span class="pre">Homo_sapiens.GRCh38.geneinfo.tsv.gz</span></code>.</p></li>
@@ -339,6 +356,11 @@ custom file locations.</p>
 <span class="gp">... </span><span class="p">)</span>
 </pre></div>
 </div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycmplot.resources.ResourceConfig.chain_hg18_hg38">
+<span class="sig-name descname"><span class="pre">chain_hg18_hg38</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><a class="headerlink" href="#pycmplot.resources.ResourceConfig.chain_hg18_hg38" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pycmplot.resources.ResourceConfig.chain_hg19_hg38">
 <span class="sig-name descname"><span class="pre">chain_hg19_hg38</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><a class="headerlink" href="#pycmplot.resources.ResourceConfig.chain_hg19_hg38" title="Link to this definition"></a></dt>
@@ -382,7 +404,7 @@ before raising if neither succeeds.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pycmplot.resources</span><span class="w"> </span><span class="kn">import</span> <span class="n">ResourceConfig</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">cfg</span> <span class="o">=</span> <span class="n">ResourceConfig</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">chain</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">require</span><span class="p">(</span><span class="s2">&quot;chain_hg19_hg38&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">chain</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.over.chain&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">chain</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.over.chain.gz&quot;</span><span class="p">)</span>
 <span class="go">True</span>
 </pre></div>
 </div>

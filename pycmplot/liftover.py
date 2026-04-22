@@ -2,23 +2,34 @@
 pycmplot.liftover
 =================
 
-Genome coordinate liftover utilities (hg19 → hg38).
+Genome coordinate liftover utilities (hg18 → hg38 and hg19 → hg38).
 
-The :class:`pyliftover.LiftOver` object is initialised **lazily** — it is
-created on first use and cached in a module-level dictionary, so importing
-this module never triggers a file-not-found error even if the chain file has
-not been configured yet.
+The :class:`pyliftover.LiftOver` objects are initialised **lazily** — they
+are created on first use and cached in a module-level dictionary, so
+importing this module never triggers a file-not-found error even if the
+chain files have not been configured yet.
+
+Supported conversions
+---------------------
+pycmplot harmonises input coordinates to GRCh38. Two source assemblies are
+supported:
+
+* ``hg19`` / GRCh37 → GRCh38 (default, bundled chain file)
+* ``hg18`` / NCBI36 → GRCh38 (bundled chain file; used when input rows
+  carry a ``hg18`` build label)
 
 Resource configuration
 ----------------------
-The chain file path is resolved through
-:class:`~pycmplot.resources.ResourceConfig`.  By default, a bundled chain
-file is used (``pycmplot/data/hg19ToHg38.over.chain``).  This can be
-overridden by setting the environment variable:
+Chain file paths are resolved through
+:class:`~pycmplot.resources.ResourceConfig`.  By default, bundled chain
+files are used (``pycmplot/data/hg19ToHg38.over.chain.gz`` and
+``pycmplot/data/hg18ToHg38.over.chain.gz``).  They can be overridden by
+setting the environment variables:
 
 .. code-block:: bash
 
-    export PYCMPLOT_CHAIN_HG19_HG38=/path/to/hg19ToHg38.over.chain
+    export PYCMPLOT_CHAIN_HG19_HG38=/path/to/hg19ToHg38.over.chain.gz
+    export PYCMPLOT_CHAIN_HG18_HG38=/path/to/hg18ToHg38.over.chain.gz
 """
 
 from __future__ import annotations
@@ -135,17 +146,71 @@ def liftover_hg19_to_hg38(
     return new_pos
 
 
+def liftover_hg18_to_hg38(
+    chrom: str,
+    pos: int,
+    resources: Optional[ResourceConfig] = None,
+) -> Optional[int]:
+    """Convert a single hg18 (NCBI36) position to its hg38 equivalent.
+
+    Uses a lazily loaded and cached :class:`~pyliftover.LiftOver` object
+    backed by the hg18→hg38 chain file specified in *resources*.  When
+    multiple hg38 mappings exist for a given position, the one with the
+    highest chain score is returned.
+
+    Parameters
+    ----------
+    chrom : str
+        Chromosome name **without** the ``'chr'`` prefix (e.g. ``'1'``,
+        ``'X'``).  The prefix is added internally before querying
+        pyliftover.
+    pos : int
+        0-based hg18 position, as expected by :class:`pyliftover.LiftOver`.
+    resources : ResourceConfig, optional
+        :class:`~pycmplot.resources.ResourceConfig` instance.  Falls back
+        to :data:`~pycmplot.resources.default_resources` when ``None``.
+
+    Returns
+    -------
+    int or None
+        Corresponding 0-based hg38 position, or ``None`` if the position
+        could not be mapped (unmapped region, chromosome gap, or deleted
+        sequence).
+
+    See Also
+    --------
+    liftover_hg19_to_hg38 :
+        Equivalent helper for hg19 coordinates.
+    liftover_position :
+        Applies the appropriate per-row dispatcher to a full DataFrame.
+    """
+
+    if resources is None:
+        resources = default_resources
+
+    chain_path = resources.require("chain_hg18_hg38")
+    lo = _get_liftover(chain_path)
+
+    results = lo.convert_coordinate(f"chr{chrom}", pos)
+    if not results:
+        return None
+    _new_chrom, new_pos, _strand, _score = results[0]
+    return new_pos
+
+
 def liftover_position(
     df: pd.DataFrame,
     hg38_chr_limits: dict = None,
     resources: Optional[ResourceConfig] = None,
 ) -> pd.DataFrame:
-    """Liftover all hg19 rows in *df* from hg19 to hg38 coordinates.
+    """Liftover all hg18/hg19 rows in *df* to hg38 coordinates.
 
-    Iterates over every row in *df* and calls :func:`liftover_hg19_to_hg38`
-    for rows whose ``BUILD`` column equals ``'hg19'``.  Rows with other build
-    values are passed through unchanged.  Rows for which liftover returns
-    ``None`` or ``0`` (unmappable positions) are silently dropped.
+    Iterates over every row in *df* and dispatches to
+    :func:`liftover_hg19_to_hg38` for rows whose ``BUILD`` column equals
+    ``'hg19'`` or to :func:`liftover_hg18_to_hg38` for rows whose ``BUILD``
+    column equals ``'hg18'``.  Rows with any other build value are passed
+    through unchanged.  Rows for which liftover returns ``None`` or ``0``
+    (unmappable positions) are silently dropped.
 
     Two provenance columns are added to the returned DataFrame so that the
     original coordinates remain accessible:
@@ -207,6 +272,8 @@ def liftover_position(
     for chrom, pos, build in zip(df["CHR"], df["POS"], df["BUILD"]):
         if build == "hg19":
             new_positions.append(liftover_hg19_to_hg38(chrom, pos, resources))
+        elif build == "hg18":
+            new_positions.append(liftover_hg18_to_hg38(chrom, pos, resources))
         else:
             new_positions.append(pos)
 

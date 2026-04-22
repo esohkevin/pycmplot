@@ -29,6 +29,7 @@ import pandas as pd
 
 from pycmplot.io import get_output_paths
 from pycmplot.stats import get_highlight_snps
+from pycmplot.annotation import get_annotation_column
 
 logger = logging.getLogger(__name__)
 
@@ -622,25 +623,18 @@ def plot_circular(
     # Circular: gene/SNP annotations
     # ------------------------------------------------------------------
     if annotate and not hits_table.empty:
+        label_col = get_annotation_column(
+            annotate = annotate,
+            hits_table=hits_table,
+            label_col=label_col,
+        )
+        if label_col == 'SNP':
+            fstyle = "normal"
+        else:
+            fstyle = "italic"
+
         for i, (_, row) in enumerate(hits_table.iterrows()):
-            label = row['SNP']
-            fstyle = "normal" 
-            if label_col:
-                label_col = str(label_col)
-                try:
-                    if label_col == "GENE":
-                        if row["genic"]:
-                            label = row["nearest_upstream_gene"]
-                        else:
-                            label = row["top_gene"]
-                            fstyle = "italic"                       
-                    elif label_col != "SNP":
-                        label = row[label_col]
-                        fstyle = "italic"
-                except Exception:
-                    logger.info("'SNP' column is used for annotation since '%s' column could not be resolved in hits table.", label_col)
-                    pass                
-            
+            label = row[label_col]
             for sector in circos.sectors:
                 if str(row["CHR"]) == sector.name:
                     a_track = sector.add_track(annotation_track_radius)
