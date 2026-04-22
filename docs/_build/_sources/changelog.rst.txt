@@ -8,7 +8,7 @@ and this project adheres to `Semantic Versioning <https://semver.org/>`_.
 
 ----
 
-0.2.5 — 2026-04-21
+0.2.5 — 2026-04-22
 ------------------
 
 **Fixed**
@@ -25,6 +25,8 @@ and this project adheres to `Semantic Versioning <https://semver.org/>`_.
 
 - Enhanced memory efficiency by changing **CHR** and **BUILD** columns 
   dtypes from ``str`` to ``category`` in ``io.py``
+
+- Licence changed to MIT Licence.
 
 ----
 
