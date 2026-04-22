@@ -196,16 +196,16 @@ Mixed genome builds with liftover
 ---------------------------------
 
 If your summary statistics were generated on different reference panels
-(hg19 and hg38), pycmplot can liftover hg19 coordinates to hg38 before
-plotting. Supply the builds either through a ``BUILD`` column in the files
-or by passing ``--build`` (CLI) / ``build_list=`` (API):
+(hg18, hg19, or hg38), pycmplot can liftover hg18 and hg19 coordinates to
+hg38 before plotting. Supply the builds either through a ``BUILD`` column
+in the files or by passing ``--build`` (CLI) / ``build_list=`` (API):
 
 .. code-block:: bash
 
    pycmplot \
-     --sum_stats study_hg19.tsv.gz,study_hg38.tsv.gz \
-     --labels Study_A,Study_B \
-     --build hg19,hg38 \
+     --sum_stats study_hg18.tsv.gz,study_hg19.tsv.gz,study_hg38.tsv.gz \
+     --labels Study_A,Study_B,Study_C \
+     --build hg18,hg19,hg38 \
      --logp \
      --annotate GENE \
      --output_dir ./results

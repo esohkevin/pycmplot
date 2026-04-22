@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pycmplot.io &mdash; pycmplot 0.2.5 documentation</title>
+  <title>pycmplot.io &mdash; pycmplot 0.2.6 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=cb850272"></script>
+      <script src="../../_static/documentation_options.js?v=fc7d8818"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -97,7 +97,10 @@
 <li class="toctree-l3"><a class="reference internal" href="../../pycmplot_python_api.html#Important-notes">Important notes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../pycmplot_python_api.html#Generating-a-linear-plot">Generating a linear plot</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../pycmplot_python_api.html#No-highlighting-of-significant-loci">No highlighting of significant loci</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../pycmplot_python_api.html#Highlighting-significant-loci-and-annotating-by-SNP">Highlighting significant loci and annotating by SNP</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../pycmplot_python_api.html#id1">Generating a linear plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../pycmplot_python_api.html#Highlighting-significant-loci-and-annotating-by-SNP">Highlighting significant loci and annotating by SNP</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../pycmplot_python_api.html#Highlighting-by-a-different-p-value-threshold-and-changing-plot-colors-and-removing-track-labels">Highlighting by a different p-value threshold and changing plot colors and removing track labels</a></li>
 </ul>
 </li>
@@ -112,11 +115,15 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../pycmplot_python_api.html#Handling-other-use-cases-and-QQ-plots">Handling other use cases and QQ-plots</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../pycmplot_python_api.html#Summary-stats-without-BUILD-column-and-no-build-information-provided">Summary stats without <strong>BUILD</strong> column and no <code class="docutils literal notranslate"><span class="pre">build</span></code> information provided</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../pycmplot_python_api.html#Supplying-builds-with-summary-stats">Supplying builds with summary stats</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../pycmplot_python_api.html#QQ-Plotting">QQ-Plotting</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../pycmplot_python_api.html#Overlaying-multiple">Overlaying multiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../pycmplot_python_api.html#Separate-qq-plots-saved-in-separate-figures">Separate qq-plots saved in separate figures</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../pycmplot_python_api.html#Combined-multi-panel">Combined multi-panel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../pycmplot_python_api.html#Flexible-handling-of-each-qq-plot-using-the-base-plot_qq_single-function-directly">Flexible handling of each qq-plot using the base <code class="docutils literal notranslate"><span class="pre">plot_qq_single</span></code> function directly</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../pycmplot_python_api.html#Or-overlay-them-by-simply-using-the-same-axis">Or overlay them by simply using the same axis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../pycmplot_python_api.html#This-gives-us-the-flexibility-to-place-multiple-overlay-plots-on-one-figure">This gives us the flexibility to place multiple overlay plots on one figure</a></li>
 </ul>
 </li>
 </ul>
@@ -152,14 +159,17 @@
 <li class="toctree-l4"><a class="reference internal" href="../../api/annotation.html#gene-reference-files">Gene reference files</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/annotation.html#pycmplot.annotation.get_annotation_column"><code class="docutils literal notranslate"><span class="pre">get_annotation_column()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/annotation.html#pycmplot.annotation.get_hits_summary_table"><code class="docutils literal notranslate"><span class="pre">get_hits_summary_table()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/liftover.html">pycmplot.liftover</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../api/liftover.html#module-pycmplot.liftover">pycmplot.liftover</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/liftover.html#supported-conversions">Supported conversions</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/liftover.html#resource-configuration">Resource configuration</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/liftover.html#pycmplot.liftover.liftover_hg18_to_hg38"><code class="docutils literal notranslate"><span class="pre">liftover_hg18_to_hg38()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/liftover.html#pycmplot.liftover.liftover_hg19_to_hg38"><code class="docutils literal notranslate"><span class="pre">liftover_hg19_to_hg38()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/liftover.html#pycmplot.liftover.liftover_position"><code class="docutils literal notranslate"><span class="pre">liftover_position()</span></code></a></li>
 </ul>
@@ -201,6 +211,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/resources.html#pycmplot.resources.ResourceConfig"><code class="docutils literal notranslate"><span class="pre">ResourceConfig</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/resources.html#pycmplot.resources.ResourceConfig.chain_hg18_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.chain_hg18_hg38</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/resources.html#pycmplot.resources.ResourceConfig.chain_hg19_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.chain_hg19_hg38</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/resources.html#pycmplot.resources.ResourceConfig.geneinfo_hg19"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.geneinfo_hg19</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/resources.html#pycmplot.resources.ResourceConfig.geneinfo_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.geneinfo_hg38</span></code></a></li>
@@ -215,12 +226,13 @@
 <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id1">0.2.5 — 2026-04-20</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id2">0.2.2 — 2026-04-18</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id3">0.2.1 — 2026-04-16</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id4">0.1.9 — 2026-04-14</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id5">0.1.8 — 2026-04-14</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id6">0.1.0 — 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id1">0.2.5 — 2026-04-21</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id2">0.2.5 — 2026-04-20</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id3">0.2.2 — 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id4">0.2.1 — 2026-04-16</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id5">0.1.9 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id6">0.1.8 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id7">0.1.0 — 2026-04-18</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a><ul>
@@ -928,11 +940,11 @@
                 <span class="n">bcol</span><span class="p">:</span>      <span class="s2">&quot;BUILD&quot;</span><span class="p">,</span>
             <span class="p">}</span>
             <span class="n">col_dtypes</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="n">chrom_col</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                <span class="n">chrom_col</span><span class="p">:</span> <span class="s1">&#39;category&#39;</span><span class="p">,</span>
                 <span class="n">pos_col</span><span class="p">:</span>   <span class="nb">object</span><span class="p">,</span>
                 <span class="n">snp_col</span><span class="p">:</span>   <span class="nb">str</span><span class="p">,</span>
                 <span class="n">pcol_col</span><span class="p">:</span>  <span class="nb">float</span><span class="p">,</span>
-                <span class="n">bcol</span><span class="p">:</span>      <span class="nb">str</span><span class="p">,</span>
+                <span class="n">bcol</span><span class="p">:</span>      <span class="s1">&#39;category&#39;</span><span class="p">,</span>
             <span class="p">}</span>
             <span class="n">sumstats_hdr_dic</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">old_cols</span><span class="p">,</span> <span class="n">col_dtypes</span><span class="p">,</span> <span class="n">new_cols</span><span class="p">,</span> <span class="n">file_sep</span><span class="p">]</span>
 
@@ -946,7 +958,7 @@
                 <span class="n">pcol_col</span><span class="p">:</span>  <span class="s2">&quot;P&quot;</span><span class="p">,</span>
             <span class="p">}</span>
             <span class="n">col_dtypes</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="n">chrom_col</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                <span class="n">chrom_col</span><span class="p">:</span> <span class="s1">&#39;category&#39;</span><span class="p">,</span>
                 <span class="n">pos_col</span><span class="p">:</span>   <span class="nb">object</span><span class="p">,</span>
                 <span class="n">snp_col</span><span class="p">:</span>   <span class="nb">str</span><span class="p">,</span>
                 <span class="n">pcol_col</span><span class="p">:</span>  <span class="nb">float</span><span class="p">,</span>
@@ -965,18 +977,26 @@
                 <span class="n">pcol_col</span><span class="p">:</span>  <span class="s2">&quot;P&quot;</span><span class="p">,</span>
             <span class="p">}</span>
             <span class="n">col_dtypes</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="n">chrom_col</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                <span class="n">chrom_col</span><span class="p">:</span> <span class="s1">&#39;category&#39;</span><span class="p">,</span>
                 <span class="n">pos_col</span><span class="p">:</span>   <span class="nb">object</span><span class="p">,</span>
                 <span class="n">snp_col</span><span class="p">:</span>   <span class="nb">str</span><span class="p">,</span>
                 <span class="n">pcol_col</span><span class="p">:</span>  <span class="nb">float</span><span class="p">,</span>
             <span class="p">}</span>
             <span class="n">sumstats_hdr_dic</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">old_cols</span><span class="p">,</span> <span class="n">col_dtypes</span><span class="p">,</span> <span class="n">new_cols</span><span class="p">,</span> <span class="n">file_sep</span><span class="p">]</span>
 
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">info</span><span class="p">)</span> <span class="o">==</span> <span class="mi">5</span> <span class="k">for</span> <span class="n">info</span> <span class="ow">in</span> <span class="n">sumstats_hdr_dic</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_has_build_info</span><span class="p">(</span><span class="n">info</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;A file has build info when either (a) its header had a build</span>
+<span class="sd">        column (which is stored as a fifth entry in ``old_cols``), or</span>
+<span class="sd">        (b) a per-file build was supplied via ``--build`` (stored as a</span>
+<span class="sd">        fifth entry in the top-level list).&quot;&quot;&quot;</span>
+        <span class="n">old_cols</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">old_cols</span><span class="p">)</span> <span class="o">==</span> <span class="mi">5</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">info</span><span class="p">)</span> <span class="o">==</span> <span class="mi">5</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">_has_build_info</span><span class="p">(</span><span class="n">info</span><span class="p">)</span> <span class="k">for</span> <span class="n">info</span> <span class="ow">in</span> <span class="n">sumstats_hdr_dic</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
         <span class="c1"># Neither build column nor --build was available for any file</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
             <span class="s2">&quot;No build column or --build values detected. Summary stats will &quot;</span>
-            <span class="s2">&quot;be plotted in their respective coordinate systems. If your data &quot;</span>
+            <span class="s2">&quot;be plotted in their native coordinate systems. If your data &quot;</span>
             <span class="s2">&quot;are in different coordinate systems, combining them in one plot &quot;</span>
             <span class="s2">&quot;is not advisable, especially if ``--annotate`` is set!&quot;</span>
         <span class="p">)</span>
@@ -996,6 +1016,23 @@
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">temp</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="p">[</span><span class="nb">min</span><span class="p">(</span><span class="n">v</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">v</span><span class="p">)]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">temp</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Memory usage</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_memory_usage</span><span class="p">(</span><span class="n">mem_df</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">mem_df</span> <span class="o">&gt;</span> <span class="mf">1e6</span><span class="p">:</span>
+        <span class="n">df_mem</span> <span class="o">=</span> <span class="n">mem_df</span> <span class="o">/</span> <span class="mf">1e9</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s1">&#39;GB&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">df_mem</span> <span class="o">=</span> <span class="n">mem_df</span> <span class="o">/</span> <span class="mf">1e6</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s1">&#39;MB&#39;</span>
+    <span class="k">if</span> <span class="n">df_mem</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">df_mem</span> <span class="o">=</span> <span class="n">df_mem</span> <span class="o">*</span> <span class="mi">100</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="s1">&#39;MB&#39;</span>
+
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">df_mem</span><span class="si">:</span><span class="s2">.3g</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">unit</span><span class="si">}</span><span class="s2">&quot;</span>
 
 
 <span class="c1"># ---------------------------------------------------------------------------</span>
@@ -1161,20 +1198,27 @@
         <span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">sumstat_newcols</span><span class="p">)</span>
 
         <span class="n">df</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;coerce&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;Int64&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+        <span class="n">pre_trim_mem</span> <span class="o">=</span> <span class="n">_get_memory_usage</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">memory_usage</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+        <span class="n">pre_trim_vars</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Loaded </span><span class="si">%s</span><span class="s2"> variants from summary stat file, using </span><span class="si">%s</span><span class="s2"> of memory&quot;</span><span class="p">,</span> <span class="n">pre_trim_vars</span><span class="p">,</span> <span class="n">pre_trim_mem</span><span class="p">)</span>
 
         <span class="c1"># Get dict of p-values for qq-plotting before applying trim_pval</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Extracting raw p-values for QQ-plotting ...&quot;</span><span class="p">)</span>
-        <span class="n">pval_dict</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;P&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;float&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">pval_dict</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;P&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
 
 
         <span class="c1"># Add build column if not exist and build supplied</span>
         <span class="k">if</span> <span class="n">build</span><span class="p">:</span>
             <span class="n">df</span><span class="p">[</span><span class="s1">&#39;BUILD&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">build</span>
+            <span class="n">df</span><span class="p">[</span><span class="s1">&#39;BUILD&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;BUILD&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;category&#39;</span><span class="p">)</span>
 
         <span class="c1"># Trim insignificant variants for faster plotting</span>
         <span class="k">if</span> <span class="n">trim_pval</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Excluding variants with p-value less than </span><span class="si">%s</span><span class="s2"> to speed up Manhattan plotting ...&quot;</span><span class="p">,</span> <span class="n">trim_pval</span><span class="p">)</span>
             <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;P&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="nb">float</span><span class="p">(</span><span class="n">trim_pval</span><span class="p">)]</span>
+            <span class="n">post_trim_mem</span> <span class="o">=</span> <span class="n">_get_memory_usage</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">memory_usage</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+            <span class="n">post_trim_vars</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> variants remain after trimming, using </span><span class="si">%s</span><span class="s2"> of memory&quot;</span><span class="p">,</span> <span class="n">post_trim_vars</span><span class="p">,</span> <span class="n">post_trim_mem</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;P&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">]</span>
 
@@ -1198,9 +1242,16 @@
         <span class="n">n_chroms</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span> <span class="o">-</span> <span class="mi">1</span>
         <span class="n">sumstats_loaded</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">df</span><span class="p">,</span> <span class="n">n_chroms</span><span class="p">]</span>
 
-        <span class="c1"># Liftover hg19 data if needed</span>
-        <span class="k">if</span> <span class="s2">&quot;BUILD&quot;</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="ow">and</span> <span class="s2">&quot;hg19&quot;</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;BUILD&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Converting hg19 coordinates to hg38 ...&quot;</span><span class="p">)</span>
+        <span class="c1"># Liftover hg18/hg19 data if needed</span>
+        <span class="k">if</span> <span class="s2">&quot;BUILD&quot;</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="ow">and</span> <span class="p">(</span>
+            <span class="s2">&quot;hg19&quot;</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;BUILD&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span> <span class="ow">or</span> <span class="s2">&quot;hg18&quot;</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;BUILD&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+        <span class="p">):</span>
+            <span class="n">builds_present</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
+                <span class="n">b</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;BUILD&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span> <span class="k">if</span> <span class="n">b</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;hg18&quot;</span><span class="p">,</span> <span class="s2">&quot;hg19&quot;</span><span class="p">}</span>
+            <span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;Converting </span><span class="si">%s</span><span class="s2"> coordinates to hg38 ...&quot;</span><span class="p">,</span> <span class="s2">&quot;/&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">builds_present</span><span class="p">)</span>
+            <span class="p">)</span>
             <span class="n">sumstats_loaded</span><span class="p">[</span><span class="n">label</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">liftover_position</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">resources</span><span class="o">=</span><span class="n">resources</span><span class="p">)</span>
 
         <span class="c1"># Lead SNPs</span>
@@ -1289,6 +1340,7 @@
     <span class="n">assoc_sector_sizes_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">min_dic_val</span> <span class="o">=</span> <span class="kc">None</span>
 
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Computing per-sumstat sector sizes (chrom → [min_pos, max_pos])&quot;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">df</span><span class="p">,</span> <span class="n">_n</span> <span class="ow">in</span> <span class="n">sumstats_loaded</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
         <span class="n">assoc</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="o">~</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">len</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">)]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>

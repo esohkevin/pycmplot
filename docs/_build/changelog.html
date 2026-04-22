@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Changelog &mdash; pycmplot 0.2.5 documentation</title>
+  <title>Changelog &mdash; pycmplot 0.2.6 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=cb850272"></script>
+      <script src="_static/documentation_options.js?v=fc7d8818"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -100,7 +100,10 @@
 <li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Important-notes">Important notes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Generating-a-linear-plot">Generating a linear plot</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="pycmplot_python_api.html#No-highlighting-of-significant-loci">No highlighting of significant loci</a></li>
-<li class="toctree-l4"><a class="reference internal" href="pycmplot_python_api.html#Highlighting-significant-loci-and-annotating-by-SNP">Highlighting significant loci and annotating by SNP</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#id1">Generating a linear plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Highlighting-significant-loci-and-annotating-by-SNP">Highlighting significant loci and annotating by SNP</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="pycmplot_python_api.html#Highlighting-by-a-different-p-value-threshold-and-changing-plot-colors-and-removing-track-labels">Highlighting by a different p-value threshold and changing plot colors and removing track labels</a></li>
 </ul>
 </li>
@@ -115,11 +118,15 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="pycmplot_python_api.html#Handling-other-use-cases-and-QQ-plots">Handling other use cases and QQ-plots</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Summary-stats-without-BUILD-column-and-no-build-information-provided">Summary stats without <strong>BUILD</strong> column and no <code class="docutils literal notranslate"><span class="pre">build</span></code> information provided</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Supplying-builds-with-summary-stats">Supplying builds with summary stats</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#QQ-Plotting">QQ-Plotting</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="pycmplot_python_api.html#Overlaying-multiple">Overlaying multiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pycmplot_python_api.html#Separate-qq-plots-saved-in-separate-figures">Separate qq-plots saved in separate figures</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pycmplot_python_api.html#Combined-multi-panel">Combined multi-panel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pycmplot_python_api.html#Flexible-handling-of-each-qq-plot-using-the-base-plot_qq_single-function-directly">Flexible handling of each qq-plot using the base <code class="docutils literal notranslate"><span class="pre">plot_qq_single</span></code> function directly</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pycmplot_python_api.html#Or-overlay-them-by-simply-using-the-same-axis">Or overlay them by simply using the same axis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pycmplot_python_api.html#This-gives-us-the-flexibility-to-place-multiple-overlay-plots-on-one-figure">This gives us the flexibility to place multiple overlay plots on one figure</a></li>
 </ul>
 </li>
 </ul>
@@ -155,14 +162,17 @@
 <li class="toctree-l4"><a class="reference internal" href="api/annotation.html#gene-reference-files">Gene reference files</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.get_annotation_column"><code class="docutils literal notranslate"><span class="pre">get_annotation_column()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.get_hits_summary_table"><code class="docutils literal notranslate"><span class="pre">get_hits_summary_table()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="api/liftover.html">pycmplot.liftover</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/liftover.html#module-pycmplot.liftover">pycmplot.liftover</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/liftover.html#supported-conversions">Supported conversions</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/liftover.html#resource-configuration">Resource configuration</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="api/liftover.html#pycmplot.liftover.liftover_hg18_to_hg38"><code class="docutils literal notranslate"><span class="pre">liftover_hg18_to_hg38()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/liftover.html#pycmplot.liftover.liftover_hg19_to_hg38"><code class="docutils literal notranslate"><span class="pre">liftover_hg19_to_hg38()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/liftover.html#pycmplot.liftover.liftover_position"><code class="docutils literal notranslate"><span class="pre">liftover_position()</span></code></a></li>
 </ul>
@@ -204,6 +214,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="api/resources.html#pycmplot.resources.ResourceConfig"><code class="docutils literal notranslate"><span class="pre">ResourceConfig</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/resources.html#pycmplot.resources.ResourceConfig.chain_hg18_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.chain_hg18_hg38</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/resources.html#pycmplot.resources.ResourceConfig.chain_hg19_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.chain_hg19_hg38</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/resources.html#pycmplot.resources.ResourceConfig.geneinfo_hg19"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.geneinfo_hg19</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/resources.html#pycmplot.resources.ResourceConfig.geneinfo_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.geneinfo_hg38</span></code></a></li>
@@ -218,12 +229,13 @@
 <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id1">0.2.5 — 2026-04-20</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id2">0.2.2 — 2026-04-18</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">0.2.1 — 2026-04-16</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">0.1.9 — 2026-04-14</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id5">0.1.8 — 2026-04-14</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id6">0.1.0 — 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">0.2.5 — 2026-04-21</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">0.2.5 — 2026-04-20</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">0.2.2 — 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">0.2.1 — 2026-04-16</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">0.1.9 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">0.1.8 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">0.1.0 — 2026-04-18</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a><ul>
@@ -268,7 +280,26 @@
 and this project adheres to <a class="reference external" href="https://semver.org/">Semantic Versioning</a>.</p>
 <hr class="docutils" />
 <section id="id1">
-<h2>0.2.5 — 2026-04-20<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<h2>0.2.5 — 2026-04-21<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<p><strong>Fixed</strong></p>
+<ul class="simple">
+<li><p>Annotation in circular plotting when <strong>GENE</strong> selected but <strong>SNP</strong>
+annotated.</p></li>
+</ul>
+<p><strong>Added</strong></p>
+<ul class="simple">
+<li><p>Information about the sumstats printed to screen now includes number
+of variants pre and post trimming, memory usage, and progress bar.</p></li>
+</ul>
+<p><strong>Changed</strong></p>
+<ul class="simple">
+<li><p>Enhanced memory efficiency by changing <strong>CHR</strong> and <strong>BUILD</strong> columns
+dtypes from <code class="docutils literal notranslate"><span class="pre">str</span></code> to <code class="docutils literal notranslate"><span class="pre">category</span></code> in <code class="docutils literal notranslate"><span class="pre">io.py</span></code></p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="id2">
+<h2>0.2.5 — 2026-04-20<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
 <p><strong>Fixed</strong></p>
 <ul class="simple">
 <li><p>Chromosome-22 positions falling outside hg38 chr22 limits after liftover
@@ -292,16 +323,55 @@ the number of chromosomes (most chromosomes first) rather than by track
 label.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">resources.ResourceConfig.require</span></code> now imports <code class="docutils literal notranslate"><span class="pre">as_file</span></code> from
 <code class="docutils literal notranslate"><span class="pre">importlib.resources</span></code> so the bundled-resource fallback no longer raises
-<code class="docutils literal notranslate"><span class="pre">NameError</span></code>.</p></li>
+<code class="docutils literal notranslate"><span class="pre">NameError</span></code>. The fallback also now verifies that the resolved file
+actually exists before returning, rather than silently returning a
+phantom path.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">prep_pycmplot_input_info</span></code> no longer emits a spurious “no build column
+detected” warning when the input files contain a <code class="docutils literal notranslate"><span class="pre">BUILD</span></code> column. The
+check previously inspected the length of the top-level info list, which
+only distinguishes the <code class="docutils literal notranslate"><span class="pre">--build</span></code> path from the no-build path; the fix
+also checks whether a build column was appended to <code class="docutils literal notranslate"><span class="pre">old_cols</span></code>.</p></li>
+<li><p>Linear Manhattan plot: per-track labels and the shared
+<code class="docutils literal notranslate"><span class="pre">-log₁₀(p-value)</span></code> y-axis label no longer overlap in the left margin.
+Track labels are now rendered as a right-aligned sub-title above each
+axes (<code class="docutils literal notranslate"><span class="pre">ax.set_title(...,</span> <span class="pre">loc='right')</span></code>), which keeps them out of the
+data region entirely — so labels remain legible for dense null tracks,
+iHS/F_ST/XP-EHH panels, or any other plot where data can reach the
+upper-right corner.  The figure also reserves an explicit left strip
+for the shared y-label via <code class="docutils literal notranslate"><span class="pre">fig.subplots_adjust</span></code> instead of relying
+on <code class="docutils literal notranslate"><span class="pre">tight_layout</span></code> (which was incompatible with the shared-x gridspec
+and silently emitted a matplotlib warning).</p></li>
+<li><p>Linear Manhattan plot: the <code class="docutils literal notranslate"><span class="pre">df</span> <span class="pre">=</span> <span class="pre">df[df[p_col]</span> <span class="pre">&gt;=</span> <span class="pre">0]</span></code> sanity filter is
+now only applied when plotting <code class="docutils literal notranslate"><span class="pre">-log₁₀(p)</span></code>. For non-p-value
+statistics (iHS, XP-EHH, Fay &amp; Wu’s H) negative values are legitimate
+and are preserved.  The filter was also previously applied <em>after</em>
+<code class="docutils literal notranslate"><span class="pre">color_cycle</span></code> was constructed, which caused a latent
+<code class="docutils literal notranslate"><span class="pre">ValueError:</span> <span class="pre">'c'</span> <span class="pre">argument</span> <span class="pre">has</span> <span class="pre">N</span> <span class="pre">elements,</span> <span class="pre">which</span> <span class="pre">is</span> <span class="pre">inconsistent</span> <span class="pre">with</span>
+<span class="pre">'x'</span> <span class="pre">and</span> <span class="pre">'y'</span></code> whenever the filter actually dropped rows.</p></li>
 </ul>
 <p><strong>Added</strong></p>
 <ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--ylabel</span></code> / <code class="docutils literal notranslate"><span class="pre">-yl</span></code> flag (and <code class="docutils literal notranslate"><span class="pre">ylabel=</span></code> kwarg on
+<a class="reference internal" href="api/plotting.html#pycmplot.plotting.linear.plot_linear" title="pycmplot.plotting.linear.plot_linear"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot_linear()</span></code></a> and
+<a class="reference internal" href="api/plotting.html#pycmplot.plotting.linear.plot_linearm" title="pycmplot.plotting.linear.plot_linearm"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot_linearm()</span></code></a>) for overriding the
+shared y-axis label on linear Manhattan plots.  Intended for non-p-value
+statistics, e.g. <code class="docutils literal notranslate"><span class="pre">--ylabel</span> <span class="pre">'iHS'</span></code> or <code class="docutils literal notranslate"><span class="pre">--ylabel</span> <span class="pre">'F_ST'</span></code>.</p></li>
 <li><p>All QQ-plotting functions (<a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.plot_qq_single" title="pycmplot.plotting.qq.plot_qq_single"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot_qq_single()</span></code></a>,
 <a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.plot_qq_combined" title="pycmplot.plotting.qq.plot_qq_combined"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot_qq_combined()</span></code></a>,
 <a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.plot_qq_separate" title="pycmplot.plotting.qq.plot_qq_separate"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot_qq_separate()</span></code></a>,
 <a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.plot_qq_overlay" title="pycmplot.plotting.qq.plot_qq_overlay"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot_qq_overlay()</span></code></a>) are now re-exported at the
 top level (<code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">pycmplot</span> <span class="pre">import</span> <span class="pre">plot_qq_combined</span></code>) and through the
 <code class="xref py py-mod docutils literal notranslate"><span class="pre">pycmplot.plotting</span></code> subpackage.</p></li>
+<li><p><strong>hg18 → hg38 liftover.</strong> <code class="docutils literal notranslate"><span class="pre">BUILD</span></code> column values of <code class="docutils literal notranslate"><span class="pre">hg18</span></code> (or
+<code class="docutils literal notranslate"><span class="pre">--build</span> <span class="pre">hg18</span></code>) now trigger direct hg18 → hg38 coordinate conversion
+via a bundled UCSC chain file
+(<code class="docutils literal notranslate"><span class="pre">pycmplot/data/hg18ToHg38.over.chain.gz</span></code>). A new
+<a class="reference internal" href="api/liftover.html#pycmplot.liftover.liftover_hg18_to_hg38" title="pycmplot.liftover.liftover_hg18_to_hg38"><code class="xref py py-func docutils literal notranslate"><span class="pre">liftover_hg18_to_hg38()</span></code></a> helper and
+<code class="docutils literal notranslate"><span class="pre">ResourceConfig.chain_hg18_hg38</span></code> attribute (overridable via
+<code class="docutils literal notranslate"><span class="pre">PYCMPLOT_CHAIN_HG18_HG38</span></code>) are exposed alongside the existing
+hg19 → hg38 path. Together these cover virtually all publicly available
+GWAS summary statistics.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">-m</span> <span class="pre">pycmplot</span></code> entry point (via a new <code class="docutils literal notranslate"><span class="pre">__main__.py</span></code>).</p></li>
 <li><p>New Jupyter notebook demonstrating QQ-plotting workflows.</p></li>
 <li><p>All module-, class-, and function-level docstrings now use the bare
 <code class="docutils literal notranslate"><span class="pre">&quot;&quot;&quot;...&quot;&quot;&quot;</span></code> form so that Sphinx autodoc / numpydoc and
@@ -309,8 +379,8 @@ top level (<code class="docutils literal notranslate"><span class="pre">from</sp
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id2">
-<h2>0.2.2 — 2026-04-18<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<section id="id3">
+<h2>0.2.2 — 2026-04-18<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
 <p><strong>Added</strong></p>
 <p>QQ plots (<a class="reference internal" href="api/plotting.html#module-pycmplot.plotting.qq" title="pycmplot.plotting.qq"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pycmplot.plotting.qq</span></code></a>):</p>
 <ul class="simple">
@@ -379,8 +449,8 @@ tracks to improve visibility of track labels and y-axis ticks.</p></li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id3">
-<h2>0.2.1 — 2026-04-16<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<section id="id4">
+<h2>0.2.1 — 2026-04-16<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
 <p><strong>Added</strong></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">--build</span></code> option for supplying per-file genome builds when the
@@ -403,8 +473,8 @@ builds avoids this.</p></li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id4">
-<h2>0.1.9 — 2026-04-14<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<section id="id5">
+<h2>0.1.9 — 2026-04-14<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
 <p><strong>Fixed</strong></p>
 <ul class="simple">
 <li><p>Column name auto-detection now covers both lower- and upper-case
@@ -415,8 +485,8 @@ the CLI equivalent (required instead of optional).</p></li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id5">
-<h2>0.1.8 — 2026-04-14<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<section id="id6">
+<h2>0.1.8 — 2026-04-14<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
 <p><strong>Added</strong></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">--highlight_color</span></code> and <code class="docutils literal notranslate"><span class="pre">--highlight_line_color</span></code> options.</p></li>
@@ -430,8 +500,8 @@ the CLI equivalent (required instead of optional).</p></li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id6">
-<h2>0.1.0 — 2026-04-18<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<section id="id7">
+<h2>0.1.0 — 2026-04-18<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
 <p>Initial release.</p>
 <p><strong>Added</strong></p>
 <p>Package structure:</p>

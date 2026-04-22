@@ -19,7 +19,8 @@ attribute:
 
    .. code-block:: bash
 
-       export PYCMPLOT_CHAIN_HG19_HG38=/path/to/hg19ToHg38.over.chain
+       export PYCMPLOT_CHAIN_HG19_HG38=/path/to/hg19ToHg38.over.chain.gz
+       export PYCMPLOT_CHAIN_HG18_HG38=/path/to/hg18ToHg38.over.chain.gz
        export PYCMPLOT_GENEINFO_HG38=/path/to/Homo_sapiens.GRCh38.geneinfo.tsv.gz
        export PYCMPLOT_GENEINFO_HG19=/path/to/Homo_sapiens.GRCh37.geneinfo.tsv.gz
 
@@ -32,7 +33,7 @@ Examples
 Override a single resource while using defaults for the rest:
 
 >>> from pycmplot.resources import ResourceConfig
->>> cfg = ResourceConfig(chain_hg19_hg38="/my/custom.over.chain")
+>>> cfg = ResourceConfig(chain_hg19_hg38="/my/custom.over.chain.gz")
 >>> # pass cfg to any function that accepts a resources argument:
 >>> from pycmplot.liftover import liftover_position
 >>> df_lifted = liftover_position(df, resources=cfg)
@@ -59,11 +60,15 @@ def _pkg_data(filename: str) -> str:
 class ResourceConfig:
     """Paths to external reference files used by pycmplot.
 
-    Dataclass grouping the three on-disk resources required by pycmplot:
+    Dataclass grouping the on-disk resources required by pycmplot:
 
     - ``chain_hg19_hg38`` -- UCSC LiftOver chain file for hg19 to hg38
       conversion. Resolved from ``PYCMPLOT_CHAIN_HG19_HG38`` or the bundled
-      ``hg19ToHg38.over.chain``.
+      ``hg19ToHg38.over.chain.gz``.
+    - ``chain_hg18_hg38`` -- UCSC LiftOver chain file for hg18 to hg38
+      conversion. Resolved from ``PYCMPLOT_CHAIN_HG18_HG38`` or the bundled
+      ``hg18ToHg38.over.chain.gz``. Only required when any input summary
+      statistics file carries a ``hg18`` build label.
     - ``geneinfo_hg38`` -- Ensembl gene-info TSV for GRCh38, used for
       nearest-gene annotation. Resolved from ``PYCMPLOT_GENEINFO_HG38`` or
       the bundled ``Homo_sapiens.GRCh38.geneinfo.tsv.gz``.
@@ -94,7 +99,13 @@ class ResourceConfig:
     chain_hg19_hg38: str | None = field(
         default_factory=lambda: _env(
             "PYCMPLOT_CHAIN_HG19_HG38",
-            _pkg_data("hg19ToHg38.over.chain"),
+            _pkg_data("hg19ToHg38.over.chain.gz"),
+        )
+    )
+    chain_hg18_hg38: str | None = field(
+        default_factory=lambda: _env(
+            "PYCMPLOT_CHAIN_HG18_HG38",
+            _pkg_data("hg18ToHg38.over.chain.gz"),
         )
     )
     geneinfo_hg38: str | None = field(
@@ -146,7 +157,7 @@ class ResourceConfig:
         >>> from pycmplot.resources import ResourceConfig
         >>> cfg = ResourceConfig()
         >>> chain = cfg.require("chain_hg19_hg38")
-        >>> chain.endswith(".over.chain")
+        >>> chain.endswith(".over.chain.gz")
         True
         """
 
@@ -154,6 +165,7 @@ class ResourceConfig:
         if val is None:
             env_var = {
                 "chain_hg19_hg38": "PYCMPLOT_CHAIN_HG19_HG38",
+                "chain_hg18_hg38": "PYCMPLOT_CHAIN_HG18_HG38",
                 "geneinfo_hg38":   "PYCMPLOT_GENEINFO_HG38",
                 "geneinfo_hg19":   "PYCMPLOT_GENEINFO_HG19",
                 #"featuresinfo":    "PYCMPLOT_FEATURESINFO",
@@ -172,7 +184,8 @@ class ResourceConfig:
         try:
             resource = files("pycmplot.data") / Path(val).name
             with as_file(resource) as real_path:
-                return str(real_path)
+                if Path(real_path).exists():
+                    return str(real_path)
         except Exception:
             pass
 

@@ -94,6 +94,7 @@ def main() -> None:
     from pycmplot.plotting.circular import plot_circular
     from pycmplot.plotting.qq import plot_qq_combined, plot_qq_separate, plot_qq_overlay
     from pycmplot.resources import ResourceConfig
+    from pycmplot.annotation import get_annotation_column
 
     # ------------------------------------------------------------------
     # Parse CLI
@@ -147,7 +148,9 @@ def main() -> None:
     track_heights    = args.track_heights
     linear_track_spacing    = args.linear_track_spacing
     no_track_labels  = args.no_track_labels
+    ylabel           = args.ylabel
     chr_spacing      = args.chr_spacing
+    figure_size      = args.figure_size
 
 
     # ------------------------------------------------------------------
@@ -227,23 +230,6 @@ def main() -> None:
     pval_dict = pycmplot_dict["pvals"]
 
     # ------------------------------------------------------------------
-    # ANNOTATE BY
-    # ------------------------------------------------------------------
-    label_col = 'SNP'
-    if annotate and not hits_table.empty:
-        if str(annotate).upper() == "GENE" and 'top_gene' in hits_table.columns:
-            label_col = 'top_gene'
-        elif annotate in hits_table.columns:
-            label_col = annotate
-        else:
-            logger.warning(
-                "Annotation column '%s' not found in hits table; "
-                "falling back to 'SNP'.", annotate,
-            )
-
-        logger.info("Annotate by: %s", label_col)
-
-    # ------------------------------------------------------------------
     # CIRCULAR MANHATTAN
     # ------------------------------------------------------------------
     if mode.upper() == "CM":
@@ -264,7 +250,6 @@ def main() -> None:
             track_label_size = track_label_size,
             track_label_orientation = track_label_orientation,
             annotate = annotate,
-            label_col = label_col if annotate else None,
             annotation_size = annotation_size,
             hits_table = hits_table,
             sector_sizes = merged_assoc_sector_sizes,
@@ -284,6 +269,9 @@ def main() -> None:
     # ------------------------------------------------------------------
     else:
         logger.info("Generating LINEAR MANHATTAN Plot ...")
+        fsize = figure_size.strip(" ").split(",")
+        fsize = [int(v) for v in fsize]
+        logger.info(f"FIGURE SIZE: {fsize}")
         plot_linear(
             sumstats_loaded=sumstats_loaded,
             track_heights=t_heights,
@@ -295,19 +283,19 @@ def main() -> None:
             highlight_color=highlight_color,
             highlight_line=highlight_line,
             highlight_line_color=highlight_line_color,
-            annotate=annotate,        
+            annotate=annotate,
             hits_table=hits_table if not hits_table.empty else None,
-            label_col=label_col if annotate else None,
             chr_spacing=chr_spacing,
             linear_track_spacing=linear_track_spacing,
             colors=colors,
             signif_lines=signif_lines,
             plot_title=plot_title,
             no_track_labels=no_track_labels,
+            ylabel=ylabel,
             dpi=dpi,
             output_format=output_format,
             output_dir=output_dir,
-            figsize=(15, 9)
+            figsize=fsize
         )
 
     # ------------------------------------------------------------------

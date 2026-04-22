@@ -40,8 +40,9 @@ Key features
   genome build columns are inferred from common naming conventions.
 - **Lead-SNP and locus annotation** — nearest-gene lookup and a structured hits
   summary table are generated alongside every plot.
-- **hg19 → hg38 liftover** — mix coordinate systems in one run; pycmplot
-  harmonises positions automatically via ``pyliftover``.
+- **Legacy → hg38 liftover** — mix coordinate systems in one run; hg18
+  and hg19 inputs are automatically harmonised to hg38 via
+  ``pyliftover``.
 - **Command-line interface and Python API** — use interactively in Jupyter or
   integrate into a pipeline.
 

@@ -570,3 +570,36 @@ def get_hits_summary_table(
         logger.info("Locus summary written to: %s", outpath)
 
     return _clump_by_distance(locus_table, window_kb=window_kb)
+
+
+def get_annotation_column(
+    annotate: str = None, 
+    hits_table: pd.DataFrame = None,
+    label_col: str = None,
+):
+    if annotate and not hits_table.empty:
+        if label_col is not None and label_col in hits_table.columns:
+            label_clm = label_col
+        elif annotate in hits_table.columns:
+            label_clm = annotate
+        else:
+            if str(annotate).upper() == "GENE":
+                for i, (_, row) in enumerate(hits_table.iterrows()):
+                    try:
+                        if row["genic"]:
+                            label_clm = "nearest_upstream_gene"
+                            label_msg = "'POS' is genic"
+                        else:
+                            label_clm = "top_gene"
+                            label_msg = "'POS' is not genic"
+                        logger.info("%s", label_msg)
+                    except Exception:
+                        logger.warning(
+                            "Annotation columns '%s' and '%s' not found in hits table: %s; "
+                            "falling back to 'SNP'.", annotate, label_col, hits_table.columns.values,
+                        )
+                        label_clm = 'SNP'
+              
+    logger.info("Annotating by: %s", label_clm)
+
+    return label_clm

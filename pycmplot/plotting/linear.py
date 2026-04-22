@@ -40,6 +40,7 @@ from natsort import natsort_keygen
 from pycmplot.constants import CHROM_ORDER
 from pycmplot.stats import get_highlight_snps
 from pycmplot.io import get_output_paths
+from pycmplot.annotation import get_annotation_column
 
 logger = logging.getLogger(__name__)
 
@@ -109,7 +110,7 @@ def _draw_annotation_arrows(
     chr_max: dict,
     spread_width: float = 60e6,
     y_tip: float = 0.0,
-    y_text: float = 0.55,
+    y_text: float = 0.35,
 ) -> None:
     """Draw angled arrow annotations from gene-label text to signal positions.
 
@@ -499,6 +500,7 @@ def plot_linearm(
     sig_lines: Optional[list[dict]] = None,
     plt_name: Optional[str] = None,
     no_track_labels: bool = False,
+    ylabel: Optional[str] = None,
     fig_format: Optional[str] = None,
     dpi: int = 300,
     figsize: tuple = (15, 9),
@@ -571,7 +573,14 @@ def plot_linearm(
         Full output file path (including extension).  When provided the figure
         is saved to disk.
     no_track_labels : bool, optional
-        If ``True``, track y-axis labels are suppressed.  Default ``False``.
+        If ``True``, per-track labels are suppressed.  Default ``False``.
+    ylabel : str, optional
+        Shared y-axis label rendered on the left of the figure.  Use this
+        to set a sensible label for non-p-value statistics such as iHS,
+        FST or XP-EHH (e.g. ``ylabel="iHS"``).  When ``None`` (the
+        default), the label is derived automatically:
+        ``"-log₁₀(p-value)"`` when *logp* is ``True``, otherwise the
+        p-value column name (``"P"``).
     fig_format : str, optional
         Output image format (``'png'``, ``'pdf'``, ``'svg'``).  Inferred
         from *plt_name*'s extension when ``None``.
@@ -716,17 +725,33 @@ def plot_linearm(
     ):
         logger.info("Plotting: %s ...", t_label)
 
-        color_cycle = [colors[j % len(colors)] for j in df["chr_idx"]]
-        df = df[df[p_col] >= 0]
+        # Sanity filter.  When plotting -log10(p) we assume the P column is a
+        # p-value and drop non-positive entries (a common product of upstream
+        # NaN -> 0 coercion or mistyped headers).  When plotting raw values
+        # we keep every ro(w, since selection statistics such as iHS, XP-EHH
+        # or Fay & Wu's H can legitimately be negative.  color_cycle is
+        # computed *after* filtering so the color array always aligns with
+        # the scatter x/y arrays.
+        if logp:
+            df = df[df[p_col] >= 0]
 
+        color_cycle = [colors[j % len(colors)] for j in df["chr_idx"]]
         y_vals = df["logP"] if logp else df[p_col]
         ax.scatter(df["x"], y_vals, c=color_cycle, s=point_size)
 
-        # Track labels
-        if no_track_labels:
-            pass
-        else:
-            ax.set_ylabel(t_label, color="black")
+        # Track labels — rendered vertically in the right margin (just past
+        # the last chromosome), orthogonal to the track-stacking direction.
+        # This keeps the label out of the data region, survives arbitrarily
+        # tight packing (``linear_track_spacing=0`` onward), and never
+        # collides with the shared y-axis label on the left.
+        if not no_track_labels:
+            ax.text(
+                1.005, 0.5, t_label,
+                transform=ax.transAxes,
+                ha="left", va="center",
+                rotation=-90,
+                fontsize=10,
+            )
 
         if highlight:
             sig = df[df["in_locus"]]
@@ -738,15 +763,15 @@ def plot_linearm(
                 if highlight_line:
                     for x in sig["x"].values:
                         for _ax in loop_axes:
-                            _ax.axvline(x, color=highlight_line_color, alpha=0.2, linewidth=0.5,
+                            _ax.axvline(x, color=highlight_line_color, alpha=0.2, linewidth=0.4,
                                     linestyle="--", zorder=0)
 
         if sig_lines is not None and i < len(sig_lines):
             sl = sig_lines[i]
             if "genome" in sl:
-                ax.axhline(y=sl["genome"], color="red", linestyle="--", linewidth=0.6)
+                ax.axhline(y=sl["genome"], color="red", linestyle="--", linewidth=0.5)
             if "suggestive" in sl:
-                ax.axhline(y=sl["suggestive"], color="blue", linestyle="--", linewidth=0.6)
+                ax.axhline(y=sl["suggestive"], color="blue", linestyle="--", linewidth=0.4)
 
         ax.spines[["top", "right"]].set_visible(False)
 
@@ -759,7 +784,6 @@ def plot_linearm(
     # Annotation track
     # ------------------------------------------------------------------
     if annotate and annot_df is not None:
-        
         
         _draw_annotation_arrows(
             ax_annot,
@@ -833,12 +857,34 @@ def plot_linearm(
         ax.tick_params(axis="x", which="both", bottom=False, labelbottom=False)
         ax.spines[["top", "right", "bottom"]].set_visible(False)
 
-    plt.subplots_adjust(hspace=linear_track_spacing, left=0.08)
-    plt.tight_layout()
+    # Explicit margins keep the shared y-axis label (added below as
+    # ``fig.text``) in its own reserved strip on the left of the figure.
+    # We avoid ``tight_layout`` here because the annotation panel shares
+    # ``sharex`` with the data tracks inside a custom ``GridSpec``, which
+    # triggers a matplotlib "not compatible with tight_layout" warning
+    # without actually helping the layout.
+    # Reserve margins explicitly: the left strip holds the shared y-axis
+    # label, the right strip holds the per-track labels placed just past
+    # the last chromosome.  ``hspace`` is forwarded verbatim so users can
+    # set ``linear_track_spacing=0`` to stack tracks flush against each
+    # other — the right-side track labels remain readable because they
+    # are orthogonal to the stacking direction.
+    fig.subplots_adjust(
+        left=0.09,
+        right=0.94,
+        top=0.96,
+        bottom=0.1,
+        hspace=linear_track_spacing,
+    )
+
+    if ylabel is None:
+        ylabel_text = "-log\u2081\u2080(p-value)" if logp else p_col
+    else:
+        ylabel_text = ylabel
 
     fig.text(
-        0.02, 0.5,
-        "-log\u2081\u2080(p-value)" if logp else p_col,
+        0.015, 0.5,
+        ylabel_text,
         va="center",
         rotation="vertical",
         fontsize=12,
@@ -864,7 +910,7 @@ def plot_linear(
     highlight_line: bool = False,
     highlight_line_color: str = 'grey',    
     hits_table: Optional[pd.DataFrame] = None,
-    annotate: bool = False,
+    annotate: str = None,
     label_col: Optional[str] = None,
     chr_spacing: Optional[float] = None,
     linear_track_spacing: Optional[float] = None,
@@ -872,6 +918,7 @@ def plot_linear(
     signif_lines: Optional[dict] = None,
     plot_title: Optional[str] = None,
     no_track_labels: bool = False,
+    ylabel: Optional[str] = None,
     dpi: Optional[int] = None,
     output_format: Optional[str] = 'png',
     output_dir: Optional[str] = '.',
@@ -930,7 +977,12 @@ def plot_linear(
         Human-readable title used as the output file-name stem.  Passed to
         :func:`~pycmplot.io.get_output_paths`.
     no_track_labels : bool, optional
-        Suppress track y-axis labels.  Default ``False``.
+        Suppress per-track labels.  Default ``False``.
+    ylabel : str, optional
+        Override the shared y-axis label (left margin).  Useful for
+        non-p-value statistics such as iHS, F_ST or XP-EHH (e.g.
+        ``ylabel="iHS"``).  When ``None`` (the default), the label is
+        ``"-log₁₀(p-value)"`` if *logp* is ``True`` and ``"P"`` otherwise.
     dpi : int, optional
         Output resolution in dots per inch.  Default ``300``.
     output_format : str, optional
@@ -979,17 +1031,12 @@ def plot_linear(
     else:
         t_heights = [float(x) for x in track_heights]
 
-    label = 'SNP'
-    if annotate:
-        label_col = str(label_col)
-        try:
-            if label_col == "GENE":
-                label = "top_gene"
-            elif label_col != "SNP":
-                label = label_col
-        except Exception:
-            logger.info("'SNP' column is used for annotation since '%s' column could not be resolved in hits table.", label_col)
-            pass         
+
+    label = get_annotation_column(
+        annotate = annotate,
+        hits_table=hits_table,
+        label_col=label_col
+    )
 
     # plot name
     (
@@ -1026,6 +1073,7 @@ def plot_linear(
         sig_lines=signif_lines,
         plt_name=plt_name,
         no_track_labels = no_track_labels,
+        ylabel=ylabel,
         dpi=dpi,
         fig_format=output_format,
         figsize=figsize,

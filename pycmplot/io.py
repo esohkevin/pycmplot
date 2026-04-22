@@ -644,11 +644,11 @@ def prep_pycmplot_input_info(
                 bcol:      "BUILD",
             }
             col_dtypes = {
-                chrom_col: str,
+                chrom_col: 'category',
                 pos_col:   object,
                 snp_col:   str,
                 pcol_col:  float,
-                bcol:      str,
+                bcol:      'category',
             }
             sumstats_hdr_dic[name] = [old_cols, col_dtypes, new_cols, file_sep]
 
@@ -662,7 +662,7 @@ def prep_pycmplot_input_info(
                 pcol_col:  "P",
             }
             col_dtypes = {
-                chrom_col: str,
+                chrom_col: 'category',
                 pos_col:   object,
                 snp_col:   str,
                 pcol_col:  float,
@@ -681,18 +681,26 @@ def prep_pycmplot_input_info(
                 pcol_col:  "P",
             }
             col_dtypes = {
-                chrom_col: str,
+                chrom_col: 'category',
                 pos_col:   object,
                 snp_col:   str,
                 pcol_col:  float,
             }
             sumstats_hdr_dic[name] = [old_cols, col_dtypes, new_cols, file_sep]
 
-    if not any(len(info) == 5 for info in sumstats_hdr_dic.values()):
+    def _has_build_info(info: list) -> bool:
+        """A file has build info when either (a) its header had a build
+        column (which is stored as a fifth entry in ``old_cols``), or
+        (b) a per-file build was supplied via ``--build`` (stored as a
+        fifth entry in the top-level list)."""
+        old_cols = info[0]
+        return len(old_cols) == 5 or len(info) == 5
+
+    if not any(_has_build_info(info) for info in sumstats_hdr_dic.values()):
         # Neither build column nor --build was available for any file
         logger.warning(
             "No build column or --build values detected. Summary stats will "
-            "be plotted in their respective coordinate systems. If your data "
+            "be plotted in their native coordinate systems. If your data "
             "are in different coordinate systems, combining them in one plot "
             "is not advisable, especially if ``--annotate`` is set!"
         )
@@ -711,6 +719,23 @@ def _merge_min_max_lists(dicts: list[dict]) -> dict:
         for key, values in d.items():
             temp[key].extend(values)
     return {k: [min(v), max(v)] for k, v in temp.items()}
+
+
+# ---------------------------------------------------------------------------
+# Memory usage
+# ---------------------------------------------------------------------------
+def _get_memory_usage(mem_df: int):
+    if mem_df > 1e6:
+        df_mem = mem_df / 1e9
+        unit = 'GB'
+    else:
+        df_mem = mem_df / 1e6
+        unit = 'MB'
+    if df_mem < 1:
+        df_mem = df_mem * 100
+        unit = 'MB'
+
+    return f"{df_mem:.3g} {unit}"
 
 
 # ---------------------------------------------------------------------------
@@ -874,20 +899,27 @@ def get_sumstats_and_merged_sector_list(
         ).rename(columns=sumstat_newcols)
 
         df["POS"] = pd.to_numeric(df["POS"], errors="coerce").astype("Int64").dropna()
+        pre_trim_mem = _get_memory_usage(df.memory_usage(deep=True).sum())
+        pre_trim_vars = len(df.index)
+        logger.info("Loaded %s variants from summary stat file, using %s of memory", pre_trim_vars, pre_trim_mem)
 
         # Get dict of p-values for qq-plotting before applying trim_pval
         logger.info("Extracting raw p-values for QQ-plotting ...")
-        pval_dict[label] = df["P"].dropna().astype("float").values
+        pval_dict[label] = df["P"].dropna().astype(float).values
 
 
         # Add build column if not exist and build supplied
         if build:
             df['BUILD'] = build
+            df['BUILD'] = df['BUILD'].astype('category')
 
         # Trim insignificant variants for faster plotting
         if trim_pval:
             logger.info("Excluding variants with p-value less than %s to speed up Manhattan plotting ...", trim_pval)
             df = df[df["P"].astype(float) <= float(trim_pval)]
+            post_trim_mem = _get_memory_usage(df.memory_usage(deep=True).sum())
+            post_trim_vars = len(df.index)
+            logger.info("%s variants remain after trimming, using %s of memory", post_trim_vars, post_trim_mem)
         else:
             df = df[df["P"].astype(float) <= 1]
 
@@ -911,9 +943,16 @@ def get_sumstats_and_merged_sector_list(
         n_chroms = len(df["CHR"].unique()) - 1
         sumstats_loaded[label] = [df, n_chroms]
 
-        # Liftover hg19 data if needed
-        if "BUILD" in df.columns and "hg19" in df["BUILD"].unique():
-            logger.info("Converting hg19 coordinates to hg38 ...")
+        # Liftover hg18/hg19 data if needed
+        if "BUILD" in df.columns and (
+            "hg19" in df["BUILD"].unique() or "hg18" in df["BUILD"].unique()
+        ):
+            builds_present = sorted(
+                b for b in df["BUILD"].unique() if b in {"hg18", "hg19"}
+            )
+            logger.info(
+                "Converting %s coordinates to hg38 ...", "/".join(builds_present)
+            )
             sumstats_loaded[label][0] = liftover_position(df, resources=resources)
 
         # Lead SNPs
@@ -1002,6 +1041,7 @@ def get_sumstats_and_merged_sector_list(
     assoc_sector_sizes_list: list[dict] = []
     min_dic_val = None
 
+    logger.info("Computing per-sumstat sector sizes (chrom → [min_pos, max_pos])")
     for df, _n in sumstats_loaded.values():
         assoc = df[~(df["CHR"].str.len() > 2)].copy()
         assoc["POS"] = assoc["POS"].fillna(0).astype(int)
