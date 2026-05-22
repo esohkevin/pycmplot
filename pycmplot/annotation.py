@@ -577,6 +577,7 @@ def get_annotation_column(
     hits_table: pd.DataFrame = None,
     label_col: str = None,
 ):
+    label_clm = 'SNP'
     if annotate and not hits_table.empty:
         if label_col is not None and label_col in hits_table.columns:
             label_clm = label_col
@@ -598,7 +599,7 @@ def get_annotation_column(
                             "Annotation columns '%s' and '%s' not found in hits table: %s; "
                             "falling back to 'SNP'.", annotate, label_col, hits_table.columns.values,
                         )
-                        label_clm = 'SNP'
+                        #label_clm = 'SNP'
               
     logger.info("Annotating by: %s", label_clm)
 
