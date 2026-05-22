@@ -731,9 +731,12 @@ def _get_memory_usage(mem_df: int):
     else:
         df_mem = mem_df / 1e6
         unit = 'MB'
-    if df_mem < 1:
-        df_mem = df_mem * 100
+    if df_mem >= 0.001 and df_mem < 1:
+        df_mem = df_mem * 1000
         unit = 'MB'
+    if df_mem < 0.001:
+        df_mem = df_mem * 1000
+        unit = 'KB'
 
     return f"{df_mem:.3g} {unit}"
 
@@ -960,7 +963,7 @@ def get_sumstats_and_merged_sector_list(
         leads = get_lead_snps(
             df=sumstats_loaded[label][0],
             signif_threshold=signif_threshold or 5e-8,
-            logp=True,
+            logp=logp,
         )
 
         all_lead_snps.append(leads)
