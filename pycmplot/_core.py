@@ -270,7 +270,7 @@ def main() -> None:
     else:
         logger.info("Generating LINEAR MANHATTAN Plot ...")
         fsize = figure_size.strip(" ").split(",")
-        fsize = [int(v) for v in fsize]
+        fsize = [float(v) for v in fsize]
         logger.info(f"FIGURE SIZE: {fsize}")
         plot_linear(
             sumstats_loaded=sumstats_loaded,

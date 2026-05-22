@@ -503,7 +503,7 @@ def plot_linearm(
     ylabel: Optional[str] = None,
     fig_format: Optional[str] = None,
     dpi: int = 300,
-    figsize: tuple = (15, 9),
+    figsize: Optional[list[float]] = [10, 4],
 ):
     """Core rendering engine for the multi-track stacked linear Manhattan plot.
 
@@ -687,6 +687,7 @@ def plot_linearm(
     if track_heights is None:
         track_heights = [1] + [3] * n_tracks if annotate else [3] * n_tracks
 
+    print(f"FIGSIZE: {figsize}")
     fig = plt.figure(figsize=figsize)
     gs_tracks = n_tracks + 1 if annotate else n_tracks
     gs = fig.add_gridspec(
@@ -913,9 +914,9 @@ def plot_linear(
     hits_table: Optional[pd.DataFrame] = None,
     annotate: str = None,
     label_col: Optional[str] = None,
-    chr_spacing: Optional[float] = None,
+    chr_spacing: Optional[float] = 9e6,
     linear_track_spacing: Optional[float] = None,
-    colors: list[str] = None,
+    colors: list[str] = ['steelblue','orange'],
     signif_lines: Optional[dict] = None,
     plot_title: Optional[str] = None,
     no_track_labels: bool = False,
@@ -1032,12 +1033,13 @@ def plot_linear(
     else:
         t_heights = [float(x) for x in track_heights]
 
-
-    label = get_annotation_column(
-        annotate = annotate,
-        hits_table=hits_table,
-        label_col=label_col
-    )
+    label = None
+    if annotate is not None:
+        label = get_annotation_column(
+            annotate = annotate,
+            hits_table=hits_table,
+            label_col=label_col
+        )
 
     # plot name
     (
@@ -1064,7 +1066,7 @@ def plot_linear(
         highlight_color = highlight_color,
         highlight_line = highlight_line,
         highlight_line_color = highlight_line_color,
-        annotate=annotate,        
+        annotate=annotate if annotate is not None else False,        
         annot_df=hits_table if hits_table is not None and not hits_table.empty else None,
         label_col=label,
         chr_spacing=chr_spacing,
