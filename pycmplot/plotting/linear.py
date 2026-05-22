@@ -738,6 +738,7 @@ def plot_linearm(
         color_cycle = [colors[j % len(colors)] for j in df["chr_idx"]]
         y_vals = df["logP"] if logp else df[p_col]
         ax.scatter(df["x"], y_vals, c=color_cycle, s=point_size)
+        plt.ylim(min(y_vals), max(y_vals))
 
         # Track labels — rendered vertically in the right margin (just past
         # the last chromosome), orthogonal to the track-stacking direction.

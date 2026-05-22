@@ -923,8 +923,10 @@ def get_sumstats_and_merged_sector_list(
             post_trim_mem = _get_memory_usage(df.memory_usage(deep=True).sum())
             post_trim_vars = len(df.index)
             logger.info("%s variants remain after trimming, using %s of memory", post_trim_vars, post_trim_mem)
-        else:
-            df = df[df["P"].astype(float) <= 1]
+        # this breaks with statistics that have both negative and positive values
+        # such as iHS
+        #else:
+        #    df = df[df["P"].astype(float) <= 1] 
 
         if logp:
             logger.info("Adding a 'logP' column ...")
