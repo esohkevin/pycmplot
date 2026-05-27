@@ -111,6 +111,7 @@ def get_lead_snps(
 
 def get_highlight_snps(
     df: pd.DataFrame,
+    highlight: bool = False,
     highlight_thresh: float = 5e-8,
     logp: bool = False,
     window: int = 500_000,
@@ -158,7 +159,6 @@ def get_highlight_snps(
     """
 
     df = df.copy()
-    df["in_locus"] = False
 
     leads_df = get_lead_snps(
         df=df,
@@ -167,12 +167,14 @@ def get_highlight_snps(
         window=window,
     )
 
-    for _, row in leads_df.iterrows():
-        min_pos = row["POS"] - window
-        max_pos = row["POS"] + window
-        chrom = row["CHR"]
+    if highlight:
+        df["in_locus"] = False
+        for _, row in leads_df.iterrows():
+            min_pos = row["POS"] - window
+            max_pos = row["POS"] + window
+            chrom = row["CHR"]
 
-        mask = (df["CHR"] == chrom) & (df["POS"] >= min_pos) & (df["POS"] <= max_pos)
-        df.loc[mask, "in_locus"] = True
+            mask = (df["CHR"] == chrom) & (df["POS"] >= min_pos) & (df["POS"] <= max_pos)
+            df.loc[mask, "in_locus"] = True
 
     return df, leads_df

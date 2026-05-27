@@ -578,7 +578,7 @@ def get_annotation_column(
     label_col: str = None,
 ):
     label_clm = 'SNP'
-    if annotate and not hits_table.empty:
+    if annotate is not None and not hits_table.empty:
         if label_col is not None and label_col in hits_table.columns:
             label_clm = label_col
         elif annotate in hits_table.columns:

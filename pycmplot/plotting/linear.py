@@ -192,6 +192,8 @@ def _draw_annotation_arrows(
                 color="grey",
                 alpha=0.5,
                 connectionstyle=f"arc3,rad={rad}",
+                #connectionstyle="arc,angleA=5,angleB=90,armA=0,armB=100,rad=5",
+
             )
             ax.add_patch(arrow)
 
@@ -212,155 +214,94 @@ def _draw_annotation_arrows(
         last_xtext = x_texts[-1]
 
 
-
-def _draw_annotation_arrows_2(
-    ax,
+def _layout_annotation_labels(
     annot_df,
     chr_col: str,
     label_col: str,
     offsets: dict,
     chr_max: dict,
-    spread_width: float = 60e6,
-    isolation_threshold: float = 80e6,   # above this → straight (Tier 1)
-    stack_threshold: float = 10e6,       # below this → stack (Tier 3)
-    max_tilt: float = 45,                # max angleA departure from vertical
-    y_tip: float = 0.0,
-    y_text: float = 0.55,
-    y_stack_step: float = 0.12,          # vertical gap between stacked labels
-) -> None:
+    fsize: float = 8,
+    char_width_factor: float = 2.5e5,
+):
+    """Compute label x positions and rail assignments without drawing.
 
+    Runs the same two-phase placement algorithm as
+    :func:`_draw_annotation_arrows_3` (horizontal width-aware spread,
+    then greedy multi-rail stacking) but returns the layout instead of
+    rendering it.  Used by :func:`plot_linearm` to size the annotation
+    panel's gridspec row *before* the figure is created — without it,
+    the panel always gets a fixed ratio and stacked rails end up
+    physically squashed regardless of how generous ``y_stack_step`` is
+    in axes-relative units.
+
+    Returns
+    -------
+    x_texts : numpy.ndarray
+        Final anchor x positions for each label.
+    rail_ids : numpy.ndarray of int
+        Rail index per label (0 = bottom).
+    max_rail : int
+        Maximum rail index used (rail count = ``max_rail + 1``).
+    rail_start, rail_end : float
+        Effective horizontal bounds used for placement.
+    """
     annot_df = annot_df.sort_values(by=[chr_col, "x"], key=natsort_keygen())
-    last_xtext = 0 - spread_width
+    x_signals = annot_df["x"].values
+    labels    = annot_df[label_col].astype(str).values
+    n = len(x_signals)
+    if n == 0:
+        return np.array([]), np.array([], dtype=int), 0, 0.0, 0.0
 
-    for chr_name, df_chr in annot_df.groupby(chr_col, sort=False):
-        df_chr  = df_chr.sort_values("x")
-        chr_start = offsets[chr_name]
-        chr_end   = offsets[chr_name] + chr_max[chr_name]
-        chr_range = chr_end - chr_start
+    genome_start = min(offsets.values())
+    genome_end = max(offsets[c] + chr_max[c] for c in chr_max)
+    genome_width = float(genome_end - genome_start) or 1.0
+    left_margin  = 0.06 * genome_width
+    right_margin = 0.02 * genome_width
+    rail_start = genome_start + left_margin
+    rail_end   = genome_end   - right_margin
+    rail_width = max(rail_end - rail_start, 1.0)
 
-        x_signals = df_chr["x"].values
-        labels    = df_chr[label_col].values
-        n         = len(x_signals)
+    # initial cumulative-scaled positions
+    x_sorted = np.sort(x_signals)
+    deltas = np.diff(x_sorted)
+    cumdist = np.concatenate([[0], np.cumsum(deltas)])
+    scaled = (cumdist / cumdist[-1]) if cumdist[-1] else np.zeros_like(cumdist)
+    x_texts = rail_start + scaled * rail_width
 
-        # ------------------------------------------------------------------
-        # Assign each signal to a tier based on nearest-neighbour distance
-        # ------------------------------------------------------------------
-        tiers   = []   # 1=straight, 2=angled, 3=stacked
-        for k, x_sig in enumerate(x_signals):
-            neighbours = np.delete(x_signals, k)
-            min_dist = np.min(np.abs(neighbours - x_sig)) if len(neighbours) else np.inf
+    # width-aware horizontal spread + proportional compress
+    char_width = fsize * char_width_factor
+    label_widths = np.array([len(lbl) * char_width for lbl in labels])
+    left_ext  = 0.72 * label_widths
+    right_ext = 0.05 * label_widths
+    for i in range(1, n):
+        required_gap = (left_ext[i] + right_ext[i - 1]) * 0.9
+        if x_texts[i] < x_texts[i - 1] + required_gap:
+            x_texts[i] = x_texts[i - 1] + required_gap
+    if n >= 2 and x_texts[-1] > rail_end:
+        used = x_texts[-1] - x_texts[0]
+        avail = rail_end - x_texts[0]
+        if used > avail and used > 0:
+            x_texts = x_texts[0] + (x_texts - x_texts[0]) * (avail / used)
 
-            if min_dist >= isolation_threshold:
-                tiers.append(1)
-            elif min_dist <= stack_threshold:
-                tiers.append(3)
-            else:
-                tiers.append(2)
+    # greedy lowest-free-rail stacking
+    x_lo = x_texts - left_ext
+    x_hi = x_texts + right_ext
+    rail_ids = np.zeros(n, dtype=int)
+    rail_extents: list[list[tuple[float, float]]] = []
+    for i in range(n):
+        for r in range(len(rail_extents) + 1):
+            if r == len(rail_extents):
+                rail_extents.append([])
+            if not any(
+                not (x_hi[i] < lo or x_lo[i] > hi)
+                for lo, hi in rail_extents[r]
+            ):
+                rail_ids[i] = r
+                rail_extents[r].append((x_lo[i], x_hi[i]))
+                break
 
-        # ------------------------------------------------------------------
-        # Compute label x and y positions per tier
-        # ------------------------------------------------------------------
-        x_texts = []
-        y_texts = []
-
-        # --- Tier 2: spread positions (same logic as before) ---
-        spread_indices = [k for k, t in enumerate(tiers) if t == 2]
-        spread_positions = {}
-
-        if spread_indices:
-            sw = spread_width
-            pad = sw / int(str(sw)[:2]) / 2
-            while sw > chr_range and sw > pad:
-                sw -= pad
-
-            sig_start   = x_signals[spread_indices[0]]
-            xmin        = sig_start - sw
-            positions   = np.arange(xmin, xmin + len(spread_indices) * sw, sw)
-
-            while positions[0] <= last_xtext:
-                positions = positions + sw
-
-            for j, k in enumerate(spread_indices):
-                spread_positions[k] = positions[j]
-
-        # --- Tier 3: build stacks ---
-        # Group Tier 3 signals that are within stack_threshold of each other
-        stack_groups = []
-        used = set()
-        for k, x_sig in enumerate(x_signals):
-            if tiers[k] != 3 or k in used:
-                continue
-            group = [k]
-            used.add(k)
-            for j in range(k + 1, n):
-                if tiers[j] == 3 and abs(x_signals[j] - x_sig) <= stack_threshold:
-                    group.append(j)
-                    used.add(j)
-            stack_groups.append(group)
-
-        stack_positions = {}   # k → (x_label, y_label)
-        for group in stack_groups:
-            # Place all labels in the group at the mean x of their signals
-            x_mean = np.mean(x_signals[group])
-            for rank, k in enumerate(group):
-                # stack upward: rank 0 at y_text, rank 1 just above, etc.
-                stack_positions[k] = (x_mean, y_text + rank * y_stack_step)
-
-        # --- Assemble final positions ---
-        for k in range(n):
-            if tiers[k] == 1:
-                x_texts.append(x_signals[k])
-                y_texts.append(y_text)
-            elif tiers[k] == 2:
-                x_texts.append(spread_positions[k])
-                y_texts.append(y_text)
-            else:  # Tier 3
-                xp, yp = stack_positions[k]
-                x_texts.append(xp)
-                y_texts.append(yp)
-
-        # ------------------------------------------------------------------
-        # Draw arrows and labels
-        # ------------------------------------------------------------------
-        for x_sig, x_txt, y_txt, label in zip(x_signals, x_texts, y_texts, labels):
-            dx    = x_txt - x_sig
-            tilt  = np.clip((dx / (spread_width * 2)) * max_tilt, -max_tilt, max_tilt)
-
-            if abs(tilt) < 2:
-                conn_style = "arc3,rad=0"          # perfectly straight
-            else:
-                angle_a    = 90 + tilt
-                angle_b    = 90
-                conn_style = f"angle3,angleA={angle_a:.1f},angleB={angle_b}"
-
-            arrow = FancyArrowPatch(
-                (x_txt, y_txt),
-                (x_sig, y_tip - 0.05),
-                arrowstyle="-|>",
-                mutation_scale=12,
-                lw=0.6,
-                color="grey",
-                alpha=0.5,
-                connectionstyle=conn_style,
-                transform=ax.transData,
-            )
-            ax.add_patch(arrow)
-
-            ax.text(
-                x_txt,
-                y_txt + 0.02,
-                str(label),
-                rotation=45,
-                ha="left",
-                va="bottom",
-                fontsize=10,
-                clip_on=False,
-                color="black",
-                fontstyle="italic",
-                fontweight="regular",
-            )
-
-        last_xtext = max(x_texts)
+    x_texts = np.clip(x_texts, rail_start, rail_end)
+    return x_texts, rail_ids, int(rail_ids.max()), rail_start, rail_end
 
 
 # Using cumulative distance for anntations and separating clusters
@@ -372,107 +313,427 @@ def _draw_annotation_arrows_3(
     offsets: dict,
     chr_max: dict,
     spread_width: float = 60e6,
-    isolation_threshold: float = 80e6,
-    stack_threshold: float = 10e6,
-    y_text_base: float = 0.55,
-    y_stack_step: float = 0.02,
+    y_text_base: float = 0.25,
     max_rad: float = 0.35,
     y_tip: float = 0.0,
+    fsize: float = 8,
 ) -> None:
+    """Draw angled arrow annotations from gene-label text to signal positions.
 
+    For each significant locus in *annot_df*, places the gene/SNP label text
+    above the track and connects it to the corresponding scatter-plot point
+    with a curved :class:`~matplotlib.patches.FancyArrowPatch` arrow.  Labels
+    within the same chromosome are spread horizontally to avoid overlap; the
+    arrow curvature direction (clockwise/counter-clockwise arc) is determined
+    automatically from the sign of the horizontal displacement.
+
+    The function operates on *ax* (the annotation sub-panel at the top of the
+    figure) and returns ``None`` — it modifies the axes in place.
+
+    Parameters
+    ----------
+    ax : matplotlib.axes.Axes
+        The annotation axes (top sub-panel, invisible background).
+    annot_df : pandas.DataFrame
+        Lead-SNP annotation DataFrame with columns *chr_col*, ``'x'``
+        (cumulative x-axis position), and *label_col*.
+    chr_col : str
+        Name of the chromosome column.
+    label_col : str
+        Name of the column containing the text labels (gene symbols or rsIDs).
+    offsets : dict
+        Mapping of ``chromosome → cumulative_x_start`` as computed from the
+        main track data.
+    chr_max : dict
+        Mapping of ``chromosome → max_position`` for each chromosome.
+    spread_width : float, optional
+        Horizontal spacing between adjacent labels within a cluster.
+        Default ``60e6`` (60 Mb).
+    y_tip : float, optional
+        y-coordinate (in axes data units, 0–1) of the arrowhead tip.
+        Default ``0.0``.
+    y_text : float, optional
+        y-coordinate of the label text anchor.  Default ``0.55``.
+    """
     annot_df = annot_df.sort_values(by=[chr_col, "x"], key=natsort_keygen())
-    last_xtext = 0 - spread_width
 
-    for chr_name, df_chr in annot_df.groupby(chr_col, sort=False):
-        df_chr    = df_chr.sort_values("x")
-        chr_start = offsets[chr_name]
-        chr_end   = offsets[chr_name] + chr_max[chr_name]
-        chr_range = chr_end - chr_start
+    x_signals = annot_df["x"].values
+    labels    = annot_df[label_col].astype(str).values
+    n    = len(x_signals)
 
-        x_signals = df_chr["x"].values
-        labels    = df_chr[label_col].values
-        n         = len(x_signals)
+    # ------------------------------------------------------------------
+    # Genome span and rail bounds
+    # ------------------------------------------------------------------
+    genome_start = min(offsets.values())
+    genome_end = max(
+        offsets[c] + chr_max[c]
+        for c in chr_max
+    )
+    genome_width = float(genome_end - genome_start) or 1.0
 
-        # ------------------------------------------------------------------
-        # Compute label x positions (spread or straight)
-        # ------------------------------------------------------------------
-        x_texts = []
-        for k, x_sig in enumerate(x_signals):
-            neighbours = np.delete(x_signals, k)
-            min_dist   = np.min(np.abs(neighbours - x_sig)) if len(neighbours) else np.inf
+    # Reserve a wider margin on the LEFT than on the RIGHT.  With
+    # ``rotation=315, ha="right"`` the visible glyphs extend up-AND-LEFT
+    # of the anchor by roughly ``0.7 * text_width`` (the cos(45°)
+    # projection of a 45°-rotated bbox).
+    left_margin  = 0.06 * genome_width
+    right_margin = 0.02 * genome_width
+    rail_start = genome_start + left_margin
+    rail_end   = genome_end   - right_margin
+    rail_width = max(rail_end - rail_start, 1.0)
 
-            if min_dist >= isolation_threshold:
-                x_texts.append(x_sig)          # Tier 1: sit directly above
-            else:
-                x_texts.append(None)            # Tier 2: needs spreading
+    # ------------------------------------------------------------------
+    # Density-aware initial spacing — start each label near its signal x
+    # by linearly mapping the sorted cumulative distribution onto the
+    # available rail.  This preserves the "label is near its signal"
+    # invariant before any collision-resolution work.
+    # ------------------------------------------------------------------
+    x_sorted = np.sort(x_signals)
+    deltas = np.diff(x_sorted)
+    cumdist = np.concatenate([[0], np.cumsum(deltas)])
+    if cumdist[-1] == 0:
+        scaled = np.zeros_like(cumdist)
+    else:
+        scaled = cumdist / cumdist[-1]
+    x_texts = rail_start + scaled * rail_width
 
-        spread_indices = [k for k, v in enumerate(x_texts) if v is None]
-        if spread_indices:
-            sw  = spread_width
-            pad = sw / int(str(sw)[:2]) / 2
-            while sw > chr_range and sw > pad:
-                sw -= pad
+    # ------------------------------------------------------------------
+    # Per-label horizontal footprint estimate (data units).  With
+    # ``rotation=315, ha="right"`` the visible glyphs extend ~0.72 ×
+    # text_width to the LEFT of the anchor and a small overshoot to
+    # the right.  ``char_width`` is an empirical conversion from
+    # characters at the requested font size to data-x units; the
+    # default works well at fsize=8 in a 15-inch figure.
+    # ------------------------------------------------------------------
+    char_width = fsize * 2.5e5
+    label_widths = np.array([len(lbl) * char_width for lbl in labels])
+    left_ext  = 0.72 * label_widths
+    right_ext = 0.05 * label_widths
 
-            sig_start = x_signals[spread_indices[0]]
-            xmin      = sig_start - sw
-            positions = np.arange(xmin, xmin + len(spread_indices) * sw, sw)
+    # ------------------------------------------------------------------
+    # Phase 1 — Horizontal collision spread (along ONE rail).
+    #
+    # Walk labels in x-sorted order and push the next label rightward
+    # whenever it would overlap the previous one's visible bbox.  This
+    # is the classic "min_sep" collision strategy, but the required
+    # gap is **width-aware**: long labels get a wider gap than short
+    # rsIDs.  If the cumulative push runs past ``rail_end``, scale the
+    # whole spread back proportionally to fit — at which point we
+    # accept that some pairs will still overlap, and let phase 2 sort
+    # them out by moving them to higher rails.
+    # ------------------------------------------------------------------
+    for i in range(1, n):
+        required_gap = (left_ext[i] + right_ext[i - 1]) * 0.9
+        min_next = x_texts[i - 1] + required_gap
+        if x_texts[i] < min_next:
+            x_texts[i] = min_next
 
-            while positions[0] <= last_xtext:
-                positions = positions + sw
+    if n >= 2 and x_texts[-1] > rail_end:
+        used = x_texts[-1] - x_texts[0]
+        avail = rail_end - x_texts[0]
+        if used > avail and used > 0:
+            scale = avail / used
+            x_texts = x_texts[0] + (x_texts - x_texts[0]) * scale
 
-            for j, k in enumerate(spread_indices):
-                x_texts[k] = positions[j]
+    # Recompute bbox extents after the spread / compress.
+    x_lo = x_texts - left_ext
+    x_hi = x_texts + right_ext
 
-        # ------------------------------------------------------------------
-        # Compute label y positions using cumulative x distance
-        # ------------------------------------------------------------------
-        y_texts = [y_text_base] * n
-
-        for k in range(1, n):
-            cum_dist = abs(x_texts[k] - x_texts[k - 1])
-            if cum_dist <= stack_threshold:
-                # too close to previous label — stack upward adaptively
-                y_texts[k] = y_texts[k - 1] + y_stack_step + (
-                    y_stack_step * (1 - cum_dist / stack_threshold)
-                )
-            else:
-                y_texts[k] = y_text_base     # far enough — reset to baseline
-
-        # ------------------------------------------------------------------
-        # Draw arrows and labels
-        # ------------------------------------------------------------------
-        for x_sig, x_txt, y_txt, label in zip(x_signals, x_texts, y_texts, labels):
-            dx  = x_txt - x_sig
-            rad = np.clip(dx / (spread_width * 2), -max_rad, max_rad)
-
-            arrow = FancyArrowPatch(
-                (x_txt, y_txt),
-                (x_sig, y_tip - 0.05),
-                arrowstyle="-|>",
-                mutation_scale=12,
-                lw=0.6,
-                color="grey",
-                alpha=0.5,
-                connectionstyle=f"arc3,rad={rad}",
-                transform=ax.transData,
+    # ------------------------------------------------------------------
+    # Phase 2 — Vertical stacking for residual horizontal overlap.
+    #
+    # Greedy lowest-free-rail assignment: each label goes on the
+    # lowest-numbered rail whose existing labels don't horizontally
+    # overlap this one.  After phase 1 most labels will land on rail 0;
+    # only the residual overlap from compressed-dense clusters fans
+    # upward into rails 1, 2, ….  Worst case is O(n²) but ``n`` is
+    # the number of lead SNPs (typically <200), so the cost is
+    # negligible.
+    # ------------------------------------------------------------------
+    rail_ids = np.zeros(n, dtype=int)
+    rail_extents: list[list[tuple[float, float]]] = []
+    for i in range(n):
+        for r in range(len(rail_extents) + 1):
+            if r == len(rail_extents):
+                rail_extents.append([])
+            collides = any(
+                not (x_hi[i] < lo or x_lo[i] > hi)
+                for lo, hi in rail_extents[r]
             )
-            ax.add_patch(arrow)
+            if not collides:
+                rail_ids[i] = r
+                rail_extents[r].append((x_lo[i], x_hi[i]))
+                break
 
-            ax.text(
-                x_txt,
-                y_txt + 0.02,
-                str(label),
-                rotation=45,
-                ha="left",
-                va="bottom",
-                fontsize=10,
-                clip_on=False,
-                color="black",
-                fontstyle="italic",
-                fontweight="regular",
-            )
+    # Hard safety clamp — anchors must still sit inside the rail even
+    # after spread + stacking (label widths near the rail edge could
+    # otherwise push the anchor itself outside).
+    x_texts = np.clip(x_texts, rail_start, rail_end)
 
-        last_xtext = max(x_texts)
+    # ------------------------------------------------------------------
+    # Compute label y positions from rail assignment.  Rails span the
+    # vertical space between ``y_text_base`` and ``y_text_ceiling`` (just
+    # below the annotation panel's ylim of ~1.0).  ``y_stack_step`` is
+    # picked adaptively so all rails fit inside this band even when there
+    # are many labels — preferred default is 0.06 per rail, but it
+    # shrinks when needed.
+    # ------------------------------------------------------------------
+    max_rail = int(rail_ids.max()) if n else 0
+    y_text_ceiling = 0.95
+    available = max(y_text_ceiling - y_text_base, 0.05)
+    y_stack_step = (
+        min(0.15, available / max_rail) if max_rail > 0 else 0.06
+    )
+    y_texts = y_text_base + rail_ids * y_stack_step
+
+    # ------------------------------------------------------------------
+    # Draw arrows and labels
+    # ------------------------------------------------------------------
+    for x_sig, x_txt, y_txt, label in zip(x_signals, x_texts, y_texts, labels):
+        dx  = x_txt - x_sig
+        rad = np.clip(dx / (spread_width * 2), -max_rad, max_rad)
+
+        arrow = FancyArrowPatch(
+            (x_txt, y_txt),
+            (x_sig, y_tip),
+            arrowstyle="-|>",
+            mutation_scale=12,
+            lw=0.6,
+            color="grey",
+            alpha=0.5,
+            # ``arc3,rad=<small>`` draws a single gentle curve from
+            # label anchor to signal, rather than the previous L-shaped
+            # "arc,angleA=...,armB=90" path that took a long horizontal
+            # segment before turning down.  The horizontal segments from
+            # different arrows overlapped chaotically in dense regions,
+            # which is what made arrows look like they were crossing.
+            #connectionstyle=f"arc3,rad={rad:.3f}",
+            connectionstyle="arc,angleA=0,angleB=90,armA=5,armB=90,rad=2",
+            transform=ax.transData,
+        )
+        ax.add_patch(arrow)
+
+        ax.text(
+            x_txt,
+            y_txt + 0.001,
+            str(label),
+            #rotation=45,
+            #ha="left",
+            rotation=315,
+            ha="right",
+            va="bottom",
+            fontsize=fsize,
+            clip_on=False,
+            color="black",
+            fontstyle="italic",
+            fontweight="regular",
+        )
+
+
+def _draw_annotation_arrows_4(
+    ax,
+    annot_df,
+    chr_col: str,
+    label_col: str,
+    offsets: dict,
+    chr_max: dict,
+    spread_width: float = 60e6,
+    y_text_base: float = 0.25,
+    y_stack_step: float = 0.05,
+    max_rad: float = 0.35,
+    y_tip: float = 0.0,
+    fsize: float = 8,
+    rail_frac: float = 0.95,
+    min_sep: float = 60e6,
+    char_width_factor: float = 2.5e5,
+) -> None:
+    """
+    Dense annotation renderer with:
+        - density-aware cumulative spacing
+        - width-aware relaxation
+        - multi-rail stacking
+        - curved arrows
+        - adaptive ylim
+    """
+
+    # -------------------------------------------------------------
+    # Sort annotations
+    # -------------------------------------------------------------
+    annot_df = (
+        annot_df
+        .sort_values(by=[chr_col, "x"], key=natsort_keygen())
+        .reset_index(drop=True)
+    )
+
+    x_signals = annot_df["x"].to_numpy(dtype=float)
+    labels = annot_df[label_col].astype(str).to_numpy()
+
+    n = len(x_signals)
+    if n == 0:
+        return
+
+    # -------------------------------------------------------------
+    # Genome span
+    # -------------------------------------------------------------
+    genome_start = min(offsets.values())
+    genome_end = max(
+        offsets[c] + chr_max[c]
+        for c in chr_max
+    )
+    genome_width = genome_end - genome_start
+
+    # -------------------------------------------------------------
+    # Density-aware cumulative spacing
+    # -------------------------------------------------------------
+    x_sorted = np.sort(x_signals)
+    deltas = np.diff(x_sorted)
+    cumdist = np.concatenate([
+        [0],
+        np.cumsum(deltas)
+    ])
+
+    if cumdist[-1] == 0:
+        scaled = np.zeros_like(cumdist)
+    else:
+        scaled = cumdist / cumdist[-1]
+
+    rail_width = genome_width * rail_frac
+    rail_start = (
+        genome_start
+        + (genome_width - rail_width) / 2
+    )
+    x_texts = rail_start + scaled * rail_width
+
+    # -------------------------------------------------------------
+    # Width-aware label sizing
+    # -------------------------------------------------------------
+    char_width = fsize * char_width_factor
+
+    label_widths = np.array([
+        len(lbl) * char_width
+        for lbl in labels
+    ])
+
+    # -------------------------------------------------------------
+    # Relax labels using label widths
+    # -------------------------------------------------------------
+    for i in range(1, n):
+        required_sep = max(
+            (
+                label_widths[i - 1]
+                + label_widths[i]
+            ) / 2,
+            min_sep,
+        )
+        min_allowed = x_texts[i - 1] + required_sep
+
+        if x_texts[i] < min_allowed:
+            x_texts[i] = min_allowed
+
+    # -------------------------------------------------------------
+    # Multi-rail stacking
+    # -------------------------------------------------------------
+    # Density-aware rail assignment
+    # -------------------------------------------------------------
+    rail_ids = np.zeros(n, dtype=int)
+    density_window = spread_width * 2
+
+    for i in range(n):
+        current_x = x_signals[i]
+        nearby = np.where(
+            np.abs(x_signals[:i] - current_x)
+            < density_window
+        )[0]
+
+        if len(nearby) == 0:
+            rail_ids[i] = 0
+        else:
+            used_rails = set(rail_ids[nearby])
+            rail = 0
+            while rail in used_rails:
+                rail += 1
+            rail_ids[i] = rail
+
+    # -------------------------------------------------------------
+    # Convert rails to y positions
+    # -------------------------------------------------------------
+    y_texts = np.array([
+        y_text_base + r * y_stack_step
+        for r in rail_ids
+    ])
+
+    # -------------------------------------------------------------
+    # Arrow tip jitter
+    # -------------------------------------------------------------
+    jitter = np.linspace(
+        -spread_width * 0.03,
+        spread_width * 0.03,
+        n,
+    )
+
+    # -------------------------------------------------------------
+    # Draw arrows + labels
+    # -------------------------------------------------------------
+    for i, (
+        x_sig,
+        x_txt,
+        y_txt,
+        label,
+    ) in enumerate(
+        zip(
+            x_signals,
+            x_texts,
+            y_texts,
+            labels,
+        )
+    ):
+
+        x_tip = x_sig + jitter[i]
+        dx = x_txt - x_sig
+        rad = np.clip(
+            dx / (genome_width * 0.15),
+            -max_rad,
+            max_rad,
+        )
+
+        arrow = FancyArrowPatch(
+            (x_txt, y_txt),
+            (x_tip, y_tip),
+            arrowstyle="-|>",
+            mutation_scale=12,
+            lw=0.6,
+            color="grey",
+            alpha=0.5,
+            #connectionstyle=f"arc3,rad={rad}",
+            connectionstyle="arc,angleA=5,angleB=90,armA=5,armB=90,rad=5",
+            transform=ax.transData,
+        )
+
+        ax.add_patch(arrow)
+
+        ax.text(
+            #x_txt,
+            x_txt + rail_ids[i] * spread_width * 0.12,
+            y_txt + 0.001,
+            str(label),
+            rotation=290,
+            ha="right",
+            va="bottom",
+            fontsize=fsize,
+            clip_on=False,
+            color="black",
+            fontstyle="italic",
+            fontweight="regular",
+        )
+
+    # -------------------------------------------------------------
+    # Adaptive ylim
+    # -------------------------------------------------------------
+    max_rail = max(rail_ids)
+
+    ax.set_ylim(
+        y_tip - 0.05,
+        y_text_base + (max_rail + 2) * y_stack_step
+    )
 
 # ---------------------------------------------------------------------------
 # Public function
@@ -495,15 +756,15 @@ def plot_linearm(
     chr_spacing: float = 9e6,
     track_heights: Optional[list[float]] = None,
     linear_track_spacing: float = 0.10,
-    point_size: float = 5,
-    colors: Optional[list[str]] = ['steelblue','orange'],
+    point_size: float = 8,
+    colors: Optional[list[str]] = ['steelblue','silver'],
     sig_lines: Optional[list[dict]] = None,
     plt_name: Optional[str] = None,
     no_track_labels: bool = False,
     ylabel: Optional[str] = None,
     fig_format: Optional[str] = None,
     dpi: int = 300,
-    figsize: tuple = (15, 9),
+    figsize: Optional[list[float]] = [10, 4],
 ):
     """Core rendering engine for the multi-track stacked linear Manhattan plot.
 
@@ -623,34 +884,48 @@ def plot_linearm(
     # ------------------------------------------------------------------
     def _prep(df):
         df = df.copy()
-        """ ALREADY HANDLED IN DATA LOADER FUNCTION
-        if trim_pval:
-            df = df[df[p_col] < trim_pval]
-        if logp:
-            df["logP"] = -np.log10(df[p_col])
-        """
 
-        df[chr_col] = (
-            df[chr_col]
-            .astype(str)
-            .str.replace("chr", "", regex=False)
-            .str.upper()
-            .replace({"23": "X", "24": "Y", "M": "MT", "MTDNA": "MT"})
+        # Fast path: io.py's loader stores CHR as a Categorical with
+        # ``CHROM_ORDER`` as the canonical category set.  When that's the
+        # case we can derive ``chr_idx`` from ``cat.codes`` directly,
+        # skipping ~0.7 s of redundant string normalisation on a 500K-row
+        # frame (and proportionally more on larger frames).
+        chr_series = df[chr_col]
+        is_canonical_cat = (
+            isinstance(chr_series.dtype, pd.CategoricalDtype)
+            and list(chr_series.cat.categories) == list(chr_order)
         )
-
-        if highlight:
-            df, _ = get_highlight_snps(
-                df=df,
-                window=500_000,
-                highlight_thresh=highlight_thresh,
-                logp=logp,
+        if is_canonical_cat:
+            df["chr_idx"] = chr_series.cat.codes.to_numpy()
+        else:
+            # Defensive normalisation for callers that bypass io.py (e.g.
+            # users feeding hand-built DataFrames straight to plot_linearm).
+            df[chr_col] = (
+                chr_series
+                .astype(str)
+                .str.replace("chr", "", regex=False)
+                .str.upper()
+                .replace({"23": "X", "24": "Y", "M": "MT", "MTDNA": "MT"})
             )
+            df = df[df[chr_col].isin(chr_order)]
+            df["chr_idx"] = df[chr_col].map(chr_to_idx)
 
-        df = df[df[chr_col].isin(chr_order)]
-        df["chr_idx"] = df[chr_col].map(chr_to_idx)
         return df.sort_values(["chr_idx", pos_col])
 
     tracks = [_prep(df) for df in tracks]
+
+    chr_maxes = []
+
+    for df in tracks:
+        # ``observed=True`` skips categorical levels with no rows in this
+        # particular track; ``s.get(c, 0)`` below handles those cases.
+        # Without this, pandas returns ``NA`` for the empty groups, which
+        # later propagates as ``TypeError: boolean value of NA is
+        # ambiguous`` in the ``xmax = max(...)`` reduction.
+        chr_maxes.append(
+            df.groupby(chr_col, observed=True)[pos_col].max()
+        )
+
     if annot_df is not None:
         annot_df = _prep(annot_df)
 
@@ -663,8 +938,7 @@ def plot_linearm(
 
     for c in chr_order:
         max_pos = max(
-            [df[df[chr_col] == c][pos_col].max() for df in tracks if c in df[chr_col].values]
-            + [0]
+            [s.get(c, 0) for s in chr_maxes]
         )
         chr_max[c] = max_pos
         offsets[c] = offset
@@ -672,7 +946,10 @@ def plot_linearm(
 
     def _add_cum(df):
         df = df.copy()
-        df["x"] = df.apply(lambda r: r[pos_col] + offsets[r[chr_col]], axis=1)
+        df["x"] = (
+            df[pos_col].to_numpy()
+            + df[chr_col].map(offsets).to_numpy()
+        )
         return df
 
     tracks = [_add_cum(df) for df in tracks]
@@ -685,7 +962,41 @@ def plot_linearm(
     n_tracks = len(tracks)
 
     if track_heights is None:
-        track_heights = [1] + [3] * n_tracks if annotate else [3] * n_tracks
+        if annotate and annot_df is not None and len(annot_df.index) > 0:
+            # Pre-compute how many rails the annotation labels will need so
+            # we can size the annotation panel proportionally.  Without
+            # this step the panel always has the same gridspec ratio (1)
+            # and stacked rails end up physically squashed even when
+            # ``y_stack_step`` is generous in axes-relative units.
+            try:
+                _, _, _max_rail, _, _ = _layout_annotation_labels(
+                    annot_df,
+                    chr_col=chr_col,
+                    label_col=label_col,
+                    offsets=offsets,
+                    chr_max=chr_max,
+                    fsize=8,
+                )
+            except Exception:
+                _max_rail = 0
+            # Annotation panel sizing is driven by BOTH the rail count
+            # (how many vertical levels we'll stack onto) AND the total
+            # label count (so dense single-rail clusters still get more
+            # physical height; otherwise the rotated text overlaps
+            # visually even when bbox-wise it doesn't, since the rotation
+            # mixes axes units).  Cap at 5× a data track so the
+            # annotation panel doesn't completely drown out the data
+            # tracks underneath.
+            n_labels = len(annot_df.index)
+            annot_ratio = min(
+                5.0,
+                1.0 + 0.5 * max(_max_rail, 0) + 0.03 * n_labels,
+            )
+            track_heights = [annot_ratio] + [3] * n_tracks
+        elif annotate:
+            track_heights = [1] + [3] * n_tracks
+        else:
+            track_heights = [3] * n_tracks
 
     fig = plt.figure(figsize=figsize)
     gs_tracks = n_tracks + 1 if annotate else n_tracks
@@ -720,6 +1031,9 @@ def plot_linearm(
     else:
         loop_axes = axes
 
+    left_pad = chr_spacing * 0.2
+    xmax = max(offsets[c] + chr_max[c] for c in chr_order)
+
     for i, (ax, df, t_label, h_color) in enumerate(
         zip(loop_axes, tracks, t_labels, hex_colors)
     ):
@@ -735,10 +1049,39 @@ def plot_linearm(
         if logp:
             df = df[df[p_col] >= 0]
 
-        color_cycle = [colors[j % len(colors)] for j in df["chr_idx"]]
-        y_vals = df["logP"] if logp else df[p_col]
-        ax.scatter(df["x"], y_vals, c=color_cycle, s=point_size)
-        plt.ylim(min(y_vals), max(y_vals))
+        # Render markers via ``ax.plot`` (one Line2D per chromosome) rather
+        # than ``ax.scatter`` (which builds a PathCollection: one Path per
+        # point, with a per-point ``should_simplify`` check and a 4×N RGBA
+        # array).  At 10 M variants this cuts the matplotlib draw step from
+        # several minutes to a few seconds while producing visually
+        # identical output (the rasterised PNG/PDF backend treats the
+        # vertices the same way either way).  Marker size is converted from
+        # the scatter ``s`` unit (points²) to the plot ``markersize`` unit
+        # (points) via ``sqrt`` so existing point-size values keep meaning.
+        y_col = "logP" if logp else p_col
+        x_all = df["x"].to_numpy()
+        y_all = df[y_col].to_numpy()
+        chr_idx_all = df["chr_idx"].to_numpy()
+
+        # ``point_size`` is in scatter units (points²); convert to plot's
+        # markersize (points) so existing user-supplied values still mean
+        # the same visual size.  Guard against ``None`` propagated from
+        # callers that don't set the parameter explicitly.
+        _ps = 4.0 if point_size is None else float(point_size)
+        markersize = float(np.sqrt(_ps))
+        for i_chr in np.unique(chr_idx_all):
+            mask = chr_idx_all == i_chr
+            ax.plot(
+                x_all[mask], y_all[mask],
+                marker="o",
+                linestyle="none",
+                color=colors[int(i_chr) % len(colors)],
+                markersize=markersize,
+                markeredgecolor="none",
+                rasterized=True,
+            )
+        if y_all.size:
+            ax.set_ylim(y_all.min(), y_all.max()+2)
 
         # Track labels — rendered vertically in the right margin (just past
         # the last chromosome), orthogonal to the track-stacking direction.
@@ -758,13 +1101,30 @@ def plot_linearm(
             sig = df[df["in_locus"]]
             if not sig.empty:
                 sig_y = sig["logP"] if logp else sig[p_col]
-                ax.scatter(sig["x"].to_numpy(), sig_y.to_numpy(), s=point_size,
-                           marker="o", color=highlight_color)
+                # Highlight points need an explicit ``zorder`` higher than
+                # the background scatter.  The background is drawn with
+                # ``ax.plot`` (Line2D, default zorder=2), while
+                # ``ax.scatter`` returns a PathCollection whose default
+                # zorder is **1**.  Without the explicit bump below the
+                # highlight ends up *underneath* the background despite
+                # being called later in code.  ``zorder=3`` puts the
+                # highlight cleanly on top of both background scatter and
+                # any axhline / axvline guides.
+                ax.scatter(
+                    sig["x"].to_numpy(),
+                    sig_y.to_numpy(),
+                    s=point_size,
+                    marker="o",
+                    color=highlight_color,
+                    edgecolors="none",
+                    zorder=3,
+                    rasterized=True,
+                )
                 # Vertical lines across all data tracks at highlight positions
                 if highlight_line:
                     for x in sig["x"].values:
                         for _ax in loop_axes:
-                            _ax.axvline(x, color=highlight_line_color, alpha=0.2, linewidth=0.4,
+                            _ax.axvline(x, color=highlight_line_color, alpha=0.1, linewidth=0.2,
                                     linestyle="--", zorder=0)
 
         if sig_lines is not None and i < len(sig_lines):
@@ -776,62 +1136,56 @@ def plot_linearm(
 
         ax.spines[["top", "right"]].set_visible(False)
 
-
-        left_pad = chr_spacing * 0.2
-        xmax = max(offsets[c] + chr_max[c] for c in chr_order)
         ax.set_xlim(-left_pad, xmax)
 
     # ------------------------------------------------------------------
     # Annotation track
     # ------------------------------------------------------------------
     if annotate and annot_df is not None:
-        
-        _draw_annotation_arrows(
-            ax_annot,
-            annot_df,
-            chr_col=chr_col,
-            label_col=label_col,
-            offsets=offsets,
-            chr_max=chr_max,
-            spread_width=60e6,
-        )
-        
+        less_than_spread_width = []
+        for chr, df in annot_df.groupby(chr_col):
+            df_chr = df[df[chr_col]==chr]
+            differences = np.diff(df_chr['POS']).tolist()
+            less_than_spread_width.append(list(filter(lambda x: x < 60e6, differences)))
 
-        """
-        _draw_annotation_arrows_2(
-            ax=ax_annot,
-            annot_df=annot_df,
-            chr_col=chr_col,
-            label_col=label_col,
-            offsets=offsets,
-            chr_max=chr_max,
-            spread_width=60e6,
-            isolation_threshold=40e6,   # above this → straight (Tier 1)
-            stack_threshold=10e6,       # below this → stack (Tier 3)
-            max_tilt=45,                # max angleA departure from vertical
-            y_tip=0.0,
-            y_text=0.55,
-            y_stack_step=0.12,          # vertical gap between stacked labels
-        )
+        if len(less_than_spread_width) < 5:
+            _draw_annotation_arrows(
+                ax_annot,
+                annot_df,
+                chr_col=chr_col,
+                label_col=label_col,
+                offsets=offsets,
+                chr_max=chr_max,
+                spread_width=60e6,
+            )
+        else:
+            _draw_annotation_arrows_3(
+                ax=ax_annot,
+                annot_df=annot_df,
+                chr_col=chr_col,
+                label_col=label_col,
+                offsets=offsets,
+                chr_max=chr_max,
+                spread_width=60e6,
+                y_text_base=0.25,
+                max_rad=0.35,
+                y_tip=0.0,
+            )
+            """
+            _draw_annotation_arrows_4(
+                ax=ax_annot,
+                annot_df=annot_df,
+                chr_col=chr_col,
+                label_col=label_col,
+                offsets=offsets,
+                chr_max=chr_max,
+                spread_width=60e6,
+                y_text_base=0.55,
+                max_rad=0.35,
+                y_tip=0.0,                
+            )
+            """
         
-
-        _draw_annotation_arrows_3(
-            ax=ax_annot,
-            annot_df=annot_df,
-            chr_col=chr_col,
-            label_col=label_col,
-            offsets=offsets,
-            chr_max=chr_max,
-            spread_width=60e6,
-            isolation_threshold=80e6,
-            stack_threshold=90e6,
-            y_text_base=0.55,
-            y_stack_step=0.03,
-            max_rad=0.35,
-            y_tip=0.0,
-        )
-        """
-
         ax_annot.set_ylim(0, 1)
         ax_annot.axis("off")
 
@@ -873,18 +1227,18 @@ def plot_linearm(
     fig.subplots_adjust(
         left=0.09,
         right=0.94,
-        top=0.96,
-        bottom=0.1,
+        top=0.90,
+        bottom=0.15,
         hspace=linear_track_spacing,
     )
 
     if ylabel is None:
-        ylabel_text = "-log\u2081\u2080(p-value)" if logp else p_col
+        ylabel_text = "-log\u2081\u2080(P)" if logp else p_col
     else:
         ylabel_text = ylabel
 
     fig.text(
-        0.015, 0.5,
+        0.025, 0.5,
         ylabel_text,
         va="center",
         rotation="vertical",
@@ -904,7 +1258,7 @@ def plot_linear(
     trim_pval: Optional[float] = None,
     track_heights: list[float] = None,
     logp: bool = False,
-    point_size: Optional[float] = None,
+    point_size: Optional[float] = 8,
     highlight: bool = False,
     highlight_thresh: float = 5e-8,
     highlight_color: str = 'brown',
@@ -913,9 +1267,9 @@ def plot_linear(
     hits_table: Optional[pd.DataFrame] = None,
     annotate: str = None,
     label_col: Optional[str] = None,
-    chr_spacing: Optional[float] = None,
+    chr_spacing: Optional[float] = 9e6,
     linear_track_spacing: Optional[float] = None,
-    colors: list[str] = None,
+    colors: list[str] = ['steelblue','silver'],
     signif_lines: Optional[dict] = None,
     plot_title: Optional[str] = None,
     no_track_labels: bool = False,
@@ -923,7 +1277,7 @@ def plot_linear(
     dpi: Optional[int] = None,
     output_format: Optional[str] = 'png',
     output_dir: Optional[str] = '.',
-    figsize: Optional[tuple] = None,
+    figsize: Optional[list[float]] = [10, 4],
 ):
     """Generate a multi-track stacked linear Manhattan plot.
 
@@ -957,7 +1311,6 @@ def plot_linear(
         Annotation DataFrame (hits summary table from
         :func:`~pycmplot.annotation.get_hits_summary_table`).  Must contain
         columns ``CHR``, ``POS``, and *label_col*.  Passed to
-        :func:`plot_linearm` as ``annot_df``.  ``None`` or an empty
         DataFrame suppresses annotations.
     label_col : str, optional
         Column in *hits_table* to use as annotation text (e.g.
@@ -1032,12 +1385,15 @@ def plot_linear(
     else:
         t_heights = [float(x) for x in track_heights]
 
+    label = 'SNP'
+    if annotate:
+        label = get_annotation_column(
+            annotate=annotate, 
+            hits_table=hits_table,
+            label_col=label_col
+        )
 
-    label = get_annotation_column(
-        annotate = annotate,
-        hits_table=hits_table,
-        label_col=label_col
-    )
+    print(label)
 
     # plot name
     (

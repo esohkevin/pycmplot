@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pycmplot.plotting.qq &mdash; pycmplot 0.2.5 documentation</title>
+  <title>pycmplot.plotting.qq &mdash; pycmplot 0.2.7 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=cb850272"></script>
+      <script src="../../../_static/documentation_options.js?v=58050c01"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -97,7 +97,10 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html#Important-notes">Important notes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html#Generating-a-linear-plot">Generating a linear plot</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../pycmplot_python_api.html#No-highlighting-of-significant-loci">No highlighting of significant loci</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../pycmplot_python_api.html#Highlighting-significant-loci-and-annotating-by-SNP">Highlighting significant loci and annotating by SNP</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html#id1">Generating a linear plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html#Highlighting-significant-loci-and-annotating-by-SNP">Highlighting significant loci and annotating by SNP</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../pycmplot_python_api.html#Highlighting-by-a-different-p-value-threshold-and-changing-plot-colors-and-removing-track-labels">Highlighting by a different p-value threshold and changing plot colors and removing track labels</a></li>
 </ul>
 </li>
@@ -109,19 +112,21 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../pycmplot_python_api.html#Explicitly-speficying-directory-where-output-files-should-be-stored">Explicitly speficying directory where output files should be stored</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../../../pycmplot_python_api.html#Handling-other-use-cases-and-QQ-plots">Handling other use cases and QQ-plots</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html#QQ-Plotting">QQ-Plotting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html##-Handling-other-use-cases-and-QQ-plots"># Handling other use cases and QQ-plots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html#Summary-stats-without-BUILD-column-and-no-build-information-provided">Summary stats without <strong>BUILD</strong> column and no <code class="docutils literal notranslate"><span class="pre">build</span></code> information provided</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html###-Supplying-builds-with-summary-stats">## Supplying builds with summary stats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html###-QQ-Plotting">## QQ-Plotting</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../pycmplot_python_api.html#Overlaying-multiple">Overlaying multiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../pycmplot_python_api.html#Separate-qq-plots-saved-in-separate-figures">Separate qq-plots saved in separate figures</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../pycmplot_python_api.html#Combined-multi-panel">Combined multi-panel</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../pycmplot_python_api.html#Flexible-handling-of-each-qq-plot-using-the-base-plot_qq_single-function-directly">Flexible handling of each qq-plot using the base <code class="docutils literal notranslate"><span class="pre">plot_qq_single</span></code> function directly</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../pycmplot_python_api.html#Or-overlay-them-by-simply-using-the-same-axis">Or overlay them by simply using the same axis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../pycmplot_python_api.html#This-gives-us-the-flexibility-to-place-multiple-overlay-plots-on-one-figure">This gives us the flexibility to place multiple overlay plots on one figure</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html##-Final-Notes"># Final Notes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../../pycmplot_python_api.html#Final-Notes">Final Notes</a></li>
 </ul>
 </li>
 </ul>
@@ -130,6 +135,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">API Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/io.html">pycmplot.io</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#module-pycmplot.io">pycmplot.io</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pycmplot.io.auto_thin_for_manhattan"><code class="docutils literal notranslate"><span class="pre">auto_thin_for_manhattan()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pycmplot.io.detect_delimiter"><code class="docutils literal notranslate"><span class="pre">detect_delimiter()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pycmplot.io.generate_random_string"><code class="docutils literal notranslate"><span class="pre">generate_random_string()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pycmplot.io.get_file_header"><code class="docutils literal notranslate"><span class="pre">get_file_header()</span></code></a></li>
@@ -152,14 +158,17 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../api/annotation.html#gene-reference-files">Gene reference files</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/annotation.html#pycmplot.annotation.get_annotation_column"><code class="docutils literal notranslate"><span class="pre">get_annotation_column()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/annotation.html#pycmplot.annotation.get_hits_summary_table"><code class="docutils literal notranslate"><span class="pre">get_hits_summary_table()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/liftover.html">pycmplot.liftover</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/liftover.html#module-pycmplot.liftover">pycmplot.liftover</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/liftover.html#supported-conversions">Supported conversions</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/liftover.html#resource-configuration">Resource configuration</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/liftover.html#pycmplot.liftover.liftover_hg18_to_hg38"><code class="docutils literal notranslate"><span class="pre">liftover_hg18_to_hg38()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/liftover.html#pycmplot.liftover.liftover_hg19_to_hg38"><code class="docutils literal notranslate"><span class="pre">liftover_hg19_to_hg38()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/liftover.html#pycmplot.liftover.liftover_position"><code class="docutils literal notranslate"><span class="pre">liftover_position()</span></code></a></li>
 </ul>
@@ -201,6 +210,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/resources.html#pycmplot.resources.ResourceConfig"><code class="docutils literal notranslate"><span class="pre">ResourceConfig</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/resources.html#pycmplot.resources.ResourceConfig.chain_hg18_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.chain_hg18_hg38</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/resources.html#pycmplot.resources.ResourceConfig.chain_hg19_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.chain_hg19_hg38</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/resources.html#pycmplot.resources.ResourceConfig.geneinfo_hg19"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.geneinfo_hg19</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/resources.html#pycmplot.resources.ResourceConfig.geneinfo_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.geneinfo_hg38</span></code></a></li>
@@ -215,12 +225,13 @@
 <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id1">0.2.5 — 2026-04-20</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id2">0.2.2 — 2026-04-18</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id3">0.2.1 — 2026-04-16</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id4">0.1.9 — 2026-04-14</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id5">0.1.8 — 2026-04-14</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id6">0.1.0 — 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id1">0.2.7 — 2026-04-27</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id2">0.2.5 — 2026-04-20</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id3">0.2.2 — 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id4">0.2.1 — 2026-04-16</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id5">0.1.9 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id6">0.1.8 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id7">0.1.0 — 2026-04-18</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a><ul>
@@ -482,7 +493,7 @@
     <span class="n">show_lambda</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="c1"># --- speed options ---</span>
-    <span class="n">thin</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">thin</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">thin_below</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span>
     <span class="n">max_points</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50_000</span><span class="p">,</span>
     <span class="n">rasterized</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -571,11 +582,20 @@
     <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_val</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_val</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;grey&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
             <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
-    <span class="c1"># Observed points</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+    <span class="c1"># Observed points — use ``ax.plot`` with marker-only style rather than</span>
+    <span class="c1"># ``ax.scatter``.  At 1 M+ points this swaps a giant ``PathCollection``</span>
+    <span class="c1"># (one path + ``should_simplify`` check per point) for a single</span>
+    <span class="c1"># ``Line2D`` whose marker draw loop is far cheaper, while producing</span>
+    <span class="c1"># visually identical rasterised output.  ``point_size`` is in scatter</span>
+    <span class="c1"># units (points²); convert to plot&#39;s ``markersize`` (points) via</span>
+    <span class="c1"># ``sqrt`` so existing user-supplied values keep their meaning.</span>
+    <span class="n">_ms</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">point_size</span><span class="p">))</span> <span class="k">if</span> <span class="n">point_size</span> <span class="k">else</span> <span class="mf">2.0</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
         <span class="n">expected</span><span class="p">,</span> <span class="n">observed</span><span class="p">,</span>
-        <span class="n">s</span><span class="o">=</span><span class="n">point_size</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.85</span><span class="p">,</span>
-        <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+        <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+        <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.85</span><span class="p">,</span>
+        <span class="n">markersize</span><span class="o">=</span><span class="n">_ms</span><span class="p">,</span> <span class="n">markeredgecolor</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
         <span class="n">rasterized</span><span class="o">=</span><span class="n">rasterized</span><span class="p">,</span>
     <span class="p">)</span>
 
@@ -597,6 +617,8 @@
             <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">fontstyle</span><span class="o">=</span><span class="s2">&quot;italic&quot;</span><span class="p">,</span>
             <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
         <span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">expected</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">expected</span><span class="p">)</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span>
 
     <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Expected −log₁₀(p)&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Observed −log₁₀(p)&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
@@ -631,7 +653,7 @@
     <span class="n">title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">output_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">fig_format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;png&quot;</span><span class="p">,</span>
-    <span class="n">thin</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">thin</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">thin_below</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span>
     <span class="n">max_points</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50_000</span><span class="p">,</span>
     <span class="n">rasterized</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -730,7 +752,7 @@
     <span class="n">figsize</span><span class="p">:</span> <span class="nb">tuple</span> <span class="o">=</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
     <span class="n">dpi</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">300</span><span class="p">,</span>
     <span class="n">fig_format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;png&quot;</span><span class="p">,</span>
-    <span class="n">thin</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">thin</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">thin_below</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span>
     <span class="n">max_points</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50_000</span><span class="p">,</span>
     <span class="n">rasterized</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -833,7 +855,7 @@
     <span class="n">title</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">output_path</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">fig_format</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;png&quot;</span><span class="p">,</span>
-    <span class="n">thin</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">thin</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">thin_below</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span>
     <span class="n">max_points</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50_000</span><span class="p">,</span>
     <span class="n">rasterized</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -919,10 +941,16 @@
             <span class="n">expected</span><span class="p">,</span> <span class="n">ci_lo</span><span class="p">,</span> <span class="n">ci_hi</span><span class="p">,</span>
             <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">ci_alpha</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+        <span class="c1"># Use ax.plot (Line2D) instead of ax.scatter (PathCollection) for</span>
+        <span class="c1"># the same draw-time reasons as in plot_qq_single — much faster at</span>
+        <span class="c1"># large N with identical rasterised output.</span>
+        <span class="n">_ms</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">point_size</span><span class="p">))</span> <span class="k">if</span> <span class="n">point_size</span> <span class="k">else</span> <span class="mf">2.0</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
             <span class="n">expected</span><span class="p">,</span> <span class="n">observed</span><span class="p">,</span>
-            <span class="n">s</span><span class="o">=</span><span class="n">point_size</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.85</span><span class="p">,</span>
-            <span class="n">label</span><span class="o">=</span><span class="n">legend_label</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span> <span class="o">+</span> <span class="n">idx</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+            <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.85</span><span class="p">,</span>
+            <span class="n">markersize</span><span class="o">=</span><span class="n">_ms</span><span class="p">,</span> <span class="n">markeredgecolor</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+            <span class="n">label</span><span class="o">=</span><span class="n">legend_label</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span> <span class="o">+</span> <span class="n">idx</span><span class="p">,</span>
             <span class="n">rasterized</span><span class="o">=</span><span class="n">rasterized</span><span class="p">,</span>
         <span class="p">)</span>
 
@@ -955,6 +983,7 @@
     <span class="k">if</span> <span class="n">title</span><span class="p">:</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
 
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">expected</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">expected</span><span class="p">)</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 
     <span class="k">if</span> <span class="n">output_path</span><span class="p">:</span>

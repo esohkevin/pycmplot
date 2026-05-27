@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Changelog &mdash; pycmplot 0.2.6 documentation</title>
+  <title>Changelog &mdash; pycmplot 0.2.7 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=fc7d8818"></script>
+      <script src="_static/documentation_options.js?v=58050c01"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -138,6 +138,7 @@
 <li class="toctree-l1"><a class="reference internal" href="api/index.html">API Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/io.html">pycmplot.io</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/io.html#module-pycmplot.io">pycmplot.io</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/io.html#pycmplot.io.auto_thin_for_manhattan"><code class="docutils literal notranslate"><span class="pre">auto_thin_for_manhattan()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/io.html#pycmplot.io.detect_delimiter"><code class="docutils literal notranslate"><span class="pre">detect_delimiter()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/io.html#pycmplot.io.generate_random_string"><code class="docutils literal notranslate"><span class="pre">generate_random_string()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/io.html#pycmplot.io.get_file_header"><code class="docutils literal notranslate"><span class="pre">get_file_header()</span></code></a></li>
@@ -227,7 +228,7 @@
 <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id1">0.2.5 — 2026-04-22</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">0.2.7 — 2026-04-27</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id2">0.2.5 — 2026-04-20</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id3">0.2.2 — 2026-04-18</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id4">0.2.1 — 2026-04-16</a></li>
@@ -278,22 +279,194 @@
 and this project adheres to <a class="reference external" href="https://semver.org/">Semantic Versioning</a>.</p>
 <hr class="docutils" />
 <section id="id1">
-<h2>0.2.5 — 2026-04-22<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<h2>0.2.7 — 2026-04-27<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<p><strong>Added</strong></p>
+<ul>
+<li><p><strong>Default-on density-aware auto-thinning</strong> for Manhattan / circular
+rendering, inspired by <code class="docutils literal notranslate"><span class="pre">gwaslab</span></code> and applied on top of (i.e. in
+addition to) the existing <code class="docutils literal notranslate"><span class="pre">--trim_pval</span></code>.  A new helper
+<a class="reference internal" href="api/io.html#pycmplot.io.auto_thin_for_manhattan" title="pycmplot.io.auto_thin_for_manhattan"><code class="xref py py-func docutils literal notranslate"><span class="pre">auto_thin_for_manhattan()</span></code></a> keeps <strong>every</strong> variant
+whose “interestingness” signal is at or above <code class="docutils literal notranslate"><span class="pre">--auto_thin_threshold</span></code>
+and uniformly sub-samples the dense bulk to at most
+<code class="docutils literal notranslate"><span class="pre">--auto_thin_max_below</span></code> rows per track (default <code class="docutils literal notranslate"><span class="pre">200</span> <span class="pre">000</span></code>).  Lead
+SNPs are still extracted from the <em>full</em> unthinned data, so peak
+annotations are unaffected.</p>
+<p>Two modes, switched by <code class="docutils literal notranslate"><span class="pre">--logp</span></code>:</p>
+<ul class="simple">
+<li><p><strong>P-value mode</strong> (<code class="docutils literal notranslate"><span class="pre">--logp</span></code> set, the GWAS default).  Signal is
+<code class="docutils literal notranslate"><span class="pre">-log10(P)</span></code>; <code class="docutils literal notranslate"><span class="pre">--auto_thin_threshold</span></code> is in <code class="docutils literal notranslate"><span class="pre">-log10(P)</span></code> units
+(default <code class="docutils literal notranslate"><span class="pre">2.0</span></code> =&gt; <code class="docutils literal notranslate"><span class="pre">P</span> <span class="pre">&lt;=</span> <span class="pre">0.01</span></code>).  Every suggestive /
+genome-wide-significant variant survives untouched.</p></li>
+<li><p><strong>Raw-statistic mode</strong> (<code class="docutils literal notranslate"><span class="pre">--logp</span></code> off).  The <code class="docutils literal notranslate"><span class="pre">P</span></code> column is
+interpreted as a raw test statistic and the signal becomes
+<code class="docutils literal notranslate"><span class="pre">|value|</span></code>, so the same machinery works for selection scans like
+<strong>iHS, XP-EHH, F_ST, Fay &amp; Wu’s H, Tajima’s D</strong>, etc.  The default
+threshold of <code class="docutils literal notranslate"><span class="pre">2.0</span></code> works for the standardised |iHS| / |XP-EHH|
+scans; override (e.g. <code class="docutils literal notranslate"><span class="pre">--auto_thin_threshold</span> <span class="pre">0.05</span></code>) for F_ST.</p></li>
+</ul>
+<p>Negative extremes are preserved as well as positive ones, so for
+signed statistics (iHS, XP-EHH) both tails of the distribution
+survive intact.</p>
+<p>New CLI flags:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Flag</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--no_auto_thin</span></code></p></td>
+<td><p>Disable auto-thinning entirely.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--auto_thin_threshold</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">-log10(P)</span></code> floor above which every variant
+is kept (default 2.0).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">--auto_thin_max_below</span></code></p></td>
+<td><p>Cap on background variants per track
+(default 200 000).</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">--no_qq_thin</span></code></p></td>
+<td><p>Counterpart for QQ log-uniform thinning,
+which is now ON by default.</p></td>
+</tr>
+</tbody>
+</table>
+<p>Combined with the rendering and data-prep optimisations from earlier
+in this release, this brings pycmplot’s untrimmed timings to:</p>
+</li>
+</ul>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Size</p></th>
+<th class="head"><p>manhattan (s)</p></th>
+<th class="head"><p>qq (s)</p></th>
+<th class="head"><p>circular (s)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>500K</p></td>
+<td><p>4.4 (was 32.6)</p></td>
+<td><p>4.1 (19.0)</p></td>
+<td><p>18.5 (119)</p></td>
+</tr>
+<tr class="row-odd"><td><p>1M</p></td>
+<td><p>5.1 (was 63.7)</p></td>
+<td><p>4.9 (37)</p></td>
+<td><p>19.6 (235)</p></td>
+</tr>
+<tr class="row-even"><td><p>2M</p></td>
+<td><p>6.6 (was 127)</p></td>
+<td><p>6.4 (75)</p></td>
+<td><p>21.3 (469)</p></td>
+</tr>
+<tr class="row-odd"><td><p>5M</p></td>
+<td><p>12.7 (was 317)</p></td>
+<td><p>11.7 (191)</p></td>
+<td><p>28.7 (1169)</p></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<div><p>i.e. circular plotting at 5 M variants is now <strong>41x faster</strong> than the
+pre-0.2.7 untrimmed path, and projects to ~38 s at 10 M variants
+(down from ~38 minutes — and faster than CMplot’s circular path).</p>
+</div></blockquote>
+<p><strong>Performance</strong></p>
+<ul class="simple">
+<li><p>Linear Manhattan rendering switched from <code class="docutils literal notranslate"><span class="pre">ax.scatter</span></code> (one <code class="docutils literal notranslate"><span class="pre">PathCollection</span></code>
+carrying a path-per-point with per-point <code class="docutils literal notranslate"><span class="pre">should_simplify</span></code> checks) to
+one <code class="docutils literal notranslate"><span class="pre">ax.plot(...,</span> <span class="pre">marker='.',</span> <span class="pre">linestyle='none')</span></code> per chromosome
+(a single <code class="docutils literal notranslate"><span class="pre">Line2D</span></code> whose marker-draw loop is dramatically cheaper).
+Visually identical rasterised output; on a 1 M-variant single-track plot
+this alone shrinks <code class="docutils literal notranslate"><span class="pre">plot_linearm</span></code> from ~6 s to ~0.5 s.</p></li>
+<li><p>QQ plots (<code class="docutils literal notranslate"><span class="pre">plot_qq_single</span></code> and <code class="docutils literal notranslate"><span class="pre">plot_qq_combined</span></code>) make the same
+scatter → plot switch for the observed points.</p></li>
+<li><p>Chromosome-name normalisation in
+<a class="reference internal" href="api/io.html#pycmplot.io.get_sumstats_and_merged_sector_list" title="pycmplot.io.get_sumstats_and_merged_sector_list"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_sumstats_and_merged_sector_list()</span></code></a> is now applied
+to the <strong>categories</strong> of the CHR <code class="docutils literal notranslate"><span class="pre">Categorical</span></code> (≤25 distinct values)
+rather than to the underlying N-row code array.  The result is stored
+as a <code class="docutils literal notranslate"><span class="pre">Categorical</span></code> ordered by <code class="docutils literal notranslate"><span class="pre">CHROM_ORDER</span></code> so downstream code can
+derive <code class="docutils literal notranslate"><span class="pre">chr_idx</span></code> from <code class="docutils literal notranslate"><span class="pre">cat.codes</span></code> directly.</p></li>
+<li><p>Linear-plot <code class="docutils literal notranslate"><span class="pre">_prep</span></code> recognises the canonical Categorical CHR column
+produced by the loader and skips the redundant <code class="docutils literal notranslate"><span class="pre">str.replace</span> <span class="pre">+</span>
+<span class="pre">str.upper</span> <span class="pre">+</span> <span class="pre">replace</span></code> pass that was running on every plot call.</p></li>
+<li><p>Optional CSV reader switched to <code class="docutils literal notranslate"><span class="pre">engine='pyarrow'</span></code> with safe fallback
+to the default C engine when pyarrow is unavailable.</p></li>
+<li><p>New <code class="docutils literal notranslate"><span class="pre">compute_pvals</span></code> parameter on
+<a class="reference internal" href="api/io.html#pycmplot.io.get_sumstats_and_merged_sector_list" title="pycmplot.io.get_sumstats_and_merged_sector_list"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_sumstats_and_merged_sector_list()</span></code></a> (default
+<code class="docutils literal notranslate"><span class="pre">True</span></code>); <code class="docutils literal notranslate"><span class="pre">_core.py</span></code> now sets it to <code class="docutils literal notranslate"><span class="pre">False</span></code> when no QQ plot is
+requested, skipping an ~80 MB-at-10 M-variants p-value-array copy that
+was unused on Manhattan- or circular-only runs.</p></li>
+</ul>
+<p>Combined effect (measured, single-track untrimmed, fresh subprocess):</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>plot_type</p></th>
+<th class="head"><p>500K before</p></th>
+<th class="head"><p>500K after</p></th>
+<th class="head"><p>speed-up</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>manhattan</p></td>
+<td><p>32.6 s</p></td>
+<td><p>4.6 s</p></td>
+<td><p>7.1x</p></td>
+</tr>
+<tr class="row-odd"><td><p>qq</p></td>
+<td><p>19.0 s</p></td>
+<td><p>6.7 s</p></td>
+<td><p>2.8x</p></td>
+</tr>
+<tr class="row-even"><td><p>circular</p></td>
+<td><p>119.0 s</p></td>
+<td><p>39.9 s</p></td>
+<td><p>3.0x</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>plot_type</p></th>
+<th class="head"><p>1M before</p></th>
+<th class="head"><p>1M after</p></th>
+<th class="head"><p>speed-up</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>manhattan</p></td>
+<td><p>63.7 s</p></td>
+<td><p>6.0 s</p></td>
+<td><p>10.6x</p></td>
+</tr>
+<tr class="row-odd"><td><p>qq</p></td>
+<td><p>37.1 s</p></td>
+<td><p>10.2 s</p></td>
+<td><p>3.6x</p></td>
+</tr>
+<tr class="row-even"><td><p>circular</p></td>
+<td><p>235.3 s</p></td>
+<td><p>73.3 s</p></td>
+<td><p>3.2x</p></td>
+</tr>
+</tbody>
+</table>
 <p><strong>Fixed</strong></p>
 <ul class="simple">
-<li><p>Annotation in circular plotting when <strong>GENE</strong> selected but <strong>SNP</strong>
-annotated.</p></li>
-</ul>
-<p><strong>Added</strong></p>
-<ul class="simple">
-<li><p>Information about the sumstats printed to screen now includes number
-of variants pre and post trimming, memory usage, and progress bar.</p></li>
-</ul>
-<p><strong>Changed</strong></p>
-<ul class="simple">
-<li><p>Enhanced memory efficiency by changing <strong>CHR</strong> and <strong>BUILD</strong> columns
-dtypes from <code class="docutils literal notranslate"><span class="pre">str</span></code> to <code class="docutils literal notranslate"><span class="pre">category</span></code> in <code class="docutils literal notranslate"><span class="pre">io.py</span></code></p></li>
-<li><p>Licence changed to MIT Licence.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">POS</span></code> is now stored as plain <code class="docutils literal notranslate"><span class="pre">int64</span></code> after a <code class="docutils literal notranslate"><span class="pre">to_numeric</span> <span class="pre">+</span>
+<span class="pre">dropna</span></code> pass, rather than the nullable <code class="docutils literal notranslate"><span class="pre">Int64</span></code> that leaked <code class="docutils literal notranslate"><span class="pre">pd.NA</span></code>
+into reductions like <code class="docutils literal notranslate"><span class="pre">groupby(...).max()</span></code> and caused
+<code class="docutils literal notranslate"><span class="pre">TypeError:</span> <span class="pre">boolean</span> <span class="pre">value</span> <span class="pre">of</span> <span class="pre">NA</span> <span class="pre">is</span> <span class="pre">ambiguous</span></code> further down the
+pipeline.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">plot_linearm</span></code>’s <code class="docutils literal notranslate"><span class="pre">df.groupby(CHR)[POS].max()</span></code> now passes
+<code class="docutils literal notranslate"><span class="pre">observed=True</span></code> so categorical chromosomes with no rows in a
+particular track produce no entry (<code class="docutils literal notranslate"><span class="pre">s.get(c,</span> <span class="pre">0)</span></code> handles the missing
+case), avoiding the <code class="docutils literal notranslate"><span class="pre">NA</span></code>-propagation crash described above.</p></li>
+<li><p>Stripped 5 288 stray <code class="docutils literal notranslate"><span class="pre">NUL</span></code> bytes that had been appended to the end
+of <code class="docutils literal notranslate"><span class="pre">pycmplot/plotting/linear.py</span></code> (filesystem-level corruption from a
+partial overwrite — the file imported only after the trailing zeros
+were removed).</p></li>
 </ul>
 </section>
 <hr class="docutils" />
@@ -347,6 +520,8 @@ and are preserved.  The filter was also previously applied <em>after</em>
 <code class="docutils literal notranslate"><span class="pre">color_cycle</span></code> was constructed, which caused a latent
 <code class="docutils literal notranslate"><span class="pre">ValueError:</span> <span class="pre">'c'</span> <span class="pre">argument</span> <span class="pre">has</span> <span class="pre">N</span> <span class="pre">elements,</span> <span class="pre">which</span> <span class="pre">is</span> <span class="pre">inconsistent</span> <span class="pre">with</span>
 <span class="pre">'x'</span> <span class="pre">and</span> <span class="pre">'y'</span></code> whenever the filter actually dropped rows.</p></li>
+<li><p>Annotation in circular plotting when <strong>GENE</strong> selected but <strong>SNP</strong>
+annotated.</p></li>
 </ul>
 <p><strong>Added</strong></p>
 <ul class="simple">
@@ -375,6 +550,14 @@ GWAS summary statistics.</p></li>
 <li><p>All module-, class-, and function-level docstrings now use the bare
 <code class="docutils literal notranslate"><span class="pre">&quot;&quot;&quot;...&quot;&quot;&quot;</span></code> form so that Sphinx autodoc / numpydoc and
 <a class="reference external" href="https://docs.python.org/3/library/functions.html#help" title="(in Python v3.14)"><code class="xref py py-func docutils literal notranslate"><span class="pre">help()</span></code></a> render them correctly.</p></li>
+<li><p>Information about the sumstats printed to screen now includes number
+of variants pre and post trimming, memory usage, and progress bar.</p></li>
+</ul>
+<p><strong>Changed</strong></p>
+<ul class="simple">
+<li><p>Enhanced memory efficiency by changing <strong>CHR</strong> and <strong>BUILD</strong> columns
+dtypes from <code class="docutils literal notranslate"><span class="pre">str</span></code> to <code class="docutils literal notranslate"><span class="pre">category</span></code> in <code class="docutils literal notranslate"><span class="pre">io.py</span></code></p></li>
+<li><p>Licence changed to MIT Licence.</p></li>
 </ul>
 </section>
 <hr class="docutils" />
@@ -537,14 +720,7 @@ Manhattan plotter.</p></li>
 <ul class="simple">
 <li><p>Module-level <code class="docutils literal notranslate"><span class="pre">LiftOver(hardcoded_path)</span></code> call replaced by a lazy
 singleton; <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">pycmplot</span></code> no longer raises <code class="docutils literal notranslate"><span class="pre">FileNotFoundError</span></code>.</p></li>
-<li><p>Hardcoded <code class="docutils literal notranslate"><span class="pre">/vast/awonkam1/...</span></code> resource paths replaced with
-<a class="reference internal" href="api/resources.html#pycmplot.resources.ResourceConfig" title="pycmplot.resources.ResourceConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">ResourceConfig</span></code></a>.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">highlight</span></code> free variable in
-<a class="reference internal" href="api/io.html#pycmplot.io.get_sumstats_and_merged_sector_list" title="pycmplot.io.get_sumstats_and_merged_sector_list"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_sumstats_and_merged_sector_list()</span></code></a> promoted to
-an explicit parameter.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">geneinfo</span></code> implicit closure variable in <code class="docutils literal notranslate"><span class="pre">build_locus_summary</span></code> is
-now passed explicitly.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">suggest_line</span></code> use-before-assignment fixed.</p></li>
+<li><p>Hardcoded <code class="docutils literal notranslate"><span class="pre">/vast/awonkam1/...</span></code> resourc</p></li>
 </ul>
 </section>
 </section>

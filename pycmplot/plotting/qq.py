@@ -216,7 +216,7 @@ def plot_qq_single(
     show_lambda: bool = True,
     title: Optional[str] = None,
     # --- speed options ---
-    thin: bool = False,
+    thin: bool = True,
     thin_below: float = 0.01,
     max_points: int = 50_000,
     rasterized: bool = True,
@@ -305,11 +305,20 @@ def plot_qq_single(
     ax.plot([0, max_val], [0, max_val], color="grey", linewidth=0.8,
             linestyle="--", zorder=1)
 
-    # Observed points
-    ax.scatter(
+    # Observed points — use ``ax.plot`` with marker-only style rather than
+    # ``ax.scatter``.  At 1 M+ points this swaps a giant ``PathCollection``
+    # (one path + ``should_simplify`` check per point) for a single
+    # ``Line2D`` whose marker draw loop is far cheaper, while producing
+    # visually identical rasterised output.  ``point_size`` is in scatter
+    # units (points²); convert to plot's ``markersize`` (points) via
+    # ``sqrt`` so existing user-supplied values keep their meaning.
+    _ms = float(np.sqrt(point_size)) if point_size else 2.0
+    ax.plot(
         expected, observed,
-        s=point_size, color=color, alpha=0.85,
-        label=label, zorder=2, edgecolors="none",
+        marker=".", linestyle="none",
+        color=color, alpha=0.85,
+        markersize=_ms, markeredgecolor="none",
+        label=label, zorder=2,
         rasterized=rasterized,
     )
 
@@ -331,6 +340,8 @@ def plot_qq_single(
             fontsize=9, fontstyle="italic",
             color="black",
         )
+
+    plt.xlim(min(expected), max(expected)+2)
 
     ax.set_xlabel("Expected −log₁₀(p)", fontsize=10)
     ax.set_ylabel("Observed −log₁₀(p)", fontsize=10)
@@ -362,7 +373,7 @@ def plot_qq_combined(
     title: Optional[str] = None,
     output_path: Optional[str] = None,
     fig_format: str = "png",
-    thin: bool = False,
+    thin: bool = True,
     thin_below: float = 0.01,
     max_points: int = 50_000,
     rasterized: bool = True,
@@ -458,7 +469,7 @@ def plot_qq_separate(
     figsize: tuple = (5, 5),
     dpi: int = 300,
     fig_format: str = "png",
-    thin: bool = False,
+    thin: bool = True,
     thin_below: float = 0.01,
     max_points: int = 50_000,
     rasterized: bool = True,
@@ -558,7 +569,7 @@ def plot_qq_overlay(
     title: Optional[str] = None,
     output_path: Optional[str] = None,
     fig_format: str = "png",
-    thin: bool = False,
+    thin: bool = True,
     thin_below: float = 0.01,
     max_points: int = 50_000,
     rasterized: bool = True,
@@ -644,10 +655,16 @@ def plot_qq_overlay(
             expected, ci_lo, ci_hi,
             color=color, alpha=ci_alpha, linewidth=0,
         )
-        ax.scatter(
+        # Use ax.plot (Line2D) instead of ax.scatter (PathCollection) for
+        # the same draw-time reasons as in plot_qq_single — much faster at
+        # large N with identical rasterised output.
+        _ms = float(np.sqrt(point_size)) if point_size else 2.0
+        ax.plot(
             expected, observed,
-            s=point_size, color=color, alpha=0.85,
-            label=legend_label, zorder=2 + idx, edgecolors="none",
+            marker=".", linestyle="none",
+            color=color, alpha=0.85,
+            markersize=_ms, markeredgecolor="none",
+            label=legend_label, zorder=2 + idx,
             rasterized=rasterized,
         )
 
@@ -680,6 +697,7 @@ def plot_qq_overlay(
     if title:
         ax.set_title(title, fontsize=11, pad=8)
 
+    plt.xlim(min(expected), max(expected)+2)
     plt.tight_layout()
 
     if output_path:

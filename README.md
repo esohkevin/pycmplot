@@ -29,6 +29,8 @@ option of the package should be used to indicate the column and then the package
 postions in hg19 to hg38 ensuring that hits table generation and plotting are done with one unified 
 corrdinate system.
 
+# Key features
+## Column auto-detection
 A key functionality of the package is its ability to auto-detect certain columns if ommited on the 
 command-line or python API:
 - Chromosome column: `-chr, --chrom_column` or ommited
@@ -51,11 +53,54 @@ bld_candidates = [build, 'BUILD', 'Genome', 'Genome_Build', 'Genome-build']
 
 > NB: Upper and lower cases of the candidates are also considered, making each candidate expanded 3 times.
 
+## Density-aware sub-sampling
+Another key feature is density-aware sub-sampling for Manhattan-style scatter plots.
+This was inspired by ``gwaslab``'s default behaviour (https://cloufield.github.io/gwaslab/). 
 
-Since GWAS summary stats files can be very large, to improve speed and memory efficiency, it is 
-**highly recommended** to use `-tp, --trim_pval` with a value to exclude variants with p-value above a 
-certain threshold, e.g. `0.01 (1e-2)` or `0.001 (1e-3)`.
+Every variant whose "interestingness" signal is at or above ``keep_threshold`` is preserved (so peaks, suggestive hits, genome-wide-significant hits, and extreme 
+selection-scan values are kept verbatim). It uniformly sub-samples the dense bulk 
+below the threshold down to at most ``max_below`` rows in total.  For a 10 M-variant 
+scan with the defaults below, this typically cuts the plotted point count from 10 M 
+to ~200 K + a few hundred peaks — visually indistinguishable above the suggestive 
+band, but two orders of magnitude faster to render.
 
+## Trim insignificant variants for faster plotting
+An optional parameter `-tp, --trim_pval` is provided to increase speed even further. 
+Set with a value to exclude variants with p-value above a certain threshold, 
+e.g. `0.01 (1e-2)` or `0.001 (1e-3)`. Performed on top of the default auto-thin 
+feature above, it siginificant increases speed and reduces peak memory usage. 
+See benchmark figure (manuscript in preparation).
+
+## Genome build conversion (liftover)
+Conversion of a both hg18 and hg19 positions to their hg38 equivalent is included through
+`pyliftover.LiftOver`.
+
+This means you can concatenate multiple summary stats into one file and include a `BUILD` 
+column to specify the genome build of each position ('hg18', 'hg19', or 'hg38') and all 
+'hg18' and 'hg19' positions will be converted to 'hg38' so that all positions are plotted 
+using one coordinate system. If only 'hg18' or 'hg19' positions are present, no liftover 
+be necessary. Hence, liftover is only performed in cases of mixed genome builds.
+
+## Nearest-gene annotation for GWAS lead SNPs
+The package bundles GFF3 files in hg19 and hg38 coordinates processed to reduce size 
+for gene annotation. Also included are UCSC chain files for coordinate conversion (liftover).
+  - ``chain_hg19_hg38`` -- UCSC LiftOver chain file for hg19 to hg38
+    conversion. Resolved from ``PYCMPLOT_CHAIN_HG19_HG38`` or the bundled
+    ``hg19ToHg38.over.chain.gz``.
+  - ``chain_hg18_hg38`` -- UCSC LiftOver chain file for hg18 to hg38
+    conversion. Resolved from ``PYCMPLOT_CHAIN_HG18_HG38`` or the bundled
+    ``hg18ToHg38.over.chain.gz``. Only required when any input summary
+    statistics file carries a ``hg18`` build label.
+  - ``geneinfo_hg38`` -- Ensembl gene-info TSV for GRCh38, used for
+    nearest-gene annotation. Resolved from ``PYCMPLOT_GENEINFO_HG38`` or
+    the bundled ``Homo_sapiens.GRCh38.geneinfo.tsv.gz``.
+  - ``geneinfo_hg19`` -- Ensembl gene-info TSV for GRCh37, used when
+    input data carry a hg19 build label. Resolved from
+    ``PYCMPLOT_GENEINFO_HG19`` or the bundled
+    ``Homo_sapiens.GRCh37.geneinfo.tsv.gz``.
+
+
+# Application
 A potential useful application is **comparative visualization** of results from multiple imputation panels, 
 multiple populations, or multiple traits to observe shared genetic architecture.
 

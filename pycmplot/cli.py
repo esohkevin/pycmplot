@@ -72,6 +72,20 @@ def get_arguments(descmsg: str = DESCMSG) -> argparse.Namespace:
 
     ``logp`` : bool
         Plot −log₁₀(p) on the y-axis when ``True``.
+    ``no_auto_thin`` : bool
+        Disable the default density-aware auto-thinning step that
+        preserves all "interesting" variants and uniformly down-samples
+        the bulk of the rest to ``--auto_thin_max_below`` rows per track.
+    ``auto_thin_threshold`` : float
+        Threshold above which every variant is kept verbatim.
+        Interpreted as ``-log10(P)`` when ``--logp`` is set
+        (default ``2.0`` => ``P <= 0.01``); interpreted as ``|value|``
+        of the test statistic when ``--logp`` is off, so it also works
+        for selection-scan outputs (iHS, XP-EHH, F_ST, Fay & Wu's H,
+        Tajima's D, …).
+    ``auto_thin_max_below`` : int
+        Cap on the number of below-threshold "background" variants
+        retained per track during auto-thinning.  Default ``200000``.
     ``trim_pval`` : float or None
         Drop variants with p > this value before plotting.
         Strongly recommended for large files (e.g. ``0.01``).
@@ -279,11 +293,25 @@ def get_arguments(descmsg: str = DESCMSG) -> argparse.Namespace:
                      ))
     opt.add_argument("-qq_cols", "--qq_ncols", default=3, type=int, metavar="int",
                      help="Number of columns in the combined QQ-plot grid (default: 3).")
-    opt.add_argument("-qq_thin", "--qq_thin", action="store_true", default=False,
-                     help=(
-                         "Thin null-like p-values before QQ plotting for speed (default: off)."
-                         "Include this flag to turn on for speed."
-                    ))
+    qq_thin_grp = opt.add_mutually_exclusive_group()
+    qq_thin_grp.add_argument(
+        "-qq_thin", "--qq_thin",
+        dest="qq_thin", action="store_true", default=True,
+        help=(
+            "Log-uniform thinning of null-like p-values before QQ plotting "
+            "(default: ON).  Preserves the entire QQ tail; reduces the dense "
+            "bulk to at most --qq_max_points sampled points so a 10 M-variant "
+            "QQ render takes seconds instead of minutes."
+        ),
+    )
+    qq_thin_grp.add_argument(
+        "--no_qq_thin",
+        dest="qq_thin", action="store_false",
+        help=(
+            "Disable QQ-plot thinning and render every variant.  Useful for "
+            "small datasets or when reproducing exact unthinned figures."
+        ),
+    )
     opt.add_argument("-thin_below", "--thin_below", type=float, metavar="float", default=0.01,
                      help=(
                          "P-value threshold below which all points are always kept."
@@ -300,6 +328,40 @@ def get_arguments(descmsg: str = DESCMSG) -> argparse.Namespace:
     opt.add_argument(
         "-tp", "--trim_pval", type=float, metavar="float",
         help="Trim variants with p > this value before plotting."
+    )
+    opt.add_argument(
+        "--no_auto_thin",
+        action="store_true",
+        help=(
+            "Disable the default density-aware auto-thinning step.  "
+            "Auto-thinning preserves every variant whose interestingness "
+            "signal is >= --auto_thin_threshold and down-samples the "
+            "bulk of the rest to at most --auto_thin_max_below rows.  "
+            "Cuts render time by 1-2 orders of magnitude on multi-"
+            "million-variant scans with no visible change above the "
+            "suggestive line.  Pass --no_auto_thin to disable."
+        ),
+    )
+    opt.add_argument(
+        "--auto_thin_threshold",
+        type=float, default=2.0, metavar="float",
+        help=(
+            "Threshold above which every variant is kept verbatim during "
+            "auto-thinning.  Interpreted as -log10(P) when --logp is set "
+            "(default 2.0, i.e. P <= 0.01).  When --logp is OFF the P "
+            "column is treated as a raw statistic (iHS, XP-EHH, F_ST, "
+            "Fay & Wu's H, Tajima's D, ...) and the threshold is "
+            "compared against |value|; defaults of 2.0 work for the "
+            "standardised selection scans, override (e.g. 0.05) for F_ST."
+        ),
+    )
+    opt.add_argument(
+        "--auto_thin_max_below",
+        type=int, default=200_000, metavar="int",
+        help=(
+            "Cap on the number of below-threshold 'background' variants "
+            "retained per track during auto-thinning (default 200000)."
+        ),
     )
     opt.add_argument(
         "-sig", "--signif_threshold",
