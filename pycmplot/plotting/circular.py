@@ -123,6 +123,7 @@ def plot_circosm(
     sector_radius=None,
     annotation_r=None,
     assoc: Optional[pd.DataFrame] = None,
+    assoc_by_chr: pd.DataFrame = None,
     sector_sizes: Optional[dict] = None,
     chrom_label_loc: Optional[float] = -3,
     chrom_label_size: float = 6,
@@ -139,6 +140,7 @@ def plot_circosm(
     highlight_thresh: Optional[float] = 5e-8,
     highlight_color: str = 'brown',
     colors: Optional[list[str]] = ['steelblue','orange'],
+    point_size: float = 6,
     no_track_labels: bool = False
 ) -> None:
     """Plot one track of summary statistics onto a single pycirclize sector.
@@ -214,24 +216,25 @@ def plot_circosm(
         Suppress the track label on the spacer sector.  Default ``False``.
     """
 
-    if colors is None:
-        colors = ["steelblue", "orange"]
+    #if colors is None:
+    #    colors = ["steelblue", "orange"]
 
-    if highlight:
-        assoc, _ = get_highlight_snps(
-            df=assoc,
-            window=500_000,
-            highlight_thresh=highlight_thresh,
-            logp=logp,
-        )
+    #if highlight:
+    #    assoc, _ = get_highlight_snps(
+    #        df=assoc,
+    #        window=500_000,
+    #        highlight_thresh=highlight_thresh,
+    #        logp=logp,
+    #    )
 
-    assoc = assoc.copy()
-    assoc["POS"] = assoc["POS"].fillna(0).astype(int)
+    #assoc = assoc.copy()
+    #assoc["POS"] = assoc["POS"].fillna(0).astype(int)
 
     genome_wide_sig = signif_threshold
     suggestive = suggest_threshold
 
-    assoc_uniq_chroms = list(assoc["CHR"].unique())
+    #assoc_uniq_chroms = list(assoc["CHR"].unique())
+    assoc_uniq_chroms = set(assoc["CHR"])
 
     v_min = float(math.floor(min(assoc["logP"]))) if logp else float(math.floor(min(assoc["P"])))
     v_max = float(math.ceil(max(assoc["logP"]))) if logp else float(math.ceil(max(assoc["P"])))
@@ -313,7 +316,10 @@ def plot_circosm(
     # ------------------------------------------------------------------
     # Data track
     # ------------------------------------------------------------------
-    assoc_chr = assoc.loc[assoc["CHR"] == sector.name]
+    #assoc_chr = assoc.loc[assoc["CHR"] == sector.name]
+    assoc_chr = assoc_by_chr.get(sector.name)
+    if assoc_chr is None:
+        return    
     track = sector.add_track(sector_radius, r_pad_ratio=0.05)
     track.axis(fc="lightgrey", alpha=0.08)
 
@@ -328,26 +334,26 @@ def plot_circosm(
 
         track.scatter(
             data=bg,
-            x=list(bg["POS"].astype(float)),
-            y=list(bg[y_col].astype(float)),
+            x=list(bg["POS"]), #.astype(float)),
+            y=list(bg[y_col]), #.astype(float)),
             vmin=v_min, vmax=v_max,
-            marker="o", s=6, color=color, alpha=1,
+            marker="o", s=point_size, color=color, alpha=1,
         )
 
         if not sig.empty:
             track.scatter(
-                sig["POS"].to_numpy(),
-                sig[y_col].to_numpy(),
+                list(sig["POS"]), #.to_numpy(),
+                list(sig[y_col]), #.to_numpy(),
                 vmin=v_min, vmax=v_max,
-                s=6, marker="o", color=highlight_color,
+                s=point_size, marker="o", color=highlight_color,
             )
     else:
         track.scatter(
             data=assoc_chr,
-            x=list(assoc_chr["POS"].astype(float)),
-            y=list(assoc_chr[y_col].astype(float)),
+            x=list(assoc_chr["POS"]), #.astype(float)),
+            y=list(assoc_chr[y_col]), #.astype(float)),
             vmin=v_min, vmax=v_max,
-            marker="o", s=6, color=color, alpha=1,
+            marker="o", s=point_size, color=color, alpha=1,
         )
 
     # ------------------------------------------------------------------
@@ -389,6 +395,7 @@ def plot_circular(
     highlight_line: bool = False,
     highlight_line_color: str = 'grey',
     colors: list[str] = ['steelblue','silver'],
+    point_size: float = 6,
     track_label_size: float = 6,
     track_label_orientation: str = 'vertical',
     hits_table: pd.DataFrame = None,
@@ -584,8 +591,15 @@ def plot_circular(
         )
     ):
         assoc = sumstats_value[0].copy()
-        assoc["P"]   = assoc["P"].dropna()
-        assoc["CHR"] = assoc["CHR"].replace("23", "X").replace("24", "Y")
+        #assoc["P"]   = assoc["P"].dropna()
+        #assoc["CHR"] = assoc["CHR"].replace("23", "X").replace("24", "Y")
+        assoc["POS"] = assoc["POS"].astype(np.int32)
+
+        if logp:
+            assoc["logP"] = assoc["logP"].astype(np.float32)
+        else:
+            assoc["P"] = assoc["P"].astype(np.float32)
+            
         sumstat_name = sumstats_key
 
         sig_thresh = signif_dict["genome"]
@@ -593,6 +607,11 @@ def plot_circular(
 
         logger.info(f"Plotting : {sumstat_name}")
         #logger.info(f"SUGGESTIVE THRESHOLD: {sug_thresh}")
+
+        assoc_by_chr = {
+            chrom: df
+            for chrom, df in assoc.groupby("CHR", sort=False)
+        }
 
         for sector in circos.sectors:
             plot_circosm(
@@ -606,6 +625,7 @@ def plot_circular(
                 track_label_size=track_label_size,
                 track_label_orientation=track_label_orientation,
                 assoc=assoc,
+                assoc_by_chr=assoc_by_chr,
                 assoc_label=sumstat_name,
                 logp=logp,
                 signif_line=sig_thresh,
@@ -616,6 +636,7 @@ def plot_circular(
                 highlight_thresh=highlight_thresh,
                 highlight_color=highlight_color,
                 colors=colors,
+                point_size=point_size,
                 no_track_labels=no_track_labels
             )
 
@@ -641,8 +662,8 @@ def plot_circular(
                     a_track.axis(fc="none", lw=0, ec="none", alpha=0)
 
                     r_low  = annotation_track_radius[0]
-                    r_high = annotation_track_radius[1]
-                    r_pos  = r_low if i % 2 == 0 else r_high
+                    #r_high = annotation_track_radius[1]
+                    #r_pos  = r_low if i % 2 == 0 else r_high
                     pos    = row["POS"]
 
                     a_track.annotate(

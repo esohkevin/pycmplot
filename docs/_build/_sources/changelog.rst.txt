@@ -8,25 +8,131 @@ and this project adheres to `Semantic Versioning <https://semver.org/>`_.
 
 ----
 
-0.2.5 — 2026-04-22
+0.2.7 — 2026-04-27
 ------------------
-
-**Fixed**
-
-- Annotation in circular plotting when **GENE** selected but **SNP** 
-  annotated.
 
 **Added**
 
-- Information about the sumstats printed to screen now includes number 
-  of variants pre and post trimming, memory usage, and progress bar.
+- **Default-on density-aware auto-thinning** for Manhattan / circular
+  rendering, inspired by ``gwaslab`` and applied on top of (i.e. in
+  addition to) the existing ``--trim_pval``.  A new helper
+  :func:`~pycmplot.io.auto_thin_for_manhattan` keeps **every** variant
+  whose "interestingness" signal is at or above ``--auto_thin_threshold``
+  and uniformly sub-samples the dense bulk to at most
+  ``--auto_thin_max_below`` rows per track (default ``200 000``).  Lead
+  SNPs are still extracted from the *full* unthinned data, so peak
+  annotations are unaffected.
 
-**Changed**
+  Two modes, switched by ``--logp``:
 
-- Enhanced memory efficiency by changing **CHR** and **BUILD** columns 
-  dtypes from ``str`` to ``category`` in ``io.py``
+  * **P-value mode** (``--logp`` set, the GWAS default).  Signal is
+    ``-log10(P)``; ``--auto_thin_threshold`` is in ``-log10(P)`` units
+    (default ``2.0`` => ``P <= 0.01``).  Every suggestive /
+    genome-wide-significant variant survives untouched.
+  * **Raw-statistic mode** (``--logp`` off).  The ``P`` column is
+    interpreted as a raw test statistic and the signal becomes
+    ``|value|``, so the same machinery works for selection scans like
+    **iHS, XP-EHH, F_ST, Fay & Wu's H, Tajima's D**, etc.  The default
+    threshold of ``2.0`` works for the standardised \|iHS\| / \|XP-EHH\|
+    scans; override (e.g. ``--auto_thin_threshold 0.05``) for F_ST.
 
-- Licence changed to MIT Licence.
+  Negative extremes are preserved as well as positive ones, so for
+  signed statistics (iHS, XP-EHH) both tails of the distribution
+  survive intact.
+
+  New CLI flags:
+
+  ============================== ================================================
+  Flag                           Description
+  ============================== ================================================
+  ``--no_auto_thin``             Disable auto-thinning entirely.
+  ``--auto_thin_threshold``      ``-log10(P)`` floor above which every variant
+                                 is kept (default 2.0).
+  ``--auto_thin_max_below``      Cap on background variants per track
+                                 (default 200 000).
+  ``--no_qq_thin``               Counterpart for QQ log-uniform thinning,
+                                 which is now ON by default.
+  ============================== ================================================
+
+  Combined with the rendering and data-prep optimisations from earlier
+  in this release, this brings pycmplot's untrimmed timings to:
+
++-------+-------------------+--------------+----------------+
+| Size  | manhattan (s)     | qq (s)       | circular (s)   |
++=======+===================+==============+================+
+| 500K  | 4.4 (was 32.6)    | 4.1 (19.0)   | 18.5 (119)     |
++-------+-------------------+--------------+----------------+
+| 1M    | 5.1 (was 63.7)    | 4.9 (37)     | 19.6 (235)     |
++-------+-------------------+--------------+----------------+
+| 2M    | 6.6 (was 127)     | 6.4 (75)     | 21.3 (469)     |
++-------+-------------------+--------------+----------------+
+| 5M    | 12.7 (was 317)    | 11.7 (191)   | 28.7 (1169)    |
++-------+-------------------+--------------+----------------+
+
+  i.e. circular plotting at 5 M variants is now **41x faster** than the
+  pre-0.2.7 untrimmed path, and projects to ~38 s at 10 M variants
+  (down from ~38 minutes — and faster than CMplot's circular path).
+
+**Performance**
+
+- Linear Manhattan rendering switched from ``ax.scatter`` (one ``PathCollection``
+  carrying a path-per-point with per-point ``should_simplify`` checks) to
+  one ``ax.plot(..., marker='.', linestyle='none')`` per chromosome
+  (a single ``Line2D`` whose marker-draw loop is dramatically cheaper).
+  Visually identical rasterised output; on a 1 M-variant single-track plot
+  this alone shrinks ``plot_linearm`` from ~6 s to ~0.5 s.
+- QQ plots (``plot_qq_single`` and ``plot_qq_combined``) make the same
+  scatter → plot switch for the observed points.
+- Chromosome-name normalisation in
+  :func:`~pycmplot.io.get_sumstats_and_merged_sector_list` is now applied
+  to the **categories** of the CHR ``Categorical`` (≤25 distinct values)
+  rather than to the underlying N-row code array.  The result is stored
+  as a ``Categorical`` ordered by ``CHROM_ORDER`` so downstream code can
+  derive ``chr_idx`` from ``cat.codes`` directly.
+- Linear-plot ``_prep`` recognises the canonical Categorical CHR column
+  produced by the loader and skips the redundant ``str.replace +
+  str.upper + replace`` pass that was running on every plot call.
+- Optional CSV reader switched to ``engine='pyarrow'`` with safe fallback
+  to the default C engine when pyarrow is unavailable.
+- New ``compute_pvals`` parameter on
+  :func:`~pycmplot.io.get_sumstats_and_merged_sector_list` (default
+  ``True``); ``_core.py`` now sets it to ``False`` when no QQ plot is
+  requested, skipping an ~80 MB-at-10 M-variants p-value-array copy that
+  was unused on Manhattan- or circular-only runs.
+
+Combined effect (measured, single-track untrimmed, fresh subprocess):
+
+==========  ===========  ==========  ========
+plot_type   500K before  500K after  speed-up
+==========  ===========  ==========  ========
+manhattan   32.6 s       4.6 s       7.1x
+qq          19.0 s       6.7 s       2.8x
+circular    119.0 s      39.9 s      3.0x
+==========  ===========  ==========  ========
+
+==========  ==========  ==========  ========
+plot_type   1M before   1M after    speed-up
+==========  ==========  ==========  ========
+manhattan   63.7 s      6.0 s       10.6x
+qq          37.1 s      10.2 s      3.6x
+circular    235.3 s     73.3 s      3.2x
+==========  ==========  ==========  ========
+
+**Fixed**
+
+- ``POS`` is now stored as plain ``int64`` after a ``to_numeric +
+  dropna`` pass, rather than the nullable ``Int64`` that leaked ``pd.NA``
+  into reductions like ``groupby(...).max()`` and caused
+  ``TypeError: boolean value of NA is ambiguous`` further down the
+  pipeline.
+- ``plot_linearm``'s ``df.groupby(CHR)[POS].max()`` now passes
+  ``observed=True`` so categorical chromosomes with no rows in a
+  particular track produce no entry (``s.get(c, 0)`` handles the missing
+  case), avoiding the ``NA``-propagation crash described above.
+- Stripped 5 288 stray ``NUL`` bytes that had been appended to the end
+  of ``pycmplot/plotting/linear.py`` (filesystem-level corruption from a
+  partial overwrite — the file imported only after the trailing zeros
+  were removed).
 
 ----
 
@@ -82,6 +188,10 @@ and this project adheres to `Semantic Versioning <https://semver.org/>`_.
   ``ValueError: 'c' argument has N elements, which is inconsistent with
   'x' and 'y'`` whenever the filter actually dropped rows.
 
+- Annotation in circular plotting when **GENE** selected but **SNP** 
+  annotated.
+
+
 **Added**
 
 - ``--ylabel`` / ``-yl`` flag (and ``ylabel=`` kwarg on
@@ -109,7 +219,16 @@ and this project adheres to `Semantic Versioning <https://semver.org/>`_.
 - All module-, class-, and function-level docstrings now use the bare
   ``"""..."""`` form so that Sphinx autodoc / numpydoc and
   :func:`help` render them correctly.
+- Information about the sumstats printed to screen now includes number 
+  of variants pre and post trimming, memory usage, and progress bar.
 
+
+**Changed**
+
+- Enhanced memory efficiency by changing **CHR** and **BUILD** columns 
+  dtypes from ``str`` to ``category`` in ``io.py``
+
+- Licence changed to MIT Licence.
 ----
 
 0.2.2 — 2026-04-18
@@ -262,11 +381,4 @@ Modules:
 
 - Module-level ``LiftOver(hardcoded_path)`` call replaced by a lazy
   singleton; ``import pycmplot`` no longer raises ``FileNotFoundError``.
-- Hardcoded ``/vast/awonkam1/...`` resource paths replaced with
-  :class:`~pycmplot.resources.ResourceConfig`.
-- ``highlight`` free variable in
-  :func:`~pycmplot.io.get_sumstats_and_merged_sector_list` promoted to
-  an explicit parameter.
-- ``geneinfo`` implicit closure variable in ``build_locus_summary`` is
-  now passed explicitly.
-- ``suggest_line`` use-before-assignment fixed.
+- Hardcoded ``/vast/awonkam1/...`` resourc

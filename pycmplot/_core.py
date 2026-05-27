@@ -220,7 +220,21 @@ def main() -> None:
         signif_threshold=signif_threshold,
         signif_line=signif_line,
         suggest_threshold=suggest_threshold,
+        highlight=highlight,
+        highlight_thresh=highlight_thresh,
         resources=resources,
+        # Only materialise the per-track p-value arrays used for QQ
+        # plotting when a QQ render was actually requested.  At 10 M
+        # variants per file this avoids an ~80 MB copy + dropna for
+        # Manhattan-only / circular-only invocations.
+        compute_pvals=bool(qq),
+        # Default-on, gwaslab-style density-aware sub-sampling for the
+        # Manhattan / circular scatter.  Skipped when the user supplied
+        # --no_auto_thin, and a no-op when the dataset is already small
+        # enough or when --trim_pval already removed the background.
+        auto_thin=not getattr(args, "no_auto_thin", False),
+        auto_thin_threshold=getattr(args, "auto_thin_threshold", 2.0),
+        auto_thin_max_below=getattr(args, "auto_thin_max_below", 200_000),
     )
 
     merged_assoc_sector_sizes = pycmplot_dict["sectors"]
@@ -245,6 +259,7 @@ def main() -> None:
             highlight_line = highlight_line,
             highlight_line_color = highlight_line_color,
             colors = colors,
+            point_size=point_size,
             chrom_label_side = chrom_label_side,
             chrom_label_size = chrom_label_size,
             track_label_size = track_label_size,

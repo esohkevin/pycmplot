@@ -36,6 +36,7 @@ import natsort
 import numpy as np
 import pandas as pd
 
+from pycmplot.constants import CHROM_ORDER
 from pycmplot.stats import get_lead_snps, get_highlight_snps
 from pycmplot.annotation import get_hits_summary_table
 from pycmplot.resources import ResourceConfig, default_resources
@@ -440,11 +441,14 @@ def get_output_paths(
     out_path.mkdir(parents=True, exist_ok=True)
 
     if plot_title:
-        pltitle = re.sub(r"[^a-zA-Z0-9\s]", "", plot_title).replace(" ", "_")
+        #pltitle = re.sub(r"[^a-zA-Z0-9\s]", "", plot_title).replace(" ", "_")
+        pltitle = [ re.sub(r"[^a-zA-Z0-9\s]", "", p) for p in plot_title.split('_') ]
+        pltitle = '_'.join(pltitle).replace(" ", "_")
     else:
         pltitle = generate_random_string(10)
 
-    labels = [re.sub(r"[^a-zA-Z0-9\s]", "", x).replace(" ", "_") for x in labels]
+    #labels = [re.sub(r"[^a-zA-Z0-9\s]", "", x).replace(" ", "_") for x in labels]
+    labels = [ x.replace(" ", "_") for x in labels ]
 
     suffix     = "_logp" if logp else "_pval"
 
@@ -742,6 +746,135 @@ def _get_memory_usage(mem_df: int):
 
 
 # ---------------------------------------------------------------------------
+# Density-aware "auto" thinning for Manhattan / circular plotting
+# ---------------------------------------------------------------------------
+
+def auto_thin_for_manhattan(
+    df: "pd.DataFrame",
+    keep_threshold: float = 2.0,
+    max_below: int = 200_000,
+    logp: bool = True,
+    logp_col: str = "logP",
+    p_col: str = "P",
+    seed: int = 42,
+) -> "pd.DataFrame":
+    """Density-aware sub-sampling for Manhattan-style scatter plots.
+
+    Inspired by ``gwaslab``'s default behaviour, this helper preserves *every*
+    variant whose "interestingness" signal is at or above ``keep_threshold``
+    (so peaks, suggestive hits, genome-wide-significant hits, and extreme
+    selection-scan values are kept verbatim) and uniformly sub-samples the
+    dense bulk below the threshold down to at most ``max_below`` rows in
+    total.  For a 10 M-variant scan with the defaults below, this typically
+    cuts the plotted point count from 10 M to ~200 K + a few hundred
+    peaks — visually indistinguishable above the suggestive band, but two
+    orders of magnitude faster to render.
+
+    Two modes, switched by *logp*:
+
+    * **P-value mode** (*logp=True*, the default).  ``signal = -log10(P)``.
+      ``keep_threshold`` is in ``-log10(P)`` units (default ``2.0``,
+      i.e. ``P <= 0.01``).  Variants with ``-log10(P) >= keep_threshold``
+      are all retained.
+    * **Raw-statistic mode** (*logp=False*).  ``signal = |value|`` of
+      *p_col* — the column carrying the test statistic.  This is the
+      right mode for non-p-value scans such as iHS, XP-EHH, F_ST,
+      Fay & Wu's H, Tajima's D, etc., where "interesting" means large
+      magnitude (positive or negative).  ``keep_threshold`` is then in
+      the units of the underlying statistic (default still ``2.0``,
+      which is a sensible cutoff for standardised selection scans;
+      override with e.g. ``0.05`` for F_ST).
+
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        Input DataFrame.  In p-value mode, must contain either *logp_col*
+        (preferred) or *p_col*.  In raw-statistic mode, must contain
+        *p_col*.  When the relevant column is absent, *df* is returned
+        unchanged.
+    keep_threshold : float, optional
+        Threshold above which all variants are retained.  Interpreted in
+        ``-log10(P)`` units when *logp=True* (default ``2.0``), or in the
+        natural units of the underlying statistic when *logp=False*.
+    max_below : int, optional
+        Maximum number of below-threshold rows to retain, sampled
+        uniformly at random.  Default ``200_000``.
+    logp : bool, optional
+        When ``True`` (default), interpret the data as p-values and use
+        ``-log10(P)`` as the signal.  When ``False``, treat *p_col* as a
+        raw statistic and use ``|value|`` as the signal.
+    logp_col : str, optional
+        Name of the precomputed ``-log10(P)`` column for p-value mode.
+        Default ``'logP'``.
+    p_col : str, optional
+        Name of the raw p-value column (p-value mode) or test-statistic
+        column (raw-statistic mode).  Default ``'P'``.
+    seed : int, optional
+        Seed for the RNG used to sub-sample the bulk.  Default ``42``.
+
+    Returns
+    -------
+    pandas.DataFrame
+        Sub-sampled view of *df* preserving the original index ordering.
+        When the below-threshold count is already <= *max_below*, the
+        input is returned unchanged.
+
+    Examples
+    --------
+    GWAS p-values (default):
+
+    >>> thinned = auto_thin_for_manhattan(df, keep_threshold=2.0)
+
+    iHS / XP-EHH (signed selection statistics, ``|value|`` >= 2):
+
+    >>> thinned = auto_thin_for_manhattan(
+    ...     df, logp=False, keep_threshold=2.0, p_col="iHS",
+    ... )
+
+    F_ST (unsigned, 0–1, outlier cutoff e.g. 0.05):
+
+    >>> thinned = auto_thin_for_manhattan(
+    ...     df, logp=False, keep_threshold=0.05, p_col="FST",
+    ... )
+    """
+    if df is None or len(df.index) == 0:
+        return df
+
+    if logp:
+        # p-value mode: use precomputed logP if present, else derive it.
+        if logp_col in df.columns:
+            signal = df[logp_col].to_numpy()
+        elif p_col in df.columns:
+            with np.errstate(divide="ignore", invalid="ignore"):
+                signal = -np.log10(df[p_col].to_numpy())
+        else:
+            return df
+    else:
+        # Raw-statistic mode: |value| of the test-statistic column.  Works
+        # for signed statistics (iHS, XP-EHH, Fay & Wu's H, Tajima's D) as
+        # well as unsigned ones (F_ST).
+        if p_col not in df.columns:
+            return df
+        signal = np.abs(df[p_col].to_numpy(dtype=float))
+
+    above = signal >= keep_threshold
+    below_idx = np.flatnonzero(~above & np.isfinite(signal))
+
+    if below_idx.size <= max_below:
+        return df
+
+    rng = np.random.default_rng(seed)
+    keep_below = rng.choice(below_idx, size=max_below, replace=False)
+
+    keep_mask = above.copy()
+    keep_mask[keep_below] = True
+
+    # Preserve the input DataFrame's positional ordering so chromosomes
+    # remain sorted as the caller left them.
+    return df.iloc[np.flatnonzero(keep_mask)].copy()
+
+
+# ---------------------------------------------------------------------------
 # Main loader
 # ---------------------------------------------------------------------------
 
@@ -756,7 +889,13 @@ def get_sumstats_and_merged_sector_list(
     signif_threshold: Optional[float] = None,
     signif_line: Optional[float] = None,
     suggest_threshold: Optional[float] = None,
+    highlight: Optional[bool] = False,
+    highlight_thresh: Optional[float] = 5e-08,
     resources: Optional[ResourceConfig] = None,
+    compute_pvals: bool = True,
+    auto_thin: bool = True,
+    auto_thin_threshold: float = 2.0,
+    auto_thin_max_below: int = 200_000,
 ):
     """Load summary statistics, run liftover, extract lead SNPs, and compute merged Circos sector sizes.
 
@@ -892,24 +1031,80 @@ def get_sumstats_and_merged_sector_list(
         except Exception:
             pass
 
-        logger.info("Loading %s from %s …", label, sumstats[label][0])
-        df = pd.read_csv(
-            sumstats[label][0],
+        logger.info("Loading %s [%s] ...", label, sumstats[label][0])
+        # Prefer the ``pyarrow`` CSV engine when available — it's typically
+        # 1.5–3× faster than the default C engine on large GWAS summary
+        # statistics, especially for files with many numeric columns.  The
+        # ``pyarrow`` engine ignores the ``dtype=`` argument for category
+        # casts, so we cast the chromosome column to ``Categorical`` after
+        # the read.  Any pyarrow-side failure (missing package, unsupported
+        # option, etc.) falls back to the default C engine.
+        read_kwargs = dict(
+            filepath_or_buffer=sumstats[label][0],
             sep=sep,
             header=0,
             usecols=sumstat_cols,
-            dtype=sumstat_dtypes,
-        ).rename(columns=sumstat_newcols)
+        )
+        try:
+            df = pd.read_csv(
+                **read_kwargs,
+                engine="pyarrow",
+                dtype_backend="numpy_nullable",
+            ).rename(columns=sumstat_newcols)
+        except (ImportError, ValueError, TypeError):
+            df = pd.read_csv(
+                **read_kwargs,
+                dtype=sumstat_dtypes,
+            ).rename(columns=sumstat_newcols)
 
-        df["POS"] = pd.to_numeric(df["POS"], errors="coerce").astype("Int64").dropna()
+        # Coerce POS to numeric, drop rows that fail to parse, then store
+        # as plain int64 (not nullable ``Int64``) so downstream arithmetic
+        # / ``max()`` / categorical groupby reductions cannot leak
+        # ``pd.NA`` into mixed-type expressions.
+        df["POS"] = pd.to_numeric(df["POS"], errors="coerce")
+        df = df.dropna(subset=["POS"]).copy()
+        df["POS"] = df["POS"].astype("int64")
         pre_trim_mem = _get_memory_usage(df.memory_usage(deep=True).sum())
         pre_trim_vars = len(df.index)
         logger.info("Loaded %s variants from summary stat file, using %s of memory", pre_trim_vars, pre_trim_mem)
 
-        # Get dict of p-values for qq-plotting before applying trim_pval
-        logger.info("Extracting raw p-values for QQ-plotting ...")
-        pval_dict[label] = df["P"].dropna().astype(float).values
+        # Get dict of p-values for QQ-plotting before applying trim_pval.
+        # Computing this is only meaningful when a QQ plot will actually be
+        # rendered downstream; for Manhattan-only or circular-only runs we
+        # skip the ~80 MB copy at 10 M variants entirely.
+        if compute_pvals:
+            logger.info("Extracting raw p-values for QQ-plotting ...")
+            pval_dict[label] = df["P"].dropna().astype(float).values
+        else:
+            pval_dict[label] = None
 
+        # Density-aware auto-thinning for Manhattan / circular rendering.
+        # Applied after lead-SNP extraction so the leads come from the full
+        # dataset, and after liftover so coordinates are final.  Variants
+        # at or above ``auto_thin_threshold`` (default ``-log10(P) >= 2``)
+        # are kept verbatim, so all suggestive / significant hits and their
+        # surrounding LD bumps survive untouched — only the dense null
+        # background is sub-sampled.  Skipped automatically when the
+        # below-threshold count is already small.
+        if auto_thin:
+            n_before = len(df.index)
+            df = auto_thin_for_manhattan(
+                df,
+                keep_threshold=auto_thin_threshold,
+                max_below=auto_thin_max_below,
+                logp=logp,
+            )
+            n_after = len(df.index)
+            if n_after < n_before:
+                signal_desc = (
+                    "-log10(P)" if logp else "|value| of test statistic"
+                )
+                logger.info(
+                    "Auto-thinning: %s -> %s variants (kept all %s >= %s; "
+                    "down-sampled below-threshold background to <=%s).",
+                    n_before, n_after, signal_desc,
+                    auto_thin_threshold, auto_thin_max_below,
+                )
 
         # Add build column if not exist and build supplied
         if build:
@@ -934,21 +1129,66 @@ def get_sumstats_and_merged_sector_list(
 
         df["LABEL"] = label
 
-        # Normalise chromosome names
+        # Normalise chromosome names — done once here and stored as a
+        # ``Categorical`` with ``CHROM_ORDER`` as the canonical category
+        # set.  Downstream plotting code can recognise this dtype and skip
+        # repeating the (string-heavy) normalisation, and any aliasing /
+        # filtering on chromosome name becomes integer-code work rather
+        # than per-element Python string ops.
+        #
+        # Critically, when CHR comes in as a ``Categorical`` (the dtype we
+        # request in ``prep_pycmplot_input_info`` for any non-build file)
+        # the actual normalisation is applied to the **categories**, not
+        # to the underlying N-row code array.  That turns a 500K (or 10M)
+        # per-element ``str.replace + str.upper + replace`` chain into the
+        # equivalent work on ~25 distinct chromosome labels.
         logger.info('Normalizing chromosome names {"23": "X", "24": "Y", "M": "MT", "MTDNA": "MT"} ...')
-        df["CHR"] = (
-            df["CHR"]
-            .str.replace("chr", "", regex=False)
-            .dropna()
-            .str.upper()
-            .replace({"23": "X", "24": "Y", "M": "MT", "MTDNA": "MT"})
+        chr_col_data = df["CHR"]
+        alias = {"23": "X", "24": "Y", "M": "MT", "MTDNA": "MT"}
+
+        if isinstance(chr_col_data.dtype, pd.CategoricalDtype):
+            # Fast path: rewrite categories, then re-cast to the canonical
+            # CHROM_ORDER ordered Categorical.
+            cats = pd.Series(chr_col_data.cat.categories.astype(str))
+            new_cats = (
+                cats.str.replace("chr", "", regex=False)
+                    .str.upper()
+                    .replace(alias)
+                    .tolist()
+            )
+            chr_col_data = chr_col_data.cat.rename_categories(new_cats)
+        else:
+            # Defensive slow path for callers that bypass our dtype hints.
+            chr_col_data = (
+                chr_col_data
+                .astype(str)
+                .str.replace("chr", "", regex=False)
+                .str.upper()
+                .replace(alias)
+            )
+
+        df["CHR"] = pd.Categorical(
+            chr_col_data, categories=list(CHROM_ORDER), ordered=True
         )
+        # Drop rows whose chromosome label is not in CHROM_ORDER (they
+        # become NaN under the categorical cast).
+        before = len(df.index)
+        df = df[df["CHR"].notna()].copy()
+        dropped = before - len(df.index)
+        if dropped:
+            logger.warning(
+                "Dropped %s row(s) with chromosome label outside CHROM_ORDER",
+                dropped,
+            )
 
-        # Number of distinct chromosomes (for track sorting)
-        n_chroms = len(df["CHR"].unique()) - 1
-        sumstats_loaded[label] = [df, n_chroms]
-
-        # Liftover hg18/hg19 data if needed
+        # Liftover hg18/hg19 data if needed.
+        #
+        # ``sumstats_loaded[label]`` is not populated until the very end of
+        # this iteration (line ``sumstats_loaded[label] = [df, n_chroms]``),
+        # so the result must be assigned to the *local* ``df`` — writing
+        # into ``sumstats_loaded[label][0]`` here raised ``KeyError`` (e.g.
+        # ``KeyError: 'MCV'``) the first time the liftover branch fired on
+        # a given track.
         if "BUILD" in df.columns and (
             "hg19" in df["BUILD"].unique() or "hg18" in df["BUILD"].unique()
         ):
@@ -958,17 +1198,35 @@ def get_sumstats_and_merged_sector_list(
             logger.info(
                 "Converting %s coordinates to hg38 ...", "/".join(builds_present)
             )
-            sumstats_loaded[label][0] = liftover_position(df, resources=resources)
+            df = liftover_position(df, resources=resources)
 
-        # Lead SNPs
-        logger.info("Extracting variants to highlight ...")
-        leads = get_lead_snps(
-            df=sumstats_loaded[label][0],
-            signif_threshold=signif_threshold or 5e-8,
+        # get highlight SNPs
+        if highlight:
+            logger.info("Extracting lead variants and variants to highlight ...")
+        else:
+            logger.info("Extracting lead variants ...")
+
+        df, leads = get_highlight_snps(
+            df=df,
+            window=500_000,
+            highlight=highlight,
+            highlight_thresh=highlight_thresh,
             logp=logp,
         )
 
+        ## Lead SNPs
+        #logger.info("Extracting lead variants ...")
+        #leads = get_lead_snps(
+        #    df=sumstats_loaded[label][0],
+        #    signif_threshold=signif_threshold or 5e-8,
+        #    logp=logp,
+        #)
+
         all_lead_snps.append(leads)
+
+        # Number of distinct chromosomes (for track sorting)
+        n_chroms = len(df["CHR"].unique()) - 1
+        sumstats_loaded[label] = [df, n_chroms]
 
     # Combine lead SNPs and filter to significance threshold
     all_lead_snps_df = (
@@ -1022,7 +1280,6 @@ def get_sumstats_and_merged_sector_list(
         {"genome": signif_line, "suggestive": suggest_line}
         for _ in sumstats
     ]
-
 
     # sort dicts by user-supplied order
     sumstats_loaded = {key: sumstats_loaded[key] for key in labels if key in sumstats_loaded}

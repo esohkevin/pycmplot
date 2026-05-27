@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pycmplot.plotting.circular &mdash; pycmplot 0.2.6 documentation</title>
+  <title>pycmplot.plotting.circular &mdash; pycmplot 0.2.7 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=fc7d8818"></script>
+      <script src="../../../_static/documentation_options.js?v=58050c01"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -112,12 +112,10 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../pycmplot_python_api.html#Explicitly-speficying-directory-where-output-files-should-be-stored">Explicitly speficying directory where output files should be stored</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../../../pycmplot_python_api.html#Handling-other-use-cases-and-QQ-plots">Handling other use cases and QQ-plots</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html##-Handling-other-use-cases-and-QQ-plots"># Handling other use cases and QQ-plots</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html#Summary-stats-without-BUILD-column-and-no-build-information-provided">Summary stats without <strong>BUILD</strong> column and no <code class="docutils literal notranslate"><span class="pre">build</span></code> information provided</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html#Supplying-builds-with-summary-stats">Supplying builds with summary stats</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html#QQ-Plotting">QQ-Plotting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html###-Supplying-builds-with-summary-stats">## Supplying builds with summary stats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html###-QQ-Plotting">## QQ-Plotting</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../pycmplot_python_api.html#Overlaying-multiple">Overlaying multiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../pycmplot_python_api.html#Separate-qq-plots-saved-in-separate-figures">Separate qq-plots saved in separate figures</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../pycmplot_python_api.html#Combined-multi-panel">Combined multi-panel</a></li>
@@ -126,9 +124,9 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../pycmplot_python_api.html#This-gives-us-the-flexibility-to-place-multiple-overlay-plots-on-one-figure">This gives us the flexibility to place multiple overlay plots on one figure</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html##-Final-Notes"># Final Notes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../../pycmplot_python_api.html#Final-Notes">Final Notes</a></li>
 </ul>
 </li>
 </ul>
@@ -137,6 +135,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">API Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/io.html">pycmplot.io</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#module-pycmplot.io">pycmplot.io</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pycmplot.io.auto_thin_for_manhattan"><code class="docutils literal notranslate"><span class="pre">auto_thin_for_manhattan()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pycmplot.io.detect_delimiter"><code class="docutils literal notranslate"><span class="pre">detect_delimiter()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pycmplot.io.generate_random_string"><code class="docutils literal notranslate"><span class="pre">generate_random_string()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pycmplot.io.get_file_header"><code class="docutils literal notranslate"><span class="pre">get_file_header()</span></code></a></li>
@@ -226,7 +225,7 @@
 <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id1">0.2.5 — 2026-04-21</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id1">0.2.7 — 2026-04-27</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id2">0.2.5 — 2026-04-20</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id3">0.2.2 — 2026-04-18</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id4">0.2.1 — 2026-04-16</a></li>
@@ -401,6 +400,7 @@
     <span class="n">sector_radius</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">annotation_r</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">assoc</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">assoc_by_chr</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">sector_sizes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">chrom_label_loc</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span>
     <span class="n">chrom_label_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span>
@@ -417,6 +417,7 @@
     <span class="n">highlight_thresh</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">5e-8</span><span class="p">,</span>
     <span class="n">highlight_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;brown&#39;</span><span class="p">,</span>
     <span class="n">colors</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;steelblue&#39;</span><span class="p">,</span><span class="s1">&#39;orange&#39;</span><span class="p">],</span>
+    <span class="n">point_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span>
     <span class="n">no_track_labels</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot one track of summary statistics onto a single pycirclize sector.</span>
@@ -492,24 +493,25 @@
 <span class="sd">        Suppress the track label on the spacer sector.  Default ``False``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">if</span> <span class="n">colors</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;steelblue&quot;</span><span class="p">,</span> <span class="s2">&quot;orange&quot;</span><span class="p">]</span>
+    <span class="c1">#if colors is None:</span>
+    <span class="c1">#    colors = [&quot;steelblue&quot;, &quot;orange&quot;]</span>
 
-    <span class="k">if</span> <span class="n">highlight</span><span class="p">:</span>
-        <span class="n">assoc</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">get_highlight_snps</span><span class="p">(</span>
-            <span class="n">df</span><span class="o">=</span><span class="n">assoc</span><span class="p">,</span>
-            <span class="n">window</span><span class="o">=</span><span class="mi">500_000</span><span class="p">,</span>
-            <span class="n">highlight_thresh</span><span class="o">=</span><span class="n">highlight_thresh</span><span class="p">,</span>
-            <span class="n">logp</span><span class="o">=</span><span class="n">logp</span><span class="p">,</span>
-        <span class="p">)</span>
+    <span class="c1">#if highlight:</span>
+    <span class="c1">#    assoc, _ = get_highlight_snps(</span>
+    <span class="c1">#        df=assoc,</span>
+    <span class="c1">#        window=500_000,</span>
+    <span class="c1">#        highlight_thresh=highlight_thresh,</span>
+    <span class="c1">#        logp=logp,</span>
+    <span class="c1">#    )</span>
 
-    <span class="n">assoc</span> <span class="o">=</span> <span class="n">assoc</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-    <span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+    <span class="c1">#assoc = assoc.copy()</span>
+    <span class="c1">#assoc[&quot;POS&quot;] = assoc[&quot;POS&quot;].fillna(0).astype(int)</span>
 
     <span class="n">genome_wide_sig</span> <span class="o">=</span> <span class="n">signif_threshold</span>
     <span class="n">suggestive</span> <span class="o">=</span> <span class="n">suggest_threshold</span>
 
-    <span class="n">assoc_uniq_chroms</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+    <span class="c1">#assoc_uniq_chroms = list(assoc[&quot;CHR&quot;].unique())</span>
+    <span class="n">assoc_uniq_chroms</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">])</span>
 
     <span class="n">v_min</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;logP&quot;</span><span class="p">])))</span> <span class="k">if</span> <span class="n">logp</span> <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;P&quot;</span><span class="p">])))</span>
     <span class="n">v_max</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;logP&quot;</span><span class="p">])))</span> <span class="k">if</span> <span class="n">logp</span> <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;P&quot;</span><span class="p">])))</span>
@@ -591,7 +593,10 @@
     <span class="c1"># ------------------------------------------------------------------</span>
     <span class="c1"># Data track</span>
     <span class="c1"># ------------------------------------------------------------------</span>
-    <span class="n">assoc_chr</span> <span class="o">=</span> <span class="n">assoc</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">sector</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+    <span class="c1">#assoc_chr = assoc.loc[assoc[&quot;CHR&quot;] == sector.name]</span>
+    <span class="n">assoc_chr</span> <span class="o">=</span> <span class="n">assoc_by_chr</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">sector</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">assoc_chr</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span>    
     <span class="n">track</span> <span class="o">=</span> <span class="n">sector</span><span class="o">.</span><span class="n">add_track</span><span class="p">(</span><span class="n">sector_radius</span><span class="p">,</span> <span class="n">r_pad_ratio</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
     <span class="n">track</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="n">fc</span><span class="o">=</span><span class="s2">&quot;lightgrey&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.08</span><span class="p">)</span>
 
@@ -606,26 +611,26 @@
 
         <span class="n">track</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
             <span class="n">data</span><span class="o">=</span><span class="n">bg</span><span class="p">,</span>
-            <span class="n">x</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">bg</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)),</span>
-            <span class="n">y</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">bg</span><span class="p">[</span><span class="n">y_col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)),</span>
+            <span class="n">x</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">bg</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">]),</span> <span class="c1">#.astype(float)),</span>
+            <span class="n">y</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">bg</span><span class="p">[</span><span class="n">y_col</span><span class="p">]),</span> <span class="c1">#.astype(float)),</span>
             <span class="n">vmin</span><span class="o">=</span><span class="n">v_min</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">v_max</span><span class="p">,</span>
-            <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">point_size</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">sig</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
             <span class="n">track</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
-                <span class="n">sig</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
-                <span class="n">sig</span><span class="p">[</span><span class="n">y_col</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
+                <span class="nb">list</span><span class="p">(</span><span class="n">sig</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">]),</span> <span class="c1">#.to_numpy(),</span>
+                <span class="nb">list</span><span class="p">(</span><span class="n">sig</span><span class="p">[</span><span class="n">y_col</span><span class="p">]),</span> <span class="c1">#.to_numpy(),</span>
                 <span class="n">vmin</span><span class="o">=</span><span class="n">v_min</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">v_max</span><span class="p">,</span>
-                <span class="n">s</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">highlight_color</span><span class="p">,</span>
+                <span class="n">s</span><span class="o">=</span><span class="n">point_size</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">highlight_color</span><span class="p">,</span>
             <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">track</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
             <span class="n">data</span><span class="o">=</span><span class="n">assoc_chr</span><span class="p">,</span>
-            <span class="n">x</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">assoc_chr</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)),</span>
-            <span class="n">y</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">assoc_chr</span><span class="p">[</span><span class="n">y_col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)),</span>
+            <span class="n">x</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">assoc_chr</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">]),</span> <span class="c1">#.astype(float)),</span>
+            <span class="n">y</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">assoc_chr</span><span class="p">[</span><span class="n">y_col</span><span class="p">]),</span> <span class="c1">#.astype(float)),</span>
             <span class="n">vmin</span><span class="o">=</span><span class="n">v_min</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">v_max</span><span class="p">,</span>
-            <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">point_size</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="c1"># ------------------------------------------------------------------</span>
@@ -670,6 +675,7 @@
     <span class="n">highlight_line</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">highlight_line_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;grey&#39;</span><span class="p">,</span>
     <span class="n">colors</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;steelblue&#39;</span><span class="p">,</span><span class="s1">&#39;silver&#39;</span><span class="p">],</span>
+    <span class="n">point_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span>
     <span class="n">track_label_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span>
     <span class="n">track_label_orientation</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;vertical&#39;</span><span class="p">,</span>
     <span class="n">hits_table</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -865,8 +871,15 @@
         <span class="p">)</span>
     <span class="p">):</span>
         <span class="n">assoc</span> <span class="o">=</span> <span class="n">sumstats_value</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;P&quot;</span><span class="p">]</span>   <span class="o">=</span> <span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;P&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
-        <span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;23&quot;</span><span class="p">,</span> <span class="s2">&quot;X&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;24&quot;</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">)</span>
+        <span class="c1">#assoc[&quot;P&quot;]   = assoc[&quot;P&quot;].dropna()</span>
+        <span class="c1">#assoc[&quot;CHR&quot;] = assoc[&quot;CHR&quot;].replace(&quot;23&quot;, &quot;X&quot;).replace(&quot;24&quot;, &quot;Y&quot;)</span>
+        <span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">logp</span><span class="p">:</span>
+            <span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;logP&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;logP&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;P&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;P&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+            
         <span class="n">sumstat_name</span> <span class="o">=</span> <span class="n">sumstats_key</span>
 
         <span class="n">sig_thresh</span> <span class="o">=</span> <span class="n">signif_dict</span><span class="p">[</span><span class="s2">&quot;genome&quot;</span><span class="p">]</span>
@@ -874,6 +887,11 @@
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Plotting : </span><span class="si">{</span><span class="n">sumstat_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="c1">#logger.info(f&quot;SUGGESTIVE THRESHOLD: {sug_thresh}&quot;)</span>
+
+        <span class="n">assoc_by_chr</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">chrom</span><span class="p">:</span> <span class="n">df</span>
+            <span class="k">for</span> <span class="n">chrom</span><span class="p">,</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">assoc</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;CHR&quot;</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="p">}</span>
 
         <span class="k">for</span> <span class="n">sector</span> <span class="ow">in</span> <span class="n">circos</span><span class="o">.</span><span class="n">sectors</span><span class="p">:</span>
             <span class="n">plot_circosm</span><span class="p">(</span>
@@ -887,6 +905,7 @@
                 <span class="n">track_label_size</span><span class="o">=</span><span class="n">track_label_size</span><span class="p">,</span>
                 <span class="n">track_label_orientation</span><span class="o">=</span><span class="n">track_label_orientation</span><span class="p">,</span>
                 <span class="n">assoc</span><span class="o">=</span><span class="n">assoc</span><span class="p">,</span>
+                <span class="n">assoc_by_chr</span><span class="o">=</span><span class="n">assoc_by_chr</span><span class="p">,</span>
                 <span class="n">assoc_label</span><span class="o">=</span><span class="n">sumstat_name</span><span class="p">,</span>
                 <span class="n">logp</span><span class="o">=</span><span class="n">logp</span><span class="p">,</span>
                 <span class="n">signif_line</span><span class="o">=</span><span class="n">sig_thresh</span><span class="p">,</span>
@@ -897,6 +916,7 @@
                 <span class="n">highlight_thresh</span><span class="o">=</span><span class="n">highlight_thresh</span><span class="p">,</span>
                 <span class="n">highlight_color</span><span class="o">=</span><span class="n">highlight_color</span><span class="p">,</span>
                 <span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span>
+                <span class="n">point_size</span><span class="o">=</span><span class="n">point_size</span><span class="p">,</span>
                 <span class="n">no_track_labels</span><span class="o">=</span><span class="n">no_track_labels</span>
             <span class="p">)</span>
 
@@ -922,8 +942,8 @@
                     <span class="n">a_track</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="n">fc</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ec</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
                     <span class="n">r_low</span>  <span class="o">=</span> <span class="n">annotation_track_radius</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                    <span class="n">r_high</span> <span class="o">=</span> <span class="n">annotation_track_radius</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-                    <span class="n">r_pos</span>  <span class="o">=</span> <span class="n">r_low</span> <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">r_high</span>
+                    <span class="c1">#r_high = annotation_track_radius[1]</span>
+                    <span class="c1">#r_pos  = r_low if i % 2 == 0 else r_high</span>
                     <span class="n">pos</span>    <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">]</span>
 
                     <span class="n">a_track</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
