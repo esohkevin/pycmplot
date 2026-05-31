@@ -14,7 +14,7 @@ and this project adheres to `Semantic Versioning <https://semver.org/>`_.
 
 **Added**
 
-**Dual annotation renderer architecture**
+- **Dual annotation renderer architecture**
 
 Two complementary annotation functions now handle sparse and dense
 annotation scenarios independently:
@@ -28,20 +28,18 @@ annotation scenarios independently:
   implementing a three-step layout pipeline (see below) with curved
   ``arc`` arrows and adaptive ``ylim``.
 
-**Three-step dense annotation layout pipeline** (``_draw_annotation_arrows_multirail``)
+- **Three-step dense annotation layout pipeline** (``_draw_annotation_arrows_multirail``)
 
 1. *Relaxation pass* — bidirectional ``min_sep`` enforcement starting
    from ``x_signal`` positions.  Labels in dense regions drift further
    from their signals than labels in sparse regions, producing a
    natural density signal with no explicit cluster detection.
-
 2. *Drift-based rail assignment* — each label's relaxation drift is
    binned into a rail index using
    ``rail_stride = rail_width / max_rails``.  Denser regions
    automatically receive higher rail indices proportionally across the
    full rail range.  No per-rail queue processing or ``max_drift``
    threshold is required.
-
 3. *linspace rank-reassignment* — labels are sorted by ``x_signal``
    and assigned evenly-spaced ``x_text`` slots via
    ``np.linspace(rail_start, rail_end, n)``.  This guarantees
@@ -49,7 +47,7 @@ annotation scenarios independently:
    construction) and full rail coverage regardless of ``rail_frac`` or
    signal distribution.
 
-**Auto char_width from axes geometry**
+- **Auto char_width from axes geometry**
 
 For vertical text (``rotation=90``), the horizontal label footprint is
 one character wide regardless of string length.  ``char_width`` is now
@@ -63,7 +61,7 @@ The ``char_width_factor`` parameter has been removed from
 automatically and scales correctly with figure size, DPI, and font
 size.
 
-**Proportional space budgeting and rail_frac awareness**
+- **Proportional space budgeting and rail_frac awareness**
 
 Rail width is derived from ``rail_frac`` as
 ``rail_width = genome_width * rail_frac``, centred on the genome
@@ -71,7 +69,7 @@ midpoint.  ``rail_stride`` and slot spacing scale proportionally with
 ``rail_frac``, ensuring even label distribution at any rail fraction
 without choking at rail boundaries.
 
-**Layout table** (``pd.DataFrame``)
+- **Layout table** (``pd.DataFrame``)
 
 Placement, relaxation, and rendering are now cleanly separated via a
 layout table with columns ``label``, ``x_signal``, ``x_text``,
@@ -79,7 +77,7 @@ layout table with columns ``label``, ``x_signal``, ``x_text``,
 again until the rendering pass, enforcing strict separation of layout
 and rendering concerns.
 
-**Chromosome-boundary detection** (``_draw_annotation_arrows``)
+- **Chromosome-boundary detection** (``_draw_annotation_arrows``)
 
 For each adjacent chromosome pair, the inter-chromosome gap is
 computed.  If the gap is narrower than ``spread_width``, both boundary
@@ -87,14 +85,14 @@ annotations receive an ``x_bound`` value encoding direction and
 magnitude, used downstream to push boundary labels apart before
 general spreading.
 
-**Cumulative x-position porting from tracks**
+- **Cumulative x-position porting from tracks**
 
 Annotation cumulative x positions are now ported directly from track
 DataFrames via a three-column merge on ``(chr_col, pos_col, LABEL)``
 rather than being recomputed independently, guaranteeing exact
 consistency between annotation and track coordinates.
 
-**track_heights sanity check and y-label positioning**
+- **track_heights sanity check and y-label positioning**
 
 ``track_heights`` is validated against the expected count
 (``n_tracks + 1`` when annotating, ``n_tracks`` otherwise) with
@@ -106,7 +104,6 @@ accounting for top-to-bottom track orientation::
 
 
 **Changed**
-
 
 - ``_draw_annotation_arrows``: ``max_rad`` parameter removed; curvature
   is intentionally fixed at zero (straight arrows) for sparse
@@ -160,48 +157,48 @@ accounting for top-to-bottom track orientation::
 **Added**
 
 - **Default-on density-aware auto-thinning** for Manhattan / circular
-  rendering, inspired by ``gwaslab`` and applied on top of (i.e. in
-  addition to) the existing ``--trim_pval``.  A new helper
-  :func:`~pycmplot.io.auto_thin_for_manhattan` keeps **every** variant
-  whose "interestingness" signal is at or above ``--auto_thin_threshold``
-  and uniformly sub-samples the dense bulk to at most
-  ``--auto_thin_max_below`` rows per track (default ``200 000``).  Lead
-  SNPs are still extracted from the *full* unthinned data, so peak
-  annotations are unaffected.
+rendering, inspired by ``gwaslab`` and applied on top of (i.e. in
+addition to) the existing ``--trim_pval``.  A new helper
+:func:`~pycmplot.io.auto_thin_for_manhattan` keeps **every** variant
+whose "interestingness" signal is at or above ``--auto_thin_threshold``
+and uniformly sub-samples the dense bulk to at most
+``--auto_thin_max_below`` rows per track (default ``200 000``).  Lead
+SNPs are still extracted from the *full* unthinned data, so peak
+annotations are unaffected.
 
-  Two modes, switched by ``--logp``:
+Two modes, switched by ``--logp``:
 
-  * **P-value mode** (``--logp`` set, the GWAS default).  Signal is
-    ``-log10(P)``; ``--auto_thin_threshold`` is in ``-log10(P)`` units
-    (default ``2.0`` => ``P <= 0.01``).  Every suggestive /
-    genome-wide-significant variant survives untouched.
-  * **Raw-statistic mode** (``--logp`` off).  The ``P`` column is
-    interpreted as a raw test statistic and the signal becomes
-    ``|value|``, so the same machinery works for selection scans like
-    **iHS, XP-EHH, F_ST, Fay & Wu's H, Tajima's D**, etc.  The default
-    threshold of ``2.0`` works for the standardised \|iHS\| / \|XP-EHH\|
-    scans; override (e.g. ``--auto_thin_threshold 0.05``) for F_ST.
+* **P-value mode** (``--logp`` set, the GWAS default).  Signal is
+  ``-log10(P)``; ``--auto_thin_threshold`` is in ``-log10(P)`` units
+  (default ``2.0`` => ``P <= 0.01``).  Every suggestive /
+  genome-wide-significant variant survives untouched.
+* **Raw-statistic mode** (``--logp`` off).  The ``P`` column is
+  interpreted as a raw test statistic and the signal becomes
+  ``|value|``, so the same machinery works for selection scans like
+  **iHS, XP-EHH, F_ST, Fay & Wu's H, Tajima's D**, etc.  The default
+  threshold of ``2.0`` works for the standardised \|iHS\| / \|XP-EHH\|
+  scans; override (e.g. ``--auto_thin_threshold 0.05``) for F_ST.
 
-  Negative extremes are preserved as well as positive ones, so for
-  signed statistics (iHS, XP-EHH) both tails of the distribution
-  survive intact.
+Negative extremes are preserved as well as positive ones, so for
+signed statistics (iHS, XP-EHH) both tails of the distribution
+survive intact.
 
-  New CLI flags:
+New CLI flags:
 
-  ============================== ================================================
-  Flag                           Description
-  ============================== ================================================
-  ``--no_auto_thin``             Disable auto-thinning entirely.
-  ``--auto_thin_threshold``      ``-log10(P)`` floor above which every variant
-                                 is kept (default 2.0).
-  ``--auto_thin_max_below``      Cap on background variants per track
-                                 (default 200 000).
-  ``--no_qq_thin``               Counterpart for QQ log-uniform thinning,
-                                 which is now ON by default.
-  ============================== ================================================
+============================== ================================================
+Flag                           Description
+============================== ================================================
+``--no_auto_thin``             Disable auto-thinning entirely.
+``--auto_thin_threshold``      ``-log10(P)`` floor above which every variant
+                               is kept (default 2.0).
+``--auto_thin_max_below``      Cap on background variants per track
+                               (default 200 000).
+``--no_qq_thin``               Counterpart for QQ log-uniform thinning,
+                               which is now ON by default.
+============================== ================================================
 
-  Combined with the rendering and data-prep optimisations from earlier
-  in this release, this brings pycmplot's untrimmed timings to:
+Combined with the rendering and data-prep optimisations from earlier
+in this release, this brings pycmplot's untrimmed timings to:
 
 +-------+-------------------+--------------+----------------+
 | Size  | manhattan (s)     | qq (s)       | circular (s)   |
@@ -215,9 +212,9 @@ accounting for top-to-bottom track orientation::
 | 5M    | 12.7 (was 317)    | 11.7 (191)   | 28.7 (1169)    |
 +-------+-------------------+--------------+----------------+
 
-  i.e. circular plotting at 5 M variants is now **41x faster** than the
-  pre-0.2.7 untrimmed path, and projects to ~38 s at 10 M variants
-  (down from ~38 minutes — and faster than CMplot's circular path).
+i.e. circular plotting at 5 M variants is now **41x faster** than the
+pre-0.2.7 untrimmed path, and projects to ~38 s at 10 M variants
+(down from ~38 minutes — and faster than CMplot's circular path).
 
 **Performance**
 
@@ -227,8 +224,10 @@ accounting for top-to-bottom track orientation::
   (a single ``Line2D`` whose marker-draw loop is dramatically cheaper).
   Visually identical rasterised output; on a 1 M-variant single-track plot
   this alone shrinks ``plot_linearm`` from ~6 s to ~0.5 s.
+
 - QQ plots (``plot_qq_single`` and ``plot_qq_combined``) make the same
   scatter → plot switch for the observed points.
+
 - Chromosome-name normalisation in
   :func:`~pycmplot.io.get_sumstats_and_merged_sector_list` is now applied
   to the **categories** of the CHR ``Categorical`` (≤25 distinct values)
