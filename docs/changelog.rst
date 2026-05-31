@@ -8,6 +8,151 @@ and this project adheres to `Semantic Versioning <https://semver.org/>`_.
 
 ----
 
+
+[0.2.8] — 2026-05-30
+------------------------------------------------------------------------------
+
+Added
+~~~~~
+
+**Dual annotation renderer architecture**
+
+Two complementary annotation functions now handle sparse and dense
+annotation scenarios independently:
+
+- ``_draw_annotation_arrows`` — sparse annotation renderer with tiered
+  label placement, chromosome-boundary spreading, cumulative-distance
+  stacking, and straight ``arc3`` arrows (curvature fixed at zero for
+  visual clarity in low-density contexts).
+
+- ``_draw_annotation_arrows_multirail`` — dense annotation renderer
+  implementing a three-step layout pipeline (see below) with curved
+  ``arc`` arrows and adaptive ``ylim``.
+
+**Three-step dense annotation layout pipeline** (``_draw_annotation_arrows_multirail``)
+
+1. *Relaxation pass* — bidirectional ``min_sep`` enforcement starting
+   from ``x_signal`` positions.  Labels in dense regions drift further
+   from their signals than labels in sparse regions, producing a
+   natural density signal with no explicit cluster detection.
+
+2. *Drift-based rail assignment* — each label's relaxation drift is
+   binned into a rail index using
+   ``rail_stride = rail_width / max_rails``.  Denser regions
+   automatically receive higher rail indices proportionally across the
+   full rail range.  No per-rail queue processing or ``max_drift``
+   threshold is required.
+
+3. *linspace rank-reassignment* — labels are sorted by ``x_signal``
+   and assigned evenly-spaced ``x_text`` slots via
+   ``np.linspace(rail_start, rail_end, n)``.  This guarantees
+   ``x_text`` rank equals ``x_signal`` rank (no arrow crossings by
+   construction) and full rail coverage regardless of ``rail_frac`` or
+   signal distribution.
+
+**Auto char_width from axes geometry**
+
+For vertical text (``rotation=90``), the horizontal label footprint is
+one character wide regardless of string length.  ``char_width`` is now
+derived from the axes pixel extent and figure DPI at draw time::
+
+    px_per_bp  = ax_bbox.width / (xmax - xmin)
+    char_width = 0.6 * fsize * (fig.dpi / 72.0) / px_per_bp
+
+The ``char_width_factor`` parameter has been removed from
+``_draw_annotation_arrows_multirail``; ``char_width`` is computed
+automatically and scales correctly with figure size, DPI, and font
+size.
+
+**Proportional space budgeting and rail_frac awareness**
+
+Rail width is derived from ``rail_frac`` as
+``rail_width = genome_width * rail_frac``, centred on the genome
+midpoint.  ``rail_stride`` and slot spacing scale proportionally with
+``rail_frac``, ensuring even label distribution at any rail fraction
+without choking at rail boundaries.
+
+**Layout table** (``pd.DataFrame``)
+
+Placement, relaxation, and rendering are now cleanly separated via a
+layout table with columns ``label``, ``x_signal``, ``x_text``,
+``rail_id``.  ``rail_id`` is written during placement and not read
+again until the rendering pass, enforcing strict separation of layout
+and rendering concerns.
+
+**Chromosome-boundary detection** (``_draw_annotation_arrows``)
+
+For each adjacent chromosome pair, the inter-chromosome gap is
+computed.  If the gap is narrower than ``spread_width``, both boundary
+annotations receive an ``x_bound`` value encoding direction and
+magnitude, used downstream to push boundary labels apart before
+general spreading.
+
+**Cumulative x-position porting from tracks**
+
+Annotation cumulative x positions are now ported directly from track
+DataFrames via a three-column merge on ``(chr_col, pos_col, LABEL)``
+rather than being recomputed independently, guaranteeing exact
+consistency between annotation and track coordinates.
+
+**track_heights sanity check and y-label positioning**
+
+``track_heights`` is validated against the expected count
+(``n_tracks + 1`` when annotating, ``n_tracks`` otherwise) with
+explicit ``ValueError`` and ``TypeError`` messages.  The y-label
+position (``-log10(P)``) is computed from actual height ratios
+accounting for top-to-bottom track orientation::
+
+    y_lab_pos = data_total / (2 * total_height)
+
+Changed
+~~~~~~~
+
+- ``_draw_annotation_arrows``: ``max_rad`` parameter removed; curvature
+  is intentionally fixed at zero (straight arrows) for sparse
+  annotation contexts.  Dense annotation curvature is handled
+  exclusively by ``_draw_annotation_arrows_multirail``.
+
+- Annotation deduplication now occurs at the top of both renderers
+  via ``drop_duplicates(subset=[chr_col, "x", label_col])`` to prevent
+  replicated arrows when ``annot_df`` is a merged multi-track table.
+
+- Chromosome order in boundary detection now uses ``natsorted`` instead
+  of ``set`` to guarantee correct genomic ordering.
+
+- ``x_bound`` is only set when the inter-chromosome gap is
+  ``<= spread_width`` (previously unconditional), preventing spurious
+  boundary constraints between well-separated chromosomes.
+
+Fixed
+~~~~~
+
+- Arrow crossings eliminated unconditionally by the linspace
+  rank-reassignment step: ``x_text`` rank is guaranteed equal to
+  ``x_signal`` rank for all labels across all rails.
+
+- Annotation spill past genome right boundary resolved: ``rail_end``
+  acts as a hard clamp during relaxation; labels cannot exceed it
+  regardless of local density.
+
+- Higher-rail priority inversion fixed: the drift-based rail assignment
+  correctly places the densest labels (largest drift) on higher rails,
+  not the labels nearest the rail boundary.
+
+- ``x_texts`` sort-order mismatch resolved: cumulative-scaled positions
+  are now mapped back to original signal order via ``np.argsort``
+  before use, preventing label-to-wrong-position assignment.
+
+- ``char_width`` underestimation fixed: replacing the hardcoded
+  ``8e6`` fallback with axes-geometry derivation corrects the ~2×
+  underestimate that caused stacking to never fire for typical figure
+  sizes at ``fontsize=6``.
+
+- ``natsorted`` applied to chromosome order throughout to prevent
+  incorrect pairing of chromosomes (e.g. chr3 with chr17) caused by
+  ``set`` iteration order.
+
+
 0.2.7 — 2026-04-27
 ------------------
 

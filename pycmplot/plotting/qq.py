@@ -219,6 +219,7 @@ def plot_qq_single(
     thin: bool = True,
     thin_below: float = 0.01,
     max_points: int = 50_000,
+    fontsize: float = 8,
     rasterized: bool = True,
 ) -> plt.Axes:
     """Draw a single QQ plot onto *ax*.
@@ -315,7 +316,7 @@ def plot_qq_single(
     _ms = float(np.sqrt(point_size)) if point_size else 2.0
     ax.plot(
         expected, observed,
-        marker=".", linestyle="none",
+        marker="o", linestyle="none",
         color=color, alpha=0.85,
         markersize=_ms, markeredgecolor="none",
         label=label, zorder=2,
@@ -337,11 +338,12 @@ def plot_qq_single(
             f"λ = {lam:.4f}",
             transform=ax.transAxes,
             va="top", ha="left",
-            fontsize=9, fontstyle="italic",
+            fontsize=fontsize, fontstyle="italic",
             color="black",
         )
 
-    plt.xlim(min(expected), max(expected)+2)
+    plt.xlim(0, max(expected)+2)
+    plt.ylim(0, max(observed)+1)
 
     ax.set_xlabel("Expected −log₁₀(p)", fontsize=10)
     ax.set_ylabel("Observed −log₁₀(p)", fontsize=10)
@@ -351,7 +353,7 @@ def plot_qq_single(
     if title:
         ax.set_title(title, fontsize=10, pad=6)
     if label:
-        ax.legend(fontsize=8, frameon=False, loc="lower right")
+        ax.legend(fontsize=fontsize, frameon=False, loc="best")
 
     return ax
 
@@ -376,6 +378,7 @@ def plot_qq_combined(
     thin: bool = True,
     thin_below: float = 0.01,
     max_points: int = 50_000,
+    fontsize: float = 8,
     rasterized: bool = True,
 ) -> tuple[plt.Figure, list[plt.Axes]]:
     """Plot all QQ plots in a single figure arranged in a grid.
@@ -432,6 +435,7 @@ def plot_qq_combined(
             show_lambda=show_lambda,
             title=label,
             thin=thin,
+            fontsize=fontsize,
             thin_below=thin_below,
             max_points=max_points,
             rasterized=rasterized,
@@ -472,6 +476,7 @@ def plot_qq_separate(
     thin: bool = True,
     thin_below: float = 0.01,
     max_points: int = 50_000,
+    fontsize: float = 8,
     rasterized: bool = True,
 ) -> list[str]:
     """Save one QQ plot per sumstat as individual files.
@@ -494,20 +499,20 @@ def plot_qq_separate(
     List of output file paths.
     """
 
-    labels = pval_dict.keys()
+    #labels = pval_dict.keys()
 
-    # plot name
-    (
-        plt_name, 
-        table_out,
-        plt_base,
-    ) = get_output_paths(
-        labels = labels,
-        mode='qq',
-        output_dir=output_path, 
-        plot_title=base_name, 
-        output_format=fig_format
-    )
+    ## plot name
+    #(
+    #    plt_name, 
+    #    table_out,
+    #    plt_base,
+    #) = get_output_paths(
+    #    labels = labels,
+    #    mode='qq',
+    #    output_dir=output_path, 
+    #    plot_title=base_name, 
+    #    output_format=fig_format
+    #)
 
     n = len(pval_dict)
 
@@ -535,6 +540,7 @@ def plot_qq_separate(
             show_lambda=show_lambda,
             title=label,
             thin=thin,
+            fontsize=fontsize,
             thin_below=thin_below,
             max_points=max_points,
             rasterized=rasterized,
@@ -543,7 +549,7 @@ def plot_qq_separate(
         plt.tight_layout()
 
         safe_label = label.replace(" ", "_").replace("/", "-")
-        out_path = f"{plt_base}_{safe_label}.{fig_format}"
+        out_path = f"{output_path}_{safe_label}.{fig_format}"
         fig.savefig(out_path, format=fig_format, dpi=dpi, bbox_inches="tight")
         plt.close(fig)
         logger.info("Saved QQ plot: %s", out_path)
@@ -572,6 +578,7 @@ def plot_qq_overlay(
     thin: bool = True,
     thin_below: float = 0.01,
     max_points: int = 50_000,
+    fontsize: float = 8,
     rasterized: bool = True,
 ) -> tuple[plt.Figure, plt.Axes]:
     """Plot all sumstats on a single QQ axes, each coloured differently.
@@ -597,20 +604,20 @@ def plot_qq_overlay(
     (fig, ax)
     """
 
-    labels = pval_dict.keys()
+    #labels = pval_dict.keys()
 
-    # plot name
-    (
-        plt_name, 
-        table_out,
-        plt_base,
-    ) = get_output_paths(
-        labels = labels,
-        mode='qq',
-        output_dir=output_path,
-        plot_title=title, 
-        output_format=fig_format
-    )
+    ## plot name
+    #(
+    #    plt_name, 
+    #    table_out,
+    #    plt_base,
+    #) = get_output_paths(
+    #    labels = labels,
+    #    mode='qq',
+    #    output_dir=output_path,
+    #    plot_title=title, 
+    #    output_format=fig_format
+    #)
 
     n = len(pval_dict)
     if n == 0:
@@ -661,7 +668,7 @@ def plot_qq_overlay(
         _ms = float(np.sqrt(point_size)) if point_size else 2.0
         ax.plot(
             expected, observed,
-            marker=".", linestyle="none",
+            marker="o", linestyle="none",
             color=color, alpha=0.85,
             markersize=_ms, markeredgecolor="none",
             label=legend_label, zorder=2 + idx,
@@ -691,18 +698,19 @@ def plot_qq_overlay(
 
     ax.legend(
         fontsize=8, frameon=True, framealpha=0.7,
-        edgecolor="lightgrey", loc="lower right",
+        edgecolor="lightgrey", loc="best",
     )
 
     if title:
         ax.set_title(title, fontsize=11, pad=8)
 
-    plt.xlim(min(expected), max(expected)+2)
+    plt.xlim(0, max(expected)+2)
+    plt.ylim(0, max(observed)+1)
     plt.tight_layout()
 
     if output_path:
         fmt = fig_format or Path(output_path).suffix.lstrip(".") or "png"
-        fig.savefig(f"{plt_base}.{fmt}", format=fmt, dpi=dpi, bbox_inches="tight")
-        logger.info("Saved overlay QQ plot: %s", f"{plt_base}.{fmt}")
+        fig.savefig(f"{output_path}.{fmt}", format=fmt, dpi=dpi, bbox_inches="tight")
+        logger.info("Saved overlay QQ plot: %s", f"{output_path}.{fmt}")
 
     return fig, ax
