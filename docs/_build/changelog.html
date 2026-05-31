@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Changelog &mdash; pycmplot 0.2.7 documentation</title>
+  <title>Changelog &mdash; pycmplot 0.2.8 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=58050c01"></script>
+      <script src="_static/documentation_options.js?v=b01fafc3"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -228,13 +228,19 @@
 <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id1">0.2.7 — 2026-04-27</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id2">0.2.5 — 2026-04-20</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">0.2.2 — 2026-04-18</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">0.2.1 — 2026-04-16</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id5">0.1.9 — 2026-04-14</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id6">0.1.8 — 2026-04-14</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id7">0.1.0 — 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">[0.2.8] — 2026-05-30</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#added">Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#changed">Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fixed">Fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">0.2.7 — 2026-04-27</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">0.2.5 — 2026-04-20</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">0.2.2 — 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">0.2.1 — 2026-04-16</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">0.1.9 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">0.1.8 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">0.1.0 — 2026-04-18</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a><ul>
@@ -279,7 +285,129 @@
 and this project adheres to <a class="reference external" href="https://semver.org/">Semantic Versioning</a>.</p>
 <hr class="docutils" />
 <section id="id1">
-<h2>0.2.7 — 2026-04-27<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<h2>[0.2.8] — 2026-05-30<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<section id="added">
+<h3>Added<a class="headerlink" href="#added" title="Link to this heading"></a></h3>
+<p><strong>Dual annotation renderer architecture</strong></p>
+<p>Two complementary annotation functions now handle sparse and dense
+annotation scenarios independently:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">_draw_annotation_arrows</span></code> — sparse annotation renderer with tiered
+label placement, chromosome-boundary spreading, cumulative-distance
+stacking, and straight <code class="docutils literal notranslate"><span class="pre">arc3</span></code> arrows (curvature fixed at zero for
+visual clarity in low-density contexts).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">_draw_annotation_arrows_multirail</span></code> — dense annotation renderer
+implementing a three-step layout pipeline (see below) with curved
+<code class="docutils literal notranslate"><span class="pre">arc</span></code> arrows and adaptive <code class="docutils literal notranslate"><span class="pre">ylim</span></code>.</p></li>
+</ul>
+<p><strong>Three-step dense annotation layout pipeline</strong> (<code class="docutils literal notranslate"><span class="pre">_draw_annotation_arrows_multirail</span></code>)</p>
+<ol class="arabic simple">
+<li><p><em>Relaxation pass</em> — bidirectional <code class="docutils literal notranslate"><span class="pre">min_sep</span></code> enforcement starting
+from <code class="docutils literal notranslate"><span class="pre">x_signal</span></code> positions.  Labels in dense regions drift further
+from their signals than labels in sparse regions, producing a
+natural density signal with no explicit cluster detection.</p></li>
+<li><p><em>Drift-based rail assignment</em> — each label’s relaxation drift is
+binned into a rail index using
+<code class="docutils literal notranslate"><span class="pre">rail_stride</span> <span class="pre">=</span> <span class="pre">rail_width</span> <span class="pre">/</span> <span class="pre">max_rails</span></code>.  Denser regions
+automatically receive higher rail indices proportionally across the
+full rail range.  No per-rail queue processing or <code class="docutils literal notranslate"><span class="pre">max_drift</span></code>
+threshold is required.</p></li>
+<li><p><em>linspace rank-reassignment</em> — labels are sorted by <code class="docutils literal notranslate"><span class="pre">x_signal</span></code>
+and assigned evenly-spaced <code class="docutils literal notranslate"><span class="pre">x_text</span></code> slots via
+<code class="docutils literal notranslate"><span class="pre">np.linspace(rail_start,</span> <span class="pre">rail_end,</span> <span class="pre">n)</span></code>.  This guarantees
+<code class="docutils literal notranslate"><span class="pre">x_text</span></code> rank equals <code class="docutils literal notranslate"><span class="pre">x_signal</span></code> rank (no arrow crossings by
+construction) and full rail coverage regardless of <code class="docutils literal notranslate"><span class="pre">rail_frac</span></code> or
+signal distribution.</p></li>
+</ol>
+<p><strong>Auto char_width from axes geometry</strong></p>
+<p>For vertical text (<code class="docutils literal notranslate"><span class="pre">rotation=90</span></code>), the horizontal label footprint is
+one character wide regardless of string length.  <code class="docutils literal notranslate"><span class="pre">char_width</span></code> is now
+derived from the axes pixel extent and figure DPI at draw time:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">px_per_bp</span>  <span class="o">=</span> <span class="n">ax_bbox</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="p">(</span><span class="n">xmax</span> <span class="o">-</span> <span class="n">xmin</span><span class="p">)</span>
+<span class="n">char_width</span> <span class="o">=</span> <span class="mf">0.6</span> <span class="o">*</span> <span class="n">fsize</span> <span class="o">*</span> <span class="p">(</span><span class="n">fig</span><span class="o">.</span><span class="n">dpi</span> <span class="o">/</span> <span class="mf">72.0</span><span class="p">)</span> <span class="o">/</span> <span class="n">px_per_bp</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">char_width_factor</span></code> parameter has been removed from
+<code class="docutils literal notranslate"><span class="pre">_draw_annotation_arrows_multirail</span></code>; <code class="docutils literal notranslate"><span class="pre">char_width</span></code> is computed
+automatically and scales correctly with figure size, DPI, and font
+size.</p>
+<p><strong>Proportional space budgeting and rail_frac awareness</strong></p>
+<p>Rail width is derived from <code class="docutils literal notranslate"><span class="pre">rail_frac</span></code> as
+<code class="docutils literal notranslate"><span class="pre">rail_width</span> <span class="pre">=</span> <span class="pre">genome_width</span> <span class="pre">*</span> <span class="pre">rail_frac</span></code>, centred on the genome
+midpoint.  <code class="docutils literal notranslate"><span class="pre">rail_stride</span></code> and slot spacing scale proportionally with
+<code class="docutils literal notranslate"><span class="pre">rail_frac</span></code>, ensuring even label distribution at any rail fraction
+without choking at rail boundaries.</p>
+<p><strong>Layout table</strong> (<code class="docutils literal notranslate"><span class="pre">pd.DataFrame</span></code>)</p>
+<p>Placement, relaxation, and rendering are now cleanly separated via a
+layout table with columns <code class="docutils literal notranslate"><span class="pre">label</span></code>, <code class="docutils literal notranslate"><span class="pre">x_signal</span></code>, <code class="docutils literal notranslate"><span class="pre">x_text</span></code>,
+<code class="docutils literal notranslate"><span class="pre">rail_id</span></code>.  <code class="docutils literal notranslate"><span class="pre">rail_id</span></code> is written during placement and not read
+again until the rendering pass, enforcing strict separation of layout
+and rendering concerns.</p>
+<p><strong>Chromosome-boundary detection</strong> (<code class="docutils literal notranslate"><span class="pre">_draw_annotation_arrows</span></code>)</p>
+<p>For each adjacent chromosome pair, the inter-chromosome gap is
+computed.  If the gap is narrower than <code class="docutils literal notranslate"><span class="pre">spread_width</span></code>, both boundary
+annotations receive an <code class="docutils literal notranslate"><span class="pre">x_bound</span></code> value encoding direction and
+magnitude, used downstream to push boundary labels apart before
+general spreading.</p>
+<p><strong>Cumulative x-position porting from tracks</strong></p>
+<p>Annotation cumulative x positions are now ported directly from track
+DataFrames via a three-column merge on <code class="docutils literal notranslate"><span class="pre">(chr_col,</span> <span class="pre">pos_col,</span> <span class="pre">LABEL)</span></code>
+rather than being recomputed independently, guaranteeing exact
+consistency between annotation and track coordinates.</p>
+<p><strong>track_heights sanity check and y-label positioning</strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">track_heights</span></code> is validated against the expected count
+(<code class="docutils literal notranslate"><span class="pre">n_tracks</span> <span class="pre">+</span> <span class="pre">1</span></code> when annotating, <code class="docutils literal notranslate"><span class="pre">n_tracks</span></code> otherwise) with
+explicit <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> and <code class="docutils literal notranslate"><span class="pre">TypeError</span></code> messages.  The y-label
+position (<code class="docutils literal notranslate"><span class="pre">-log10(P)</span></code>) is computed from actual height ratios
+accounting for top-to-bottom track orientation:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">y_lab_pos</span> <span class="o">=</span> <span class="n">data_total</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">total_height</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="changed">
+<h3>Changed<a class="headerlink" href="#changed" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">_draw_annotation_arrows</span></code>: <code class="docutils literal notranslate"><span class="pre">max_rad</span></code> parameter removed; curvature
+is intentionally fixed at zero (straight arrows) for sparse
+annotation contexts.  Dense annotation curvature is handled
+exclusively by <code class="docutils literal notranslate"><span class="pre">_draw_annotation_arrows_multirail</span></code>.</p></li>
+<li><p>Annotation deduplication now occurs at the top of both renderers
+via <code class="docutils literal notranslate"><span class="pre">drop_duplicates(subset=[chr_col,</span> <span class="pre">&quot;x&quot;,</span> <span class="pre">label_col])</span></code> to prevent
+replicated arrows when <code class="docutils literal notranslate"><span class="pre">annot_df</span></code> is a merged multi-track table.</p></li>
+<li><p>Chromosome order in boundary detection now uses <code class="docutils literal notranslate"><span class="pre">natsorted</span></code> instead
+of <code class="docutils literal notranslate"><span class="pre">set</span></code> to guarantee correct genomic ordering.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">x_bound</span></code> is only set when the inter-chromosome gap is
+<code class="docutils literal notranslate"><span class="pre">&lt;=</span> <span class="pre">spread_width</span></code> (previously unconditional), preventing spurious
+boundary constraints between well-separated chromosomes.</p></li>
+</ul>
+</section>
+<section id="fixed">
+<h3>Fixed<a class="headerlink" href="#fixed" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Arrow crossings eliminated unconditionally by the linspace
+rank-reassignment step: <code class="docutils literal notranslate"><span class="pre">x_text</span></code> rank is guaranteed equal to
+<code class="docutils literal notranslate"><span class="pre">x_signal</span></code> rank for all labels across all rails.</p></li>
+<li><p>Annotation spill past genome right boundary resolved: <code class="docutils literal notranslate"><span class="pre">rail_end</span></code>
+acts as a hard clamp during relaxation; labels cannot exceed it
+regardless of local density.</p></li>
+<li><p>Higher-rail priority inversion fixed: the drift-based rail assignment
+correctly places the densest labels (largest drift) on higher rails,
+not the labels nearest the rail boundary.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">x_texts</span></code> sort-order mismatch resolved: cumulative-scaled positions
+are now mapped back to original signal order via <code class="docutils literal notranslate"><span class="pre">np.argsort</span></code>
+before use, preventing label-to-wrong-position assignment.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">char_width</span></code> underestimation fixed: replacing the hardcoded
+<code class="docutils literal notranslate"><span class="pre">8e6</span></code> fallback with axes-geometry derivation corrects the ~2×
+underestimate that caused stacking to never fire for typical figure
+sizes at <code class="docutils literal notranslate"><span class="pre">fontsize=6</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">natsorted</span></code> applied to chromosome order throughout to prevent
+incorrect pairing of chromosomes (e.g. chr3 with chr17) caused by
+<code class="docutils literal notranslate"><span class="pre">set</span></code> iteration order.</p></li>
+</ul>
+</section>
+</section>
+<section id="id2">
+<h2>0.2.7 — 2026-04-27<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
 <p><strong>Added</strong></p>
 <ul>
 <li><p><strong>Default-on density-aware auto-thinning</strong> for Manhattan / circular
@@ -470,8 +598,8 @@ were removed).</p></li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id2">
-<h2>0.2.5 — 2026-04-20<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<section id="id3">
+<h2>0.2.5 — 2026-04-20<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
 <p><strong>Fixed</strong></p>
 <ul class="simple">
 <li><p>Chromosome-22 positions falling outside hg38 chr22 limits after liftover
@@ -561,8 +689,8 @@ dtypes from <code class="docutils literal notranslate"><span class="pre">str</sp
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id3">
-<h2>0.2.2 — 2026-04-18<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<section id="id4">
+<h2>0.2.2 — 2026-04-18<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
 <p><strong>Added</strong></p>
 <p>QQ plots (<a class="reference internal" href="api/plotting.html#module-pycmplot.plotting.qq" title="pycmplot.plotting.qq"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pycmplot.plotting.qq</span></code></a>):</p>
 <ul class="simple">
@@ -631,8 +759,8 @@ tracks to improve visibility of track labels and y-axis ticks.</p></li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id4">
-<h2>0.2.1 — 2026-04-16<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<section id="id5">
+<h2>0.2.1 — 2026-04-16<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
 <p><strong>Added</strong></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">--build</span></code> option for supplying per-file genome builds when the
@@ -655,8 +783,8 @@ builds avoids this.</p></li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id5">
-<h2>0.1.9 — 2026-04-14<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<section id="id6">
+<h2>0.1.9 — 2026-04-14<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
 <p><strong>Fixed</strong></p>
 <ul class="simple">
 <li><p>Column name auto-detection now covers both lower- and upper-case
@@ -667,8 +795,8 @@ the CLI equivalent (required instead of optional).</p></li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id6">
-<h2>0.1.8 — 2026-04-14<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<section id="id7">
+<h2>0.1.8 — 2026-04-14<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
 <p><strong>Added</strong></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">--highlight_color</span></code> and <code class="docutils literal notranslate"><span class="pre">--highlight_line_color</span></code> options.</p></li>
@@ -682,8 +810,8 @@ the CLI equivalent (required instead of optional).</p></li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id7">
-<h2>0.1.0 — 2026-04-18<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<section id="id8">
+<h2>0.1.0 — 2026-04-18<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
 <p>Initial release.</p>
 <p><strong>Added</strong></p>
 <p>Package structure:</p>

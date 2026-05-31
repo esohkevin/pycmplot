@@ -591,8 +591,6 @@ def plot_circular(
         )
     ):
         assoc = sumstats_value[0].copy()
-        #assoc["P"]   = assoc["P"].dropna()
-        #assoc["CHR"] = assoc["CHR"].replace("23", "X").replace("24", "Y")
         assoc["POS"] = assoc["POS"].astype(np.int32)
 
         if logp:
@@ -606,7 +604,6 @@ def plot_circular(
         sug_thresh = signif_dict["suggestive"]
 
         logger.info(f"Plotting : {sumstat_name}")
-        #logger.info(f"SUGGESTIVE THRESHOLD: {sug_thresh}")
 
         assoc_by_chr = {
             chrom: df

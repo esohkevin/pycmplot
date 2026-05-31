@@ -147,10 +147,14 @@ def main() -> None:
     plot_title_size  = args.plot_title_size
     track_heights    = args.track_heights
     linear_track_spacing    = args.linear_track_spacing
+    annot_rail_frac  = args.annot_rail_frac
     no_track_labels  = args.no_track_labels
     ylabel           = args.ylabel
     chr_spacing      = args.chr_spacing
     figure_size      = args.figure_size
+
+    fsize = figure_size.strip(" ").split(",")
+    fsize = [float(v) for v in fsize]
 
 
     # ------------------------------------------------------------------
@@ -170,6 +174,25 @@ def main() -> None:
         builds = build_arg if build_arg else None,
     )
 
+    if mode.upper() == "LM":
+        #-------------------------------------------------------------------
+        # TRACK HEIGHTS SANITY CHECK
+        #-------------------------------------------------------------------
+        n_tracks = len(sum_stats)
+        expected_n = n_tracks + 1 if annotate else n_tracks
+        if track_heights is not None:
+            try:
+                if len(t_heights) != expected_n:
+                    raise ValueError(
+                        f"track_heights has {len(t_heights)} values but "
+                        f"{expected_n} are required"
+                        + (" (one extra for the annotation track)" if annotate else "")
+                    )
+            except TypeError:
+                raise TypeError(
+                    "track_heights must be a sized iterable (e.g. list or tuple), "
+                    f"got {type(t_heights).__name__}"
+                )
     # ------------------------------------------------------------------
     # Output paths
     # ------------------------------------------------------------------
@@ -280,12 +303,10 @@ def main() -> None:
         )
 
     # ------------------------------------------------------------------
-    # LINEAR MANHATTAN
+    # LINEAR MANHATTAN - DEFAULT
     # ------------------------------------------------------------------
     else:
         logger.info("Generating LINEAR MANHATTAN Plot ...")
-        fsize = figure_size.strip(" ").split(",")
-        fsize = [float(v) for v in fsize]
         logger.info(f"FIGURE SIZE: {fsize}")
         plot_linear(
             sumstats_loaded=sumstats_loaded,
@@ -299,9 +320,11 @@ def main() -> None:
             highlight_line=highlight_line,
             highlight_line_color=highlight_line_color,
             annotate=annotate,
+            annotation_size=annotation_size,
             hits_table=hits_table if not hits_table.empty else None,
             chr_spacing=chr_spacing,
             linear_track_spacing=linear_track_spacing,
+            annot_rail_frac=annot_rail_frac,
             colors=colors,
             signif_lines=signif_lines,
             plot_title=plot_title,
@@ -331,6 +354,7 @@ def main() -> None:
                 colors=colors,
                 signif_threshold=signif_threshold or 5e-8,
                 dpi=dpi,
+                fontsize=fsize,
                 fig_format=output_format,
             )
         elif qq_overlay:
@@ -342,6 +366,7 @@ def main() -> None:
                 colors=colors,
                 signif_threshold=signif_threshold or 5e-8,
                 dpi=dpi,
+                fontsize=fsize,
                 title=plot_title,
                 output_path=f"{qq_stem}_overlay",
                 fig_format=output_format,
@@ -356,6 +381,7 @@ def main() -> None:
                 ncols=qq_ncols,
                 signif_threshold=signif_threshold or 5e-8,
                 dpi=dpi,
+                fontsize=fsize,
                 title=plot_title,
                 output_path=f"{qq_stem}_combined",
                 fig_format=output_format,

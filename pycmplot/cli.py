@@ -507,7 +507,7 @@ def get_arguments(descmsg: str = DESCMSG) -> argparse.Namespace:
 
     # linear only
     lio.add_argument(
-        "-th", "--track_heights", type=str, metavar="str",
+        "-th", "--track_heights", type=str, default=None, metavar="str",
         help="Comma-separated relative track heights (e.g. 2,2,1.5)."
     )
     lio.add_argument(
@@ -518,6 +518,14 @@ def get_arguments(descmsg: str = DESCMSG) -> argparse.Namespace:
         "-t_space", "--linear_track_spacing", default=0.10, type=float, metavar="float",
         help="Space between linear tracks (default: 0.10)."
     )
+    lio.add_argument(
+        "-r_frac", "--annot_rail_frac", default=0.98, type=float, metavar="float",
+        help="""
+        Fraction of horizontal space covering the center of the annotation track within
+        which to place annotation texts. (default: 0.98 - means annotation texts will cover
+        98 percent of annotation track horizontally).
+        """
+    )    
     lio.add_argument(
         "-figsize", "--figure_size", default='10,4', required=False, type=str, metavar="str",
         help="Linear plot figure size (default: 10,4 for width,height)."
