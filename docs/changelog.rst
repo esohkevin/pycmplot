@@ -12,8 +12,7 @@ and this project adheres to `Semantic Versioning <https://semver.org/>`_.
 [0.2.8] — 2026-05-30
 ------------------------------------------------------------------------------
 
-Added
-~~~~~
+**Added**
 
 **Dual annotation renderer architecture**
 
@@ -105,8 +104,9 @@ accounting for top-to-bottom track orientation::
 
     y_lab_pos = data_total / (2 * total_height)
 
-Changed
-~~~~~~~
+
+**Changed**
+
 
 - ``_draw_annotation_arrows``: ``max_rad`` parameter removed; curvature
   is intentionally fixed at zero (straight arrows) for sparse
@@ -124,8 +124,9 @@ Changed
   ``<= spread_width`` (previously unconditional), preventing spurious
   boundary constraints between well-separated chromosomes.
 
-Fixed
-~~~~~
+
+**Fixed**
+
 
 - Arrow crossings eliminated unconditionally by the linspace
   rank-reassignment step: ``x_text`` rank is guaranteed equal to
