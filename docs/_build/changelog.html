@@ -282,7 +282,9 @@ and this project adheres to <a class="reference external" href="https://semver.o
 <section id="id1">
 <h2>[0.2.8] — 2026-05-30<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
 <p><strong>Added</strong></p>
-<p><strong>Dual annotation renderer architecture</strong></p>
+<ul class="simple">
+<li><p><strong>Dual annotation renderer architecture</strong></p></li>
+</ul>
 <p>Two complementary annotation functions now handle sparse and dense
 annotation scenarios independently:</p>
 <ul class="simple">
@@ -293,8 +295,8 @@ visual clarity in low-density contexts).</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">_draw_annotation_arrows_multirail</span></code> — dense annotation renderer
 implementing a three-step layout pipeline (see below) with curved
 <code class="docutils literal notranslate"><span class="pre">arc</span></code> arrows and adaptive <code class="docutils literal notranslate"><span class="pre">ylim</span></code>.</p></li>
+<li><p><strong>Three-step dense annotation layout pipeline</strong> (<code class="docutils literal notranslate"><span class="pre">_draw_annotation_arrows_multirail</span></code>)</p></li>
 </ul>
-<p><strong>Three-step dense annotation layout pipeline</strong> (<code class="docutils literal notranslate"><span class="pre">_draw_annotation_arrows_multirail</span></code>)</p>
 <ol class="arabic simple">
 <li><p><em>Relaxation pass</em> — bidirectional <code class="docutils literal notranslate"><span class="pre">min_sep</span></code> enforcement starting
 from <code class="docutils literal notranslate"><span class="pre">x_signal</span></code> positions.  Labels in dense regions drift further
@@ -313,7 +315,9 @@ and assigned evenly-spaced <code class="docutils literal notranslate"><span clas
 construction) and full rail coverage regardless of <code class="docutils literal notranslate"><span class="pre">rail_frac</span></code> or
 signal distribution.</p></li>
 </ol>
-<p><strong>Auto char_width from axes geometry</strong></p>
+<ul class="simple">
+<li><p><strong>Auto char_width from axes geometry</strong></p></li>
+</ul>
 <p>For vertical text (<code class="docutils literal notranslate"><span class="pre">rotation=90</span></code>), the horizontal label footprint is
 one character wide regardless of string length.  <code class="docutils literal notranslate"><span class="pre">char_width</span></code> is now
 derived from the axes pixel extent and figure DPI at draw time:</p>
@@ -325,30 +329,40 @@ derived from the axes pixel extent and figure DPI at draw time:</p>
 <code class="docutils literal notranslate"><span class="pre">_draw_annotation_arrows_multirail</span></code>; <code class="docutils literal notranslate"><span class="pre">char_width</span></code> is computed
 automatically and scales correctly with figure size, DPI, and font
 size.</p>
-<p><strong>Proportional space budgeting and rail_frac awareness</strong></p>
+<ul class="simple">
+<li><p><strong>Proportional space budgeting and rail_frac awareness</strong></p></li>
+</ul>
 <p>Rail width is derived from <code class="docutils literal notranslate"><span class="pre">rail_frac</span></code> as
 <code class="docutils literal notranslate"><span class="pre">rail_width</span> <span class="pre">=</span> <span class="pre">genome_width</span> <span class="pre">*</span> <span class="pre">rail_frac</span></code>, centred on the genome
 midpoint.  <code class="docutils literal notranslate"><span class="pre">rail_stride</span></code> and slot spacing scale proportionally with
 <code class="docutils literal notranslate"><span class="pre">rail_frac</span></code>, ensuring even label distribution at any rail fraction
 without choking at rail boundaries.</p>
-<p><strong>Layout table</strong> (<code class="docutils literal notranslate"><span class="pre">pd.DataFrame</span></code>)</p>
+<ul class="simple">
+<li><p><strong>Layout table</strong> (<code class="docutils literal notranslate"><span class="pre">pd.DataFrame</span></code>)</p></li>
+</ul>
 <p>Placement, relaxation, and rendering are now cleanly separated via a
 layout table with columns <code class="docutils literal notranslate"><span class="pre">label</span></code>, <code class="docutils literal notranslate"><span class="pre">x_signal</span></code>, <code class="docutils literal notranslate"><span class="pre">x_text</span></code>,
 <code class="docutils literal notranslate"><span class="pre">rail_id</span></code>.  <code class="docutils literal notranslate"><span class="pre">rail_id</span></code> is written during placement and not read
 again until the rendering pass, enforcing strict separation of layout
 and rendering concerns.</p>
-<p><strong>Chromosome-boundary detection</strong> (<code class="docutils literal notranslate"><span class="pre">_draw_annotation_arrows</span></code>)</p>
+<ul class="simple">
+<li><p><strong>Chromosome-boundary detection</strong> (<code class="docutils literal notranslate"><span class="pre">_draw_annotation_arrows</span></code>)</p></li>
+</ul>
 <p>For each adjacent chromosome pair, the inter-chromosome gap is
 computed.  If the gap is narrower than <code class="docutils literal notranslate"><span class="pre">spread_width</span></code>, both boundary
 annotations receive an <code class="docutils literal notranslate"><span class="pre">x_bound</span></code> value encoding direction and
 magnitude, used downstream to push boundary labels apart before
 general spreading.</p>
-<p><strong>Cumulative x-position porting from tracks</strong></p>
+<ul class="simple">
+<li><p><strong>Cumulative x-position porting from tracks</strong></p></li>
+</ul>
 <p>Annotation cumulative x positions are now ported directly from track
 DataFrames via a three-column merge on <code class="docutils literal notranslate"><span class="pre">(chr_col,</span> <span class="pre">pos_col,</span> <span class="pre">LABEL)</span></code>
 rather than being recomputed independently, guaranteeing exact
 consistency between annotation and track coordinates.</p>
-<p><strong>track_heights sanity check and y-label positioning</strong></p>
+<ul class="simple">
+<li><p><strong>track_heights sanity check and y-label positioning</strong></p></li>
+</ul>
 <p><code class="docutils literal notranslate"><span class="pre">track_heights</span></code> is validated against the expected count
 (<code class="docutils literal notranslate"><span class="pre">n_tracks</span> <span class="pre">+</span> <span class="pre">1</span></code> when annotating, <code class="docutils literal notranslate"><span class="pre">n_tracks</span></code> otherwise) with
 explicit <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> and <code class="docutils literal notranslate"><span class="pre">TypeError</span></code> messages.  The y-label
@@ -398,9 +412,10 @@ incorrect pairing of chromosomes (e.g. chr3 with chr17) caused by
 <section id="id2">
 <h2>0.2.7 — 2026-04-27<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
 <p><strong>Added</strong></p>
-<ul>
-<li><p><strong>Default-on density-aware auto-thinning</strong> for Manhattan / circular
-rendering, inspired by <code class="docutils literal notranslate"><span class="pre">gwaslab</span></code> and applied on top of (i.e. in
+<ul class="simple">
+<li><p><strong>Default-on density-aware auto-thinning</strong> for Manhattan / circular</p></li>
+</ul>
+<p>rendering, inspired by <code class="docutils literal notranslate"><span class="pre">gwaslab</span></code> and applied on top of (i.e. in
 addition to) the existing <code class="docutils literal notranslate"><span class="pre">--trim_pval</span></code>.  A new helper
 <a class="reference internal" href="api/io.html#pycmplot.io.auto_thin_for_manhattan" title="pycmplot.io.auto_thin_for_manhattan"><code class="xref py py-func docutils literal notranslate"><span class="pre">auto_thin_for_manhattan()</span></code></a> keeps <strong>every</strong> variant
 whose “interestingness” signal is at or above <code class="docutils literal notranslate"><span class="pre">--auto_thin_threshold</span></code>
@@ -451,8 +466,6 @@ which is now ON by default.</p></td>
 </table>
 <p>Combined with the rendering and data-prep optimisations from earlier
 in this release, this brings pycmplot’s untrimmed timings to:</p>
-</li>
-</ul>
 <table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p>Size</p></th>
@@ -484,11 +497,9 @@ in this release, this brings pycmplot’s untrimmed timings to:</p>
 </tr>
 </tbody>
 </table>
-<blockquote>
-<div><p>i.e. circular plotting at 5 M variants is now <strong>41x faster</strong> than the
+<p>i.e. circular plotting at 5 M variants is now <strong>41x faster</strong> than the
 pre-0.2.7 untrimmed path, and projects to ~38 s at 10 M variants
 (down from ~38 minutes — and faster than CMplot’s circular path).</p>
-</div></blockquote>
 <p><strong>Performance</strong></p>
 <ul class="simple">
 <li><p>Linear Manhattan rendering switched from <code class="docutils literal notranslate"><span class="pre">ax.scatter</span></code> (one <code class="docutils literal notranslate"><span class="pre">PathCollection</span></code>
