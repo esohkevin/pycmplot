@@ -228,12 +228,7 @@
 <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id1">[0.2.8] — 2026-05-30</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#added">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#changed">Changed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#fixed">Fixed</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">[0.2.8] — 2026-05-30</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id2">0.2.7 — 2026-04-27</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id3">0.2.5 — 2026-04-20</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id4">0.2.2 — 2026-04-18</a></li>
@@ -286,8 +281,7 @@ and this project adheres to <a class="reference external" href="https://semver.o
 <hr class="docutils" />
 <section id="id1">
 <h2>[0.2.8] — 2026-05-30<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
-<section id="added">
-<h3>Added<a class="headerlink" href="#added" title="Link to this heading"></a></h3>
+<p><strong>Added</strong></p>
 <p><strong>Dual annotation renderer architecture</strong></p>
 <p>Two complementary annotation functions now handle sparse and dense
 annotation scenarios independently:</p>
@@ -363,9 +357,7 @@ accounting for top-to-bottom track orientation:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">y_lab_pos</span> <span class="o">=</span> <span class="n">data_total</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">total_height</span><span class="p">)</span>
 </pre></div>
 </div>
-</section>
-<section id="changed">
-<h3>Changed<a class="headerlink" href="#changed" title="Link to this heading"></a></h3>
+<p><strong>Changed</strong></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">_draw_annotation_arrows</span></code>: <code class="docutils literal notranslate"><span class="pre">max_rad</span></code> parameter removed; curvature
 is intentionally fixed at zero (straight arrows) for sparse
@@ -380,9 +372,7 @@ of <code class="docutils literal notranslate"><span class="pre">set</span></code
 <code class="docutils literal notranslate"><span class="pre">&lt;=</span> <span class="pre">spread_width</span></code> (previously unconditional), preventing spurious
 boundary constraints between well-separated chromosomes.</p></li>
 </ul>
-</section>
-<section id="fixed">
-<h3>Fixed<a class="headerlink" href="#fixed" title="Link to this heading"></a></h3>
+<p><strong>Fixed</strong></p>
 <ul class="simple">
 <li><p>Arrow crossings eliminated unconditionally by the linspace
 rank-reassignment step: <code class="docutils literal notranslate"><span class="pre">x_text</span></code> rank is guaranteed equal to
@@ -404,7 +394,6 @@ sizes at <code class="docutils literal notranslate"><span class="pre">fontsize=6
 incorrect pairing of chromosomes (e.g. chr3 with chr17) caused by
 <code class="docutils literal notranslate"><span class="pre">set</span></code> iteration order.</p></li>
 </ul>
-</section>
 </section>
 <section id="id2">
 <h2>0.2.7 — 2026-04-27<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
