@@ -608,10 +608,348 @@ def _draw_annotation_arrows_multirail(
         y_text_base + (max_rail + 2) * y_stack_step,
     )
 
+
+def _draw_annotation_arrows_multirail1(
+    ax,
+    annot_df,
+    chr_col: str,
+    label_col: str,
+    offsets: dict,
+    chr_max: dict,
+    spread_width: float = 60e6,
+    y_text_base: float = 0.25,
+    y_stack_step: float = 0.1,
+    max_rad: float = 0.35,
+    y_tip: float = 0.0,
+    fsize: float = 8,
+    rail_frac: float = 0.95,
+    min_sep: float = 6e6,
+    asize: float = 8,
+) -> None:
+    """
+    Dense annotation renderer with relaxation-driven multi-rail
+    stacking, linspace rank-reassignment, alternating rail stagger,
+    curved arrows, and adaptive ylim.
+
+    Layout pipeline
+    ---------------
+    1. **Relaxation pass**:
+       All labels are sorted by ``x_signal`` and a bidirectional
+       relaxation loop enforces ``min_sep`` between every adjacent pair.
+       Labels are pushed apart until no two are closer than ``min_sep``.
+       The relaxed positions are stored as ``x_relaxed``.
+
+    2. **Rail assignment from relaxation drift**:
+       Each label's rail is determined by how far its relaxed position
+       drifted from its signal::
+
+           drift    = |x_relaxed − x_signal|
+           rail_id  = clip(floor(drift / rail_stride), 0, max_rails − 1)
+
+       Labels in dense regions drift more and receive higher rail
+       indices proportionally.  ``rail_stride = rail_width / max_rails``
+       so rail assignment scales correctly with ``rail_frac``.
+
+    3. **linspace rank-reassignment**:
+       Labels are sorted by ``x_signal`` and assigned evenly-spaced
+       ``x_text`` slots via ``np.linspace(rail_start, rail_end, n)``.
+       This guarantees:
+
+       - ``x_text`` rank == ``x_signal`` rank → no arrow crossings by
+         construction.
+       - Full rail coverage regardless of ``rail_frac`` or signal
+         clustering.
+       - Even slot spacing = ``rail_width / (n − 1)``.
+
+    4. **Cyclic rail stagger (k_min-computed)**:
+       The minimum number of rails required to avoid horizontal slot
+       overlap is computed from the actual slot interval and
+       ``char_width``, with a 1.5× safety factor to account for
+       underestimation of rendered glyph widths by the ``0.6 * fsize``
+       approximation::
+
+           slot_interval  = rail_width / (n − 1)
+           k_min          = ceil(1.5 * char_width / slot_interval)
+
+       Labels are then assigned a stagger offset of ``rank % k_min``
+       (cycling through 0, 1, …, k_min−1 in left-to-right
+       ``x_signal`` order) which is added to their drift-assigned
+       ``rail_id``.  This guarantees same-rail neighbours are at least
+       ``k_min * slot_interval >= 1.5 * char_width`` apart.  At lower
+       ``rail_frac`` or larger ``fsize``, ``slot_interval`` shrinks and
+       ``k_min`` grows automatically, creating more rails as needed.
+
+    5. **Rendering pass**:
+       ``rail_id`` is read here for the first time to compute
+       ``y = y_text_base + rail_id * y_stack_step``.
+
+    Parameters
+    ----------
+    ax : matplotlib.axes.Axes
+        Target axes.
+    annot_df : pd.DataFrame
+        Annotation table. Must contain ``chr_col``, ``"x"`` (cumulative
+        genomic position in bp), and ``label_col``.
+    chr_col : str
+        Column name for chromosome identifiers.
+    label_col : str
+        Column name for annotation labels.
+    offsets : dict
+        Mapping of chromosome name → cumulative start offset (bp).
+    chr_max : dict
+        Mapping of chromosome name → chromosome length (bp).
+    spread_width : float, optional
+        Genomic window (bp) used for arrow tip jitter. Default 60e6.
+    y_text_base : float, optional
+        Axes-fraction y-coordinate for rail 0 labels. Default 0.25.
+    y_stack_step : float, optional
+        Axes-fraction increment per rail. Default 0.1.
+    max_rad : float, optional
+        Maximum arc curvature for ``FancyArrowPatch``. Default 0.35.
+    y_tip : float, optional
+        Axes-fraction y-coordinate for arrow tips. Default 0.0.
+    fsize : float, optional
+        Font size (pt) used to estimate label widths. Default 8.
+    rail_frac : float, optional
+        Fraction of genome width occupied by the label rail. Default 0.95.
+    min_sep : float, optional
+        Minimum genomic separation (bp) between any two adjacent label
+        centres. Default 6e6.
+    asize : float, optional
+        Font size (pt) for rendered label text. Default 8.
+    """
+
+    # ------------------------------------------------------------------
+    # Deduplication
+    # ------------------------------------------------------------------
+    annot_df = annot_df.drop_duplicates(subset=[chr_col, "x", label_col])
+
+    # ------------------------------------------------------------------
+    # Sort annotations
+    # ------------------------------------------------------------------
+    annot_df = (
+        annot_df
+        .sort_values(by=[chr_col, "x"], key=natsort_keygen())
+        .reset_index(drop=True)
+    )
+
+    x_signals = annot_df["x"].to_numpy(dtype=float)
+    labels    = annot_df[label_col].astype(str).to_numpy()
+    n         = len(x_signals)
+
+    if n == 0:
+        return
+
+    # ------------------------------------------------------------------
+    # Genome span and rail bounds
+    # ------------------------------------------------------------------
+    genome_start = min(offsets.values())
+    genome_end   = max(offsets[c] + chr_max[c] for c in chr_max)
+    genome_width = genome_end - genome_start
+    rail_width   = genome_width * rail_frac
+    rail_start   = genome_start + (genome_width - rail_width) / 2
+    rail_end     = rail_start + rail_width
+
+    # ------------------------------------------------------------------
+    # Auto char_width from axes geometry
+    # ------------------------------------------------------------------
+    # For vertical text (rotation=90°) the horizontal footprint of every
+    # label is one character wide regardless of string length.
+    try:
+        fig         = ax.get_figure()
+        renderer    = fig.canvas.get_renderer()
+        ax_bbox     = ax.get_window_extent(renderer=renderer)
+        xmin, xmax  = ax.get_xlim()
+        px_per_bp   = ax_bbox.width / (xmax - xmin)
+        char_width  = 0.6 * fsize * (fig.dpi / 72.0) / px_per_bp
+    except Exception:
+        char_width  = genome_width * 0.01 / fsize
+
+    # ------------------------------------------------------------------
+    # 1. Relaxation pass
+    # ------------------------------------------------------------------
+    # Start from x_signal positions and enforce min_sep between every
+    # adjacent pair.  Bidirectional passes (rightward then leftward)
+    # distribute pressure symmetrically so labels spread around their
+    # signals rather than cascading in one direction.
+    x_relaxed      = x_signals.copy()
+    max_relax_iter = 50
+
+    for _ in range(max_relax_iter):
+        moved = False
+
+        # Rightward pass
+        for i in range(1, n):
+            gap = x_relaxed[i] - x_relaxed[i - 1]
+            if gap < min_sep:
+                x_relaxed[i] = x_relaxed[i - 1] + min_sep
+                moved = True
+
+        # Leftward pass
+        for i in range(n - 2, -1, -1):
+            gap = x_relaxed[i + 1] - x_relaxed[i]
+            if gap < min_sep:
+                x_relaxed[i] = x_relaxed[i + 1] - min_sep
+                moved = True
+
+        if not moved:
+            break
+
+    # ------------------------------------------------------------------
+    # 2. Rail assignment from relaxation drift
+    # ------------------------------------------------------------------
+    # How far each label drifted from its signal during relaxation is a
+    # direct measure of local density: labels in dense regions drift more
+    # and should be stacked higher.  We bin the drift into rails using
+    # a stride of (rail_width / max_rails) so rails fill proportionally.
+    max_rails   = 10
+    rail_stride = rail_width / max_rails
+    drift       = np.abs(x_relaxed - x_signals)
+    rail_ids    = np.clip(
+        (drift / rail_stride).astype(int),
+        0,
+        max_rails - 1,
+    )
+
+    # ------------------------------------------------------------------
+    # 3. linspace rank-reassignment
+    # ------------------------------------------------------------------
+    # Sort by x_signal and assign evenly-spaced x_text slots across the
+    # full [rail_start, rail_end] range.  This guarantees:
+    #   - x_text rank == x_signal rank → no arrow crossings
+    #   - Full, even rail coverage regardless of rail_frac
+    sig_order = np.argsort(x_signals)
+    x_texts   = np.empty(n)
+    slots     = (
+        np.linspace(rail_start, rail_end, n)
+        if n > 1
+        else np.array([(rail_start + rail_end) / 2])
+    )
+    x_texts[sig_order] = slots
+
+    # ------------------------------------------------------------------
+    # 4. Compute minimum rails required (k_min) and apply cyclic stagger
+    # ------------------------------------------------------------------
+    # With n labels evenly spaced across rail_width, the slot interval is:
+    #   slot_interval = rail_width / (n - 1)
+    #
+    # With a cyclic stagger of k rails, same-rail neighbours are k slots
+    # apart, giving a same-rail interval of k * slot_interval.
+    # The no-overlap condition requires:
+    #   k * slot_interval >= char_width
+    #   → k_min = ceil(char_width / slot_interval)
+    #
+    # A safety factor of 1.5 is applied to char_width to account for
+    # the fact that 0.6 * fsize underestimates the true rendered glyph
+    # width, which varies by font and renderer.  Without this correction
+    # k_min is systematically too small at larger font sizes and lower
+    # rail_frac values, causing labels to still visually overlap even
+    # after staggering.
+    #
+    # The stagger cycles through k_min values (0, 1, …, k_min-1) in
+    # left-to-right x_signal order.  The drift-based rail_id is used as
+    # a base elevation and the stagger offset is added on top, so dense
+    # regions are still elevated relative to sparse ones while adjacent
+    # labels are guaranteed to be on different rails.
+    slot_interval      = rail_width / max(n - 1, 1)
+    char_width_safe    = char_width * 3
+    k_min              = max(1, int(np.ceil(char_width_safe / slot_interval)))
+
+    for rank, idx in enumerate(sig_order):
+        stagger         = rank % k_min
+        rail_ids[idx]   = min(rail_ids[idx] + stagger, max_rails - 1)
+
+    # ------------------------------------------------------------------
+    # Build layout table
+    # ------------------------------------------------------------------
+    layout = pd.DataFrame({
+        "label"    : labels,
+        "x_signal" : x_signals,
+        "x_text"   : x_texts,
+        "rail_id"  : rail_ids,
+    }).sort_values("x_signal").reset_index(drop=True)
+
+    # ------------------------------------------------------------------
+    # 4. Rendering pass — rail_id first used here
+    # ------------------------------------------------------------------
+    jitter = np.linspace(
+        -spread_width * 0.03,
+        spread_width * 0.03,
+        len(layout),
+    )
+
+    for i, row in enumerate(layout.itertuples(index=False)):
+        x_sig = row.x_signal
+        x_txt = row.x_text
+        r_idx = int(row.rail_id)
+        label = row.label
+        x_tip = x_sig + jitter[i]
+        y_txt = y_text_base + r_idx * y_stack_step
+
+        dx  = x_txt - x_sig
+        rad = np.clip(
+            dx / (genome_width * 0.15),
+            -max_rad,
+            max_rad,
+        )
+
+        if r_idx == 0:
+            anglea = 0
+            arma   = 0
+            armb   = 30
+        else:
+            anglea = -90
+            arma   = 90 * r_idx
+            armb   = 30
+
+        arrow = FancyArrowPatch(
+            (x_txt, y_txt),
+            (x_tip, y_tip),
+            arrowstyle="-|>",
+            mutation_scale=6,
+            lw=0.4,
+            color="grey",
+            alpha=0.5,
+            connectionstyle=(
+                f"arc,"
+                f"angleA={anglea},"
+                f"armA={arma},"
+                f"angleB=90,"
+                f"armB={armb},"
+                f"rad={rad}"
+            ),
+            transform=ax.transData,
+        )
+        ax.add_patch(arrow)
+
+        ax.text(
+            x_txt + r_idx * spread_width * 0.12,
+            y_txt + 0.001,
+            str(label),
+            rotation=90,
+            ha="center",
+            va="bottom",
+            fontsize=asize,
+            clip_on=False,
+            color="black",
+            fontstyle="italic",
+            fontweight="regular",
+        )
+
+    # ------------------------------------------------------------------
+    # Adaptive ylim
+    # ------------------------------------------------------------------
+    max_rail = int(layout["rail_id"].max())
+    ax.set_ylim(
+        y_tip - 0.05,
+        y_text_base + (max_rail + 2) * y_stack_step,
+    )
+
+
+
 # ---------------------------------------------------------------------------
 # Public function
 # ---------------------------------------------------------------------------
-
 def plot_linearm(
     tracks: list,
     track_labels: Optional[list[str]] = None,
@@ -1042,7 +1380,7 @@ def plot_linearm(
             differences = np.diff(df_chr['POS']).tolist()
             less_than_spread_width.append(list(filter(lambda x: x < s_width, differences)))
             less_than_spread_width = [l for l in less_than_spread_width if not len(l) == 0]
-
+        print(len(less_than_spread_width))
         if len(less_than_spread_width) < 5:
             _draw_annotation_arrows(
                 ax_annot,
@@ -1073,7 +1411,7 @@ def plot_linearm(
                 y_tip=0.0,
                 y_text_base=0.3, 
                 y_stack_step=0.17, 
-                min_sep=1e6,
+                min_sep=6e6,
             )
           
         ax_annot.set_ylim(0, 1)

@@ -3,10 +3,10 @@
 #
 # Runs each R benchmark replicate in its own Rscript process wrapped with
 # /usr/bin/time -v, capturing OS-level peak RSS (Maximum resident set size)
-# per replicate. Replaces the gc()-based memory estimate in bench_r.R with
+# per replicate. Replaces the gc()-based memory estimate in bench_r.r with
 # the more accurate /usr/bin/time -v value.
 #
-# Usage (mirrors bench_r.R arguments):
+# Usage (mirrors bench_r.r arguments):
 #   bash bench_r_timed.sh \
 #       --tool CMplot --input data/sumstats_1M.tsv \
 #       --size 1M --plot-type manhattan \
@@ -17,7 +17,7 @@
 #   Rscript with CMplot / qqman installed
 #
 # Output:
-#   Appends to results/bench_r.csv (same file as bench_r.R standalone mode)
+#   Appends to results/bench_r.csv (same file as bench_r.r standalone mode)
 #   with peak_mem_mb filled from /usr/bin/time -v MaxRSS rather than gc().
 # --------------------------------------------------------------------------
 
@@ -36,7 +36,7 @@ OUTDIR="results"
 FIGDIR="figures"
 
 # --------------------------------------------------------------------------
-# Parse arguments (same interface as bench_r.R)
+# Parse arguments (same interface as bench_r.r)
 # --------------------------------------------------------------------------
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -80,7 +80,7 @@ LOGDIR="${WORKDIR}/logs"
 mkdir -p "$OUTDIR" "$FIGDIR" "$LOGDIR"
 
 # --------------------------------------------------------------------------
-# CSV setup — same columns as bench_r.R
+# CSV setup — same columns as bench_r.r
 # --------------------------------------------------------------------------
 CSV="${OUTDIR}/${TOOL}_bench_r.csv"
 COLS="tool,plot_type,size_label,n_variants,replicate,wall_time_s,peak_mem_mb,out_file_kb"
@@ -103,7 +103,7 @@ parse_maxrss() {
 }
 
 # --------------------------------------------------------------------------
-# patch_external: replace the EXTERNAL placeholder written by bench_r.R
+# patch_external: replace the EXTERNAL placeholder written by bench_r.r
 # with the actual MaxRSS value. Targets the last occurrence of EXTERNAL
 # in the CSV (the row just written by this replicate's Rscript call).
 # Uses a temp file to avoid in-place sed portability issues.
@@ -135,7 +135,7 @@ for REP in $(seq 1 "$REPLICATES"); do
   echo -n "  rep ${REP}/${REPLICATES} ... "
 
   # Run bench_r.r for this single replicate, capturing /usr/bin/time -v
-  # stderr to TIME_LOG. bench_r.R stdout goes to the terminal as normal.
+  # stderr to TIME_LOG. bench_r.r stdout goes to the terminal as normal.
   # Note: /usr/bin/time -v writes its report to stderr; we redirect only
   # that to TIME_LOG while letting Rscript's own stderr (warnings etc.)
   # pass through to the terminal.
