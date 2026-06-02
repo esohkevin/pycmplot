@@ -298,6 +298,7 @@ def main() -> None:
             plot_title_size = plot_title_size,
             no_track_labels = no_track_labels,
             dpi = dpi,
+            ylabel=ylabel,
             output_format=output_format,
             output_dir=output_dir
         )
@@ -311,11 +312,9 @@ def main() -> None:
         plot_linear(
             sumstats_loaded=sumstats_loaded,
             track_heights=t_heights,
-            trim_pval=trim_pval,
             logp=True if logp else False,
             point_size=point_size,
             highlight=highlight,
-            highlight_thresh=highlight_thresh,
             highlight_color=highlight_color,
             highlight_line=highlight_line,
             highlight_line_color=highlight_line_color,

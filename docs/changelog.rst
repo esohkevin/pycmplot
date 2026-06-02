@@ -8,6 +8,30 @@ and this project adheres to `Semantic Versioning <https://semver.org/>`_.
 
 ----
 
+[0.3.0] �~@~T 20266001
+
+**Fixed**
+
+- Bug fix:
+  - linear plotting ``t_heights`` local variable access failure.
+
+
+**Changed**
+
+- Suggestive line color from ``lightblue`` to ``navy`` in circular plotting
+- Significance line color from ``red`` to ``orangered`` in linear plotting to match
+  circular plotting
+- Suggestive line color from ``blue`` to ``navy`` in linear plotting  to match 
+  circular plotting
+
+
+**Added**
+
+- ``ylabel``: optional ylabel text in circular plotting to match linear plotting
+ 
+
+----
+
 
 [0.2.8] — 2026-05-30
 ------------------------------------------------------------------------------

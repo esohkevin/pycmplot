@@ -104,6 +104,14 @@ for gene annotation. Also included are UCSC chain files for coordinate conversio
 A potential useful application is **comparative visualization** of results from multiple imputation panels, 
 multiple populations, or multiple traits to observe shared genetic architecture.
 
+
+# Tip
+
+For signed non-pvalue statistics such as iHS, use `--signif_threshold` and 
+`--suggest_threshold` to specify lines to draw for iHS cutoff above and below zero, 
+that is in the positive and negative axes.
+
+
 Read more in the package documentation page: https://pycmplot.readthedocs.io/en/latest/
 
 ---

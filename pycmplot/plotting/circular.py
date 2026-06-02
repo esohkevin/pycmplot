@@ -121,7 +121,6 @@ def compute_track_radii_dict(
 def plot_circosm(
     sector=None,
     sector_radius=None,
-    annotation_r=None,
     assoc: Optional[pd.DataFrame] = None,
     assoc_by_chr: pd.DataFrame = None,
     sector_sizes: Optional[dict] = None,
@@ -137,7 +136,6 @@ def plot_circosm(
     suggest_line: Optional[float] = 1e-5,
     suggest_threshold: Optional[float] = 1e-5,
     highlight: bool = False,
-    highlight_thresh: Optional[float] = 5e-8,
     highlight_color: str = 'brown',
     colors: Optional[list[str]] = ['steelblue','orange'],
     point_size: float = 6,
@@ -158,9 +156,6 @@ def plot_circosm(
     sector_radius : tuple of (float, float)
         ``(r_start, r_end)`` radial limits for this track within *sector*,
         as returned by :func:`compute_track_radii_dict`.
-    annotation_r : tuple of (float, float) or None
-        Radial limits reserved for the annotation ring.  Passed for context
-        but not used directly inside this function.
     assoc : pandas.DataFrame, optional
         Full summary statistics DataFrame (all chromosomes).  Filtered to the
         current sector's chromosome internally.  Must have columns ``CHR``,
@@ -202,33 +197,15 @@ def plot_circosm(
         If ``True``, variants within significant loci (``in_locus == True``
         after :func:`~pycmplot.stats.get_highlight_snps`) are rendered in
         ``highlight_color`` (see below).  Default ``False``.
-    highlight_thresh : float, optional
-        P-value threshold passed to
-        :func:`~pycmplot.stats.get_highlight_snps` when *highlight* is
-        ``True``.  Default ``5e-8``.
     highlight_color : str, optional
         Color of highlighted positions when *highlight* is ``True``.
         Default ``brown``. 
     colors : list of str, optional
         Two alternating colours for even/odd chromosome numbers.
-        Default ``['steelblue', 'orange']``.
+        Default ``['steelblue', 'orange']``.      
     no_track_labels : bool, optional
         Suppress the track label on the spacer sector.  Default ``False``.
     """
-
-    #if colors is None:
-    #    colors = ["steelblue", "orange"]
-
-    #if highlight:
-    #    assoc, _ = get_highlight_snps(
-    #        df=assoc,
-    #        window=500_000,
-    #        highlight_thresh=highlight_thresh,
-    #        logp=logp,
-    #    )
-
-    #assoc = assoc.copy()
-    #assoc["POS"] = assoc["POS"].fillna(0).astype(int)
 
     genome_wide_sig = signif_threshold
     suggestive = suggest_threshold
@@ -372,7 +349,7 @@ def plot_circosm(
             x=[sector.start, sector.end],
             y=[suggestive, suggestive],
             vmin=v_min, vmax=v_max,
-            color="lightblue", linestyle="--",
+            color="navy", linestyle="--",
         )
 
 
@@ -405,6 +382,7 @@ def plot_circular(
     dpi: Optional[int] = None,
     output_format: Optional[str] = 'png',
     output_dir: Optional[str] = '.',
+    ylabel: Optional[str] = None,
     no_track_labels: bool = False
 ):
     """Generate a multi-track Circos-style circular Manhattan plot.
@@ -492,6 +470,11 @@ def plot_circular(
         Default ``'png'``.
     output_dir : str or pathlib.Path, optional
         Output directory.  Default ``'.'``.
+    ylabel : str, optional
+        Override the shared y-axis label (left margin).  Useful for
+        non-p-value statistics such as iHS, F_ST or XP-EHH (e.g.
+        ``ylabel="iHS"``).  When ``None`` (the default), the label is
+        ``"-log₁₀(p-value)"`` if *logp* is ``True`` and ``"P"`` otherwise.          
     no_track_labels : bool, optional
         Suppress track labels on the spacer sector.  Default ``False``.
 
@@ -614,7 +597,6 @@ def plot_circular(
             plot_circosm(
                 sector=sector,
                 sector_radius=sector_radius,
-                annotation_r=annotation_track_radius if annotate else None,
                 sector_sizes=sector_sizes,
                 track_index=index,
                 chrom_label_loc=chrom_label_loc,
@@ -630,7 +612,6 @@ def plot_circular(
                 suggest_line=True if signif_line else False,
                 suggest_threshold=sug_thresh,
                 highlight=highlight,
-                highlight_thresh=highlight_thresh,
                 highlight_color=highlight_color,
                 colors=colors,
                 point_size=point_size,
@@ -699,18 +680,17 @@ def plot_circular(
     # ------------------------------------------------------------------
     for sector in circos.sectors:
         if sector.name == list(sector_sizes.keys())[-1]:
-            if logp:
-                SUB = str.maketrans("0123456789", "₀₁₂₃₄₅₆₇₈₉")
-                y_label = "-log10(p-value)".translate(SUB)
+            if ylabel is None:
+                ylabel_text = "-log\u2081\u2080(P)" if logp else "P"
             else:
-                y_label = "p-value"
+                ylabel_text = ylabel
 
             sector_rlim  = [t.r_lim for t in sector.tracks]
             sector_min_r = min(sector_rlim)[0]
             sector_max_r = max(sector_rlim)[1]
 
             sector.text(
-                y_label,
+                ylabel_text,
                 x=sector.end - (sector.end - sector.start) / 5,
                 r=(sector_min_r + sector_max_r) / 2
                     + (sector_min_r + sector_max_r) / 12,

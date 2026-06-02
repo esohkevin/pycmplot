@@ -589,11 +589,11 @@ def get_annotation_column(
                     try:
                         if row["genic"]:
                             label_clm = "nearest_upstream_gene"
-                            label_msg = "'POS' is genic"
+                            label_msg = f"Signal {row['SNP']} at {row['POS']} is genic [{row['nearest_upstream_gene']}]"
                         else:
                             label_clm = "top_gene"
                             label_msg = "'POS' is not genic"
-                        logger.info("%s", label_msg)
+                        #logger.info("%s", label_msg)
                     except Exception:
                         logger.warning(
                             "Annotation columns '%s' and '%s' not found in hits table: %s; "

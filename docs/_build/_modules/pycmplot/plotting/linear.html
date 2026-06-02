@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pycmplot.plotting.linear &mdash; pycmplot 0.2.8 documentation</title>
+  <title>pycmplot.plotting.linear &mdash; pycmplot 0.3.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=b01fafc3"></script>
+      <script src="../../../_static/documentation_options.js?v=e259d695"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -225,12 +225,7 @@
 <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id1">[0.2.8] — 2026-05-30</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../changelog.html#added">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../changelog.html#changed">Changed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../changelog.html#fixed">Fixed</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id1">[0.2.8] — 2026-05-30</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id2">0.2.7 — 2026-04-27</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id3">0.2.5 — 2026-04-20</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id4">0.2.2 — 2026-04-18</a></li>
@@ -886,10 +881,348 @@
         <span class="n">y_text_base</span> <span class="o">+</span> <span class="p">(</span><span class="n">max_rail</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">y_stack_step</span><span class="p">,</span>
     <span class="p">)</span>
 
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_draw_annotation_arrows_multirail1</span><span class="p">(</span>
+    <span class="n">ax</span><span class="p">,</span>
+    <span class="n">annot_df</span><span class="p">,</span>
+    <span class="n">chr_col</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">label_col</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">offsets</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+    <span class="n">chr_max</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+    <span class="n">spread_width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">60e6</span><span class="p">,</span>
+    <span class="n">y_text_base</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.25</span><span class="p">,</span>
+    <span class="n">y_stack_step</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
+    <span class="n">max_rad</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.35</span><span class="p">,</span>
+    <span class="n">y_tip</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+    <span class="n">fsize</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span>
+    <span class="n">rail_frac</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.95</span><span class="p">,</span>
+    <span class="n">min_sep</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">6e6</span><span class="p">,</span>
+    <span class="n">asize</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Dense annotation renderer with relaxation-driven multi-rail</span>
+<span class="sd">    stacking, linspace rank-reassignment, alternating rail stagger,</span>
+<span class="sd">    curved arrows, and adaptive ylim.</span>
+
+<span class="sd">    Layout pipeline</span>
+<span class="sd">    ---------------</span>
+<span class="sd">    1. **Relaxation pass**:</span>
+<span class="sd">       All labels are sorted by ``x_signal`` and a bidirectional</span>
+<span class="sd">       relaxation loop enforces ``min_sep`` between every adjacent pair.</span>
+<span class="sd">       Labels are pushed apart until no two are closer than ``min_sep``.</span>
+<span class="sd">       The relaxed positions are stored as ``x_relaxed``.</span>
+
+<span class="sd">    2. **Rail assignment from relaxation drift**:</span>
+<span class="sd">       Each label&#39;s rail is determined by how far its relaxed position</span>
+<span class="sd">       drifted from its signal::</span>
+
+<span class="sd">           drift    = |x_relaxed − x_signal|</span>
+<span class="sd">           rail_id  = clip(floor(drift / rail_stride), 0, max_rails − 1)</span>
+
+<span class="sd">       Labels in dense regions drift more and receive higher rail</span>
+<span class="sd">       indices proportionally.  ``rail_stride = rail_width / max_rails``</span>
+<span class="sd">       so rail assignment scales correctly with ``rail_frac``.</span>
+
+<span class="sd">    3. **linspace rank-reassignment**:</span>
+<span class="sd">       Labels are sorted by ``x_signal`` and assigned evenly-spaced</span>
+<span class="sd">       ``x_text`` slots via ``np.linspace(rail_start, rail_end, n)``.</span>
+<span class="sd">       This guarantees:</span>
+
+<span class="sd">       - ``x_text`` rank == ``x_signal`` rank → no arrow crossings by</span>
+<span class="sd">         construction.</span>
+<span class="sd">       - Full rail coverage regardless of ``rail_frac`` or signal</span>
+<span class="sd">         clustering.</span>
+<span class="sd">       - Even slot spacing = ``rail_width / (n − 1)``.</span>
+
+<span class="sd">    4. **Cyclic rail stagger (k_min-computed)**:</span>
+<span class="sd">       The minimum number of rails required to avoid horizontal slot</span>
+<span class="sd">       overlap is computed from the actual slot interval and</span>
+<span class="sd">       ``char_width``, with a 1.5× safety factor to account for</span>
+<span class="sd">       underestimation of rendered glyph widths by the ``0.6 * fsize``</span>
+<span class="sd">       approximation::</span>
+
+<span class="sd">           slot_interval  = rail_width / (n − 1)</span>
+<span class="sd">           k_min          = ceil(1.5 * char_width / slot_interval)</span>
+
+<span class="sd">       Labels are then assigned a stagger offset of ``rank % k_min``</span>
+<span class="sd">       (cycling through 0, 1, …, k_min−1 in left-to-right</span>
+<span class="sd">       ``x_signal`` order) which is added to their drift-assigned</span>
+<span class="sd">       ``rail_id``.  This guarantees same-rail neighbours are at least</span>
+<span class="sd">       ``k_min * slot_interval &gt;= 1.5 * char_width`` apart.  At lower</span>
+<span class="sd">       ``rail_frac`` or larger ``fsize``, ``slot_interval`` shrinks and</span>
+<span class="sd">       ``k_min`` grows automatically, creating more rails as needed.</span>
+
+<span class="sd">    5. **Rendering pass**:</span>
+<span class="sd">       ``rail_id`` is read here for the first time to compute</span>
+<span class="sd">       ``y = y_text_base + rail_id * y_stack_step``.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ax : matplotlib.axes.Axes</span>
+<span class="sd">        Target axes.</span>
+<span class="sd">    annot_df : pd.DataFrame</span>
+<span class="sd">        Annotation table. Must contain ``chr_col``, ``&quot;x&quot;`` (cumulative</span>
+<span class="sd">        genomic position in bp), and ``label_col``.</span>
+<span class="sd">    chr_col : str</span>
+<span class="sd">        Column name for chromosome identifiers.</span>
+<span class="sd">    label_col : str</span>
+<span class="sd">        Column name for annotation labels.</span>
+<span class="sd">    offsets : dict</span>
+<span class="sd">        Mapping of chromosome name → cumulative start offset (bp).</span>
+<span class="sd">    chr_max : dict</span>
+<span class="sd">        Mapping of chromosome name → chromosome length (bp).</span>
+<span class="sd">    spread_width : float, optional</span>
+<span class="sd">        Genomic window (bp) used for arrow tip jitter. Default 60e6.</span>
+<span class="sd">    y_text_base : float, optional</span>
+<span class="sd">        Axes-fraction y-coordinate for rail 0 labels. Default 0.25.</span>
+<span class="sd">    y_stack_step : float, optional</span>
+<span class="sd">        Axes-fraction increment per rail. Default 0.1.</span>
+<span class="sd">    max_rad : float, optional</span>
+<span class="sd">        Maximum arc curvature for ``FancyArrowPatch``. Default 0.35.</span>
+<span class="sd">    y_tip : float, optional</span>
+<span class="sd">        Axes-fraction y-coordinate for arrow tips. Default 0.0.</span>
+<span class="sd">    fsize : float, optional</span>
+<span class="sd">        Font size (pt) used to estimate label widths. Default 8.</span>
+<span class="sd">    rail_frac : float, optional</span>
+<span class="sd">        Fraction of genome width occupied by the label rail. Default 0.95.</span>
+<span class="sd">    min_sep : float, optional</span>
+<span class="sd">        Minimum genomic separation (bp) between any two adjacent label</span>
+<span class="sd">        centres. Default 6e6.</span>
+<span class="sd">    asize : float, optional</span>
+<span class="sd">        Font size (pt) for rendered label text. Default 8.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="c1"># Deduplication</span>
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="n">annot_df</span> <span class="o">=</span> <span class="n">annot_df</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="n">chr_col</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">label_col</span><span class="p">])</span>
+
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="c1"># Sort annotations</span>
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="n">annot_df</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">annot_df</span>
+        <span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="n">chr_col</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">],</span> <span class="n">key</span><span class="o">=</span><span class="n">natsort_keygen</span><span class="p">())</span>
+        <span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="n">x_signals</span> <span class="o">=</span> <span class="n">annot_df</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">labels</span>    <span class="o">=</span> <span class="n">annot_df</span><span class="p">[</span><span class="n">label_col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+    <span class="n">n</span>         <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_signals</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span>
+
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="c1"># Genome span and rail bounds</span>
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="n">genome_start</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">offsets</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+    <span class="n">genome_end</span>   <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">offsets</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">+</span> <span class="n">chr_max</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">chr_max</span><span class="p">)</span>
+    <span class="n">genome_width</span> <span class="o">=</span> <span class="n">genome_end</span> <span class="o">-</span> <span class="n">genome_start</span>
+    <span class="n">rail_width</span>   <span class="o">=</span> <span class="n">genome_width</span> <span class="o">*</span> <span class="n">rail_frac</span>
+    <span class="n">rail_start</span>   <span class="o">=</span> <span class="n">genome_start</span> <span class="o">+</span> <span class="p">(</span><span class="n">genome_width</span> <span class="o">-</span> <span class="n">rail_width</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">rail_end</span>     <span class="o">=</span> <span class="n">rail_start</span> <span class="o">+</span> <span class="n">rail_width</span>
+
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="c1"># Auto char_width from axes geometry</span>
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="c1"># For vertical text (rotation=90°) the horizontal footprint of every</span>
+    <span class="c1"># label is one character wide regardless of string length.</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">fig</span>         <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_figure</span><span class="p">()</span>
+        <span class="n">renderer</span>    <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">get_renderer</span><span class="p">()</span>
+        <span class="n">ax_bbox</span>     <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_window_extent</span><span class="p">(</span><span class="n">renderer</span><span class="o">=</span><span class="n">renderer</span><span class="p">)</span>
+        <span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span>  <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_xlim</span><span class="p">()</span>
+        <span class="n">px_per_bp</span>   <span class="o">=</span> <span class="n">ax_bbox</span><span class="o">.</span><span class="n">width</span> <span class="o">/</span> <span class="p">(</span><span class="n">xmax</span> <span class="o">-</span> <span class="n">xmin</span><span class="p">)</span>
+        <span class="n">char_width</span>  <span class="o">=</span> <span class="mf">0.6</span> <span class="o">*</span> <span class="n">fsize</span> <span class="o">*</span> <span class="p">(</span><span class="n">fig</span><span class="o">.</span><span class="n">dpi</span> <span class="o">/</span> <span class="mf">72.0</span><span class="p">)</span> <span class="o">/</span> <span class="n">px_per_bp</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="n">char_width</span>  <span class="o">=</span> <span class="n">genome_width</span> <span class="o">*</span> <span class="mf">0.01</span> <span class="o">/</span> <span class="n">fsize</span>
+
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="c1"># 1. Relaxation pass</span>
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="c1"># Start from x_signal positions and enforce min_sep between every</span>
+    <span class="c1"># adjacent pair.  Bidirectional passes (rightward then leftward)</span>
+    <span class="c1"># distribute pressure symmetrically so labels spread around their</span>
+    <span class="c1"># signals rather than cascading in one direction.</span>
+    <span class="n">x_relaxed</span>      <span class="o">=</span> <span class="n">x_signals</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">max_relax_iter</span> <span class="o">=</span> <span class="mi">50</span>
+
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_relax_iter</span><span class="p">):</span>
+        <span class="n">moved</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="c1"># Rightward pass</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+            <span class="n">gap</span> <span class="o">=</span> <span class="n">x_relaxed</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">x_relaxed</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">gap</span> <span class="o">&lt;</span> <span class="n">min_sep</span><span class="p">:</span>
+                <span class="n">x_relaxed</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">x_relaxed</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">min_sep</span>
+                <span class="n">moved</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="c1"># Leftward pass</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">gap</span> <span class="o">=</span> <span class="n">x_relaxed</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">x_relaxed</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">gap</span> <span class="o">&lt;</span> <span class="n">min_sep</span><span class="p">:</span>
+                <span class="n">x_relaxed</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">x_relaxed</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">min_sep</span>
+                <span class="n">moved</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">moved</span><span class="p">:</span>
+            <span class="k">break</span>
+
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="c1"># 2. Rail assignment from relaxation drift</span>
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="c1"># How far each label drifted from its signal during relaxation is a</span>
+    <span class="c1"># direct measure of local density: labels in dense regions drift more</span>
+    <span class="c1"># and should be stacked higher.  We bin the drift into rails using</span>
+    <span class="c1"># a stride of (rail_width / max_rails) so rails fill proportionally.</span>
+    <span class="n">max_rails</span>   <span class="o">=</span> <span class="mi">10</span>
+    <span class="n">rail_stride</span> <span class="o">=</span> <span class="n">rail_width</span> <span class="o">/</span> <span class="n">max_rails</span>
+    <span class="n">drift</span>       <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x_relaxed</span> <span class="o">-</span> <span class="n">x_signals</span><span class="p">)</span>
+    <span class="n">rail_ids</span>    <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span>
+        <span class="p">(</span><span class="n">drift</span> <span class="o">/</span> <span class="n">rail_stride</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span>
+        <span class="mi">0</span><span class="p">,</span>
+        <span class="n">max_rails</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="c1"># 3. linspace rank-reassignment</span>
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="c1"># Sort by x_signal and assign evenly-spaced x_text slots across the</span>
+    <span class="c1"># full [rail_start, rail_end] range.  This guarantees:</span>
+    <span class="c1">#   - x_text rank == x_signal rank → no arrow crossings</span>
+    <span class="c1">#   - Full, even rail coverage regardless of rail_frac</span>
+    <span class="n">sig_order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">x_signals</span><span class="p">)</span>
+    <span class="n">x_texts</span>   <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">slots</span>     <span class="o">=</span> <span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">rail_start</span><span class="p">,</span> <span class="n">rail_end</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">1</span>
+        <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([(</span><span class="n">rail_start</span> <span class="o">+</span> <span class="n">rail_end</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">])</span>
+    <span class="p">)</span>
+    <span class="n">x_texts</span><span class="p">[</span><span class="n">sig_order</span><span class="p">]</span> <span class="o">=</span> <span class="n">slots</span>
+
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="c1"># 4. Compute minimum rails required (k_min) and apply cyclic stagger</span>
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="c1"># With n labels evenly spaced across rail_width, the slot interval is:</span>
+    <span class="c1">#   slot_interval = rail_width / (n - 1)</span>
+    <span class="c1">#</span>
+    <span class="c1"># With a cyclic stagger of k rails, same-rail neighbours are k slots</span>
+    <span class="c1"># apart, giving a same-rail interval of k * slot_interval.</span>
+    <span class="c1"># The no-overlap condition requires:</span>
+    <span class="c1">#   k * slot_interval &gt;= char_width</span>
+    <span class="c1">#   → k_min = ceil(char_width / slot_interval)</span>
+    <span class="c1">#</span>
+    <span class="c1"># A safety factor of 1.5 is applied to char_width to account for</span>
+    <span class="c1"># the fact that 0.6 * fsize underestimates the true rendered glyph</span>
+    <span class="c1"># width, which varies by font and renderer.  Without this correction</span>
+    <span class="c1"># k_min is systematically too small at larger font sizes and lower</span>
+    <span class="c1"># rail_frac values, causing labels to still visually overlap even</span>
+    <span class="c1"># after staggering.</span>
+    <span class="c1">#</span>
+    <span class="c1"># The stagger cycles through k_min values (0, 1, …, k_min-1) in</span>
+    <span class="c1"># left-to-right x_signal order.  The drift-based rail_id is used as</span>
+    <span class="c1"># a base elevation and the stagger offset is added on top, so dense</span>
+    <span class="c1"># regions are still elevated relative to sparse ones while adjacent</span>
+    <span class="c1"># labels are guaranteed to be on different rails.</span>
+    <span class="n">slot_interval</span>      <span class="o">=</span> <span class="n">rail_width</span> <span class="o">/</span> <span class="nb">max</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">char_width_safe</span>    <span class="o">=</span> <span class="n">char_width</span> <span class="o">*</span> <span class="mi">3</span>
+    <span class="n">k_min</span>              <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">char_width_safe</span> <span class="o">/</span> <span class="n">slot_interval</span><span class="p">)))</span>
+
+    <span class="k">for</span> <span class="n">rank</span><span class="p">,</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sig_order</span><span class="p">):</span>
+        <span class="n">stagger</span>         <span class="o">=</span> <span class="n">rank</span> <span class="o">%</span> <span class="n">k_min</span>
+        <span class="n">rail_ids</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>   <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">rail_ids</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">+</span> <span class="n">stagger</span><span class="p">,</span> <span class="n">max_rails</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="c1"># Build layout table</span>
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="n">layout</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+        <span class="s2">&quot;label&quot;</span>    <span class="p">:</span> <span class="n">labels</span><span class="p">,</span>
+        <span class="s2">&quot;x_signal&quot;</span> <span class="p">:</span> <span class="n">x_signals</span><span class="p">,</span>
+        <span class="s2">&quot;x_text&quot;</span>   <span class="p">:</span> <span class="n">x_texts</span><span class="p">,</span>
+        <span class="s2">&quot;rail_id&quot;</span>  <span class="p">:</span> <span class="n">rail_ids</span><span class="p">,</span>
+    <span class="p">})</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;x_signal&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="c1"># 4. Rendering pass — rail_id first used here</span>
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="n">jitter</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span>
+        <span class="o">-</span><span class="n">spread_width</span> <span class="o">*</span> <span class="mf">0.03</span><span class="p">,</span>
+        <span class="n">spread_width</span> <span class="o">*</span> <span class="mf">0.03</span><span class="p">,</span>
+        <span class="nb">len</span><span class="p">(</span><span class="n">layout</span><span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">layout</span><span class="o">.</span><span class="n">itertuples</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)):</span>
+        <span class="n">x_sig</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">x_signal</span>
+        <span class="n">x_txt</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">x_text</span>
+        <span class="n">r_idx</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">rail_id</span><span class="p">)</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">label</span>
+        <span class="n">x_tip</span> <span class="o">=</span> <span class="n">x_sig</span> <span class="o">+</span> <span class="n">jitter</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">y_txt</span> <span class="o">=</span> <span class="n">y_text_base</span> <span class="o">+</span> <span class="n">r_idx</span> <span class="o">*</span> <span class="n">y_stack_step</span>
+
+        <span class="n">dx</span>  <span class="o">=</span> <span class="n">x_txt</span> <span class="o">-</span> <span class="n">x_sig</span>
+        <span class="n">rad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span>
+            <span class="n">dx</span> <span class="o">/</span> <span class="p">(</span><span class="n">genome_width</span> <span class="o">*</span> <span class="mf">0.15</span><span class="p">),</span>
+            <span class="o">-</span><span class="n">max_rad</span><span class="p">,</span>
+            <span class="n">max_rad</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">r_idx</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">anglea</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">arma</span>   <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">armb</span>   <span class="o">=</span> <span class="mi">30</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">anglea</span> <span class="o">=</span> <span class="o">-</span><span class="mi">90</span>
+            <span class="n">arma</span>   <span class="o">=</span> <span class="mi">90</span> <span class="o">*</span> <span class="n">r_idx</span>
+            <span class="n">armb</span>   <span class="o">=</span> <span class="mi">30</span>
+
+        <span class="n">arrow</span> <span class="o">=</span> <span class="n">FancyArrowPatch</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">x_txt</span><span class="p">,</span> <span class="n">y_txt</span><span class="p">),</span>
+            <span class="p">(</span><span class="n">x_tip</span><span class="p">,</span> <span class="n">y_tip</span><span class="p">),</span>
+            <span class="n">arrowstyle</span><span class="o">=</span><span class="s2">&quot;-|&gt;&quot;</span><span class="p">,</span>
+            <span class="n">mutation_scale</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+            <span class="n">lw</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="s2">&quot;grey&quot;</span><span class="p">,</span>
+            <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+            <span class="n">connectionstyle</span><span class="o">=</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;arc,&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;angleA=</span><span class="si">{</span><span class="n">anglea</span><span class="si">}</span><span class="s2">,&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;armA=</span><span class="si">{</span><span class="n">arma</span><span class="si">}</span><span class="s2">,&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;angleB=90,&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;armB=</span><span class="si">{</span><span class="n">armb</span><span class="si">}</span><span class="s2">,&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;rad=</span><span class="si">{</span><span class="n">rad</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">),</span>
+            <span class="n">transform</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">transData</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">arrow</span><span class="p">)</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+            <span class="n">x_txt</span> <span class="o">+</span> <span class="n">r_idx</span> <span class="o">*</span> <span class="n">spread_width</span> <span class="o">*</span> <span class="mf">0.12</span><span class="p">,</span>
+            <span class="n">y_txt</span> <span class="o">+</span> <span class="mf">0.001</span><span class="p">,</span>
+            <span class="nb">str</span><span class="p">(</span><span class="n">label</span><span class="p">),</span>
+            <span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span>
+            <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+            <span class="n">va</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span><span class="p">,</span>
+            <span class="n">fontsize</span><span class="o">=</span><span class="n">asize</span><span class="p">,</span>
+            <span class="n">clip_on</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
+            <span class="n">fontstyle</span><span class="o">=</span><span class="s2">&quot;italic&quot;</span><span class="p">,</span>
+            <span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;regular&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="c1"># Adaptive ylim</span>
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="n">max_rail</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">layout</span><span class="p">[</span><span class="s2">&quot;rail_id&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span>
+        <span class="n">y_tip</span> <span class="o">-</span> <span class="mf">0.05</span><span class="p">,</span>
+        <span class="n">y_text_base</span> <span class="o">+</span> <span class="p">(</span><span class="n">max_rail</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">y_stack_step</span><span class="p">,</span>
+    <span class="p">)</span>
+
+
+
 <span class="c1"># ---------------------------------------------------------------------------</span>
 <span class="c1"># Public function</span>
 <span class="c1"># ---------------------------------------------------------------------------</span>
-
 <div class="viewcode-block" id="plot_linearm">
 <a class="viewcode-back" href="../../../api/plotting.html#pycmplot.plotting.linear.plot_linearm">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">plot_linearm</span><span class="p">(</span>
@@ -899,11 +1232,9 @@
     <span class="n">annotate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">annotation_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span>
     <span class="n">highlight</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">highlight_thresh</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">5e-8</span><span class="p">,</span>
     <span class="n">highlight_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;brown&#39;</span><span class="p">,</span>
     <span class="n">highlight_line</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">highlight_line_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;grey&#39;</span><span class="p">,</span>
-    <span class="n">trim_pval</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">logp</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">label_col</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;SNP&#39;</span><span class="p">,</span>
     <span class="n">chr_order</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1150,11 +1481,8 @@
                     <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">expected_n</span><span class="si">}</span><span class="s2"> are required&quot;</span>
                     <span class="o">+</span> <span class="p">(</span><span class="s2">&quot; (one extra for the annotation track)&quot;</span> <span class="k">if</span> <span class="n">annotate</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
                 <span class="p">)</span>
-        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                <span class="s2">&quot;track_heights must be a sized iterable (e.g. list or tuple), &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">track_heights</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="n">track_heights</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">track_heights</span><span class="p">]</span>
 
     <span class="c1"># ------------------------------------------------------------------</span>
     <span class="c1"># y-label position</span>
@@ -1303,9 +1631,9 @@
         <span class="k">if</span> <span class="n">sig_lines</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">sig_lines</span><span class="p">):</span>
             <span class="n">sl</span> <span class="o">=</span> <span class="n">sig_lines</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
             <span class="k">if</span> <span class="s2">&quot;genome&quot;</span> <span class="ow">in</span> <span class="n">sl</span><span class="p">:</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">sl</span><span class="p">[</span><span class="s2">&quot;genome&quot;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">sl</span><span class="p">[</span><span class="s2">&quot;genome&quot;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;orangered&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
             <span class="k">if</span> <span class="s2">&quot;suggestive&quot;</span> <span class="ow">in</span> <span class="n">sl</span><span class="p">:</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">sl</span><span class="p">[</span><span class="s2">&quot;suggestive&quot;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">sl</span><span class="p">[</span><span class="s2">&quot;suggestive&quot;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;navy&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 
         <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[[</span><span class="s2">&quot;top&quot;</span><span class="p">,</span> <span class="s2">&quot;right&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 
@@ -1322,7 +1650,6 @@
             <span class="n">differences</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">df_chr</span><span class="p">[</span><span class="s1">&#39;POS&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
             <span class="n">less_than_spread_width</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">s_width</span><span class="p">,</span> <span class="n">differences</span><span class="p">)))</span>
             <span class="n">less_than_spread_width</span> <span class="o">=</span> <span class="p">[</span><span class="n">l</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">less_than_spread_width</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
-
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">less_than_spread_width</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">:</span>
             <span class="n">_draw_annotation_arrows</span><span class="p">(</span>
                 <span class="n">ax_annot</span><span class="p">,</span>
@@ -1353,7 +1680,7 @@
                 <span class="n">y_tip</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
                 <span class="n">y_text_base</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> 
                 <span class="n">y_stack_step</span><span class="o">=</span><span class="mf">0.17</span><span class="p">,</span> 
-                <span class="n">min_sep</span><span class="o">=</span><span class="mf">1e6</span><span class="p">,</span>
+                <span class="n">min_sep</span><span class="o">=</span><span class="mf">6e6</span><span class="p">,</span>
             <span class="p">)</span>
           
         <span class="n">ax_annot</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -1428,12 +1755,10 @@
 <a class="viewcode-back" href="../../../api/plotting.html#pycmplot.plotting.linear.plot_linear">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">plot_linear</span><span class="p">(</span>
     <span class="n">sumstats_loaded</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
-    <span class="n">trim_pval</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">track_heights</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">logp</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">point_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span>
     <span class="n">highlight</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">highlight_thresh</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">5e-8</span><span class="p">,</span>
     <span class="n">highlight_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;brown&#39;</span><span class="p">,</span>
     <span class="n">highlight_line</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">highlight_line_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;grey&#39;</span><span class="p">,</span>    
@@ -1559,9 +1884,6 @@
     <span class="n">dfs</span>      <span class="o">=</span> <span class="p">[</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">sumstats_loaded</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span>
     <span class="n">t_labels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sumstats_loaded</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
 
-    <span class="k">if</span> <span class="n">track_heights</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>        
-        <span class="n">t_heights</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">track_heights</span><span class="p">]</span>
-
     <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;SNP&#39;</span>
     <span class="k">if</span> <span class="n">annotate</span><span class="p">:</span>
         <span class="n">label</span> <span class="o">=</span> <span class="n">get_annotation_column</span><span class="p">(</span>
@@ -1587,11 +1909,9 @@
     <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plot_linearm</span><span class="p">(</span>
         <span class="n">tracks</span><span class="o">=</span><span class="n">dfs</span><span class="p">,</span>
         <span class="n">track_labels</span><span class="o">=</span><span class="n">t_labels</span><span class="p">,</span>
-        <span class="n">trim_pval</span><span class="o">=</span><span class="n">trim_pval</span><span class="p">,</span>
         <span class="n">logp</span><span class="o">=</span><span class="kc">True</span> <span class="k">if</span> <span class="n">logp</span> <span class="k">else</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">point_size</span><span class="o">=</span><span class="n">point_size</span><span class="p">,</span>
         <span class="n">highlight</span><span class="o">=</span><span class="n">highlight</span><span class="p">,</span>
-        <span class="n">highlight_thresh</span><span class="o">=</span><span class="n">highlight_thresh</span><span class="p">,</span>
         <span class="n">highlight_color</span> <span class="o">=</span> <span class="n">highlight_color</span><span class="p">,</span>
         <span class="n">highlight_line</span> <span class="o">=</span> <span class="n">highlight_line</span><span class="p">,</span>
         <span class="n">highlight_line_color</span> <span class="o">=</span> <span class="n">highlight_line_color</span><span class="p">,</span>
@@ -1600,7 +1920,7 @@
         <span class="n">annot_df</span><span class="o">=</span><span class="n">hits_table</span> <span class="k">if</span> <span class="n">hits_table</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">hits_table</span><span class="o">.</span><span class="n">empty</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">label_col</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
         <span class="n">chr_spacing</span><span class="o">=</span><span class="n">chr_spacing</span><span class="p">,</span>
-        <span class="n">track_heights</span><span class="o">=</span><span class="n">t_heights</span><span class="p">,</span>
+        <span class="n">track_heights</span><span class="o">=</span><span class="n">track_heights</span><span class="p">,</span>
         <span class="n">linear_track_spacing</span><span class="o">=</span><span class="n">linear_track_spacing</span><span class="p">,</span>
         <span class="n">annot_rail_frac</span><span class="o">=</span><span class="n">annot_rail_frac</span><span class="p">,</span>
         <span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span>

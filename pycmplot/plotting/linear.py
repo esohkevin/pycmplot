@@ -957,11 +957,9 @@ def plot_linearm(
     annotate: bool = False,
     annotation_size: float = 8,
     highlight: bool = False,
-    highlight_thresh: float = 5e-8,
     highlight_color: str = 'brown',
     highlight_line: bool = False,
     highlight_line_color: str = 'grey',
-    trim_pval: Optional[float] = None,
     logp: bool = True,
     label_col: Optional[str] = 'SNP',
     chr_order: Optional[list[str]] = None,
@@ -1208,11 +1206,8 @@ def plot_linearm(
                     f"{expected_n} are required"
                     + (" (one extra for the annotation track)" if annotate else "")
                 )
-        except TypeError:
-            raise TypeError(
-                "track_heights must be a sized iterable (e.g. list or tuple), "
-                f"got {type(track_heights).__name__}"
-            )
+        except Exception:
+                track_heights = [float(x) for x in track_heights]
 
     # ------------------------------------------------------------------
     # y-label position
@@ -1361,9 +1356,9 @@ def plot_linearm(
         if sig_lines is not None and i < len(sig_lines):
             sl = sig_lines[i]
             if "genome" in sl:
-                ax.axhline(y=sl["genome"], color="red", linestyle="--", linewidth=0.5)
+                ax.axhline(y=sl["genome"], color="orangered", linestyle="--", linewidth=0.5)
             if "suggestive" in sl:
-                ax.axhline(y=sl["suggestive"], color="blue", linestyle="--", linewidth=0.4)
+                ax.axhline(y=sl["suggestive"], color="navy", linestyle="--", linewidth=0.5)
 
         ax.spines[["top", "right"]].set_visible(False)
 
@@ -1380,7 +1375,6 @@ def plot_linearm(
             differences = np.diff(df_chr['POS']).tolist()
             less_than_spread_width.append(list(filter(lambda x: x < s_width, differences)))
             less_than_spread_width = [l for l in less_than_spread_width if not len(l) == 0]
-        print(len(less_than_spread_width))
         if len(less_than_spread_width) < 5:
             _draw_annotation_arrows(
                 ax_annot,
@@ -1483,12 +1477,10 @@ def plot_linearm(
 
 def plot_linear(
     sumstats_loaded: list[str],
-    trim_pval: Optional[float] = None,
     track_heights: list[float] = None,
     logp: bool = False,
     point_size: Optional[float] = 8,
     highlight: bool = False,
-    highlight_thresh: float = 5e-8,
     highlight_color: str = 'brown',
     highlight_line: bool = False,
     highlight_line_color: str = 'grey',    
@@ -1614,9 +1606,6 @@ def plot_linear(
     dfs      = [v[0] for v in sumstats_loaded.values()]
     t_labels = list(sumstats_loaded.keys())
 
-    if track_heights is not None:        
-        t_heights = [float(x) for x in track_heights]
-
     label = 'SNP'
     if annotate:
         label = get_annotation_column(
@@ -1642,11 +1631,9 @@ def plot_linear(
     fig, axes = plot_linearm(
         tracks=dfs,
         track_labels=t_labels,
-        trim_pval=trim_pval,
         logp=True if logp else False,
         point_size=point_size,
         highlight=highlight,
-        highlight_thresh=highlight_thresh,
         highlight_color = highlight_color,
         highlight_line = highlight_line,
         highlight_line_color = highlight_line_color,
@@ -1655,7 +1642,7 @@ def plot_linear(
         annot_df=hits_table if hits_table is not None and not hits_table.empty else None,
         label_col=label,
         chr_spacing=chr_spacing,
-        track_heights=t_heights,
+        track_heights=track_heights,
         linear_track_spacing=linear_track_spacing,
         annot_rail_frac=annot_rail_frac,
         colors=colors,
