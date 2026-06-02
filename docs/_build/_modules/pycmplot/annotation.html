@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pycmplot.annotation &mdash; pycmplot 0.2.7 documentation</title>
+  <title>pycmplot.annotation &mdash; pycmplot 0.3.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=58050c01"></script>
+      <script src="../../_static/documentation_options.js?v=e259d695"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -225,13 +225,14 @@
 <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id1">0.2.7 — 2026-04-27</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id2">0.2.5 — 2026-04-20</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id3">0.2.2 — 2026-04-18</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id4">0.2.1 — 2026-04-16</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id5">0.1.9 — 2026-04-14</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id6">0.1.8 — 2026-04-14</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id7">0.1.0 — 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id1">[0.2.8] — 2026-05-30</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id2">0.2.7 — 2026-04-27</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id3">0.2.5 — 2026-04-20</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id4">0.2.2 — 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id5">0.2.1 — 2026-04-16</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id6">0.1.9 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id7">0.1.8 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id8">0.1.0 — 2026-04-18</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a><ul>
@@ -866,11 +867,11 @@
                     <span class="k">try</span><span class="p">:</span>
                         <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;genic&quot;</span><span class="p">]:</span>
                             <span class="n">label_clm</span> <span class="o">=</span> <span class="s2">&quot;nearest_upstream_gene&quot;</span>
-                            <span class="n">label_msg</span> <span class="o">=</span> <span class="s2">&quot;&#39;POS&#39; is genic&quot;</span>
+                            <span class="n">label_msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Signal </span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;SNP&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> at </span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;POS&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> is genic [</span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;nearest_upstream_gene&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">]&quot;</span>
                         <span class="k">else</span><span class="p">:</span>
                             <span class="n">label_clm</span> <span class="o">=</span> <span class="s2">&quot;top_gene&quot;</span>
                             <span class="n">label_msg</span> <span class="o">=</span> <span class="s2">&quot;&#39;POS&#39; is not genic&quot;</span>
-                        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">label_msg</span><span class="p">)</span>
+                        <span class="c1">#logger.info(&quot;%s&quot;, label_msg)</span>
                     <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
                         <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
                             <span class="s2">&quot;Annotation columns &#39;</span><span class="si">%s</span><span class="s2">&#39; and &#39;</span><span class="si">%s</span><span class="s2">&#39; not found in hits table: </span><span class="si">%s</span><span class="s2">; &quot;</span>

@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pycmplot.plotting.circular &mdash; pycmplot 0.2.8 documentation</title>
+  <title>pycmplot.plotting.circular &mdash; pycmplot 0.3.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=b01fafc3"></script>
+      <script src="../../../_static/documentation_options.js?v=e259d695"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -225,12 +225,7 @@
 <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id1">[0.2.8] — 2026-05-30</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../changelog.html#added">Added</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../changelog.html#changed">Changed</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../changelog.html#fixed">Fixed</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id1">[0.2.8] — 2026-05-30</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id2">0.2.7 — 2026-04-27</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id3">0.2.5 — 2026-04-20</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id4">0.2.2 — 2026-04-18</a></li>
@@ -404,7 +399,6 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">plot_circosm</span><span class="p">(</span>
     <span class="n">sector</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">sector_radius</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">annotation_r</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">assoc</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">assoc_by_chr</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">sector_sizes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -420,7 +414,6 @@
     <span class="n">suggest_line</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e-5</span><span class="p">,</span>
     <span class="n">suggest_threshold</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e-5</span><span class="p">,</span>
     <span class="n">highlight</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">highlight_thresh</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">5e-8</span><span class="p">,</span>
     <span class="n">highlight_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;brown&#39;</span><span class="p">,</span>
     <span class="n">colors</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;steelblue&#39;</span><span class="p">,</span><span class="s1">&#39;orange&#39;</span><span class="p">],</span>
     <span class="n">point_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span>
@@ -441,9 +434,6 @@
 <span class="sd">    sector_radius : tuple of (float, float)</span>
 <span class="sd">        ``(r_start, r_end)`` radial limits for this track within *sector*,</span>
 <span class="sd">        as returned by :func:`compute_track_radii_dict`.</span>
-<span class="sd">    annotation_r : tuple of (float, float) or None</span>
-<span class="sd">        Radial limits reserved for the annotation ring.  Passed for context</span>
-<span class="sd">        but not used directly inside this function.</span>
 <span class="sd">    assoc : pandas.DataFrame, optional</span>
 <span class="sd">        Full summary statistics DataFrame (all chromosomes).  Filtered to the</span>
 <span class="sd">        current sector&#39;s chromosome internally.  Must have columns ``CHR``,</span>
@@ -485,33 +475,15 @@
 <span class="sd">        If ``True``, variants within significant loci (``in_locus == True``</span>
 <span class="sd">        after :func:`~pycmplot.stats.get_highlight_snps`) are rendered in</span>
 <span class="sd">        ``highlight_color`` (see below).  Default ``False``.</span>
-<span class="sd">    highlight_thresh : float, optional</span>
-<span class="sd">        P-value threshold passed to</span>
-<span class="sd">        :func:`~pycmplot.stats.get_highlight_snps` when *highlight* is</span>
-<span class="sd">        ``True``.  Default ``5e-8``.</span>
 <span class="sd">    highlight_color : str, optional</span>
 <span class="sd">        Color of highlighted positions when *highlight* is ``True``.</span>
 <span class="sd">        Default ``brown``. </span>
 <span class="sd">    colors : list of str, optional</span>
 <span class="sd">        Two alternating colours for even/odd chromosome numbers.</span>
-<span class="sd">        Default ``[&#39;steelblue&#39;, &#39;orange&#39;]``.</span>
+<span class="sd">        Default ``[&#39;steelblue&#39;, &#39;orange&#39;]``.      </span>
 <span class="sd">    no_track_labels : bool, optional</span>
 <span class="sd">        Suppress the track label on the spacer sector.  Default ``False``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="c1">#if colors is None:</span>
-    <span class="c1">#    colors = [&quot;steelblue&quot;, &quot;orange&quot;]</span>
-
-    <span class="c1">#if highlight:</span>
-    <span class="c1">#    assoc, _ = get_highlight_snps(</span>
-    <span class="c1">#        df=assoc,</span>
-    <span class="c1">#        window=500_000,</span>
-    <span class="c1">#        highlight_thresh=highlight_thresh,</span>
-    <span class="c1">#        logp=logp,</span>
-    <span class="c1">#    )</span>
-
-    <span class="c1">#assoc = assoc.copy()</span>
-    <span class="c1">#assoc[&quot;POS&quot;] = assoc[&quot;POS&quot;].fillna(0).astype(int)</span>
 
     <span class="n">genome_wide_sig</span> <span class="o">=</span> <span class="n">signif_threshold</span>
     <span class="n">suggestive</span> <span class="o">=</span> <span class="n">suggest_threshold</span>
@@ -655,7 +627,7 @@
             <span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="n">sector</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">sector</span><span class="o">.</span><span class="n">end</span><span class="p">],</span>
             <span class="n">y</span><span class="o">=</span><span class="p">[</span><span class="n">suggestive</span><span class="p">,</span> <span class="n">suggestive</span><span class="p">],</span>
             <span class="n">vmin</span><span class="o">=</span><span class="n">v_min</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">v_max</span><span class="p">,</span>
-            <span class="n">color</span><span class="o">=</span><span class="s2">&quot;lightblue&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="s2">&quot;navy&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 
@@ -691,6 +663,7 @@
     <span class="n">dpi</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">output_format</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;png&#39;</span><span class="p">,</span>
     <span class="n">output_dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span>
+    <span class="n">ylabel</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">no_track_labels</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate a multi-track Circos-style circular Manhattan plot.</span>
@@ -778,6 +751,11 @@
 <span class="sd">        Default ``&#39;png&#39;``.</span>
 <span class="sd">    output_dir : str or pathlib.Path, optional</span>
 <span class="sd">        Output directory.  Default ``&#39;.&#39;``.</span>
+<span class="sd">    ylabel : str, optional</span>
+<span class="sd">        Override the shared y-axis label (left margin).  Useful for</span>
+<span class="sd">        non-p-value statistics such as iHS, F_ST or XP-EHH (e.g.</span>
+<span class="sd">        ``ylabel=&quot;iHS&quot;``).  When ``None`` (the default), the label is</span>
+<span class="sd">        ``&quot;-log₁₀(p-value)&quot;`` if *logp* is ``True`` and ``&quot;P&quot;`` otherwise.          </span>
 <span class="sd">    no_track_labels : bool, optional</span>
 <span class="sd">        Suppress track labels on the spacer sector.  Default ``False``.</span>
 
@@ -900,7 +878,6 @@
             <span class="n">plot_circosm</span><span class="p">(</span>
                 <span class="n">sector</span><span class="o">=</span><span class="n">sector</span><span class="p">,</span>
                 <span class="n">sector_radius</span><span class="o">=</span><span class="n">sector_radius</span><span class="p">,</span>
-                <span class="n">annotation_r</span><span class="o">=</span><span class="n">annotation_track_radius</span> <span class="k">if</span> <span class="n">annotate</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
                 <span class="n">sector_sizes</span><span class="o">=</span><span class="n">sector_sizes</span><span class="p">,</span>
                 <span class="n">track_index</span><span class="o">=</span><span class="n">index</span><span class="p">,</span>
                 <span class="n">chrom_label_loc</span><span class="o">=</span><span class="n">chrom_label_loc</span><span class="p">,</span>
@@ -916,7 +893,6 @@
                 <span class="n">suggest_line</span><span class="o">=</span><span class="kc">True</span> <span class="k">if</span> <span class="n">signif_line</span> <span class="k">else</span> <span class="kc">False</span><span class="p">,</span>
                 <span class="n">suggest_threshold</span><span class="o">=</span><span class="n">sug_thresh</span><span class="p">,</span>
                 <span class="n">highlight</span><span class="o">=</span><span class="n">highlight</span><span class="p">,</span>
-                <span class="n">highlight_thresh</span><span class="o">=</span><span class="n">highlight_thresh</span><span class="p">,</span>
                 <span class="n">highlight_color</span><span class="o">=</span><span class="n">highlight_color</span><span class="p">,</span>
                 <span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span>
                 <span class="n">point_size</span><span class="o">=</span><span class="n">point_size</span><span class="p">,</span>
@@ -985,18 +961,17 @@
     <span class="c1"># ------------------------------------------------------------------</span>
     <span class="k">for</span> <span class="n">sector</span> <span class="ow">in</span> <span class="n">circos</span><span class="o">.</span><span class="n">sectors</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">sector</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="nb">list</span><span class="p">(</span><span class="n">sector_sizes</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
-            <span class="k">if</span> <span class="n">logp</span><span class="p">:</span>
-                <span class="n">SUB</span> <span class="o">=</span> <span class="nb">str</span><span class="o">.</span><span class="n">maketrans</span><span class="p">(</span><span class="s2">&quot;0123456789&quot;</span><span class="p">,</span> <span class="s2">&quot;₀₁₂₃₄₅₆₇₈₉&quot;</span><span class="p">)</span>
-                <span class="n">y_label</span> <span class="o">=</span> <span class="s2">&quot;-log10(p-value)&quot;</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">SUB</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">ylabel</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">ylabel_text</span> <span class="o">=</span> <span class="s2">&quot;-log</span><span class="se">\u2081\u2080</span><span class="s2">(P)&quot;</span> <span class="k">if</span> <span class="n">logp</span> <span class="k">else</span> <span class="s2">&quot;P&quot;</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">y_label</span> <span class="o">=</span> <span class="s2">&quot;p-value&quot;</span>
+                <span class="n">ylabel_text</span> <span class="o">=</span> <span class="n">ylabel</span>
 
             <span class="n">sector_rlim</span>  <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">r_lim</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">sector</span><span class="o">.</span><span class="n">tracks</span><span class="p">]</span>
             <span class="n">sector_min_r</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">sector_rlim</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
             <span class="n">sector_max_r</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">sector_rlim</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
 
             <span class="n">sector</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
-                <span class="n">y_label</span><span class="p">,</span>
+                <span class="n">ylabel_text</span><span class="p">,</span>
                 <span class="n">x</span><span class="o">=</span><span class="n">sector</span><span class="o">.</span><span class="n">end</span> <span class="o">-</span> <span class="p">(</span><span class="n">sector</span><span class="o">.</span><span class="n">end</span> <span class="o">-</span> <span class="n">sector</span><span class="o">.</span><span class="n">start</span><span class="p">)</span> <span class="o">/</span> <span class="mi">5</span><span class="p">,</span>
                 <span class="n">r</span><span class="o">=</span><span class="p">(</span><span class="n">sector_min_r</span> <span class="o">+</span> <span class="n">sector_max_r</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
                     <span class="o">+</span> <span class="p">(</span><span class="n">sector_min_r</span> <span class="o">+</span> <span class="n">sector_max_r</span><span class="p">)</span> <span class="o">/</span> <span class="mi">12</span><span class="p">,</span>
