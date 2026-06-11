@@ -8,7 +8,7 @@ and this project adheres to `Semantic Versioning <https://semver.org/>`_.
 
 ----
 
-[0.3.0] �~@~T 20266001
+0.3.0 2026-60-01
 
 **Fixed**
 
