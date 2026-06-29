@@ -66,7 +66,8 @@ def build(summary_path: Path, outdir: Path, basename: str = "benchmark_composite
     """Render the composite figure and return the path to the PNG output."""
     summary = pd.read_csv(summary_path)
 
-    fig, axes = plt.subplots(2, 3, figsize=(13, 7.5))
+    #fig, axes = plt.subplots(2, 3, figsize=(13, 7.5))
+    fig, axes = plt.subplots(2, 3, figsize=(6, 3.5))
     plt.subplots_adjust(
         top=0.94, bottom=0.07, left=0.06, right=0.98, wspace=0.30, hspace=0.45,
     )
@@ -98,7 +99,7 @@ def build(summary_path: Path, outdir: Path, basename: str = "benchmark_composite
                 tdf["n_approx"], tdf["wall_time_mean"],
                 marker=s["marker"], linestyle=s["ls"], color=s["color"],
                 label=s["label"] or tool,
-                linewidth=1.6, markersize=4.5,
+                linewidth=1, markersize=2,
             )
             ax.fill_between(
                 tdf["n_approx"],
@@ -114,12 +115,12 @@ def build(summary_path: Path, outdir: Path, basename: str = "benchmark_composite
 
         ax.set_xscale("log")
         ax.set_yscale("log")
-        ax.set_xlabel("Number of variants", fontsize=10)
+        ax.set_xlabel("Number of variants", fontsize=7) #fontsize=10
         if c == 0:
-            ax.set_ylabel("Wall-clock time (s)", fontsize=10)
-        ax.set_title(f"({letter}) {title}", fontsize=11, loc="left")
+            ax.set_ylabel("Wall-clock time (s)", fontsize=7) #fontsize=10
+        ax.set_title(f"({letter}) {title}", fontsize=7, loc="left") #fontsize=10
         ax.grid(True, which="both", linestyle="--", linewidth=0.3, alpha=0.5)
-        ax.tick_params(labelsize=9)
+        ax.tick_params(labelsize=5)
 
     # Bottom-right cell (1, 2) holds the shared legend so each axes stays
     # uncluttered.
@@ -127,18 +128,24 @@ def build(summary_path: Path, outdir: Path, basename: str = "benchmark_composite
     legend_ax.axis("off")
     legend_ax.legend(
         all_handles, all_labels,
-        loc="center", ncol=1, fontsize=10, frameon=False,
-        title="Tool", title_fontsize=11,
+        loc="center", ncol=1, fontsize=5, frameon=False,
+        title="Tool", title_fontsize=5,
     )
 
     outdir.mkdir(parents=True, exist_ok=True)
     png_path = outdir / f"{basename}.png"
     pdf_path = outdir / f"{basename}.pdf"
+    tif_path = outdir / f"{basename}.TIF"
+    #eps_path = outdir / f"{basename}.eps"
     fig.savefig(png_path, dpi=300, bbox_inches="tight")
+    fig.savefig(tif_path, dpi=300, bbox_inches="tight")
+    #fig.savefig(eps_path, dpi=300, bbox_inches="tight")
     fig.savefig(pdf_path, bbox_inches="tight")
     plt.close(fig)
 
     print(f"Wrote {png_path}")
+    print(f"Wrote {tif_path}")
+    #print(f"Wrote {eps_path}")
     print(f"Wrote {pdf_path}")
     return png_path
 
