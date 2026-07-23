@@ -888,9 +888,9 @@ def get_sumstats_and_merged_sector_list(
     table_out: Optional[str] = None,
     signif_threshold: Optional[float] = None,
     signif_line: Optional[float] = None,
-    suggest_threshold: Optional[float] = None,
+    suggest_threshold: Optional[float] = 1e-5,
     highlight: Optional[bool] = False,
-    highlight_thresh: Optional[float] = 5e-08,
+    highlight_thresh: Optional[float] = None,
     resources: Optional[ResourceConfig] = None,
     compute_pvals: bool = True,
     auto_thin: bool = True,
@@ -1017,6 +1017,8 @@ def get_sumstats_and_merged_sector_list(
 
     sumstats_loaded: dict[str, list] = {}
     pval_dict: dict[str, np.ndarray | pd.Series] = {}
+    snp_counts: dict[str, np.ndarray | pd.Series] = {}
+    signif_lines: list[dict[str, float]] = []
     all_lead_snps: list[pd.DataFrame] = []
 
     for label in sumstats.keys() & (file_info or {}).keys():
@@ -1077,6 +1079,29 @@ def get_sumstats_and_merged_sector_list(
             pval_dict[label] = df["P"].dropna().astype(float).values
         else:
             pval_dict[label] = None
+
+        # Get SNP counts for significance threshold calculation
+        snp_counts[label] = len(df["P"].dropna().astype(float).values)
+        
+        # Derive significance/suggestive thresholds
+        if signif_threshold is None:
+            #last_label = list(sumstats_loaded)[-1]
+            n = snp_counts[label]
+            signif_threshold = max(0.05 / n, 5e-8)
+
+        suggest_line = suggest_threshold
+        if logp:
+            suggest_line = -np.log10(suggest_threshold)
+
+        if signif_line is None:
+            signif_line = signif_threshold
+            if logp:
+                signif_line = -np.log10(signif_threshold)
+        else:
+            if logp and signif_line < 1:
+                signif_line = -np.log10(signif_line)
+
+        signif_lines.append({"genome": signif_line, "suggestive": suggest_line})
 
         # Density-aware auto-thinning for Manhattan / circular rendering.
         # Applied after lead-SNP extraction so the leads come from the full
@@ -1189,11 +1214,12 @@ def get_sumstats_and_merged_sector_list(
         # into ``sumstats_loaded[label][0]`` here raised ``KeyError`` (e.g.
         # ``KeyError: 'MCV'``) the first time the liftover branch fired on
         # a given track.
+        builds = df["BUILD"].unique()
         if "BUILD" in df.columns and (
-            "hg19" in df["BUILD"].unique() or "hg18" in df["BUILD"].unique()
+            "hg18" in builds or ("hg19" in builds and "hg38" in builds)
         ):
             builds_present = sorted(
-                b for b in df["BUILD"].unique() if b in {"hg18", "hg19"}
+                b for b in builds if b in {"hg18", "hg19"}
             )
             logger.info(
                 "Converting %s coordinates to hg38 ...", "/".join(builds_present)
@@ -1210,7 +1236,7 @@ def get_sumstats_and_merged_sector_list(
             df=df,
             window=500_000,
             highlight=highlight,
-            highlight_thresh=highlight_thresh,
+            highlight_thresh=highlight_thresh if highlight_thresh is not None else signif_threshold,
             logp=logp,
         )
 
@@ -1221,6 +1247,9 @@ def get_sumstats_and_merged_sector_list(
         #    signif_threshold=signif_threshold or 5e-8,
         #    logp=logp,
         #)
+
+        if not leads.empty:
+            leads = leads[leads["P"] <= signif_threshold]
 
         all_lead_snps.append(leads)
 
@@ -1234,11 +1263,7 @@ def get_sumstats_and_merged_sector_list(
         if all_lead_snps
         else pd.DataFrame()
     )
-    if not all_lead_snps_df.empty and signif_threshold:
-        all_lead_snps_df = all_lead_snps_df[
-            all_lead_snps_df["P"] <= signif_threshold
-        ]
-
+  
     hits_table = (
         get_hits_summary_table(
             leads_df=all_lead_snps_df,
@@ -1249,37 +1274,6 @@ def get_sumstats_and_merged_sector_list(
         if not all_lead_snps_df.empty
         else pd.DataFrame()
     )
-
-    # Derive significance/suggestive thresholds
-    if not signif_threshold:
-        if trim_pval:
-            signif_threshold = 5e-8
-        elif sumstats_loaded:
-            last_label = list(sumstats_loaded)[-1]
-            n = len(sumstats_loaded[last_label][0]["P"])
-            signif_threshold = max(0.05 / n, 5e-8)
-        else:
-            signif_threshold = 5e-8
-
-    if not suggest_threshold:
-        suggest_threshold = 1e-5
-
-    suggest_line = suggest_threshold
-    if logp:
-        suggest_line = -np.log10(suggest_threshold)
-
-    if signif_line is None:
-        signif_line = signif_threshold
-        if logp:
-            signif_line = -np.log10(signif_threshold)
-    else:
-        if logp and signif_line < 1:
-            signif_line = -np.log10(signif_line)
-
-    signif_lines = [
-        {"genome": signif_line, "suggestive": suggest_line}
-        for _ in sumstats
-    ]
 
     # sort dicts by user-supplied order
     sumstats_loaded = {key: sumstats_loaded[key] for key in labels if key in sumstats_loaded}

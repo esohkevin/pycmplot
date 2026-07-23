@@ -131,10 +131,10 @@ def plot_circosm(
     track_index: int = 0,
     assoc_label: Optional[str] = None,
     logp: bool = True,
-    signif_line: Optional[float] = 5e-8,
-    signif_threshold: Optional[float] = 5e-8,
-    suggest_line: Optional[float] = 1e-5,
-    suggest_threshold: Optional[float] = 1e-5,
+    signif_line: Optional[float] = None,
+    signif_threshold: Optional[float] = None,
+    suggest_line: Optional[float] = None,
+    suggest_threshold: Optional[float] = None,
     highlight: bool = False,
     highlight_color: str = 'brown',
     colors: Optional[list[str]] = ['steelblue','orange'],
@@ -365,9 +365,9 @@ def plot_circular(
     label_col: str = None,
     chrom_label_side: str = 'inside',
     chrom_label_size: float = 6,
-    signif_line: float = 5e-8,
+    signif_line: float = None,
     highlight: bool = False,
-    highlight_thresh: float = 5e-8,
+    highlight_thresh: float = None,
     highlight_color: str = 'brown',
     highlight_line: bool = False,
     highlight_line_color: str = 'grey',
@@ -557,6 +557,7 @@ def plot_circular(
 
     chrom_label_loc = outside_loc if chrom_label_side == "outside" else inside_loc
 
+    """
     if not signif_lines:
         signif_line = -np.log10(signif_line) if signif_line < 1 else signif_line
         suggest_line = -np.log10(1e-5)
@@ -564,6 +565,7 @@ def plot_circular(
             {"genome": signif_line, "suggestive": suggest_line}
             for _ in sumstats_loaded
         ]      
+    """
 
     for index, (sector_radius, sumstats_key, sumstats_value, signif_dict) in enumerate(
         zip(
@@ -609,7 +611,7 @@ def plot_circular(
                 logp=logp,
                 signif_line=sig_thresh,
                 signif_threshold=sig_thresh,
-                suggest_line=True if signif_line else False,
+                suggest_line=True if sug_thresh else False,
                 suggest_threshold=sug_thresh,
                 highlight=highlight,
                 highlight_color=highlight_color,
