@@ -186,13 +186,11 @@ pip install -e . --break-system-packages
 Use python virtual environment if local installation is not possible
 
 ```bash
-python -m venv ~/bin/pycmplot
-
-source ~/bin/pycmplot/bin/activate
+python -m venv ~/envs/pycmplot
+source ~/envs/pycmplot/bin/activate
 
 pip install --upgrade pip setuptools wheel
-
-# then follow any of the installation steps above
+pip install pycmplot
 ```
 
 
