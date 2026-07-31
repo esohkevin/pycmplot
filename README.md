@@ -1,14 +1,24 @@
 # pycmplot
 
-Multi-track **circular** and **linear** Manhattan plot generation for GWAS summary statistics.
+<div>
+  <h1 align="center">Multi-track circular and linear Manhattan plotting in Python.</h1>
+</div>
 
+<p align="center">
+  <img width="200" height="200" src="docs/pycmplot-logo-circular.png">
+</p>
+
+
+<p align="center">
 ```
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-|  PACKAGE FOR CIRCULAR AND LINEAR MANHATTAN PLOTTING  |
+|  MULTI-TRACK CIRCULAR AND LINEAR MANHATTAN PLOTTING  |
+|                      in Python                       |
 |                    Kevin Esoh, 2026                  |
 |                    kesohku1@jh.edu                   |
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 ```
+</p>
 
 ----------------------------------------------
 

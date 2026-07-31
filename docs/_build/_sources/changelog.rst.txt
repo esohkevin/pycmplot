@@ -8,7 +8,34 @@ and this project adheres to `Semantic Versioning <https://semver.org/>`_.
 
 ----
 
-[0.3.0] �~@~T 20266001
+0.3.1 - 2026-07-31
+------------------------------------------------------------------------------
+
+**Fixed**
+
+- **LiftOver hg18/hg19 to hg38**
+
+When hg38 was absent, hg18-only and hg19-only summary statistics were converted to
+hg38. This behaviour has now been changed such that only hg18-only files are converted 
+while hg19-only files remain in hg19 coordinates and the bundled ENSEMBL GFF3 file in 
+GRCh37 is used for annotation.
+
+- **Significance thresholds**
+
+The genome-wide significant and highlighting thresholds defaults were set to ``5e-08``.
+Suggestive line was only included when significance line was enabled. Significant and 
+highlighting thresholds have now been explicitly set to be caulculated from number of 
+markers using ``0.05 / number of markers``. A marker/snp count dictionary is now generated 
+upfront before auto-thinning and pvalue trimming are applied to use in this calculation.
+This effectively enables sumstat-specific thresholds and lines.
+Suggestive line inclusion now depends only on whether ``-sug/--suggest_threshold`` is 
+specified.
+
+----
+
+
+0.3.0 - 2026-06-01
+------------------------------------------------------------------------------
 
 **Fixed**
 
@@ -33,7 +60,7 @@ and this project adheres to `Semantic Versioning <https://semver.org/>`_.
 ----
 
 
-[0.2.8] — 2026-05-30
+0.2.8 - 2026-05-30
 ------------------------------------------------------------------------------
 
 **Added**
@@ -175,7 +202,7 @@ accounting for top-to-bottom track orientation::
   ``set`` iteration order.
 
 
-0.2.7 — 2026-04-27
+0.2.7 - 2026-04-27
 ------------------
 
 **Added**
@@ -305,7 +332,7 @@ circular    235.3 s     73.3 s      3.2x
 
 ----
 
-0.2.5 — 2026-04-20
+0.2.5 - 2026-04-20
 ------------------
 
 **Fixed**
@@ -400,7 +427,7 @@ circular    235.3 s     73.3 s      3.2x
 - Licence changed to MIT Licence.
 ----
 
-0.2.2 — 2026-04-18
+0.2.2 - 2026-04-18
 ------------------
 
 **Added**

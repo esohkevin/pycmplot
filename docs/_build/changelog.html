@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Changelog &mdash; pycmplot 0.3.0 documentation</title>
+  <title>Changelog &mdash; pycmplot 0.3.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=e259d695"></script>
+      <script src="_static/documentation_options.js?v=4621528c"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -228,14 +228,16 @@
 <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id1">[0.2.8] — 2026-05-30</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id2">0.2.7 — 2026-04-27</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">0.2.5 — 2026-04-20</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">0.2.2 — 2026-04-18</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id5">0.2.1 — 2026-04-16</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id6">0.1.9 — 2026-04-14</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id7">0.1.8 — 2026-04-14</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id8">0.1.0 — 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">0.3.1 - 2026-07-31</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">0.3.0 - 2026-06-01</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">0.2.8 - 2026-05-30</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">0.2.7 - 2026-04-27</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">0.2.5 - 2026-04-20</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">0.2.2 - 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">0.2.1 — 2026-04-16</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">0.1.9 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">0.1.8 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id10">0.1.0 — 2026-04-18</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a><ul>
@@ -279,7 +281,31 @@
 <p>The format is based on <a class="reference external" href="https://keepachangelog.com/en/1.0.0/">Keep a Changelog</a>
 and this project adheres to <a class="reference external" href="https://semver.org/">Semantic Versioning</a>.</p>
 <hr class="docutils" />
-<p>[0.3.0] �~&#64;~T 20266001</p>
+<section id="id1">
+<h2>0.3.1 - 2026-07-31<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<p><strong>Fixed</strong></p>
+<ul class="simple">
+<li><p><strong>LiftOver hg18/hg19 to hg38</strong></p></li>
+</ul>
+<p>When hg38 was absent, hg18-only and hg19-only summary statistics were converted to
+hg38. This behaviour has now been changed such that only hg18-only files are converted
+while hg19-only files remain in hg19 coordinates and the bundled ENSEMBL GFF3 file in
+GRCh37 is used for annotation.</p>
+<ul class="simple">
+<li><p><strong>Significance thresholds</strong></p></li>
+</ul>
+<p>The genome-wide significant and highlighting thresholds defaults were set to <code class="docutils literal notranslate"><span class="pre">5e-08</span></code>.
+Suggestive line was only included when significance line was enabled. Significant and
+highlighting thresholds have now been explicitly set to be caulculated from number of
+markers using <code class="docutils literal notranslate"><span class="pre">0.05</span> <span class="pre">/</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">markers</span></code>. A marker/snp count dictionary is now generated
+upfront before auto-thinning and pvalue trimming are applied to use in this calculation.
+This effectively enables sumstat-specific thresholds and lines.
+Suggestive line inclusion now depends only on whether <code class="docutils literal notranslate"><span class="pre">-sug/--suggest_threshold</span></code> is
+specified.</p>
+</section>
+<hr class="docutils" />
+<section id="id2">
+<h2>0.3.0 - 2026-06-01<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
 <p><strong>Fixed</strong></p>
 <ul class="simple">
 <li><p>Bug fix:
@@ -297,9 +323,10 @@ circular plotting</p></li>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">ylabel</span></code>: optional ylabel text in circular plotting to match linear plotting</p></li>
 </ul>
+</section>
 <hr class="docutils" />
-<section id="id1">
-<h2>[0.2.8] — 2026-05-30<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<section id="id3">
+<h2>0.2.8 - 2026-05-30<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
 <p><strong>Added</strong></p>
 <ul class="simple">
 <li><p><strong>Dual annotation renderer architecture</strong></p></li>
@@ -428,8 +455,8 @@ incorrect pairing of chromosomes (e.g. chr3 with chr17) caused by
 <code class="docutils literal notranslate"><span class="pre">set</span></code> iteration order.</p></li>
 </ul>
 </section>
-<section id="id2">
-<h2>0.2.7 — 2026-04-27<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<section id="id4">
+<h2>0.2.7 - 2026-04-27<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
 <p><strong>Added</strong></p>
 <ul class="simple">
 <li><p><strong>Default-on density-aware auto-thinning</strong> for Manhattan / circular</p></li>
@@ -617,8 +644,8 @@ were removed).</p></li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id3">
-<h2>0.2.5 — 2026-04-20<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<section id="id5">
+<h2>0.2.5 - 2026-04-20<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
 <p><strong>Fixed</strong></p>
 <ul class="simple">
 <li><p>Chromosome-22 positions falling outside hg38 chr22 limits after liftover
@@ -708,8 +735,8 @@ dtypes from <code class="docutils literal notranslate"><span class="pre">str</sp
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id4">
-<h2>0.2.2 — 2026-04-18<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<section id="id6">
+<h2>0.2.2 - 2026-04-18<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
 <p><strong>Added</strong></p>
 <p>QQ plots (<a class="reference internal" href="api/plotting.html#module-pycmplot.plotting.qq" title="pycmplot.plotting.qq"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pycmplot.plotting.qq</span></code></a>):</p>
 <ul class="simple">
@@ -778,8 +805,8 @@ tracks to improve visibility of track labels and y-axis ticks.</p></li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id5">
-<h2>0.2.1 — 2026-04-16<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<section id="id7">
+<h2>0.2.1 — 2026-04-16<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
 <p><strong>Added</strong></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">--build</span></code> option for supplying per-file genome builds when the
@@ -802,8 +829,8 @@ builds avoids this.</p></li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id6">
-<h2>0.1.9 — 2026-04-14<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<section id="id8">
+<h2>0.1.9 — 2026-04-14<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
 <p><strong>Fixed</strong></p>
 <ul class="simple">
 <li><p>Column name auto-detection now covers both lower- and upper-case
@@ -814,8 +841,8 @@ the CLI equivalent (required instead of optional).</p></li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id7">
-<h2>0.1.8 — 2026-04-14<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<section id="id9">
+<h2>0.1.8 — 2026-04-14<a class="headerlink" href="#id9" title="Link to this heading"></a></h2>
 <p><strong>Added</strong></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">--highlight_color</span></code> and <code class="docutils literal notranslate"><span class="pre">--highlight_line_color</span></code> options.</p></li>
@@ -829,8 +856,8 @@ the CLI equivalent (required instead of optional).</p></li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id8">
-<h2>0.1.0 — 2026-04-18<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+<section id="id10">
+<h2>0.1.0 — 2026-04-18<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
 <p>Initial release.</p>
 <p><strong>Added</strong></p>
 <p>Package structure:</p>
