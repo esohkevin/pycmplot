@@ -1084,20 +1084,31 @@ def get_sumstats_and_merged_sector_list(
         snp_counts[label] = len(df["P"].dropna().astype(float).values)
         
         # Derive significance/suggestive thresholds
+        n = snp_counts[label]
         if signif_threshold is None:
             #last_label = list(sumstats_loaded)[-1]
-            n = snp_counts[label]
             signif_threshold = max(0.05 / n, 5e-8)
 
-        suggest_line = suggest_threshold
+        if suggest_threshold is not None:
+            suggest_line = suggest_threshold
+        else:
+            suggest_line = 1e-5
         if logp:
-            suggest_line = -np.log10(suggest_threshold)
+            suggest_line = -np.log10(suggest_line)
 
         if signif_line is None:
             signif_line = signif_threshold
             if logp:
-                signif_line = -np.log10(signif_threshold)
+                signif_line = -np.log10(signif_line)
         else:
+            # significance line was set without value
+            # fallback to sig_thresh
+            if signif_line == 999999:
+                signif_line = signif_threshold
+            # significance line was set with value, use value
+            else:
+                signif_line = np.float64(signif_line)
+
             if logp and signif_line < 1:
                 signif_line = -np.log10(signif_line)
 

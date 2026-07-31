@@ -8,7 +8,7 @@ and this project adheres to `Semantic Versioning <https://semver.org/>`_.
 
 ----
 
-0.3.1 - 2026-xx-xx
+0.3.1 - 2026-07-31
 ------------------------------------------------------------------------------
 
 **Fixed**
@@ -20,7 +20,7 @@ hg38. This behaviour has now been changed such that only hg18-only files are con
 while hg19-only files remain in hg19 coordinates and the bundled ENSEMBL GFF3 file in 
 GRCh37 is used for annotation.
 
-- **Significance* thresholds*
+- **Significance thresholds**
 
 The genome-wide significant and highlighting thresholds defaults were set to ``5e-08``.
 Suggestive line was only included when significance line was enabled. Significant and 
@@ -34,7 +34,7 @@ specified.
 ----
 
 
-0.3.0 - 2026-60-01
+0.3.0 - 2026-06-01
 ------------------------------------------------------------------------------
 
 **Fixed**

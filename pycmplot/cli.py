@@ -365,19 +365,19 @@ def get_arguments(descmsg: str = DESCMSG) -> argparse.Namespace:
     )
     opt.add_argument(
         "-sig", "--signif_threshold",
-        default=None, #const=5e-8, 
+        default=None, const=None, 
         nargs="?", type=float, metavar="float",
         help="Genome-wide significance threshold (default: 0.05/number of records)."
     )
     opt.add_argument(
         "-sigl", "--signif_line",
-        default=None, #const=5e-8, 
+        default=None, const=999999, # arbitriary number to evaluate
         nargs="?", type=float, metavar="float",
         help="Value for genome-wide significance line if different from `-sig` (default: 0.05/number of records)."
     )
     opt.add_argument(
         "-sug", "--suggest_threshold",
-        default=1e-5, const=1e-5, nargs="?", type=float, metavar="float",
+        default=None, const=1e-5, nargs="?", type=float, metavar="float",
         help="Suggestive significance threshold (default: 1e-5)."
     )
 
