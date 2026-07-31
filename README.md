@@ -5,19 +5,19 @@
 </div>
 
 <p align="center">
-  <img width="200" height="200" src="docs/pycmplot-logo-circular.png">
+  <img width="600" height="400" src="docs/pycmplot-logo-circular.png">
 </p>
 
 
 <p align="center">
-```
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-|  MULTI-TRACK CIRCULAR AND LINEAR MANHATTAN PLOTTING  |
-|                      in Python                       |
-|                    Kevin Esoh, 2026                  |
-|                    kesohku1@jh.edu                   |
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-```
+  <div style="white-space: pre-wrap;">
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+    |  MULTI-TRACK CIRCULAR AND LINEAR MANHATTAN PLOTTING  |
+    |                      in Python                       |
+    |                    Kevin Esoh, 2026                  |
+    |                    kesohku1@jh.edu                   |
+    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+  </div>
 </p>
 
 ----------------------------------------------
