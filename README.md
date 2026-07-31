@@ -10,12 +10,12 @@
 
 
 ```
-    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-    |  MULTI-TRACK CIRCULAR AND LINEAR MANHATTAN PLOTTING  |
-    |                      in Python                       |
-    |                    Kevin Esoh, 2026                  |
-    |                    kesohku1@jh.edu                   |
-    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+              #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
+              |  MULTI-TRACK CIRCULAR AND LINEAR MANHATTAN PLOTTING  |
+              |                      in Python                       |
+              |                    Kevin Esoh, 2026                  |
+              |                    kesohku1@jh.edu                   |
+              #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 ```
 
 ----------------------------------------------
@@ -23,11 +23,11 @@
 ## Content
 1. [Overview](#overview)
 2. [Key features](#key-features)
-  - * [Column auto-detection](#column-auto-detection)
-  - * [Density-aware sub-sampling](#density-aware-sub-sampling)
-  - * [Trim insignificant variants for faster plotting](#trim-insignificant-variants-for-faster-plotting)
-  - * [Genome build conversion (liftover)](#genome-build-conversion-liftover)
-  - * [Nearest-gene annotation for GWAS lead SNPs](#nearest-gene-annotation-for-gwas-lead-snps)
+  - [Column auto-detection](#column-auto-detection)
+  - [Density-aware sub-sampling](#density-aware-sub-sampling)
+  - [Trim insignificant variants for faster plotting](#trim-insignificant-variants-for-faster-plotting)
+  - [Genome build conversion (liftover)](#genome-build-conversion-liftover)
+  - [Nearest-gene annotation for GWAS lead SNPs](#nearest-gene-annotation-for-gwas-lead-snps)
 3. [Application](#application)
 4. [Tip](#tip)
 5. [Installation](#installation)
