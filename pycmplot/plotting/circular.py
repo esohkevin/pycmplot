@@ -133,7 +133,7 @@ def plot_circosm(
     logp: bool = True,
     signif_line: Optional[float] = None,
     signif_threshold: Optional[float] = None,
-    suggest_line: Optional[float] = None,
+    suggest_line: bool = False,
     suggest_threshold: Optional[float] = None,
     highlight: bool = False,
     highlight_color: str = 'brown',
@@ -336,7 +336,7 @@ def plot_circosm(
     # ------------------------------------------------------------------
     # Significance lines
     # ------------------------------------------------------------------
-    if signif_line:
+    if signif_line is not None:
         track.line(
             x=[sector.start, sector.end],
             y=[genome_wide_sig, genome_wide_sig],
@@ -371,6 +371,7 @@ def plot_circular(
     highlight_color: str = 'brown',
     highlight_line: bool = False,
     highlight_line_color: str = 'grey',
+    suggest_line: bool = False,
     colors: list[str] = ['steelblue','silver'],
     point_size: float = 6,
     track_label_size: float = 6,
@@ -609,9 +610,9 @@ def plot_circular(
                 assoc_by_chr=assoc_by_chr,
                 assoc_label=sumstat_name,
                 logp=logp,
-                signif_line=sig_thresh,
+                signif_line=signif_line,
                 signif_threshold=sig_thresh,
-                suggest_line=True if sug_thresh else False,
+                suggest_line=suggest_line,
                 suggest_threshold=sug_thresh,
                 highlight=highlight,
                 highlight_color=highlight_color,

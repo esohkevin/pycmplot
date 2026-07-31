@@ -960,6 +960,9 @@ def plot_linearm(
     highlight_color: str = 'brown',
     highlight_line: bool = False,
     highlight_line_color: str = 'grey',
+    signif_line: Optional[float] = None,
+    suggest_line: bool = False,
+    sig_lines: Optional[list[dict]] = None,
     logp: bool = True,
     label_col: Optional[str] = 'SNP',
     chr_order: Optional[list[str]] = None,
@@ -969,7 +972,6 @@ def plot_linearm(
     annot_rail_frac: float = 0.95,
     point_size: float = 8,
     colors: Optional[list[str]] = ['steelblue','silver'],
-    sig_lines: Optional[list[dict]] = None,
     plt_name: Optional[str] = None,
     no_track_labels: bool = False,
     ylabel: Optional[str] = None,
@@ -1355,10 +1357,12 @@ def plot_linearm(
 
         if sig_lines is not None and i < len(sig_lines):
             sl = sig_lines[i]
-            if "genome" in sl:
-                ax.axhline(y=sl["genome"], color="orangered", linestyle="--", linewidth=0.5)
-            if "suggestive" in sl:
-                ax.axhline(y=sl["suggestive"], color="navy", linestyle="--", linewidth=0.5)
+            if signif_line is not None:
+                    if "genome" in sl:
+                        ax.axhline(y=sl["genome"], color="orangered", linestyle="--", linewidth=0.5)
+            if suggest_line:
+                if "suggestive" in sl:
+                    ax.axhline(y=sl["suggestive"], color="navy", linestyle="--", linewidth=0.5)
 
         ax.spines[["top", "right"]].set_visible(False)
 
@@ -1483,7 +1487,10 @@ def plot_linear(
     highlight: bool = False,
     highlight_color: str = 'brown',
     highlight_line: bool = False,
-    highlight_line_color: str = 'grey',    
+    highlight_line_color: str = 'grey',
+    signif_lines: Optional[dict] = None,
+    signif_line: Optional[float] = None,
+    suggest_line: bool = False,
     hits_table: Optional[pd.DataFrame] = None,
     annotate: str = None,
     annotation_size: float = 8,
@@ -1492,7 +1499,6 @@ def plot_linear(
     linear_track_spacing: Optional[float] = None,
     annot_rail_frac: Optional[float] = 0.98,
     colors: list[str] = ['steelblue','silver'],
-    signif_lines: Optional[dict] = None,
     plot_title: Optional[str] = None,
     no_track_labels: bool = False,
     ylabel: Optional[str] = None,
@@ -1637,6 +1643,8 @@ def plot_linear(
         highlight_color = highlight_color,
         highlight_line = highlight_line,
         highlight_line_color = highlight_line_color,
+        signif_line = signif_line,
+        suggest_line = suggest_line,        
         annotate=annotate,
         annotation_size=annotation_size,      
         annot_df=hits_table if hits_table is not None and not hits_table.empty else None,

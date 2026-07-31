@@ -10,6 +10,38 @@ Multi-track **circular** and **linear** Manhattan plot generation for GWAS summa
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 ```
 
+----------------------------------------------
+
+## Content
+1. [Overview](#overview)
+2. [Key features](#key-features)
+  * [Column auto-detection](#column-auto-detection)
+  * [Density-aware sub-sampling](#density-aware-sub-sampling)
+  * [Trim insignificant variants for faster plotting](#trim-insignificant-variants-for-faster-plotting)
+  * [Genome build conversion (liftover)](#genome-build-conversion-liftover)
+  * [Nearest-gene annotation for GWAS lead SNPs](#nearest-gene-annotation-for-gwas-lead-snps)
+3. [Application](#application)
+4. [Tip](#tip)
+5. [Installation](#installation)
+  * [From PyPI](#from-pypi)
+  * [From GitHub](#from-github)
+  * [Python virtual environment](#python-virtual-environment)
+6. [Test the installation](#test-the-installation)
+7. [Dependencies](#dependencies)
+8. [Command-line usage](#command-line-usage)
+  * [Linear Manhattan (default)](#linear-manhattan-default)
+  * [Circular Manhattan](#circular-manhattan)
+  * [Key options](#key-options)
+9. [Python API](#python-api)
+10. [Contributing](#contributing)
+11. [Contributors](#contributors)
+
+
+---------------------------------------------
+
+
+## Overview 
+
 This package will take any number of per SNP/variant summary statistics, be it GWAS, 
 selection scans (e.g. iHS, EHH, FST), etc and generate Manhattan plots. If given a single
 file, a single one-track Manhattan plot will be generated. Multiple files will result in 
@@ -29,8 +61,8 @@ option of the package should be used to indicate the column and then the package
 postions in hg19 to hg38 ensuring that hits table generation and plotting are done with one unified 
 corrdinate system.
 
-# Key features
-## Column auto-detection
+## Key features
+### Column auto-detection
 A key functionality of the package is its ability to auto-detect certain columns if ommited on the 
 command-line or python API:
 - Chromosome column: `-chr, --chrom_column` or ommited
@@ -53,7 +85,7 @@ bld_candidates = [build, 'BUILD', 'Genome', 'Genome_Build', 'Genome-build']
 
 > NB: Upper and lower cases of the candidates are also considered, making each candidate expanded 3 times.
 
-## Density-aware sub-sampling
+### Density-aware sub-sampling
 Another key feature is density-aware sub-sampling for Manhattan-style scatter plots.
 This was inspired by ``gwaslab``'s default behaviour (https://cloufield.github.io/gwaslab/). 
 
@@ -64,14 +96,14 @@ scan with the defaults below, this typically cuts the plotted point count from 1
 to ~200 K + a few hundred peaks — visually indistinguishable above the suggestive 
 band, but two orders of magnitude faster to render.
 
-## Trim insignificant variants for faster plotting
+### Trim insignificant variants for faster plotting
 An optional parameter `-tp, --trim_pval` is provided to increase speed even further. 
 Set with a value to exclude variants with p-value above a certain threshold, 
 e.g. `0.01 (1e-2)` or `0.001 (1e-3)`. Performed on top of the default auto-thin 
 feature above, it siginificant increases speed and reduces peak memory usage. 
 See benchmark figure (manuscript in preparation).
 
-## Genome build conversion (liftover)
+### Genome build conversion (liftover)
 Conversion of a both hg18 and hg19 positions to their hg38 equivalent is included through
 `pyliftover.LiftOver`.
 
@@ -81,7 +113,7 @@ column to specify the genome build of each position ('hg18', 'hg19', or 'hg38') 
 using one coordinate system. If only 'hg18' or 'hg19' positions are present, no liftover 
 be necessary. Hence, liftover is only performed in cases of mixed genome builds.
 
-## Nearest-gene annotation for GWAS lead SNPs
+### Nearest-gene annotation for GWAS lead SNPs
 The package bundles GFF3 files in hg19 and hg38 coordinates processed to reduce size 
 for gene annotation. Also included are UCSC chain files for coordinate conversion (liftover).
   - ``chain_hg19_hg38`` -- UCSC LiftOver chain file for hg19 to hg38
@@ -100,12 +132,12 @@ for gene annotation. Also included are UCSC chain files for coordinate conversio
     ``Homo_sapiens.GRCh37.geneinfo.tsv.gz``.
 
 
-# Application
+## Application
 A potential useful application is **comparative visualization** of results from multiple imputation panels, 
 multiple populations, or multiple traits to observe shared genetic architecture.
 
 
-# Tip
+## Tip
 
 For signed non-pvalue statistics such as iHS, use `--signif_threshold` and 
 `--suggest_threshold` to specify lines to draw for iHS cutoff above and below zero, 
@@ -114,7 +146,7 @@ that is in the positive and negative axes.
 
 Read more in the package documentation page: https://pycmplot.readthedocs.io/en/latest/
 
----
+----------------------------
 
 ## Installation
 
@@ -141,7 +173,10 @@ pip install -e . --break-system-packages
 ```
 
 
-### Use python virtual environment if local installation is not possible
+### Python virtual environment
+
+Use python virtual environment if local installation is not possible
+
 ```bash
 python -m venv ~/bin/pycmplot
 
@@ -153,12 +188,12 @@ pip install --upgrade pip setuptools wheel
 ```
 
 
-# Test the installation
+## Test the installation
 ```bash
 pycmplot -h
 ```
 
-### Dependencies
+## Dependencies
 
 | Package | Purpose |
 |---------|---------|
