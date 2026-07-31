@@ -9,16 +9,17 @@
 </p>
 
 
-<p align="center">
-  <div style="white-space: pre-wrap;">
+<div style="white-space: pre-wrap;">
+  <p align="center">
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     |  MULTI-TRACK CIRCULAR AND LINEAR MANHATTAN PLOTTING  |
     |                      in Python                       |
     |                    Kevin Esoh, 2026                  |
     |                    kesohku1@jh.edu                   |
     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-  </div>
-</p>
+  </p>
+</div>
+
 
 ----------------------------------------------
 
