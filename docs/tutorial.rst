@@ -405,6 +405,7 @@ Example batch edit ``hits.<group_key>.tsv`` files using ``awk`` in commandline:
 
 - This highlights all signals with ``P < 5e-08`` with the defaul ``brown`` color and all signals
 not reaching the genome-wide significance threshold but have P < 1e-07 with orange.
+
 - It updates the categories for both to ``significant (P < 5e-08)`` and ``marginally significant (P < 1e-07)``
 respectively. This would be used to add a custom legend to the Manhattan plots, making it self explanatory.
 
