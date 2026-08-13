@@ -386,7 +386,7 @@ Example batch edit ``hits.<group_key>.tsv`` files using ``awk`` in commandline:
 
    cachedir=/your/cachedir
    
-   for i in ${cachdir}/annotations/hits.*.tsv; do 
+   for i in ${cachedir}/annotations/hits.*.tsv; do 
       awk '
          OFS="\t" 
          {
