@@ -604,3 +604,301 @@ def get_annotation_column(
     logger.info("Annotating by: %s", label_clm)
 
     return label_clm
+
+
+# ---------------------------------------------------------------------------
+# Per-locus highlight color resolution
+# ---------------------------------------------------------------------------
+
+HIGHLIGHT_COLOR_COL = "highlight_color"
+HIGHLIGHT_COLOR_AUTO = "auto"
+
+CATEGORY_COL = "category"
+CATEGORY_DEFAULT = "significant"
+
+
+def ensure_highlight_color_column(
+    hits_table: "pd.DataFrame",
+    default: str = HIGHLIGHT_COLOR_AUTO,
+) -> "pd.DataFrame":
+    """Make sure the hits table has a ``highlight_color`` column.
+
+    Backward-compat helper.  When cached hits overlays predate the
+    per-locus color feature, the column may be missing entirely; older
+    Python-API callers may build their own hits tables without it.  We
+    inject the column with the sentinel *default* so the downstream
+    color-lookup path can uniformly assume the column exists.  Existing
+    values (including user-supplied hex codes / names / ``"auto"``) are
+    preserved untouched.
+    """
+    import pandas as pd
+    if hits_table is None or not isinstance(hits_table, pd.DataFrame):
+        return hits_table
+    if HIGHLIGHT_COLOR_COL not in hits_table.columns:
+        hits_table = hits_table.copy()
+        hits_table[HIGHLIGHT_COLOR_COL] = default
+    return hits_table
+
+
+def ensure_category_column(
+    hits_table: "pd.DataFrame",
+    default: str = CATEGORY_DEFAULT,
+) -> "pd.DataFrame":
+    """Make sure the hits table has a ``category`` column.
+
+    Companion to :func:`ensure_highlight_color_column`; injects the
+    sentinel default so downstream code can assume the column exists.
+    """
+    import pandas as pd
+    if hits_table is None or not isinstance(hits_table, pd.DataFrame):
+        return hits_table
+    if CATEGORY_COL not in hits_table.columns:
+        hits_table = hits_table.copy()
+        hits_table[CATEGORY_COL] = default
+    return hits_table
+
+
+def resolve_highlight_colors(
+    sig_df: "pd.DataFrame",
+    hits_table: "pd.DataFrame",
+    default_color: str,
+    *,
+    chr_col: str = "CHR",
+    pos_col: str = "POS",
+    window_kb: int = 500,
+) -> list[str]:
+    """Return a per-row highlight color for the highlighted variants.
+
+    For every row in *sig_df* (the ``in_locus`` subset of a track), we
+    find the closest lead in *hits_table* on the same chromosome and,
+    within *window_kb*, use its ``highlight_color`` value.  The sentinel
+    ``"auto"``, empty strings, NaNs, and colors matplotlib can't parse
+    all fall back to *default_color*.  Invalid colors emit a
+    ``logger.warning`` naming the offending value so users can fix a
+    typo in their overlay TSV.
+
+    Parameters
+    ----------
+    sig_df
+        Subset of a track's DataFrame with ``in_locus == True``.  Must
+        have *chr_col* and *pos_col*.
+    hits_table
+        Locus summary table (per-lead).  Must have *chr_col* and
+        *pos_col*.  If it doesn't have ``highlight_color``, every row
+        falls back to *default_color* (backward compat).
+    default_color
+        Global highlight color passed to the plotter.  Used when the
+        cached row's color is ``"auto"``, missing, or invalid.
+    window_kb
+        Search radius in kb for matching a highlighted variant to its
+        lead.  Defaults to 500 kb, which mirrors the highlight
+        window in :func:`~pycmplot.stats.get_highlight_snps`.
+
+    Returns
+    -------
+    list of str
+        One matplotlib-parseable color per row of *sig_df*, in row
+        order.
+    """
+    import numpy as np
+    import pandas as pd
+    from matplotlib.colors import is_color_like
+
+    n = len(sig_df.index)
+    if n == 0:
+        return []
+
+    # Fast path: no hits table (or missing color column) → uniform default.
+    if hits_table is None or hits_table.empty \
+            or HIGHLIGHT_COLOR_COL not in hits_table.columns:
+        return [default_color] * n
+
+    window_bp = int(window_kb) * 1000
+
+    # Group leads by chromosome once so per-row lookup is cheap.
+    hits_by_chr: dict[str, tuple[np.ndarray, np.ndarray]] = {}
+    for chrom, sub in hits_table.groupby(chr_col, observed=True):
+        try:
+            pos_arr = sub[pos_col].astype("int64").to_numpy()
+        except (TypeError, ValueError):
+            continue
+        col_arr = sub[HIGHLIGHT_COLOR_COL].astype(str).to_numpy()
+        hits_by_chr[str(chrom)] = (pos_arr, col_arr)
+
+    _warned: set = set()
+
+    def _fallback_for(reason: str, offending: str) -> str:
+        key = (reason, offending)
+        if key not in _warned:
+            _warned.add(key)
+            logger.warning(
+                "highlight_color %r rejected (%s); using default %r.",
+                offending, reason, default_color,
+            )
+        return default_color
+
+    colors_out: list[str] = []
+    for chrom, pos in zip(
+        sig_df[chr_col].astype(str).to_numpy(),
+        sig_df[pos_col].astype("int64").to_numpy(),
+    ):
+        entry = hits_by_chr.get(str(chrom))
+        if entry is None:
+            colors_out.append(default_color)
+            continue
+        lead_pos, lead_col = entry
+        d = np.abs(lead_pos - int(pos))
+        j = int(d.argmin())
+        if d[j] > window_bp:
+            colors_out.append(default_color)
+            continue
+        raw = lead_col[j].strip() if isinstance(lead_col[j], str) else ""
+        if not raw or raw.lower() == HIGHLIGHT_COLOR_AUTO \
+                or raw.lower() in {"nan", "none", "na"}:
+            colors_out.append(default_color)
+            continue
+        if not is_color_like(raw):
+            colors_out.append(_fallback_for("not a matplotlib color", raw))
+            continue
+        colors_out.append(raw)
+    return colors_out
+
+
+# ---------------------------------------------------------------------------
+# Category resolution + legend entry construction
+# ---------------------------------------------------------------------------
+
+def resolve_highlight_categories(
+    sig_df: "pd.DataFrame",
+    hits_table: "pd.DataFrame",
+    default_category: str = CATEGORY_DEFAULT,
+    *,
+    chr_col: str = "CHR",
+    pos_col: str = "POS",
+    window_kb: int = 500,
+) -> list:
+    """Return a per-row category label for the highlighted variants.
+
+    Same lookup discipline as :func:`resolve_highlight_colors`: each
+    ``sig_df`` row is matched to its nearest lead on the same
+    chromosome within *window_kb*, and the lead's ``category`` value
+    is returned.  Missing / blank / NaN values fall back to
+    *default_category* (typically ``"significant"``).
+    """
+    import numpy as np
+    import pandas as pd
+
+    n = len(sig_df.index)
+    if n == 0:
+        return []
+    if hits_table is None or hits_table.empty \
+            or CATEGORY_COL not in hits_table.columns:
+        return [default_category] * n
+
+    window_bp = int(window_kb) * 1000
+    hits_by_chr = {}
+    for chrom, sub in hits_table.groupby(chr_col, observed=True):
+        try:
+            pos_arr = sub[pos_col].astype("int64").to_numpy()
+        except (TypeError, ValueError):
+            continue
+        cat_arr = sub[CATEGORY_COL].astype(str).to_numpy()
+        hits_by_chr[str(chrom)] = (pos_arr, cat_arr)
+
+    cats_out = []
+    for chrom, pos in zip(
+        sig_df[chr_col].astype(str).to_numpy(),
+        sig_df[pos_col].astype("int64").to_numpy(),
+    ):
+        entry = hits_by_chr.get(str(chrom))
+        if entry is None:
+            cats_out.append(default_category)
+            continue
+        lead_pos, lead_cat = entry
+        d = np.abs(lead_pos - int(pos))
+        j = int(d.argmin())
+        if d[j] > window_bp:
+            cats_out.append(default_category)
+            continue
+        raw = lead_cat[j].strip() if isinstance(lead_cat[j], str) else ""
+        if not raw or raw.lower() in {"nan", "none", "na"}:
+            cats_out.append(default_category)
+            continue
+        cats_out.append(raw)
+    return cats_out
+
+
+def build_highlight_legend_entries(
+    hits_table: "pd.DataFrame",
+    default_color: str,
+    default_category: str = CATEGORY_DEFAULT,
+) -> list:
+    """Return a list of ``(category, color)`` pairs for a custom legend.
+
+    Only returns entries when the user has customised the overlay in a
+    way worth surfacing:
+
+    * Any row has a category other than *default_category*, OR
+    * Any row has a highlight_color other than the sentinel
+      ``"auto"`` (i.e. an explicit user-chosen colour).
+
+    When nothing has been customised, returns ``[]`` -- the plotter
+    then skips the legend entirely, matching the pre-feature layout.
+
+    Entries are deduplicated by ``category`` in first-appearance order
+    (so users can control legend order by reordering rows in their
+    TSV).  If the same category appears with multiple colours, the
+    first colour wins and a warning is logged.
+    """
+    from matplotlib.colors import is_color_like
+
+    if hits_table is None or hits_table.empty:
+        return []
+
+    has_category = CATEGORY_COL in hits_table.columns
+    has_color = HIGHLIGHT_COLOR_COL in hits_table.columns
+    if not has_category and not has_color:
+        return []
+
+    def _norm(x, default):
+        if x is None:
+            return default
+        s = str(x).strip()
+        if not s or s.lower() in {"nan", "none", "na", HIGHLIGHT_COLOR_AUTO}:
+            return default
+        return s
+
+    any_custom_cat = False
+    any_custom_color = False
+    if has_category:
+        any_custom_cat = any(
+            _norm(v, default_category) != default_category
+            for v in hits_table[CATEGORY_COL]
+        )
+    if has_color:
+        any_custom_color = any(
+            _norm(v, "auto") != "auto"
+            for v in hits_table[HIGHLIGHT_COLOR_COL]
+        )
+    if not any_custom_cat and not any_custom_color:
+        return []
+
+    seen = {}
+    _warned = set()
+    for _, row in hits_table.iterrows():
+        cat = _norm(row.get(CATEGORY_COL) if has_category else None,
+                    default_category)
+        col = _norm(row.get(HIGHLIGHT_COLOR_COL) if has_color else None,
+                    default_color)
+        if not is_color_like(col):
+            col = default_color
+        if cat not in seen:
+            seen[cat] = col
+        elif seen[cat] != col and (cat, col) not in _warned:
+            _warned.add((cat, col))
+            logger.warning(
+                "Category %r appears with multiple colours; using first "
+                "(%r) for the legend and ignoring %r.",
+                cat, seen[cat], col,
+            )
+    return list(seen.items())

@@ -28,6 +28,18 @@ DESCMSG = """
         #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 """
 
+def parse_float_or_bool(val: str):
+    """Parses a string into a float, bool, or None for CLI args."""
+    if val.lower() in ('true', '1', 'yes'):
+        return True
+    elif val.lower() in ('false', '0', 'no', 'none'):
+        return False
+    try:
+        return float(val)
+    except ValueError:
+        raise argparse.ArgumentTypeError(
+            f"Invalid value '{val}'. Must be a float (e.g., 5e-8) or boolean ('true'/'false')."
+        )
 
 def get_arguments(descmsg: str = DESCMSG) -> argparse.Namespace:
     """Parse and return command-line arguments for the pycmplot entry point.
@@ -209,6 +221,18 @@ def get_arguments(descmsg: str = DESCMSG) -> argparse.Namespace:
         add_help=False,
     )
 
+    # --- Global flags --------------------------------------------------
+    # ``--version`` is offered here (in addition to any add_help handling
+    # below) so users can query the installed pycmplot version without
+    # having to touch the Python REPL — matches the to-do.md request.
+    from pycmplot import __version__ as _pcm_version
+    parser.add_argument(
+        "-V", "--version",
+        action="version",
+        version=f"pycmplot {_pcm_version}",
+        help="Print the installed pycmplot version and exit.",
+    )
+
     req = parser.add_argument_group("Required")
     opt = parser.add_argument_group("Optional")
     cio = parser.add_argument_group("Circular Only")
@@ -363,15 +387,65 @@ def get_arguments(descmsg: str = DESCMSG) -> argparse.Namespace:
             "retained per track during auto-thinning (default 200000)."
         ),
     )
+
+    # --- Cache / resume ------------------------------------------------
+    # Per-track Stage-1 checkpointing.  See pycmplot.cache for the
+    # on-disk layout and cache-key semantics.
+    opt.add_argument(
+        "--cache",
+        action="store_true",
+        help=(
+            "Enable per-track Stage-1 cache.  On subsequent runs, "
+            "already-processed tracks are read straight from parquet "
+            "instead of re-parsing / re-thinning the raw file.  Cache "
+            "entries are invalidated automatically when the raw file "
+            "changes or when any Stage-1 parameter (trim_pval, "
+            "auto_thin*, highlight*, build, ...) changes."
+        ),
+    )
+    opt.add_argument(
+        "--cache_dir",
+        default=".pycmplot_cache", type=str, metavar="path",
+        help="Directory to store per-track cache files (default: .pycmplot_cache).",
+    )
+    opt.add_argument(
+        "--no_resume",
+        action="store_true",
+        help=(
+            "Disable resume semantics.  With --cache, the default is to "
+            "retry any track whose previous cache entry is missing / "
+            "stale / failed; --no_resume forces a full re-run for every "
+            "track regardless of cache state (equivalent to --clear_cache "
+            "then --cache)."
+        ),
+    )
+    opt.add_argument(
+        "--clear_cache",
+        action="store_true",
+        help=(
+            "Delete the cache directory before running.  Useful when a "
+            "cached track is suspected to be corrupted."
+        ),
+    )
+
     opt.add_argument(
         "-sig", "--signif_threshold",
         default=None, const=None, 
         nargs="?", type=float, metavar="float",
         help="Genome-wide significance threshold (default: 0.05/number of records)."
     )
+    #opt.add_argument(
+    #    "-sigl", "--signif-line",
+    #    type=parse_float_or_bool,
+    #    default=True,
+    #    help=(
+    #        "Genome-wide significance line. Pass 'true' to use calculated threshold, "
+    #        "'false' to disable, or a float (e.g., 5e-8 or 7.3 for -log10) to set explicitly."
+    #    )
+    #)
     opt.add_argument(
         "-sigl", "--signif_line",
-        default=None, const=999999, # arbitriary number to evaluate
+        default=False, const=True, # arbitriary number to evaluate
         nargs="?", type=float, metavar="float",
         help="Value for genome-wide significance line if different from `-sig` (default: 0.05/number of records)."
     )

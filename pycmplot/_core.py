@@ -102,6 +102,28 @@ def main() -> None:
     args = get_arguments(DESCMSG)
     print(DESCMSG)
 
+    # ------------------------------------------------------------------
+    # Cache housekeeping
+    # ------------------------------------------------------------------
+    # ``--clear_cache`` wipes the cache directory before anything else
+    # runs so a fresh, deterministic run can follow.  ``--no_resume``
+    # implies the same behaviour when combined with ``--cache`` — it
+    # would otherwise be a confusing no-op (there'd still be stale
+    # cache entries around that a follow-up run could pick up).
+    if getattr(args, "clear_cache", False) or (
+        getattr(args, "no_resume", False) and getattr(args, "cache", False)
+    ):
+        try:
+            from pycmplot.cache import TrackCache
+            from pycmplot import __version__ as _pcm_version
+            _wipe = TrackCache(getattr(args, "cache_dir", ".pycmplot_cache"),
+                               _pcm_version)
+            _wipe.clear()
+            logger.info("Cleared cache at %s", getattr(args, "cache_dir",
+                        ".pycmplot_cache"))
+        except Exception as _exc:
+            logger.warning("Failed to clear cache: %s", _exc)
+
     mode             = args.mode
     sum_stats_raw    = args.sum_stats
     chrom_arg        = args.chrom_column
@@ -258,6 +280,10 @@ def main() -> None:
         auto_thin=not getattr(args, "no_auto_thin", False),
         auto_thin_threshold=getattr(args, "auto_thin_threshold", 2.0),
         auto_thin_max_below=getattr(args, "auto_thin_max_below", 200_000),
+        # Optional per-track Stage-1 cache (see pycmplot.cache).
+        cache=bool(getattr(args, "cache", False)),
+        cache_dir=getattr(args, "cache_dir", ".pycmplot_cache"),
+        resume=not bool(getattr(args, "no_resume", False)),
     )
 
     merged_assoc_sector_sizes = pycmplot_dict["sectors"]
@@ -356,7 +382,7 @@ def main() -> None:
                 colors=colors,
                 signif_threshold=signif_threshold,
                 dpi=dpi,
-                fontsize=fsize,
+                fontsize=plot_title_size,
                 fig_format=output_format,
             )
         elif qq_overlay:
@@ -368,7 +394,7 @@ def main() -> None:
                 colors=colors,
                 signif_threshold=signif_threshold,
                 dpi=dpi,
-                fontsize=fsize,
+                fontsize=plot_title_size,
                 title=plot_title,
                 output_path=f"{qq_stem}_overlay",
                 fig_format=output_format,
@@ -383,7 +409,7 @@ def main() -> None:
                 ncols=qq_ncols,
                 signif_threshold=signif_threshold,
                 dpi=dpi,
-                fontsize=fsize,
+                fontsize=plot_title_size,
                 title=plot_title,
                 output_path=f"{qq_stem}_combined",
                 fig_format=output_format,

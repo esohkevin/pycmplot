@@ -60,6 +60,7 @@ Contents
    :maxdepth: 2
    :caption: User Guide
 
+   tutorial
    cli
    python_api_notebook
 

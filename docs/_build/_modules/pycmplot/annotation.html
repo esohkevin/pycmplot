@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pycmplot.annotation &mdash; pycmplot 0.3.0 documentation</title>
+  <title>pycmplot.annotation &mdash; pycmplot 0.3.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=e259d695"></script>
+      <script src="../../_static/documentation_options.js?v=4621528c"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -71,6 +71,29 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#setup-a-synthetic-dataset">Setup: a synthetic dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#the-three-step-mental-model">The three-step mental model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#linear-manhattan-plots">Linear Manhattan plots</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial.html#single-track">Single-track</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial.html#multi-track">Multi-track</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#circular-circos-plots">Circular (Circos) plots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#highlighting">Highlighting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#automatic-gene-annotation">Automatic gene annotation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#qq-plots-and-compute-pvals">QQ plots and <code class="docutils literal notranslate"><span class="pre">compute_pvals</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#caching-and-warm-resume">Caching and warm resume</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#the-hits-overlay-tsv">The hits overlay TSV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#per-locus-highlight-colours">Per-locus highlight colours</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#per-locus-categories-and-the-custom-legend">Per-locus categories and the custom legend</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#multi-panel-canvas">Multi-panel canvas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#mixed-genome-builds">Mixed genome builds</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#cli-equivalents">CLI equivalents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#next-steps">Next steps</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command-Line Interface</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../cli.html#input-output-options">Input / output options</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../cli.html#column-auto-detection-options">Column auto-detection options</a></li>
@@ -134,7 +157,12 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../api/io.html">pycmplot.io</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../api/io.html#module-pycmplot.io">pycmplot.io</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/io.html#module-pycmplot.io">pycmplot.io</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/io.html#density-aware-sub-sampling">Density-aware sub-sampling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/io.html#per-track-stage-1-cache">Per-track Stage-1 cache</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/io.html#public-functions">Public functions</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/io.html#pycmplot.io.auto_thin_for_manhattan"><code class="docutils literal notranslate"><span class="pre">auto_thin_for_manhattan()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/io.html#pycmplot.io.detect_delimiter"><code class="docutils literal notranslate"><span class="pre">detect_delimiter()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/io.html#pycmplot.io.generate_random_string"><code class="docutils literal notranslate"><span class="pre">generate_random_string()</span></code></a></li>
@@ -142,6 +170,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/io.html#pycmplot.io.get_output_paths"><code class="docutils literal notranslate"><span class="pre">get_output_paths()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/io.html#pycmplot.io.get_sumstats_and_merged_sector_list"><code class="docutils literal notranslate"><span class="pre">get_sumstats_and_merged_sector_list()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/io.html#pycmplot.io.prep_pycmplot_input_info"><code class="docutils literal notranslate"><span class="pre">prep_pycmplot_input_info()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/io.html#pycmplot.io.process_signif_line"><code class="docutils literal notranslate"><span class="pre">process_signif_line()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/io.html#pycmplot.io.resolve_delimiter"><code class="docutils literal notranslate"><span class="pre">resolve_delimiter()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/io.html#pycmplot.io.smart_open"><code class="docutils literal notranslate"><span class="pre">smart_open()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/io.html#pycmplot.io.strip_comma_separated_input_streams"><code class="docutils literal notranslate"><span class="pre">strip_comma_separated_input_streams()</span></code></a></li>
@@ -158,8 +187,13 @@
 <li class="toctree-l4"><a class="reference internal" href="../../api/annotation.html#gene-reference-files">Gene reference files</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/annotation.html#pycmplot.annotation.build_highlight_legend_entries"><code class="docutils literal notranslate"><span class="pre">build_highlight_legend_entries()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/annotation.html#pycmplot.annotation.ensure_category_column"><code class="docutils literal notranslate"><span class="pre">ensure_category_column()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/annotation.html#pycmplot.annotation.ensure_highlight_color_column"><code class="docutils literal notranslate"><span class="pre">ensure_highlight_color_column()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/annotation.html#pycmplot.annotation.get_annotation_column"><code class="docutils literal notranslate"><span class="pre">get_annotation_column()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/annotation.html#pycmplot.annotation.get_hits_summary_table"><code class="docutils literal notranslate"><span class="pre">get_hits_summary_table()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/annotation.html#pycmplot.annotation.resolve_highlight_categories"><code class="docutils literal notranslate"><span class="pre">resolve_highlight_categories()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/annotation.html#pycmplot.annotation.resolve_highlight_colors"><code class="docutils literal notranslate"><span class="pre">resolve_highlight_colors()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/liftover.html">pycmplot.liftover</a><ul>
@@ -188,10 +222,12 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/plotting.html#pycmplot-plotting-qq">pycmplot.plotting.qq</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.qq.get_legend_loc_string"><code class="docutils literal notranslate"><span class="pre">get_legend_loc_string()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.qq.plot_qq_combined"><code class="docutils literal notranslate"><span class="pre">plot_qq_combined()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.qq.plot_qq_overlay"><code class="docutils literal notranslate"><span class="pre">plot_qq_overlay()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.qq.plot_qq_separate"><code class="docutils literal notranslate"><span class="pre">plot_qq_separate()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.qq.plot_qq_single"><code class="docutils literal notranslate"><span class="pre">plot_qq_single()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.qq.set_legend_loc_string"><code class="docutils literal notranslate"><span class="pre">set_legend_loc_string()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.qq.thin_pvals"><code class="docutils literal notranslate"><span class="pre">thin_pvals()</span></code></a></li>
 </ul>
 </li>
@@ -225,14 +261,17 @@
 <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id1">[0.2.8] — 2026-05-30</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id2">0.2.7 — 2026-04-27</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id3">0.2.5 — 2026-04-20</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id4">0.2.2 — 2026-04-18</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id5">0.2.1 — 2026-04-16</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id6">0.1.9 — 2026-04-14</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id7">0.1.8 — 2026-04-14</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id8">0.1.0 — 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#xx-xx">0.4.0 - 2026-XX-XX</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id1">0.3.1 - 2026-07-31</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id2">0.3.0 - 2026-06-01</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id3">0.2.8 - 2026-05-30</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id4">0.2.7 - 2026-04-27</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id5">0.2.5 - 2026-04-20</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id6">0.2.2 - 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id7">0.2.1 — 2026-04-16</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id8">0.1.9 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id9">0.1.8 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id10">0.1.0 — 2026-04-18</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a><ul>
@@ -882,6 +921,319 @@
     <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Annotating by: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">label_clm</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">label_clm</span></div>
+
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Per-locus highlight color resolution</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+<span class="n">HIGHLIGHT_COLOR_COL</span> <span class="o">=</span> <span class="s2">&quot;highlight_color&quot;</span>
+<span class="n">HIGHLIGHT_COLOR_AUTO</span> <span class="o">=</span> <span class="s2">&quot;auto&quot;</span>
+
+<span class="n">CATEGORY_COL</span> <span class="o">=</span> <span class="s2">&quot;category&quot;</span>
+<span class="n">CATEGORY_DEFAULT</span> <span class="o">=</span> <span class="s2">&quot;significant&quot;</span>
+
+
+<div class="viewcode-block" id="ensure_highlight_color_column">
+<a class="viewcode-back" href="../../api/annotation.html#pycmplot.annotation.ensure_highlight_color_column">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">ensure_highlight_color_column</span><span class="p">(</span>
+    <span class="n">hits_table</span><span class="p">:</span> <span class="s2">&quot;pd.DataFrame&quot;</span><span class="p">,</span>
+    <span class="n">default</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">HIGHLIGHT_COLOR_AUTO</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;pd.DataFrame&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Make sure the hits table has a ``highlight_color`` column.</span>
+
+<span class="sd">    Backward-compat helper.  When cached hits overlays predate the</span>
+<span class="sd">    per-locus color feature, the column may be missing entirely; older</span>
+<span class="sd">    Python-API callers may build their own hits tables without it.  We</span>
+<span class="sd">    inject the column with the sentinel *default* so the downstream</span>
+<span class="sd">    color-lookup path can uniformly assume the column exists.  Existing</span>
+<span class="sd">    values (including user-supplied hex codes / names / ``&quot;auto&quot;``) are</span>
+<span class="sd">    preserved untouched.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+    <span class="k">if</span> <span class="n">hits_table</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">hits_table</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">hits_table</span>
+    <span class="k">if</span> <span class="n">HIGHLIGHT_COLOR_COL</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">hits_table</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="n">hits_table</span> <span class="o">=</span> <span class="n">hits_table</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">hits_table</span><span class="p">[</span><span class="n">HIGHLIGHT_COLOR_COL</span><span class="p">]</span> <span class="o">=</span> <span class="n">default</span>
+    <span class="k">return</span> <span class="n">hits_table</span></div>
+
+
+
+<div class="viewcode-block" id="ensure_category_column">
+<a class="viewcode-back" href="../../api/annotation.html#pycmplot.annotation.ensure_category_column">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">ensure_category_column</span><span class="p">(</span>
+    <span class="n">hits_table</span><span class="p">:</span> <span class="s2">&quot;pd.DataFrame&quot;</span><span class="p">,</span>
+    <span class="n">default</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">CATEGORY_DEFAULT</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;pd.DataFrame&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Make sure the hits table has a ``category`` column.</span>
+
+<span class="sd">    Companion to :func:`ensure_highlight_color_column`; injects the</span>
+<span class="sd">    sentinel default so downstream code can assume the column exists.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+    <span class="k">if</span> <span class="n">hits_table</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">hits_table</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">hits_table</span>
+    <span class="k">if</span> <span class="n">CATEGORY_COL</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">hits_table</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="n">hits_table</span> <span class="o">=</span> <span class="n">hits_table</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">hits_table</span><span class="p">[</span><span class="n">CATEGORY_COL</span><span class="p">]</span> <span class="o">=</span> <span class="n">default</span>
+    <span class="k">return</span> <span class="n">hits_table</span></div>
+
+
+
+<div class="viewcode-block" id="resolve_highlight_colors">
+<a class="viewcode-back" href="../../api/annotation.html#pycmplot.annotation.resolve_highlight_colors">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">resolve_highlight_colors</span><span class="p">(</span>
+    <span class="n">sig_df</span><span class="p">:</span> <span class="s2">&quot;pd.DataFrame&quot;</span><span class="p">,</span>
+    <span class="n">hits_table</span><span class="p">:</span> <span class="s2">&quot;pd.DataFrame&quot;</span><span class="p">,</span>
+    <span class="n">default_color</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">chr_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;CHR&quot;</span><span class="p">,</span>
+    <span class="n">pos_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;POS&quot;</span><span class="p">,</span>
+    <span class="n">window_kb</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a per-row highlight color for the highlighted variants.</span>
+
+<span class="sd">    For every row in *sig_df* (the ``in_locus`` subset of a track), we</span>
+<span class="sd">    find the closest lead in *hits_table* on the same chromosome and,</span>
+<span class="sd">    within *window_kb*, use its ``highlight_color`` value.  The sentinel</span>
+<span class="sd">    ``&quot;auto&quot;``, empty strings, NaNs, and colors matplotlib can&#39;t parse</span>
+<span class="sd">    all fall back to *default_color*.  Invalid colors emit a</span>
+<span class="sd">    ``logger.warning`` naming the offending value so users can fix a</span>
+<span class="sd">    typo in their overlay TSV.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    sig_df</span>
+<span class="sd">        Subset of a track&#39;s DataFrame with ``in_locus == True``.  Must</span>
+<span class="sd">        have *chr_col* and *pos_col*.</span>
+<span class="sd">    hits_table</span>
+<span class="sd">        Locus summary table (per-lead).  Must have *chr_col* and</span>
+<span class="sd">        *pos_col*.  If it doesn&#39;t have ``highlight_color``, every row</span>
+<span class="sd">        falls back to *default_color* (backward compat).</span>
+<span class="sd">    default_color</span>
+<span class="sd">        Global highlight color passed to the plotter.  Used when the</span>
+<span class="sd">        cached row&#39;s color is ``&quot;auto&quot;``, missing, or invalid.</span>
+<span class="sd">    window_kb</span>
+<span class="sd">        Search radius in kb for matching a highlighted variant to its</span>
+<span class="sd">        lead.  Defaults to 500 kb, which mirrors the highlight</span>
+<span class="sd">        window in :func:`~pycmplot.stats.get_highlight_snps`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list of str</span>
+<span class="sd">        One matplotlib-parseable color per row of *sig_df*, in row</span>
+<span class="sd">        order.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.colors</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_color_like</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sig_df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+
+    <span class="c1"># Fast path: no hits table (or missing color column) → uniform default.</span>
+    <span class="k">if</span> <span class="n">hits_table</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">hits_table</span><span class="o">.</span><span class="n">empty</span> \
+            <span class="ow">or</span> <span class="n">HIGHLIGHT_COLOR_COL</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">hits_table</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">default_color</span><span class="p">]</span> <span class="o">*</span> <span class="n">n</span>
+
+    <span class="n">window_bp</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">window_kb</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span>
+
+    <span class="c1"># Group leads by chromosome once so per-row lookup is cheap.</span>
+    <span class="n">hits_by_chr</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">chrom</span><span class="p">,</span> <span class="n">sub</span> <span class="ow">in</span> <span class="n">hits_table</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">chr_col</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">pos_arr</span> <span class="o">=</span> <span class="n">sub</span><span class="p">[</span><span class="n">pos_col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;int64&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
+            <span class="k">continue</span>
+        <span class="n">col_arr</span> <span class="o">=</span> <span class="n">sub</span><span class="p">[</span><span class="n">HIGHLIGHT_COLOR_COL</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+        <span class="n">hits_by_chr</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">chrom</span><span class="p">)]</span> <span class="o">=</span> <span class="p">(</span><span class="n">pos_arr</span><span class="p">,</span> <span class="n">col_arr</span><span class="p">)</span>
+
+    <span class="n">_warned</span><span class="p">:</span> <span class="nb">set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_fallback_for</span><span class="p">(</span><span class="n">reason</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">offending</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="p">(</span><span class="n">reason</span><span class="p">,</span> <span class="n">offending</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_warned</span><span class="p">:</span>
+            <span class="n">_warned</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">&quot;highlight_color </span><span class="si">%r</span><span class="s2"> rejected (</span><span class="si">%s</span><span class="s2">); using default </span><span class="si">%r</span><span class="s2">.&quot;</span><span class="p">,</span>
+                <span class="n">offending</span><span class="p">,</span> <span class="n">reason</span><span class="p">,</span> <span class="n">default_color</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">default_color</span>
+
+    <span class="n">colors_out</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">chrom</span><span class="p">,</span> <span class="n">pos</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
+        <span class="n">sig_df</span><span class="p">[</span><span class="n">chr_col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
+        <span class="n">sig_df</span><span class="p">[</span><span class="n">pos_col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;int64&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
+    <span class="p">):</span>
+        <span class="n">entry</span> <span class="o">=</span> <span class="n">hits_by_chr</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">chrom</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">entry</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">colors_out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">default_color</span><span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="n">lead_pos</span><span class="p">,</span> <span class="n">lead_col</span> <span class="o">=</span> <span class="n">entry</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">lead_pos</span> <span class="o">-</span> <span class="nb">int</span><span class="p">(</span><span class="n">pos</span><span class="p">))</span>
+        <span class="n">j</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">argmin</span><span class="p">())</span>
+        <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">window_bp</span><span class="p">:</span>
+            <span class="n">colors_out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">default_color</span><span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="n">raw</span> <span class="o">=</span> <span class="n">lead_col</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lead_col</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">raw</span> <span class="ow">or</span> <span class="n">raw</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="n">HIGHLIGHT_COLOR_AUTO</span> \
+                <span class="ow">or</span> <span class="n">raw</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;nan&quot;</span><span class="p">,</span> <span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">}:</span>
+            <span class="n">colors_out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">default_color</span><span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_color_like</span><span class="p">(</span><span class="n">raw</span><span class="p">):</span>
+            <span class="n">colors_out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_fallback_for</span><span class="p">(</span><span class="s2">&quot;not a matplotlib color&quot;</span><span class="p">,</span> <span class="n">raw</span><span class="p">))</span>
+            <span class="k">continue</span>
+        <span class="n">colors_out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">colors_out</span></div>
+
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Category resolution + legend entry construction</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+<div class="viewcode-block" id="resolve_highlight_categories">
+<a class="viewcode-back" href="../../api/annotation.html#pycmplot.annotation.resolve_highlight_categories">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">resolve_highlight_categories</span><span class="p">(</span>
+    <span class="n">sig_df</span><span class="p">:</span> <span class="s2">&quot;pd.DataFrame&quot;</span><span class="p">,</span>
+    <span class="n">hits_table</span><span class="p">:</span> <span class="s2">&quot;pd.DataFrame&quot;</span><span class="p">,</span>
+    <span class="n">default_category</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">CATEGORY_DEFAULT</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">chr_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;CHR&quot;</span><span class="p">,</span>
+    <span class="n">pos_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;POS&quot;</span><span class="p">,</span>
+    <span class="n">window_kb</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a per-row category label for the highlighted variants.</span>
+
+<span class="sd">    Same lookup discipline as :func:`resolve_highlight_colors`: each</span>
+<span class="sd">    ``sig_df`` row is matched to its nearest lead on the same</span>
+<span class="sd">    chromosome within *window_kb*, and the lead&#39;s ``category`` value</span>
+<span class="sd">    is returned.  Missing / blank / NaN values fall back to</span>
+<span class="sd">    *default_category* (typically ``&quot;significant&quot;``).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sig_df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">hits_table</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">hits_table</span><span class="o">.</span><span class="n">empty</span> \
+            <span class="ow">or</span> <span class="n">CATEGORY_COL</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">hits_table</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">default_category</span><span class="p">]</span> <span class="o">*</span> <span class="n">n</span>
+
+    <span class="n">window_bp</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">window_kb</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span>
+    <span class="n">hits_by_chr</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">chrom</span><span class="p">,</span> <span class="n">sub</span> <span class="ow">in</span> <span class="n">hits_table</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">chr_col</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">pos_arr</span> <span class="o">=</span> <span class="n">sub</span><span class="p">[</span><span class="n">pos_col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;int64&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
+            <span class="k">continue</span>
+        <span class="n">cat_arr</span> <span class="o">=</span> <span class="n">sub</span><span class="p">[</span><span class="n">CATEGORY_COL</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+        <span class="n">hits_by_chr</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">chrom</span><span class="p">)]</span> <span class="o">=</span> <span class="p">(</span><span class="n">pos_arr</span><span class="p">,</span> <span class="n">cat_arr</span><span class="p">)</span>
+
+    <span class="n">cats_out</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">chrom</span><span class="p">,</span> <span class="n">pos</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
+        <span class="n">sig_df</span><span class="p">[</span><span class="n">chr_col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
+        <span class="n">sig_df</span><span class="p">[</span><span class="n">pos_col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;int64&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
+    <span class="p">):</span>
+        <span class="n">entry</span> <span class="o">=</span> <span class="n">hits_by_chr</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">chrom</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">entry</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">cats_out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">default_category</span><span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="n">lead_pos</span><span class="p">,</span> <span class="n">lead_cat</span> <span class="o">=</span> <span class="n">entry</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">lead_pos</span> <span class="o">-</span> <span class="nb">int</span><span class="p">(</span><span class="n">pos</span><span class="p">))</span>
+        <span class="n">j</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">argmin</span><span class="p">())</span>
+        <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">window_bp</span><span class="p">:</span>
+            <span class="n">cats_out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">default_category</span><span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="n">raw</span> <span class="o">=</span> <span class="n">lead_cat</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lead_cat</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">raw</span> <span class="ow">or</span> <span class="n">raw</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;nan&quot;</span><span class="p">,</span> <span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">}:</span>
+            <span class="n">cats_out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">default_category</span><span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="n">cats_out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cats_out</span></div>
+
+
+
+<div class="viewcode-block" id="build_highlight_legend_entries">
+<a class="viewcode-back" href="../../api/annotation.html#pycmplot.annotation.build_highlight_legend_entries">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_highlight_legend_entries</span><span class="p">(</span>
+    <span class="n">hits_table</span><span class="p">:</span> <span class="s2">&quot;pd.DataFrame&quot;</span><span class="p">,</span>
+    <span class="n">default_color</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">default_category</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">CATEGORY_DEFAULT</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a list of ``(category, color)`` pairs for a custom legend.</span>
+
+<span class="sd">    Only returns entries when the user has customised the overlay in a</span>
+<span class="sd">    way worth surfacing:</span>
+
+<span class="sd">    * Any row has a category other than *default_category*, OR</span>
+<span class="sd">    * Any row has a highlight_color other than the sentinel</span>
+<span class="sd">      ``&quot;auto&quot;`` (i.e. an explicit user-chosen colour).</span>
+
+<span class="sd">    When nothing has been customised, returns ``[]`` -- the plotter</span>
+<span class="sd">    then skips the legend entirely, matching the pre-feature layout.</span>
+
+<span class="sd">    Entries are deduplicated by ``category`` in first-appearance order</span>
+<span class="sd">    (so users can control legend order by reordering rows in their</span>
+<span class="sd">    TSV).  If the same category appears with multiple colours, the</span>
+<span class="sd">    first colour wins and a warning is logged.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.colors</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_color_like</span>
+
+    <span class="k">if</span> <span class="n">hits_table</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">hits_table</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+
+    <span class="n">has_category</span> <span class="o">=</span> <span class="n">CATEGORY_COL</span> <span class="ow">in</span> <span class="n">hits_table</span><span class="o">.</span><span class="n">columns</span>
+    <span class="n">has_color</span> <span class="o">=</span> <span class="n">HIGHLIGHT_COLOR_COL</span> <span class="ow">in</span> <span class="n">hits_table</span><span class="o">.</span><span class="n">columns</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">has_category</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">has_color</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_norm</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">default</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">default</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">s</span> <span class="ow">or</span> <span class="n">s</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;nan&quot;</span><span class="p">,</span> <span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">,</span> <span class="n">HIGHLIGHT_COLOR_AUTO</span><span class="p">}:</span>
+            <span class="k">return</span> <span class="n">default</span>
+        <span class="k">return</span> <span class="n">s</span>
+
+    <span class="n">any_custom_cat</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">any_custom_color</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">has_category</span><span class="p">:</span>
+        <span class="n">any_custom_cat</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span>
+            <span class="n">_norm</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">default_category</span><span class="p">)</span> <span class="o">!=</span> <span class="n">default_category</span>
+            <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">hits_table</span><span class="p">[</span><span class="n">CATEGORY_COL</span><span class="p">]</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="n">has_color</span><span class="p">:</span>
+        <span class="n">any_custom_color</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span>
+            <span class="n">_norm</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="s2">&quot;auto&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;auto&quot;</span>
+            <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">hits_table</span><span class="p">[</span><span class="n">HIGHLIGHT_COLOR_COL</span><span class="p">]</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">any_custom_cat</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">any_custom_color</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+
+    <span class="n">seen</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">_warned</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">hits_table</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+        <span class="n">cat</span> <span class="o">=</span> <span class="n">_norm</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">CATEGORY_COL</span><span class="p">)</span> <span class="k">if</span> <span class="n">has_category</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="n">default_category</span><span class="p">)</span>
+        <span class="n">col</span> <span class="o">=</span> <span class="n">_norm</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">HIGHLIGHT_COLOR_COL</span><span class="p">)</span> <span class="k">if</span> <span class="n">has_color</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="n">default_color</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_color_like</span><span class="p">(</span><span class="n">col</span><span class="p">):</span>
+            <span class="n">col</span> <span class="o">=</span> <span class="n">default_color</span>
+        <span class="k">if</span> <span class="n">cat</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
+            <span class="n">seen</span><span class="p">[</span><span class="n">cat</span><span class="p">]</span> <span class="o">=</span> <span class="n">col</span>
+        <span class="k">elif</span> <span class="n">seen</span><span class="p">[</span><span class="n">cat</span><span class="p">]</span> <span class="o">!=</span> <span class="n">col</span> <span class="ow">and</span> <span class="p">(</span><span class="n">cat</span><span class="p">,</span> <span class="n">col</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_warned</span><span class="p">:</span>
+            <span class="n">_warned</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">cat</span><span class="p">,</span> <span class="n">col</span><span class="p">))</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">&quot;Category </span><span class="si">%r</span><span class="s2"> appears with multiple colours; using first &quot;</span>
+                <span class="s2">&quot;(</span><span class="si">%r</span><span class="s2">) for the legend and ignoring </span><span class="si">%r</span><span class="s2">.&quot;</span><span class="p">,</span>
+                <span class="n">cat</span><span class="p">,</span> <span class="n">seen</span><span class="p">[</span><span class="n">cat</span><span class="p">],</span> <span class="n">col</span><span class="p">,</span>
+            <span class="p">)</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">seen</span><span class="o">.</span><span class="n">items</span><span class="p">())</span></div>
 
 </pre></div>
 

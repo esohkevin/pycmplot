@@ -17,7 +17,6 @@ The module exposes two public functions and one internal per-sector helper:
   Mutates the :class:`pycirclize.Sector` object in place and returns
   ``None``.
 """
-
 from __future__ import annotations
 
 import logging
@@ -26,6 +25,7 @@ from typing import Optional
 
 import numpy as np
 import pandas as pd
+from matplotlib.lines import Line2D
 
 from pycmplot.io import get_output_paths
 from pycmplot.stats import get_highlight_snps
@@ -131,7 +131,7 @@ def plot_circosm(
     track_index: int = 0,
     assoc_label: Optional[str] = None,
     logp: bool = True,
-    signif_line: Optional[float] = None,
+    signif_line: Optional[bool | float] = None,
     signif_threshold: Optional[float] = None,
     suggest_line: bool = False,
     suggest_threshold: Optional[float] = None,
@@ -139,7 +139,8 @@ def plot_circosm(
     highlight_color: str = 'brown',
     colors: Optional[list[str]] = ['steelblue','orange'],
     point_size: float = 6,
-    no_track_labels: bool = False
+    no_track_labels: bool = False,
+    hits_table: Optional[pd.DataFrame] = None,
 ) -> None:
     """Plot one track of summary statistics onto a single pycirclize sector.
 
@@ -183,9 +184,13 @@ def plot_circosm(
     logp : bool, optional
         If ``True``, use the ``logP`` column for y-values and threshold
         comparisons.  Default ``True``.
-    signif_line : float, optional
-        Y-value at which to draw the genome-wide significance dashed line
-        (orange-red).  Default ``5e-8``.
+    signif_line : float, bool, or None, optional
+        Genome-wide significance threshold dashed line (orange-red).
+        - If ``float``: Explicit y-axis value at which to draw the line.
+        - If ``True``: Draws the line using the calculated threshold supplied in
+        *signif_threshold* (or *signif_lines*).
+        - If ``False`` or ``None``: Suppresses the significance line completely.
+        Default ``5e-8`` (or ``True`` depending on your default).
     signif_threshold : float, optional
         Significance threshold used for y-axis scaling.  Default ``5e-8``.
     suggest_line : float or bool, optional
@@ -287,7 +292,7 @@ def plot_circosm(
             side="left",
             vmin=v_min,
             vmax=v_max,
-            label_size=5,
+            label_size=3,
         )
 
     # ------------------------------------------------------------------
@@ -318,11 +323,24 @@ def plot_circosm(
         )
 
         if not sig.empty:
+            # Per-locus color: resolve each highlighted variant's color
+            # from the hits table (fallback = the plot-time
+            # highlight_color for 'auto' / blank / invalid rows).
+            # pycirclize's ``track.scatter`` accepts either a single
+            # colour string or a per-point sequence; passing a list of
+            # colours works transparently.
+            try:
+                from pycmplot.annotation import resolve_highlight_colors
+                _sig_colors = resolve_highlight_colors(
+                    sig, hits_table, default_color=highlight_color,
+                )
+            except Exception:
+                _sig_colors = [highlight_color] * len(sig.index)
             track.scatter(
-                list(sig["POS"]), #.to_numpy(),
-                list(sig[y_col]), #.to_numpy(),
+                list(sig["POS"]),
+                list(sig[y_col]),
                 vmin=v_min, vmax=v_max,
-                s=point_size, marker="o", color=highlight_color,
+                s=point_size, marker="o", color=_sig_colors,
             )
     else:
         track.scatter(
@@ -336,7 +354,7 @@ def plot_circosm(
     # ------------------------------------------------------------------
     # Significance lines
     # ------------------------------------------------------------------
-    if signif_line is not None:
+    if signif_line not in (False, None):
         track.line(
             x=[sector.start, sector.end],
             y=[genome_wide_sig, genome_wide_sig],
@@ -365,7 +383,7 @@ def plot_circular(
     label_col: str = None,
     chrom_label_side: str = 'inside',
     chrom_label_size: float = 6,
-    signif_line: float = None,
+    signif_line: Optional[bool | float] = None,
     highlight: bool = False,
     highlight_thresh: float = None,
     highlight_color: str = 'brown',
@@ -384,7 +402,9 @@ def plot_circular(
     output_format: Optional[str] = 'png',
     output_dir: Optional[str] = '.',
     ylabel: Optional[str] = None,
-    no_track_labels: bool = False
+    no_track_labels: bool = False,
+    # --- NEW MULTI-PANEL PARAMETER ---
+    ax: Optional[plt.Axes] = None,
 ):
     """Generate a multi-track Circos-style circular Manhattan plot.
 
@@ -478,11 +498,19 @@ def plot_circular(
         ``"-log₁₀(p-value)"`` if *logp* is ``True`` and ``"P"`` otherwise.          
     no_track_labels : bool, optional
         Suppress track labels on the spacer sector.  Default ``False``.
+    ax : matplotlib.axes.Axes, optional
+        Target Matplotlib polar axis on which to render the circular plot. Must 
+        be instantiated with ``projection='polar'`` (e.g., via 
+        ``fig.add_subplot(111, projection='polar')``). If ``None`` (default), 
+        a new standalone figure and polar axis are initialized automatically. 
+        When *ax* is supplied, automatic figure saving via *output_dir* and 
+        *plot_title* is bypassed to facilitate multi-panel composition.
 
     Returns
     -------
     matplotlib.figure.Figure
-        The completed circular Manhattan figure (also saved to *output_dir*).
+            The completed figure containing the circular plot. If *ax* was 
+            provided, this is the parent figure of *ax*.
 
     See Also
     --------
@@ -496,6 +524,9 @@ def plot_circular(
     Examples
     --------
     >>> from pycmplot.plotting.circular import plot_circular
+
+    Standalone figure generation:
+    
     >>> fig = plot_circular(
     ...     sumstats_loaded=loaded,
     ...     sector_sizes=sectors,
@@ -507,6 +538,26 @@ def plot_circular(
     ...     plot_title="RBC_Traits",
     ...     output_dir="./results",
     ... )
+
+    Embedding into a multi-panel figure using subfigures:
+
+    >>> import matplotlib.pyplot as plt
+    >>> fig = plt.figure(figsize=(16, 8))
+    >>> subfigs = fig.subfigures(1, 2)
+    >>> ax1 = subfigs[0].add_subplot(111, projection="polar")
+    >>> ax2 = subfigs[1].add_subplot(111, projection="polar")
+    >>> plot_circular(
+    ...     sumstats_loaded=loaded1,
+    ...     sector_sizes=sectors1,
+    ...     signif_lines=sig_lines1,
+    ...     ax=ax1,
+    ... )
+    >>> plot_circular(
+    ...     sumstats_loaded=loaded2,
+    ...     sector_sizes=sectors2,
+    ...     signif_lines=sig_lines2,
+    ...     ax=ax2,
+    ... )   
     """
 
     from pycirclize import Circos
@@ -618,7 +669,8 @@ def plot_circular(
                 highlight_color=highlight_color,
                 colors=colors,
                 point_size=point_size,
-                no_track_labels=no_track_labels
+                no_track_labels=no_track_labels,
+                hits_table=hits_table,
             )
 
     # ------------------------------------------------------------------
@@ -699,7 +751,7 @@ def plot_circular(
                     + (sector_min_r + sector_max_r) / 12,
                 adjust_rotation=False,
                 ignore_range_error=True,
-                size=float(track_label_size),
+                size=float(track_label_size) / 1.5,
                 color="black",
                 fontstyle="italic",
                 fontweight="regular",
@@ -709,10 +761,72 @@ def plot_circular(
                 ha="right",
             )
 
-    fig = circos.plotfig()
+    #fig = circos.plotfig()
 
-    if plt_name:
+    if ax is not None:
+        fig = circos.plotfig(ax=ax)
+    else:
+        fig = circos.plotfig()
+
+    # ------------------------------------------------------------------
+    # Optional user-driven highlight legend (from hits overlay).
+    #
+    # Uses the shared :func:`pycmplot.annotation.build_highlight_legend_entries`
+    # helper so the semantics match the linear plotter exactly:
+    #
+    # * Legend is skipped entirely when nothing has been customised
+    #   (all rows ``category='significant'`` AND all
+    #   ``highlight_color='auto'``) -- helper returns ``[]``.
+    # * Entries are deduplicated on ``category`` in first-appearance
+    #   order (so users can reorder rows in their TSV to reorder the
+    #   legend).
+    # * The helper warns via ``logger.warning`` when the same category
+    #   appears with multiple colours, and falls back to the first
+    #   colour; the previous ad-hoc ``.unique()[0]`` silently picked
+    #   whatever came out first.
+    # * The helper tolerates a hits table with no ``category`` /
+    #   ``highlight_color`` column (returns ``[]``), so legacy caches
+    #   without those columns don't crash the plot.
+    # ------------------------------------------------------------------
+    if highlight and hits_table is not None and not hits_table.empty:
+        try:
+            from pycmplot.annotation import build_highlight_legend_entries
+            _legend_entries = build_highlight_legend_entries(
+                hits_table, default_color=highlight_color,
+            )
+        except Exception as _exc:
+            logger.warning("Could not build circular highlight legend: %s", _exc)
+            _legend_entries = []
+        if _legend_entries:
+            handles = [
+                Line2D(
+                    [0], [0], marker="o", color="w",
+                    label=cat, markerfacecolor=col,
+                    markeredgecolor="none",
+                    markersize=float(point_size),
+                )
+                for cat, col in _legend_entries
+            ]
+            circos.ax.legend(
+                handles=handles,
+                loc="upper left",
+                bbox_to_anchor=(-0.05, -0.0),
+                title="Highlighted Categories",
+                fontsize=track_label_size,
+                title_fontsize=track_label_size,
+                frameon=False,
+            )
+
+    #if plt_name:
+    #    fig.savefig(fname=plt_name.lower(), dpi=dpi)
+    #    logger.info("Saved circular Manhattan plot: %s", plt_name.lower())
+
+    #return fig
+
+    ###### FIGURE RENDERING WITH AX - SUBFIG OPTIONS
+    # Save only if running as a standalone function and an explicit name is resolved
+    if plt_name and ax is None:
         fig.savefig(fname=plt_name.lower(), dpi=dpi)
         logger.info("Saved circular Manhattan plot: %s", plt_name.lower())
 
-    #return fig
+    return fig

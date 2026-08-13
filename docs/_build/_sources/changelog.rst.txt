@@ -6,7 +6,283 @@ All notable changes to **pycmplot** are documented here.
 The format is based on `Keep a Changelog <https://keepachangelog.com/en/1.0.0/>`_
 and this project adheres to `Semantic Versioning <https://semver.org/>`_.
 
+---
+
+
+0.4.0 - 2026-08-13
+------------------------------------------------------------------------------
+
+**Changed**
+
+- **QQ plot legend no longer includes a "95% CI" entry.**  The CI
+  band is visually self-evident (it's the shaded region hugging the
+  diagonal), and the extra legend entry crowded the top corner
+  alongside the track label and the ``λ`` annotation.  Legend now
+  shows only the track name(s); band still renders identically.
+  Callers who prefer the old behaviour can add an
+  overlay/annotation of their own.
+
+- **Pvals sidecar switched from uncompressed ``.npy`` to compressed
+  ``.npz`` with sorted ``float32`` payload.**  The QQ plotter sorts
+  the array internally, so pre-sorting is semantically transparent;
+  ``float32`` preserves ``median(-log10 P)`` to ~9 decimal digits
+  (well beyond any GWAS precision concern).  Result: **~5× smaller
+  on-disk footprint** — 8 MB → 1.7 MB on a 1 M-variant sidecar,
+  scaling proportionally to 80 MB → ~17 MB at 10 M variants.
+  Parquet was evaluated for consistency with the other cache files
+  but performed *worse* (117–71% of raw) due to per-column overhead
+  on random-ish float payloads; ``np.savez_compressed`` reaches
+  ~20–30% of raw.  Read path is backwards-compatible: legacy
+  ``.npy`` and short-lived ``.parquet`` sidecars are still readable
+  transparently.
+
+- **Hits overlay filename is now group-scoped.**  The file layout
+  changes from a single ``<cache_dir>/annotations/hits.tsv`` to
+  ``<cache_dir>/annotations/hits.<group_key>.tsv``, where
+  ``group_key`` is a short SHA-256 of the sorted list of per-track
+  cache_keys in the loader call.  Because each cache_key already
+  encodes the raw file SHA-256 plus every Stage-1 parameter, each
+  distinct ``(files, parameters)`` combination gets its own hits
+  overlay.  This mirrors the per-track cache invalidation model and
+  matches the reproducibility mental model: different parameters →
+  different analysis → different cached artefacts.  Multi-panel
+  workflows are safe (two panels with different sumstats never
+  clobber each other's overlays), and warm re-runs with the same
+  ``(files, parameters)`` reuse and update the same file — so
+  user-authored rows persist within one parameter setting.  Changing
+  a Stage-1 parameter (e.g. ``highlight_thresh`` or ``trim_pval``)
+  spawns a fresh overlay under a new ``group_key``; the earlier
+  overlay lingers on disk unchanged (users who want to carry a
+  hand-edit forward can copy rows manually).
+
+**BREAKING (Python API)**
+
+- **Default for** ``compute_pvals`` **flipped from** ``True`` **to**
+  ``False`` on :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`.
+  The bundled p-value array is expensive to materialise (~80 MB per
+  track at 10 M variants) and is only needed for QQ plots, so opting
+  in matches what the CLI already does (``-qq/--qq_plot`` sets it
+  automatically).
+
+  **Migration** — Python-API scripts that call the loader with
+  defaults and then feed ``bundle['pvals']`` into a QQ plotter must
+  now pass ``compute_pvals=True`` explicitly:
+
+  .. code-block:: python
+
+     # Before 0.4.0 — bundle['pvals'] populated implicitly
+     bundle = get_sumstats_and_merged_sector_list(..., logp=True)
+     plot_qq_combined(bundle['pvals'], output_path='qq.png')
+
+     # 0.4.0 onward — opt in
+     bundle = get_sumstats_and_merged_sector_list(
+         ..., logp=True, compute_pvals=True,
+     )
+     plot_qq_combined(bundle['pvals'], output_path='qq.png')
+
+  The four public QQ plotters (:func:`~pycmplot.plotting.qq.plot_qq_single`,
+  :func:`~pycmplot.plotting.qq.plot_qq_combined`,
+  :func:`~pycmplot.plotting.qq.plot_qq_separate`,
+  :func:`~pycmplot.plotting.qq.plot_qq_overlay`) now raise
+  ``ValueError`` with a directive message when handed ``None`` p-values,
+  so callers that missed this migration get a clear signpost rather
+  than a mystery downstream ``TypeError``.  Manhattan / circular
+  workflows are unaffected.
+
+**Added**
+
+- **Per-locus categories driving a custom highlight legend.**  The
+  auto-generated hits table now carries a ``category`` column,
+  populated with the sentinel ``"significant"`` at cache-write time.
+  Users hand-edit rows to give each locus a label
+  (e.g. ``"novel"``, ``"replicated"``, ``"MHC"``); **both the linear
+  and circular plotters** then render a "Highlighted Categories"
+  legend, with one entry per unique category in first-appearance
+  order — so re-ordering rows in the TSV re-orders the legend.  The
+  linear plotter anchors the legend in the top-right of the topmost
+  data axes; the circular plotter anchors it below the polar sectors
+  (which have no natural interior real-estate).  When everything is
+  left at the defaults (all rows ``category=significant`` and
+  ``highlight_color=auto``), **no legend is added** — the pre-feature
+  layout is preserved.  As with the ``highlight_color`` column,
+  user-set categories are inherited across cache regenerations by
+  ``(CHR, POS)`` lookup (no need to also change ``source='auto'`` to
+  ``user``).  Both plotters delegate the entry-building logic to the
+  shared :func:`~pycmplot.annotation.build_highlight_legend_entries`
+  helper (deduplicates on category; warns when the same category
+  appears with multiple colours; tolerates legacy caches without the
+  ``category`` / ``highlight_color`` columns).  Companion helper:
+  :func:`~pycmplot.annotation.resolve_highlight_categories`.
+
+- **Per-locus highlight colors via the hits overlay.**  The
+  auto-generated hits table now carries a ``highlight_color`` column,
+  populated with the sentinel ``"auto"`` at cache-write time.  Users
+  can hand-edit any row's value to any matplotlib-parseable color
+  (name, hex ``#rrggbb``, RGB tuple) to give that locus its own
+  highlight colour; ``"auto"`` / blank / NaN / invalid entries fall
+  back to the plot-time ``highlight_color`` argument.  Applied by
+  both :func:`~pycmplot.plotting.linear.plot_linear` and
+  :func:`~pycmplot.plotting.circular.plot_circular` — each
+  ``in_locus`` variant is looked up against its nearest lead in the
+  overlay (within 500 kb) and coloured accordingly.  Invalid colours
+  emit a ``logger.warning`` naming the offending value so typos in
+  the TSV are easy to fix.
+
+  User-set colours **survive regeneration** even when they were made
+  to auto rows (without changing ``source`` to ``user``): the writer
+  looks up each new auto row's ``(CHR, POS)`` in the previous overlay
+  and inherits any non-``"auto"`` colour it finds.  Users don't need
+  to know about the ``source`` column just to recolour a locus.
+
+  A pre-existing bug in the overlay reader — pandas'
+  ``comment='#'`` truncating hex-colour values mid-cell — was fixed
+  as part of this work.  Header comments are now stripped only when
+  they appear at the top of the file, so hex codes are read
+  faithfully.
+
+- **User-editable hits overlay** (``<cache_dir>/annotations/hits.tsv``).
+  When ``--cache`` is enabled, the auto-generated hits table is
+  persisted as a plain TSV with a ``source`` column
+  (``"auto" | "user"``).  Regeneration (triggered when the leads or
+  the annotation resource files change) only replaces rows tagged
+  ``"auto"``; rows tagged ``"user"`` survive every invalidation.
+  Users can therefore edit the TSV directly to add custom loci
+  (e.g. an *MHC region* label; a meta-analysis lead absent from any
+  input file), correct auto-picked gene names, or suppress
+  false-positive leads — all without touching Python.  A header
+  comment in the TSV documents the schema.  Skipping the annotation
+  pass on a cache hit saves an additional 1–5 s per run on top of the
+  per-track cache.
+
+- **Per-track Stage-1 cache and resume** (``pycmplot.cache``, new
+  ``--cache`` / ``--cache_dir`` / ``--no_resume`` / ``--clear_cache``
+  CLI flags; ``cache=``, ``cache_dir=``, ``resume=`` kwargs on
+  :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`).  When
+  ``cache=True``, each input file's post-load / post-liftover /
+  post-thinning DataFrame is written to
+  ``<cache_dir>/tracks/<label>.<short_key>.parquet`` alongside its
+  lead-SNP table and (optionally) its raw p-value array.  A JSON
+  metadata file records a per-track ``cache_key`` computed from the
+  raw file's SHA-256, the pycmplot version, and every Stage-1
+  parameter that affects the cached data (``trim_pval``,
+  ``auto_thin*``, ``highlight*``, ``signif_threshold``, ``build``,
+  ``logp``).  Subsequent runs skip Stage 1 entirely for tracks whose
+  cache_key matches — a 1.9×–10× speedup that grows with input size.
+  A parameter change or file rewrite invalidates the affected entries
+  silently, so users don't need to remember to clear the cache; the
+  ``--clear_cache`` flag is provided for explicit resets.  Multi-panel
+  callers that reuse a label (e.g. ``"Hb"`` in two different panels
+  pointing at different sumstats) get two coexisting cache entries,
+  disambiguated by the ``<short_key>`` suffix in the filename.  The
+  "resume" semantics (as described in ``to-do.md``) fall out for
+  free: every completed track is atomically committed to
+  ``metadata.json`` before the next iteration begins, so a run that
+  crashes on track N leaves tracks 1…N−1 cached and the next
+  ``pycmplot --cache`` invocation continues from track N.
+
+- **``--version`` / ``-V`` flag** on the CLI — prints the installed
+  pycmplot version and exits.
+
+- **Directive-error guards in the QQ plotters.**  When any of
+  :func:`~pycmplot.plotting.qq.plot_qq_single`,
+  :func:`~pycmplot.plotting.qq.plot_qq_combined`,
+  :func:`~pycmplot.plotting.qq.plot_qq_separate`, or
+  :func:`~pycmplot.plotting.qq.plot_qq_overlay` receives ``None``
+  p-values (either a bare ``None`` or a ``pval_dict`` containing
+  ``None`` values), a clear ``ValueError`` is raised naming the
+  offending track and pointing the user at the ``compute_pvals=True``
+  loader kwarg.  Complements the compute_pvals default flip above
+  so migration hiccups produce a directive message rather than a
+  downstream ``TypeError``.
+
+- **Multi-Panel Canvas Support (`plot_circular`)**:
+  Added an optional `ax` parameter to `plot_circular()`, enabling users to render
+  circular Manhattan plots onto existing Matplotlib polar axes (`projection='polar'`).
+  Allows embedding `pyCirclize` figures into complex, multi-panel layouts using
+  `matplotlib.figure.SubFigure`, `GridSpec`, or standard subplots.
+  Bypasses internal auto-saving (`fig.savefig()`) when `ax` is provided, delegating
+  layout control and rendering pipeline management to the user.
+
+**Fixed**
+
+- QQ plotters
+  (:func:`~pycmplot.plotting.qq.plot_qq_single` +
+  :func:`~pycmplot.plotting.qq.plot_qq_overlay` and the wrappers that
+  forward to them) no longer raise
+  ``TypeError: float() argument must be a real number, not a 'list'``
+  when a scalar keyword argument (``fontsize``, ``point_size``) arrives
+  as a single-element list, 0-d ndarray, or 1-element ``pandas.Series``.
+  A new :func:`~pycmplot.plotting.qq._to_scalar_float` helper coerces
+  these to plain floats at the top of each entry point; multi-element
+  inputs still raise, but now with a directive message naming the
+  offending kwarg (rather than surfacing from deep inside
+  ``matplotlib``'s numeric parsing at an unhelpful call site).
+  :func:`~pycmplot.plotting.qq._compute_lambda` was hardened at the
+  same time to always return a Python ``float`` (never a NumPy scalar
+  or 0-d array), so ``f"λ = {lam:.4f}"`` formatting is safe regardless
+  of upstream pvals shape.
+- Guarded ``df["BUILD"].unique()`` in the loader with an explicit
+  ``if "BUILD" in df.columns`` check.  The previous version dereferenced
+  ``df["BUILD"]`` before the guard and raised ``KeyError: 'BUILD'`` when
+  the input file had no BUILD column.
+- ``_atomic_write`` no longer produces ``FileNotFoundError`` when the
+  writer auto-appends its own extension (notably ``numpy.save``, which
+  silently appends ``.npy``).  The temp filename is now
+  ``<stem>.__tmp__<ext>`` (e.g. ``Hb.pvals.__tmp__.npy``) so any
+  auto-append lands on the exact path the subsequent ``os.replace``
+  expects.
+- ``compute_pvals`` no longer participates in the per-track cache key,
+  so toggling QQ requirements between runs doesn't invalidate the
+  main cache.  When a subsequent run wants pvals but no sidecar
+  exists from earlier calls, Stage 1 re-runs *just for that track* to
+  populate the sidecar; every run after that hits the cache with
+  pvals included.  Fixes the awkward interaction between the
+  ``compute_pvals=True`` Python-API default and the ``--cache`` flag.
+- **Multi-panel cache safety.**  Two loader calls sharing the same
+  ``cache_dir`` and reusing a track label (e.g. ``"Hb"`` in panel A
+  and ``"Hb"`` in panel B, pointing at different sumstats) no longer
+  clobber each other's cached parquet / metadata.  Cache metadata is
+  now keyed on the full 64-char cache_key rather than the label alone,
+  and per-track filenames include an 8-char slice of the key
+  (``Hb.a1b2c3d4.parquet``) so multiple entries for the same label
+  coexist safely.  Cache-layout version bumped to ``2``; older
+  ``.pycmplot_cache/`` directories are transparently wiped on first
+  access.  Documentation added for ``cache``, ``cache_dir``,
+  ``resume``, ``compute_pvals``, ``auto_thin*`` in the loader
+  docstring.
+- Track iteration in the loader now follows the user-supplied
+  ``labels`` list (order-preserving) rather than the non-deterministic
+  set intersection ``sumstats.keys() & file_info.keys()``.  Without
+  this, ``signif_threshold``'s auto-computation from the
+  first-processed track's SNP count fed the second track's cache_key
+  differently on cold vs warm runs, breaking the cache for every
+  track after the first.  The cache-HIT path also now mirrors the
+  cold-path side-effect on ``signif_threshold`` so downstream tracks
+  see identical state.
+
+**Documentation**
+
+- Added NumPy-style parameter blocks for ``compute_pvals``,
+  ``auto_thin``, ``auto_thin_threshold``, ``auto_thin_max_below``,
+  ``cache``, ``cache_dir``, and ``resume`` on
+  :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`.  The
+  ``resume`` entry is honestly documented as reserved-for-future — the
+  actual resume semantics are inherent in the atomic per-track commit
+  and do not require the flag.
+- Rewrote the :mod:`pycmplot.io` module docstring to cover the
+  density-aware sub-sampling algorithm, the per-track cache layout
+  (with pointers to :mod:`pycmplot.cache`), the multi-panel
+  content-vs-label keying, and a public-function summary listing
+  ``auto_thin_for_manhattan`` and ``get_output_paths`` alongside the
+  two headliners.
+- New :mod:`pycmplot.cache` module docstring covering the on-disk
+  layout (``metadata.json``, ``tracks/``, ``annotations/hits.tsv``),
+  the ``cache_key`` construction, atomic-write semantics, and the
+  user-editable hits overlay design.
+
+
 ----
+
 
 0.3.1 - 2026-07-31
 ------------------------------------------------------------------------------

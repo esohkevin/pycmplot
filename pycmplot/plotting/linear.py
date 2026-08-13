@@ -960,7 +960,7 @@ def plot_linearm(
     highlight_color: str = 'brown',
     highlight_line: bool = False,
     highlight_line_color: str = 'grey',
-    signif_line: Optional[float] = None,
+    signif_line: Optional[bool | float] = None,
     suggest_line: bool = False,
     sig_lines: Optional[list[dict]] = None,
     logp: bool = True,
@@ -1329,6 +1329,20 @@ def plot_linearm(
             sig = df[df["in_locus"]]
             if not sig.empty:
                 sig_y = sig["logP"] if logp else sig[p_col]
+                # Per-locus color: look up each highlighted variant's
+                # nearest lead in the hits table and use its
+                # ``highlight_color`` (falls back to the plot-time
+                # ``highlight_color`` argument for rows with sentinel
+                # 'auto'/blank/NaN/invalid).  Users can hand-edit
+                # specific rows in hits.<group>.tsv to give individual
+                # loci custom colors.
+                try:
+                    from pycmplot.annotation import resolve_highlight_colors
+                    _sig_colors = resolve_highlight_colors(
+                        sig, annot_df, default_color=highlight_color,
+                    )
+                except Exception:
+                    _sig_colors = [highlight_color] * len(sig.index)
                 # Highlight points need an explicit ``zorder`` higher than
                 # the background scatter.  The background is drawn with
                 # ``ax.plot`` (Line2D, default zorder=2), while
@@ -1343,7 +1357,7 @@ def plot_linearm(
                     sig_y.to_numpy(),
                     s=point_size,
                     marker="o",
-                    color=highlight_color,
+                    c=_sig_colors,
                     edgecolors="none",
                     zorder=3,
                     rasterized=True,
@@ -1357,11 +1371,9 @@ def plot_linearm(
 
         if sig_lines is not None and i < len(sig_lines):
             sl = sig_lines[i]
-            if signif_line is not None:
-                    if "genome" in sl:
-                        ax.axhline(y=sl["genome"], color="orangered", linestyle="--", linewidth=0.5)
-            if suggest_line:
-                if "suggestive" in sl:
+            if signif_line not in (False, None) and "genome" in sl:
+                ax.axhline(y=sl["genome"], color="orangered", linestyle="--", linewidth=0.5)
+            if suggest_line and "suggestive" in sl:
                     ax.axhline(y=sl["suggestive"], color="navy", linestyle="--", linewidth=0.5)
 
         ax.spines[["top", "right"]].set_visible(False)
@@ -1414,6 +1426,56 @@ def plot_linearm(
           
         ax_annot.set_ylim(0, 1)
         ax_annot.axis("off")
+
+    # ------------------------------------------------------------------
+    # Optional user-driven highlight legend (from hits overlay).
+    #
+    # When the user has edited the ``category`` and/or
+    # ``highlight_color`` column in the cached ``hits.<group>.tsv``,
+    # we render a small legend in the top-right of the topmost data
+    # track showing one entry per category (see
+    # :func:`pycmplot.annotation.build_highlight_legend_entries`).
+    # When nothing has been customised, this returns an empty list
+    # and no legend is added -- matches the pre-feature layout.
+    # ------------------------------------------------------------------
+    if highlight and annot_df is not None and not annot_df.empty:
+        try:
+            from pycmplot.annotation import build_highlight_legend_entries
+            _legend_entries = build_highlight_legend_entries(
+                annot_df, default_color=highlight_color,
+            )
+        except Exception as _exc:
+            logger.warning("Could not build highlight legend: %s", _exc)
+            _legend_entries = []
+        if _legend_entries:
+            from matplotlib.lines import Line2D
+            # Marker size mirrors the scatter's ``point_size`` so the
+            # legend swatches visually match the plotted highlights;
+            # font size matches the annotation labels (``annotation_size``)
+            # so the legend blends with the rest of the top-track text.
+            # Frame is kept (unlike the circular plot, whose legend
+            # sits outside the polar axes) because the linear legend
+            # anchors *inside* the topmost data track and may overlap
+            # peaks -- a translucent white frame keeps text readable.
+            handles = [
+                Line2D(
+                    [], [], marker="o", linestyle="none",
+                    markerfacecolor=c, markeredgecolor="none",
+                    markersize=float(point_size), label=cat,
+                )
+                for cat, c in _legend_entries
+            ]
+            _top_ax = loop_axes[0]
+            _top_ax.legend(
+                handles=handles,
+                loc="upper right",
+                title="Highlighted Categories",
+                fontsize=annotation_size,
+                title_fontsize=annotation_size,
+                frameon=True,
+                framealpha=0.85,
+                edgecolor="lightgrey",
+            )
 
     # ------------------------------------------------------------------
     # Chromosome labels on x-axis
