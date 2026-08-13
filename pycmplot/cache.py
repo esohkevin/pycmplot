@@ -738,7 +738,7 @@ def write_hits_overlay(
     def _write(p: Path) -> None:
         with open(p, "w", encoding="utf-8") as fh:
             fh.write(HITS_HEADER_COMMENT)
-            merged.to_csv(fh, sep="\t", index=False)
+            merged.to_csv(fh, sep="\t", index=False, na_rep='NA')
 
     _atomic_write(hits_path, _write)
 

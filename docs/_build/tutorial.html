@@ -627,6 +627,33 @@ didn’t make the automatic cutoff.</p></li>
 change and auto rows are re-derived, your custom values are inherited
 by <code class="docutils literal notranslate"><span class="pre">(CHR,</span> <span class="pre">POS)</span></code> lookup — you don’t have to also change
 <code class="docutils literal notranslate"><span class="pre">source='auto'</span></code> to <code class="docutils literal notranslate"><span class="pre">user</span></code> to keep your edits.</p>
+<p>Example batch edit <code class="docutils literal notranslate"><span class="pre">hits.&lt;group_key&gt;.tsv</span></code> files using <code class="docutils literal notranslate"><span class="pre">awk</span></code> in commandline:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">cachedir</span><span class="o">=</span>/your/cachedir
+
+<span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="si">${</span><span class="nv">cachdir</span><span class="si">}</span>/annotations/hits.*.tsv<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">   </span>awk<span class="w"> </span><span class="s1">&#39;</span>
+<span class="s1">      OFS=&quot;\t&quot;</span>
+<span class="s1">      {</span>
+<span class="s1">         if($1 ~ /^#/) {print $0}</span>
+<span class="s1">         else{</span>
+<span class="s1">            if($1 ~ /^source/) {print $0}</span>
+<span class="s1">            else{</span>
+<span class="s1">               if($5 &gt;= 5e-08) {$26=&quot;orange&quot;; $27=&quot;marginally significant (P &lt; 1e-07)&quot;}</span>
+<span class="s1">               else {$27=&quot;significant (P &lt; 5e-08)&quot;} {print $0}</span>
+<span class="s1">            }</span>
+<span class="s1">         }</span>
+<span class="s1">      }&#39;</span><span class="w"> </span><span class="si">${</span><span class="nv">i</span><span class="si">}</span><span class="w"> </span>&gt;<span class="w"> </span><span class="si">${</span><span class="nv">i</span><span class="si">}</span>.bak
+
+<span class="w">   </span>mv<span class="w"> </span><span class="si">${</span><span class="nv">i</span><span class="si">}</span>.bak<span class="w"> </span><span class="si">${</span><span class="nv">i</span><span class="si">}</span>
+<span class="k">done</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>This highlights all signals with <code class="docutils literal notranslate"><span class="pre">P</span> <span class="pre">&lt;</span> <span class="pre">5e-08</span></code> with the defaul <code class="docutils literal notranslate"><span class="pre">brown</span></code> color and all signals</p></li>
+</ul>
+<p>not reaching the genome-wide significance threshold but have P &lt; 1e-07 with orange.
+- It updates the categories for both to <code class="docutils literal notranslate"><span class="pre">significant</span> <span class="pre">(P</span> <span class="pre">&lt;</span> <span class="pre">5e-08)</span></code> and <code class="docutils literal notranslate"><span class="pre">marginally</span> <span class="pre">significant</span> <span class="pre">(P</span> <span class="pre">&lt;</span> <span class="pre">1e-07)</span></code>
+respectively. This would be used to add a custom legend to the Manhattan plots, making it self explanatory.</p>
 </section>
 <section id="per-locus-highlight-colours">
 <span id="tut-colors"></span><h2>Per-locus highlight colours<a class="headerlink" href="#per-locus-highlight-colours" title="Link to this heading"></a></h2>
@@ -779,6 +806,17 @@ the warning names the value that lost so you can fix the TSV.</p>
 <span class="pre">parameters)</span></code> group gets its own <code class="docutils literal notranslate"><span class="pre">hits.&lt;group_key&gt;.tsv</span></code>.  If
 you see it, check that you’re really passing distinct
 <code class="docutils literal notranslate"><span class="pre">sum_stats</span></code> lists to each panel’s loader call.</p>
+</dd>
+<dt><strong>Hits overlay TSV got corrupted (crash mid-save, truncated line, etc.)</strong></dt><dd><p>The loader logs <code class="docutils literal notranslate"><span class="pre">&quot;Hits</span> <span class="pre">overlay</span> <span class="pre">unreadable</span> <span class="pre">(…);</span> <span class="pre">ignoring.&quot;</span></code> and
+regenerates the hits table from the cached per-track leads
+(<code class="docutils literal notranslate"><span class="pre">&lt;label&gt;.&lt;key&gt;.leads.parquet</span></code>) — no raw sumstats reload, no
+per-track cache invalidation.  The plot renders fine.  <strong>User
+edits in the corrupted file are not recovered</strong>, though: any
+<code class="docutils literal notranslate"><span class="pre">source=user</span></code> rows you added, <code class="docutils literal notranslate"><span class="pre">highlight_color</span></code> overrides,
+and <code class="docutils literal notranslate"><span class="pre">category</span></code> labels need to be re-applied in the freshly
+written TSV.  If you make heavy manual edits, keep a copy of the
+overlay TSV under version control alongside your analysis
+scripts.</p>
 </dd>
 </dl>
 </section>
