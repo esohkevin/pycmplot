@@ -380,6 +380,34 @@ by ``(CHR, POS)`` lookup — you don't have to also change
 ``source='auto'`` to ``user`` to keep your edits.
 
 
+Example batch edit ``hits.<group_key>.tsv`` files using ``awk`` in commandline:
+
+.. code-block:: bash
+
+   cachedir=/your/cachedir
+   
+   for i in ${cachdir}/annotations/hits.*.tsv; do 
+      awk '
+         OFS="\t" 
+         {
+            if($1 ~ /^#/) {print $0} 
+            else{
+               if($1 ~ /^source/) {print $0} 
+               else{
+                  if($5 >= 5e-08) {$26="orange"; $27="marginally significant (P < 1e-07)"} 
+                  else {$27="significant (P < 5e-08)"} {print $0}
+               }
+            }
+         }' ${i} > ${i}.bak
+
+      mv ${i}.bak ${i}
+   done
+
+- This highlights all signals with ``P < 5e-08`` with the defaul ``brown`` color and all signals
+not reaching the genome-wide significance threshold but have P < 1e-07 with orange.
+- It updates the categories for both to ``significant (P < 5e-08)`` and ``marginally significant (P < 1e-07)``
+respectively. This would be used to add a custom legend to the Manhattan plots, making it self explanatory.
+
 .. _tut-colors:
 
 Per-locus highlight colours
@@ -572,6 +600,18 @@ Troubleshooting
    parameters)`` group gets its own ``hits.<group_key>.tsv``.  If
    you see it, check that you're really passing distinct
    ``sum_stats`` lists to each panel's loader call.
+
+**Hits overlay TSV got corrupted (crash mid-save, truncated line, etc.)**
+   The loader logs ``"Hits overlay unreadable (…); ignoring."`` and
+   regenerates the hits table from the cached per-track leads
+   (``<label>.<key>.leads.parquet``) — no raw sumstats reload, no
+   per-track cache invalidation.  The plot renders fine.  **User
+   edits in the corrupted file are not recovered**, though: any
+   ``source=user`` rows you added, ``highlight_color`` overrides,
+   and ``category`` labels need to be re-applied in the freshly
+   written TSV.  If you make heavy manual edits, keep a copy of the
+   overlay TSV under version control alongside your analysis
+   scripts.
 
 
 Next steps
