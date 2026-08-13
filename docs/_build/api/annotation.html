@@ -74,6 +74,29 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#setup-a-synthetic-dataset">Setup: a synthetic dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#the-three-step-mental-model">The three-step mental model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#linear-manhattan-plots">Linear Manhattan plots</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial.html#single-track">Single-track</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial.html#multi-track">Multi-track</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#circular-circos-plots">Circular (Circos) plots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#highlighting">Highlighting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#automatic-gene-annotation">Automatic gene annotation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#qq-plots-and-compute-pvals">QQ plots and <code class="docutils literal notranslate"><span class="pre">compute_pvals</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#caching-and-warm-resume">Caching and warm resume</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#the-hits-overlay-tsv">The hits overlay TSV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#per-locus-highlight-colours">Per-locus highlight colours</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#per-locus-categories-and-the-custom-legend">Per-locus categories and the custom legend</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#multi-panel-canvas">Multi-panel canvas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#mixed-genome-builds">Mixed genome builds</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#cli-equivalents">CLI equivalents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#next-steps">Next steps</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../cli.html">Command-Line Interface</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../cli.html#input-output-options">Input / output options</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../cli.html#column-auto-detection-options">Column auto-detection options</a></li>
@@ -137,7 +160,12 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">API Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="io.html">pycmplot.io</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="io.html#module-pycmplot.io">pycmplot.io</a></li>
+<li class="toctree-l3"><a class="reference internal" href="io.html#module-pycmplot.io">pycmplot.io</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="io.html#density-aware-sub-sampling">Density-aware sub-sampling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="io.html#per-track-stage-1-cache">Per-track Stage-1 cache</a></li>
+<li class="toctree-l4"><a class="reference internal" href="io.html#public-functions">Public functions</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="io.html#pycmplot.io.auto_thin_for_manhattan"><code class="docutils literal notranslate"><span class="pre">auto_thin_for_manhattan()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="io.html#pycmplot.io.detect_delimiter"><code class="docutils literal notranslate"><span class="pre">detect_delimiter()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="io.html#pycmplot.io.generate_random_string"><code class="docutils literal notranslate"><span class="pre">generate_random_string()</span></code></a></li>
@@ -145,6 +173,7 @@
 <li class="toctree-l3"><a class="reference internal" href="io.html#pycmplot.io.get_output_paths"><code class="docutils literal notranslate"><span class="pre">get_output_paths()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="io.html#pycmplot.io.get_sumstats_and_merged_sector_list"><code class="docutils literal notranslate"><span class="pre">get_sumstats_and_merged_sector_list()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="io.html#pycmplot.io.prep_pycmplot_input_info"><code class="docutils literal notranslate"><span class="pre">prep_pycmplot_input_info()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="io.html#pycmplot.io.process_signif_line"><code class="docutils literal notranslate"><span class="pre">process_signif_line()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="io.html#pycmplot.io.resolve_delimiter"><code class="docutils literal notranslate"><span class="pre">resolve_delimiter()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="io.html#pycmplot.io.smart_open"><code class="docutils literal notranslate"><span class="pre">smart_open()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="io.html#pycmplot.io.strip_comma_separated_input_streams"><code class="docutils literal notranslate"><span class="pre">strip_comma_separated_input_streams()</span></code></a></li>
@@ -161,8 +190,13 @@
 <li class="toctree-l4"><a class="reference internal" href="#gene-reference-files">Gene reference files</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#pycmplot.annotation.build_highlight_legend_entries"><code class="docutils literal notranslate"><span class="pre">build_highlight_legend_entries()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pycmplot.annotation.ensure_category_column"><code class="docutils literal notranslate"><span class="pre">ensure_category_column()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pycmplot.annotation.ensure_highlight_color_column"><code class="docutils literal notranslate"><span class="pre">ensure_highlight_color_column()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pycmplot.annotation.get_annotation_column"><code class="docutils literal notranslate"><span class="pre">get_annotation_column()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pycmplot.annotation.get_hits_summary_table"><code class="docutils literal notranslate"><span class="pre">get_hits_summary_table()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pycmplot.annotation.resolve_highlight_categories"><code class="docutils literal notranslate"><span class="pre">resolve_highlight_categories()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pycmplot.annotation.resolve_highlight_colors"><code class="docutils literal notranslate"><span class="pre">resolve_highlight_colors()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="liftover.html">pycmplot.liftover</a><ul>
@@ -191,10 +225,12 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="plotting.html#pycmplot-plotting-qq">pycmplot.plotting.qq</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="plotting.html#pycmplot.plotting.qq.get_legend_loc_string"><code class="docutils literal notranslate"><span class="pre">get_legend_loc_string()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="plotting.html#pycmplot.plotting.qq.plot_qq_combined"><code class="docutils literal notranslate"><span class="pre">plot_qq_combined()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="plotting.html#pycmplot.plotting.qq.plot_qq_overlay"><code class="docutils literal notranslate"><span class="pre">plot_qq_overlay()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="plotting.html#pycmplot.plotting.qq.plot_qq_separate"><code class="docutils literal notranslate"><span class="pre">plot_qq_separate()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="plotting.html#pycmplot.plotting.qq.plot_qq_single"><code class="docutils literal notranslate"><span class="pre">plot_qq_single()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="plotting.html#pycmplot.plotting.qq.set_legend_loc_string"><code class="docutils literal notranslate"><span class="pre">set_legend_loc_string()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="plotting.html#pycmplot.plotting.qq.thin_pvals"><code class="docutils literal notranslate"><span class="pre">thin_pvals()</span></code></a></li>
 </ul>
 </li>
@@ -228,6 +264,7 @@
 <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#xx-xx">0.4.0 - 2026-XX-XX</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../changelog.html#id1">0.3.1 - 2026-07-31</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../changelog.html#id2">0.3.0 - 2026-06-01</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../changelog.html#id3">0.2.8 - 2026-05-30</a></li>
@@ -299,6 +336,46 @@ paths can be supplied via the <code class="docutils literal notranslate"><span c
 <code class="docutils literal notranslate"><span class="pre">PYCMPLOT_GENEINFO_HG19</span></code> environment variables.</p>
 </section>
 </section>
+<dl class="py function">
+<dt class="sig sig-object py" id="pycmplot.annotation.build_highlight_legend_entries">
+<span class="sig-prename descclassname"><span class="pre">pycmplot.annotation.</span></span><span class="sig-name descname"><span class="pre">build_highlight_legend_entries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hits_table</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_category</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'significant'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a></span></span><a class="reference internal" href="../_modules/pycmplot/annotation.html#build_highlight_legend_entries"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycmplot.annotation.build_highlight_legend_entries" title="Link to this definition"></a></dt>
+<dd><p>Return a list of <code class="docutils literal notranslate"><span class="pre">(category,</span> <span class="pre">color)</span></code> pairs for a custom legend.</p>
+<p>Only returns entries when the user has customised the overlay in a
+way worth surfacing:</p>
+<ul class="simple">
+<li><p>Any row has a category other than <em>default_category</em>, OR</p></li>
+<li><p>Any row has a highlight_color other than the sentinel
+<code class="docutils literal notranslate"><span class="pre">&quot;auto&quot;</span></code> (i.e. an explicit user-chosen colour).</p></li>
+</ul>
+<p>When nothing has been customised, returns <code class="docutils literal notranslate"><span class="pre">[]</span></code> – the plotter
+then skips the legend entirely, matching the pre-feature layout.</p>
+<p>Entries are deduplicated by <code class="docutils literal notranslate"><span class="pre">category</span></code> in first-appearance order
+(so users can control legend order by reordering rows in their
+TSV).  If the same category appears with multiple colours, the
+first colour wins and a warning is logged.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycmplot.annotation.ensure_category_column">
+<span class="sig-prename descclassname"><span class="pre">pycmplot.annotation.</span></span><span class="sig-name descname"><span class="pre">ensure_category_column</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hits_table</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'significant'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="../_modules/pycmplot/annotation.html#ensure_category_column"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycmplot.annotation.ensure_category_column" title="Link to this definition"></a></dt>
+<dd><p>Make sure the hits table has a <code class="docutils literal notranslate"><span class="pre">category</span></code> column.</p>
+<p>Companion to <a class="reference internal" href="#pycmplot.annotation.ensure_highlight_color_column" title="pycmplot.annotation.ensure_highlight_color_column"><code class="xref py py-func docutils literal notranslate"><span class="pre">ensure_highlight_color_column()</span></code></a>; injects the
+sentinel default so downstream code can assume the column exists.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycmplot.annotation.ensure_highlight_color_column">
+<span class="sig-prename descclassname"><span class="pre">pycmplot.annotation.</span></span><span class="sig-name descname"><span class="pre">ensure_highlight_color_column</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hits_table</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'auto'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="../_modules/pycmplot/annotation.html#ensure_highlight_color_column"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycmplot.annotation.ensure_highlight_color_column" title="Link to this definition"></a></dt>
+<dd><p>Make sure the hits table has a <code class="docutils literal notranslate"><span class="pre">highlight_color</span></code> column.</p>
+<p>Backward-compat helper.  When cached hits overlays predate the
+per-locus color feature, the column may be missing entirely; older
+Python-API callers may build their own hits tables without it.  We
+inject the column with the sentinel <em>default</em> so the downstream
+color-lookup path can uniformly assume the column exists.  Existing
+values (including user-supplied hex codes / names / <code class="docutils literal notranslate"><span class="pre">&quot;auto&quot;</span></code>) are
+preserved untouched.</p>
+</dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="pycmplot.annotation.get_annotation_column">
 <span class="sig-prename descclassname"><span class="pre">pycmplot.annotation.</span></span><span class="sig-name descname"><span class="pre">get_annotation_column</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">annotate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hits_table</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_col</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycmplot/annotation.html#get_annotation_column"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycmplot.annotation.get_annotation_column" title="Link to this definition"></a></dt>
@@ -384,6 +461,53 @@ gene-info file; all others use the GRCh38 file.</p>
 <span class="go">1  rs789012  11   5246696       HBB    protein_coding</span>
 </pre></div>
 </div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycmplot.annotation.resolve_highlight_categories">
+<span class="sig-prename descclassname"><span class="pre">pycmplot.annotation.</span></span><span class="sig-name descname"><span class="pre">resolve_highlight_categories</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sig_df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hits_table</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_category</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'significant'</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">chr_col</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'CHR'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos_col</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'POS'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_kb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">500</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a></span></span><a class="reference internal" href="../_modules/pycmplot/annotation.html#resolve_highlight_categories"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycmplot.annotation.resolve_highlight_categories" title="Link to this definition"></a></dt>
+<dd><p>Return a per-row category label for the highlighted variants.</p>
+<p>Same lookup discipline as <a class="reference internal" href="#pycmplot.annotation.resolve_highlight_colors" title="pycmplot.annotation.resolve_highlight_colors"><code class="xref py py-func docutils literal notranslate"><span class="pre">resolve_highlight_colors()</span></code></a>: each
+<code class="docutils literal notranslate"><span class="pre">sig_df</span></code> row is matched to its nearest lead on the same
+chromosome within <em>window_kb</em>, and the lead’s <code class="docutils literal notranslate"><span class="pre">category</span></code> value
+is returned.  Missing / blank / NaN values fall back to
+<em>default_category</em> (typically <code class="docutils literal notranslate"><span class="pre">&quot;significant&quot;</span></code>).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pycmplot.annotation.resolve_highlight_colors">
+<span class="sig-prename descclassname"><span class="pre">pycmplot.annotation.</span></span><span class="sig-name descname"><span class="pre">resolve_highlight_colors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sig_df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hits_table</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">chr_col</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'CHR'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos_col</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'POS'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_kb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">500</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/pycmplot/annotation.html#resolve_highlight_colors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycmplot.annotation.resolve_highlight_colors" title="Link to this definition"></a></dt>
+<dd><p>Return a per-row highlight color for the highlighted variants.</p>
+<p>For every row in <em>sig_df</em> (the <code class="docutils literal notranslate"><span class="pre">in_locus</span></code> subset of a track), we
+find the closest lead in <em>hits_table</em> on the same chromosome and,
+within <em>window_kb</em>, use its <code class="docutils literal notranslate"><span class="pre">highlight_color</span></code> value.  The sentinel
+<code class="docutils literal notranslate"><span class="pre">&quot;auto&quot;</span></code>, empty strings, NaNs, and colors matplotlib can’t parse
+all fall back to <em>default_color</em>.  Invalid colors emit a
+<code class="docutils literal notranslate"><span class="pre">logger.warning</span></code> naming the offending value so users can fix a
+typo in their overlay TSV.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sig_df</strong> – Subset of a track’s DataFrame with <code class="docutils literal notranslate"><span class="pre">in_locus</span> <span class="pre">==</span> <span class="pre">True</span></code>.  Must
+have <em>chr_col</em> and <em>pos_col</em>.</p></li>
+<li><p><strong>hits_table</strong> – Locus summary table (per-lead).  Must have <em>chr_col</em> and
+<em>pos_col</em>.  If it doesn’t have <code class="docutils literal notranslate"><span class="pre">highlight_color</span></code>, every row
+falls back to <em>default_color</em> (backward compat).</p></li>
+<li><p><strong>default_color</strong> – Global highlight color passed to the plotter.  Used when the
+cached row’s color is <code class="docutils literal notranslate"><span class="pre">&quot;auto&quot;</span></code>, missing, or invalid.</p></li>
+<li><p><strong>window_kb</strong> – Search radius in kb for matching a highlighted variant to its
+lead.  Defaults to 500 kb, which mirrors the highlight
+window in <a class="reference internal" href="stats.html#pycmplot.stats.get_highlight_snps" title="pycmplot.stats.get_highlight_snps"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_highlight_snps()</span></code></a>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>One matplotlib-parseable color per row of <em>sig_df</em>, in row
+order.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)">list</a> of <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)">str</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>

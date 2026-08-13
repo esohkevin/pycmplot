@@ -71,6 +71,29 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#setup-a-synthetic-dataset">Setup: a synthetic dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#the-three-step-mental-model">The three-step mental model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#linear-manhattan-plots">Linear Manhattan plots</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial.html#single-track">Single-track</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial.html#multi-track">Multi-track</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#circular-circos-plots">Circular (Circos) plots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#highlighting">Highlighting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#automatic-gene-annotation">Automatic gene annotation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#qq-plots-and-compute-pvals">QQ plots and <code class="docutils literal notranslate"><span class="pre">compute_pvals</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#caching-and-warm-resume">Caching and warm resume</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#the-hits-overlay-tsv">The hits overlay TSV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#per-locus-highlight-colours">Per-locus highlight colours</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#per-locus-categories-and-the-custom-legend">Per-locus categories and the custom legend</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#multi-panel-canvas">Multi-panel canvas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#mixed-genome-builds">Mixed genome builds</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#cli-equivalents">CLI equivalents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#next-steps">Next steps</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command-Line Interface</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../cli.html#input-output-options">Input / output options</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../cli.html#column-auto-detection-options">Column auto-detection options</a></li>
@@ -134,7 +157,12 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../api/io.html">pycmplot.io</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../api/io.html#module-pycmplot.io">pycmplot.io</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/io.html#module-pycmplot.io">pycmplot.io</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/io.html#density-aware-sub-sampling">Density-aware sub-sampling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/io.html#per-track-stage-1-cache">Per-track Stage-1 cache</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/io.html#public-functions">Public functions</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/io.html#pycmplot.io.auto_thin_for_manhattan"><code class="docutils literal notranslate"><span class="pre">auto_thin_for_manhattan()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/io.html#pycmplot.io.detect_delimiter"><code class="docutils literal notranslate"><span class="pre">detect_delimiter()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/io.html#pycmplot.io.generate_random_string"><code class="docutils literal notranslate"><span class="pre">generate_random_string()</span></code></a></li>
@@ -142,6 +170,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/io.html#pycmplot.io.get_output_paths"><code class="docutils literal notranslate"><span class="pre">get_output_paths()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/io.html#pycmplot.io.get_sumstats_and_merged_sector_list"><code class="docutils literal notranslate"><span class="pre">get_sumstats_and_merged_sector_list()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/io.html#pycmplot.io.prep_pycmplot_input_info"><code class="docutils literal notranslate"><span class="pre">prep_pycmplot_input_info()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/io.html#pycmplot.io.process_signif_line"><code class="docutils literal notranslate"><span class="pre">process_signif_line()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/io.html#pycmplot.io.resolve_delimiter"><code class="docutils literal notranslate"><span class="pre">resolve_delimiter()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/io.html#pycmplot.io.smart_open"><code class="docutils literal notranslate"><span class="pre">smart_open()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/io.html#pycmplot.io.strip_comma_separated_input_streams"><code class="docutils literal notranslate"><span class="pre">strip_comma_separated_input_streams()</span></code></a></li>
@@ -158,8 +187,13 @@
 <li class="toctree-l4"><a class="reference internal" href="../../api/annotation.html#gene-reference-files">Gene reference files</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/annotation.html#pycmplot.annotation.build_highlight_legend_entries"><code class="docutils literal notranslate"><span class="pre">build_highlight_legend_entries()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/annotation.html#pycmplot.annotation.ensure_category_column"><code class="docutils literal notranslate"><span class="pre">ensure_category_column()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/annotation.html#pycmplot.annotation.ensure_highlight_color_column"><code class="docutils literal notranslate"><span class="pre">ensure_highlight_color_column()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/annotation.html#pycmplot.annotation.get_annotation_column"><code class="docutils literal notranslate"><span class="pre">get_annotation_column()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/annotation.html#pycmplot.annotation.get_hits_summary_table"><code class="docutils literal notranslate"><span class="pre">get_hits_summary_table()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/annotation.html#pycmplot.annotation.resolve_highlight_categories"><code class="docutils literal notranslate"><span class="pre">resolve_highlight_categories()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/annotation.html#pycmplot.annotation.resolve_highlight_colors"><code class="docutils literal notranslate"><span class="pre">resolve_highlight_colors()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/liftover.html">pycmplot.liftover</a><ul>
@@ -188,10 +222,12 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/plotting.html#pycmplot-plotting-qq">pycmplot.plotting.qq</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.qq.get_legend_loc_string"><code class="docutils literal notranslate"><span class="pre">get_legend_loc_string()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.qq.plot_qq_combined"><code class="docutils literal notranslate"><span class="pre">plot_qq_combined()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.qq.plot_qq_overlay"><code class="docutils literal notranslate"><span class="pre">plot_qq_overlay()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.qq.plot_qq_separate"><code class="docutils literal notranslate"><span class="pre">plot_qq_separate()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.qq.plot_qq_single"><code class="docutils literal notranslate"><span class="pre">plot_qq_single()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.qq.set_legend_loc_string"><code class="docutils literal notranslate"><span class="pre">set_legend_loc_string()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.qq.thin_pvals"><code class="docutils literal notranslate"><span class="pre">thin_pvals()</span></code></a></li>
 </ul>
 </li>
@@ -225,6 +261,7 @@
 <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#xx-xx">0.4.0 - 2026-XX-XX</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id1">0.3.1 - 2026-07-31</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id2">0.3.0 - 2026-06-01</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id3">0.2.8 - 2026-05-30</a></li>
@@ -284,9 +321,57 @@
 
 <span class="sd">The primary entry point for the plotting pipeline is</span>
 <span class="sd">:func:`get_sumstats_and_merged_sector_list`, which loads all tracks, runs</span>
-<span class="sd">coordinate liftover when needed, extracts lead SNPs, generates the hits</span>
-<span class="sd">summary table, and computes the merged Circos sector-size dictionary — all</span>
-<span class="sd">in a single call.</span>
+<span class="sd">coordinate liftover when needed, applies density-aware auto-thinning,</span>
+<span class="sd">extracts lead SNPs, generates the hits summary table, and computes the</span>
+<span class="sd">merged Circos sector-size dictionary — all in a single call.</span>
+
+<span class="sd">Density-aware sub-sampling</span>
+<span class="sd">--------------------------</span>
+<span class="sd">:func:`auto_thin_for_manhattan` keeps every variant whose &quot;interestingness&quot;</span>
+<span class="sd">signal is at or above a configurable threshold (default ``-log10(P) &gt;= 2``,</span>
+<span class="sd">i.e. ``P &lt;= 0.01``) and uniformly down-samples the dense null background</span>
+<span class="sd">to at most ``max_below`` rows per track.  It also works for non-p-value</span>
+<span class="sd">selection scans (iHS, XP-EHH, F_ST, Fay &amp; Wu&#39;s H, Tajima&#39;s D) via a</span>
+<span class="sd">``logp=False`` mode that compares ``|statistic|`` to the threshold.  On a</span>
+<span class="sd">10 M-variant scan this typically cuts the plotted point count from 10 M</span>
+<span class="sd">to ~200 K + a few hundred peaks — visually indistinguishable above the</span>
+<span class="sd">suggestive band, ~one to two orders of magnitude faster to render.</span>
+
+<span class="sd">Per-track Stage-1 cache</span>
+<span class="sd">-----------------------</span>
+<span class="sd">When :func:`get_sumstats_and_merged_sector_list` is invoked with</span>
+<span class="sd">``cache=True``, each track&#39;s post-load / post-liftover / post-thinning</span>
+<span class="sd">DataFrame is written to ``&lt;cache_dir&gt;/tracks/&lt;label&gt;.&lt;short_key&gt;.parquet``</span>
+<span class="sd">alongside its lead-SNP table and (when ``compute_pvals=True``) its full</span>
+<span class="sd">raw p-value array.  A JSON metadata file records a per-track ``cache_key``</span>
+<span class="sd">computed from the raw file&#39;s SHA-256, the pycmplot version, and every</span>
+<span class="sd">Stage-1 parameter that affects the cached data.  Subsequent invocations</span>
+<span class="sd">skip Stage 1 for tracks whose cache_key matches — a 2-10x speedup that</span>
+<span class="sd">scales with input size.  See :mod:`pycmplot.cache` for the on-disk layout,</span>
+<span class="sd">cache-key semantics, the user-editable hits overlay</span>
+<span class="sd">(``&lt;cache_dir&gt;/annotations/hits.tsv``), and multi-panel safety notes.</span>
+
+<span class="sd">The cache is track-content-aware, not label-aware: two loader calls that</span>
+<span class="sd">share a ``cache_dir`` and reuse a track label (say ``&quot;Hb&quot;`` in panel A</span>
+<span class="sd">and ``&quot;Hb&quot;`` in panel B, pointing at different sumstats) get separate</span>
+<span class="sd">cache entries that coexist safely — the ``&lt;short_key&gt;`` suffix in the</span>
+<span class="sd">per-track filename disambiguates them and metadata is keyed on the full</span>
+<span class="sd">cache_key rather than the label alone.</span>
+
+<span class="sd">Public functions</span>
+<span class="sd">----------------</span>
+<span class="sd">* :func:`prep_pycmplot_input_info` — resolve delimiters and column-name</span>
+<span class="sd">  mappings for each input file; must be called before the loader.</span>
+<span class="sd">* :func:`get_sumstats_and_merged_sector_list` — the main loader.  Loads</span>
+<span class="sd">  all tracks (with optional cache/resume), applies liftover / auto-thin</span>
+<span class="sd">  / trim, extracts leads, builds the hits summary, and computes the</span>
+<span class="sd">  merged Circos sector-size dict.  Returns a bundle consumed directly by</span>
+<span class="sd">  :func:`pycmplot.plotting.linear.plot_linear`,</span>
+<span class="sd">  :func:`pycmplot.plotting.circular.plot_circular`, and the QQ plotters.</span>
+<span class="sd">* :func:`auto_thin_for_manhattan` — the density-aware sub-sampling</span>
+<span class="sd">  helper described above; exported for advanced pipelines.</span>
+<span class="sd">* :func:`get_output_paths` — resolve the deterministic output file</span>
+<span class="sd">  names used by the plotters when *plot_title* is supplied.</span>
 
 <span class="sd">Notes</span>
 <span class="sd">-----</span>
@@ -294,12 +379,19 @@
 <span class="sd">:func:`pycmplot._core.main`; most users will not need to import it directly.</span>
 <span class="sd">It is documented here for users who wish to load and pre-process summary</span>
 <span class="sd">statistics programmatically before passing them to the plotting functions.</span>
+
+<span class="sd">See Also</span>
+<span class="sd">--------</span>
+<span class="sd">pycmplot.cache : per-track Stage-1 cache implementation.</span>
+<span class="sd">pycmplot.annotation : lead-SNP annotation with nearest-gene lookup.</span>
+<span class="sd">pycmplot.liftover : hg18/hg19 -&gt; hg38 coordinate conversion.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">csv</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">gzip</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
@@ -1176,6 +1268,43 @@
 
 
 
+<span class="c1"># Resolve significance line</span>
+<div class="viewcode-block" id="process_signif_line">
+<a class="viewcode-back" href="../../api/io.html#pycmplot.io.process_signif_line">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">process_signif_line</span><span class="p">(</span>
+    <span class="n">signif_line</span><span class="p">,</span> <span class="c1">#: Union[float, bool, None], </span>
+    <span class="n">calculated_threshold</span><span class="p">:</span> <span class="nb">float</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Resolves the target y-value for the significance line.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    signif_line : float, bool, or None</span>
+<span class="sd">        Option passed from CLI/API (False, None, True, or custom float).</span>
+<span class="sd">    calculated_threshold : float</span>
+<span class="sd">        The auto-calculated threshold derived from the dataset.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float or None</span>
+<span class="sd">        The exact numerical y-value to draw, or None if suppressed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># 1. Suppressed state (user passed False or None)</span>
+    <span class="k">if</span> <span class="n">signif_line</span> <span class="ow">is</span> <span class="kc">False</span> <span class="ow">or</span> <span class="n">signif_line</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="c1"># 2. Flag-only state (user passed --signif-line without a value -&gt; True)</span>
+    <span class="k">if</span> <span class="n">signif_line</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">calculated_threshold</span>
+
+    <span class="c1"># 3. Explicit numerical value state (user passed e.g. 5e-8)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">signif_line</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">signif_line</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+
 <span class="c1"># ---------------------------------------------------------------------------</span>
 <span class="c1"># Main loader</span>
 <span class="c1"># ---------------------------------------------------------------------------</span>
@@ -1191,15 +1320,18 @@
     <span class="n">sort_tracks</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">table_out</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">signif_threshold</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">signif_line</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">signif_line</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span> <span class="o">|</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">suggest_threshold</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e-5</span><span class="p">,</span>
     <span class="n">highlight</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">highlight_thresh</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">resources</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ResourceConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">compute_pvals</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">compute_pvals</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">auto_thin</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">auto_thin_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">,</span>
     <span class="n">auto_thin_max_below</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">200_000</span><span class="p">,</span>
+    <span class="n">cache</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">cache_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">PathLike</span> <span class="o">=</span> <span class="s2">&quot;.pycmplot_cache&quot;</span><span class="p">,</span>
+    <span class="n">resume</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Load summary statistics, run liftover, extract lead SNPs, and compute merged Circos sector sizes.</span>
 
@@ -1255,6 +1387,55 @@
 <span class="sd">        :class:`~pycmplot.resources.ResourceConfig` instance supplying paths to</span>
 <span class="sd">        the liftover chain file and gene-info reference files.  Falls back to</span>
 <span class="sd">        :data:`~pycmplot.resources.default_resources`.</span>
+<span class="sd">    compute_pvals : bool, optional</span>
+<span class="sd">        When ``True``, the full untrimmed p-value array is materialised</span>
+<span class="sd">        per track and returned in ``bundle[&#39;pvals&#39;]`` for QQ plotting.</span>
+<span class="sd">        When ``False`` (the default as of 0.4.0), ``bundle[&#39;pvals&#39;]``</span>
+<span class="sd">        contains ``None`` per label and the ~80 MB-at-10M copy is</span>
+<span class="sd">        skipped entirely.  **Python-API callers that plan to draw a QQ</span>
+<span class="sd">        figure must set this to** ``True`` **explicitly** — otherwise</span>
+<span class="sd">        the QQ plotters will raise ``ValueError`` with a message</span>
+<span class="sd">        pointing back to this argument.  The CLI entry point sets this</span>
+<span class="sd">        automatically from ``bool(args.qq_plot)``, so ``pycmplot --qq``</span>
+<span class="sd">        just works without user intervention.</span>
+
+<span class="sd">        .. versionchanged:: 0.4.0</span>
+<span class="sd">           Default changed from ``True`` to ``False``.  Callers that</span>
+<span class="sd">           relied on the old default and did not set ``compute_pvals``</span>
+<span class="sd">           explicitly will now see ``None`` per label; pass</span>
+<span class="sd">           ``compute_pvals=True`` to restore the previous behaviour.</span>
+<span class="sd">    auto_thin : bool, optional</span>
+<span class="sd">        Enable density-aware sub-sampling of the null background before</span>
+<span class="sd">        rendering.  Default ``True``.  See :func:`auto_thin_for_manhattan`</span>
+<span class="sd">        for the algorithm.</span>
+<span class="sd">    auto_thin_threshold : float, optional</span>
+<span class="sd">        ``-log10(P)`` (when *logp*) or ``|statistic|`` (otherwise) at or</span>
+<span class="sd">        above which every variant is retained verbatim.  Default ``2.0``.</span>
+<span class="sd">    auto_thin_max_below : int, optional</span>
+<span class="sd">        Cap on the number of below-threshold &quot;background&quot; variants</span>
+<span class="sd">        retained per track during auto-thinning.  Default ``200_000``.</span>
+<span class="sd">    cache : bool, optional</span>
+<span class="sd">        Enable the per-track Stage-1 cache.  When ``True``, each track&#39;s</span>
+<span class="sd">        post-load / post-liftover / post-thinning DataFrame is written to</span>
+<span class="sd">        ``&lt;cache_dir&gt;/tracks/&lt;label&gt;.parquet`` alongside its lead-SNP</span>
+<span class="sd">        table and (when *compute_pvals* is ``True``) its full raw</span>
+<span class="sd">        p-value array.  Subsequent invocations skip Stage 1 entirely for</span>
+<span class="sd">        tracks whose SHA-256 + parameter fingerprint matches the cached</span>
+<span class="sd">        key.  A parameter change or file rewrite invalidates the affected</span>
+<span class="sd">        entries automatically.  Default ``False``.</span>
+<span class="sd">    cache_dir : str or os.PathLike, optional</span>
+<span class="sd">        Directory used to persist the cache.  Created lazily on first</span>
+<span class="sd">        write.  Default ``&quot;.pycmplot_cache&quot;`` (relative to the current</span>
+<span class="sd">        working directory when the loader is invoked).</span>
+<span class="sd">    resume : bool, optional</span>
+<span class="sd">        Reserved for future use.  Currently a no-op because completed</span>
+<span class="sd">        tracks are atomically committed to the cache one-at-a-time, so</span>
+<span class="sd">        a run that crashes on track *N* automatically resumes from track</span>
+<span class="sd">        *N* on the next invocation of the loader with ``cache=True`` —</span>
+<span class="sd">        the &quot;resume&quot; semantics are inherent in the on-disk layout and</span>
+<span class="sd">        do not need to be opted into.  Default ``True``; setting to</span>
+<span class="sd">        ``False`` currently has no effect but is reserved so the API</span>
+<span class="sd">        can grow a stricter &quot;no resume, always regenerate&quot; mode later.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -1325,7 +1506,139 @@
     <span class="n">signif_lines</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">all_lead_snps</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">sumstats</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">file_info</span> <span class="ow">or</span> <span class="p">{})</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="c1"># Optional per-track cache (Stage-1 checkpointing).  When cache=True</span>
+    <span class="c1"># we hash each raw file + the Stage-1 parameters and skip the CSV</span>
+    <span class="c1"># read / dtype conversion / chromosome normalisation / liftover /</span>
+    <span class="c1"># auto-thinning / lead extraction for any label whose cached</span>
+    <span class="c1"># DataFrame matches the current key.  Data cached across runs but</span>
+    <span class="c1"># invalidated automatically when any parameter changes (see</span>
+    <span class="c1"># :func:`pycmplot.cache.compute_cache_key`).</span>
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="n">_track_cache</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">cache</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pycmplot</span><span class="w"> </span><span class="kn">import</span> <span class="n">__version__</span> <span class="k">as</span> <span class="n">_pcm_version</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pycmplot.cache</span><span class="w"> </span><span class="kn">import</span> <span class="n">TrackCache</span><span class="p">,</span> <span class="n">compute_cache_key</span><span class="p">,</span> <span class="n">sha256_file</span>
+        <span class="n">_track_cache</span> <span class="o">=</span> <span class="n">TrackCache</span><span class="p">(</span><span class="n">cache_dir</span><span class="p">,</span> <span class="n">_pcm_version</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_signif_lines_entry</span><span class="p">(</span><span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Recompute the per-track signif_lines dict from current params.</span>
+
+<span class="sd">        Kept outside the cache payload so ``--signif_line`` /</span>
+<span class="sd">        ``--suggest_threshold`` / ``--logp`` remain live-tunable</span>
+<span class="sd">        between runs without invalidating the cache.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n_local</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">snp_counts</span><span class="p">[</span><span class="n">label</span><span class="p">])</span> <span class="ow">or</span> <span class="mi">1</span>
+        <span class="n">_suggest</span> <span class="o">=</span> <span class="mf">1e-5</span> <span class="k">if</span> <span class="n">suggest_threshold</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">suggest_threshold</span>
+        <span class="k">if</span> <span class="n">logp</span><span class="p">:</span>
+            <span class="n">_suggest</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">_suggest</span><span class="p">)</span>
+        <span class="n">_resolved</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.05</span> <span class="o">/</span> <span class="n">n_local</span><span class="p">,</span> <span class="mf">5e-8</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">signif_line</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">signif_line</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">signif_line</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+                <span class="n">_resolved</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">signif_line</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">logp</span> <span class="ow">and</span> <span class="n">_resolved</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">_resolved</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">_resolved</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;genome&quot;</span><span class="p">:</span> <span class="n">_resolved</span><span class="p">,</span> <span class="s2">&quot;suggestive&quot;</span><span class="p">:</span> <span class="n">_suggest</span><span class="p">}</span>
+
+    <span class="c1"># Iterate the user-supplied ``labels`` list rather than the set</span>
+    <span class="c1"># intersection of the two dicts.  ``dict.keys() &amp; other.keys()``</span>
+    <span class="c1"># returns a plain ``set``, whose iteration order is *not*</span>
+    <span class="c1"># deterministic across runs — that broke cache hits for the second</span>
+    <span class="c1"># and later tracks because ``signif_threshold`` is auto-computed</span>
+    <span class="c1"># from the first-loaded track&#39;s SNP count and then fed into every</span>
+    <span class="c1"># subsequent track&#39;s cache_key.  Fixing the iteration order keeps</span>
+    <span class="c1"># cache_keys stable across warm re-runs.</span>
+    <span class="n">_ordered_labels</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">label</span> <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">labels</span>
+        <span class="k">if</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">sumstats</span> <span class="ow">and</span> <span class="n">label</span> <span class="ow">in</span> <span class="p">(</span><span class="n">file_info</span> <span class="ow">or</span> <span class="p">{})</span>
+    <span class="p">]</span>
+    <span class="c1"># Collect each track&#39;s full cache_key so we can derive a</span>
+    <span class="c1"># hits-overlay group_key later on (see</span>
+    <span class="c1"># :func:`pycmplot.cache.compute_hits_group_key` and the multi-panel</span>
+    <span class="c1"># hits-overlay block near the end of this function).  Keying the</span>
+    <span class="c1"># group on the *cache_key* (which includes every Stage-1 param)</span>
+    <span class="c1"># means each ``(files, parameters)`` combination gets its own</span>
+    <span class="c1"># hits overlay — this matches the per-track cache-invalidation</span>
+    <span class="c1"># semantics and the reproducibility mental model.  A parameter</span>
+    <span class="c1"># change therefore spawns a fresh overlay; user edits from an</span>
+    <span class="c1"># earlier setting linger on disk but are not consulted (users who</span>
+    <span class="c1"># want to carry a hand-edit forward can copy rows across manually).</span>
+    <span class="n">_track_cache_keys</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">_ordered_labels</span><span class="p">:</span>
+        <span class="c1"># ---- Cache lookup fast path ----------------------------------</span>
+        <span class="n">_cache_key</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">_track_cache</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_raw_path</span> <span class="o">=</span> <span class="n">sumstats</span><span class="p">[</span><span class="n">label</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">_raw_hash</span> <span class="o">=</span> <span class="n">sha256_file</span><span class="p">(</span><span class="n">_raw_path</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">_exc</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Cache: cannot hash </span><span class="si">%s</span><span class="s2"> (</span><span class="si">%s</span><span class="s2">); bypassing cache for this track.&quot;</span><span class="p">,</span>
+                               <span class="n">_raw_path</span><span class="p">,</span> <span class="n">_exc</span><span class="p">)</span>
+                <span class="n">_raw_hash</span> <span class="o">=</span> <span class="kc">None</span>
+
+            <span class="k">if</span> <span class="n">_raw_hash</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="c1"># NOTE: compute_pvals is deliberately EXCLUDED from the</span>
+                <span class="c1"># cache_key.  The cached DataFrame is unaffected by</span>
+                <span class="c1"># whether pvals are also materialised — pvals are a</span>
+                <span class="c1"># sidecar that either exists or doesn&#39;t.  Keeping the</span>
+                <span class="c1"># key stable across compute_pvals toggles means a user</span>
+                <span class="c1"># can flip QQ on/off between runs without invalidating</span>
+                <span class="c1"># the (expensive) main track cache.  See the fallback</span>
+                <span class="c1"># below for the case where compute_pvals=True but the</span>
+                <span class="c1"># sidecar is absent.</span>
+                <span class="n">_cache_params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+                    <span class="n">raw_sha256</span><span class="o">=</span><span class="n">_raw_hash</span><span class="p">,</span>
+                    <span class="n">logp</span><span class="o">=</span><span class="nb">bool</span><span class="p">(</span><span class="n">logp</span><span class="p">),</span>
+                    <span class="n">trim_pval</span><span class="o">=</span><span class="kc">None</span> <span class="k">if</span> <span class="n">trim_pval</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="n">trim_pval</span><span class="p">),</span>
+                    <span class="n">auto_thin</span><span class="o">=</span><span class="nb">bool</span><span class="p">(</span><span class="n">auto_thin</span><span class="p">),</span>
+                    <span class="n">auto_thin_threshold</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">auto_thin_threshold</span><span class="p">),</span>
+                    <span class="n">auto_thin_max_below</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">auto_thin_max_below</span><span class="p">),</span>
+                    <span class="n">highlight</span><span class="o">=</span><span class="nb">bool</span><span class="p">(</span><span class="n">highlight</span><span class="p">),</span>
+                    <span class="n">highlight_thresh</span><span class="o">=</span><span class="kc">None</span> <span class="k">if</span> <span class="n">highlight_thresh</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="n">highlight_thresh</span><span class="p">),</span>
+                    <span class="n">signif_threshold</span><span class="o">=</span><span class="kc">None</span> <span class="k">if</span> <span class="n">signif_threshold</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="n">signif_threshold</span><span class="p">),</span>
+                    <span class="n">build</span><span class="o">=</span><span class="n">file_info</span><span class="p">[</span><span class="n">label</span><span class="p">][</span><span class="mi">4</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">file_info</span><span class="p">[</span><span class="n">label</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">4</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">_cache_key</span> <span class="o">=</span> <span class="n">compute_cache_key</span><span class="p">(</span><span class="o">**</span><span class="n">_cache_params</span><span class="p">)</span>
+                <span class="n">_track_cache_keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_cache_key</span><span class="p">)</span>
+                <span class="n">_hit</span> <span class="o">=</span> <span class="n">_track_cache</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">_cache_key</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">_hit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="c1"># If pvals are needed but weren&#39;t cached in a</span>
+                    <span class="c1"># previous run (e.g. that run had compute_pvals=False),</span>
+                    <span class="c1"># treat this as a miss so Stage 1 re-runs and</span>
+                    <span class="c1"># populates the pvals sidecar for next time.</span>
+                    <span class="k">if</span> <span class="n">compute_pvals</span> <span class="ow">and</span> <span class="n">_hit</span><span class="o">.</span><span class="n">pvals</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                            <span class="s2">&quot;Cache MISS </span><span class="si">%s</span><span class="s2"> (compute_pvals=True but no &quot;</span>
+                            <span class="s2">&quot;pvals sidecar; re-parsing to populate it).&quot;</span><span class="p">,</span>
+                            <span class="n">label</span><span class="p">,</span>
+                        <span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">sumstats_loaded</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">_hit</span><span class="o">.</span><span class="n">df</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">_hit</span><span class="o">.</span><span class="n">extras</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;n_chroms&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">))]</span>
+                        <span class="n">pval_dict</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">_hit</span><span class="o">.</span><span class="n">pvals</span> <span class="k">if</span> <span class="n">compute_pvals</span> <span class="k">else</span> <span class="kc">None</span>
+                        <span class="n">snp_counts</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">_hit</span><span class="o">.</span><span class="n">extras</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;snp_count&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+                        <span class="n">all_lead_snps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                            <span class="n">_hit</span><span class="o">.</span><span class="n">leads</span> <span class="k">if</span> <span class="n">_hit</span><span class="o">.</span><span class="n">leads</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+                        <span class="p">)</span>
+                        <span class="c1"># Mirror the cold-path side-effect on</span>
+                        <span class="c1"># ``signif_threshold`` (which is auto-computed</span>
+                        <span class="c1"># from the first track&#39;s SNP count and then</span>
+                        <span class="c1"># feeds the *next* track&#39;s cache_key).  Without</span>
+                        <span class="c1"># this, subsequent tracks on a warm re-run would</span>
+                        <span class="c1"># compute their cache_keys against a stale</span>
+                        <span class="c1"># ``signif_threshold=None`` and MISS.</span>
+                        <span class="k">if</span> <span class="n">signif_threshold</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="n">_n_hit</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">snp_counts</span><span class="p">[</span><span class="n">label</span><span class="p">])</span> <span class="ow">or</span> <span class="mi">1</span>
+                            <span class="n">signif_threshold</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.05</span> <span class="o">/</span> <span class="n">_n_hit</span><span class="p">,</span> <span class="mf">5e-8</span><span class="p">)</span>
+                        <span class="n">signif_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_resolve_signif_lines_entry</span><span class="p">(</span><span class="n">label</span><span class="p">))</span>
+                        <span class="k">continue</span>
+
+        <span class="c1"># ---- Regular Stage-1 processing --------------------------------</span>
+        <span class="c1"># Any exception raised inside the loop body will propagate up and</span>
+        <span class="c1"># abort the run.  Because tracks that already completed have been</span>
+        <span class="c1"># written to the cache at the end of their own iteration, a</span>
+        <span class="c1"># subsequent invocation of this loader with cache=True will hit</span>
+        <span class="c1"># those cached tracks and re-run Stage 1 only from the point of</span>
+        <span class="c1"># failure onward — that&#39;s the &quot;resume&quot; semantics from to-do.md.</span>
         <span class="n">sumstat_cols</span>   <span class="o">=</span> <span class="n">file_info</span><span class="p">[</span><span class="n">label</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">sumstat_dtypes</span> <span class="o">=</span> <span class="n">file_info</span><span class="p">[</span><span class="n">label</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">sumstat_newcols</span><span class="o">=</span> <span class="n">file_info</span><span class="p">[</span><span class="n">label</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
@@ -1362,6 +1675,48 @@
                 <span class="o">**</span><span class="n">read_kwargs</span><span class="p">,</span>
                 <span class="n">dtype</span><span class="o">=</span><span class="n">sumstat_dtypes</span><span class="p">,</span>
             <span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">sumstat_newcols</span><span class="p">)</span>
+
+
+        <span class="c1"># Normalise chromosome names — done once here and stored as a</span>
+        <span class="c1"># ``Categorical`` with ``CHROM_ORDER`` as the canonical category</span>
+        <span class="c1"># set.  Downstream plotting code can recognise this dtype and skip</span>
+        <span class="c1"># repeating the (string-heavy) normalisation, and any aliasing /</span>
+        <span class="c1"># filtering on chromosome name becomes integer-code work rather</span>
+        <span class="c1"># than per-element Python string ops.</span>
+        <span class="c1">#</span>
+        <span class="c1"># Critically, when CHR comes in as a ``Categorical`` (the dtype we</span>
+        <span class="c1"># request in ``prep_pycmplot_input_info`` for any non-build file)</span>
+        <span class="c1"># the actual normalisation is applied to the **categories**, not</span>
+        <span class="c1"># to the underlying N-row code array.  That turns a 500K (or 10M)</span>
+        <span class="c1"># per-element ``str.replace + str.upper + replace`` chain into the</span>
+        <span class="c1"># equivalent work on ~25 distinct chromosome labels.</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Normalizing chromosome names {&quot;23&quot;: &quot;X&quot;, &quot;24&quot;: &quot;Y&quot;, &quot;M&quot;: &quot;MT&quot;, &quot;MTDNA&quot;: &quot;MT&quot;} ...&#39;</span><span class="p">)</span>
+        <span class="nb">chr</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">is_numeric_dtype</span><span class="p">(</span><span class="nb">chr</span><span class="p">):</span>
+            <span class="nb">chr</span> <span class="o">=</span> <span class="nb">chr</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;Int64&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+            <span class="nb">chr</span> <span class="o">=</span> <span class="nb">chr</span><span class="o">.</span><span class="n">replace</span><span class="p">({</span>
+                <span class="s2">&quot;23&quot;</span><span class="p">:</span> <span class="s2">&quot;X&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;24&quot;</span><span class="p">:</span> <span class="s2">&quot;Y&quot;</span><span class="p">,</span>
+            <span class="p">})</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">chr</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="nb">chr</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+                <span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;CHR&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">replace</span><span class="p">({</span>
+                    <span class="s2">&quot;23&quot;</span><span class="p">:</span> <span class="s2">&quot;X&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;24&quot;</span><span class="p">:</span> <span class="s2">&quot;Y&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;M&quot;</span><span class="p">:</span> <span class="s2">&quot;MT&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;MTDNA&quot;</span><span class="p">:</span> <span class="s2">&quot;MT&quot;</span><span class="p">,</span>
+                <span class="p">})</span>
+            <span class="p">)</span>
+
+        <span class="n">df</span><span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span>
+            <span class="nb">chr</span><span class="p">,</span>
+            <span class="n">categories</span><span class="o">=</span><span class="n">CHROM_ORDER</span><span class="p">,</span>
+            <span class="n">ordered</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
 
         <span class="c1"># Coerce POS to numeric, drop rows that fail to parse, then store</span>
         <span class="c1"># as plain int64 (not nullable ``Int64``) so downstream arithmetic</span>
@@ -1400,23 +1755,21 @@
         <span class="k">if</span> <span class="n">logp</span><span class="p">:</span>
             <span class="n">suggest_line</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">suggest_line</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">signif_line</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">signif_line</span> <span class="o">=</span> <span class="n">signif_threshold</span>
-            <span class="k">if</span> <span class="n">logp</span><span class="p">:</span>
-                <span class="n">signif_line</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">signif_line</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="c1"># significance line was set without value</span>
-            <span class="c1"># fallback to sig_thresh</span>
-            <span class="k">if</span> <span class="n">signif_line</span> <span class="o">==</span> <span class="mi">999999</span><span class="p">:</span>
-                <span class="n">signif_line</span> <span class="o">=</span> <span class="n">signif_threshold</span>
-            <span class="c1"># significance line was set with value, use value</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">signif_line</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">signif_line</span><span class="p">)</span>
+        <span class="c1"># initialize with auto-calculated threshold</span>
+        <span class="n">resolved_signif_line</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.05</span> <span class="o">/</span> <span class="n">n</span><span class="p">,</span> <span class="mf">5e-8</span><span class="p">)</span>
 
-            <span class="k">if</span> <span class="n">logp</span> <span class="ow">and</span> <span class="n">signif_line</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="n">signif_line</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">signif_line</span><span class="p">)</span>
+        <span class="c1"># Check if signif_line was requested (i.e. not False and not None)</span>
+        <span class="k">if</span> <span class="n">signif_line</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">signif_line</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">signif_line</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+                <span class="c1"># Use user-supplied custom float</span>
+                <span class="n">resolved_signif_line</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">signif_line</span><span class="p">)</span>
 
-        <span class="n">signif_lines</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;genome&quot;</span><span class="p">:</span> <span class="n">signif_line</span><span class="p">,</span> <span class="s2">&quot;suggestive&quot;</span><span class="p">:</span> <span class="n">suggest_line</span><span class="p">})</span>
+        <span class="k">if</span> <span class="n">logp</span> <span class="ow">and</span> <span class="n">resolved_signif_line</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">resolved_signif_line</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">resolved_signif_line</span><span class="p">)</span>
+
+        <span class="n">signif_lines</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;genome&quot;</span><span class="p">:</span> <span class="n">resolved_signif_line</span><span class="p">,</span> <span class="s2">&quot;suggestive&quot;</span><span class="p">:</span> <span class="n">suggest_line</span><span class="p">})</span>
 
         <span class="c1"># Density-aware auto-thinning for Manhattan / circular rendering.</span>
         <span class="c1"># Applied after lead-SNP extraction so the leads come from the full</span>
@@ -1447,8 +1800,19 @@
                 <span class="p">)</span>
 
         <span class="c1"># Add build column if not exist and build supplied</span>
-        <span class="k">if</span> <span class="n">build</span><span class="p">:</span>
-            <span class="n">df</span><span class="p">[</span><span class="s1">&#39;BUILD&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">build</span>
+        <span class="n">BUILD_MAP</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;hg38&quot;</span><span class="p">:</span> <span class="s2">&quot;hg38&quot;</span><span class="p">,</span> <span class="s2">&quot;grch38&quot;</span><span class="p">:</span> <span class="s2">&quot;hg38&quot;</span><span class="p">,</span> <span class="s2">&quot;38&quot;</span><span class="p">:</span> <span class="s2">&quot;hg38&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;hg19&quot;</span><span class="p">:</span> <span class="s2">&quot;hg19&quot;</span><span class="p">,</span> <span class="s2">&quot;grch37&quot;</span><span class="p">:</span> <span class="s2">&quot;hg19&quot;</span><span class="p">,</span> <span class="s2">&quot;b37&quot;</span><span class="p">:</span> <span class="s2">&quot;hg19&quot;</span><span class="p">,</span> <span class="s2">&quot;19&quot;</span><span class="p">:</span> <span class="s2">&quot;hg19&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;hg18&quot;</span><span class="p">:</span> <span class="s2">&quot;hg18&quot;</span><span class="p">,</span> <span class="s2">&quot;ncbi36&quot;</span><span class="p">:</span> <span class="s2">&quot;hg18&quot;</span><span class="p">,</span> <span class="s2">&quot;18&quot;</span><span class="p">:</span> <span class="s2">&quot;hg18&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">build</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">build_key</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">build</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">build_key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">BUILD_MAP</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Unsupported genome build &#39;</span><span class="si">{</span><span class="n">build</span><span class="si">}</span><span class="s2">&#39;. &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;Supported options: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">BUILD_MAP</span><span class="o">.</span><span class="n">values</span><span class="p">())))</span><span class="si">}</span><span class="s2">.&quot;</span>
+                <span class="p">)</span>
+            <span class="n">df</span><span class="p">[</span><span class="s1">&#39;BUILD&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">BUILD_MAP</span><span class="p">[</span><span class="n">build_key</span><span class="p">]</span>
             <span class="n">df</span><span class="p">[</span><span class="s1">&#39;BUILD&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;BUILD&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;category&#39;</span><span class="p">)</span>
 
         <span class="c1"># Trim insignificant variants for faster plotting</span>
@@ -1469,58 +1833,6 @@
 
         <span class="n">df</span><span class="p">[</span><span class="s2">&quot;LABEL&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">label</span>
 
-        <span class="c1"># Normalise chromosome names — done once here and stored as a</span>
-        <span class="c1"># ``Categorical`` with ``CHROM_ORDER`` as the canonical category</span>
-        <span class="c1"># set.  Downstream plotting code can recognise this dtype and skip</span>
-        <span class="c1"># repeating the (string-heavy) normalisation, and any aliasing /</span>
-        <span class="c1"># filtering on chromosome name becomes integer-code work rather</span>
-        <span class="c1"># than per-element Python string ops.</span>
-        <span class="c1">#</span>
-        <span class="c1"># Critically, when CHR comes in as a ``Categorical`` (the dtype we</span>
-        <span class="c1"># request in ``prep_pycmplot_input_info`` for any non-build file)</span>
-        <span class="c1"># the actual normalisation is applied to the **categories**, not</span>
-        <span class="c1"># to the underlying N-row code array.  That turns a 500K (or 10M)</span>
-        <span class="c1"># per-element ``str.replace + str.upper + replace`` chain into the</span>
-        <span class="c1"># equivalent work on ~25 distinct chromosome labels.</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Normalizing chromosome names {&quot;23&quot;: &quot;X&quot;, &quot;24&quot;: &quot;Y&quot;, &quot;M&quot;: &quot;MT&quot;, &quot;MTDNA&quot;: &quot;MT&quot;} ...&#39;</span><span class="p">)</span>
-        <span class="n">chr_col_data</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">]</span>
-        <span class="n">alias</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;23&quot;</span><span class="p">:</span> <span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;24&quot;</span><span class="p">:</span> <span class="s2">&quot;Y&quot;</span><span class="p">,</span> <span class="s2">&quot;M&quot;</span><span class="p">:</span> <span class="s2">&quot;MT&quot;</span><span class="p">,</span> <span class="s2">&quot;MTDNA&quot;</span><span class="p">:</span> <span class="s2">&quot;MT&quot;</span><span class="p">}</span>
-
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">chr_col_data</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">CategoricalDtype</span><span class="p">):</span>
-            <span class="c1"># Fast path: rewrite categories, then re-cast to the canonical</span>
-            <span class="c1"># CHROM_ORDER ordered Categorical.</span>
-            <span class="n">cats</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">chr_col_data</span><span class="o">.</span><span class="n">cat</span><span class="o">.</span><span class="n">categories</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">))</span>
-            <span class="n">new_cats</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="n">cats</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;chr&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-                    <span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
-                    <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">alias</span><span class="p">)</span>
-                    <span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-            <span class="p">)</span>
-            <span class="n">chr_col_data</span> <span class="o">=</span> <span class="n">chr_col_data</span><span class="o">.</span><span class="n">cat</span><span class="o">.</span><span class="n">rename_categories</span><span class="p">(</span><span class="n">new_cats</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="c1"># Defensive slow path for callers that bypass our dtype hints.</span>
-            <span class="n">chr_col_data</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="n">chr_col_data</span>
-                <span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
-                <span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;chr&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-                <span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
-                <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">alias</span><span class="p">)</span>
-            <span class="p">)</span>
-
-        <span class="n">df</span><span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Categorical</span><span class="p">(</span>
-            <span class="n">chr_col_data</span><span class="p">,</span> <span class="n">categories</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">CHROM_ORDER</span><span class="p">),</span> <span class="n">ordered</span><span class="o">=</span><span class="kc">True</span>
-        <span class="p">)</span>
-        <span class="c1"># Drop rows whose chromosome label is not in CHROM_ORDER (they</span>
-        <span class="c1"># become NaN under the categorical cast).</span>
-        <span class="n">before</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">notna</span><span class="p">()]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="n">dropped</span> <span class="o">=</span> <span class="n">before</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">dropped</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                <span class="s2">&quot;Dropped </span><span class="si">%s</span><span class="s2"> row(s) with chromosome label outside CHROM_ORDER&quot;</span><span class="p">,</span>
-                <span class="n">dropped</span><span class="p">,</span>
-            <span class="p">)</span>
-
         <span class="c1"># Liftover hg18/hg19 data if needed.</span>
         <span class="c1">#</span>
         <span class="c1"># ``sumstats_loaded[label]`` is not populated until the very end of</span>
@@ -1529,7 +1841,14 @@
         <span class="c1"># into ``sumstats_loaded[label][0]`` here raised ``KeyError`` (e.g.</span>
         <span class="c1"># ``KeyError: &#39;MCV&#39;``) the first time the liftover branch fired on</span>
         <span class="c1"># a given track.</span>
-        <span class="n">builds</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;BUILD&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+        <span class="c1"># Guard the BUILD lookup: not every input file has a BUILD column</span>
+        <span class="c1"># (single-build workflows don&#39;t need one).  Without this check</span>
+        <span class="c1"># ``df[&quot;BUILD&quot;]`` raises ``KeyError`` before we reach the</span>
+        <span class="c1"># ``if &quot;BUILD&quot; in df.columns`` test.</span>
+        <span class="k">if</span> <span class="s2">&quot;BUILD&quot;</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="n">builds</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;BUILD&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">builds</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="s2">&quot;BUILD&quot;</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="ow">and</span> <span class="p">(</span>
             <span class="s2">&quot;hg18&quot;</span> <span class="ow">in</span> <span class="n">builds</span> <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;hg19&quot;</span> <span class="ow">in</span> <span class="n">builds</span> <span class="ow">and</span> <span class="s2">&quot;hg38&quot;</span> <span class="ow">in</span> <span class="n">builds</span><span class="p">)</span>
         <span class="p">):</span>
@@ -1572,6 +1891,28 @@
         <span class="n">n_chroms</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span> <span class="o">-</span> <span class="mi">1</span>
         <span class="n">sumstats_loaded</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">df</span><span class="p">,</span> <span class="n">n_chroms</span><span class="p">]</span>
 
+        <span class="c1"># ---- Persist to cache (Stage-1 checkpoint) --------------------</span>
+        <span class="c1"># Runs only when cache=True and we computed a valid cache_key</span>
+        <span class="c1"># above.  Best-effort: a failure to write the cache logs a</span>
+        <span class="c1"># warning but does not abort the run.</span>
+        <span class="k">if</span> <span class="n">_track_cache</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">_cache_key</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">_track_cache</span><span class="o">.</span><span class="n">put</span><span class="p">(</span>
+                    <span class="n">label</span><span class="p">,</span>
+                    <span class="n">_cache_key</span><span class="p">,</span>
+                    <span class="n">df</span><span class="p">,</span>
+                    <span class="n">leads</span><span class="o">=</span><span class="n">leads</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">leads</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">leads</span><span class="o">.</span><span class="n">empty</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="n">pvals</span><span class="o">=</span><span class="n">pval_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">label</span><span class="p">)</span> <span class="k">if</span> <span class="n">compute_pvals</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="n">extras</span><span class="o">=</span><span class="p">{</span>
+                        <span class="s2">&quot;n_chroms&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">n_chroms</span><span class="p">),</span>
+                        <span class="s2">&quot;snp_count&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">snp_counts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="mi">0</span><span class="p">)),</span>
+                    <span class="p">},</span>
+                    <span class="n">raw_source</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">sumstats</span><span class="p">[</span><span class="n">label</span><span class="p">][</span><span class="mi">0</span><span class="p">]),</span>
+                <span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">_exc</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Cache write failed for </span><span class="si">%r</span><span class="s2"> (</span><span class="si">%s</span><span class="s2">); continuing.&quot;</span><span class="p">,</span>
+                               <span class="n">label</span><span class="p">,</span> <span class="n">_exc</span><span class="p">)</span>
+
     <span class="c1"># Combine lead SNPs and filter to significance threshold</span>
     <span class="n">all_lead_snps_df</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">all_lead_snps</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
@@ -1579,16 +1920,81 @@
         <span class="k">else</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
     <span class="p">)</span>
   
-    <span class="n">hits_table</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">get_hits_summary_table</span><span class="p">(</span>
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="c1"># Hits table with optional user-editable overlay.</span>
+    <span class="c1">#</span>
+    <span class="c1"># When ``cache=True``, the auto-generated table is written to</span>
+    <span class="c1"># ``&lt;cache_dir&gt;/annotations/hits.tsv`` with a ``source`` column</span>
+    <span class="c1"># (&#39;auto&#39; | &#39;user&#39;).  Regeneration is skipped when the leads +</span>
+    <span class="c1"># resource + window key matches the previously cached value.  User-</span>
+    <span class="c1"># authored rows (``source=&quot;user&quot;``) survive every regeneration so</span>
+    <span class="c1"># analysts can hand-add / hand-edit annotations without touching</span>
+    <span class="c1"># Python.  See ``pycmplot.cache`` for the file layout.</span>
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="k">if</span> <span class="n">all_lead_snps_df</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+        <span class="n">hits_table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">cache</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pycmplot.cache</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+            <span class="n">hits_auto_key</span><span class="p">,</span> <span class="n">read_hits_overlay</span><span class="p">,</span> <span class="n">resources_fingerprint</span><span class="p">,</span>
+            <span class="n">write_hits_overlay</span><span class="p">,</span> <span class="n">compute_hits_group_key</span><span class="p">,</span>
+            <span class="n">AUTO_TAG</span><span class="p">,</span> <span class="n">USER_TAG</span><span class="p">,</span> <span class="n">SOURCE_COL</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">_res_sig</span> <span class="o">=</span> <span class="n">resources_fingerprint</span><span class="p">(</span><span class="n">resources</span><span class="p">)</span>
+        <span class="n">_auto_key</span> <span class="o">=</span> <span class="n">hits_auto_key</span><span class="p">(</span>
+            <span class="n">all_lead_snps_df</span><span class="p">,</span> <span class="n">resources_signature</span><span class="o">=</span><span class="n">_res_sig</span><span class="p">,</span> <span class="n">window_kb</span><span class="o">=</span><span class="mi">2_000</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="c1"># ``_group_key`` scopes the hits overlay to THIS loader call&#39;s set</span>
+        <span class="c1"># of tracks.  A second call with the same ``cache_dir`` but a</span>
+        <span class="c1"># different set of sumstats (a common multi-panel pattern) gets</span>
+        <span class="c1"># a different group_key and therefore a separate</span>
+        <span class="c1"># ``hits.&lt;group&gt;.tsv`` file — they don&#39;t clobber each other, and</span>
+        <span class="c1"># each group keeps its own user-authored rows across regenerations.</span>
+        <span class="c1"># ``_track_cache_keys`` was populated per-track in the main loop.</span>
+        <span class="n">_group_key</span> <span class="o">=</span> <span class="n">compute_hits_group_key</span><span class="p">(</span><span class="n">_track_cache_keys</span><span class="p">)</span>
+
+        <span class="n">_existing_overlay</span><span class="p">,</span> <span class="n">_existing_meta</span> <span class="o">=</span> <span class="n">read_hits_overlay</span><span class="p">(</span><span class="n">cache_dir</span><span class="p">,</span> <span class="n">_group_key</span><span class="p">)</span>
+        <span class="n">_cached_key</span> <span class="o">=</span> <span class="p">(</span><span class="n">_existing_meta</span> <span class="ow">or</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;auto_key&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">_existing_overlay</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">_cached_key</span> <span class="o">==</span> <span class="n">_auto_key</span><span class="p">:</span>
+            <span class="n">_hits_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">cache_dir</span><span class="p">),</span> <span class="s2">&quot;annotations&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;hits.</span><span class="si">{</span><span class="n">_group_key</span><span class="si">}</span><span class="s2">.tsv&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;Hits overlay: cache HIT (</span><span class="si">%s</span><span class="s2"> rows; user-editable at </span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span>
+                <span class="nb">len</span><span class="p">(</span><span class="n">_existing_overlay</span><span class="p">),</span> <span class="n">_hits_file</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">hits_table</span> <span class="o">=</span> <span class="n">_existing_overlay</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">_auto_hits</span> <span class="o">=</span> <span class="n">get_hits_summary_table</span><span class="p">(</span>
+                <span class="n">leads_df</span><span class="o">=</span><span class="n">all_lead_snps_df</span><span class="p">,</span>
+                <span class="n">table_out</span><span class="o">=</span><span class="n">table_out</span><span class="p">,</span>
+                <span class="n">window_kb</span><span class="o">=</span><span class="mi">2_000</span><span class="p">,</span>
+                <span class="n">resources</span><span class="o">=</span><span class="n">resources</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">_written</span> <span class="o">=</span> <span class="n">write_hits_overlay</span><span class="p">(</span>
+                <span class="n">cache_dir</span><span class="p">,</span> <span class="n">_auto_hits</span><span class="p">,</span>
+                <span class="n">auto_key</span><span class="o">=</span><span class="n">_auto_key</span><span class="p">,</span>
+                <span class="n">group_key</span><span class="o">=</span><span class="n">_group_key</span><span class="p">,</span>
+                <span class="n">preserve_user_from</span><span class="o">=</span><span class="n">_existing_overlay</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="c1"># Re-read to pick up any preserved user rows.</span>
+            <span class="n">hits_table</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">read_hits_overlay</span><span class="p">(</span><span class="n">cache_dir</span><span class="p">,</span> <span class="n">_group_key</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">hits_table</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">hits_table</span> <span class="o">=</span> <span class="n">_auto_hits</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;Hits overlay: regenerated (</span><span class="si">%s</span><span class="s2"> auto rows; edit </span><span class="si">%s</span><span class="s2"> to add &quot;</span>
+                <span class="s2">&quot;custom loci)&quot;</span><span class="p">,</span>
+                <span class="nb">int</span><span class="p">((</span><span class="n">_auto_hits</span><span class="p">[</span><span class="n">SOURCE_COL</span><span class="p">]</span> <span class="o">==</span> <span class="n">AUTO_TAG</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+                <span class="k">if</span> <span class="n">SOURCE_COL</span> <span class="ow">in</span> <span class="n">_auto_hits</span><span class="o">.</span><span class="n">columns</span> <span class="k">else</span> <span class="nb">len</span><span class="p">(</span><span class="n">_auto_hits</span><span class="p">),</span>
+                <span class="n">_written</span><span class="p">,</span>
+            <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">hits_table</span> <span class="o">=</span> <span class="n">get_hits_summary_table</span><span class="p">(</span>
             <span class="n">leads_df</span><span class="o">=</span><span class="n">all_lead_snps_df</span><span class="p">,</span>
             <span class="n">table_out</span><span class="o">=</span><span class="n">table_out</span><span class="p">,</span>
             <span class="n">window_kb</span><span class="o">=</span><span class="mi">2_000</span><span class="p">,</span>
             <span class="n">resources</span><span class="o">=</span><span class="n">resources</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">all_lead_snps_df</span><span class="o">.</span><span class="n">empty</span>
-        <span class="k">else</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
-    <span class="p">)</span>
 
     <span class="c1"># sort dicts by user-supplied order</span>
     <span class="n">sumstats_loaded</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">sumstats_loaded</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">labels</span> <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">sumstats_loaded</span><span class="p">}</span>
@@ -1647,7 +2053,8 @@
         <span class="c1">#    merged[&quot;Spacer1&quot;] = [x + x / 2 for x in min_dic_val]</span>
         <span class="c1">#else:</span>
         <span class="n">merged</span><span class="p">[</span><span class="s2">&quot;Spacer1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="o">*</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">min_dic_val</span><span class="p">]</span>
-
+        
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;All processes completed successfully!&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;sectors&quot;</span><span class="p">:</span> <span class="n">merged</span><span class="p">,</span> <span class="s2">&quot;dfs&quot;</span><span class="p">:</span> <span class="n">sumstats_loaded</span><span class="p">,</span> <span class="s2">&quot;annot&quot;</span><span class="p">:</span> <span class="n">hits_table</span><span class="p">,</span> <span class="s2">&quot;lines&quot;</span><span class="p">:</span> <span class="n">signif_lines</span><span class="p">,</span> <span class="s2">&quot;pvals&quot;</span><span class="p">:</span> <span class="n">pval_dict</span><span class="p">}</span></div>
 
 </pre></div>

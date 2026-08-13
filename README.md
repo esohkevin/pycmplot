@@ -5,7 +5,7 @@
 </div>
 
 <p align="center">
-  <img width="600" height="400" src="docs/pycmplot-logo-circular.png">
+  <img width="600" height="400" src="https://github.com/esohkevin/pycmplot/blob/main/docs/pycmplot-logo-circular.png">
 </p>
 
 
@@ -28,6 +28,10 @@
     - [Trim insignificant variants for faster plotting](#trim-insignificant-variants-for-faster-plotting)
     - [Genome build conversion (liftover)](#genome-build-conversion-liftover)
     - [Nearest-gene annotation for GWAS lead SNPs](#nearest-gene-annotation-for-gwas-lead-snps)
+    - [Caching & warm resume](#caching--warm-resume)
+    - [User-editable hits overlay](#user-editable-hits-overlay)
+    - [Per-locus highlight colours & custom legend](#per-locus-highlight-colours--custom-legend)
+    - [Multi-panel canvas](#multi-panel-canvas)
 3. [Application](#application)
 4. [Tip](#tip)
 5. [Installation](#installation)
@@ -138,6 +142,46 @@ for gene annotation. Also included are UCSC chain files for coordinate conversio
     input data carry a hg19 build label. Resolved from
     ``PYCMPLOT_GENEINFO_HG19`` or the bundled
     ``Homo_sapiens.GRCh37.geneinfo.tsv.gz``.
+
+
+### Caching & warm resume
+Loading is the expensive step (I/O + trim + liftover + lead extraction), so
+pycmplot ships a per-track cache keyed on `SHA-256(raw_file_sha256 + version + Stage-1 params)`.
+Warm re-runs of the same `(files, parameters)` combination complete in
+milliseconds; changing any parameter transparently invalidates only the
+affected tracks and regenerates them. Enable with `--cache` (CLI) or
+`cache=True` (Python API); use `--clear_cache` to wipe the tree.
+
+```bash
+pycmplot --sum_stats hb.tsv,mcv.tsv --labels Hb,MCV \
+         --logp --highlight --cache --cache_dir ./.pycmplot
+```
+
+### User-editable hits overlay
+When caching is on, the auto-generated hits table is written to a
+group-scoped TSV at `<cache_dir>/annotations/hits.<group_key>.tsv`
+that you're *expected to hand-edit*. Rows added or changed there feed
+straight back into the next plot — no re-plumbing required. Each row
+carries `source` (`auto` vs `user`), `highlight_color`, and `category`
+columns; user edits are inherited across cache regenerations by
+`(CHR, POS)` lookup, so re-running with a new parameter never loses
+your annotations.
+
+### Per-locus highlight colours & custom legend
+Set the `highlight_color` column on any row of the hits overlay to a
+matplotlib-parseable colour (name, `#rrggbb`, or an RGB tuple) to give
+that locus its own highlight colour; leave `auto` to fall back to the
+plot-wide `--highlight_color`. Set the `category` column
+(e.g. `novel`, `replicated`, `MHC`) to group loci in a
+**"Highlighted Categories"** legend that both the linear and circular
+plotters render automatically. If nothing is edited, no legend is
+added — the pre-feature layout is preserved.
+
+### Multi-panel canvas
+Place multiple *groups* of sumstats on the same figure by passing an
+explicit matplotlib `Axes` or `SubFigure` via `ax=` to the plotter.
+Cache files and hits overlays are group-scoped, so two panels with
+different sumstats never clobber each other's artefacts.
 
 
 ## Application
@@ -266,6 +310,16 @@ pycmplot \
 | `-st, --sort_track` | Sort tracks by `label` or `chrom_len` | input order |
 | `-od, --output_dir` | Output directory | `.` |
 | `-of, --output_format` | Output format (`png`, `pdf`, `svg`, `jpg`) | `png` |
+| `--cache` | Enable per-track cache + user-editable hits overlay | off |
+| `--cache_dir` | Where to store cache artefacts | `./.pycmplot` |
+| `--no_resume` | Regenerate but still write fresh cache entries | resume on |
+| `--clear_cache` | Delete the cache tree and exit | off |
+| `-V, --version` | Print version and exit | — |
+
+> **QQ note (0.4.0+):** the loader no longer materialises the full sorted
+> p-value array by default. `-qq/--qq_plot` sets `compute_pvals=True`
+> automatically on the CLI; Python-API callers must pass it explicitly
+> to feed `bundle['pvals']` into a QQ plotter.
 
 Run `pycmplot -h` for the full option list.
 
@@ -274,6 +328,12 @@ Run `pycmplot -h` for the full option list.
 ## Python API
 
 A demonstration of how to use the python API is provided in this notebook: https://github.com/esohkevin/pycmplot/blob/main/pycmplot_python_api.ipynb
+
+For an end-to-end walkthrough of every feature (caching, hits overlay,
+per-locus colours & categories, multi-panel canvas, mixed-build
+liftover, QQ opt-in), see the
+[Tutorial](https://pycmplot.readthedocs.io/en/latest/tutorial.html)
+page in the docs.
 
 
 ---

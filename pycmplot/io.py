@@ -9,9 +9,57 @@ used throughout the package.
 
 The primary entry point for the plotting pipeline is
 :func:`get_sumstats_and_merged_sector_list`, which loads all tracks, runs
-coordinate liftover when needed, extracts lead SNPs, generates the hits
-summary table, and computes the merged Circos sector-size dictionary — all
-in a single call.
+coordinate liftover when needed, applies density-aware auto-thinning,
+extracts lead SNPs, generates the hits summary table, and computes the
+merged Circos sector-size dictionary — all in a single call.
+
+Density-aware sub-sampling
+--------------------------
+:func:`auto_thin_for_manhattan` keeps every variant whose "interestingness"
+signal is at or above a configurable threshold (default ``-log10(P) >= 2``,
+i.e. ``P <= 0.01``) and uniformly down-samples the dense null background
+to at most ``max_below`` rows per track.  It also works for non-p-value
+selection scans (iHS, XP-EHH, F_ST, Fay & Wu's H, Tajima's D) via a
+``logp=False`` mode that compares ``|statistic|`` to the threshold.  On a
+10 M-variant scan this typically cuts the plotted point count from 10 M
+to ~200 K + a few hundred peaks — visually indistinguishable above the
+suggestive band, ~one to two orders of magnitude faster to render.
+
+Per-track Stage-1 cache
+-----------------------
+When :func:`get_sumstats_and_merged_sector_list` is invoked with
+``cache=True``, each track's post-load / post-liftover / post-thinning
+DataFrame is written to ``<cache_dir>/tracks/<label>.<short_key>.parquet``
+alongside its lead-SNP table and (when ``compute_pvals=True``) its full
+raw p-value array.  A JSON metadata file records a per-track ``cache_key``
+computed from the raw file's SHA-256, the pycmplot version, and every
+Stage-1 parameter that affects the cached data.  Subsequent invocations
+skip Stage 1 for tracks whose cache_key matches — a 2-10x speedup that
+scales with input size.  See :mod:`pycmplot.cache` for the on-disk layout,
+cache-key semantics, the user-editable hits overlay
+(``<cache_dir>/annotations/hits.tsv``), and multi-panel safety notes.
+
+The cache is track-content-aware, not label-aware: two loader calls that
+share a ``cache_dir`` and reuse a track label (say ``"Hb"`` in panel A
+and ``"Hb"`` in panel B, pointing at different sumstats) get separate
+cache entries that coexist safely — the ``<short_key>`` suffix in the
+per-track filename disambiguates them and metadata is keyed on the full
+cache_key rather than the label alone.
+
+Public functions
+----------------
+* :func:`prep_pycmplot_input_info` — resolve delimiters and column-name
+  mappings for each input file; must be called before the loader.
+* :func:`get_sumstats_and_merged_sector_list` — the main loader.  Loads
+  all tracks (with optional cache/resume), applies liftover / auto-thin
+  / trim, extracts leads, builds the hits summary, and computes the
+  merged Circos sector-size dict.  Returns a bundle consumed directly by
+  :func:`pycmplot.plotting.linear.plot_linear`,
+  :func:`pycmplot.plotting.circular.plot_circular`, and the QQ plotters.
+* :func:`auto_thin_for_manhattan` — the density-aware sub-sampling
+  helper described above; exported for advanced pipelines.
+* :func:`get_output_paths` — resolve the deterministic output file
+  names used by the plotters when *plot_title* is supplied.
 
 Notes
 -----
@@ -19,12 +67,19 @@ This module is called automatically by the command-line entry point and by
 :func:`pycmplot._core.main`; most users will not need to import it directly.
 It is documented here for users who wish to load and pre-process summary
 statistics programmatically before passing them to the plotting functions.
+
+See Also
+--------
+pycmplot.cache : per-track Stage-1 cache implementation.
+pycmplot.annotation : lead-SNP annotation with nearest-gene lookup.
+pycmplot.liftover : hg18/hg19 -> hg38 coordinate conversion.
 """
 
 from __future__ import annotations
 
 import csv
 import gzip
+import os
 import sys
 import re
 import logging
@@ -874,6 +929,40 @@ def auto_thin_for_manhattan(
     return df.iloc[np.flatnonzero(keep_mask)].copy()
 
 
+# Resolve significance line
+def process_signif_line(
+    signif_line, #: Union[float, bool, None], 
+    calculated_threshold: float
+) -> Optional[float]:
+    """
+    Resolves the target y-value for the significance line.
+
+    Parameters
+    ----------
+    signif_line : float, bool, or None
+        Option passed from CLI/API (False, None, True, or custom float).
+    calculated_threshold : float
+        The auto-calculated threshold derived from the dataset.
+
+    Returns
+    -------
+    float or None
+        The exact numerical y-value to draw, or None if suppressed.
+    """
+    # 1. Suppressed state (user passed False or None)
+    if signif_line is False or signif_line is None:
+        return None
+
+    # 2. Flag-only state (user passed --signif-line without a value -> True)
+    if signif_line is True:
+        return calculated_threshold
+
+    # 3. Explicit numerical value state (user passed e.g. 5e-8)
+    if isinstance(signif_line, (int, float)):
+        return float(signif_line)
+
+    return None
+
 # ---------------------------------------------------------------------------
 # Main loader
 # ---------------------------------------------------------------------------
@@ -887,15 +976,18 @@ def get_sumstats_and_merged_sector_list(
     sort_tracks: Optional[str] = None,
     table_out: Optional[str] = None,
     signif_threshold: Optional[float] = None,
-    signif_line: Optional[float] = None,
+    signif_line: Optional[bool | float] = None,
     suggest_threshold: Optional[float] = 1e-5,
     highlight: Optional[bool] = False,
     highlight_thresh: Optional[float] = None,
     resources: Optional[ResourceConfig] = None,
-    compute_pvals: bool = True,
+    compute_pvals: bool = False,
     auto_thin: bool = True,
     auto_thin_threshold: float = 2.0,
     auto_thin_max_below: int = 200_000,
+    cache: bool = False,
+    cache_dir: str | os.PathLike = ".pycmplot_cache",
+    resume: bool = True,
 ):
     """Load summary statistics, run liftover, extract lead SNPs, and compute merged Circos sector sizes.
 
@@ -951,6 +1043,55 @@ def get_sumstats_and_merged_sector_list(
         :class:`~pycmplot.resources.ResourceConfig` instance supplying paths to
         the liftover chain file and gene-info reference files.  Falls back to
         :data:`~pycmplot.resources.default_resources`.
+    compute_pvals : bool, optional
+        When ``True``, the full untrimmed p-value array is materialised
+        per track and returned in ``bundle['pvals']`` for QQ plotting.
+        When ``False`` (the default as of 0.4.0), ``bundle['pvals']``
+        contains ``None`` per label and the ~80 MB-at-10M copy is
+        skipped entirely.  **Python-API callers that plan to draw a QQ
+        figure must set this to** ``True`` **explicitly** — otherwise
+        the QQ plotters will raise ``ValueError`` with a message
+        pointing back to this argument.  The CLI entry point sets this
+        automatically from ``bool(args.qq_plot)``, so ``pycmplot --qq``
+        just works without user intervention.
+
+        .. versionchanged:: 0.4.0
+           Default changed from ``True`` to ``False``.  Callers that
+           relied on the old default and did not set ``compute_pvals``
+           explicitly will now see ``None`` per label; pass
+           ``compute_pvals=True`` to restore the previous behaviour.
+    auto_thin : bool, optional
+        Enable density-aware sub-sampling of the null background before
+        rendering.  Default ``True``.  See :func:`auto_thin_for_manhattan`
+        for the algorithm.
+    auto_thin_threshold : float, optional
+        ``-log10(P)`` (when *logp*) or ``|statistic|`` (otherwise) at or
+        above which every variant is retained verbatim.  Default ``2.0``.
+    auto_thin_max_below : int, optional
+        Cap on the number of below-threshold "background" variants
+        retained per track during auto-thinning.  Default ``200_000``.
+    cache : bool, optional
+        Enable the per-track Stage-1 cache.  When ``True``, each track's
+        post-load / post-liftover / post-thinning DataFrame is written to
+        ``<cache_dir>/tracks/<label>.parquet`` alongside its lead-SNP
+        table and (when *compute_pvals* is ``True``) its full raw
+        p-value array.  Subsequent invocations skip Stage 1 entirely for
+        tracks whose SHA-256 + parameter fingerprint matches the cached
+        key.  A parameter change or file rewrite invalidates the affected
+        entries automatically.  Default ``False``.
+    cache_dir : str or os.PathLike, optional
+        Directory used to persist the cache.  Created lazily on first
+        write.  Default ``".pycmplot_cache"`` (relative to the current
+        working directory when the loader is invoked).
+    resume : bool, optional
+        Reserved for future use.  Currently a no-op because completed
+        tracks are atomically committed to the cache one-at-a-time, so
+        a run that crashes on track *N* automatically resumes from track
+        *N* on the next invocation of the loader with ``cache=True`` —
+        the "resume" semantics are inherent in the on-disk layout and
+        do not need to be opted into.  Default ``True``; setting to
+        ``False`` currently has no effect but is reserved so the API
+        can grow a stricter "no resume, always regenerate" mode later.
 
     Returns
     -------
@@ -1021,7 +1162,139 @@ def get_sumstats_and_merged_sector_list(
     signif_lines: list[dict[str, float]] = []
     all_lead_snps: list[pd.DataFrame] = []
 
-    for label in sumstats.keys() & (file_info or {}).keys():
+    # ------------------------------------------------------------------
+    # Optional per-track cache (Stage-1 checkpointing).  When cache=True
+    # we hash each raw file + the Stage-1 parameters and skip the CSV
+    # read / dtype conversion / chromosome normalisation / liftover /
+    # auto-thinning / lead extraction for any label whose cached
+    # DataFrame matches the current key.  Data cached across runs but
+    # invalidated automatically when any parameter changes (see
+    # :func:`pycmplot.cache.compute_cache_key`).
+    # ------------------------------------------------------------------
+    _track_cache = None
+    if cache:
+        from pycmplot import __version__ as _pcm_version
+        from pycmplot.cache import TrackCache, compute_cache_key, sha256_file
+        _track_cache = TrackCache(cache_dir, _pcm_version)
+
+    def _resolve_signif_lines_entry(label: str) -> dict[str, float]:
+        """Recompute the per-track signif_lines dict from current params.
+
+        Kept outside the cache payload so ``--signif_line`` /
+        ``--suggest_threshold`` / ``--logp`` remain live-tunable
+        between runs without invalidating the cache.
+        """
+        n_local = int(snp_counts[label]) or 1
+        _suggest = 1e-5 if suggest_threshold is None else suggest_threshold
+        if logp:
+            _suggest = -np.log10(_suggest)
+        _resolved = max(0.05 / n_local, 5e-8)
+        if signif_line not in (False, None):
+            if isinstance(signif_line, (int, float)) and not isinstance(signif_line, bool):
+                _resolved = float(signif_line)
+        if logp and _resolved < 1:
+            _resolved = -np.log10(_resolved)
+        return {"genome": _resolved, "suggestive": _suggest}
+
+    # Iterate the user-supplied ``labels`` list rather than the set
+    # intersection of the two dicts.  ``dict.keys() & other.keys()``
+    # returns a plain ``set``, whose iteration order is *not*
+    # deterministic across runs — that broke cache hits for the second
+    # and later tracks because ``signif_threshold`` is auto-computed
+    # from the first-loaded track's SNP count and then fed into every
+    # subsequent track's cache_key.  Fixing the iteration order keeps
+    # cache_keys stable across warm re-runs.
+    _ordered_labels = [
+        label for label in labels
+        if label in sumstats and label in (file_info or {})
+    ]
+    # Collect each track's full cache_key so we can derive a
+    # hits-overlay group_key later on (see
+    # :func:`pycmplot.cache.compute_hits_group_key` and the multi-panel
+    # hits-overlay block near the end of this function).  Keying the
+    # group on the *cache_key* (which includes every Stage-1 param)
+    # means each ``(files, parameters)`` combination gets its own
+    # hits overlay — this matches the per-track cache-invalidation
+    # semantics and the reproducibility mental model.  A parameter
+    # change therefore spawns a fresh overlay; user edits from an
+    # earlier setting linger on disk but are not consulted (users who
+    # want to carry a hand-edit forward can copy rows across manually).
+    _track_cache_keys: list[str] = []
+    for label in _ordered_labels:
+        # ---- Cache lookup fast path ----------------------------------
+        _cache_key = None
+        if _track_cache is not None:
+            _raw_path = sumstats[label][0]
+            try:
+                _raw_hash = sha256_file(_raw_path)
+            except OSError as _exc:
+                logger.warning("Cache: cannot hash %s (%s); bypassing cache for this track.",
+                               _raw_path, _exc)
+                _raw_hash = None
+
+            if _raw_hash is not None:
+                # NOTE: compute_pvals is deliberately EXCLUDED from the
+                # cache_key.  The cached DataFrame is unaffected by
+                # whether pvals are also materialised — pvals are a
+                # sidecar that either exists or doesn't.  Keeping the
+                # key stable across compute_pvals toggles means a user
+                # can flip QQ on/off between runs without invalidating
+                # the (expensive) main track cache.  See the fallback
+                # below for the case where compute_pvals=True but the
+                # sidecar is absent.
+                _cache_params = dict(
+                    raw_sha256=_raw_hash,
+                    logp=bool(logp),
+                    trim_pval=None if trim_pval is None else float(trim_pval),
+                    auto_thin=bool(auto_thin),
+                    auto_thin_threshold=float(auto_thin_threshold),
+                    auto_thin_max_below=int(auto_thin_max_below),
+                    highlight=bool(highlight),
+                    highlight_thresh=None if highlight_thresh is None else float(highlight_thresh),
+                    signif_threshold=None if signif_threshold is None else float(signif_threshold),
+                    build=file_info[label][4] if len(file_info[label]) > 4 else None,
+                )
+                _cache_key = compute_cache_key(**_cache_params)
+                _track_cache_keys.append(_cache_key)
+                _hit = _track_cache.get(label, _cache_key)
+                if _hit is not None:
+                    # If pvals are needed but weren't cached in a
+                    # previous run (e.g. that run had compute_pvals=False),
+                    # treat this as a miss so Stage 1 re-runs and
+                    # populates the pvals sidecar for next time.
+                    if compute_pvals and _hit.pvals is None:
+                        logger.info(
+                            "Cache MISS %s (compute_pvals=True but no "
+                            "pvals sidecar; re-parsing to populate it).",
+                            label,
+                        )
+                    else:
+                        sumstats_loaded[label] = [_hit.df, int(_hit.extras.get("n_chroms", 0))]
+                        pval_dict[label] = _hit.pvals if compute_pvals else None
+                        snp_counts[label] = int(_hit.extras.get("snp_count", 0))
+                        all_lead_snps.append(
+                            _hit.leads if _hit.leads is not None else pd.DataFrame()
+                        )
+                        # Mirror the cold-path side-effect on
+                        # ``signif_threshold`` (which is auto-computed
+                        # from the first track's SNP count and then
+                        # feeds the *next* track's cache_key).  Without
+                        # this, subsequent tracks on a warm re-run would
+                        # compute their cache_keys against a stale
+                        # ``signif_threshold=None`` and MISS.
+                        if signif_threshold is None:
+                            _n_hit = int(snp_counts[label]) or 1
+                            signif_threshold = max(0.05 / _n_hit, 5e-8)
+                        signif_lines.append(_resolve_signif_lines_entry(label))
+                        continue
+
+        # ---- Regular Stage-1 processing --------------------------------
+        # Any exception raised inside the loop body will propagate up and
+        # abort the run.  Because tracks that already completed have been
+        # written to the cache at the end of their own iteration, a
+        # subsequent invocation of this loader with cache=True will hit
+        # those cached tracks and re-run Stage 1 only from the point of
+        # failure onward — that's the "resume" semantics from to-do.md.
         sumstat_cols   = file_info[label][0]
         sumstat_dtypes = file_info[label][1]
         sumstat_newcols= file_info[label][2]
@@ -1058,6 +1331,48 @@ def get_sumstats_and_merged_sector_list(
                 **read_kwargs,
                 dtype=sumstat_dtypes,
             ).rename(columns=sumstat_newcols)
+
+
+        # Normalise chromosome names — done once here and stored as a
+        # ``Categorical`` with ``CHROM_ORDER`` as the canonical category
+        # set.  Downstream plotting code can recognise this dtype and skip
+        # repeating the (string-heavy) normalisation, and any aliasing /
+        # filtering on chromosome name becomes integer-code work rather
+        # than per-element Python string ops.
+        #
+        # Critically, when CHR comes in as a ``Categorical`` (the dtype we
+        # request in ``prep_pycmplot_input_info`` for any non-build file)
+        # the actual normalisation is applied to the **categories**, not
+        # to the underlying N-row code array.  That turns a 500K (or 10M)
+        # per-element ``str.replace + str.upper + replace`` chain into the
+        # equivalent work on ~25 distinct chromosome labels.
+        logger.info('Normalizing chromosome names {"23": "X", "24": "Y", "M": "MT", "MTDNA": "MT"} ...')
+        chr = df["CHR"]
+
+        if pd.api.types.is_numeric_dtype(chr):
+            chr = chr.astype("Int64").astype(str)
+            chr = chr.replace({
+                "23": "X",
+                "24": "Y",
+            })
+        else:
+            chr = (
+                chr.astype(str)
+                .str.upper()
+                .str.replace("CHR", "", regex=False)
+                .replace({
+                    "23": "X",
+                    "24": "Y",
+                    "M": "MT",
+                    "MTDNA": "MT",
+                })
+            )
+
+        df["CHR"] = pd.Categorical(
+            chr,
+            categories=CHROM_ORDER,
+            ordered=True,
+        )
 
         # Coerce POS to numeric, drop rows that fail to parse, then store
         # as plain int64 (not nullable ``Int64``) so downstream arithmetic
@@ -1096,23 +1411,21 @@ def get_sumstats_and_merged_sector_list(
         if logp:
             suggest_line = -np.log10(suggest_line)
 
-        if signif_line is None:
-            signif_line = signif_threshold
-            if logp:
-                signif_line = -np.log10(signif_line)
-        else:
-            # significance line was set without value
-            # fallback to sig_thresh
-            if signif_line == 999999:
-                signif_line = signif_threshold
-            # significance line was set with value, use value
-            else:
-                signif_line = np.float64(signif_line)
+        # initialize with auto-calculated threshold
+        resolved_signif_line = max(0.05 / n, 5e-8)
 
-            if logp and signif_line < 1:
-                signif_line = -np.log10(signif_line)
+        # Check if signif_line was requested (i.e. not False and not None)
+        if signif_line not in (False, None):
+            if signif_line is True:
+                pass
+            elif isinstance(signif_line, (int, float)):
+                # Use user-supplied custom float
+                resolved_signif_line = float(signif_line)
 
-        signif_lines.append({"genome": signif_line, "suggestive": suggest_line})
+        if logp and resolved_signif_line < 1:
+            resolved_signif_line = -np.log10(resolved_signif_line)
+
+        signif_lines.append({"genome": resolved_signif_line, "suggestive": suggest_line})
 
         # Density-aware auto-thinning for Manhattan / circular rendering.
         # Applied after lead-SNP extraction so the leads come from the full
@@ -1143,8 +1456,19 @@ def get_sumstats_and_merged_sector_list(
                 )
 
         # Add build column if not exist and build supplied
-        if build:
-            df['BUILD'] = build
+        BUILD_MAP = {
+            "hg38": "hg38", "grch38": "hg38", "38": "hg38",
+            "hg19": "hg19", "grch37": "hg19", "b37": "hg19", "19": "hg19",
+            "hg18": "hg18", "ncbi36": "hg18", "18": "hg18",
+        }
+        if build is not None:
+            build_key = str(build).strip().lower()
+            if build_key not in BUILD_MAP:
+                raise ValueError(
+                    f"Unsupported genome build '{build}'. "
+                    f"Supported options: {', '.join(sorted(set(BUILD_MAP.values())))}."
+                )
+            df['BUILD'] = BUILD_MAP[build_key]
             df['BUILD'] = df['BUILD'].astype('category')
 
         # Trim insignificant variants for faster plotting
@@ -1165,58 +1489,6 @@ def get_sumstats_and_merged_sector_list(
 
         df["LABEL"] = label
 
-        # Normalise chromosome names — done once here and stored as a
-        # ``Categorical`` with ``CHROM_ORDER`` as the canonical category
-        # set.  Downstream plotting code can recognise this dtype and skip
-        # repeating the (string-heavy) normalisation, and any aliasing /
-        # filtering on chromosome name becomes integer-code work rather
-        # than per-element Python string ops.
-        #
-        # Critically, when CHR comes in as a ``Categorical`` (the dtype we
-        # request in ``prep_pycmplot_input_info`` for any non-build file)
-        # the actual normalisation is applied to the **categories**, not
-        # to the underlying N-row code array.  That turns a 500K (or 10M)
-        # per-element ``str.replace + str.upper + replace`` chain into the
-        # equivalent work on ~25 distinct chromosome labels.
-        logger.info('Normalizing chromosome names {"23": "X", "24": "Y", "M": "MT", "MTDNA": "MT"} ...')
-        chr_col_data = df["CHR"]
-        alias = {"23": "X", "24": "Y", "M": "MT", "MTDNA": "MT"}
-
-        if isinstance(chr_col_data.dtype, pd.CategoricalDtype):
-            # Fast path: rewrite categories, then re-cast to the canonical
-            # CHROM_ORDER ordered Categorical.
-            cats = pd.Series(chr_col_data.cat.categories.astype(str))
-            new_cats = (
-                cats.str.replace("chr", "", regex=False)
-                    .str.upper()
-                    .replace(alias)
-                    .tolist()
-            )
-            chr_col_data = chr_col_data.cat.rename_categories(new_cats)
-        else:
-            # Defensive slow path for callers that bypass our dtype hints.
-            chr_col_data = (
-                chr_col_data
-                .astype(str)
-                .str.replace("chr", "", regex=False)
-                .str.upper()
-                .replace(alias)
-            )
-
-        df["CHR"] = pd.Categorical(
-            chr_col_data, categories=list(CHROM_ORDER), ordered=True
-        )
-        # Drop rows whose chromosome label is not in CHROM_ORDER (they
-        # become NaN under the categorical cast).
-        before = len(df.index)
-        df = df[df["CHR"].notna()].copy()
-        dropped = before - len(df.index)
-        if dropped:
-            logger.warning(
-                "Dropped %s row(s) with chromosome label outside CHROM_ORDER",
-                dropped,
-            )
-
         # Liftover hg18/hg19 data if needed.
         #
         # ``sumstats_loaded[label]`` is not populated until the very end of
@@ -1225,7 +1497,14 @@ def get_sumstats_and_merged_sector_list(
         # into ``sumstats_loaded[label][0]`` here raised ``KeyError`` (e.g.
         # ``KeyError: 'MCV'``) the first time the liftover branch fired on
         # a given track.
-        builds = df["BUILD"].unique()
+        # Guard the BUILD lookup: not every input file has a BUILD column
+        # (single-build workflows don't need one).  Without this check
+        # ``df["BUILD"]`` raises ``KeyError`` before we reach the
+        # ``if "BUILD" in df.columns`` test.
+        if "BUILD" in df.columns:
+            builds = df["BUILD"].unique()
+        else:
+            builds = []
         if "BUILD" in df.columns and (
             "hg18" in builds or ("hg19" in builds and "hg38" in builds)
         ):
@@ -1268,6 +1547,28 @@ def get_sumstats_and_merged_sector_list(
         n_chroms = len(df["CHR"].unique()) - 1
         sumstats_loaded[label] = [df, n_chroms]
 
+        # ---- Persist to cache (Stage-1 checkpoint) --------------------
+        # Runs only when cache=True and we computed a valid cache_key
+        # above.  Best-effort: a failure to write the cache logs a
+        # warning but does not abort the run.
+        if _track_cache is not None and _cache_key is not None:
+            try:
+                _track_cache.put(
+                    label,
+                    _cache_key,
+                    df,
+                    leads=leads if isinstance(leads, pd.DataFrame) and not leads.empty else None,
+                    pvals=pval_dict.get(label) if compute_pvals else None,
+                    extras={
+                        "n_chroms": int(n_chroms),
+                        "snp_count": int(snp_counts.get(label, 0)),
+                    },
+                    raw_source=str(sumstats[label][0]),
+                )
+            except Exception as _exc:
+                logger.warning("Cache write failed for %r (%s); continuing.",
+                               label, _exc)
+
     # Combine lead SNPs and filter to significance threshold
     all_lead_snps_df = (
         pd.concat(all_lead_snps, ignore_index=True).drop_duplicates()
@@ -1275,16 +1576,81 @@ def get_sumstats_and_merged_sector_list(
         else pd.DataFrame()
     )
   
-    hits_table = (
-        get_hits_summary_table(
+    # ------------------------------------------------------------------
+    # Hits table with optional user-editable overlay.
+    #
+    # When ``cache=True``, the auto-generated table is written to
+    # ``<cache_dir>/annotations/hits.tsv`` with a ``source`` column
+    # ('auto' | 'user').  Regeneration is skipped when the leads +
+    # resource + window key matches the previously cached value.  User-
+    # authored rows (``source="user"``) survive every regeneration so
+    # analysts can hand-add / hand-edit annotations without touching
+    # Python.  See ``pycmplot.cache`` for the file layout.
+    # ------------------------------------------------------------------
+    if all_lead_snps_df.empty:
+        hits_table = pd.DataFrame()
+    elif cache:
+        from pycmplot.cache import (
+            hits_auto_key, read_hits_overlay, resources_fingerprint,
+            write_hits_overlay, compute_hits_group_key,
+            AUTO_TAG, USER_TAG, SOURCE_COL,
+        )
+        _res_sig = resources_fingerprint(resources)
+        _auto_key = hits_auto_key(
+            all_lead_snps_df, resources_signature=_res_sig, window_kb=2_000,
+        )
+        # ``_group_key`` scopes the hits overlay to THIS loader call's set
+        # of tracks.  A second call with the same ``cache_dir`` but a
+        # different set of sumstats (a common multi-panel pattern) gets
+        # a different group_key and therefore a separate
+        # ``hits.<group>.tsv`` file — they don't clobber each other, and
+        # each group keeps its own user-authored rows across regenerations.
+        # ``_track_cache_keys`` was populated per-track in the main loop.
+        _group_key = compute_hits_group_key(_track_cache_keys)
+
+        _existing_overlay, _existing_meta = read_hits_overlay(cache_dir, _group_key)
+        _cached_key = (_existing_meta or {}).get("auto_key")
+
+        if _existing_overlay is not None and _cached_key == _auto_key:
+            _hits_file = os.path.join(
+                str(cache_dir), "annotations", f"hits.{_group_key}.tsv",
+            )
+            logger.info(
+                "Hits overlay: cache HIT (%s rows; user-editable at %s)",
+                len(_existing_overlay), _hits_file,
+            )
+            hits_table = _existing_overlay
+        else:
+            _auto_hits = get_hits_summary_table(
+                leads_df=all_lead_snps_df,
+                table_out=table_out,
+                window_kb=2_000,
+                resources=resources,
+            )
+            _written = write_hits_overlay(
+                cache_dir, _auto_hits,
+                auto_key=_auto_key,
+                group_key=_group_key,
+                preserve_user_from=_existing_overlay,
+            )
+            # Re-read to pick up any preserved user rows.
+            hits_table, _ = read_hits_overlay(cache_dir, _group_key)
+            if hits_table is None:
+                hits_table = _auto_hits
+            logger.info(
+                "Hits overlay: regenerated (%s auto rows; edit %s to add "
+                "custom loci)",
+                int((_auto_hits[SOURCE_COL] == AUTO_TAG).sum())
+                if SOURCE_COL in _auto_hits.columns else len(_auto_hits),
+                _written,
+            )
+    else:
+        hits_table = get_hits_summary_table(
             leads_df=all_lead_snps_df,
             table_out=table_out,
             window_kb=2_000,
             resources=resources,
         )
-        if not all_lead_snps_df.empty
-        else pd.DataFrame()
-    )
 
     # sort dicts by user-supplied order
     sumstats_loaded = {key: sumstats_loaded[key] for key in labels if key in sumstats_loaded}
@@ -1343,5 +1709,6 @@ def get_sumstats_and_merged_sector_list(
         #    merged["Spacer1"] = [x + x / 2 for x in min_dic_val]
         #else:
         merged["Spacer1"] = [x * 2 for x in min_dic_val]
-
+        
+    logger.info("All processes completed successfully!")
     return {"sectors": merged, "dfs": sumstats_loaded, "annot": hits_table, "lines": signif_lines, "pvals": pval_dict}

@@ -71,6 +71,29 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial.html#setup-a-synthetic-dataset">Setup: a synthetic dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial.html#the-three-step-mental-model">The three-step mental model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial.html#linear-manhattan-plots">Linear Manhattan plots</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../tutorial.html#single-track">Single-track</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../tutorial.html#multi-track">Multi-track</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial.html#circular-circos-plots">Circular (Circos) plots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial.html#highlighting">Highlighting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial.html#automatic-gene-annotation">Automatic gene annotation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial.html#qq-plots-and-compute-pvals">QQ plots and <code class="docutils literal notranslate"><span class="pre">compute_pvals</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial.html#caching-and-warm-resume">Caching and warm resume</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial.html#the-hits-overlay-tsv">The hits overlay TSV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial.html#per-locus-highlight-colours">Per-locus highlight colours</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial.html#per-locus-categories-and-the-custom-legend">Per-locus categories and the custom legend</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial.html#multi-panel-canvas">Multi-panel canvas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial.html#mixed-genome-builds">Mixed genome builds</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial.html#cli-equivalents">CLI equivalents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial.html#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorial.html#next-steps">Next steps</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command-Line Interface</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../cli.html#input-output-options">Input / output options</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../cli.html#column-auto-detection-options">Column auto-detection options</a></li>
@@ -134,7 +157,12 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">API Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/io.html">pycmplot.io</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#module-pycmplot.io">pycmplot.io</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#module-pycmplot.io">pycmplot.io</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#density-aware-sub-sampling">Density-aware sub-sampling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#per-track-stage-1-cache">Per-track Stage-1 cache</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#public-functions">Public functions</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pycmplot.io.auto_thin_for_manhattan"><code class="docutils literal notranslate"><span class="pre">auto_thin_for_manhattan()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pycmplot.io.detect_delimiter"><code class="docutils literal notranslate"><span class="pre">detect_delimiter()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pycmplot.io.generate_random_string"><code class="docutils literal notranslate"><span class="pre">generate_random_string()</span></code></a></li>
@@ -142,6 +170,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pycmplot.io.get_output_paths"><code class="docutils literal notranslate"><span class="pre">get_output_paths()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pycmplot.io.get_sumstats_and_merged_sector_list"><code class="docutils literal notranslate"><span class="pre">get_sumstats_and_merged_sector_list()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pycmplot.io.prep_pycmplot_input_info"><code class="docutils literal notranslate"><span class="pre">prep_pycmplot_input_info()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pycmplot.io.process_signif_line"><code class="docutils literal notranslate"><span class="pre">process_signif_line()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pycmplot.io.resolve_delimiter"><code class="docutils literal notranslate"><span class="pre">resolve_delimiter()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pycmplot.io.smart_open"><code class="docutils literal notranslate"><span class="pre">smart_open()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pycmplot.io.strip_comma_separated_input_streams"><code class="docutils literal notranslate"><span class="pre">strip_comma_separated_input_streams()</span></code></a></li>
@@ -158,8 +187,13 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../api/annotation.html#gene-reference-files">Gene reference files</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/annotation.html#pycmplot.annotation.build_highlight_legend_entries"><code class="docutils literal notranslate"><span class="pre">build_highlight_legend_entries()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/annotation.html#pycmplot.annotation.ensure_category_column"><code class="docutils literal notranslate"><span class="pre">ensure_category_column()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/annotation.html#pycmplot.annotation.ensure_highlight_color_column"><code class="docutils literal notranslate"><span class="pre">ensure_highlight_color_column()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/annotation.html#pycmplot.annotation.get_annotation_column"><code class="docutils literal notranslate"><span class="pre">get_annotation_column()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/annotation.html#pycmplot.annotation.get_hits_summary_table"><code class="docutils literal notranslate"><span class="pre">get_hits_summary_table()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/annotation.html#pycmplot.annotation.resolve_highlight_categories"><code class="docutils literal notranslate"><span class="pre">resolve_highlight_categories()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/annotation.html#pycmplot.annotation.resolve_highlight_colors"><code class="docutils literal notranslate"><span class="pre">resolve_highlight_colors()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/liftover.html">pycmplot.liftover</a><ul>
@@ -188,10 +222,12 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/plotting.html#pycmplot-plotting-qq">pycmplot.plotting.qq</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#pycmplot.plotting.qq.get_legend_loc_string"><code class="docutils literal notranslate"><span class="pre">get_legend_loc_string()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#pycmplot.plotting.qq.plot_qq_combined"><code class="docutils literal notranslate"><span class="pre">plot_qq_combined()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#pycmplot.plotting.qq.plot_qq_overlay"><code class="docutils literal notranslate"><span class="pre">plot_qq_overlay()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#pycmplot.plotting.qq.plot_qq_separate"><code class="docutils literal notranslate"><span class="pre">plot_qq_separate()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#pycmplot.plotting.qq.plot_qq_single"><code class="docutils literal notranslate"><span class="pre">plot_qq_single()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#pycmplot.plotting.qq.set_legend_loc_string"><code class="docutils literal notranslate"><span class="pre">set_legend_loc_string()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#pycmplot.plotting.qq.thin_pvals"><code class="docutils literal notranslate"><span class="pre">thin_pvals()</span></code></a></li>
 </ul>
 </li>
@@ -225,6 +261,7 @@
 <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#xx-xx">0.4.0 - 2026-XX-XX</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id1">0.3.1 - 2026-07-31</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id2">0.3.0 - 2026-06-01</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id3">0.2.8 - 2026-05-30</a></li>
@@ -1237,7 +1274,7 @@
     <span class="n">highlight_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;brown&#39;</span><span class="p">,</span>
     <span class="n">highlight_line</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">highlight_line_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;grey&#39;</span><span class="p">,</span>
-    <span class="n">signif_line</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">signif_line</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span> <span class="o">|</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">suggest_line</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">sig_lines</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">logp</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
@@ -1606,6 +1643,20 @@
             <span class="n">sig</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;in_locus&quot;</span><span class="p">]]</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">sig</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
                 <span class="n">sig_y</span> <span class="o">=</span> <span class="n">sig</span><span class="p">[</span><span class="s2">&quot;logP&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="n">logp</span> <span class="k">else</span> <span class="n">sig</span><span class="p">[</span><span class="n">p_col</span><span class="p">]</span>
+                <span class="c1"># Per-locus color: look up each highlighted variant&#39;s</span>
+                <span class="c1"># nearest lead in the hits table and use its</span>
+                <span class="c1"># ``highlight_color`` (falls back to the plot-time</span>
+                <span class="c1"># ``highlight_color`` argument for rows with sentinel</span>
+                <span class="c1"># &#39;auto&#39;/blank/NaN/invalid).  Users can hand-edit</span>
+                <span class="c1"># specific rows in hits.&lt;group&gt;.tsv to give individual</span>
+                <span class="c1"># loci custom colors.</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="kn">from</span><span class="w"> </span><span class="nn">pycmplot.annotation</span><span class="w"> </span><span class="kn">import</span> <span class="n">resolve_highlight_colors</span>
+                    <span class="n">_sig_colors</span> <span class="o">=</span> <span class="n">resolve_highlight_colors</span><span class="p">(</span>
+                        <span class="n">sig</span><span class="p">,</span> <span class="n">annot_df</span><span class="p">,</span> <span class="n">default_color</span><span class="o">=</span><span class="n">highlight_color</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                    <span class="n">_sig_colors</span> <span class="o">=</span> <span class="p">[</span><span class="n">highlight_color</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">sig</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
                 <span class="c1"># Highlight points need an explicit ``zorder`` higher than</span>
                 <span class="c1"># the background scatter.  The background is drawn with</span>
                 <span class="c1"># ``ax.plot`` (Line2D, default zorder=2), while</span>
@@ -1620,7 +1671,7 @@
                     <span class="n">sig_y</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
                     <span class="n">s</span><span class="o">=</span><span class="n">point_size</span><span class="p">,</span>
                     <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span>
-                    <span class="n">color</span><span class="o">=</span><span class="n">highlight_color</span><span class="p">,</span>
+                    <span class="n">c</span><span class="o">=</span><span class="n">_sig_colors</span><span class="p">,</span>
                     <span class="n">edgecolors</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
                     <span class="n">zorder</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
                     <span class="n">rasterized</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -1634,11 +1685,9 @@
 
         <span class="k">if</span> <span class="n">sig_lines</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">sig_lines</span><span class="p">):</span>
             <span class="n">sl</span> <span class="o">=</span> <span class="n">sig_lines</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">signif_line</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="s2">&quot;genome&quot;</span> <span class="ow">in</span> <span class="n">sl</span><span class="p">:</span>
-                        <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">sl</span><span class="p">[</span><span class="s2">&quot;genome&quot;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;orangered&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">suggest_line</span><span class="p">:</span>
-                <span class="k">if</span> <span class="s2">&quot;suggestive&quot;</span> <span class="ow">in</span> <span class="n">sl</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">signif_line</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;genome&quot;</span> <span class="ow">in</span> <span class="n">sl</span><span class="p">:</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">sl</span><span class="p">[</span><span class="s2">&quot;genome&quot;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;orangered&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">suggest_line</span> <span class="ow">and</span> <span class="s2">&quot;suggestive&quot;</span> <span class="ow">in</span> <span class="n">sl</span><span class="p">:</span>
                     <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">sl</span><span class="p">[</span><span class="s2">&quot;suggestive&quot;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;navy&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 
         <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[[</span><span class="s2">&quot;top&quot;</span><span class="p">,</span> <span class="s2">&quot;right&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
@@ -1691,6 +1740,56 @@
           
         <span class="n">ax_annot</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
         <span class="n">ax_annot</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="c1"># Optional user-driven highlight legend (from hits overlay).</span>
+    <span class="c1">#</span>
+    <span class="c1"># When the user has edited the ``category`` and/or</span>
+    <span class="c1"># ``highlight_color`` column in the cached ``hits.&lt;group&gt;.tsv``,</span>
+    <span class="c1"># we render a small legend in the top-right of the topmost data</span>
+    <span class="c1"># track showing one entry per category (see</span>
+    <span class="c1"># :func:`pycmplot.annotation.build_highlight_legend_entries`).</span>
+    <span class="c1"># When nothing has been customised, this returns an empty list</span>
+    <span class="c1"># and no legend is added -- matches the pre-feature layout.</span>
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="k">if</span> <span class="n">highlight</span> <span class="ow">and</span> <span class="n">annot_df</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">annot_df</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pycmplot.annotation</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_highlight_legend_entries</span>
+            <span class="n">_legend_entries</span> <span class="o">=</span> <span class="n">build_highlight_legend_entries</span><span class="p">(</span>
+                <span class="n">annot_df</span><span class="p">,</span> <span class="n">default_color</span><span class="o">=</span><span class="n">highlight_color</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">_exc</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Could not build highlight legend: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">_exc</span><span class="p">)</span>
+            <span class="n">_legend_entries</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">_legend_entries</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.lines</span><span class="w"> </span><span class="kn">import</span> <span class="n">Line2D</span>
+            <span class="c1"># Marker size mirrors the scatter&#39;s ``point_size`` so the</span>
+            <span class="c1"># legend swatches visually match the plotted highlights;</span>
+            <span class="c1"># font size matches the annotation labels (``annotation_size``)</span>
+            <span class="c1"># so the legend blends with the rest of the top-track text.</span>
+            <span class="c1"># Frame is kept (unlike the circular plot, whose legend</span>
+            <span class="c1"># sits outside the polar axes) because the linear legend</span>
+            <span class="c1"># anchors *inside* the topmost data track and may overlap</span>
+            <span class="c1"># peaks -- a translucent white frame keeps text readable.</span>
+            <span class="n">handles</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">Line2D</span><span class="p">(</span>
+                    <span class="p">[],</span> <span class="p">[],</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+                    <span class="n">markerfacecolor</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">markeredgecolor</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+                    <span class="n">markersize</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">point_size</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="n">cat</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="k">for</span> <span class="n">cat</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">_legend_entries</span>
+            <span class="p">]</span>
+            <span class="n">_top_ax</span> <span class="o">=</span> <span class="n">loop_axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">_top_ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span>
+                <span class="n">handles</span><span class="o">=</span><span class="n">handles</span><span class="p">,</span>
+                <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper right&quot;</span><span class="p">,</span>
+                <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Highlighted Categories&quot;</span><span class="p">,</span>
+                <span class="n">fontsize</span><span class="o">=</span><span class="n">annotation_size</span><span class="p">,</span>
+                <span class="n">title_fontsize</span><span class="o">=</span><span class="n">annotation_size</span><span class="p">,</span>
+                <span class="n">frameon</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">framealpha</span><span class="o">=</span><span class="mf">0.85</span><span class="p">,</span>
+                <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;lightgrey&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
 
     <span class="c1"># ------------------------------------------------------------------</span>
     <span class="c1"># Chromosome labels on x-axis</span>

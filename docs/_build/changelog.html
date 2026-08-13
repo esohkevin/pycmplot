@@ -74,6 +74,29 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#setup-a-synthetic-dataset">Setup: a synthetic dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#the-three-step-mental-model">The three-step mental model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#linear-manhattan-plots">Linear Manhattan plots</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorial.html#single-track">Single-track</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial.html#multi-track">Multi-track</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#circular-circos-plots">Circular (Circos) plots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#highlighting">Highlighting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#automatic-gene-annotation">Automatic gene annotation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#qq-plots-and-compute-pvals">QQ plots and <code class="docutils literal notranslate"><span class="pre">compute_pvals</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#caching-and-warm-resume">Caching and warm resume</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#the-hits-overlay-tsv">The hits overlay TSV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#per-locus-highlight-colours">Per-locus highlight colours</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#per-locus-categories-and-the-custom-legend">Per-locus categories and the custom legend</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#multi-panel-canvas">Multi-panel canvas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#mixed-genome-builds">Mixed genome builds</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#cli-equivalents">CLI equivalents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#next-steps">Next steps</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="cli.html">Command-Line Interface</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="cli.html#input-output-options">Input / output options</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cli.html#column-auto-detection-options">Column auto-detection options</a></li>
@@ -137,7 +160,12 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="api/index.html">API Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/io.html">pycmplot.io</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/io.html#module-pycmplot.io">pycmplot.io</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/io.html#module-pycmplot.io">pycmplot.io</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/io.html#density-aware-sub-sampling">Density-aware sub-sampling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/io.html#per-track-stage-1-cache">Per-track Stage-1 cache</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/io.html#public-functions">Public functions</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="api/io.html#pycmplot.io.auto_thin_for_manhattan"><code class="docutils literal notranslate"><span class="pre">auto_thin_for_manhattan()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/io.html#pycmplot.io.detect_delimiter"><code class="docutils literal notranslate"><span class="pre">detect_delimiter()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/io.html#pycmplot.io.generate_random_string"><code class="docutils literal notranslate"><span class="pre">generate_random_string()</span></code></a></li>
@@ -145,6 +173,7 @@
 <li class="toctree-l3"><a class="reference internal" href="api/io.html#pycmplot.io.get_output_paths"><code class="docutils literal notranslate"><span class="pre">get_output_paths()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/io.html#pycmplot.io.get_sumstats_and_merged_sector_list"><code class="docutils literal notranslate"><span class="pre">get_sumstats_and_merged_sector_list()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/io.html#pycmplot.io.prep_pycmplot_input_info"><code class="docutils literal notranslate"><span class="pre">prep_pycmplot_input_info()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/io.html#pycmplot.io.process_signif_line"><code class="docutils literal notranslate"><span class="pre">process_signif_line()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/io.html#pycmplot.io.resolve_delimiter"><code class="docutils literal notranslate"><span class="pre">resolve_delimiter()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/io.html#pycmplot.io.smart_open"><code class="docutils literal notranslate"><span class="pre">smart_open()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/io.html#pycmplot.io.strip_comma_separated_input_streams"><code class="docutils literal notranslate"><span class="pre">strip_comma_separated_input_streams()</span></code></a></li>
@@ -161,8 +190,13 @@
 <li class="toctree-l4"><a class="reference internal" href="api/annotation.html#gene-reference-files">Gene reference files</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.build_highlight_legend_entries"><code class="docutils literal notranslate"><span class="pre">build_highlight_legend_entries()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.ensure_category_column"><code class="docutils literal notranslate"><span class="pre">ensure_category_column()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.ensure_highlight_color_column"><code class="docutils literal notranslate"><span class="pre">ensure_highlight_color_column()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.get_annotation_column"><code class="docutils literal notranslate"><span class="pre">get_annotation_column()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.get_hits_summary_table"><code class="docutils literal notranslate"><span class="pre">get_hits_summary_table()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.resolve_highlight_categories"><code class="docutils literal notranslate"><span class="pre">resolve_highlight_categories()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.resolve_highlight_colors"><code class="docutils literal notranslate"><span class="pre">resolve_highlight_colors()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="api/liftover.html">pycmplot.liftover</a><ul>
@@ -191,10 +225,12 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="api/plotting.html#pycmplot-plotting-qq">pycmplot.plotting.qq</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.get_legend_loc_string"><code class="docutils literal notranslate"><span class="pre">get_legend_loc_string()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.plot_qq_combined"><code class="docutils literal notranslate"><span class="pre">plot_qq_combined()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.plot_qq_overlay"><code class="docutils literal notranslate"><span class="pre">plot_qq_overlay()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.plot_qq_separate"><code class="docutils literal notranslate"><span class="pre">plot_qq_separate()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.plot_qq_single"><code class="docutils literal notranslate"><span class="pre">plot_qq_single()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.set_legend_loc_string"><code class="docutils literal notranslate"><span class="pre">set_legend_loc_string()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.thin_pvals"><code class="docutils literal notranslate"><span class="pre">thin_pvals()</span></code></a></li>
 </ul>
 </li>
@@ -228,16 +264,17 @@
 <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id1">0.3.1 - 2026-07-31</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id2">0.3.0 - 2026-06-01</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">0.2.8 - 2026-05-30</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">0.2.7 - 2026-04-27</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id5">0.2.5 - 2026-04-20</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id6">0.2.2 - 2026-04-18</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id7">0.2.1 — 2026-04-16</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id8">0.1.9 — 2026-04-14</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id9">0.1.8 — 2026-04-14</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id10">0.1.0 — 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">0.4.0 - 2026-08-13</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">0.3.1 - 2026-07-31</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">0.3.0 - 2026-06-01</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">0.2.8 - 2026-05-30</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">0.2.7 - 2026-04-27</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">0.2.5 - 2026-04-20</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">0.2.2 - 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">0.2.1 — 2026-04-16</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">0.1.9 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id10">0.1.8 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id11">0.1.0 — 2026-04-18</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a><ul>
@@ -280,9 +317,270 @@
 <p>All notable changes to <strong>pycmplot</strong> are documented here.</p>
 <p>The format is based on <a class="reference external" href="https://keepachangelog.com/en/1.0.0/">Keep a Changelog</a>
 and this project adheres to <a class="reference external" href="https://semver.org/">Semantic Versioning</a>.</p>
-<hr class="docutils" />
+<p>—</p>
 <section id="id1">
-<h2>0.3.1 - 2026-07-31<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<h2>0.4.0 - 2026-08-13<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<p><strong>Changed</strong></p>
+<ul class="simple">
+<li><p><strong>QQ plot legend no longer includes a “95% CI” entry.</strong>  The CI
+band is visually self-evident (it’s the shaded region hugging the
+diagonal), and the extra legend entry crowded the top corner
+alongside the track label and the <code class="docutils literal notranslate"><span class="pre">λ</span></code> annotation.  Legend now
+shows only the track name(s); band still renders identically.
+Callers who prefer the old behaviour can add an
+overlay/annotation of their own.</p></li>
+<li><p><strong>Pvals sidecar switched from uncompressed ``.npy`` to compressed
+``.npz`` with sorted ``float32`` payload.</strong>  The QQ plotter sorts
+the array internally, so pre-sorting is semantically transparent;
+<code class="docutils literal notranslate"><span class="pre">float32</span></code> preserves <code class="docutils literal notranslate"><span class="pre">median(-log10</span> <span class="pre">P)</span></code> to ~9 decimal digits
+(well beyond any GWAS precision concern).  Result: <strong>~5× smaller
+on-disk footprint</strong> — 8 MB → 1.7 MB on a 1 M-variant sidecar,
+scaling proportionally to 80 MB → ~17 MB at 10 M variants.
+Parquet was evaluated for consistency with the other cache files
+but performed <em>worse</em> (117–71% of raw) due to per-column overhead
+on random-ish float payloads; <code class="docutils literal notranslate"><span class="pre">np.savez_compressed</span></code> reaches
+~20–30% of raw.  Read path is backwards-compatible: legacy
+<code class="docutils literal notranslate"><span class="pre">.npy</span></code> and short-lived <code class="docutils literal notranslate"><span class="pre">.parquet</span></code> sidecars are still readable
+transparently.</p></li>
+<li><p><strong>Hits overlay filename is now group-scoped.</strong>  The file layout
+changes from a single <code class="docutils literal notranslate"><span class="pre">&lt;cache_dir&gt;/annotations/hits.tsv</span></code> to
+<code class="docutils literal notranslate"><span class="pre">&lt;cache_dir&gt;/annotations/hits.&lt;group_key&gt;.tsv</span></code>, where
+<code class="docutils literal notranslate"><span class="pre">group_key</span></code> is a short SHA-256 of the sorted list of per-track
+cache_keys in the loader call.  Because each cache_key already
+encodes the raw file SHA-256 plus every Stage-1 parameter, each
+distinct <code class="docutils literal notranslate"><span class="pre">(files,</span> <span class="pre">parameters)</span></code> combination gets its own hits
+overlay.  This mirrors the per-track cache invalidation model and
+matches the reproducibility mental model: different parameters →
+different analysis → different cached artefacts.  Multi-panel
+workflows are safe (two panels with different sumstats never
+clobber each other’s overlays), and warm re-runs with the same
+<code class="docutils literal notranslate"><span class="pre">(files,</span> <span class="pre">parameters)</span></code> reuse and update the same file — so
+user-authored rows persist within one parameter setting.  Changing
+a Stage-1 parameter (e.g. <code class="docutils literal notranslate"><span class="pre">highlight_thresh</span></code> or <code class="docutils literal notranslate"><span class="pre">trim_pval</span></code>)
+spawns a fresh overlay under a new <code class="docutils literal notranslate"><span class="pre">group_key</span></code>; the earlier
+overlay lingers on disk unchanged (users who want to carry a
+hand-edit forward can copy rows manually).</p></li>
+</ul>
+<p><strong>BREAKING (Python API)</strong></p>
+<ul>
+<li><p><strong>Default for</strong> <code class="docutils literal notranslate"><span class="pre">compute_pvals</span></code> <strong>flipped from</strong> <code class="docutils literal notranslate"><span class="pre">True</span></code> <strong>to</strong>
+<code class="docutils literal notranslate"><span class="pre">False</span></code> on <a class="reference internal" href="api/io.html#pycmplot.io.get_sumstats_and_merged_sector_list" title="pycmplot.io.get_sumstats_and_merged_sector_list"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_sumstats_and_merged_sector_list()</span></code></a>.
+The bundled p-value array is expensive to materialise (~80 MB per
+track at 10 M variants) and is only needed for QQ plots, so opting
+in matches what the CLI already does (<code class="docutils literal notranslate"><span class="pre">-qq/--qq_plot</span></code> sets it
+automatically).</p>
+<p><strong>Migration</strong> — Python-API scripts that call the loader with
+defaults and then feed <code class="docutils literal notranslate"><span class="pre">bundle['pvals']</span></code> into a QQ plotter must
+now pass <code class="docutils literal notranslate"><span class="pre">compute_pvals=True</span></code> explicitly:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Before 0.4.0 — bundle[&#39;pvals&#39;] populated implicitly</span>
+<span class="n">bundle</span> <span class="o">=</span> <span class="n">get_sumstats_and_merged_sector_list</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">logp</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plot_qq_combined</span><span class="p">(</span><span class="n">bundle</span><span class="p">[</span><span class="s1">&#39;pvals&#39;</span><span class="p">],</span> <span class="n">output_path</span><span class="o">=</span><span class="s1">&#39;qq.png&#39;</span><span class="p">)</span>
+
+<span class="c1"># 0.4.0 onward — opt in</span>
+<span class="n">bundle</span> <span class="o">=</span> <span class="n">get_sumstats_and_merged_sector_list</span><span class="p">(</span>
+    <span class="o">...</span><span class="p">,</span> <span class="n">logp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">compute_pvals</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plot_qq_combined</span><span class="p">(</span><span class="n">bundle</span><span class="p">[</span><span class="s1">&#39;pvals&#39;</span><span class="p">],</span> <span class="n">output_path</span><span class="o">=</span><span class="s1">&#39;qq.png&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The four public QQ plotters (<a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.plot_qq_single" title="pycmplot.plotting.qq.plot_qq_single"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot_qq_single()</span></code></a>,
+<a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.plot_qq_combined" title="pycmplot.plotting.qq.plot_qq_combined"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot_qq_combined()</span></code></a>,
+<a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.plot_qq_separate" title="pycmplot.plotting.qq.plot_qq_separate"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot_qq_separate()</span></code></a>,
+<a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.plot_qq_overlay" title="pycmplot.plotting.qq.plot_qq_overlay"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot_qq_overlay()</span></code></a>) now raise
+<code class="docutils literal notranslate"><span class="pre">ValueError</span></code> with a directive message when handed <code class="docutils literal notranslate"><span class="pre">None</span></code> p-values,
+so callers that missed this migration get a clear signpost rather
+than a mystery downstream <code class="docutils literal notranslate"><span class="pre">TypeError</span></code>.  Manhattan / circular
+workflows are unaffected.</p>
+</li>
+</ul>
+<p><strong>Added</strong></p>
+<ul>
+<li><p><strong>Per-locus categories driving a custom highlight legend.</strong>  The
+auto-generated hits table now carries a <code class="docutils literal notranslate"><span class="pre">category</span></code> column,
+populated with the sentinel <code class="docutils literal notranslate"><span class="pre">&quot;significant&quot;</span></code> at cache-write time.
+Users hand-edit rows to give each locus a label
+(e.g. <code class="docutils literal notranslate"><span class="pre">&quot;novel&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;replicated&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;MHC&quot;</span></code>); <strong>both the linear
+and circular plotters</strong> then render a “Highlighted Categories”
+legend, with one entry per unique category in first-appearance
+order — so re-ordering rows in the TSV re-orders the legend.  The
+linear plotter anchors the legend in the top-right of the topmost
+data axes; the circular plotter anchors it below the polar sectors
+(which have no natural interior real-estate).  When everything is
+left at the defaults (all rows <code class="docutils literal notranslate"><span class="pre">category=significant</span></code> and
+<code class="docutils literal notranslate"><span class="pre">highlight_color=auto</span></code>), <strong>no legend is added</strong> — the pre-feature
+layout is preserved.  As with the <code class="docutils literal notranslate"><span class="pre">highlight_color</span></code> column,
+user-set categories are inherited across cache regenerations by
+<code class="docutils literal notranslate"><span class="pre">(CHR,</span> <span class="pre">POS)</span></code> lookup (no need to also change <code class="docutils literal notranslate"><span class="pre">source='auto'</span></code> to
+<code class="docutils literal notranslate"><span class="pre">user</span></code>).  Both plotters delegate the entry-building logic to the
+shared <a class="reference internal" href="api/annotation.html#pycmplot.annotation.build_highlight_legend_entries" title="pycmplot.annotation.build_highlight_legend_entries"><code class="xref py py-func docutils literal notranslate"><span class="pre">build_highlight_legend_entries()</span></code></a>
+helper (deduplicates on category; warns when the same category
+appears with multiple colours; tolerates legacy caches without the
+<code class="docutils literal notranslate"><span class="pre">category</span></code> / <code class="docutils literal notranslate"><span class="pre">highlight_color</span></code> columns).  Companion helper:
+<a class="reference internal" href="api/annotation.html#pycmplot.annotation.resolve_highlight_categories" title="pycmplot.annotation.resolve_highlight_categories"><code class="xref py py-func docutils literal notranslate"><span class="pre">resolve_highlight_categories()</span></code></a>.</p></li>
+<li><p><strong>Per-locus highlight colors via the hits overlay.</strong>  The
+auto-generated hits table now carries a <code class="docutils literal notranslate"><span class="pre">highlight_color</span></code> column,
+populated with the sentinel <code class="docutils literal notranslate"><span class="pre">&quot;auto&quot;</span></code> at cache-write time.  Users
+can hand-edit any row’s value to any matplotlib-parseable color
+(name, hex <code class="docutils literal notranslate"><span class="pre">#rrggbb</span></code>, RGB tuple) to give that locus its own
+highlight colour; <code class="docutils literal notranslate"><span class="pre">&quot;auto&quot;</span></code> / blank / NaN / invalid entries fall
+back to the plot-time <code class="docutils literal notranslate"><span class="pre">highlight_color</span></code> argument.  Applied by
+both <a class="reference internal" href="api/plotting.html#pycmplot.plotting.linear.plot_linear" title="pycmplot.plotting.linear.plot_linear"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot_linear()</span></code></a> and
+<a class="reference internal" href="api/plotting.html#pycmplot.plotting.circular.plot_circular" title="pycmplot.plotting.circular.plot_circular"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot_circular()</span></code></a> — each
+<code class="docutils literal notranslate"><span class="pre">in_locus</span></code> variant is looked up against its nearest lead in the
+overlay (within 500 kb) and coloured accordingly.  Invalid colours
+emit a <code class="docutils literal notranslate"><span class="pre">logger.warning</span></code> naming the offending value so typos in
+the TSV are easy to fix.</p>
+<p>User-set colours <strong>survive regeneration</strong> even when they were made
+to auto rows (without changing <code class="docutils literal notranslate"><span class="pre">source</span></code> to <code class="docutils literal notranslate"><span class="pre">user</span></code>): the writer
+looks up each new auto row’s <code class="docutils literal notranslate"><span class="pre">(CHR,</span> <span class="pre">POS)</span></code> in the previous overlay
+and inherits any non-<code class="docutils literal notranslate"><span class="pre">&quot;auto&quot;</span></code> colour it finds.  Users don’t need
+to know about the <code class="docutils literal notranslate"><span class="pre">source</span></code> column just to recolour a locus.</p>
+<p>A pre-existing bug in the overlay reader — pandas’
+<code class="docutils literal notranslate"><span class="pre">comment='#'</span></code> truncating hex-colour values mid-cell — was fixed
+as part of this work.  Header comments are now stripped only when
+they appear at the top of the file, so hex codes are read
+faithfully.</p>
+</li>
+<li><p><strong>User-editable hits overlay</strong> (<code class="docutils literal notranslate"><span class="pre">&lt;cache_dir&gt;/annotations/hits.tsv</span></code>).
+When <code class="docutils literal notranslate"><span class="pre">--cache</span></code> is enabled, the auto-generated hits table is
+persisted as a plain TSV with a <code class="docutils literal notranslate"><span class="pre">source</span></code> column
+(<code class="docutils literal notranslate"><span class="pre">&quot;auto&quot;</span> <span class="pre">|</span> <span class="pre">&quot;user&quot;</span></code>).  Regeneration (triggered when the leads or
+the annotation resource files change) only replaces rows tagged
+<code class="docutils literal notranslate"><span class="pre">&quot;auto&quot;</span></code>; rows tagged <code class="docutils literal notranslate"><span class="pre">&quot;user&quot;</span></code> survive every invalidation.
+Users can therefore edit the TSV directly to add custom loci
+(e.g. an <em>MHC region</em> label; a meta-analysis lead absent from any
+input file), correct auto-picked gene names, or suppress
+false-positive leads — all without touching Python.  A header
+comment in the TSV documents the schema.  Skipping the annotation
+pass on a cache hit saves an additional 1–5 s per run on top of the
+per-track cache.</p></li>
+<li><p><strong>Per-track Stage-1 cache and resume</strong> (<code class="docutils literal notranslate"><span class="pre">pycmplot.cache</span></code>, new
+<code class="docutils literal notranslate"><span class="pre">--cache</span></code> / <code class="docutils literal notranslate"><span class="pre">--cache_dir</span></code> / <code class="docutils literal notranslate"><span class="pre">--no_resume</span></code> / <code class="docutils literal notranslate"><span class="pre">--clear_cache</span></code>
+CLI flags; <code class="docutils literal notranslate"><span class="pre">cache=</span></code>, <code class="docutils literal notranslate"><span class="pre">cache_dir=</span></code>, <code class="docutils literal notranslate"><span class="pre">resume=</span></code> kwargs on
+<a class="reference internal" href="api/io.html#pycmplot.io.get_sumstats_and_merged_sector_list" title="pycmplot.io.get_sumstats_and_merged_sector_list"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_sumstats_and_merged_sector_list()</span></code></a>).  When
+<code class="docutils literal notranslate"><span class="pre">cache=True</span></code>, each input file’s post-load / post-liftover /
+post-thinning DataFrame is written to
+<code class="docutils literal notranslate"><span class="pre">&lt;cache_dir&gt;/tracks/&lt;label&gt;.&lt;short_key&gt;.parquet</span></code> alongside its
+lead-SNP table and (optionally) its raw p-value array.  A JSON
+metadata file records a per-track <code class="docutils literal notranslate"><span class="pre">cache_key</span></code> computed from the
+raw file’s SHA-256, the pycmplot version, and every Stage-1
+parameter that affects the cached data (<code class="docutils literal notranslate"><span class="pre">trim_pval</span></code>,
+<code class="docutils literal notranslate"><span class="pre">auto_thin*</span></code>, <code class="docutils literal notranslate"><span class="pre">highlight*</span></code>, <code class="docutils literal notranslate"><span class="pre">signif_threshold</span></code>, <code class="docutils literal notranslate"><span class="pre">build</span></code>,
+<code class="docutils literal notranslate"><span class="pre">logp</span></code>).  Subsequent runs skip Stage 1 entirely for tracks whose
+cache_key matches — a 1.9×–10× speedup that grows with input size.
+A parameter change or file rewrite invalidates the affected entries
+silently, so users don’t need to remember to clear the cache; the
+<code class="docutils literal notranslate"><span class="pre">--clear_cache</span></code> flag is provided for explicit resets.  Multi-panel
+callers that reuse a label (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;Hb&quot;</span></code> in two different panels
+pointing at different sumstats) get two coexisting cache entries,
+disambiguated by the <code class="docutils literal notranslate"><span class="pre">&lt;short_key&gt;</span></code> suffix in the filename.  The
+“resume” semantics (as described in <code class="docutils literal notranslate"><span class="pre">to-do.md</span></code>) fall out for
+free: every completed track is atomically committed to
+<code class="docutils literal notranslate"><span class="pre">metadata.json</span></code> before the next iteration begins, so a run that
+crashes on track N leaves tracks 1…N−1 cached and the next
+<code class="docutils literal notranslate"><span class="pre">pycmplot</span> <span class="pre">--cache</span></code> invocation continues from track N.</p></li>
+<li><p><strong>``–version`` / ``-V`` flag</strong> on the CLI — prints the installed
+pycmplot version and exits.</p></li>
+<li><p><strong>Directive-error guards in the QQ plotters.</strong>  When any of
+<a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.plot_qq_single" title="pycmplot.plotting.qq.plot_qq_single"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot_qq_single()</span></code></a>,
+<a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.plot_qq_combined" title="pycmplot.plotting.qq.plot_qq_combined"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot_qq_combined()</span></code></a>,
+<a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.plot_qq_separate" title="pycmplot.plotting.qq.plot_qq_separate"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot_qq_separate()</span></code></a>, or
+<a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.plot_qq_overlay" title="pycmplot.plotting.qq.plot_qq_overlay"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot_qq_overlay()</span></code></a> receives <code class="docutils literal notranslate"><span class="pre">None</span></code>
+p-values (either a bare <code class="docutils literal notranslate"><span class="pre">None</span></code> or a <code class="docutils literal notranslate"><span class="pre">pval_dict</span></code> containing
+<code class="docutils literal notranslate"><span class="pre">None</span></code> values), a clear <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> is raised naming the
+offending track and pointing the user at the <code class="docutils literal notranslate"><span class="pre">compute_pvals=True</span></code>
+loader kwarg.  Complements the compute_pvals default flip above
+so migration hiccups produce a directive message rather than a
+downstream <code class="docutils literal notranslate"><span class="pre">TypeError</span></code>.</p></li>
+<li><p><strong>Multi-Panel Canvas Support (`plot_circular`)</strong>:
+Added an optional <cite>ax</cite> parameter to <cite>plot_circular()</cite>, enabling users to render
+circular Manhattan plots onto existing Matplotlib polar axes (<cite>projection=’polar’</cite>).
+Allows embedding <cite>pyCirclize</cite> figures into complex, multi-panel layouts using
+<cite>matplotlib.figure.SubFigure</cite>, <cite>GridSpec</cite>, or standard subplots.
+Bypasses internal auto-saving (<cite>fig.savefig()</cite>) when <cite>ax</cite> is provided, delegating
+layout control and rendering pipeline management to the user.</p></li>
+</ul>
+<p><strong>Fixed</strong></p>
+<ul class="simple">
+<li><p>QQ plotters
+(<a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.plot_qq_single" title="pycmplot.plotting.qq.plot_qq_single"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot_qq_single()</span></code></a> +
+<a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.plot_qq_overlay" title="pycmplot.plotting.qq.plot_qq_overlay"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot_qq_overlay()</span></code></a> and the wrappers that
+forward to them) no longer raise
+<code class="docutils literal notranslate"><span class="pre">TypeError:</span> <span class="pre">float()</span> <span class="pre">argument</span> <span class="pre">must</span> <span class="pre">be</span> <span class="pre">a</span> <span class="pre">real</span> <span class="pre">number,</span> <span class="pre">not</span> <span class="pre">a</span> <span class="pre">'list'</span></code>
+when a scalar keyword argument (<code class="docutils literal notranslate"><span class="pre">fontsize</span></code>, <code class="docutils literal notranslate"><span class="pre">point_size</span></code>) arrives
+as a single-element list, 0-d ndarray, or 1-element <code class="docutils literal notranslate"><span class="pre">pandas.Series</span></code>.
+A new <code class="xref py py-func docutils literal notranslate"><span class="pre">_to_scalar_float()</span></code> helper coerces
+these to plain floats at the top of each entry point; multi-element
+inputs still raise, but now with a directive message naming the
+offending kwarg (rather than surfacing from deep inside
+<code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>’s numeric parsing at an unhelpful call site).
+<code class="xref py py-func docutils literal notranslate"><span class="pre">_compute_lambda()</span></code> was hardened at the
+same time to always return a Python <code class="docutils literal notranslate"><span class="pre">float</span></code> (never a NumPy scalar
+or 0-d array), so <code class="docutils literal notranslate"><span class="pre">f&quot;λ</span> <span class="pre">=</span> <span class="pre">{lam:.4f}&quot;</span></code> formatting is safe regardless
+of upstream pvals shape.</p></li>
+<li><p>Guarded <code class="docutils literal notranslate"><span class="pre">df[&quot;BUILD&quot;].unique()</span></code> in the loader with an explicit
+<code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">&quot;BUILD&quot;</span> <span class="pre">in</span> <span class="pre">df.columns</span></code> check.  The previous version dereferenced
+<code class="docutils literal notranslate"><span class="pre">df[&quot;BUILD&quot;]</span></code> before the guard and raised <code class="docutils literal notranslate"><span class="pre">KeyError:</span> <span class="pre">'BUILD'</span></code> when
+the input file had no BUILD column.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">_atomic_write</span></code> no longer produces <code class="docutils literal notranslate"><span class="pre">FileNotFoundError</span></code> when the
+writer auto-appends its own extension (notably <code class="docutils literal notranslate"><span class="pre">numpy.save</span></code>, which
+silently appends <code class="docutils literal notranslate"><span class="pre">.npy</span></code>).  The temp filename is now
+<code class="docutils literal notranslate"><span class="pre">&lt;stem&gt;.__tmp__&lt;ext&gt;</span></code> (e.g. <code class="docutils literal notranslate"><span class="pre">Hb.pvals.__tmp__.npy</span></code>) so any
+auto-append lands on the exact path the subsequent <code class="docutils literal notranslate"><span class="pre">os.replace</span></code>
+expects.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">compute_pvals</span></code> no longer participates in the per-track cache key,
+so toggling QQ requirements between runs doesn’t invalidate the
+main cache.  When a subsequent run wants pvals but no sidecar
+exists from earlier calls, Stage 1 re-runs <em>just for that track</em> to
+populate the sidecar; every run after that hits the cache with
+pvals included.  Fixes the awkward interaction between the
+<code class="docutils literal notranslate"><span class="pre">compute_pvals=True</span></code> Python-API default and the <code class="docutils literal notranslate"><span class="pre">--cache</span></code> flag.</p></li>
+<li><p><strong>Multi-panel cache safety.</strong>  Two loader calls sharing the same
+<code class="docutils literal notranslate"><span class="pre">cache_dir</span></code> and reusing a track label (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;Hb&quot;</span></code> in panel A
+and <code class="docutils literal notranslate"><span class="pre">&quot;Hb&quot;</span></code> in panel B, pointing at different sumstats) no longer
+clobber each other’s cached parquet / metadata.  Cache metadata is
+now keyed on the full 64-char cache_key rather than the label alone,
+and per-track filenames include an 8-char slice of the key
+(<code class="docutils literal notranslate"><span class="pre">Hb.a1b2c3d4.parquet</span></code>) so multiple entries for the same label
+coexist safely.  Cache-layout version bumped to <code class="docutils literal notranslate"><span class="pre">2</span></code>; older
+<code class="docutils literal notranslate"><span class="pre">.pycmplot_cache/</span></code> directories are transparently wiped on first
+access.  Documentation added for <code class="docutils literal notranslate"><span class="pre">cache</span></code>, <code class="docutils literal notranslate"><span class="pre">cache_dir</span></code>,
+<code class="docutils literal notranslate"><span class="pre">resume</span></code>, <code class="docutils literal notranslate"><span class="pre">compute_pvals</span></code>, <code class="docutils literal notranslate"><span class="pre">auto_thin*</span></code> in the loader
+docstring.</p></li>
+<li><p>Track iteration in the loader now follows the user-supplied
+<code class="docutils literal notranslate"><span class="pre">labels</span></code> list (order-preserving) rather than the non-deterministic
+set intersection <code class="docutils literal notranslate"><span class="pre">sumstats.keys()</span> <span class="pre">&amp;</span> <span class="pre">file_info.keys()</span></code>.  Without
+this, <code class="docutils literal notranslate"><span class="pre">signif_threshold</span></code>’s auto-computation from the
+first-processed track’s SNP count fed the second track’s cache_key
+differently on cold vs warm runs, breaking the cache for every
+track after the first.  The cache-HIT path also now mirrors the
+cold-path side-effect on <code class="docutils literal notranslate"><span class="pre">signif_threshold</span></code> so downstream tracks
+see identical state.</p></li>
+</ul>
+<p><strong>Documentation</strong></p>
+<ul class="simple">
+<li><p>Added NumPy-style parameter blocks for <code class="docutils literal notranslate"><span class="pre">compute_pvals</span></code>,
+<code class="docutils literal notranslate"><span class="pre">auto_thin</span></code>, <code class="docutils literal notranslate"><span class="pre">auto_thin_threshold</span></code>, <code class="docutils literal notranslate"><span class="pre">auto_thin_max_below</span></code>,
+<code class="docutils literal notranslate"><span class="pre">cache</span></code>, <code class="docutils literal notranslate"><span class="pre">cache_dir</span></code>, and <code class="docutils literal notranslate"><span class="pre">resume</span></code> on
+<a class="reference internal" href="api/io.html#pycmplot.io.get_sumstats_and_merged_sector_list" title="pycmplot.io.get_sumstats_and_merged_sector_list"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_sumstats_and_merged_sector_list()</span></code></a>.  The
+<code class="docutils literal notranslate"><span class="pre">resume</span></code> entry is honestly documented as reserved-for-future — the
+actual resume semantics are inherent in the atomic per-track commit
+and do not require the flag.</p></li>
+<li><p>Rewrote the <a class="reference internal" href="api/io.html#module-pycmplot.io" title="pycmplot.io"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pycmplot.io</span></code></a> module docstring to cover the
+density-aware sub-sampling algorithm, the per-track cache layout
+(with pointers to <code class="xref py py-mod docutils literal notranslate"><span class="pre">pycmplot.cache</span></code>), the multi-panel
+content-vs-label keying, and a public-function summary listing
+<code class="docutils literal notranslate"><span class="pre">auto_thin_for_manhattan</span></code> and <code class="docutils literal notranslate"><span class="pre">get_output_paths</span></code> alongside the
+two headliners.</p></li>
+<li><p>New <code class="xref py py-mod docutils literal notranslate"><span class="pre">pycmplot.cache</span></code> module docstring covering the on-disk
+layout (<code class="docutils literal notranslate"><span class="pre">metadata.json</span></code>, <code class="docutils literal notranslate"><span class="pre">tracks/</span></code>, <code class="docutils literal notranslate"><span class="pre">annotations/hits.tsv</span></code>),
+the <code class="docutils literal notranslate"><span class="pre">cache_key</span></code> construction, atomic-write semantics, and the
+user-editable hits overlay design.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="id2">
+<h2>0.3.1 - 2026-07-31<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
 <p><strong>Fixed</strong></p>
 <ul class="simple">
 <li><p><strong>LiftOver hg18/hg19 to hg38</strong></p></li>
@@ -304,8 +602,8 @@ Suggestive line inclusion now depends only on whether <code class="docutils lite
 specified.</p>
 </section>
 <hr class="docutils" />
-<section id="id2">
-<h2>0.3.0 - 2026-06-01<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<section id="id3">
+<h2>0.3.0 - 2026-06-01<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
 <p><strong>Fixed</strong></p>
 <ul class="simple">
 <li><p>Bug fix:
@@ -325,8 +623,8 @@ circular plotting</p></li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id3">
-<h2>0.2.8 - 2026-05-30<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<section id="id4">
+<h2>0.2.8 - 2026-05-30<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
 <p><strong>Added</strong></p>
 <ul class="simple">
 <li><p><strong>Dual annotation renderer architecture</strong></p></li>
@@ -455,8 +753,8 @@ incorrect pairing of chromosomes (e.g. chr3 with chr17) caused by
 <code class="docutils literal notranslate"><span class="pre">set</span></code> iteration order.</p></li>
 </ul>
 </section>
-<section id="id4">
-<h2>0.2.7 - 2026-04-27<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<section id="id5">
+<h2>0.2.7 - 2026-04-27<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
 <p><strong>Added</strong></p>
 <ul class="simple">
 <li><p><strong>Default-on density-aware auto-thinning</strong> for Manhattan / circular</p></li>
@@ -644,8 +942,8 @@ were removed).</p></li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id5">
-<h2>0.2.5 - 2026-04-20<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<section id="id6">
+<h2>0.2.5 - 2026-04-20<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
 <p><strong>Fixed</strong></p>
 <ul class="simple">
 <li><p>Chromosome-22 positions falling outside hg38 chr22 limits after liftover
@@ -735,8 +1033,8 @@ dtypes from <code class="docutils literal notranslate"><span class="pre">str</sp
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id6">
-<h2>0.2.2 - 2026-04-18<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<section id="id7">
+<h2>0.2.2 - 2026-04-18<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
 <p><strong>Added</strong></p>
 <p>QQ plots (<a class="reference internal" href="api/plotting.html#module-pycmplot.plotting.qq" title="pycmplot.plotting.qq"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pycmplot.plotting.qq</span></code></a>):</p>
 <ul class="simple">
@@ -805,8 +1103,8 @@ tracks to improve visibility of track labels and y-axis ticks.</p></li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id7">
-<h2>0.2.1 — 2026-04-16<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<section id="id8">
+<h2>0.2.1 — 2026-04-16<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
 <p><strong>Added</strong></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">--build</span></code> option for supplying per-file genome builds when the
@@ -829,8 +1127,8 @@ builds avoids this.</p></li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id8">
-<h2>0.1.9 — 2026-04-14<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+<section id="id9">
+<h2>0.1.9 — 2026-04-14<a class="headerlink" href="#id9" title="Link to this heading"></a></h2>
 <p><strong>Fixed</strong></p>
 <ul class="simple">
 <li><p>Column name auto-detection now covers both lower- and upper-case
@@ -841,8 +1139,8 @@ the CLI equivalent (required instead of optional).</p></li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id9">
-<h2>0.1.8 — 2026-04-14<a class="headerlink" href="#id9" title="Link to this heading"></a></h2>
+<section id="id10">
+<h2>0.1.8 — 2026-04-14<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
 <p><strong>Added</strong></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">--highlight_color</span></code> and <code class="docutils literal notranslate"><span class="pre">--highlight_line_color</span></code> options.</p></li>
@@ -856,8 +1154,8 @@ the CLI equivalent (required instead of optional).</p></li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id10">
-<h2>0.1.0 — 2026-04-18<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
+<section id="id11">
+<h2>0.1.0 — 2026-04-18<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
 <p>Initial release.</p>
 <p><strong>Added</strong></p>
 <p>Package structure:</p>

@@ -46,6 +46,87 @@ logger = logging.getLogger(__name__)
 
 
 # ---------------------------------------------------------------------------
+# Input validation
+# ---------------------------------------------------------------------------
+
+_COMPUTE_PVALS_HINT = (
+    "This usually means the loader did not materialise per-track p-value "
+    "arrays.  As of pycmplot 0.4.0 the default of "
+    "``compute_pvals`` on ``get_sumstats_and_merged_sector_list`` is "
+    "``False``; Python-API callers that plan to draw a QQ figure must "
+    "pass ``compute_pvals=True`` explicitly.  On the CLI, ``--qq`` "
+    "sets it automatically."
+)
+
+
+def _reject_missing_pvals(pvals, label: Optional[str] = None) -> None:
+    """Raise a clear ``ValueError`` when a QQ input is missing.
+
+    Used at the entry point of every public ``plot_qq_*`` function so a
+    caller who forgot ``compute_pvals=True`` on the loader (or who
+    supplied a ``pval_dict`` with ``None`` values) gets a directive
+    error message instead of a downstream ``TypeError`` when the array
+    is later dereferenced.
+    """
+    if pvals is None:
+        who = f" for track {label!r}" if label else ""
+        raise ValueError(
+            f"QQ plot requested but p-values are None{who}.  "
+            + _COMPUTE_PVALS_HINT
+        )
+
+
+def _to_scalar_float(value, name: str = "value") -> float:
+    """Coerce a value to a Python ``float`` with a clear error path.
+
+    Accepts:
+      * plain ``int`` / ``float``
+      * NumPy 0-d arrays and 1-element 1-d arrays / lists / tuples /
+        pandas Series (unwrapped to their single element)
+
+    Raises :class:`TypeError` naming *value* and its offending type
+    when it can't reasonably be coerced -- much more actionable than
+    matplotlib's downstream
+    ``"float() argument must be a real number, not a 'list'"``.
+    """
+    if isinstance(value, (int, float)):
+        return float(value)
+    if hasattr(value, "item"):
+        try:
+            return float(value.item())
+        except (ValueError, TypeError):
+            pass
+    if hasattr(value, "__len__"):
+        try:
+            if len(value) == 1:
+                return float(next(iter(value)))
+        except (ValueError, TypeError):
+            pass
+    raise TypeError(
+        f"{name!r} must be a scalar number; received {type(value).__name__} "
+        f"with value {value!r}.  If this came from a QQ plotter, check that "
+        f"you passed a scalar for {name} (not a list / ndarray / Series)."
+    )
+
+
+def _validate_pval_dict(pval_dict) -> None:
+    """Validate a ``pval_dict`` input to a multi-track QQ plotter."""
+    if pval_dict is None:
+        raise ValueError(
+            "QQ plot requested but pval_dict is None.  "
+            + _COMPUTE_PVALS_HINT
+        )
+    if not len(pval_dict):
+        raise ValueError("pval_dict is empty.")
+    missing = [k for k, v in pval_dict.items() if v is None]
+    if missing:
+        raise ValueError(
+            f"QQ plot requested but p-values are None for tracks: "
+            f"{missing!r}.  " + _COMPUTE_PVALS_HINT
+        )
+
+
+# ---------------------------------------------------------------------------
 # Thinning helper
 # ---------------------------------------------------------------------------
 
@@ -190,15 +271,102 @@ def _qq_arrays(
 # ---------------------------------------------------------------------------
 
 def _compute_lambda(pvals: np.ndarray) -> float:
-    """Genomic inflation factor λ = median(χ²_obs) / median(χ²_expected)."""
+    """Genomic inflation factor λ = median(χ²_obs) / median(χ²_expected).
+
+    Always returns a plain Python ``float`` (never a NumPy scalar or
+    0-d array) so downstream f-string formatting like ``f"{lam:.4f}"``
+    can't accidentally raise the opaque ``float()``-argument TypeError
+    when a caller passed an unusual pvals shape.
+    """
     from scipy.stats import chi2
+    pvals = np.asarray(pvals, dtype=float).ravel()
     pvals = pvals[np.isfinite(pvals) & (pvals > 0) & (pvals <= 1)]
     if len(pvals) == 0:
         return float("nan")
-    obs_median_chi2 = chi2.ppf(1 - np.median(pvals), df=1)
+    obs_median_chi2 = chi2.ppf(1 - float(np.median(pvals)), df=1)
     expected_median_chi2 = chi2.ppf(0.5, df=1)   # ≈ 0.4549
     return round(float(obs_median_chi2 / expected_median_chi2), 4)
 
+
+# ---------------------------------------------------------------------------
+# Get Legend Best Location
+# ---------------------------------------------------------------------------
+
+def get_legend_loc_string(legend, ax):
+    from matplotlib.legend import Legend
+    import random
+    """
+    Returns the string name of the location selected by loc='best'.
+    """
+    # 1. Force a layout update to compute the final geometry
+    fig = ax.get_figure()
+    fig.canvas.draw()
+    
+    # 2. Get bounding boxes in pixels
+    leg_bbox = legend.get_window_extent()
+    ax_bbox = ax.bbox
+    
+    # 3. Calculate normalized center position of the legend inside the axes (0 to 1)
+    leg_center_x = (leg_bbox.x0 + leg_bbox.x1) / 2
+    leg_center_y = (leg_bbox.y0 + leg_bbox.y1) / 2
+    
+    norm_x = (leg_center_x - ax_bbox.x0) / ax_bbox.width
+    norm_y = (leg_center_y - ax_bbox.y0) / ax_bbox.height
+    
+    # 4. Map the normalized positions to text positions
+    if norm_y > 0.66:
+        y_str = "upper"
+    elif norm_y < 0.33:
+        y_str = "lower"
+    else:
+        y_str = "center"
+        
+    if norm_x > 0.66:
+        x_str = "right"
+    elif norm_x < 0.33:
+        x_str = "left"
+    else:
+        x_str = "center"
+
+    # Standardize output for center alignments
+    if y_str == "center" and x_str == "center":
+        best_loc = "center"
+    elif x_str == "center":
+        best_loc = f"{y_str} center"
+    elif y_str == "center":
+        best_loc = x_str # matches 'right' or 'left'
+    else:
+        best_loc = f"{y_str} {x_str}"
+
+    # 5. Get a list of all legend locations and exclude it and other undesirable locations
+    # best_loc, 'center', 'upper center', 'upper left'
+    # Genomic control inflation factor (lambda) already occupies 'upper left'
+    remove_locs = [best_loc, 'center', 'upper center', 'upper left']
+    leg_locs = list(Legend.codes.keys())
+    filtered_locs = list(filter(lambda x: x not in remove_locs, leg_locs))
+    leg_loc = random.choice(filtered_locs)
+
+    return leg_loc
+
+# ---------------------------------------------------------------------------
+# Get Legend Best Location
+# ---------------------------------------------------------------------------
+
+def set_legend_loc_string():
+    from matplotlib.legend import Legend
+    import random
+    """
+    Returns the string name of the location selected by loc='best'.
+    """
+    # Get a list of all legend locations and exclude it and other undesirable locations
+    # 'center', 'upper center', 'upper left'
+    # Genomic control inflation factor (lambda) already occupies 'upper left'
+    remove_locs = ['center', 'upper center', 'upper left']
+    leg_locs = list(Legend.codes.keys())
+    filtered_locs = list(filter(lambda x: x not in remove_locs, leg_locs))
+    leg_loc = random.choice(filtered_locs)
+
+    return leg_loc
 
 # ---------------------------------------------------------------------------
 # Single-axis QQ plot
@@ -273,7 +441,20 @@ def plot_qq_single(
             "  fig, axes = plt.subplots(1, 2)\n"
             "  plot_qq_single(pvals, ax=axes[0])"
         )
- 
+
+    # Directive error message when pvals is None — usually a symptom of
+    # the loader default ``compute_pvals=False`` (see _reject_missing_pvals).
+    _reject_missing_pvals(pvals, label=label)
+
+    # Coerce numeric kwargs to plain floats once, at the top.  Every
+    # ax.<something>(..., fontsize=fontsize, point_size=...) call below
+    # is now safe against callers who accidentally hand in a
+    # single-element list / 0-d ndarray / pandas Series — matplotlib
+    # otherwise raises the opaque
+    # "TypeError: float() argument must be a real number, not a 'list'"
+    # from deep inside its own numeric parsing.
+    fontsize = _to_scalar_float(fontsize, name="fontsize")
+    point_size = _to_scalar_float(point_size, name="point_size")
 
     pvals_full = np.asarray(pvals, dtype=float)
     pvals_full = pvals_full[np.isfinite(pvals_full) & (pvals_full > 0) & (pvals_full <= 1)]
@@ -294,11 +475,16 @@ def plot_qq_single(
         plot_pvals, ranks=plot_ranks, n_full=n_full, ci=ci
     )
 
-    # CI band
+    # CI band -- deliberately unlabelled to keep the legend uncluttered.
+    # The shaded region hugging the diagonal is self-evidently a
+    # confidence band; adding a "95% CI" legend entry only crowds the
+    # top corner alongside the track label and the ``lambda``
+    # annotation.  The CI level is captured in the docstring / caller;
+    # if downstream users want a legend entry back, they can supply
+    # ``label=`` on their own overlay.
     ax.fill_between(
         expected, ci_lo, ci_hi,
         color=color, alpha=ci_alpha, linewidth=0,
-        label=f"{int(ci * 100)}% CI",
     )
 
     # Diagonal null line
@@ -331,19 +517,26 @@ def plot_qq_single(
                    label=f"p={signif_threshold:.0e}")
     """'''
 
-    # Lambda annotation
-    if show_lambda and not math.isnan(lam):
+    # Lambda annotation.  Defensive scalar coercion for both ``lam`` and
+    # ``fontsize`` -- when a caller (or a wrapper that forwarded
+    # kwargs) accidentally hands in a list / 1-d ndarray, the f-string
+    # ``.4f`` spec on ``lam`` and matplotlib's numeric parsing on
+    # ``fontsize`` both raise the opaque
+    # ``TypeError: float() argument must be a real number, not a 'list'``
+    # at this call site.  Coerce here so the error surfaces earlier with
+    # the offending argument named, and so the common accident
+    # (accidental list-wrapping) just Works.
+    _lam = _to_scalar_float(lam, name="lam")
+    _fs = _to_scalar_float(fontsize, name="fontsize")
+    if show_lambda and not math.isnan(_lam):
         ax.text(
             0.05, 0.95,
-            f"λ = {lam:.4f}",
+            f"λ = {_lam:.4f}",
             transform=ax.transAxes,
             va="top", ha="left",
-            fontsize=fontsize, fontstyle="italic",
+            fontsize=_fs, fontstyle="italic",
             color="black",
         )
-
-    plt.xlim(0, max(expected)+2)
-    plt.ylim(0, max(observed)+1)
 
     ax.set_xlabel("Expected −log₁₀(p)", fontsize=10)
     ax.set_ylabel("Observed −log₁₀(p)", fontsize=10)
@@ -352,8 +545,15 @@ def plot_qq_single(
 
     if title:
         ax.set_title(title, fontsize=10, pad=6)
-    if label:
-        ax.legend(fontsize=fontsize, frameon=False, loc="best")
+    else:
+        if label:
+            ax.set_title(label, fontsize=10, pad=6)
+            #leg_loc = set_legend_loc_string()
+            #ax.legend(fontsize=fontsize, frameon=False, loc=leg_loc)
+            #ax.legend(fontsize=fontsize, frameon=False, loc="best")
+
+    ax.set_xlim(0, max(expected)+1)
+    ax.set_ylim(0, max(observed)+2)
 
     return ax
 
@@ -403,9 +603,8 @@ def plot_qq_combined(
     -------
     (fig, axes)
     """
+    _validate_pval_dict(pval_dict)
     n = len(pval_dict)
-    if n == 0:
-        raise ValueError("pval_dict is empty.")
 
     nrows = math.ceil(n / ncols)
 
@@ -420,7 +619,7 @@ def plot_qq_combined(
     if figsize is None:
         figsize = (ncols * 4.5, nrows * 4.5)
 
-    fig, axes_grid = plt.subplots(nrows, ncols, figsize=figsize, squeeze=False)
+    fig, axes_grid = plt.subplots(nrows, ncols, figsize=figsize, squeeze=False, layout="constrained")
     axes_flat = axes_grid.flatten()
 
     for idx, (label, pvals) in enumerate(pval_dict.items()):
@@ -445,9 +644,19 @@ def plot_qq_combined(
         ax.set_visible(False)
 
     if title:
-        fig.suptitle(title, fontsize=13, y=1.01)
+        # Compute the left and right bounds of the active subplot grid
+        bboxes = [ax.get_position() for ax in axes_flat[:n] if ax.get_visible()]
+        left = min(b.x0 for b in bboxes)
+        right = max(b.x1 for b in bboxes)
+        center_x = (left + right) / 2.0
 
-    plt.tight_layout()
+        fig.suptitle(title, fontsize=13, x=center_x, y=0.98)
+
+    plt.tight_layout(rect=[0, 0, 1, 0.95])
+
+    #if title:
+    #    fig.suptitle(title, fontsize=13)
+    #plt.tight_layout()
 
     if output_path:
         fmt = fig_format or Path(output_path).suffix.lstrip(".") or "png"
@@ -514,6 +723,7 @@ def plot_qq_separate(
     #    output_format=fig_format
     #)
 
+    _validate_pval_dict(pval_dict)
     n = len(pval_dict)
 
     cmap = plt.get_cmap("tab10")
@@ -619,10 +829,11 @@ def plot_qq_overlay(
     #    output_format=fig_format
     #)
 
+    _validate_pval_dict(pval_dict)
     n = len(pval_dict)
-    if n == 0:
-        raise ValueError("pval_dict is empty.")
 
+    # Coerce numeric kwargs once (see plot_qq_single for rationale).
+    point_size = _to_scalar_float(point_size, name="point_size")
 
     cmap = plt.get_cmap("tab10")
     colors = [mcolors.to_hex(cmap(i % 10)) for i in range(n)]
@@ -634,6 +845,8 @@ def plot_qq_overlay(
 
     fig, ax = plt.subplots(figsize=figsize)
     global_max = 0.0
+    max_expected_global = 0.0
+    max_observed_global = 0.0
 
     for idx, (label, pvals) in enumerate(pval_dict.items()):
         pvals_full = np.asarray(pvals, dtype=float)
@@ -656,7 +869,8 @@ def plot_qq_overlay(
         )
 
         color = colors[idx]
-        legend_label = f"{label}  (λ={lam:.4f})" if show_lambda else label
+        _lam_i = _to_scalar_float(lam, name="lam")
+        legend_label = f"{label}  (λ={_lam_i:.4f})" if show_lambda else label
 
         ax.fill_between(
             expected, ci_lo, ci_hi,
@@ -676,6 +890,8 @@ def plot_qq_overlay(
         )
 
         global_max = max(global_max, expected.max(), observed.max())
+        max_expected_global = max(max_expected_global, float(expected.max()))
+        max_observed_global = max(max_observed_global, float(observed.max()))
 
     ax.plot(
         [0, global_max * 1.05], [0, global_max * 1.05],
@@ -697,15 +913,21 @@ def plot_qq_overlay(
     ax.spines["right"].set_visible(False)
 
     ax.legend(
-        fontsize=8, frameon=True, framealpha=0.7,
-        edgecolor="lightgrey", loc="best",
+        fontsize=8, 
+        frameon=False, 
+        framealpha=0.7, 
+        edgecolor="lightgrey", 
+        loc="upper left",
     )
 
     if title:
         ax.set_title(title, fontsize=11, pad=8)
 
-    plt.xlim(0, max(expected)+2)
-    plt.ylim(0, max(observed)+1)
+    #plt.xlim(0, max(expected)+2)
+    #plt.ylim(0, max(observed)+1)
+    ax.set_xlim(0, max_expected_global + 1)
+    ax.set_ylim(0, max_observed_global + 2)
+
     plt.tight_layout()
 
     if output_path:
