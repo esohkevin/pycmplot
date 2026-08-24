@@ -614,6 +614,12 @@ Troubleshooting
    overlay TSV under version control alongside your analysis
    scripts.
 
+**Legend text overlaps with Annotations**
+   The legend text font size inherits from the track label size 
+   (``track_label_size``). If you find that legend text and annotations 
+   are cluttering, try redusing the size of track labels and/or the 
+   annotation size.
+
 
 Next steps
 ----------

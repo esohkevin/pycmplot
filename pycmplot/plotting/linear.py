@@ -967,8 +967,10 @@ def plot_linearm(
     label_col: Optional[str] = 'SNP',
     chr_order: Optional[list[str]] = None,
     chr_spacing: float = 9e6,
+    chrom_label_size: float = 6,
     track_heights: Optional[list[float]] = None,
     linear_track_spacing: float = 0.10,
+    track_label_size: float = 6,
     annot_rail_frac: float = 0.95,
     point_size: float = 8,
     colors: Optional[list[str]] = ['steelblue','silver'],
@@ -978,6 +980,7 @@ def plot_linearm(
     fig_format: Optional[str] = None,
     dpi: int = 300,
     figsize: Optional[list[float]] = [10, 4],
+    ax: Optional[plt.Axes] = None,
 ):
     """Core rendering engine for the multi-track stacked linear Manhattan plot.
 
@@ -1025,6 +1028,8 @@ def plot_linearm(
     chr_spacing : float, optional
         Gap in base-pairs inserted between consecutive chromosomes on the
         x-axis.  Default ``9e6``.
+    chrom_label_size : float, optional
+        Chromosome label font size.  Default ``6``.
     track_heights : list of float, optional
         Relative height ratios for the gridspec rows.  The first element
         controls the annotation sub-panel; subsequent elements control the
@@ -1033,6 +1038,8 @@ def plot_linearm(
     linear_track_spacing : float, optional
         Vertical ``hspace`` between tracks as a fraction of average track
         height.  Default ``0.10``.
+    track_label_size : float, optional
+        Track (sumstat) label font size.  Default ``6``.
     annot_rail_frac : float, optional
         Fraction of horizontal space covering the center of the annotation track within
         which to place annotation texts. Default ``0.98`` (annotation texts will cover
@@ -1066,6 +1073,11 @@ def plot_linearm(
         Output resolution in dots per inch.  Default ``300``.
     figsize : tuple of (float, float), optional
         Figure dimensions ``(width, height)`` in inches.  Default ``(15, 9)``.
+    ax : matplotlib.axes.Axes, optional
+        Target Matplotlib cartesian axis on which to render the linear plot. 
+        If ``None`` (default), a new standalone figure is initialized automatically. 
+        When *ax* is supplied, automatic figure saving via *output_dir* and 
+        *plot_title* is bypassed to facilitate multi-panel composition.
 
     Returns
     -------
@@ -1226,7 +1238,6 @@ def plot_linearm(
     data_total   = sum(data_heights)
     y_lab_pos    = data_total / (2 * total_height)
 
-
     fig = plt.figure(figsize=figsize)
     gs = fig.add_gridspec(
         expected_n, 1,
@@ -1322,7 +1333,7 @@ def plot_linearm(
                 transform=ax.transAxes,
                 ha="left", va="center",
                 rotation=-90,
-                fontsize=10,
+                fontsize=track_label_size,
             )
 
         if highlight:
@@ -1362,12 +1373,6 @@ def plot_linearm(
                     zorder=3,
                     rasterized=True,
                 )
-                # Vertical lines across all data tracks at highlight positions
-                if highlight_line:
-                    for x in sig["x"].values:
-                        for _ax in loop_axes:
-                            _ax.axvline(x, color=highlight_line_color, alpha=0.1, linewidth=0.2,
-                                    linestyle="--", zorder=0)
 
         if sig_lines is not None and i < len(sig_lines):
             sl = sig_lines[i]
@@ -1379,6 +1384,14 @@ def plot_linearm(
         ax.spines[["top", "right"]].set_visible(False)
 
         ax.set_xlim(-left_pad, xmax)
+
+
+    # Vertical lines across all data tracks at highlight positions
+    if highlight_line:
+        for x in annot_df['x'].values:
+            for _ax in loop_axes:
+                _ax.axvline(x, color=highlight_line_color, alpha=0.1, linewidth=0.2,
+                    linestyle="--", zorder=4)
 
     # ------------------------------------------------------------------
     # Annotation track
@@ -1558,7 +1571,9 @@ def plot_linear(
     annotation_size: float = 8,
     label_col: Optional[str] = None,
     chr_spacing: Optional[float] = 9e6,
+    chrom_label_size: float = 6,
     linear_track_spacing: Optional[float] = None,
+    track_label_size: float = 6,
     annot_rail_frac: Optional[float] = 0.98,
     colors: list[str] = ['steelblue','silver'],
     plot_title: Optional[str] = None,
@@ -1568,6 +1583,7 @@ def plot_linear(
     output_format: Optional[str] = 'png',
     output_dir: Optional[str] = '.',
     figsize: Optional[list[float]] = [10, 4],
+    ax: Optional[plt.Axes] = None,
 ):
     """Generate a multi-track stacked linear Manhattan plot.
 
@@ -1608,9 +1624,13 @@ def plot_linear(
         default ``'label'``).
     chr_spacing : float, optional
         Horizontal gap between chromosomes in base-pairs.  Default ``9e6``.
+    chrom_label_size : float, optional
+        Chromosome label font size.  Default ``6``.        
     linear_track_spacing : float, optional
         Vertical space between tracks as a fraction of average track height.
         Default ``0.10``.
+    track_label_size : float, optional
+        Track (sumstat) label font size.  Default ``6``.
     annot_rail_frac : float, optional
         Fraction of horizontal space covering the center of the annotation track within
         which to place annotation texts. Default ``0.98`` (annotation texts will cover
@@ -1640,6 +1660,11 @@ def plot_linear(
         Directory in which to save the output files.  Default ``'.'``.
     figsize : tuple of (float, float), optional
         Figure dimensions ``(width, height)`` in inches.  Default ``(15, 9)``.
+    ax : matplotlib.axes.Axes, optional
+        Target Matplotlib cartesian axis on which to render the linear plot. 
+        If ``None`` (default), a new standalone figure is initialized automatically. 
+        When *ax* is supplied, automatic figure saving via *output_dir* and 
+        *plot_title* is bypassed to facilitate multi-panel composition.
 
     Returns
     -------
@@ -1712,8 +1737,10 @@ def plot_linear(
         annot_df=hits_table if hits_table is not None and not hits_table.empty else None,
         label_col=label,
         chr_spacing=chr_spacing,
+        chrom_label_size=chrom_label_size,
         track_heights=track_heights,
         linear_track_spacing=linear_track_spacing,
+        track_label_size=track_label_size,
         annot_rail_frac=annot_rail_frac,
         colors=colors,
         sig_lines=signif_lines,
@@ -1723,6 +1750,7 @@ def plot_linear(
         dpi=dpi,
         fig_format=output_format,
         figsize=figsize,
+        ax=ax,
     )
 
     return axes

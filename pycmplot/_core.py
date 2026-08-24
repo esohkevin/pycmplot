@@ -303,7 +303,6 @@ def main() -> None:
             signif_line = signif_line,
             signif_lines = signif_lines,
             highlight = highlight,
-            highlight_thresh = highlight_thresh,
             highlight_color = highlight_color,
             highlight_line = highlight_line,
             highlight_line_color = highlight_line_color,
