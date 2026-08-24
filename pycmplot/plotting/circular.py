@@ -385,7 +385,6 @@ def plot_circular(
     chrom_label_size: float = 6,
     signif_line: Optional[bool | float] = None,
     highlight: bool = False,
-    highlight_thresh: float = None,
     highlight_color: str = 'brown',
     highlight_line: bool = False,
     highlight_line_color: str = 'grey',
@@ -455,8 +454,6 @@ def plot_circular(
         line.  Default ``5e-8``.
     highlight : bool, optional
         Render significant-locus variants in brown.  Default ``False``.
-    highlight_thresh : float, optional
-        P-value threshold for locus highlighting.  Default ``5e-8``.
     highlight_color : str, optional
         Color of highlighted positions when *highlight* is ``True``.
         Default ``brown``.         
@@ -809,8 +806,10 @@ def plot_circular(
             ]
             circos.ax.legend(
                 handles=handles,
-                loc="upper left",
-                bbox_to_anchor=(-0.05, -0.0),
+                #loc="upper left",
+                #bbox_to_anchor=(-0.05, -0.0),
+                loc="upper right",
+                bbox_to_anchor=(1.05, 1.1),
                 title="Highlighted Categories",
                 fontsize=track_label_size,
                 title_fontsize=track_label_size,
