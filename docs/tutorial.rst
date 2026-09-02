@@ -380,27 +380,131 @@ by ``(CHR, POS)`` lookup — you don't have to also change
 ``source='auto'`` to ``user`` to keep your edits.
 
 
-Example batch edit ``hits.<group_key>.tsv`` files using ``awk`` in commandline:
+Example batch edit ``hits.<group_key>.tsv`` files using a cumstom python script in commandline:
+
+- Copy and paste the code below in a file name update_annotations.py
+
+.. code-block:: python
+
+   #!/usr/bin/env python3
+
+   import csv
+   import sys
+   import os
+   import tempfile
+   import shutil
+
+   def main():
+      if len(sys.argv) != 2:
+         print(f"Usage: {sys.argv[0]} <input.tsv>", file=sys.stderr)
+         sys.exit(1)
+
+      filepath = sys.argv[1]
+
+      required_columns = {"P", "highlight_color", "category"}
+
+      # Write to a temporary file in the same directory so that the
+      # final replacement is atomic on the same filesystem.
+      directory = os.path.dirname(os.path.abspath(filepath))
+
+      with open(filepath, "r", newline="", encoding="utf-8") as infile:
+         # Preserve comment lines separately while locating the header.
+         comments = []
+
+         for line in infile:
+               if line.startswith("#"):
+                  comments.append(line)
+                  continue
+
+               header = line.rstrip("\r\n").split("\t")
+               break
+         else:
+               raise ValueError("No header found in input file.")
+
+         missing = required_columns - set(header)
+         if missing:
+               raise ValueError(
+                  f"Missing required column(s): {', '.join(sorted(missing))}"
+               )
+
+         p_idx = header.index("P")
+         color_idx = header.index("highlight_color")
+         category_idx = header.index("category")
+
+         fd, temp_path = tempfile.mkstemp(
+               dir=directory,
+               prefix=".tmp_",
+               suffix=".tsv"
+         )
+
+         try:
+               with os.fdopen(fd, "w", newline="", encoding="utf-8") as outfile:
+                  # Preserve comments exactly as they appeared.
+                  outfile.writelines(comments)
+
+                  writer = csv.writer(
+                     outfile,
+                     delimiter="\t",
+                     lineterminator="\n"
+                  )
+
+                  writer.writerow(header)
+
+                  for line in infile:
+                     if line.startswith("#"):
+                           outfile.write(line)
+                           continue
+
+                     row = line.rstrip("\r\n").split("\t")
+
+                     # Skip malformed rows rather than silently corrupting them.
+                     if len(row) != len(header):
+                           raise ValueError(
+                              f"Row has {len(row)} columns; expected {len(header)}:\n"
+                              f"{line.rstrip()}"
+                           )
+
+                     try:
+                           p = float(row[p_idx])
+                     except ValueError:
+                           raise ValueError(
+                              f"Invalid P-value '{row[p_idx]}' in row:\n"
+                              f"{line.rstrip()}"
+                           )
+
+                     if p < 5e-8:
+                           #row[color_idx] = "red"
+                           row[category_idx] = "significant (P < 5e-08)"
+                     elif p < 1e-7:
+                           row[color_idx] = "orange"
+                           row[category_idx] = "marginally significant (P < 1e-07)"
+                     else:
+                           row[color_idx] = "grey"
+                           row[category_idx] = "suggestive (P > 1e-07)"
+
+                     writer.writerow(row)
+
+               shutil.move(temp_path, filepath)
+
+         except Exception:
+               if os.path.exists(temp_path):
+                  os.remove(temp_path)
+               raise
+
+
+   if __name__ == "__main__":
+      main()   
+
+- Make the script executable and run it
 
 .. code-block:: bash
+
+   chmod +x update_annotations.py
 
    cachedir=/your/cachedir
    
    for i in ${cachedir}/annotations/hits.*.tsv; do 
-      awk '
-         OFS="\t" 
-         {
-            if($1 ~ /^#/) {print $0} 
-            else{
-               if($1 ~ /^source/) {print $0} 
-               else{
-                  if($5 >= 5e-08) {$26="orange"; $27="marginally significant (P < 1e-07)"} 
-                  else {$27="significant (P < 5e-08)"} {print $0}
-               }
-            }
-         }' ${i} > ${i}.bak
-
-      mv ${i}.bak ${i}
+      update_annotations.py $i
    done
 
 - This highlights all signals with ``P < 5e-08`` with the defaul ``brown`` color and all signals
