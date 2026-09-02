@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tutorial &mdash; pycmplot 0.3.1 documentation</title>
+  <title>Tutorial &mdash; pycmplot 0.4.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -15,7 +15,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=4621528c"></script>
+      <script src="_static/documentation_options.js?v=c87aa342"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -150,6 +150,13 @@
 <li class="toctree-l4"><a class="reference internal" href="pycmplot_python_api.html#This-gives-us-the-flexibility-to-place-multiple-overlay-plots-on-one-figure">This gives us the flexibility to place multiple overlay plots on one figure</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pycmplot_python_api.html#Multi-panel-Circular-Manhattan-Plotting">Multi-panel Circular Manhattan Plotting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Specify-groups-of-sumstats-to-load-and-plot-in-different-panels">Specify groups of sumstats to load and plot in different panels</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pycmplot_python_api.html#Plot-in-panels">Plot in panels</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html##-Final-Notes"># Final Notes</a></li>
 </ul>
 </li>
@@ -264,17 +271,18 @@
 <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#xx-xx">0.4.0 - 2026-XX-XX</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id1">0.3.1 - 2026-07-31</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id2">0.3.0 - 2026-06-01</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id3">0.2.8 - 2026-05-30</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id4">0.2.7 - 2026-04-27</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id5">0.2.5 - 2026-04-20</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id6">0.2.2 - 2026-04-18</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id7">0.2.1 — 2026-04-16</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id8">0.1.9 — 2026-04-14</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id9">0.1.8 — 2026-04-14</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id10">0.1.0 — 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id1">0.4.1 - 2026-08-23</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id2">0.4.0 - 2026-08-13</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id3">0.3.1 - 2026-07-31</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id4">0.3.0 - 2026-06-01</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id5">0.2.8 - 2026-05-30</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id6">0.2.7 - 2026-04-27</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id7">0.2.5 - 2026-04-20</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id8">0.2.2 - 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id9">0.2.1 — 2026-04-16</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id10">0.1.9 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id11">0.1.8 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id12">0.1.0 — 2026-04-18</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a><ul>
@@ -627,33 +635,140 @@ didn’t make the automatic cutoff.</p></li>
 change and auto rows are re-derived, your custom values are inherited
 by <code class="docutils literal notranslate"><span class="pre">(CHR,</span> <span class="pre">POS)</span></code> lookup — you don’t have to also change
 <code class="docutils literal notranslate"><span class="pre">source='auto'</span></code> to <code class="docutils literal notranslate"><span class="pre">user</span></code> to keep your edits.</p>
-<p>Example batch edit <code class="docutils literal notranslate"><span class="pre">hits.&lt;group_key&gt;.tsv</span></code> files using <code class="docutils literal notranslate"><span class="pre">awk</span></code> in commandline:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">cachedir</span><span class="o">=</span>/your/cachedir
+<p>Example batch edit <code class="docutils literal notranslate"><span class="pre">hits.&lt;group_key&gt;.tsv</span></code> files using a cumstom python script in commandline:</p>
+<ul class="simple">
+<li><p>Copy and paste the code below in a file name update_annotations.py</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python3</span>
 
-<span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="si">${</span><span class="nv">cachdir</span><span class="si">}</span>/annotations/hits.*.tsv<span class="p">;</span><span class="w"> </span><span class="k">do</span>
-<span class="w">   </span>awk<span class="w"> </span><span class="s1">&#39;</span>
-<span class="s1">      OFS=&quot;\t&quot;</span>
-<span class="s1">      {</span>
-<span class="s1">         if($1 ~ /^#/) {print $0}</span>
-<span class="s1">         else{</span>
-<span class="s1">            if($1 ~ /^source/) {print $0}</span>
-<span class="s1">            else{</span>
-<span class="s1">               if($5 &gt;= 5e-08) {$26=&quot;orange&quot;; $27=&quot;marginally significant (P &lt; 1e-07)&quot;}</span>
-<span class="s1">               else {$27=&quot;significant (P &lt; 5e-08)&quot;} {print $0}</span>
-<span class="s1">            }</span>
-<span class="s1">         }</span>
-<span class="s1">      }&#39;</span><span class="w"> </span><span class="si">${</span><span class="nv">i</span><span class="si">}</span><span class="w"> </span>&gt;<span class="w"> </span><span class="si">${</span><span class="nv">i</span><span class="si">}</span>.bak
+<span class="kn">import</span><span class="w"> </span><span class="nn">csv</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
 
-<span class="w">   </span>mv<span class="w"> </span><span class="si">${</span><span class="nv">i</span><span class="si">}</span>.bak<span class="w"> </span><span class="si">${</span><span class="nv">i</span><span class="si">}</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+   <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+      <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Usage: </span><span class="si">{</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> &lt;input.tsv&gt;&quot;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
+      <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+   <span class="n">filepath</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+   <span class="n">required_columns</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;P&quot;</span><span class="p">,</span> <span class="s2">&quot;highlight_color&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">}</span>
+
+   <span class="c1"># Write to a temporary file in the same directory so that the</span>
+   <span class="c1"># final replacement is atomic on the same filesystem.</span>
+   <span class="n">directory</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">filepath</span><span class="p">))</span>
+
+   <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">infile</span><span class="p">:</span>
+      <span class="c1"># Preserve comment lines separately while locating the header.</span>
+      <span class="n">comments</span> <span class="o">=</span> <span class="p">[]</span>
+
+      <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">infile</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">):</span>
+               <span class="n">comments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+               <span class="k">continue</span>
+
+            <span class="n">header</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">break</span>
+      <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No header found in input file.&quot;</span><span class="p">)</span>
+
+      <span class="n">missing</span> <span class="o">=</span> <span class="n">required_columns</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">header</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">missing</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+               <span class="sa">f</span><span class="s2">&quot;Missing required column(s): </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">missing</span><span class="p">))</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
+      <span class="n">p_idx</span> <span class="o">=</span> <span class="n">header</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;P&quot;</span><span class="p">)</span>
+      <span class="n">color_idx</span> <span class="o">=</span> <span class="n">header</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;highlight_color&quot;</span><span class="p">)</span>
+      <span class="n">category_idx</span> <span class="o">=</span> <span class="n">header</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;category&quot;</span><span class="p">)</span>
+
+      <span class="n">fd</span><span class="p">,</span> <span class="n">temp_path</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mkstemp</span><span class="p">(</span>
+            <span class="nb">dir</span><span class="o">=</span><span class="n">directory</span><span class="p">,</span>
+            <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;.tmp_&quot;</span><span class="p">,</span>
+            <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;.tsv&quot;</span>
+      <span class="p">)</span>
+
+      <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">os</span><span class="o">.</span><span class="n">fdopen</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outfile</span><span class="p">:</span>
+               <span class="c1"># Preserve comments exactly as they appeared.</span>
+               <span class="n">outfile</span><span class="o">.</span><span class="n">writelines</span><span class="p">(</span><span class="n">comments</span><span class="p">)</span>
+
+               <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span>
+                  <span class="n">outfile</span><span class="p">,</span>
+                  <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span>
+                  <span class="n">lineterminator</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+               <span class="p">)</span>
+
+               <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">header</span><span class="p">)</span>
+
+               <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">infile</span><span class="p">:</span>
+                  <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">):</span>
+                        <span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+                        <span class="k">continue</span>
+
+                  <span class="n">row</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\r\n</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+
+                  <span class="c1"># Skip malformed rows rather than silently corrupting them.</span>
+                  <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">header</span><span class="p">):</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                           <span class="sa">f</span><span class="s2">&quot;Row has </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="si">}</span><span class="s2"> columns; expected </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">header</span><span class="p">)</span><span class="si">}</span><span class="s2">:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                           <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">line</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+                        <span class="p">)</span>
+
+                  <span class="k">try</span><span class="p">:</span>
+                        <span class="n">p</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">p_idx</span><span class="p">])</span>
+                  <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                           <span class="sa">f</span><span class="s2">&quot;Invalid P-value &#39;</span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="n">p_idx</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39; in row:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                           <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">line</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+                        <span class="p">)</span>
+
+                  <span class="k">if</span> <span class="n">p</span> <span class="o">&lt;</span> <span class="mf">5e-8</span><span class="p">:</span>
+                        <span class="c1">#row[color_idx] = &quot;red&quot;</span>
+                        <span class="n">row</span><span class="p">[</span><span class="n">category_idx</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;significant (P &lt; 5e-08)&quot;</span>
+                  <span class="k">elif</span> <span class="n">p</span> <span class="o">&lt;</span> <span class="mf">1e-7</span><span class="p">:</span>
+                        <span class="n">row</span><span class="p">[</span><span class="n">color_idx</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;orange&quot;</span>
+                        <span class="n">row</span><span class="p">[</span><span class="n">category_idx</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;marginally significant (P &lt; 1e-07)&quot;</span>
+                  <span class="k">else</span><span class="p">:</span>
+                        <span class="n">row</span><span class="p">[</span><span class="n">color_idx</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;grey&quot;</span>
+                        <span class="n">row</span><span class="p">[</span><span class="n">category_idx</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;suggestive (P &gt; 1e-07)&quot;</span>
+
+                  <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+
+            <span class="n">shutil</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">temp_path</span><span class="p">,</span> <span class="n">filepath</span><span class="p">)</span>
+
+      <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">temp_path</span><span class="p">):</span>
+               <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">temp_path</span><span class="p">)</span>
+            <span class="k">raise</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+   <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Make the script executable and run it</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>chmod<span class="w"> </span>+x<span class="w"> </span>update_annotations.py
+
+<span class="nv">cachedir</span><span class="o">=</span>/your/cachedir
+
+<span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="si">${</span><span class="nv">cachedir</span><span class="si">}</span>/annotations/hits.*.tsv<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">   </span>update_annotations.py<span class="w"> </span><span class="nv">$i</span>
 <span class="k">done</span>
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>This highlights all signals with <code class="docutils literal notranslate"><span class="pre">P</span> <span class="pre">&lt;</span> <span class="pre">5e-08</span></code> with the defaul <code class="docutils literal notranslate"><span class="pre">brown</span></code> color and all signals</p></li>
 </ul>
-<p>not reaching the genome-wide significance threshold but have P &lt; 1e-07 with orange.
-- It updates the categories for both to <code class="docutils literal notranslate"><span class="pre">significant</span> <span class="pre">(P</span> <span class="pre">&lt;</span> <span class="pre">5e-08)</span></code> and <code class="docutils literal notranslate"><span class="pre">marginally</span> <span class="pre">significant</span> <span class="pre">(P</span> <span class="pre">&lt;</span> <span class="pre">1e-07)</span></code>
-respectively. This would be used to add a custom legend to the Manhattan plots, making it self explanatory.</p>
+<p>not reaching the genome-wide significance threshold but have P &lt; 1e-07 with orange.</p>
+<ul class="simple">
+<li><p>It updates the categories for both to <code class="docutils literal notranslate"><span class="pre">significant</span> <span class="pre">(P</span> <span class="pre">&lt;</span> <span class="pre">5e-08)</span></code> and <code class="docutils literal notranslate"><span class="pre">marginally</span> <span class="pre">significant</span> <span class="pre">(P</span> <span class="pre">&lt;</span> <span class="pre">1e-07)</span></code></p></li>
+</ul>
+<p>respectively. This would be used to add a custom legend to the Manhattan plots, making it self explanatory.</p>
 </section>
 <section id="per-locus-highlight-colours">
 <span id="tut-colors"></span><h2>Per-locus highlight colours<a class="headerlink" href="#per-locus-highlight-colours" title="Link to this heading"></a></h2>
@@ -817,6 +932,11 @@ and <code class="docutils literal notranslate"><span class="pre">category</span>
 written TSV.  If you make heavy manual edits, keep a copy of the
 overlay TSV under version control alongside your analysis
 scripts.</p>
+</dd>
+<dt><strong>Legend text overlaps with Annotations</strong></dt><dd><p>The legend text font size inherits from the track label size
+(<code class="docutils literal notranslate"><span class="pre">track_label_size</span></code>). If you find that legend text and annotations
+are cluttering, try redusing the size of track labels and/or the
+annotation size.</p>
 </dd>
 </dl>
 </section>
