@@ -163,21 +163,48 @@ Single-track:
 
 **Highlight, and add plot title and significant/suggestive lines to the base above**
 
-.. code-block:: bash
+.. tab-set::
 
-   pycmplot \
-      --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz \
-      --labels Trait1_hg19 \
-      --plot_title "Trait1 (highlighted)" \
-      --logp \
-      --highlight \
-      --signif_line \
-      --suggest_threshold \
-      --output_dir ./out
+   .. tab-item:: Linear
 
-.. figure:: img/trait1_highlighted_trait1_hg19_lm_logp.png
-   :alt: linear Manhattan plot with base options
-   :width: 800px
+      .. code-block:: bash
+
+         pycmplot \
+            --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz \
+            --labels Trait1_hg19 \
+            --plot_title "Trait1 (highlighted)" \
+            --logp \
+            --highlight \
+            --signif_line \
+            --suggest_threshold \
+            --output_dir ./out
+
+      .. figure:: img/trait1_highlighted_trait1_hg19_lm_logp.png
+         :alt: linear Manhattan plot with base options
+         :width: 800px
+
+   .. tab-item:: Circular
+
+      pycmplot defaults ``--mode lm`` (linear Manhattan).
+
+      Add ``--mode cm`` (circular) to switch layout — much of the options stay
+      the same. Use ``pycmplot -h`` to see all linear/circular mode-specific options.
+
+      .. code-block:: bash
+
+         pycmplot \
+            --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz \
+            --labels Trait1_hg19 \
+            --plot_title "Trait1 (highlighted)" \
+            --logp \
+            --highlight \
+            --signif_line \
+            --suggest_threshold \
+            --output_dir ./out
+
+      .. figure:: img/trait1_highlighted_trait1_hg19_lm_logp.png
+         :alt: linear Manhattan plot with base options
+         :width: 800px
 
 
 Multi-track
@@ -212,16 +239,9 @@ comma-separated, in matching order:
    Annotations in the figure above are not visible. We can solve this by two means.
       - either increase figure height: ``--figure_size 10,8``
       - or increase the annotation track space relative to the rest: ``--track_heights 2,1,1``
+      - or combine the two options to improve the visuals.
 
-   **NB:** When using ``--annotate`` in linear plotting, the first track is always 
-      annotation track.
-
-   - You can combine the two options to improve the visuals.
-   - You can remove the track labels on the right with ``--no_track_labels``
-   - Annotate by gene symbol using ``--annotate gene`` (case insenitive).
-   - Add a line through all highlighted loci using ``--highlight_line``
-   - Change the color of the line using ``--highlight_line_color``
-
+   **NB:** When using ``--annotate`` in linear plotting, the first (top) track is always the annotation track.
 
 .. code-block:: bash
 
@@ -237,7 +257,7 @@ comma-separated, in matching order:
       --figure_size 10,8 \
       --output_dir ./out
 
-.. figure:: img/multitrack_heights_trait1_hg19_trait6_hg38_lm_logp.png
+.. figure:: img/multitrack_heights_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_lm_logp.png
    :alt: linear Manhattan plot with base options
    :width: 800px
 
@@ -260,6 +280,46 @@ comma-separated, in matching order:
 .. figure:: img/multitrack_annotate_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_lm_logp.png
    :alt: linear Manhattan plot with base options
    :width: 800px
+
+
+.. note::
+   Notice the two near-significant loci on chr10 and chr11. We can highlight and annotate them by
+   changing the significance threshold: ``--signif_threshold 1e-07``
+
+   Note that if only used ``highlight_thresh 1e-07``, the loci will be highlighted but no annotated
+
+
+.. code-block:: bash
+
+   pycmplot \
+      --mode cm \
+      --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait2_hg19.tsv.gz,./data/sumstats_1M_trait3_hg19.tsv.gz,./data/sumstats_1M_trait4_hg38.tsv.gz,./data/sumstats_1M_trait5_hg38.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz \
+      --labels Trait1_hg19,Trait2_hg19,Trait3_hg19,Trait4_hg38,Trait5_hg38,Trait6_hg38 \
+      --plot_title "Multi-track_signif" \
+      --logp \
+      --highlight \
+      --signif_line \
+      --signif_threshold 1e-07 \
+      --suggest_threshold \
+      --annotate gene \
+      --highlight_line \
+      --no_track_labels \
+      --output_dir ./out
+
+.. figure:: img/multitrack_signif_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_lm_logp.png
+   :alt: linear Manhattan plot with base options
+   :width: 800px
+
+
+We can further enhance visualization:
+
+   - We can remove the track labels on the right with ``--no_track_labels``
+   - Annotate by gene symbol using ``--annotate gene`` (case insenitive).
+   - Add a line through all highlighted loci using ``--highlight_line``
+   - Change the color of the line using ``--highlight_line_color``
+   - To generate qq-plots, simply add ``--qq_plot``
+   - To specify a type, 
+
 
 
 .. _cli-tut-circular:
@@ -290,7 +350,7 @@ the same:
       --highlight_line \
       --output_dir ./out
 
-.. figure:: img/multitrack_annotate_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_lm_logp.png
+.. figure:: img/multitrack_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_cm_logp.png
    :alt: linear Manhattan plot with base options
    :width: 800px
 
