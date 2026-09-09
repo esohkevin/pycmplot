@@ -105,6 +105,7 @@ Use ``python generate_sumstats.py -h`` to see all options.
    deleting the build columns from two of the sumstats already generated. 
    One in hg19 and one in hg38.
 
+
 .. code-block:: bash
    gunzip -c ./data/sumstats_1M_trait1_hg19.tsv.gz | \
    rev  | \
@@ -140,7 +141,7 @@ The canonical minimum invocation is:
      --logp \
      --output_dir ./out
 
-.. figure:: img/mycmplot_trait1_lm_logp.png
+.. figure:: img/mycmplot_trait1_hg19_lm_logp.png
    :alt: linear Manhattan plot with base options
    :width: 800px
 
