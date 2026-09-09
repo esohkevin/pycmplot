@@ -24,6 +24,7 @@ from __future__ import annotations
 
 import bisect
 import logging
+import math
 from typing import Optional
 
 import natsort
@@ -71,16 +72,34 @@ def _build_genes_dict(genes_df: pd.DataFrame) -> dict:
 
     genes_df = genes_df.sort_values(["CHR", "START"])
     genes_dict: dict = {}
-
+    # Include BIOTYPE in the tuple so the merged
+    # :func:`_annotate_variant` (which now covers both nearest-gene
+    # detection *and* biotype-weighted prioritisation in one pass)
+    # doesn't have to touch the source DataFrame again.  Falls back to
+    # ``None`` when the reference lacks a BIOTYPE column so older gene
+    # references still work.
+    has_biotype = "BIOTYPE" in genes_df.columns
     for chrom, group in genes_df.groupby("CHR"):
-        intervals = list(
-            zip(
-                group["START"].astype(int),
-                group["END"].astype(int),
-                group["STRAND"],
-                group["GENE"],
+        if has_biotype:
+            intervals = list(
+                zip(
+                    group["START"].astype(int),
+                    group["END"].astype(int),
+                    group["STRAND"],
+                    group["GENE"],
+                    group["BIOTYPE"],
+                )
             )
-        )
+        else:
+            intervals = list(
+                zip(
+                    group["START"].astype(int),
+                    group["END"].astype(int),
+                    group["STRAND"],
+                    group["GENE"],
+                    [None] * len(group),
+                )
+            )
         starts = [g[0] for g in intervals]
         genes_dict[str(chrom)] = {"intervals": intervals, "starts": starts}
 
@@ -88,7 +107,7 @@ def _build_genes_dict(genes_df: pd.DataFrame) -> dict:
 
 
 # ---------------------------------------------------------------------------
-# Internal: strand-aware variant annotation
+# Internal: single-pass variant annotation
 # ---------------------------------------------------------------------------
 
 def _annotate_variant(
@@ -97,51 +116,81 @@ def _annotate_variant(
     genes_dict: dict,
     window: int = 500_000,
     promoter_window: int = 2_000,
+    biotype_weights: Optional[dict] = None,
 ) -> dict:
-    """Return strand-aware nearest-gene annotation for a single variant.
+    """Single-pass positional + biotype-weighted gene annotation for a lead SNP.
 
-    Searches the pre-built *genes_dict* within *window* bp of *pos* on
-    *chrom*.  Reports the nearest upstream and downstream genes (relative to
-    each gene's TSS and strand), whether the variant falls inside a gene body,
-    and whether it is within a promoter window upstream of any gene.
+    Walks every candidate gene inside ``[pos - window, pos + window]``
+    on *chrom* exactly once, and returns the union of the fields
+    previously produced by two separate passes
+    (``_annotate_variant`` and ``_annotate_and_prioritize_variant``,
+    since merged here).  Consumers of the hits summary table therefore
+    see the same columns as before, but the loop body runs half as many
+    times and one source of truth governs the distance / genic /
+    promoter semantics.
+
+    The merger is safe because the two former passes computed
+    everything from the same candidate set, only differing in what
+    they *reported*.  Now they report jointly.
 
     Parameters
     ----------
     chrom : str
         Chromosome (without ``'chr'`` prefix, e.g. ``'11'``, ``'X'``).
     pos : int
-        Variant position in base-pairs (hg38 1-based coordinates).
+        Variant position in base-pairs (1-based coordinates).
     genes_dict : dict
         Pre-built chromosome-keyed interval dictionary from
-        :func:`_build_genes_dict`.
+        :func:`_build_genes_dict`.  Tuples are now
+        ``(START, END, STRAND, GENE, BIOTYPE)``.
     window : int, optional
         Search radius in base-pairs.  Default is ``500_000`` (500 kb).
     promoter_window : int, optional
         Distance upstream of the TSS considered a promoter region.
         Default is ``2_000`` (2 kb).
+    biotype_weights : dict, optional
+        Mapping of Ensembl biotype → numeric weight.  Defaults to
+        :data:`~pycmplot.constants.BIOTYPE_WEIGHTS`.
 
     Returns
     -------
     dict
-        Keys:
+        Positional fields (from the pre-merge ``_annotate_variant``):
 
-        * ``genic`` (bool) – ``True`` if the variant overlaps a gene body.
-        * ``nearest_upstream_gene`` (str or None) – symbol of the closest
-        gene whose TSS is downstream of the variant (relative to strand).
-        * ``upstream_distance`` (int or None) – bp distance to
-        ``nearest_upstream_gene``; ``0`` when genic.
-        * ``nearest_downstream_gene`` (str or None) – symbol of the closest
-        gene whose TSS is upstream of the variant (relative to strand).
-        * ``downstream_distance`` (int or None) – bp distance to
-        ``nearest_downstream_gene``.
-        * ``promoter_upstream_flag`` (bool) – ``True`` when the variant is
-        within *promoter_window* bp upstream of any TSS.
-        * ``gene_density`` (int) – number of genes with any overlap in the
-        search window.
+        * ``genic`` (bool)
+        * ``nearest_gene`` / ``nearest_gene_distance``
+        * ``nearest_upstream_gene`` / ``upstream_distance`` (positional
+          left flanker: gene body ends at a lower coordinate than *pos*)
+        * ``nearest_downstream_gene`` / ``downstream_distance``
+          (positional right flanker)
+        * ``promoter_upstream_flag`` (strand-aware — retained because
+          "promoter" is genuinely a biological concept)
+        * ``gene_density``
+
+        Prioritisation fields (from the pre-merge
+        ``_annotate_and_prioritize_variant``):
+
+        * ``top_gene`` — highest-priority gene when genic, otherwise
+          the ``"LEFT_GENE-RIGHT_GENE"`` positional flanker pair in
+          genomic order (or a single symbol when only one side has a
+          gene in the window).  Flanker selection uses raw
+          base-pair distance, not priority score, so the joined label
+          always brackets the variant.
+        * ``biotype`` — Ensembl biotype of ``top_gene`` (``'intergenic'``
+          when no genic overlap).
+        * ``priority_score`` — composite score ``2·genic + 1·promoter +
+          2·biotype_w · dist_score`` (genic hits only).
+        * ``distance``, ``promoter_flag``, ``distance_score``,
+          ``biotype_weight``, ``promoter_bonus`` — components of the
+          winning candidate's score.
     """
+    if biotype_weights is None:
+        biotype_weights = BIOTYPE_WEIGHTS
 
     _empty = {
         "genic": False,
+        "nearest_gene": None,
+        "nearest_gene_distance": None,
         "nearest_upstream_gene": None,
         "upstream_distance": None,
         "nearest_downstream_gene": None,
@@ -149,235 +198,222 @@ def _annotate_variant(
         "promoter_upstream_flag": False,
         "bidirectional_promoter_flag": False,
         "gene_density": 0,
+        "top_gene": None,
+        "biotype": None,
+        "priority_score": None,
+        "distance": None,
+        "promoter_flag": None,
+        "distance_score": None,
+        "biotype_weight": None,
+        "promoter_bonus": None,
     }
-
     if chrom not in genes_dict:
         return _empty
 
     chrom_data = genes_dict[chrom]
     genes = chrom_data["intervals"]
     starts = chrom_data["starts"]
-
     left_bound = pos - window
     right_bound = pos + window
 
+    # Advance to the first gene whose START could still overlap the
+    # search window; walk forward until STARTs exceed the right bound.
     i = bisect.bisect_left(starts, left_bound)
 
     gene_density = 0
-    nearest_upstream: Optional[str] = None
-    nearest_downstream: Optional[str] = None
-    min_up_dist = float("inf")
-    min_down_dist = float("inf")
+    containing_gene: Optional[str] = None
+    containing_biotype: Optional[str] = None
+
+    # Positional trackers — closest gene entirely to the left of *pos*
+    # (by distance to END), closest entirely to the right (by distance
+    # to START), and the true closest gene overall (any side, by
+    # distance to gene body).
+    nearest_left: Optional[str] = None
+    nearest_left_dist = float("inf")
+    nearest_right: Optional[str] = None
+    nearest_right_dist = float("inf")
+    nearest_any: Optional[str] = None
+    nearest_any_dist = float("inf")
+
     promoter_upstream_flag = False
 
+    # Priority-score tracker.  Keeps the winner's *full* component
+    # breakdown so the returned record has the same shape as the
+    # pre-merge output — this is what preserves numerical identity
+    # against the two-pass version.
+    top_score = -float("inf")
+    top: Optional[dict] = None
+
     while i < len(genes):
-        start, end, strand, gene = genes[i]
+        _entry = genes[i]
+        # Genes_dict tuples are now (start, end, strand, gene, biotype).
+        # Accept a 4-tuple too for backwards compat with cached
+        # references built by an older pycmplot version.
+        if len(_entry) >= 5:
+            start, end, strand, gene, biotype = _entry[:5]
+        else:
+            start, end, strand, gene = _entry[:4]
+            biotype = None
 
         if start > right_bound:
             break
+        if end < left_bound:
+            i += 1
+            continue
 
-        if end >= left_bound:
-            gene_density += 1
+        gene_density += 1
+        is_genic = start <= pos <= end
 
-            if start <= pos <= end:
-                return {
-                    "genic": True,
-                    "nearest_upstream_gene": gene,
-                    "upstream_distance": 0,
-                    "nearest_downstream_gene": None,
-                    "downstream_distance": None,
-                    "promoter_upstream_flag": False,
-                    "gene_density": gene_density,
-                }
+        # Distance to gene body — 0 when inside, else min gap to either
+        # edge.  Also update the positional flanker slots + the
+        # "true nearest" slot.
+        if is_genic:
+            if containing_gene is None:
+                # If multiple genes contain pos (nested / overlapping
+                # bodies), the first one wins the ``nearest_gene``
+                # slot; the higher-priority one still wins ``top_gene``
+                # via the score tracker below.
+                containing_gene = gene
+                containing_biotype = biotype
+            distance = 0
+            if nearest_any_dist > 0:
+                nearest_any_dist = 0
+                nearest_any = gene
+        else:
+            if end < pos:
+                distance = pos - end
+                if distance < nearest_left_dist:
+                    nearest_left_dist = distance
+                    nearest_left = gene
+            else:
+                distance = start - pos
+                if distance < nearest_right_dist:
+                    nearest_right_dist = distance
+                    nearest_right = gene
+            if distance < nearest_any_dist:
+                nearest_any_dist = distance
+                nearest_any = gene
 
-            tss = start if strand == "+" else end
-            distance = abs(pos - tss)
+        # Strand-aware promoter check.  TSS = START for '+' genes,
+        # END for '-'.  This is the one place strand-awareness is
+        # preserved because "promoter" is genuinely a biological
+        # concept — every other field is positional.
+        tss = start if strand == "+" else end
+        if strand == "+":
+            in_promoter = (tss - promoter_window) <= pos < tss
+        else:
+            in_promoter = tss < pos <= (tss + promoter_window)
+        if in_promoter:
+            promoter_upstream_flag = True
 
-            if distance <= window:
-                if strand == "+":
-                    is_upstream = pos < tss
-                    in_promoter = (tss - promoter_window) <= pos < tss
-                else:
-                    is_upstream = pos > tss
-                    in_promoter = tss < pos <= (tss + promoter_window)
-
-                if is_upstream:
-                    if distance < min_up_dist:
-                        min_up_dist = distance
-                        nearest_upstream = gene
-                    if in_promoter:
-                        promoter_upstream_flag = True
-                else:
-                    if distance < min_down_dist:
-                        min_down_dist = distance
-                        nearest_downstream = gene
+        # Composite priority score — identical formula to the pre-merge
+        # ``_annotate_and_prioritize_variant``.  ``distance_score`` uses
+        # ``log10(distance + 10)`` so it stays finite at distance 0.
+        distance_score = 1.0 / math.log10(distance + 10)
+        biotype_weight = biotype_weights.get(biotype, 0) if biotype else 0
+        promoter_bonus = 0.5 * (1 if in_promoter else 0)
+        priority_score = (
+            (2 if is_genic else 0)
+            + (1 if in_promoter else 0)
+            + biotype_weight * 2 * distance_score
+        )
+        if priority_score > top_score:
+            top_score = priority_score
+            top = {
+                "gene": gene,
+                "biotype": biotype,
+                "distance": distance,
+                "promoter_flag": in_promoter,
+                "distance_score": distance_score,
+                "biotype_weight": biotype_weight,
+                "promoter_bonus": promoter_bonus,
+                "priority_score": priority_score,
+                "is_genic": is_genic,
+            }
 
         i += 1
 
-    return {
-        "genic": False,
-        "nearest_upstream_gene": nearest_upstream,
-        "upstream_distance": min_up_dist if nearest_upstream else None,
-        "nearest_downstream_gene": nearest_downstream,
-        "downstream_distance": min_down_dist if nearest_downstream else None,
+    is_genic_any = containing_gene is not None
+
+    # ---- Assemble positional fields ------------------------------------
+    result = {
+        "genic": is_genic_any,
+        "nearest_gene": containing_gene if is_genic_any else nearest_any,
+        "nearest_gene_distance": (
+            0 if is_genic_any else (
+                int(nearest_any_dist) if nearest_any is not None else None
+            )
+        ),
+        "nearest_upstream_gene": nearest_left,
+        "upstream_distance": (
+            int(nearest_left_dist) if nearest_left is not None else None
+        ),
+        "nearest_downstream_gene": nearest_right,
+        "downstream_distance": (
+            int(nearest_right_dist) if nearest_right is not None else None
+        ),
         "promoter_upstream_flag": promoter_upstream_flag,
         "gene_density": gene_density,
     }
 
-
-# ---------------------------------------------------------------------------
-# Internal: prioritisation scorer
-# ---------------------------------------------------------------------------
-
-def _annotate_and_prioritize_variant(
-    chrom: str,
-    pos: int,
-    genes_df: pd.DataFrame,
-    lead_snps_df: pd.DataFrame,
-    window: int = 500_000,
-    promoter_window: int = 2_000,
-    biotype_weights: Optional[dict] = None,
-) -> Optional[dict]:
-    """Score and rank candidate genes for a single variant using a composite priority metric.
-
-    Builds a candidate gene set within *window* bp of *pos* on *chrom*, then
-    scores each candidate on four additive components:
-
-    * **Genic overlap** (weight 2) – variant falls inside the gene body.
-    * **Promoter proximity** (weight 1) – variant is within *promoter_window*
-    bp upstream of the TSS (strand-aware).
-    * **Biotype weight** (from *biotype_weights*, scaled by distance score) –
-    penalises pseudogenes and non-coding features relative to protein-coding
-    genes.
-    * **Distance score** = 1 / log₁₀(distance + 10) – continuously rewards
-    closeness.
-
-    The top-ranked gene (or the two closest intergenic flanking genes joined by
-    ``'-'``) is returned.
-
-    Parameters
-    ----------
-    chrom : str
-        Chromosome string (no ``'chr'`` prefix).
-    pos : int
-        Variant position in base-pairs.
-    genes_df : pandas.DataFrame
-        Full gene reference DataFrame with columns ``CHR``, ``START``,
-        ``END``, ``STRAND``, ``GENE``, ``BIOTYPE``.
-    lead_snps_df : pandas.DataFrame
-        Lead-SNP DataFrame (currently passed for context; reserved for future
-        co-localisation scoring).
-    window : int, optional
-        Search radius in base-pairs.  Default is ``500_000``.
-    promoter_window : int, optional
-        Promoter window in bp upstream of TSS.  Default is ``2_000``.
-    biotype_weights : dict, optional
-        Mapping of Ensembl biotype → numeric weight.  Defaults to
-        :data:`~pycmplot.constants.BIOTYPE_WEIGHTS`.
-
-    Returns
-    -------
-    dict or None
-        Keys: ``top_gene``, ``biotype``, ``priority_score``, ``distance``,
-        ``promoter_flag``, ``distance_score``, ``biotype_weight``,
-        ``promoter_bonus``, ``gene_density``.  Returns ``None`` if *chrom* has
-        no gene entries in *genes_df*.
-
-        For intergenic variants, ``top_gene`` contains the two nearest flanking
-        gene symbols joined by ``'-'`` (e.g. ``'HBB-HBD'``) and ``biotype``
-        is set to ``'intergenic'``.
-    """
-
-    if biotype_weights is None:
-        biotype_weights = BIOTYPE_WEIGHTS
-
-    genes_df = genes_df.copy()
-    genes_df["TSS"] = np.where(
-        genes_df["STRAND"] == "+",
-        genes_df["START"],
-        genes_df["END"],
-    )
-
-    chr_genes = genes_df[genes_df["CHR"] == chrom]
-    if chr_genes.empty:
-        return None
-
-    candidates = chr_genes[
-        (chr_genes["START"] <= pos + window) & (chr_genes["END"] >= pos - window)
-    ].copy()
-
-    if candidates.empty:
-        return None
-
-    gene_density = len(candidates)
-
-    candidates["distance"] = np.where(
-        (pos >= candidates["START"]) & (pos <= candidates["END"]),
-        0,
-        np.minimum(
-            abs(pos - candidates["START"]),
-            abs(pos - candidates["END"]),
-        ),
-    )
-
-    candidates["genic"] = (pos >= candidates["START"]) & (pos <= candidates["END"])
-
-    candidates["promoter_flag"] = (
-        (candidates["STRAND"] == "+")
-        & (pos >= candidates["TSS"] - promoter_window)
-        & (pos <= candidates["TSS"])
-    ) | (
-        (candidates["STRAND"] == "-")
-        & (pos <= candidates["TSS"] + promoter_window)
-        & (pos >= candidates["TSS"])
-    )
-
-    candidates["distance_score"] = 1 / np.log10(candidates["distance"] + 10)
-    candidates["biotype_weight"] = candidates["BIOTYPE"].map(
-        lambda x: biotype_weights.get(x, 0)
-    )
-    candidates["promoter_bonus"] = candidates["promoter_flag"].astype(int) * 0.5
-    candidates["priority_score"] = (
-        candidates["genic"].astype(int) * 2
-        + candidates["promoter_flag"].astype(int) * 1
-        + candidates["biotype_weight"] * 2 * candidates["distance_score"]
-    )
-
-    candidates = candidates.sort_values("priority_score", ascending=False)
-
-    if candidates.empty:
-        return {
+    # ---- Assemble prioritisation fields --------------------------------
+    if top is None:
+        # No candidates at all — populate with None.
+        result.update({
             "top_gene": None, "biotype": None, "priority_score": None,
-            "distance": None, "promoter_flag": None, "distance_score": None,
-            "biotype_weight": None, "promoter_bonus": None, "gene_density": None,
-        }
-
-    if candidates["genic"].any():
-        top = candidates.iloc[0]
-        return {
-            "top_gene": top["GENE"],
-            "biotype": top["BIOTYPE"],
+            "distance": None, "promoter_flag": None,
+            "distance_score": None, "biotype_weight": None,
+            "promoter_bonus": None,
+        })
+    elif is_genic_any:
+        # Genic branch: report the highest-priority gene overall.
+        # (Almost always this is the containing gene because the
+        # ``genic·2`` term dominates, but the pre-merge code took the
+        # global argmax so we preserve that exactly.)
+        result.update({
+            "top_gene": top["gene"],
+            "biotype": top["biotype"],
             "priority_score": top["priority_score"],
             "distance": top["distance"],
             "promoter_flag": top["promoter_flag"],
             "distance_score": top["distance_score"],
             "biotype_weight": top["biotype_weight"],
             "promoter_bonus": top["promoter_bonus"],
-            "gene_density": gene_density,
-        }
+        })
     else:
-        top2 = candidates.head(2)
-        return {
-            "top_gene": "-".join(top2["GENE"]),
+        # Intergenic branch: ``top_gene`` is the ``"LEFT-RIGHT"``
+        # positional flanker pair by base-pair distance (not priority
+        # score).  This is the guarantee introduced by the 2026-09-05
+        # fix — the joined label always brackets the variant.
+        parts: list[str] = []
+        dist_parts: list[str] = []
+        if nearest_left is not None:
+            parts.append(str(nearest_left))
+            dist_parts.append(str(int(nearest_left_dist)))
+        if nearest_right is not None:
+            parts.append(str(nearest_right))
+            dist_parts.append(str(int(nearest_right_dist)))
+        if not parts:
+            # Everything in the window somehow failed both flanker
+            # checks (shouldn't happen because is_genic_any is False
+            # and we saw at least one candidate); fall back to the
+            # top-priority pick so the field is never empty.
+            parts = [str(top["gene"])]
+            dist_parts = [str(int(top["distance"]))]
+        result.update({
+            "top_gene": "-".join(parts),
             "biotype": "intergenic",
             "priority_score": None,
-            "distance": "-".join(map(str, top2["distance"])),
+            "distance": "-".join(dist_parts),
             "promoter_flag": None,
             "distance_score": None,
             "biotype_weight": None,
             "promoter_bonus": None,
-            "gene_density": None,
-        }
+        })
+
+    return result
+
+
 
 
 # ---------------------------------------------------------------------------
@@ -475,17 +511,31 @@ def get_hits_summary_table(
         plus annotation fields from both passes, including:
 
         - ``genic`` — ``True`` when the lead SNP overlaps a gene body.
-        - ``nearest_upstream_gene`` — nearest upstream gene symbol
-          (strand-aware).
-        - ``upstream_distance`` — distance to ``nearest_upstream_gene`` in bp.
-        - ``nearest_downstream_gene`` — nearest downstream gene symbol
-          (strand-aware).
-        - ``downstream_distance`` — distance to ``nearest_downstream_gene`` in
-          bp.
-        - ``promoter_upstream_flag`` — ``True`` when the SNP is within 2 kb
-          upstream of a TSS.
+        - ``nearest_gene`` — closest gene by base-pair distance
+          regardless of side (the containing gene when genic, else the
+          nearest flanking gene).
+        - ``nearest_gene_distance`` — bp distance to ``nearest_gene``;
+          0 when genic.
+        - ``nearest_upstream_gene`` — closest gene positionally to the
+          left of the SNP (lower genomic coordinate).  As of pycmplot
+          0.4.x this is a positional definition, not strand-aware; see
+          :func:`_annotate_variant` for the migration note.
+        - ``upstream_distance`` — distance to ``nearest_upstream_gene``
+          in bp.
+        - ``nearest_downstream_gene`` — closest gene positionally to
+          the right of the SNP.
+        - ``downstream_distance`` — distance to ``nearest_downstream_gene``
+          in bp.
+        - ``promoter_upstream_flag`` — ``True`` when the SNP is within
+          2 kb upstream of a TSS.  This is the only field that remains
+          strand-aware.
         - ``gene_density`` — number of genes within the search window.
-        - ``top_gene`` — top-priority gene from the scoring pass.
+        - ``top_gene`` — top-priority gene from the scoring pass.  For
+          intergenic hits, ``"LEFT-RIGHT"`` where LEFT is the nearest
+          gene positionally to the left of the SNP and RIGHT is the
+          nearest gene positionally to the right (order is always
+          genomic).  When only one side has a gene in the window, a
+          single symbol is returned.
         - ``biotype`` — Ensembl biotype of ``top_gene`` (``'intergenic'`` when
           no genic overlap).
         - ``priority_score`` — composite priority score (genic hits only).
@@ -537,24 +587,22 @@ def get_hits_summary_table(
 
         logger.info("Annotating lead variants and generating hits summary table ...")
         for _, row in leads_df.iterrows():
+            # ``_annotate_variant`` now emits both positional
+            # nearest-gene fields *and* biotype-weighted prioritisation
+            # fields in a single window walk (the two pre-merge passes
+            # were consolidated in 0.4.x for a ~2× speedup on the
+            # annotation step and one source of truth for the shared
+            # distance / genic / promoter semantics).
             annotation = _annotate_variant(
                 chrom=row["CHR"],
                 pos=row["POS"],
                 genes_dict=genes_dict,
                 window=window,
             )
-            prioritized = _annotate_and_prioritize_variant(
-                chrom=row["CHR"],
-                pos=row["POS"],
-                genes_df=geneinfo,
-                lead_snps_df=leads_df,
-                window=window,
-            )
 
             record = {
                 **(row.to_dict()),
                 **(annotation if annotation is not None else {}),
-                **(prioritized if prioritized is not None else {}),
             }
             records.append(record)
 
@@ -588,8 +636,18 @@ def get_annotation_column(
                 for i, (_, row) in enumerate(hits_table.iterrows()):
                     try:
                         if row["genic"]:
-                            label_clm = "nearest_upstream_gene"
-                            label_msg = f"Signal {row['SNP']} at {row['POS']} is genic [{row['nearest_upstream_gene']}]"
+                            # Prefer ``nearest_gene`` (the containing gene
+                            # for genic variants).  Older cached hits
+                            # tables predate this column, so we fall back
+                            # to ``nearest_upstream_gene`` when it's
+                            # missing.
+                            label_clm = ("nearest_gene"
+                                         if "nearest_gene" in hits_table.columns
+                                         else "nearest_upstream_gene")
+                            label_msg = (
+                                f"Signal {row['SNP']} at {row['POS']} is genic "
+                                f"[{row.get(label_clm)}]"
+                            )
                         else:
                             label_clm = "top_gene"
                             label_msg = "'POS' is not genic"
@@ -902,3 +960,53 @@ def build_highlight_legend_entries(
                 cat, seen[cat], col,
             )
     return list(seen.items())
+
+
+# ---------------------------------------------------------------------------
+# Legend placement helper (shared by the linear + circular plotters)
+# ---------------------------------------------------------------------------
+
+# Matplotlib's standard 9-way loc grid, exposed as a docstring / help
+# hint so users don't have to look it up.  Anything outside this set is
+# still accepted by matplotlib (it will raise a clear error) but these
+# are the recommended values.
+HIGHLIGHT_LEGEND_LOCS = (
+    "upper center", "upper left", "upper right",
+    "center", "center left", "center right",
+    "lower center", "lower left", "lower right",
+    "best",
+)
+
+
+def resolve_highlight_legend_placement(
+    loc,
+    default: str = "upper center",
+) -> dict:
+    """Translate a user-facing ``highlight_legend_loc`` value into legend kwargs.
+
+    Accepts either:
+
+    * A matplotlib ``loc`` string (``"upper center"``, ``"upper right"``,
+      ``"lower center"``, ``"best"``, …).  Returned as ``{"loc": loc}``.
+    * A 2-tuple ``(x, y)`` in axes coordinates (``0.0-1.0``, but values
+      outside are accepted for anchoring outside the axes — useful for
+      the circular plotter where placing the legend *below* the polar
+      frame at e.g. ``(0.5, -0.05)`` avoids overlapping the sectors).
+      Returned as ``{"loc": "center", "bbox_to_anchor": (x, y)}``.
+    * ``None``, in which case *default* (``"upper center"``) is used.
+
+    Anything else is coerced to a string and passed through as ``loc`` —
+    that way matplotlib emits its own clear error when the user typos
+    something like ``"upper centre"``.
+    """
+    if loc is None:
+        return {"loc": default}
+    # 2-tuple (or list) → bbox anchoring at that point.
+    if isinstance(loc, (tuple, list)) and len(loc) == 2:
+        try:
+            x = float(loc[0]); y = float(loc[1])
+        except (TypeError, ValueError):
+            pass
+        else:
+            return {"loc": "center", "bbox_to_anchor": (x, y)}
+    return {"loc": str(loc)}

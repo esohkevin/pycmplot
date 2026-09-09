@@ -294,14 +294,35 @@ def get_arguments(descmsg: str = DESCMSG) -> argparse.Namespace:
     opt.add_argument(
         "-b","--build", default=None, required=False, type=str, metavar='str',
         help=
-        """Comma-separated list of genome build of summary stats file(s) listed
-        in the same order as sumstats files. Accepted values: hg18, hg19, hg38.
-        E.g. hg19,hg38,hg38,hg18 means:
-        file1.txt.gz --> hg19
-        file2.txt.gz --> hg38
-        file3.tsv --> hg38
-        file4.tsv --> hg18 ... etc
-        hg18 and hg19 coordinates are lifted to hg38 before plotting.
+        """Comma-separated per-file genome-build spec, in the same order
+        as --sum_stats.  Each entry is either:
+
+          * a literal build name — hg18, hg19, hg38 (aliases GRCh37,
+            GRCh38, b37, b38, NCBI36 also accepted), or
+
+          * `col:<colname>` (equivalently `C:<colname>`), meaning
+            "for this file, source per-row builds from the named
+            column".  Useful when one file carries a build column
+            with a non-standard name that pycmplot's auto-detector
+            can't find (e.g. `my_build`), while the other files
+            declare a single literal build.
+
+          * a bare column marker — `col`, `column`, `C`, `col:`,
+            `column:`, `C:` — meaning "this file has a build column;
+            find it using the standard candidate list (BUILD /
+            Genome / Genome_Build / Genome-build)".  Handy when you
+            know the file has a build column but don't want to look
+            up its exact name; pycmplot only errors out if none of
+            the standard names match.
+
+        E.g. `--build hg19,hg38,col:my_build` means:
+          file1  -> hg19 (literal, applied to every row)
+          file2  -> hg38 (literal, applied to every row)
+          file3  -> per-row builds read from column 'my_build'
+
+        hg18/hg19 coordinates are lifted to hg38 before plotting
+        whenever the loader group (or a single file) spans more than
+        one distinct build.
         """
     )
     opt.add_argument(
@@ -423,8 +444,12 @@ def get_arguments(descmsg: str = DESCMSG) -> argparse.Namespace:
         "--clear_cache",
         action="store_true",
         help=(
-            "Delete the cache directory before running.  Useful when a "
-            "cached track is suspected to be corrupted."
+            "Remove pycmplot cache artefacts before running.  Only "
+            "the metadata.json manifest, the tracks/ subdirectory, "
+            "and the annotations/ subdirectory are touched — the "
+            "parent --cache_dir itself is never deleted, and any "
+            "user-owned files under those subdirs are left alone.  "
+            "Useful when a cached track is suspected to be corrupted."
         ),
     )
 
@@ -493,7 +518,28 @@ def get_arguments(descmsg: str = DESCMSG) -> argparse.Namespace:
     opt.add_argument(
         "-hlc", "--highlight_line_color", default="grey", type=str, metavar="str",
         help="Color of highlight line (default: grey)."
-    )    
+    )
+    opt.add_argument(
+        "-no_hll", "--no_highlight_legend", action="store_true",
+        help=(
+            "Suppress the 'Highlighted Categories' legend entirely.  "
+            "Handy for multi-panel figures where the same legend is "
+            "shown on the first panel only (which then reads as a "
+            "shared legend for the whole figure)."
+        ),
+    )
+    opt.add_argument(
+        "-hll_loc", "--highlight_legend_loc", default="upper center",
+        type=str, metavar="str",
+        help=(
+            "Location of the 'Highlighted Categories' legend when the "
+            "hits overlay carries user-set categories.  Any matplotlib "
+            "loc string works: 'upper center' (default), 'upper right', "
+            "'upper left', 'lower center', 'lower left', 'lower right', "
+            "'center', 'best'.  Move to a less crowded corner when the "
+            "default overlaps annotations."
+        ),
+    )
     opt.add_argument(
         "-col", "--colors", default="steelblue,silver", type=str, metavar="str",
         help="Two comma-separated alternating chromosome colours (default: steelblue,silver)."

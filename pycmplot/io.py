@@ -521,7 +521,7 @@ def get_output_paths(
 # ---------------------------------------------------------------------------
 # input formatter
 # ---------------------------------------------------------------------------
-def prep_pycmplot_input_info(
+def prep(
     sum_stats: list[str],
     labels: list[str],
     build_column: Optional[str] = None,
@@ -640,6 +640,67 @@ def prep_pycmplot_input_info(
     pvl_candidates = [c for c in pvl_candidates if c]
 
     # ------------------------------------------------------------------
+    # Per-file build tokens
+    # ------------------------------------------------------------------
+    # Each entry of ``build_list`` can now take one of two shapes:
+    #
+    #   • Literal build name — ``"hg19"``, ``"hg38"``, ``"GRCh37"``, …
+    #     (all values recognised by the ``BUILD_MAP`` further down).
+    #     Treated identically to the pre-0.4.x behaviour: the file
+    #     has no per-row build column, so we stamp every row with the
+    #     given build.
+    #
+    #   • Column-reference token — ``"col:<colname>"`` (case-insensitive
+    #     prefix; ``"C:<colname>"`` is also accepted as the shorthand
+    #     Kevin proposed).  Says "for this file, source per-row builds
+    #     from the column named ``<colname>``".  Useful when *most*
+    #     files declare their build via ``--build`` but one file happens
+    #     to carry a per-row build column with a non-standard name
+    #     (e.g. ``my_build``) that the auto-detector can't find.
+    #
+    # The parser returns a tuple ``(kind, value)`` where ``kind`` is
+    # either ``"literal"`` or ``"column"``.  Anything unparseable falls
+    # through as ``("literal", token)`` and is validated later by the
+    # BUILD_MAP lookup — that keeps the error message pointing at the
+    # actual offending token instead of at this parser.
+    def _parse_build_token(token: str) -> tuple[str, Optional[str]]:
+        """Classify a ``--build`` token as either a literal or a column ref.
+
+        Returns ``("literal", "hg19")`` for a plain build name and
+        ``("column", "my_build")`` for an explicit column reference.
+
+        Ergonomic fallback: a bare marker with no name — ``col:``,
+        ``col``, ``column``, ``C:``, ``C``, etc. — resolves to
+        ``("column", None)``, meaning "this file has a build column
+        somewhere; auto-detect its name using the standard candidate
+        list (``BUILD`` / ``Genome`` / …).  We only complain if that
+        auto-detection also fails.  This matches what a user
+        naturally types when they know a file has *some* build column
+        and don't want to type its exact name.
+        """
+        if token is None:
+            return ("literal", None)
+        s = str(token).strip()
+        # Prefixed form.  Empty name after the prefix is legal and
+        # means "auto-detect using standard build-column candidates".
+        for prefix in ("col:", "COL:", "column:", "Column:", "C:", "c:"):
+            if s.startswith(prefix):
+                colname = s[len(prefix):].strip()
+                return ("column", colname if colname else None)
+        # Bare short-form marker: `c`, `col`, `column` (any case).
+        # Same "auto-detect" intent as the prefixed empty form.
+        if s.lower() in ("c", "col", "column"):
+            return ("column", None)
+        return ("literal", s)
+
+    # Pre-parse every token so downstream code inspects a normalised
+    # tuple instead of re-running the prefix check per iteration.
+    if build_list is None:
+        _build_tokens: list[tuple[str, str] | None] = []
+    else:
+        _build_tokens = [_parse_build_token(b) for b in build_list]
+
+    # ------------------------------------------------------------------
     # Build-column candidate list (shared across all files)
     # ------------------------------------------------------------------
     if build_column:
@@ -685,12 +746,56 @@ def prep_pycmplot_input_info(
                 f"  Details: {exc}"
             )
 
-        # Detect build column in this file's header
+        # Detect build column in this file's header.
+        #
+        # Precedence (highest wins):
+        #   1. Per-file ``col:<name>`` token from ``build_list``
+        #      (user says "for this file, look at THIS column").
+        #   2. Auto-detected column matching one of ``bld_candidates``.
+        # If (1) resolves to a name that doesn't exist in the file's
+        # header we fail fast — the user asked for something specific
+        # and shouldn't get silent fallback.
         bcol = None
-        for c in hdr:
-            if c in set(bld_candidates):
-                bcol = c
-                break
+        _tok = _build_tokens[idx] if idx < len(_build_tokens) else None
+        if _tok is not None and _tok[0] == "column":
+            _requested = _tok[1]
+            if _requested is None:
+                # Bare `col` / `col:` / `C` / etc. — user is saying
+                # "use this file's build column" but didn't name it.
+                # Fall back to the standard candidate list; only
+                # error out if nothing matches.
+                for c in hdr:
+                    if c in set(bld_candidates):
+                        bcol = c
+                        break
+                if bcol is None:
+                    sys.exit(
+                        f"Error: --build entry for {fpath} is a bare "
+                        "column marker (no explicit column name), and "
+                        "none of the standard build-column names "
+                        f"({sorted(set(bld_candidates))[:8]}...) appears "
+                        f"in the file's header.\n"
+                        f"  Header: {hdr}\n"
+                        "  Use `col:<colname>` to name the column "
+                        "explicitly, or a literal build "
+                        "(hg18/hg19/hg38) to stamp every row."
+                    )
+            else:
+                # Match case-insensitively against the header — file
+                # authors are often inconsistent about column casing.
+                _hits = [c for c in hdr if c.lower() == _requested.lower()]
+                if not _hits:
+                    sys.exit(
+                        f"Error: --build entry for {fpath} references "
+                        f"column {_requested!r}, but the file's header "
+                        f"does not contain that column.\n  Header: {hdr}"
+                    )
+                bcol = _hits[0]
+        else:
+            for c in hdr:
+                if c in set(bld_candidates):
+                    bcol = c
+                    break
 
         if bcol is not None:
             # File has an explicit build column — use it
@@ -711,8 +816,14 @@ def prep_pycmplot_input_info(
             }
             sumstats_hdr_dic[name] = [old_cols, col_dtypes, new_cols, file_sep]
 
-        elif isinstance(build_list, list) and idx < len(build_list):
-            # No build column, but a per-file build was supplied via --build
+        elif (idx < len(_build_tokens)
+              and _build_tokens[idx] is not None
+              and _build_tokens[idx][0] == "literal"
+              and _build_tokens[idx][1] is not None):
+            # No build column, but a literal per-file build was
+            # supplied via --build (e.g. "hg19").  The ``col:`` case
+            # is handled by the branch above via the ``bcol`` path;
+            # only literal build tokens flow through here.
             old_cols = [chrom_col, pos_col, snp_col, pcol_col]
             new_cols = {
                 chrom_col: "CHR",
@@ -727,7 +838,7 @@ def prep_pycmplot_input_info(
                 pcol_col:  float,
             }
             sumstats_hdr_dic[name] = [
-                old_cols, col_dtypes, new_cols, file_sep, build_list[idx]
+                old_cols, col_dtypes, new_cols, file_sep, _build_tokens[idx][1]
             ]
 
         else:
@@ -967,7 +1078,7 @@ def process_signif_line(
 # Main loader
 # ---------------------------------------------------------------------------
 
-def get_sumstats_and_merged_sector_list(
+def load(
     sum_stats: list[str],
     labels: list[str],
     logp: bool = False,
@@ -1220,6 +1331,126 @@ def get_sumstats_and_merged_sector_list(
     # earlier setting linger on disk but are not consulted (users who
     # want to carry a hand-edit forward can copy rows across manually).
     _track_cache_keys: list[str] = []
+
+    # ------------------------------------------------------------------
+    # Cross-file build detection (group-level liftover trigger)
+    # ------------------------------------------------------------------
+    # Before pycmplot 0.4.x the liftover check inside the per-track
+    # loop only inspected each file's *own* BUILD column and fired
+    # liftover when that single file had mixed hg19/hg38 rows.  When
+    # two files were each *internally* single-build but had *different*
+    # declared builds — e.g. one hg19 and one hg38 — no liftover fired,
+    # every track was plotted in its native coordinate system, and
+    # highlight lines drawn across tracks no longer traced the same
+    # locus.  Fix: scan the whole loader group up front, and if the
+    # group contains more than one distinct build, unify to hg38 by
+    # lifting every hg18/hg19 track (an hg38-only or single-build
+    # group is unchanged).
+    #
+    # ``_declared_build_for`` looks in two places, in order:
+    #   1. The ``build_list=`` value stored in file_info[label][4]
+    #      (populated from the API kwarg or the CLI ``--build``).
+    #   2. A light-touch peek at the file's BUILD column (up to 2000
+    #      rows), for files that declare builds *inside* the sumstats
+    #      TSV instead of via the loader argument.
+    # Unknown / unpeekable files return ``None`` and are ignored in
+    # the mixed-build test — we only trigger when we can *prove* the
+    # group is mixed.  The peek uses ``pd.read_csv(nrows=2000)`` which
+    # is negligible even against 100 M-row files.
+    _BUILD_MAP = {
+        "hg38": "hg38", "grch38": "hg38", "b38": "hg38", "38": "hg38",
+        "hg19": "hg19", "grch37": "hg19", "b37": "hg19", "19": "hg19",
+        "hg18": "hg18", "ncbi36": "hg18", "18": "hg18",
+    }
+    _BUILD_COL_CANDIDATES = ("BUILD", "Genome", "Genome_Build", "Genome-build")
+
+    def _declared_build_for(label: str) -> Optional[str]:
+        # (1) explicit ``build_list=`` entry — but only when it's a
+        # literal build.  A ``col:<name>`` token means "look at that
+        # column in the file", so it routes to the peek path with
+        # the user-supplied column name overriding the default
+        # candidate list.
+        _b = None
+        _forced_col = None
+        try:
+            _b = file_info[label][4]
+        except (IndexError, KeyError, TypeError):
+            _b = None
+        if _b:
+            _s = str(_b).strip()
+            _prefixed = False
+            for _p in ("col:", "COL:", "column:", "Column:", "C:", "c:"):
+                if _s.startswith(_p):
+                    _forced_col = _s[len(_p):].strip() or None
+                    _prefixed = True
+                    break
+            # Bare-marker forms (``c`` / ``col`` / ``column``) also
+            # mean "look at the file's build column" without pinning
+            # a specific name.  Both prefixed-empty and bare forms
+            # fall through to auto-detection below.
+            if not _prefixed and _s.lower() in ("c", "col", "column"):
+                _forced_col = None
+                _prefixed = True
+            if not _prefixed:
+                return _BUILD_MAP.get(_s.lower())
+        # (2) peek at the file's BUILD column
+        try:
+            _path = sumstats[label][0]
+            _sep = file_info[label][3]
+        except (IndexError, KeyError, TypeError):
+            return None
+        try:
+            _peek = pd.read_csv(_path, sep=_sep, nrows=2000)
+        except Exception:
+            return None
+        if _forced_col is not None:
+            # User told us exactly which column to read; look case-
+            # insensitively and fall through to None if the column
+            # isn't there (``prep_pycmplot_input_info`` will already
+            # have raised a clean error before we reach this point).
+            _match = next(
+                (c for c in _peek.columns if c.lower() == _forced_col.lower()),
+                None,
+            )
+            _col = _match
+        else:
+            _col = next(
+                (c for c in _BUILD_COL_CANDIDATES if c in _peek.columns), None,
+            )
+        if _col is None:
+            return None
+        _values = (
+            _peek[_col].dropna().astype(str).str.strip().str.lower().unique()
+        )
+        _normed = {_BUILD_MAP[v] for v in _values if v in _BUILD_MAP}
+        if not _normed:
+            return None
+        # A file with per-row mixed builds already trips the existing
+        # per-file liftover check downstream — nothing extra needed
+        # from us.  When only one distinct build lives in the column,
+        # advertise that single build so the group-level detector
+        # can see whether the tracks disagree.
+        return next(iter(_normed)) if len(_normed) == 1 else "mixed"
+
+    _declared_builds = {
+        label: _declared_build_for(label) for label in _ordered_labels
+    }
+    _group_build_set = {
+        b for b in _declared_builds.values()
+        if b in ("hg18", "hg19", "hg38")
+    }
+    # More than one distinct declared build across the group means the
+    # tracks live in different coordinate systems and must be unified
+    # to hg38 for cross-track highlight lines to line up.
+    _cross_file_liftover = len(_group_build_set) > 1
+    if _cross_file_liftover:
+        logger.info(
+            "Cross-file mixed builds detected across the loader group "
+            "(%s); hg18/hg19 tracks will be lifted over to hg38 so that "
+            "highlight lines and shared coordinates align.",
+            "/".join(sorted(_group_build_set)),
+        )
+
     for label in _ordered_labels:
         # ---- Cache lookup fast path ----------------------------------
         _cache_key = None
@@ -1505,14 +1736,37 @@ def get_sumstats_and_merged_sector_list(
             builds = df["BUILD"].unique()
         else:
             builds = []
-        if "BUILD" in df.columns and (
+        # Per-file liftover (unchanged): fires when this file's own
+        # BUILD column carries hg18 rows, or a mix of hg19 and hg38
+        # rows within the same file.
+        _needs_lift_file = "BUILD" in df.columns and (
             "hg18" in builds or ("hg19" in builds and "hg38" in builds)
-        ):
+        )
+        # Group-level liftover (0.4.x): fires when the whole loader
+        # group carries more than one distinct declared build AND this
+        # particular file is hg18/hg19.  Without this branch, a
+        # ``[hg19, hg38]`` group left every track in its native
+        # coordinate system, so cross-track highlight lines drew at
+        # different genomic positions (bug reported 2026-09-05).
+        _this_declared = _declared_builds.get(label)
+        _needs_lift_group = (
+            _cross_file_liftover
+            and _this_declared in ("hg18", "hg19")
+            and "BUILD" in df.columns
+            and any(b in builds for b in ("hg18", "hg19"))
+        )
+        if _needs_lift_file or _needs_lift_group:
             builds_present = sorted(
                 b for b in builds if b in {"hg18", "hg19"}
             )
+            _reason = (
+                "same-file mixed builds"
+                if _needs_lift_file
+                else "cross-file mixed builds in the loader group"
+            )
             logger.info(
-                "Converting %s coordinates to hg38 ...", "/".join(builds_present)
+                "Converting %s coordinates to hg38 (%s) ...",
+                "/".join(builds_present), _reason,
             )
             df = liftover_position(df, resources=resources)
 
@@ -1712,3 +1966,25 @@ def get_sumstats_and_merged_sector_list(
         
     logger.info("All processes completed successfully!")
     return {"sectors": merged, "dfs": sumstats_loaded, "annot": hits_table, "lines": signif_lines, "pvals": pval_dict}
+
+
+# ---------------------------------------------------------------------------
+# Backwards-compatible aliases (deprecated in 0.4.x)
+# ---------------------------------------------------------------------------
+# The two entry points above were renamed from ``prep_pycmplot_input_info``
+# → ``prep`` and ``get_sumstats_and_merged_sector_list`` → ``load`` so that
+# ``pycmplot as pcm; pcm.prep(...); pcm.load(...)`` reads naturally.  The
+# old names remain importable for one release cycle; each call emits a
+# single DeprecationWarning and delegates to the new function.  Internal
+# pycmplot code was updated to use the new names on the same commit, so
+# only user scripts that pinned the old names will see the warning.
+from pycmplot._deprecation import _deprecated_alias as _da
+
+prep_pycmplot_input_info = _da(
+    prep, old_name="prep_pycmplot_input_info", new_name="prep",
+)
+get_sumstats_and_merged_sector_list = _da(
+    load,
+    old_name="get_sumstats_and_merged_sector_list",
+    new_name="load",
+)

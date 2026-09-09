@@ -562,7 +562,7 @@ def plot_qq_single(
 # Combined multi-panel figure
 # ---------------------------------------------------------------------------
 
-def plot_qq_combined(
+def qq_combined(
     pval_dict: dict[str, np.ndarray | pd.Series],
     colors: Optional[list[str]] = None,
     point_size: float = 8,
@@ -670,7 +670,7 @@ def plot_qq_combined(
 # Separate figures — one file per sumstat
 # ---------------------------------------------------------------------------
 
-def plot_qq_separate(
+def qq_separate(
     pval_dict: dict[str, np.ndarray | pd.Series],
     base_name: str = None,
     output_path: str = ".",
@@ -772,7 +772,7 @@ def plot_qq_separate(
 # Overlay — all sumstats on one axes
 # ---------------------------------------------------------------------------
 
-def plot_qq_overlay(
+def qq_overlay(
     pval_dict: dict[str, np.ndarray | pd.Series],
     colors: Optional[list[str]] = None,
     point_size: float = 8,
@@ -936,3 +936,21 @@ def plot_qq_overlay(
         logger.info("Saved overlay QQ plot: %s", f"{output_path}.{fmt}")
 
     return fig, ax
+
+
+# ---------------------------------------------------------------------------
+# Backwards-compatible aliases (deprecated in 0.4.x)
+# ---------------------------------------------------------------------------
+# The three QQ entry points shed the ``plot_`` prefix so the API reads as
+# ``pcm.qq_combined(...)``, ``pcm.qq_overlay(...)``, ``pcm.qq_separate(...)``.
+# Old names remain importable for one release cycle with a soft warning.
+from pycmplot._deprecation import _deprecated_alias as _da
+plot_qq_combined = _da(
+    qq_combined, old_name="plot_qq_combined", new_name="qq_combined",
+)
+plot_qq_overlay = _da(
+    qq_overlay, old_name="plot_qq_overlay", new_name="qq_overlay",
+)
+plot_qq_separate = _da(
+    qq_separate, old_name="plot_qq_separate", new_name="qq_separate",
+)

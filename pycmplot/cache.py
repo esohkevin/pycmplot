@@ -357,11 +357,153 @@ class TrackCache:
             if entry.get("label") == label
         ]
 
+    # Filename patterns we consider "pycmplot-owned" under the two
+    # subdirectories.  Anything not matching one of these is left
+    # alone by :meth:`clear` so users who point ``--cache_dir`` at a
+    # directory that also holds unrelated files can't lose data.
+    _TRACKS_FILE_PATTERNS = (
+        re.compile(r"^.+\.[0-9a-f]{4,64}\.parquet$"),                # main frame
+        re.compile(r"^.+\.[0-9a-f]{4,64}\.leads\.parquet$"),         # leads
+        re.compile(r"^.+\.[0-9a-f]{4,64}\.pvals\.(npz|parquet|npy)$"),  # pvals
+        # Historical/legacy layouts we still recognise as ours.
+        re.compile(r"^.+\.parquet$"),
+        re.compile(r"^.+\.pvals\.(npz|parquet|npy)$"),
+    )
+    _ANNOTATIONS_FILE_PATTERNS = (
+        re.compile(r"^hits\.[0-9a-f]{4,64}\.tsv$"),
+        re.compile(r"^hits\.[0-9a-f]{4,64}\.meta\.json$"),
+        # Legacy single-group layout, before 0.4.x
+        re.compile(r"^hits\.tsv$"),
+        re.compile(r"^hits\.meta\.json$"),
+    )
+
     def clear(self) -> None:
-        """Remove all cache files and reset the in-memory metadata."""
-        if self.cache_dir.exists():
-            shutil.rmtree(self.cache_dir)
+        """Remove pycmplot cache artefacts and reset the in-memory metadata.
+
+        **Safety model.**  This method never removes ``cache_dir``
+        itself.  It targets only the three artefacts pycmplot writes:
+
+        * ``metadata.json`` — the top-level manifest.
+        * ``tracks/`` — per-track parquet + leads + pvals sidecars.
+        * ``annotations/`` — group-scoped ``hits.<group>.tsv`` overlays
+          and their ``.meta.json`` sidecars.
+
+        Before deleting ``metadata.json`` we verify it *looks like a
+        pycmplot metadata file* (has ``cache_version`` + ``tracks``
+        keys, or is empty/JSON-invalid — both cases are safely ours to
+        drop).  Inside each subdirectory we only delete files that
+        match the pycmplot filename conventions (see
+        :attr:`_TRACKS_FILE_PATTERNS` and :attr:`_ANNOTATIONS_FILE_PATTERNS`);
+        anything foreign is left untouched and logged at INFO level.
+        Empty subdirectories are then removed; non-empty ones (because
+        the user dropped their own files inside) stay behind so
+        nothing is silently lost.
+
+        Motivation: an earlier release did
+        ``shutil.rmtree(cache_dir)``, which would blow away
+        *everything* under whatever the user pointed ``--cache_dir`` at
+        — a serious footgun when the same directory happened to hold
+        analysis notes, plot outputs, or other unrelated files.
+        """
+        cache_dir = self.cache_dir
+        if not cache_dir.exists():
+            self._metadata = self._empty_metadata()
+            return
+
+        # ---- 1. metadata.json ------------------------------------------
+        if self.metadata_path.exists():
+            _looks_ours = False
+            try:
+                _blob = json.loads(self.metadata_path.read_text() or "{}")
+                if isinstance(_blob, dict) and (
+                    "cache_version" in _blob or "tracks" in _blob
+                    or not _blob  # empty dict was written by a very old build
+                ):
+                    _looks_ours = True
+            except json.JSONDecodeError:
+                # Corrupt / non-JSON — safe to treat as ours; the file
+                # is inside our own subdir already.
+                _looks_ours = True
+            except Exception as exc:  # pragma: no cover — I/O race
+                logger.warning(
+                    "Could not inspect %s (%s); leaving it in place.",
+                    self.metadata_path, exc,
+                )
+            if _looks_ours:
+                try:
+                    self.metadata_path.unlink()
+                except Exception as exc:  # pragma: no cover
+                    logger.warning(
+                        "Failed to remove %s: %s",
+                        self.metadata_path, exc,
+                    )
+            else:
+                logger.info(
+                    "Leaving %s in place — file does not look like a "
+                    "pycmplot metadata manifest (missing 'cache_version' "
+                    "and 'tracks' keys).", self.metadata_path,
+                )
+
+        # ---- 2. tracks/ + annotations/ ---------------------------------
+        self._prune_subdir(
+            self.tracks_dir,
+            self._TRACKS_FILE_PATTERNS,
+            label="tracks",
+        )
+        # Import lazily to avoid a top-of-file circular dep on the
+        # module-level ``ANNOTATIONS_SUBDIR`` constant (defined later
+        # in this file).
+        annotations_dir = cache_dir / ANNOTATIONS_SUBDIR
+        self._prune_subdir(
+            annotations_dir,
+            self._ANNOTATIONS_FILE_PATTERNS,
+            label="annotations",
+        )
+
+        # ---- 3. Reset in-memory state ----------------------------------
         self._metadata = self._empty_metadata()
+
+    @staticmethod
+    def _prune_subdir(subdir: Path,
+                      patterns: tuple,
+                      label: str) -> None:
+        """Delete files matching *patterns* under *subdir*, then rmdir if empty.
+
+        Foreign files (anything not matching one of the pycmplot
+        filename patterns) are left in place and the user is told at
+        INFO level.  A non-empty subdir at the end is kept — we never
+        force-remove a directory the user might have added their own
+        files to.
+        """
+        if not subdir.exists() or not subdir.is_dir():
+            return
+        _kept: list[str] = []
+        for entry in subdir.iterdir():
+            if not entry.is_file():
+                # Nested directory the user put here — untouched.
+                _kept.append(entry.name)
+                continue
+            if any(pat.match(entry.name) for pat in patterns):
+                try:
+                    entry.unlink()
+                except Exception as exc:  # pragma: no cover
+                    logger.warning("Failed to remove %s: %s", entry, exc)
+                    _kept.append(entry.name)
+            else:
+                _kept.append(entry.name)
+        if _kept:
+            logger.info(
+                "Kept %d non-pycmplot file(s) under %s/: %s",
+                len(_kept), label,
+                ", ".join(sorted(_kept)[:6])
+                + (" …" if len(_kept) > 6 else ""),
+            )
+            return
+        # Directory is now empty — drop it.
+        try:
+            subdir.rmdir()
+        except Exception as exc:  # pragma: no cover
+            logger.warning("Failed to rmdir %s: %s", subdir, exc)
 
     # ---- metadata helpers ----------------------------------------------
 
