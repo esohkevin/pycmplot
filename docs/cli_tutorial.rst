@@ -84,10 +84,8 @@ The canonical minimum invocation is:
 
 .. figure:: img/mycmplot_trait1_lm_logp.png
    :alt: linear Manhattan plot with base options
-   :width: 400px
+   :width: 800px
 
-   Linear Manhattan with base options
-```
 
 That's a valid Manhattan plot (linear by detault) for ``./data/sumstats_1M_mixedbuild_trait1.tsv.gz`` 
 file, with p-values shown as ``-log10(P)``, written into ``./out/``.  
