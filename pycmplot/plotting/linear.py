@@ -294,7 +294,7 @@ def _draw_annotation_arrows(
 
             arrow = FancyArrowPatch(
                 (x_txt, y_txt),
-                (x_sig, y_tip - 0.05),
+                (x_sig, y_tip),
                 arrowstyle="-|>",
                 mutation_scale=8,
                 lw=0.6,
@@ -981,6 +981,8 @@ def plot_linearm(
     dpi: int = 300,
     figsize: Optional[list[float]] = [10, 4],
     ax: Optional[plt.Axes] = None,
+    highlight_legend: bool = True,
+    highlight_legend_loc: Optional[str | tuple] = "upper center",
 ):
     """Core rendering engine for the multi-track stacked linear Manhattan plot.
 
@@ -1103,7 +1105,8 @@ def plot_linearm(
     pos_col = "POS"
     p_col = "P"
 
-    annot_df = annot_df.drop_duplicates(subset=[chr_col, pos_col, label_col])
+    if annot_df is not None and not annot_df.empty:
+        annot_df = annot_df.drop_duplicates(subset=[chr_col, pos_col, label_col])
 
     if chr_order is None:
         chr_order = CHROM_ORDER
@@ -1451,7 +1454,13 @@ def plot_linearm(
     # When nothing has been customised, this returns an empty list
     # and no legend is added -- matches the pre-feature layout.
     # ------------------------------------------------------------------
-    if highlight and annot_df is not None and not annot_df.empty:
+    # ``highlight_legend`` is the master on/off switch — when ``False``
+    # the legend block is skipped entirely regardless of whether the
+    # overlay carries user-set categories.  This lets multi-panel
+    # figures render the legend on the top panel only (as a shared
+    # legend for all panels) without every panel drawing its own copy.
+    if (highlight and highlight_legend
+            and annot_df is not None and not annot_df.empty):
         try:
             from pycmplot.annotation import build_highlight_legend_entries
             _legend_entries = build_highlight_legend_entries(
@@ -1479,15 +1488,27 @@ def plot_linearm(
                 for cat, c in _legend_entries
             ]
             _top_ax = loop_axes[0]
+            # ``highlight_legend_loc`` is a user-facing knob so the
+            # legend can be repositioned to the least crowded corner
+            # of the plot on a per-figure basis.  Accepts any
+            # matplotlib loc string or an ``(x, y)`` tuple for
+            # bbox_to_anchor placement — see
+            # :func:`~pycmplot.annotation.resolve_highlight_legend_placement`.
+            from pycmplot.annotation import (
+                resolve_highlight_legend_placement,
+            )
+            _placement = resolve_highlight_legend_placement(
+                highlight_legend_loc,
+            )
             _top_ax.legend(
                 handles=handles,
-                loc="upper right",
                 title="Highlighted Categories",
                 fontsize=annotation_size,
                 title_fontsize=annotation_size,
                 frameon=True,
                 framealpha=0.85,
                 edgecolor="lightgrey",
+                **_placement,
             )
 
     # ------------------------------------------------------------------
@@ -1554,7 +1575,7 @@ def plot_linearm(
     return fig, axes
 
 
-def plot_linear(
+def linear(
     sumstats_loaded: list[str],
     track_heights: list[float] = None,
     logp: bool = False,
@@ -1584,6 +1605,8 @@ def plot_linear(
     output_dir: Optional[str] = '.',
     figsize: Optional[list[float]] = [10, 4],
     ax: Optional[plt.Axes] = None,
+    highlight_legend: bool = True,
+    highlight_legend_loc: Optional[str | tuple] = "upper center",
 ):
     """Generate a multi-track stacked linear Manhattan plot.
 
@@ -1751,6 +1774,15 @@ def plot_linear(
         fig_format=output_format,
         figsize=figsize,
         ax=ax,
+        highlight_legend=highlight_legend,
+        highlight_legend_loc=highlight_legend_loc,
     )
 
     return axes
+
+
+# ---------------------------------------------------------------------------
+# Backwards-compatible alias (deprecated in 0.4.x)
+# ---------------------------------------------------------------------------
+from pycmplot._deprecation import _deprecated_alias as _da
+plot_linear = _da(linear, old_name="plot_linear", new_name="linear")

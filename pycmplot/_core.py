@@ -78,21 +78,91 @@ def main() -> None:
     """
 
     # ------------------------------------------------------------------
+    # `pycmplot edit` subcommand preflight
+    # ------------------------------------------------------------------
+    # Adding this as an argparse subparser would break every existing
+    # ``pycmplot --sum_stats …`` invocation (subparsers make the first
+    # positional required).  Instead, we peel off ``edit`` here before
+    # the main parser sees it and dispatch to the optional Streamlit
+    # editor.  Nothing else in the pipeline is affected.
+    import sys as _sys
+    if len(_sys.argv) >= 2 and _sys.argv[1] == "hits":
+        # Batch CLI for the hits overlay: `pycmplot hits list …`,
+        # `pycmplot hits set --where 'P<5e-8' --color red …`, etc.
+        # Dispatched from here (not an argparse subparser) for the
+        # same backward-compat reason as ``edit``: the main parser
+        # has required ``--sum_stats``, and a subparser would break
+        # every existing invocation.
+        from pycmplot.hits_cli import dispatch as _hits_dispatch
+        _hits_dispatch(_sys.argv[2:])
+        return
+    if len(_sys.argv) >= 2 and _sys.argv[1] == "edit":
+        import argparse as _ap
+        _edit_parser = _ap.ArgumentParser(
+            prog="pycmplot edit",
+            description=(
+                "Launch a browser-based editor for the cached hits "
+                "overlay TSV.  Requires the optional 'editor' extra: "
+                "`pip install \"pycmplot[editor]\"`."
+            ),
+        )
+        _edit_parser.add_argument(
+            "--cache_dir", default=".pycmplot_cache",
+            help="Cache directory to edit (default: .pycmplot_cache).",
+        )
+        _edit_parser.add_argument(
+            "--group", default=None,
+            help=(
+                "Group key of the hits overlay to edit.  Omit when only "
+                "one overlay exists under --cache_dir; required otherwise."
+            ),
+        )
+        _edit_parser.add_argument("--host", default="localhost")
+        _edit_parser.add_argument("--port", default=8501, type=int)
+        _edit_parser.add_argument(
+            "--tui", action="store_true",
+            help=(
+                "Use the terminal UI backend (Textual) instead of the "
+                "browser backend (Streamlit).  Ideal for SSH-only "
+                "cluster sessions with no display.  Requires the "
+                "'editor-tui' extra: `pip install \"pycmplot[editor-tui]\"`."
+            ),
+        )
+        _edit_args = _edit_parser.parse_args(_sys.argv[2:])
+        if _edit_args.tui:
+            # TUI backend ignores host/port — it renders in the local
+            # terminal, no HTTP server involved.
+            from pycmplot.editor_tui import launch as _tui_launch
+            _tui_launch(
+                cache_dir=_edit_args.cache_dir,
+                group=_edit_args.group,
+            )
+        else:
+            from pycmplot.editor import launch as _edit_launch
+            _edit_launch(
+                cache_dir=_edit_args.cache_dir,
+                group=_edit_args.group,
+                host=_edit_args.host,
+                port=_edit_args.port,
+            )
+        return
+
+    # ------------------------------------------------------------------
     # Deferred imports so ``import pycmplot`` remains fast
     # ------------------------------------------------------------------
     from pycmplot.cli import get_arguments, DESCMSG
     from pycmplot.io import (
-        get_sumstats_and_merged_sector_list,
-        prep_pycmplot_input_info,
+        load,
+        prep,
         get_output_paths,
         strip_comma_separated_input_streams,
         #detect_delimiter,
         #resolve_delimiter,
         #get_file_header,
     )
-    from pycmplot.plotting.linear import plot_linear
-    from pycmplot.plotting.circular import plot_circular
-    from pycmplot.plotting.qq import plot_qq_combined, plot_qq_separate, plot_qq_overlay
+    from pycmplot.plotting.linear import linear
+    from pycmplot.plotting.circular import circular
+    from pycmplot.plotting.qq import qq_combined, qq_separate, qq_overlay
     from pycmplot.resources import ResourceConfig
     from pycmplot.annotation import get_annotation_column
 
@@ -135,12 +205,18 @@ def main() -> None:
     pcol_arg         = args.pval_column
     logp             = args.logp
     qq               = args.qq_plot
-    qq_separate      = args.qq_separate
+    # Layout flags renamed to ``_flag`` suffix so they don't shadow the
+    # imported ``qq_separate`` / ``qq_overlay`` functions (name clash
+    # introduced by the 0.4.x rename that dropped the ``plot_`` prefix
+    # — a plain ``qq_overlay = args.qq_overlay`` bound the bool to the
+    # function name and any subsequent ``qq_overlay(...)`` call raised
+    # ``TypeError: 'bool' object is not callable``).
+    qq_separate_flag = args.qq_separate
+    qq_overlay_flag  = args.qq_overlay
     qq_ncols         = args.qq_ncols
     qq_thin          = args.qq_thin
     thin_below       = args.thin_below
     qq_max_points    = args.qq_max_points
-    qq_overlay       = args.qq_overlay    
     chrom_label_size = args.chrom_label_size
     chrom_label_side = args.chrom_label_side
     track_label_size = args.track_label_size
@@ -158,6 +234,11 @@ def main() -> None:
     highlight_color   = args.highlight_color
     highlight_line   = args.highlight_line
     highlight_line_color = args.highlight_line_color
+    highlight_legend_loc = getattr(args, "highlight_legend_loc", "upper center")
+    # ``--no_highlight_legend`` inverts the sense (store_true means
+    # "user asked us to suppress"), so the plotter-facing knob is
+    # ``highlight_legend = not args.no_highlight_legend``.
+    highlight_legend = not getattr(args, "no_highlight_legend", False)
     colors_raw       = args.colors
     r_min            = args.min_radius
     r_max            = args.max_radius
@@ -234,7 +315,7 @@ def main() -> None:
     # ------------------------------------------------------------------
     # Resolve column names
     # ------------------------------------------------------------------
-    sumstats_hdr_dic = prep_pycmplot_input_info(
+    sumstats_hdr_dic = prep(
         sum_stats = sum_stats,
         labels = labels,
         delim = args.delim,
@@ -254,7 +335,7 @@ def main() -> None:
     # ------------------------------------------------------------------
     # Load data, compute sectors, get hits table
     # ------------------------------------------------------------------
-    pycmplot_dict = get_sumstats_and_merged_sector_list(
+    pycmplot_dict = load(
         sum_stats=sum_stats,
         labels=labels,
         trim_pval=trim_pval,
@@ -297,7 +378,7 @@ def main() -> None:
     # ------------------------------------------------------------------
     if mode.upper() == "CM":
         logger.info("Generating CIRCULAR MANHATTAN Plot ...")
-        plot_circular(
+        circular(
             sumstats_loaded = sumstats_loaded,
             logp = logp,
             signif_line = signif_line,
@@ -306,6 +387,8 @@ def main() -> None:
             highlight_color = highlight_color,
             highlight_line = highlight_line,
             highlight_line_color = highlight_line_color,
+            highlight_legend = highlight_legend,
+            highlight_legend_loc = highlight_legend_loc,
             suggest_line = True if suggest_threshold is not None else False,
             colors = colors,
             point_size=point_size,
@@ -335,7 +418,7 @@ def main() -> None:
     else:
         logger.info("Generating LINEAR MANHATTAN Plot ...")
         logger.info(f"FIGURE SIZE: {fsize}")
-        plot_linear(
+        linear(
             sumstats_loaded=sumstats_loaded,
             track_heights=t_heights,
             logp=True if logp else False,
@@ -344,6 +427,8 @@ def main() -> None:
             highlight_color=highlight_color,
             highlight_line=highlight_line,
             highlight_line_color=highlight_line_color,
+            highlight_legend=highlight_legend,
+            highlight_legend_loc=highlight_legend_loc,
             signif_line = signif_line,
             suggest_line = True if suggest_threshold is not None else False,
             annotate=annotate,
@@ -370,8 +455,8 @@ def main() -> None:
         logger.info("Generating QQ Plot(s) ...")
         qq_stem = f"{plt_base}_qq"
  
-        if qq_separate:
-            plot_qq_separate(
+        if qq_separate_flag:
+            qq_separate(
                 pval_dict=pval_dict,
                 base_name=plot_title,
                 thin=qq_thin,
@@ -384,8 +469,8 @@ def main() -> None:
                 fontsize=plot_title_size,
                 fig_format=output_format,
             )
-        elif qq_overlay:
-            plot_qq_overlay(
+        elif qq_overlay_flag:
+            qq_overlay(
                 pval_dict=pval_dict,
                 thin=qq_thin,
                 thin_below=thin_below,
@@ -399,7 +484,7 @@ def main() -> None:
                 fig_format=output_format,
             )
         else:
-            plot_qq_combined(
+            qq_combined(
                 pval_dict=pval_dict,
                 thin=qq_thin,
                 thin_below=thin_below,

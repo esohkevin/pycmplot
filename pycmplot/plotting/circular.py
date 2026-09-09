@@ -371,7 +371,7 @@ def plot_circosm(
         )
 
 
-def plot_circular(
+def circular(
     sumstats_loaded: dict,
     sector_sizes: dict = None,
     signif_lines: dict = None,
@@ -404,6 +404,8 @@ def plot_circular(
     no_track_labels: bool = False,
     # --- NEW MULTI-PANEL PARAMETER ---
     ax: Optional[plt.Axes] = None,
+    highlight_legend: bool = True,
+    highlight_legend_loc: Optional[str | tuple] = "upper center",
 ):
     """Generate a multi-track Circos-style circular Manhattan plot.
 
@@ -744,18 +746,18 @@ def plot_circular(
             sector.text(
                 ylabel_text,
                 x=sector.end - (sector.end - sector.start) / 5,
-                r=(sector_min_r + sector_max_r) / 2
-                    + (sector_min_r + sector_max_r) / 12,
+                r=(sector_min_r + sector_max_r) / 2,
+                #    + (sector_min_r + sector_max_r) / 12,
                 adjust_rotation=False,
                 ignore_range_error=True,
-                size=float(track_label_size) / 1.5,
+                size=float(track_label_size) * 0.8,
                 color="black",
                 fontstyle="italic",
                 fontweight="regular",
                 rotation=92,
                 rotation_mode="default",
                 va="top",
-                ha="right",
+                ha="center",
             )
 
     #fig = circos.plotfig()
@@ -785,7 +787,11 @@ def plot_circular(
     #   ``highlight_color`` column (returns ``[]``), so legacy caches
     #   without those columns don't crash the plot.
     # ------------------------------------------------------------------
-    if highlight and hits_table is not None and not hits_table.empty:
+    # ``highlight_legend`` is the master on/off switch — see the
+    # linear plotter's identical block for the rationale (shared
+    # legend across a multi-panel figure).
+    if (highlight and highlight_legend
+            and hits_table is not None and not hits_table.empty):
         try:
             from pycmplot.annotation import build_highlight_legend_entries
             _legend_entries = build_highlight_legend_entries(
@@ -804,16 +810,28 @@ def plot_circular(
                 )
                 for cat, col in _legend_entries
             ]
+            # ``highlight_legend_loc`` is a user-facing knob so the
+            # legend can be moved to whichever region of the polar
+            # frame is least cluttered by highlighted signals.
+            # Accepts any matplotlib loc string (e.g. ``"upper center"``
+            # for the default top position) or an ``(x, y)`` tuple for
+            # bbox anchoring outside the polar frame (e.g.
+            # ``(0.5, -0.05)`` to sit just below the sectors, or
+            # ``(-0.05, -0.0)`` for the pre-0.4.x lower-left).  See
+            # :func:`~pycmplot.annotation.resolve_highlight_legend_placement`.
+            from pycmplot.annotation import (
+                resolve_highlight_legend_placement,
+            )
+            _placement = resolve_highlight_legend_placement(
+                highlight_legend_loc,
+            )
             circos.ax.legend(
                 handles=handles,
-                #loc="upper left",
-                #bbox_to_anchor=(-0.05, -0.0),
-                loc="upper right",
-                bbox_to_anchor=(1.05, 1.1),
                 title="Highlighted Categories",
                 fontsize=track_label_size,
                 title_fontsize=track_label_size,
                 frameon=False,
+                **_placement,
             )
 
     #if plt_name:
@@ -829,3 +847,9 @@ def plot_circular(
         logger.info("Saved circular Manhattan plot: %s", plt_name.lower())
 
     return fig
+
+# ---------------------------------------------------------------------------
+# Backwards-compatible alias (deprecated in 0.4.x)
+# ---------------------------------------------------------------------------
+from pycmplot._deprecation import _deprecated_alias as _da
+plot_circular = _da(circular, old_name="plot_circular", new_name="circular")

@@ -41,25 +41,64 @@ Setup: a synthetic dataset
 
 Every CLI invocation below assumes six synthetic sumstats files on
 disk (``trait{1..6}.tsv.gz``). Download the python script used for benchmark 
-`here`__ and run it as shown below.
+`here`_ and run it as shown below.
 
-.. __here: https://github.com/esohkevin/pycmplot/blob/main/benchmark/generate_multi_sumstats.py
+.. _here: https://github.com/esohkevin/pycmplot/blob/main/benchmark/generate_sumstats.py
 
-The code below generates six sumstats names triat1 to trait6, each containing 
+The code below generates six sumstats, ``triat1`` to ``trait6``, each containing 
 1 million SNPs. Traits 1 to 3 are in hg19 coordinate while traits 4 to 6 are 
-in hg38 coordinates. All the files are gzipped and saved in the folder ``data``.
+in hg38 coordinate. All the files are gzipped and saved in the folder ``data``.
+The ``--targets auto`` option injects 6 significant loci on chr3, chr6, chr11, 
+chr13, chr18, and chr20 in all sumstats, 2 significant loci specific to hg19 sumstats 
+(in chr2 and chr15) and 2 significant loci specific to hg38 sumstats (in chr12 and chr16). 
+These are actuall **body height** significant loci pulled from `GWAS Catalog`_.
+
+.. _GWAS Catalog: https://www.ebi.ac.uk/gwas/efotraits/OBA_VT0001253
+
+.. code-block:: bash
+   HG19_TARGET_SPIKES: list[tuple[str, int, float]] = [
+      ("3",  72_392_645,  1e-50),   # rs4677148
+      ("2",  36_733_328,  3e-08),   # rs2030645 - hg19-specific
+      ("7",  18_786_817,  7e-23),   # rs727851
+      ("10", 31_127_166,  7e-08),   # rs12413361
+      ("11", 12_879_123,  5e-09),   # rs546512774
+      ("11", 2_802_090,   9e-08),   # rs234886
+      ("15", 22_791_431,  1e-08),   # rs6606792 - hg19-specific
+      ("17", 59_498_250,  1e-41),   # rs9905385
+   ]
+
+   HG38_TARGET_SPIKES: list[tuple[str, int, float]] = [
+      ("3",  72_343_494,  1e-50),   # rs4677148
+      ("7",  18_747_194,  7e-23),   # rs727851
+      ("10", 30_838_237,  7e-08),   # rs12413361
+      ("11", 12_857_576,  5e-09),   # rs546512774
+      ("11", 2_780_860,   9e-08),   # rs234886
+      ("12", 122_933_684, 7e-09),   # rs73230017 - hg38-specific
+      ("16", 69_181_056,  1e-08),   # rs12444184 - hg38-specific
+      ("17", 61_420_889,  1e-41),   # rs9905385
+   ]
+
 
 .. code-block:: bash
 
-   python generate_multi_sumstats.py \
-      --sizes 1M \
-      --n-traits 6 \
-      --builds hg19,hg19,hg19,hg38,hg38,hg38 \
-      --gz \
-      --outdir ./data
+   for i in {1..3}; do
+      python generate_sumstats.py \
+         --n 1000000 \
+         --build hg19 \
+         --targets auto \
+         --out ./data/sumstats_1M_trait${i}_hg19.tsv.gz
+   done
 
-Use ``python generate_multi_sumstats.py -h`` to see all options. For instance, 
-you can choose to generate sumstats with 500K variants instead.
+   for i in {4..6}; do
+      python generate_sumstats.py \
+         --n 1000000 \
+         --build hg38 \
+         --targets auto \
+         --out ./data/sumstats_1M_trait${i}_hg38.tsv.gz
+   done
+
+Use ``python generate_sumstats.py -h`` to see all options.
+
 
 .. _cli-tut-load:
 
@@ -77,7 +116,7 @@ The canonical minimum invocation is:
 .. code-block:: bash
 
    pycmplot \
-     --sum_stats ./data/sumstats_1M_mixedbuild_trait1.tsv.gz \
+     --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz \
      --labels Trait1 \
      --logp \
      --output_dir ./out
@@ -87,7 +126,7 @@ The canonical minimum invocation is:
    :width: 800px
 
 
-That's a valid Manhattan plot (linear by detault) for ``./data/sumstats_1M_mixedbuild_trait1.tsv.gz`` 
+This defaults to a linear Manhattan plot for ``./data/sumstats_1M_trait1_hg19.tsv.gz`` 
 file, with p-values shown as ``-log10(P)``, written into ``./out/``.  
 The rest of this tutorial adds one feature at a time on top of that base.
 
