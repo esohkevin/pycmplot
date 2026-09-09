@@ -107,6 +107,7 @@ Use ``python generate_sumstats.py -h`` to see all options.
 
 
 .. code-block:: bash
+   
    gunzip -c ./data/sumstats_1M_trait1_hg19.tsv.gz | \
    rev  | \
    cut -f2- | \
@@ -131,7 +132,7 @@ hits-table construction), and rendering.  From the CLI you don't have
 to think about them separately: one command runs the whole pipeline
 and writes the output image(s) plus a locus summary TSV.
 
-The canonical minimum invocation is:
+**The canonical minimum invocation is:**
 
 .. code-block:: bash
 
