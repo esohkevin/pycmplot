@@ -26,9 +26,9 @@ already exist unless --force is passed.
 
 import numpy as np
 import pandas as pd
-from scipy.stats import norm
 import argparse
 import os
+from typing import Optional
 
 # hg38 (GRCh38) chromosome sizes in bp (chr1–22).  These are the reference
 # coordinates the sumstats live in unless --build hg19 is specified.
@@ -59,6 +59,182 @@ HG19_CHROM_SIZES = {
 # various analysis notebooks) imports it directly.
 CHROM_SIZES = HG38_CHROM_SIZES
 
+
+# ---------------------------------------------------------------------------
+# Target spike-in loci — well-known GWAS peaks in both coordinate systems.
+# ---------------------------------------------------------------------------
+# The synthetic sumstats should look biologically plausible, so instead of
+# planting random genome-wide-significant hits everywhere we plant *peaks*
+# at these six loci — one lead SNP per locus at the exact target position
+# with p = min_p_value, plus ~20 supporting SNPs distributed within
+# ±WINDOW_HALF_SIZE around the lead.  Supporting p-values decay from the
+# lead as ``p(d) = min_p · 10^(|d|/tau)`` with ``tau = 100 kb``, so at
+# 100 kb from the lead the p-value is 10× weaker, at 200 kb it's 100×
+# weaker.  This produces the tall lead + diffuse cloud shape typical of
+# a real GWAS Manhattan peak.
+#
+# The hg19 and hg38 lists are pre-paired — each row has the same locus 
+# identity across builds so liftover round-trips can be validated by 
+# comparing (build, position) tuples.
+HG19_TARGET_SPIKES: list[tuple[str, int, float]] = [
+    ("3",  72_392_645,  1e-50),   # rs4677148
+    ("2",  36_733_328,  3e-08),   # rs2030645 - hg19-specific
+    ("7",  18_786_817,  7e-23),   # rs727851
+    ("10", 31_127_166,  7e-08),   # rs12413361
+    ("11", 12_879_123,  5e-09),   # rs546512774
+    ("11", 2_802_090,   9e-08),   # rs234886
+    ("15", 22_791_431,  1e-08),   # rs6606792 - hg19-specific
+    ("17", 59_498_250,  1e-41),   # rs9905385
+]
+
+HG38_TARGET_SPIKES: list[tuple[str, int, float]] = [
+    ("3",  72_343_494,  1e-50),   # rs4677148
+    ("7",  18_747_194,  7e-23),   # rs727851
+    ("10", 30_838_237,  7e-08),   # rs12413361
+    ("11", 12_857_576,  5e-09),   # rs546512774
+    ("11", 2_780_860,   9e-08),   # rs234886
+    ("12", 122_933_684, 7e-09),   # rs73230017 - hg38-specific
+    ("16", 69_181_056,  1e-08),   # rs12444184 - hg38-specific
+    ("17", 61_420_889,  1e-41),   # rs9905385
+]
+
+# Half-width of the peak window in bp — variants *outside* every target
+# window are guaranteed to have p ≥ 5e-8 (no accidental noise looks
+# significant).  Variants *inside* a window may carry the peak-shape
+# p-values described above.
+WINDOW_HALF_SIZE: int = 250_000
+
+# Decay constant for the exponential peak shape (in bp).  ``p(d) = min_p
+# · 10^(|d|/PEAK_TAU_BP)`` — at 100 kb the p-value is 10× weaker than the
+# lead, at 200 kb it's 100× weaker.
+PEAK_TAU_BP: int = 100_000
+
+# Number of supporting SNPs to plant around each lead.  Real GWAS peaks
+# typically show 10–50 sub-threshold supporting SNPs from LD tagging;
+# 20 gives a visually convincing peak without inflating file size.
+N_SUPPORT_PER_PEAK: int = 20
+
+
+def _targets_for_build(build: Optional[str], override: Optional[str] = None
+                       ) -> list[tuple[str, int, float]]:
+    """Return the spike list matching *build* (or the *override* argument).
+
+    * ``override='hg19' / 'hg38'`` picks that build regardless of *build*.
+    * ``override='off'`` returns an empty list (falls back to legacy
+      random-signal behaviour).
+    * ``override='auto'`` (or ``None``) uses *build*, defaulting to hg38
+      when no build is specified.
+    """
+    src = (override or "auto").lower()
+    if src == "off":
+        return []
+    if src == "hg19":
+        return HG19_TARGET_SPIKES
+    if src == "hg38":
+        return HG38_TARGET_SPIKES
+    # auto
+    if build is None:
+        return HG38_TARGET_SPIKES
+    b = str(build).strip().lower()
+    if b in ("hg19", "grch37", "b37", "19"):
+        return HG19_TARGET_SPIKES
+    return HG38_TARGET_SPIKES
+
+
+def _clip_random_noise(df, target_spikes, rng):
+    """Push every non-target-region variant to p >= 5e-8.
+
+    Guarantees the only genome-wide-significant hits are the injected
+    spikes.  Rows inside a ±WINDOW_HALF_SIZE window around any target
+    on the matching chromosome are left alone (so peak-shape supporting
+    SNPs keep their sub-threshold p-values).
+    """
+    if not target_spikes:
+        return df
+    near = pd.Series(False, index=df.index)
+    for chrom, pos, _ in target_spikes:
+        m = ((df["CHR"].astype(str) == str(chrom))
+             & (df["BP"].sub(pos).abs() <= WINDOW_HALF_SIZE))
+        near = near | m
+    accidental = (df["P"] < 5e-8) & (~near)
+    n_bad = int(accidental.sum())
+    if n_bad:
+        df.loc[accidental, "P"] = rng.uniform(5e-8, 1.0, size=n_bad)
+    return df
+
+
+def _inject_target_spikes(df, target_spikes, rng, build_label=None,
+                          n_support: int = N_SUPPORT_PER_PEAK):
+    """Add a lead SNP + ``n_support`` supporting SNPs at each target locus.
+
+    Peak shape:
+      * Lead SNP at exactly ``(chr, pos)`` with ``p = min_p_value``.
+      * Supporting SNPs at Gaussian-sampled offsets around the lead
+        (σ = WINDOW_HALF_SIZE / 3, clipped to ±WINDOW_HALF_SIZE) with
+        ``p(d) = min_p · 10^(|d|/PEAK_TAU_BP)`` × a small multiplicative
+        jitter in [0.5, 2.0].  Result: dense significant cloud right
+        at the lead, sub-threshold tail out to the window edge.
+    """
+    if not target_spikes:
+        return df
+    new_rows = []
+    for chrom, pos, min_p in target_spikes:
+        # Lead SNP at exact position.
+        new_rows.append(_make_spike_row(
+            chrom, pos, min_p, kind="lead",
+            build_label=build_label,
+            snp_id=f"rs_lead_{chrom}_{pos}",
+        ))
+        # Supporting SNPs — sample offsets, then repeatedly top up any
+        # that fell outside the ±WINDOW_HALF_SIZE window.
+        sigma = WINDOW_HALF_SIZE / 3.0
+        _offsets = rng.normal(0.0, sigma, size=n_support * 2)
+        _offsets = _offsets[np.abs(_offsets) <= WINDOW_HALF_SIZE][:n_support]
+        while len(_offsets) < n_support:
+            _more = rng.normal(0.0, sigma, size=n_support)
+            _more = _more[np.abs(_more) <= WINDOW_HALF_SIZE]
+            _offsets = np.concatenate([_offsets, _more])
+        _offsets = _offsets[:n_support]
+
+        _support_p = min_p * np.power(10.0, np.abs(_offsets) / PEAK_TAU_BP)
+        _support_p = _support_p * rng.uniform(0.5, 2.0, size=n_support)
+        _support_p = np.clip(_support_p, 1e-300, 1.0)
+
+        for i, (off, p) in enumerate(zip(_offsets, _support_p)):
+            _bp = int(pos + off)
+            if _bp < 1:
+                continue
+            new_rows.append(_make_spike_row(
+                chrom, _bp, float(p), kind="support",
+                build_label=build_label,
+                snp_id=f"rs_supp_{chrom}_{pos}_{i}",
+            ))
+
+    if not new_rows:
+        return df
+    spike_df = pd.DataFrame(new_rows)
+    # Match the target frame's column set (and fill any missing).
+    for col in df.columns:
+        if col not in spike_df.columns:
+            spike_df[col] = df[col].iloc[0] if len(df) else None
+    return pd.concat([df, spike_df[df.columns]], ignore_index=True)
+
+
+def _make_spike_row(chrom, pos, p, kind, build_label, snp_id):
+    """Construct a single spike-in row dict matching the emitted schema."""
+    row = {
+        "CHR":  str(chrom),
+        "SNP":  snp_id,
+        "BP":   int(pos),
+        "A1":   "A", "A2": "G",
+        "BETA": 0.15 if kind == "lead" else 0.05,
+        "SE":   0.02,
+        "P":    float(p),
+    }
+    if build_label:
+        row["BUILD"] = build_label
+    return row
+
 DATASET_SIZES = {
     "500K":  500_000,
     "1M":  1_000_000,
@@ -68,7 +244,7 @@ DATASET_SIZES = {
     # -- Added for the 100M-variant scaling demo --------------------
     "25M":  25_000_000,
     "50M":  50_000_000,
-    #"100M": 100_000_000,
+    "100M": 100_000_000,
 }
 
 
@@ -126,63 +302,51 @@ def _chrom_frame(chrom: int, count: int, snp_offset: int,
     return df
 
 
-def update_effects_from_p(df: pd.DataFrame, 
-                          spiked_indices: pd.Index, 
-                          sample_size: int = 50_000, 
-                          rng: np.random.Generator | None = None) -> pd.DataFrame:
-    """Recalculate BETA and SE for spiked variants based on their new P-value.
-    
-    Assumes `df` contains an 'AF' (allele frequency) column, or generates synthetic
-    frequencies if absent.
+def generate_sumstats(n_variants: int, n_signals: int = 30, seed: int = 42,
+                      build: str | None = None,
+                      targets: str = "auto") -> pd.DataFrame:
+    """Generate synthetic GWAS summary statistics (single-shot, in-memory).
+
+    Parameters
+    ----------
+    n_variants : int
+        Total number of variants.
+    n_signals : int
+        **Legacy parameter, ignored when ``targets != 'off'``.**  When
+        ``targets='off'`` the pre-0.4.x random-signal behaviour is used
+        (``n_signals`` variants scattered at random with p ∈ [1e-50,
+        5e-8]).  Kept in the signature so callers pinning the old
+        keyword still import.
+    seed : int
+        Random seed for reproducibility.
+    build : {"hg19", "hg38", None}
+        When set, an additional ``BUILD`` column is emitted and the
+        chromosome-size table is picked accordingly.  ``None``
+        preserves the pre-liftover behaviour of the script (no
+        BUILD column, hg38 coordinates).
+    targets : {"auto", "hg19", "hg38", "off"}, optional
+        Whether to plant peak-shape spikes at the well-known target
+        loci in :data:`HG19_TARGET_SPIKES` / :data:`HG38_TARGET_SPIKES`.
+
+        * ``"auto"`` (default) — pick the list matching *build*,
+          defaulting to hg38 when no build is set.
+        * ``"hg19"`` / ``"hg38"`` — force a specific list.
+        * ``"off"`` — no target spikes; fall back to the legacy
+          random-signal behaviour driven by *n_signals*.
+
+    Returns
+    -------
+    pd.DataFrame
+        DataFrame with columns CHR, SNP, BP, A1, A2, BETA, SE, P
+        (and BUILD when ``build`` is passed).
+
+    Notes
+    -----
+    In the target-spike mode every ``P < 5e-8`` row lies inside a
+    ±:data:`WINDOW_HALF_SIZE` window of one of the target loci, and
+    each locus carries one lead SNP at the exact target position with
+    ``p = min_p_value``.
     """
-    if rng is None:
-        rng = np.random.default_rng()
-
-    # 1. Ensure Allele Frequencies exist to model realistic SE variability
-    if "AF" not in df.columns:
-        # Uniform MAF between 0.05 and 0.50
-        maf = rng.uniform(0.05, 0.50, size=len(spiked_indices))
-    else:
-        af = df.loc[spiked_indices, "AF"].to_numpy()
-        maf = np.where(af > 0.5, 1 - af, af)
-
-    # 2. Extract P-values for spiked rows
-    p_vals = df.loc[spiked_indices, "P"].to_numpy()
-
-    # 3. Compute absolute Z-score using extreme-precision normal two-tailed PPF
-    # norm.isf(P / 2) is equivalent to norm.ppf(1 - P / 2) and avoids numerical precision loss for small P
-    z_scores = norm.isf(p_vals / 2.0)
-
-    # 4. Compute Standard Error (SE) based on allele variance and sample size
-    # SE ~ 1 / sqrt(2 * MAF * (1 - MAF) * N)
-    se = 1.0 / np.sqrt(2 * maf * (1.0 - maf) * sample_size)
-
-    # 5. Assign random effect direction (sign) to BETA
-    effect_signs = rng.choice([-1.0, 1.0], size=len(spiked_indices))
-    beta = effect_signs * z_scores * se
-
-    # 6. Assign updated fields back to DataFrame
-    df.loc[spiked_indices, "SE"] = se
-    df.loc[spiked_indices, "BETA"] = beta
-
-    return df
-
-
-def generate_sumstats(n_variants: int, seed: int = 42,
-                      build: str | None = None) -> pd.DataFrame:
-    """Generate synthetic GWAS summary statistics with target signal spikes."""
-    
-    # 1. Target loci configuration: (chr, pos, min_p_value)
-    TARGET_SPIKES = [
-        ("2",  60718043,  2e-50),
-        ("6",  135419018, 1e-20),
-        ("11", 5266668,   3e-12),
-        ("13", 29084891,  1e-09),
-        ("20", 8870372,   7e-08),
-        ("18", 73485764,  6e-08),
-    ]
-    WINDOW_HALF_SIZE = 250_000  # 250kb upstream/downstream = 500kb total window
-
     rng = np.random.default_rng(seed)
     chrom_sizes = _chrom_sizes_for_build(build) if build else HG38_CHROM_SIZES
     counts = _distribute_variants(n_variants, chrom_sizes)
@@ -199,132 +363,62 @@ def generate_sumstats(n_variants: int, seed: int = 42,
 
     df = pd.concat(rows, ignore_index=True)
 
-    # 2. Inject target spikes exclusively within window
+    _spikes = _targets_for_build(build, override=targets)
+    if _spikes:
+        # Target-spike mode: guarantee no accidental noise looks
+        # significant, then plant peak-shape signals at each target.
+        df = _clip_random_noise(df, _spikes, rng)
+        df = _inject_target_spikes(df, _spikes, rng=rng, build_label=build)
+    else:
+        # Legacy random-signal mode (``targets='off'``).
+        signal_indices = rng.choice(len(df), size=n_signals, replace=False)
+        for idx in signal_indices:
+            df.loc[idx, "P"] = 10 ** rng.uniform(-50, -8)
 
-    # Collect all indices that were modified
-    spiked_indices_list = []
-
-    for chrom, target_pos, min_p in TARGET_SPIKES:
-        win_start = target_pos - WINDOW_HALF_SIZE
-        win_end = target_pos + WINDOW_HALF_SIZE
-
-        mask = (df["CHR"] == chrom) & (df["BP"] >= win_start) & (df["BP"] <= win_end)
-        candidate_indices = df[mask].index
-
-        if len(candidate_indices) == 0:
-            continue
-
-        # Lead SNP
-        lead_idx = df.loc[candidate_indices, "BP"].sub(target_pos).abs().idxmin()
-        df.loc[lead_idx, "P"] = min_p
-        spiked_indices_list.append(lead_idx)
-
-        # Local decay signals
-        if len(candidate_indices) > 1:
-            other_indices = candidate_indices.drop(lead_idx)
-            n_local_signals = min(len(other_indices), rng.integers(3, 10))
-            spiked_local = rng.choice(other_indices, size=n_local_signals, replace=False)
-            
-            min_log_p = np.log10(min_p)
-            df.loc[spiked_local, "P"] = 10 ** rng.uniform(min_log_p, -8, size=n_local_signals)
-            spiked_indices_list.extend(spiked_local)
-
-    # Ensure no zero/inf P-values
+    # Ensure no p=0 or p>1
     df["P"] = df["P"].clip(1e-300, 1.0)
-
-    # Update BETA and SE for all modified loci
-    all_spiked = pd.Index(np.unique(spiked_indices_list))
-    df = update_effects_from_p(df, spiked_indices=all_spiked, sample_size=50_000, rng=rng)
-
     return df
-
-# def generate_sumstats(n_variants: int, n_signals: int = 30, seed: int = 42,
-#                       build: str | None = None) -> pd.DataFrame:
-#     """Generate synthetic GWAS summary statistics (single-shot, in-memory).
-# 
-#     Parameters
-#     ----------
-#     n_variants : int
-#         Total number of variants.
-#     n_signals : int
-#         Number of simulated association signals (p < 5e-8).
-#     seed : int
-#         Random seed for reproducibility.
-#     build : {"hg19", "hg38", None}
-#         When set, an additional ``BUILD`` column is emitted and the
-#         chromosome-size table is picked accordingly.  ``None``
-#         preserves the pre-liftover behaviour of the script (no
-#         BUILD column, hg38 coordinates).
-# 
-#     Returns
-#     -------
-#     pd.DataFrame
-#         DataFrame with columns CHR, SNP, BP, A1, A2, BETA, SE, P
-#         (and BUILD when ``build`` is passed).
-# 
-#     Notes
-#     -----
-#     This path holds every row in memory.  For 50M+ variants,
-#     :func:`stream_sumstats_to_tsv` is used by ``main()`` instead;
-#     this function is still exposed for programmatic use and small
-#     sizes (kept unchanged for API compatibility with callers that
-#     imported it before the 100M extension).
-#     """
-#     rng = np.random.default_rng(seed)
-#     chrom_sizes = _chrom_sizes_for_build(build) if build else HG38_CHROM_SIZES
-#     counts = _distribute_variants(n_variants, chrom_sizes)
-# 
-#     rows = []
-#     snp_offset = 0
-#     for chrom, count in counts.items():
-#         rows.append(_chrom_frame(
-#             chrom, count, snp_offset,
-#             max_bp=chrom_sizes[chrom],
-#             rng=rng, build_label=build,
-#         ))
-#         snp_offset += count
-# 
-#     df = pd.concat(rows, ignore_index=True)
-# 
-#     # Inject association signals
-#     signal_indices = rng.choice(len(df), size=n_signals, replace=False)
-#     for idx in signal_indices:
-#         df.loc[idx, "P"] = 10 ** rng.uniform(-50, -8)
-# 
-#     # Ensure no p=0 or p>1
-#     df["P"] = df["P"].clip(1e-300, 1.0)
-# 
-#     return df
 
 
 def stream_sumstats_to_tsv(out_path: str, n_variants: int,
                            n_signals: int = 30, seed: int = 42,
                            build: str | None = None,
+                           targets: str = "auto",
                            chunk_bytes_hint: int = 1 << 30) -> None:
     """Write a synthetic sumstats TSV chromosome-by-chromosome.
 
-    This is the streaming counterpart to :func:`generate_sumstats`,
-    used automatically by ``main()`` for the 25M / 50M / 100M sizes
-    where the full-genome frame would exhaust node memory.  Peak
-    Python memory is bounded by the largest single-chromosome frame
+    Streaming counterpart to :func:`generate_sumstats`, used
+    automatically by ``main()`` for the 25M / 50M / 100M sizes where
+    the full-genome frame would exhaust node memory.  Peak Python
+    memory is bounded by the largest single-chromosome frame
     (chr1 ≈ 10 % of total) rather than the whole file.
 
-    Signals are injected on the fly: we sample ``n_signals`` global
-    row indices at the start, then per chromosome check which of them
-    fall inside the current row range and rewrite those P values
-    before the chunk is flushed.
+    Target-spike injection (``targets != 'off'``) is applied
+    per-chromosome: each chunk's frame carries any target loci whose
+    chromosome matches, and the peak-shape supporting SNPs are
+    generated inside that same chunk so they fit alongside the random
+    background for that chromosome.  The ``targets='off'`` path
+    preserves the pre-target legacy behaviour (random ``n_signals``
+    hits sampled from the global index space).
     """
     rng = np.random.default_rng(seed)
     chrom_sizes = _chrom_sizes_for_build(build) if build else HG38_CHROM_SIZES
     counts = _distribute_variants(n_variants, chrom_sizes)
     total = sum(counts.values())
 
-    # Pre-sample signal row indices in the *global* row space so their
-    # distribution matches the in-memory ``generate_sumstats`` path.
-    signal_global_idx = np.sort(
-        rng.choice(total, size=n_signals, replace=False)
-    )
-    signal_p = 10 ** rng.uniform(-50, -8, size=n_signals)
+    _spikes = _targets_for_build(build, override=targets)
+
+    # Only the legacy ``targets='off'`` path uses the global random-
+    # signal sampling; target-spike mode ignores ``n_signals`` and
+    # plants a fixed peak per matching target chromosome.
+    if not _spikes:
+        signal_global_idx = np.sort(
+            rng.choice(total, size=n_signals, replace=False)
+        )
+        signal_p = 10 ** rng.uniform(-50, -8, size=n_signals)
+    else:
+        signal_global_idx = np.array([], dtype=int)
+        signal_p = np.array([], dtype=float)
 
     snp_offset = 0
     header_written = False
@@ -335,13 +429,23 @@ def stream_sumstats_to_tsv(out_path: str, n_variants: int,
                 max_bp=chrom_sizes[chrom],
                 rng=rng, build_label=build,
             )
-            # Apply signals whose global index lies in this chunk.
-            lo, hi = snp_offset, snp_offset + count
-            in_chunk = (signal_global_idx >= lo) & (signal_global_idx < hi)
-            if in_chunk.any():
-                local_positions = signal_global_idx[in_chunk] - lo
-                df.iloc[local_positions,
-                        df.columns.get_loc("P")] = signal_p[in_chunk]
+            if _spikes:
+                # Target-spike mode: clip accidental noise on this
+                # chromosome, then plant the chunk's peaks.
+                _chr_targets = [t for t in _spikes if str(t[0]) == str(chrom)]
+                df = _clip_random_noise(df, _chr_targets, rng)
+                if _chr_targets:
+                    df = _inject_target_spikes(
+                        df, _chr_targets, rng=rng, build_label=build,
+                    )
+            else:
+                # Legacy random-signal path.
+                lo, hi = snp_offset, snp_offset + count
+                in_chunk = (signal_global_idx >= lo) & (signal_global_idx < hi)
+                if in_chunk.any():
+                    local_positions = signal_global_idx[in_chunk] - lo
+                    df.iloc[local_positions,
+                            df.columns.get_loc("P")] = signal_p[in_chunk]
             df["P"] = df["P"].clip(1e-300, 1.0)
 
             df.to_csv(fh, sep="\t", index=False, header=not header_written)
@@ -379,6 +483,21 @@ def main():
             "any single-chromosome chunk."
         ),
     )
+    parser.add_argument(
+        "--targets", choices=["auto", "hg19", "hg38", "off"], default="auto",
+        help=(
+            "Which target-locus list to spike into the output.  "
+            "'auto' (default) matches --build (falling back to hg38 "
+            "when no build is set); 'hg19'/'hg38' force a specific "
+            "list; 'off' falls back to the legacy random-signal "
+            "generator that scatters n_signals hits across the "
+            "genome with no controlled positions.  See "
+            ":data:`HG19_TARGET_SPIKES` / :data:`HG38_TARGET_SPIKES` "
+            "for the coordinate lists (6 body-height associated gwas-catalog " 
+            "loci: rs4677148, rs727851, "
+            "rs12413361, rs546512774, rs234886, rs9905385)."
+        ),
+    )
     args = parser.parse_args()
 
     def _emit_one(n_variants: int, out_path: str, build: str | None) -> None:
@@ -392,9 +511,11 @@ def main():
               f"(build={build or 'hg38'}, mode={tag}) -> {out_path} ...")
         if stream:
             stream_sumstats_to_tsv(out_path, n_variants,
-                                   seed=args.seed, build=build)
+                                   seed=args.seed, build=build,
+                                   targets=args.targets)
         else:
-            df = generate_sumstats(n_variants, seed=args.seed, build=build)
+            df = generate_sumstats(n_variants, seed=args.seed, build=build,
+                                   targets=args.targets)
             df.to_csv(out_path, sep="\t", index=False)
             del df
         size_mb = os.path.getsize(out_path) / 1e6
@@ -405,7 +526,7 @@ def main():
         for label, n in DATASET_SIZES.items():
             suffix = f"_{args.build}" if args.build else ""
             out_path = os.path.join(args.outdir,
-                                    f"sumstats_{label}{suffix}.tsv.gz")
+                                    f"sumstats_{label}{suffix}.tsv")
             _emit_one(n, out_path, args.build)
     elif args.n and args.out:
         _emit_one(args.n, args.out, args.build)

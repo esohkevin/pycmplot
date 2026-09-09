@@ -78,7 +78,6 @@ These are actuall **body height** significant loci pulled from `GWAS Catalog`_.
       ("17", 61_420_889,  1e-41),   # rs9905385
    ]
 
-
 .. code-block:: bash
 
    for i in {1..3}; do
@@ -98,6 +97,26 @@ These are actuall **body height** significant loci pulled from `GWAS Catalog`_.
    done
 
 Use ``python generate_sumstats.py -h`` to see all options.
+
+
+.. note::
+   The six sumstats files are created with a ``BUILD`` column. To demonstrate 
+   the use of the ``--build`` option, we will create two more sumstats by 
+   deleting the build columns from two of the sumstats already generated. 
+   One in hg19 and one in hg38.
+
+.. code-block:: bash
+   gunzip -c ./data/sumstats_1M_trait1_hg19.tsv.gz | \
+   rev  | \
+   cut -f2- | \
+   rev | \
+   gzip -c > ./data/sumstats_1M_trait7_hg19.tsv.gz
+
+   gunzip -c ./data/sumstats_1M_trait4_hg19.tsv.gz | \
+   rev  | \
+   cut -f2- | \
+   rev | \
+   gzip -c > ./data/sumstats_1M_trait8_hg38.tsv.gz
 
 
 .. _cli-tut-load:
