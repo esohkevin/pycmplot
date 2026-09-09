@@ -107,18 +107,18 @@ Use ``python generate_sumstats.py -h`` to see all options.
 
 
 .. code-block:: bash
-   
+
    gunzip -c ./data/sumstats_1M_trait1_hg19.tsv.gz | \
-   rev  | \
-   cut -f2- | \
-   rev | \
-   gzip -c > ./data/sumstats_1M_trait7_hg19.tsv.gz
+      rev  | \
+      cut -f2- | \
+      rev | \
+      gzip -c > ./data/sumstats_1M_trait7_hg19.tsv.gz
 
    gunzip -c ./data/sumstats_1M_trait4_hg19.tsv.gz | \
-   rev  | \
-   cut -f2- | \
-   rev | \
-   gzip -c > ./data/sumstats_1M_trait8_hg38.tsv.gz
+      rev  | \
+      cut -f2- | \
+      rev | \
+      gzip -c > ./data/sumstats_1M_trait8_hg38.tsv.gz
 
 
 .. _cli-tut-load:
@@ -157,17 +157,25 @@ The rest of this tutorial adds one feature at a time on top of that base.
 Linear Manhattan plots
 ----------------------
 
-Single-track
+Single-track: highlight, and add plot title and significant/suggestive lines to the base above
 ~~~~~~~~~~~~
 
 .. code-block:: bash
 
    pycmplot \
-     --sum_stats hb.tsv --labels Hb \
+     --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz \
+     --labels Trait1_hg19 \
+     --plot_title "Trait1 (highlighted)" \
      --logp \
-     --colors steelblue,silver \
-     --plot_title "Hb" \
-     --output_dir ./out --output_format png --dpi 300
+     --highlight \
+     --signif_line \
+     --suggest_threshold \
+     --output_dir ./out
+
+.. figure:: img/trait1_highlighted_trait1_hg19_lm_logp.png
+   :alt: linear Manhattan plot with base options
+   :width: 800px
+
 
 Multi-track
 ~~~~~~~~~~~

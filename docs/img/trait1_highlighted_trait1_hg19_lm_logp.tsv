@@ -1,0 +1,7 @@
+CHR	POS	SNP	P	BUILD	logP	LABEL	genic	nearest_gene	nearest_gene_distance	nearest_upstream_gene	upstream_distance	nearest_downstream_gene	downstream_distance	promoter_upstream_flag	gene_density	top_gene	biotype	priority_score	distance	promoter_flag	distance_score	biotype_weight	promoter_bonus
+2	36733328	rs_lead_2_36733328	3e-08	hg19	7.522878745280337	Trait1_hg19	True	CRIM1	0	RP11-490M8.1	151071	RP11-78I14.1	7070	False	58	CRIM1	protein_coding	4.0	0	False	1.0	1.0	0.0
+3	72392645	rs_lead_3_72392645	1e-50	hg19	50.0	Trait1_hg19	False	RP11-447M4.1	19467	RP11-447M4.1	19467	RYBP	28331	False	53	RP11-447M4.1-RYBP	intergenic	None	19467-28331	None	None	None	None
+7	18794582	rs_supp_7_18786817_1	5.42021173107532e-23	hg19	22.265983748177177	Trait1_hg19	True	HDAC9	0	AC010082.2	324221	RN7SKP266	53034	False	51	HDAC9	protein_coding	4.0	0	False	1.0	1.0	0.0
+11	12879123	rs_lead_11_12879123	5e-09	hg19	8.301029995663981	Trait1_hg19	True	TEAD1	0	RP11-47J17.1	8143	SCARNA16	47241	False	67	TEAD1	protein_coding	4.0	0	False	1.0	1.0	0.0
+15	22791431	rs_lead_15_22791431	1e-08	hg19	8.0	Trait1_hg19	False	ELMO2P1	1457	ELMO2P1	1457	TUBGCP5	41964	True	128	ELMO2P1-TUBGCP5	intergenic	None	1457-41964	None	None	None	None
+17	59498250	rs_lead_17_59498250	1e-41	hg19	41.0	Trait1_hg19	False	C17orf82	7609	C17orf82	7609	TBX4	31515	False	115	C17orf82-TBX4	intergenic	None	7609-31515	None	None	None	None
