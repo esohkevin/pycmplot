@@ -55,27 +55,28 @@ These are actuall **body height** significant loci pulled from `GWAS Catalog`_.
 
 .. _GWAS Catalog: https://www.ebi.ac.uk/gwas/efotraits/OBA_VT0001253
 
-.. code-block:: bash
+.. code-block::
+
    HG19_TARGET_SPIKES: list[tuple[str, int, float]] = [
-      ("3",  72_392_645,  1e-50),   # rs4677148
+      ("1",  172_058_886, 7e-12),   # rs186897198
       ("2",  36_733_328,  3e-08),   # rs2030645 - hg19-specific
       ("7",  18_786_817,  7e-23),   # rs727851
       ("10", 31_127_166,  7e-08),   # rs12413361
       ("11", 12_879_123,  5e-09),   # rs546512774
       ("11", 2_802_090,   9e-08),   # rs234886
       ("15", 22_791_431,  1e-08),   # rs6606792 - hg19-specific
-      ("17", 59_498_250,  1e-41),   # rs9905385
+      ("17", 65_854_602,  2e-12),   # rs55931203
    ]
 
    HG38_TARGET_SPIKES: list[tuple[str, int, float]] = [
-      ("3",  72_343_494,  1e-50),   # rs4677148
+      ("1",  172_089_746, 7e-12),   # rs186897198
       ("7",  18_747_194,  7e-23),   # rs727851
       ("10", 30_838_237,  7e-08),   # rs12413361
       ("11", 12_857_576,  5e-09),   # rs546512774
       ("11", 2_780_860,   9e-08),   # rs234886
       ("12", 122_933_684, 7e-09),   # rs73230017 - hg38-specific
       ("16", 69_181_056,  1e-08),   # rs12444184 - hg38-specific
-      ("17", 61_420_889,  1e-41),   # rs9905385
+      ("17", 67_858_486,  2e-12),   # rs55931203
    ]
 
 .. code-block:: bash
@@ -137,10 +138,10 @@ and writes the output image(s) plus a locus summary TSV.
 .. code-block:: bash
 
    pycmplot \
-     --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz \
-     --labels Trait1 \
-     --logp \
-     --output_dir ./out
+      --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz \
+      --labels Trait1 \
+      --logp \
+      --output_dir ./out
 
 .. figure:: img/mycmplot_trait1_hg19_lm_logp.png
    :alt: linear Manhattan plot with base options
@@ -165,14 +166,14 @@ Single-track:
 .. code-block:: bash
 
    pycmplot \
-     --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz \
-     --labels Trait1_hg19 \
-     --plot_title "Trait1 (highlighted)" \
-     --logp \
-     --highlight \
-     --signif_line \
-     --suggest_threshold \
-     --output_dir ./out
+      --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz \
+      --labels Trait1_hg19 \
+      --plot_title "Trait1 (highlighted)" \
+      --logp \
+      --highlight \
+      --signif_line \
+      --suggest_threshold \
+      --output_dir ./out
 
 .. figure:: img/trait1_highlighted_trait1_hg19_lm_logp.png
    :alt: linear Manhattan plot with base options
@@ -191,22 +192,22 @@ comma-separated, in matching order:
 .. code-block:: bash
 
    pycmplot \
-     --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait2_hg19.tsv.gz,./data/sumstats_1M_trait3_hg19.tsv.gz,./data/sumstats_1M_trait4_hg38.tsv.gz,./data/sumstats_1M_trait5_hg38.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz \
-     --labels Trait1_hg19,Trait2_hg19,Trait3_hg19,Trait4_hg38,Trait5_hg38,Trait6_hg38 \
-     --plot_title "Multi-track" \
-     --logp \
-     --highlight \
-     --signif_line \
-     --suggest_threshold \
-     --annotate \
-     --output_dir ./out
+      --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait2_hg19.tsv.gz,./data/sumstats_1M_trait3_hg19.tsv.gz,./data/sumstats_1M_trait4_hg38.tsv.gz,./data/sumstats_1M_trait5_hg38.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz \
+      --labels Trait1_hg19,Trait2_hg19,Trait3_hg19,Trait4_hg38,Trait5_hg38,Trait6_hg38 \
+      --plot_title "Multi-track" \
+      --logp \
+      --highlight \
+      --signif_line \
+      --suggest_threshold \
+      --annotate \
+      --output_dir ./out
 
 .. figure:: img/multitrack_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_lm_logp.png
    :alt: linear Manhattan plot with base options
    :width: 800px
 
 .. tip::
-   The default linear plot size (``--figure_size``) is (height, width) --> (10, 4). 
+   The default linear plot size (``--figure_size``) is (width, height) --> (10, 4). 
    By default, each track (including the annotation track) gets an equal space. 
    Annotations in the figure above are not visible. We can solve this by two means.
       - either increase figure height: ``--figure_size 10,8``
@@ -215,7 +216,7 @@ comma-separated, in matching order:
    **NB:** When using ``--annotate`` in linear plotting, the first track is always 
       annotation track.
 
-  -  You can combine the two options to improve the visuals.
+   - You can combine the two options to improve the visuals.
    - You can remove the track labels on the right with ``--no_track_labels``
    - Annotate by gene symbol using ``--annotate gene`` (case insenitive).
    - Add a line through all highlighted loci using ``--highlight_line``
@@ -225,18 +226,18 @@ comma-separated, in matching order:
 .. code-block:: bash
 
    pycmplot \
-     --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait2_hg19.tsv.gz,./data/sumstats_1M_trait3_hg19.tsv.gz,./data/sumstats_1M_trait4_hg38.tsv.gz,./data/sumstats_1M_trait5_hg38.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz \
-     --labels Trait1_hg19,Trait2_hg19,Trait3_hg19,Trait4_hg38,Trait5_hg38,Trait6_hg38 \
-     --plot_title "Multi-track" \
-     --logp \
-     --highlight \
-     --signif_line \
-     --suggest_threshold \
-     --annotate \
-     --figure_size 10,8 \
-     --output_dir ./out
+      --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz \
+      --labels Trait1_hg19,Trait6_hg38 \
+      --plot_title "Multi-track_figsize" \
+      --logp \
+      --highlight \
+      --signif_line \
+      --suggest_threshold \
+      --annotate \
+      --figure_size 10,8 \
+      --output_dir ./out
 
-.. figure:: img/multitrack_figsize_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_lm_logp.png
+.. figure:: img/multitrack_heights_trait1_hg19_trait6_hg38_lm_logp.png
    :alt: linear Manhattan plot with base options
    :width: 800px
 
@@ -244,23 +245,21 @@ comma-separated, in matching order:
 .. code-block:: bash
 
    pycmplot \
-     --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait2_hg19.tsv.gz,./data/sumstats_1M_trait3_hg19.tsv.gz,./data/sumstats_1M_trait4_hg38.tsv.gz,./data/sumstats_1M_trait5_hg38.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz \
-     --labels Trait1_hg19,Trait2_hg19,Trait3_hg19,Trait4_hg38,Trait5_hg38,Trait6_hg38 \
-     --plot_title "Multi-track" \
-     --logp \
-     --highlight \
-     --signif_line \
-     --suggest_threshold \
-     --annotate gene \
-     --highlight_line \
-     --track_heights 2.5,1,1,1,1,1,1 \
-     --output_dir ./out
+      --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz \
+      --labels Trait1_hg19,Trait6_hg38 \
+      --plot_title "Multi-track_annotate" \
+      --logp \
+      --highlight \
+      --signif_line \
+      --suggest_threshold \
+      --annotate gene \
+      --highlight_line \
+      --track_heights 2.5,1,1,1,1,1,1 \
+      --output_dir ./out
 
 .. figure:: img/multitrack_annotate_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_lm_logp.png
    :alt: linear Manhattan plot with base options
    :width: 800px
-
-
 
 
 .. _cli-tut-circular:
@@ -268,22 +267,34 @@ comma-separated, in matching order:
 Circular (Circos) plots
 -----------------------
 
+The default ``--mode lm`` (linear Manhattan) is what every earlier
+command has been using implicitly.
+
 Add ``--mode cm`` (circular) to switch layout — everything else stays
 the same:
+
+**NB:** ``--track_heights`` is specific to linear mode se we exclude it.
 
 .. code-block:: bash
 
    pycmplot \
-     --sum_stats hb.tsv,mcv.tsv \
-     --labels Hb,MCV \
-     --mode cm \
-     --logp --trim_pval 0.01 \
-     --colors steelblue,silver \
-     --plot_title "RBC Traits" \
-     --output_dir ./out
+      --mode cm \
+      --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait2_hg19.tsv.gz,./data/sumstats_1M_trait3_hg19.tsv.gz,./data/sumstats_1M_trait4_hg38.tsv.gz,./data/sumstats_1M_trait5_hg38.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz \
+      --labels Trait1_hg19,Trait2_hg19,Trait3_hg19,Trait4_hg38,Trait5_hg38,Trait6_hg38 \
+      --plot_title "Multi-track" \
+      --logp \
+      --highlight \
+      --signif_line \
+      --suggest_threshold \
+      --annotate gene \
+      --highlight_line \
+      --output_dir ./out
 
-The default ``--mode lm`` (linear Manhattan) is what every earlier
-command has been using implicitly.
+.. figure:: img/multitrack_annotate_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_lm_logp.png
+   :alt: linear Manhattan plot with base options
+   :width: 800px
+
+
 
 
 .. _cli-tut-highlight:
