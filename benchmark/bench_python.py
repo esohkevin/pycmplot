@@ -71,7 +71,7 @@ def run_pycmplot(input_path: str, out_path: str, plot_type: str = "manhattan", t
             labels=label,
             file_info=sumstats_info_dict,
             logp=True,
-            trim_pval=trim,
+            trim_pval=float(trim),
         )
     else:
         pycmplot_dict = pycmplot.get_sumstats_and_merged_sector_list(
@@ -79,7 +79,6 @@ def run_pycmplot(input_path: str, out_path: str, plot_type: str = "manhattan", t
             labels=label,
             file_info=sumstats_info_dict,
             logp=True,
-            #trim_pval=0.001,
         )        
 
     if plot_type == "manhattan":
@@ -109,15 +108,13 @@ def run_pycmplot(input_path: str, out_path: str, plot_type: str = "manhattan", t
             pycmplot.plot_qq_overlay(
                 pval_dict=pycmplot_dict["pvals"],
                 thin=True,
-                thin_below=0.001,
+                thin_below=float(trim),
                 title=out_file,
                 output_path=out_dir,
             )
         else:
             pycmplot.plot_qq_overlay(
                 pval_dict=pycmplot_dict["pvals"],
-                #thin=True,
-                #thin_below=0.001,
                 title=out_file,
                 output_path=out_dir,
             )
@@ -209,6 +206,17 @@ def run_pycmplot_multitrack(manifest_path: str, out_path: str, plot_type: str = 
     column-wise merge performed manually before plotting (see bench_r.R).
 
     Timing therefore covers: manifest parse + N file loads + plot + save.
+
+    Mixed-build (liftover) benchmark
+    --------------------------------
+    When a companion ``<manifest>.builds.txt`` file exists (written by
+    ``generate_multi_sumstats.py --liftover``), we read one build label per
+    line — in the same order as the manifest — and thread it through
+    ``prep_pycmplot_input_info(build_list=...)`` so pycmplot dispatches
+    hg19 → hg38 liftover during load.  Because the manifest parse, load,
+    liftover, plot, and save all run inside this function, the reported
+    timing is the honest end-to-end wall-clock a user would see when
+    handed a mixed-build multi-trait dataset.
     """
     import pycmplot
 
@@ -217,12 +225,33 @@ def run_pycmplot_multitrack(manifest_path: str, out_path: str, plot_type: str = 
     n_traits = len(sumstat)
     labels   = [f"Trait{k+1}" for k in range(n_traits)]
 
+    # Auto-detect the sibling ``.builds.txt`` sidecar.  The convention is
+    # ``<stem>.builds.txt`` where <stem> matches the manifest with
+    # ``.manifest`` stripped.  When absent (the pre-liftover benchmark
+    # inputs), ``build_list`` stays None and pycmplot uses each file's
+    # native coordinate system without any liftover.
+    build_list = None
+    if manifest_path.endswith(".manifest"):
+        builds_sidecar = manifest_path[: -len(".manifest")] + ".builds.txt"
+    else:
+        builds_sidecar = manifest_path + ".builds.txt"
+    if os.path.exists(builds_sidecar):
+        with open(builds_sidecar) as fh:
+            build_list = [ln.strip() for ln in fh if ln.strip()]
+        if len(build_list) != n_traits:
+            raise ValueError(
+                f"builds sidecar {builds_sidecar!r} has "
+                f"{len(build_list)} entries, but manifest lists "
+                f"{n_traits} traits."
+            )
+        print(f"[liftover] using build_list={build_list} from {builds_sidecar}")
+
     out_path = out_path.replace(".png","")
     out_parts = out_path.rsplit('/', 1)
     out_dir   = out_parts[0]
     out_file_parts = ["pycmplot"] + out_parts[1].split("_")[2:6]
     out_file = "_".join(out_file_parts)
-    
+
 
     sumstats_info_dict = pycmplot.prep_pycmplot_input_info(
         sum_stats=sumstat,
@@ -230,20 +259,38 @@ def run_pycmplot_multitrack(manifest_path: str, out_path: str, plot_type: str = 
         chrom="CHR",
         pos="BP",
         pcol="P",
-        snp="SNP"
+        snp="SNP",
+        build_list=build_list,
     )
 
-    pycmplot_dict = pycmplot.get_sumstats_and_merged_sector_list(
-        sum_stats=sumstat,
-        labels=labels,
-        file_info=sumstats_info_dict,
-        logp=True,
-        trim_pval=0.001,
-    )
+    # ``build_list`` is consumed by prep_pycmplot_input_info above; the
+    # loader receives the resulting file_info and reads BUILD entries
+    # from there, so we don't pass build_list to the loader again.
+    if trim:
+        pycmplot_dict = pycmplot.get_sumstats_and_merged_sector_list(
+            sum_stats=sumstat,
+            labels=labels,
+            file_info=sumstats_info_dict,
+            logp=True,
+            trim_pval=float(trim),
+        )
+    else:
+        pycmplot_dict = pycmplot.get_sumstats_and_merged_sector_list(
+            sum_stats=sumstat,
+            labels=labels,
+            file_info=sumstats_info_dict,
+            logp=True,
+        )
 
+    # Both plotters need the ``hits_table`` (``bundle['annot']``) —
+    # without it, plot_linear crashes on ``NoneType.drop_duplicates``
+    # in the annotation-panel branch.  Include it here so the benchmark
+    # actually exercises the same code path a real user's workflow
+    # would.
     if plot_type == "multitrack_manhattan":
         pycmplot.plot_linear(
             sumstats_loaded=pycmplot_dict["dfs"],
+            hits_table=pycmplot_dict.get("annot"),
             plot_title=out_file,
             output_dir=out_dir,
             output_format='png',
@@ -255,6 +302,7 @@ def run_pycmplot_multitrack(manifest_path: str, out_path: str, plot_type: str = 
         pycmplot.plot_circular(
             sumstats_loaded=pycmplot_dict["dfs"],
             sector_sizes=pycmplot_dict["sectors"],
+            hits_table=pycmplot_dict.get("annot"),
             logp=True,
             signif_lines=pycmplot_dict['lines'],
             plot_title=out_file,
