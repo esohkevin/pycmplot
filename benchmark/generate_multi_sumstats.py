@@ -148,6 +148,7 @@ def generate_multi_sumstats(
     n_signals: int = 25,
     force: bool = False,
     builds: Optional[List[str]] = None,
+    gzip: bool = False,
 ):
     """Generate n_traits sumstats TSV files sharing the same variant scaffold.
 
@@ -199,6 +200,10 @@ def generate_multi_sumstats(
                      f"sumstats_{size_label}{suffix}_trait{k+1}.tsv")
         for k in range(n_traits)
     ]
+
+    if gzip:
+        trait_paths = [str(v) + ".gz" for v in trait_paths]
+
     manifest_path = os.path.join(
         outdir, f"sumstats_{size_label}{suffix}_{n_traits}traits.manifest",
     )
@@ -356,6 +361,7 @@ def main():
         ),
     )
     parser.add_argument("--outdir", default="data")
+    parser.add_argument("--gz", action="store_true", help="Store GZIP compressed sumstats")
     parser.add_argument(
         "--force", action="store_true",
         help="Overwrite existing files"
@@ -403,6 +409,7 @@ def main():
                 outdir=args.outdir,
                 force=args.force,
                 builds=builds,
+                gzip=args.gz,
             )
 
     print("\nDone.")
