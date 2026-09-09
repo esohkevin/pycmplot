@@ -157,8 +157,10 @@ The rest of this tutorial adds one feature at a time on top of that base.
 Linear Manhattan plots
 ----------------------
 
-Single-track: highlight, and add plot title and significant/suggestive lines to the base above
+Single-track:
 ~~~~~~~~~~~~
+
+**Highlight, and add plot title and significant/suggestive lines to the base above**
 
 .. code-block:: bash
 
@@ -184,17 +186,81 @@ Passing more than one sumstats file stacks the tracks vertically, one
 axes per file, sharing the chromosomal x-axis.  Files and labels are
 comma-separated, in matching order:
 
+**Annotate significant hits**
+
 .. code-block:: bash
 
    pycmplot \
-     --sum_stats hb.tsv,mcv.tsv \
-     --labels Hb,MCV \
-     --logp --trim_pval 0.01 \
-     --colors steelblue,silver \
+     --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait2_hg19.tsv.gz,./data/sumstats_1M_trait3_hg19.tsv.gz,./data/sumstats_1M_trait4_hg38.tsv.gz,./data/sumstats_1M_trait5_hg38.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz \
+     --labels Trait1_hg19,Trait2_hg19,Trait3_hg19,Trait4_hg38,Trait5_hg38,Trait6_hg38 \
+     --plot_title "Multi-track" \
+     --logp \
+     --highlight \
+     --signif_line \
+     --suggest_threshold \
+     --annotate \
      --output_dir ./out
 
-Colour scheme is applied per chromosome (alternating), not per track,
-matching classic Manhattan convention.
+.. figure:: img/multitrack_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_lm_logp.png
+   :alt: linear Manhattan plot with base options
+   :width: 800px
+
+.. tip::
+   The default linear plot size (``--figure_size``) is (height, width) --> (10, 4). 
+   By default, each track (including the annotation track) gets an equal space. 
+   Annotations in the figure above are not visible. We can solve this by two means.
+      - either increase figure height: ``--figure_size 10,8``
+      - or increase the annotation track space relative to the rest: ``--track_heights 2,1,1``
+
+   **NB:** When using ``--annotate`` in linear plotting, the first track is always 
+      annotation track.
+
+  -  You can combine the two options to improve the visuals.
+   - You can remove the track labels on the right with ``--no_track_labels``
+   - Annotate by gene symbol using ``--annotate gene`` (case insenitive).
+   - Add a line through all highlighted loci using ``--highlight_line``
+   - Change the color of the line using ``--highlight_line_color``
+
+
+.. code-block:: bash
+
+   pycmplot \
+     --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait2_hg19.tsv.gz,./data/sumstats_1M_trait3_hg19.tsv.gz,./data/sumstats_1M_trait4_hg38.tsv.gz,./data/sumstats_1M_trait5_hg38.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz \
+     --labels Trait1_hg19,Trait2_hg19,Trait3_hg19,Trait4_hg38,Trait5_hg38,Trait6_hg38 \
+     --plot_title "Multi-track" \
+     --logp \
+     --highlight \
+     --signif_line \
+     --suggest_threshold \
+     --annotate \
+     --figure_size 10,8 \
+     --output_dir ./out
+
+.. figure:: img/multitrack_figsize_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_lm_logp.png
+   :alt: linear Manhattan plot with base options
+   :width: 800px
+
+
+.. code-block:: bash
+
+   pycmplot \
+     --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait2_hg19.tsv.gz,./data/sumstats_1M_trait3_hg19.tsv.gz,./data/sumstats_1M_trait4_hg38.tsv.gz,./data/sumstats_1M_trait5_hg38.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz \
+     --labels Trait1_hg19,Trait2_hg19,Trait3_hg19,Trait4_hg38,Trait5_hg38,Trait6_hg38 \
+     --plot_title "Multi-track" \
+     --logp \
+     --highlight \
+     --signif_line \
+     --suggest_threshold \
+     --annotate gene \
+     --highlight_line \
+     --track_heights 2.5,1,1,1,1,1,1 \
+     --output_dir ./out
+
+.. figure:: img/multitrack_annotate_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_lm_logp.png
+   :alt: linear Manhattan plot with base options
+   :width: 800px
+
+
 
 
 .. _cli-tut-circular:
