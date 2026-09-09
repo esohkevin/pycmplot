@@ -17,12 +17,12 @@ import pandas as pd
 import numpy as np
 
 
-SIZE_ORDER = ["500K", "1M", "2M", "5M", "10M"]
+SIZE_ORDER = ["500K", "1M", "2M", "5M", "10M","25M","50M"]
 TOOL_ORDER = ["pycmplot", "gwaslab", "qmplot", "CMplot", "qqman"]
 
 # Approximate variant counts for each size label (matches generate_sumstats.py)
 SIZE_N = {"500K": 500_000, "1M": 1_000_000, "2M": 2_000_000,
-          "5M": 5_000_000, "10M": 10_000_000}
+        "5M": 5_000_000, "10M": 10_000_000, "25M": 25_000_000, "50M": 50_000_000}
 
 
 # ---------------------------------------------------------------------------
