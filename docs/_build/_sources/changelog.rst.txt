@@ -9,17 +9,7 @@ and this project adheres to `Semantic Versioning <https://semver.org/>`_.
 ---
 
 
-0.4.1 - 2026-08-23
-------------------------------------------------------------------------------
-
-**Fixed**
-
-- **Highlight threshold minor bug**
-  Fixed minor bug in ``plot_circular`` in which ``highlight_thresh`` threw an
-  unused argument error during plotting.
-
-
-0.4.0 - 2026-08-13
+0.4.0 - 2026-XX-XX
 ------------------------------------------------------------------------------
 
 **Changed**

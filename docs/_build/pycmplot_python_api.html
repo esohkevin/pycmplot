@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Python API for the pycmplot package &mdash; pycmplot 0.4.1 documentation</title>
+  <title>Python API for the pycmplot package &mdash; pycmplot 0.3.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
@@ -16,7 +16,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=c87aa342"></script>
+      <script src="_static/documentation_options.js?v=4621528c"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="_static/clipboard.min.js?v=a7894cd8"></script>
@@ -77,29 +77,6 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#setup-a-synthetic-dataset">Setup: a synthetic dataset</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#the-three-step-mental-model">The three-step mental model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#linear-manhattan-plots">Linear Manhattan plots</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="tutorial.html#single-track">Single-track</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorial.html#multi-track">Multi-track</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#circular-circos-plots">Circular (Circos) plots</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#highlighting">Highlighting</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#automatic-gene-annotation">Automatic gene annotation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#qq-plots-and-compute-pvals">QQ plots and <code class="docutils literal notranslate"><span class="pre">compute_pvals</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#caching-and-warm-resume">Caching and warm resume</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#the-hits-overlay-tsv">The hits overlay TSV</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#per-locus-highlight-colours">Per-locus highlight colours</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#per-locus-categories-and-the-custom-legend">Per-locus categories and the custom legend</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#multi-panel-canvas">Multi-panel canvas</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#mixed-genome-builds">Mixed genome builds</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#cli-equivalents">CLI equivalents</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#troubleshooting">Troubleshooting</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#next-steps">Next steps</a></li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="cli.html">Command-Line Interface</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="cli.html#input-output-options">Input / output options</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cli.html#column-auto-detection-options">Column auto-detection options</a></li>
@@ -153,13 +130,6 @@
 <li class="toctree-l4"><a class="reference internal" href="#This-gives-us-the-flexibility-to-place-multiple-overlay-plots-on-one-figure">This gives us the flexibility to place multiple overlay plots on one figure</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#Multi-panel-Circular-Manhattan-Plotting">Multi-panel Circular Manhattan Plotting</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#Specify-groups-of-sumstats-to-load-and-plot-in-different-panels">Specify groups of sumstats to load and plot in different panels</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#Plot-in-panels">Plot in panels</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="##-Final-Notes"># Final Notes</a></li>
 </ul>
 </li>
@@ -170,12 +140,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="api/index.html">API Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/io.html">pycmplot.io</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="api/io.html#module-pycmplot.io">pycmplot.io</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/io.html#density-aware-sub-sampling">Density-aware sub-sampling</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/io.html#per-track-stage-1-cache">Per-track Stage-1 cache</a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/io.html#public-functions">Public functions</a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="api/io.html#module-pycmplot.io">pycmplot.io</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/io.html#pycmplot.io.auto_thin_for_manhattan"><code class="docutils literal notranslate"><span class="pre">auto_thin_for_manhattan()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/io.html#pycmplot.io.detect_delimiter"><code class="docutils literal notranslate"><span class="pre">detect_delimiter()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/io.html#pycmplot.io.generate_random_string"><code class="docutils literal notranslate"><span class="pre">generate_random_string()</span></code></a></li>
@@ -183,7 +148,6 @@
 <li class="toctree-l3"><a class="reference internal" href="api/io.html#pycmplot.io.get_output_paths"><code class="docutils literal notranslate"><span class="pre">get_output_paths()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/io.html#pycmplot.io.get_sumstats_and_merged_sector_list"><code class="docutils literal notranslate"><span class="pre">get_sumstats_and_merged_sector_list()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/io.html#pycmplot.io.prep_pycmplot_input_info"><code class="docutils literal notranslate"><span class="pre">prep_pycmplot_input_info()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/io.html#pycmplot.io.process_signif_line"><code class="docutils literal notranslate"><span class="pre">process_signif_line()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/io.html#pycmplot.io.resolve_delimiter"><code class="docutils literal notranslate"><span class="pre">resolve_delimiter()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/io.html#pycmplot.io.smart_open"><code class="docutils literal notranslate"><span class="pre">smart_open()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/io.html#pycmplot.io.strip_comma_separated_input_streams"><code class="docutils literal notranslate"><span class="pre">strip_comma_separated_input_streams()</span></code></a></li>
@@ -200,13 +164,8 @@
 <li class="toctree-l4"><a class="reference internal" href="api/annotation.html#gene-reference-files">Gene reference files</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.build_highlight_legend_entries"><code class="docutils literal notranslate"><span class="pre">build_highlight_legend_entries()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.ensure_category_column"><code class="docutils literal notranslate"><span class="pre">ensure_category_column()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.ensure_highlight_color_column"><code class="docutils literal notranslate"><span class="pre">ensure_highlight_color_column()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.get_annotation_column"><code class="docutils literal notranslate"><span class="pre">get_annotation_column()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.get_hits_summary_table"><code class="docutils literal notranslate"><span class="pre">get_hits_summary_table()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.resolve_highlight_categories"><code class="docutils literal notranslate"><span class="pre">resolve_highlight_categories()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.resolve_highlight_colors"><code class="docutils literal notranslate"><span class="pre">resolve_highlight_colors()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="api/liftover.html">pycmplot.liftover</a><ul>
@@ -235,12 +194,10 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="api/plotting.html#pycmplot-plotting-qq">pycmplot.plotting.qq</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.get_legend_loc_string"><code class="docutils literal notranslate"><span class="pre">get_legend_loc_string()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.plot_qq_combined"><code class="docutils literal notranslate"><span class="pre">plot_qq_combined()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.plot_qq_overlay"><code class="docutils literal notranslate"><span class="pre">plot_qq_overlay()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.plot_qq_separate"><code class="docutils literal notranslate"><span class="pre">plot_qq_separate()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.plot_qq_single"><code class="docutils literal notranslate"><span class="pre">plot_qq_single()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.set_legend_loc_string"><code class="docutils literal notranslate"><span class="pre">set_legend_loc_string()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.thin_pvals"><code class="docutils literal notranslate"><span class="pre">thin_pvals()</span></code></a></li>
 </ul>
 </li>
@@ -274,18 +231,16 @@
 <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id1">0.4.1 - 2026-08-23</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id2">0.4.0 - 2026-08-13</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id3">0.3.1 - 2026-07-31</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id4">0.3.0 - 2026-06-01</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id5">0.2.8 - 2026-05-30</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id6">0.2.7 - 2026-04-27</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id7">0.2.5 - 2026-04-20</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id8">0.2.2 - 2026-04-18</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id9">0.2.1 — 2026-04-16</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id10">0.1.9 — 2026-04-14</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id11">0.1.8 — 2026-04-14</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id12">0.1.0 — 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id1">0.3.1 - 2026-07-31</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id2">0.3.0 - 2026-06-01</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id3">0.2.8 - 2026-05-30</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id4">0.2.7 - 2026-04-27</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id5">0.2.5 - 2026-04-20</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id6">0.2.2 - 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id7">0.2.1 — 2026-04-16</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id8">0.1.9 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id9">0.1.8 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id10">0.1.0 — 2026-04-18</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a><ul>
@@ -413,7 +368,7 @@
 <li><p>Prepare lists of your summary stats and their corresponding labels</p></li>
 </ul>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sumstats_list</span> <span class="o">=</span> <span class="p">[</span>
@@ -2098,7 +2053,7 @@ dict_keys([&#39;HbF&#39;, &#39;MCV&#39;, &#39;Hb&#39;, &#39;RBC&#39;, &#39;HCT&#
 <span class="n">plot_circular</span><span class="p">(</span>
     <span class="n">sumstats_loaded</span><span class="o">=</span><span class="n">sumstast_loaded</span><span class="p">,</span>
     <span class="n">sector_sizes</span><span class="o">=</span><span class="n">sectors_sizes</span><span class="p">,</span>
-    <span class="n">annotate</span><span class="o">=</span><span class="s1">&#39;gene&#39;</span><span class="p">,</span>
+    <span class="n">annotate</span><span class="o">=</span><span class="s1">&#39;gene&#39;</span><span class="p">,</span> <span class="c1"># remember there was no build info hence hits table was not annotated with genes. Let&#39;s see plotting behaviour in this scenario</span>
     <span class="n">label_col</span><span class="o">=</span><span class="s1">&#39;top_gene&#39;</span><span class="p">,</span>
     <span class="n">logp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">highlight</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -2485,363 +2440,6 @@ Wall time: 7.1 s
 </div>
 </section>
 </section>
-</section>
-<section id="Multi-panel-Circular-Manhattan-Plotting">
-<h1>Multi-panel Circular Manhattan Plotting<a class="headerlink" href="#Multi-panel-Circular-Manhattan-Plotting" title="Link to this heading"></a></h1>
-<hr class="docutils" />
-<section id="Specify-groups-of-sumstats-to-load-and-plot-in-different-panels">
-<h2>Specify groups of sumstats to load and plot in different panels<a class="headerlink" href="#Specify-groups-of-sumstats-to-load-and-plot-in-different-panels" title="Link to this heading"></a></h2>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">##############################################################</span>
-<span class="c1"># Group 1 susmtats</span>
-<span class="n">sumstats_list_group1</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s1">&#39;/data/awonkam1/kesoh/gwas/sitt/sumher/caapa/nHbF/caapa-r2-0.60-maf-0.01_nHbF_agecut-5_kvik1.step2.assoc.gz&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;/data/awonkam1/kesoh/gwas/sitt/sumher/topmed/nMCV/topmed-r2-0.60-maf-0.01_nMCV_agecut-5_kvik1.step2.assoc.gz&#39;</span>
-<span class="p">]</span>
-
-<span class="n">labels_group1</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;HbF&#39;</span><span class="p">,</span><span class="s1">&#39;MCV&#39;</span><span class="p">]</span>
-
-<span class="c1"># supplying sumstat builds, same order as sumstatst and labels</span>
-<span class="n">build_group1</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">&quot;hg19&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;hg38&quot;</span><span class="p">,</span>
-<span class="p">]</span>
-<span class="n">sumstat_info_dict_group1</span> <span class="o">=</span> <span class="n">prep_pycmplot_input_info</span><span class="p">(</span>
-    <span class="n">sum_stats</span><span class="o">=</span><span class="n">sumstats_list_group1</span><span class="p">,</span>
-    <span class="n">labels</span><span class="o">=</span><span class="n">labels_group1</span><span class="p">,</span>
-    <span class="n">build_list</span><span class="o">=</span><span class="n">build_group1</span>
-<span class="p">)</span>
-
-<span class="n">pycmplot_dict_group1</span> <span class="o">=</span> <span class="n">get_sumstats_and_merged_sector_list</span><span class="p">(</span>
-    <span class="n">sum_stats</span><span class="o">=</span><span class="n">sumstats_list_group1</span><span class="p">,</span>
-    <span class="n">labels</span><span class="o">=</span><span class="n">labels_group1</span><span class="p">,</span>
-    <span class="n">file_info</span><span class="o">=</span><span class="n">sumstat_info_dict_group1</span><span class="p">,</span>
-    <span class="n">highlight</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">highlight_thresh</span><span class="o">=</span><span class="mf">1e-7</span><span class="p">,</span>
-    <span class="n">signif_threshold</span><span class="o">=</span><span class="mf">1e-7</span><span class="p">,</span>
-    <span class="n">signif_line</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">logp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">table_out</span><span class="o">=</span><span class="s2">&quot;pycmplot_multi_panel_group1&quot;</span><span class="p">,</span>
-    <span class="n">trim_pval</span><span class="o">=</span><span class="mf">0.01</span>
-<span class="p">)</span>
-
-
-<span class="c1">##############################################################</span>
-<span class="c1"># Group 2 susmtats</span>
-<span class="n">sumstats_list_group2</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s1">&#39;/data/awonkam1/kesoh/gwas/sitt/sumher/kgp/nRBC/kgp-r2-0.60-maf-0.01_nRBC_agecut-5_kvik1.step2.assoc.gz&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;/data/awonkam1/kesoh/gwas/sitt/sumher/gmv2p2/nMCH/gmv2p2-r2-0.60-maf-0.01_nMCH_agecut-5_kvik1.step2.assoc.gz&#39;</span>
-<span class="p">]</span>
-
-<span class="c1"># labels, same order as sumstatst</span>
-<span class="n">labels_group2</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">&quot;RBC&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;MCH&quot;</span>
-<span class="p">]</span>
-
-<span class="c1"># supplying sumstat builds, same order as sumstatst and labels</span>
-<span class="n">build_group2</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">&quot;hg19&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;hg38&quot;</span><span class="p">,</span>
-<span class="p">]</span>
-
-<span class="n">sumstat_info_dict_group2</span> <span class="o">=</span> <span class="n">prep_pycmplot_input_info</span><span class="p">(</span>
-    <span class="n">sum_stats</span><span class="o">=</span><span class="n">sumstats_list_group2</span><span class="p">,</span>
-    <span class="n">labels</span><span class="o">=</span><span class="n">labels_group2</span><span class="p">,</span>
-    <span class="n">build_list</span><span class="o">=</span><span class="n">build_group2</span>
-<span class="p">)</span>
-
-<span class="n">pycmplot_dict</span> <span class="o">=</span> <span class="n">get_sumstats_and_merged_sector_list</span><span class="p">(</span>
-    <span class="n">sum_stats</span><span class="o">=</span><span class="n">sumstats_list_group2</span><span class="p">,</span>
-    <span class="n">highlight</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">highlight_thresh</span><span class="o">=</span><span class="mf">1e-7</span><span class="p">,</span>
-    <span class="n">labels</span><span class="o">=</span><span class="n">labels_group2</span><span class="p">,</span>
-    <span class="n">file_info</span><span class="o">=</span><span class="n">sumstat_info_dict_group2</span><span class="p">,</span>
-    <span class="n">logp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">table_out</span><span class="o">=</span><span class="s2">&quot;pycmplot_multi_panel_group2&quot;</span><span class="p">,</span>
-    <span class="n">trim_pval</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span>
-    <span class="n">signif_threshold</span><span class="o">=</span><span class="mf">1e-7</span><span class="p">,</span>
-<span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-[INFO] Loading MCV [/data/awonkam1/kesoh/gwas/sitt/sumher/topmed/nMCV/topmed-r2-0.60-maf-0.01_nMCV_agecut-5_kvik1.step2.assoc.gz] ...
-[INFO] Normalizing chromosome names {&#34;23&#34;: &#34;X&#34;, &#34;24&#34;: &#34;Y&#34;, &#34;M&#34;: &#34;MT&#34;, &#34;MTDNA&#34;: &#34;MT&#34;} ...
-[INFO] Loaded 13896844 variants from summary stat file, using 1.07 GB of memory
-[INFO] Extracting raw p-values for QQ-plotting ...
-[{&#39;genome&#39;: np.float64(7.301029995663981), &#39;suggestive&#39;: np.float64(5.0)}]
-[INFO] Auto-thinning: 13896844 -&gt; 343301 variants (kept all -log10(P) &gt;= 2.0; down-sampled below-threshold background to &lt;=200000).
-[INFO] Excluding variants with p-value less than 0.01 to speed up Manhattan plotting ...
-[INFO] 143301 variants remain after trimming, using 12.3 MB of memory
-[INFO] Adding a &#39;logP&#39; column ...
-[INFO] Extracting lead variants and variants to highlight ...
-[INFO] Loading HbF [/data/awonkam1/kesoh/gwas/sitt/sumher/caapa/nHbF/caapa-r2-0.60-maf-0.01_nHbF_agecut-5_kvik1.step2.assoc.gz] ...
-[INFO] Normalizing chromosome names {&#34;23&#34;: &#34;X&#34;, &#34;24&#34;: &#34;Y&#34;, &#34;M&#34;: &#34;MT&#34;, &#34;MTDNA&#34;: &#34;MT&#34;} ...
-[INFO] Loaded 4921533 variants from summary stat file, using 382 MB of memory
-[INFO] Extracting raw p-values for QQ-plotting ...
-[{&#39;genome&#39;: np.float64(7.301029995663981), &#39;suggestive&#39;: np.float64(5.0)}, {&#39;genome&#39;: np.float64(7.301029995663981), &#39;suggestive&#39;: np.float64(5.0)}]
-[INFO] Auto-thinning: 4921533 -&gt; 253524 variants (kept all -log10(P) &gt;= 2.0; down-sampled below-threshold background to &lt;=200000).
-[INFO] Excluding variants with p-value less than 0.01 to speed up Manhattan plotting ...
-[INFO] 53524 variants remain after trimming, using 4.64 MB of memory
-[INFO] Adding a &#39;logP&#39; column ...
-[INFO] Extracting lead variants and variants to highlight ...
-[INFO] Loading gene info from: /home/kesohku1/workflows/pycmplot/pycmplot/data/Homo_sapiens.GRCh38.geneinfo.tsv.gz
-[INFO] Annotating lead variants and generating hits summary table ...
-[INFO] Locus summary written to: pycmplot_multi_panel_group1.tsv
-[INFO] Computing per-sumstat sector sizes (chrom → [min_pos, max_pos])
-[INFO] All processes completed successfully!
-[INFO] Loading RBC [/data/awonkam1/kesoh/gwas/sitt/sumher/kgp/nRBC/kgp-r2-0.60-maf-0.01_nRBC_agecut-5_kvik1.step2.assoc.gz] ...
-[INFO] Normalizing chromosome names {&#34;23&#34;: &#34;X&#34;, &#34;24&#34;: &#34;Y&#34;, &#34;M&#34;: &#34;MT&#34;, &#34;MTDNA&#34;: &#34;MT&#34;} ...
-[INFO] Loaded 12198661 variants from summary stat file, using 947 MB of memory
-[INFO] Extracting raw p-values for QQ-plotting ...
-[{&#39;genome&#39;: np.float64(7.301029995663981), &#39;suggestive&#39;: np.float64(5.0)}]
-[INFO] Auto-thinning: 12198661 -&gt; 323461 variants (kept all -log10(P) &gt;= 2.0; down-sampled below-threshold background to &lt;=200000).
-[INFO] Excluding variants with p-value less than 0.001 to speed up Manhattan plotting ...
-[INFO] 12272 variants remain after trimming, using 1.07 MB of memory
-[INFO] Adding a &#39;logP&#39; column ...
-[INFO] Extracting lead variants and variants to highlight ...
-[INFO] Loading MCH [/data/awonkam1/kesoh/gwas/sitt/sumher/gmv2p2/nMCH/gmv2p2-r2-0.60-maf-0.01_nMCH_agecut-5_kvik1.step2.assoc.gz] ...
-[INFO] Normalizing chromosome names {&#34;23&#34;: &#34;X&#34;, &#34;24&#34;: &#34;Y&#34;, &#34;M&#34;: &#34;MT&#34;, &#34;MTDNA&#34;: &#34;MT&#34;} ...
-[INFO] Loaded 13848274 variants from summary stat file, using 1.07 GB of memory
-[INFO] Extracting raw p-values for QQ-plotting ...
-[{&#39;genome&#39;: np.float64(7.301029995663981), &#39;suggestive&#39;: np.float64(5.0)}, {&#39;genome&#39;: np.float64(7.301029995663981), &#39;suggestive&#39;: np.float64(5.0)}]
-[INFO] Auto-thinning: 13848274 -&gt; 344842 variants (kept all -log10(P) &gt;= 2.0; down-sampled below-threshold background to &lt;=200000).
-[INFO] Excluding variants with p-value less than 0.001 to speed up Manhattan plotting ...
-[INFO] 15246 variants remain after trimming, using 1.31 MB of memory
-[INFO] Adding a &#39;logP&#39; column ...
-[INFO] Extracting lead variants and variants to highlight ...
-[INFO] Loading gene info from: /home/kesohku1/workflows/pycmplot/pycmplot/data/Homo_sapiens.GRCh38.geneinfo.tsv.gz
-[INFO] Annotating lead variants and generating hits summary table ...
-[INFO] Locus summary written to: pycmplot_multi_panel_group2.tsv
-[INFO] Computing per-sumstat sector sizes (chrom → [min_pos, max_pos])
-[INFO] All processes completed successfully!
-</pre></div></div>
-</div>
-</section>
-</section>
-<section id="Plot-in-panels">
-<h1>Plot in panels<a class="headerlink" href="#Plot-in-panels" title="Link to this heading"></a></h1>
-<blockquote>
-<div><p>IMPORTANT: It is MANDATORY to pass polar axes to pyCirclize. This means when creating subplots, projecttion must be set to ‘polar’.</p>
-</div></blockquote>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-
-<span class="c1"># Create subplots with projection=&#39;polar&#39;</span>
-<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span>
-    <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span>
-    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
-    <span class="n">subplot_kw</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;projection&#39;</span><span class="p">:</span> <span class="s1">&#39;polar&#39;</span><span class="p">}</span>
-<span class="p">)</span>
-
-<span class="c1"># Group 1</span>
-<span class="n">fig1</span> <span class="o">=</span> <span class="n">plot_circular</span><span class="p">(</span>
-    <span class="n">sumstats_loaded</span><span class="o">=</span><span class="n">pycmplot_dict_group1</span><span class="p">[</span><span class="s2">&quot;dfs&quot;</span><span class="p">],</span>
-    <span class="n">hits_table</span><span class="o">=</span><span class="n">pycmplot_dict_group1</span><span class="p">[</span><span class="s2">&quot;annot&quot;</span><span class="p">],</span>
-    <span class="n">sector_sizes</span><span class="o">=</span><span class="n">pycmplot_dict_group1</span><span class="p">[</span><span class="s2">&quot;sectors&quot;</span><span class="p">],</span>
-    <span class="n">signif_lines</span><span class="o">=</span><span class="n">pycmplot_dict_group1</span><span class="p">[</span><span class="s2">&quot;lines&quot;</span><span class="p">],</span>
-    <span class="n">signif_line</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">suggest_line</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">annotate</span><span class="o">=</span><span class="s2">&quot;GENE&quot;</span><span class="p">,</span>
-    <span class="n">plot_title</span><span class="o">=</span><span class="s2">&quot;Group 1&quot;</span><span class="p">,</span>
-    <span class="n">plot_title_size</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span>
-    <span class="n">output_format</span><span class="o">=</span><span class="s1">&#39;png&#39;</span><span class="p">,</span>
-    <span class="n">annotation_size</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
-    <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
-    <span class="n">highlight</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">highlight_thresh</span><span class="o">=</span><span class="mf">1e-7</span><span class="p">,</span>
-    <span class="n">highlight_line</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">chrom_label_side</span><span class="o">=</span><span class="s1">&#39;inside&#39;</span><span class="p">,</span>
-    <span class="n">pad</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-    <span class="n">r_min</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span>
-    <span class="n">r_max</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-    <span class="n">logp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;steelblue&#39;</span><span class="p">,</span><span class="s1">&#39;lightblue&#39;</span><span class="p">],</span>
-    <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="c1"># Pass subfigure 1</span>
-<span class="p">)</span>
-
-<span class="c1"># Group 2</span>
-<span class="n">fig2</span> <span class="o">=</span> <span class="n">plot_circular</span><span class="p">(</span>
-    <span class="n">sumstats_loaded</span><span class="o">=</span><span class="n">pycmplot_dict</span><span class="p">[</span><span class="s2">&quot;dfs&quot;</span><span class="p">],</span>
-    <span class="n">hits_table</span><span class="o">=</span><span class="n">pycmplot_dict</span><span class="p">[</span><span class="s2">&quot;annot&quot;</span><span class="p">],</span>
-    <span class="n">sector_sizes</span><span class="o">=</span><span class="n">pycmplot_dict</span><span class="p">[</span><span class="s2">&quot;sectors&quot;</span><span class="p">],</span>
-    <span class="n">signif_lines</span><span class="o">=</span><span class="n">pycmplot_dict</span><span class="p">[</span><span class="s2">&quot;lines&quot;</span><span class="p">],</span>
-    <span class="n">signif_line</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">suggest_line</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">annotate</span><span class="o">=</span><span class="s1">&#39;gene&#39;</span><span class="p">,</span>
-    <span class="n">label_col</span><span class="o">=</span><span class="s1">&#39;top_gene&#39;</span><span class="p">,</span>
-    <span class="n">chrom_label_side</span><span class="o">=</span><span class="s1">&#39;outside&#39;</span><span class="p">,</span>
-    <span class="n">logp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">highlight</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">highlight_thresh</span><span class="o">=</span><span class="mf">1e-7</span><span class="p">,</span>
-    <span class="n">highlight_line</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">plot_title</span><span class="o">=</span><span class="s2">&quot;Group 2&quot;</span><span class="p">,</span>
-    <span class="n">r_min</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
-    <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span>  <span class="c1"># Pass subfigure 2</span>
-<span class="p">)</span>
-<br/></pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-[INFO] Plotting : HbF
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-/home/kesohku1/workflows/pycmplot/pycmplot/plotting/circular.py:623: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.
-  for chrom, df in assoc.groupby(&#34;CHR&#34;, sort=False)
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-[INFO] Plotting : MCV
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-/home/kesohku1/workflows/pycmplot/pycmplot/plotting/circular.py:623: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.
-  for chrom, df in assoc.groupby(&#34;CHR&#34;, sort=False)
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-[INFO] Annotating by: nearest_upstream_gene
-[INFO] Plotting : RBC
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-/home/kesohku1/workflows/pycmplot/pycmplot/plotting/circular.py:623: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.
-  for chrom, df in assoc.groupby(&#34;CHR&#34;, sort=False)
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-[INFO] Plotting : MCH
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-/home/kesohku1/workflows/pycmplot/pycmplot/plotting/circular.py:623: FutureWarning: The default of observed=False is deprecated and will be changed to True in a future version of pandas. Pass observed=False to retain current behavior or observed=True to adopt the future default and silence this warning.
-  for chrom, df in assoc.groupby(&#34;CHR&#34;, sort=False)
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-[INFO] Annotating by: top_gene
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-/home/kesohku1/workflows/pycmplot/pycmplot/plotting/circular.py:669: UserWarning: r_lim=(77.33333333333334, 100.00000000000001) is unexpected plot range (0 &lt;= r &lt;= 100).
-  a_track = sector.add_track(annotation_track_radius)
-</pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="_images/pycmplot_python_api_75_10.png" src="_images/pycmplot_python_api_75_10.png" />
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#pycmplot_dict_group1[&quot;lines&quot;]</span>
-<span class="c1">#help(plot_circular)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;multi_panel_circular.png&quot;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">&quot;tight&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_linear</span><span class="p">(</span>
-    <span class="n">sumstats_loaded</span><span class="o">=</span><span class="n">pycmplot_dict</span><span class="p">[</span><span class="s2">&quot;dfs&quot;</span><span class="p">],</span>
-    <span class="n">hits_table</span><span class="o">=</span><span class="n">pycmplot_dict</span><span class="p">[</span><span class="s2">&quot;annot&quot;</span><span class="p">],</span>
-    <span class="n">signif_lines</span><span class="o">=</span><span class="n">pycmplot_dict</span><span class="p">[</span><span class="s2">&quot;lines&quot;</span><span class="p">],</span>
-    <span class="c1">#signif_line=True, suggest_line=True,</span>
-    <span class="n">annotate</span><span class="o">=</span><span class="s1">&#39;gene&#39;</span><span class="p">,</span>
-    <span class="n">track_heights</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
-    <span class="n">plot_title</span><span class="o">=</span><span class="s2">&quot;test_pycmplot_python_api&quot;</span><span class="p">,</span>
-    <span class="n">label_col</span><span class="o">=</span><span class="s1">&#39;top_gene&#39;</span><span class="p">,</span>
-    <span class="n">output_format</span><span class="o">=</span><span class="s1">&#39;png&#39;</span><span class="p">,</span>
-    <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">chr_spacing</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
-    <span class="n">point_size</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
-    <span class="n">highlight</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">highlight_line</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">logp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;steelblue&#39;</span><span class="p">,</span><span class="s1">&#39;orange&#39;</span><span class="p">],</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
-<span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-[INFO] Annotating by: top_gene
-[INFO] Plotting: RBC ...
-[INFO] Plotting: MCH ...
-[INFO] Saved linear Manhattan plot: /home/kesohku1/projects/gwas/scripts/test_pycmplot_python_api_rbc_mch_lm_logp.png
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-[&lt;Axes: &gt;, &lt;Axes: &gt;, &lt;Axes: xlabel=&#39;Chromosome&#39;&gt;]
-</pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="_images/pycmplot_python_api_77_2.png" src="_images/pycmplot_python_api_77_2.png" />
-</div>
-</div>
 <section id="#-Final-Notes">
 <h2># Final Notes<a class="headerlink" href="##-Final-Notes" title="Link to this heading"></a></h2>
 <ul class="simple">

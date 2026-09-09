@@ -24,6 +24,7 @@ The tutorial is organised as a progression:
 #. :ref:`tut-categories` — per-locus categories and the custom legend.
 #. :ref:`tut-multipanel` — multiple sumstats groups on one canvas.
 #. :ref:`tut-liftover` — mixed genome builds.
+#. :ref:`tut-editor` — browser-based GUI for editing the hits overlay.
 #. :ref:`tut-cli` — CLI equivalents for every step above.
 #. :ref:`tut-faq` — troubleshooting and common gotchas.
 
@@ -73,13 +74,13 @@ exactly once even when you produce multiple plot types (linear +
 circular + QQ) from the same data.  Every workflow in this tutorial
 uses the same three steps:
 
-#. :func:`~pycmplot.io.prep_pycmplot_input_info` — resolve column
+#. :func:`~pycmplot.io.prep` — resolve column
    names and delimiters for each input file.
-#. :func:`~pycmplot.io.get_sumstats_and_merged_sector_list` — load,
+#. :func:`~pycmplot.io.load` — load,
    trim, lift over (if needed), extract leads, build the hits table.
    Returns a ``bundle`` dict.
-#. A plotter (:func:`~pycmplot.plotting.linear.plot_linear`,
-   :func:`~pycmplot.plotting.circular.plot_circular`, or one of the
+#. A plotter (:func:`~pycmplot.plotting.linear.linear`,
+   :func:`~pycmplot.plotting.circular.circular`, or one of the
    QQ plotters) — consumes fields from ``bundle``.
 
 Here is the canonical shape:
@@ -87,13 +88,13 @@ Here is the canonical shape:
 .. code-block:: python
 
    from pycmplot import (
-       prep_pycmplot_input_info,
-       get_sumstats_and_merged_sector_list,
+       prep,
+       load,
    )
 
    files, labels = ["hb.tsv"], ["Hb"]
-   file_info = prep_pycmplot_input_info(sum_stats=files, labels=labels)
-   bundle = get_sumstats_and_merged_sector_list(
+   file_info = prep(sum_stats=files, labels=labels)
+   bundle = load(
        sum_stats=files, labels=labels, file_info=file_info,
        logp=True, trim_pval=0.01, signif_threshold=5e-8,
    )
@@ -111,9 +112,9 @@ Single-track
 
 .. code-block:: python
 
-   from pycmplot import plot_linear
+   from pycmplot import linear
 
-   plot_linear(
+   linear(
        sumstats_loaded=bundle["dfs"],
        signif_lines=bundle["lines"],
        hits_table=bundle["annot"],
@@ -132,12 +133,12 @@ axes per file, sharing the chromosomal x-axis:
 .. code-block:: python
 
    files, labels = ["hb.tsv", "mcv.tsv"], ["Hb", "MCV"]
-   file_info = prep_pycmplot_input_info(sum_stats=files, labels=labels)
-   bundle = get_sumstats_and_merged_sector_list(
+   file_info = prep(sum_stats=files, labels=labels)
+   bundle = load(
        sum_stats=files, labels=labels, file_info=file_info,
        logp=True, trim_pval=0.01, signif_threshold=5e-8,
    )
-   plot_linear(
+   linear(
        sumstats_loaded=bundle["dfs"],
        signif_lines=bundle["lines"],
        hits_table=bundle["annot"],
@@ -160,9 +161,9 @@ Same ``bundle``, different plotter — plus one extra input,
 
 .. code-block:: python
 
-   from pycmplot import plot_circular
+   from pycmplot import circular
 
-   plot_circular(
+   circular(
        sumstats_loaded=bundle["dfs"],
        sector_sizes=bundle["sectors"],
        signif_lines=bundle["lines"],
@@ -188,14 +189,14 @@ above a threshold:
 
 .. code-block:: python
 
-   bundle = get_sumstats_and_merged_sector_list(
+   bundle = load(
        sum_stats=files, labels=labels, file_info=file_info,
        logp=True, trim_pval=0.01,
        highlight=True,             # extract hits during load
        highlight_thresh=5e-8,      # p-value cutoff
        signif_threshold=5e-8,
    )
-   plot_linear(
+   linear(
        sumstats_loaded=bundle["dfs"],
        hits_table=bundle["annot"],
        signif_lines=bundle["lines"],
@@ -218,7 +219,7 @@ Add ``annotate="GENE"`` to label each lead SNP with its nearest gene:
 
 .. code-block:: python
 
-   plot_linear(
+   linear(
        sumstats_loaded=bundle["dfs"],
        hits_table=bundle["annot"],
        signif_lines=bundle["lines"],
@@ -242,6 +243,64 @@ Columns you'll see include ``CHR``, ``POS``, ``SNP``, ``P``, ``LABEL``
 ``source``, ``highlight_color``, and ``category`` (introduced by the
 overlay system — see :ref:`tut-overlay`).
 
+Distance semantics
+~~~~~~~~~~~~~~~~~~
+
+Every distance-based field on the hits table
+(``nearest_gene_distance``, ``upstream_distance``,
+``downstream_distance``, and the numeric part of the intergenic
+``top_gene`` label) is computed against the **near edge of the gene
+body**, not the TSS.  Concretely:
+
+* ``nearest_upstream_gene`` — the closest gene whose ``END < POS``,
+  measured as ``POS − END`` (the SNP's distance to the gene's right
+  edge, which for a left-flanker is the edge facing the SNP).
+* ``nearest_downstream_gene`` — the closest gene whose ``START > POS``,
+  measured as ``START − POS``.
+* ``nearest_gene`` — the closest gene by ``min(|POS − START|, |POS − END|)``,
+  regardless of which side of the SNP it sits on; ``0`` when the SNP
+  falls inside a gene body (``genic = True``).
+
+This convention is deliberately **strand-blind**.  It matches what
+``bedtools closest``, VEP's "nearest gene" annotation, and ANNOVAR's
+``gene_dist`` column report, so pycmplot's numbers line up directly
+with those tools.  A gene whose body extends toward the SNP wins its
+side even when a more compact gene sits closer to the SNP's
+mid-point — the near-edge rule is what makes the answer independent
+of gene length.
+
+The **only** field where strand still matters is
+``promoter_upstream_flag``, which uses a 2 kb window
+5' of each gene's TSS (``[START − 2 kb, START)`` for ``+`` strand,
+``(END, END + 2 kb]`` for ``−`` strand).  That's genuinely a
+biological concept and would be misleading if computed positionally,
+so it stays strand-aware.
+
+See the manuscript's :download:`annotation_schematic.pdf
+<../benchmark/figures/annotation_schematic.pdf>` for a visual
+walkthrough of the near-edge rule under different gene layouts.
+
+.. rubric:: In one paragraph
+
+Left/right flanker selection is a pure coordinate comparison: a gene
+enters ``nearest_upstream_gene`` iff its body ends at a lower
+coordinate than the SNP (``END < POS``, so the whole body sits on
+the numerically-lower side) and ``nearest_downstream_gene`` iff it
+starts at a higher one (``START > POS``); on each side the winner is
+the gene whose near edge (``END`` for the left flanker, ``START`` for
+the right) minimises the base-pair gap to the SNP.  This is
+strictly *orientational* — a statement about where the gene body
+sits on the coordinate axis relative to the SNP — and does not
+reference the gene's strand; two genes with identical coordinates
+but opposite strands would be classified identically.  The one
+place strand is retained is
+:data:`promoter_upstream_flag`, which is set when the SNP falls in
+the 2 kb window immediately 5' of any gene's TSS —
+``[START − 2 kb, START)`` for ``+`` strand genes and
+``(END, END + 2 kb]`` for ``−`` strand genes.  "Promoter" is a
+genuinely biological concept defined relative to transcription
+direction, so it is the only field where strand information matters.
+
 
 .. _tut-qq:
 
@@ -256,28 +315,28 @@ QQ plots and ``compute_pvals``
 
 .. code-block:: python
 
-   from pycmplot import plot_qq_combined, plot_qq_overlay, plot_qq_separate
+   from pycmplot import qq_combined, qq_overlay, qq_separate
 
-   bundle = get_sumstats_and_merged_sector_list(
+   bundle = load(
        sum_stats=files, labels=labels, file_info=file_info,
        logp=True, trim_pval=0.01,
        compute_pvals=True,          # <-- opt in
    )
 
-   plot_qq_combined(
+   qq_combined(
        pval_dict=bundle["pvals"],
        thin=True, max_points=50_000,
        ncols=2, title="RBC",
        output_path="./out/rbc_qq", fig_format="png",
    )
 
-   plot_qq_overlay(
+   qq_overlay(
        pval_dict=bundle["pvals"],
        thin=True, max_points=50_000,
        title="RBC", output_path="./out/rbc_qq_overlay",
    )
 
-   plot_qq_separate(
+   qq_separate(
        pval_dict=bundle["pvals"], base_name="RBC",
        thin=True, max_points=50_000,
        output_path="./out/rbc_qq",
@@ -300,7 +359,7 @@ extraction).  Turn on caching and every re-run of the same
 
 .. code-block:: python
 
-   bundle = get_sumstats_and_merged_sector_list(
+   bundle = load(
        sum_stats=files, labels=labels, file_info=file_info,
        logp=True, trim_pval=0.01, highlight=True,
        cache=True,                # enable
@@ -380,131 +439,27 @@ by ``(CHR, POS)`` lookup — you don't have to also change
 ``source='auto'`` to ``user`` to keep your edits.
 
 
-Example batch edit ``hits.<group_key>.tsv`` files using a cumstom python script in commandline:
-
-- Copy and paste the code below in a file name update_annotations.py
-
-.. code-block:: python
-
-   #!/usr/bin/env python3
-
-   import csv
-   import sys
-   import os
-   import tempfile
-   import shutil
-
-   def main():
-      if len(sys.argv) != 2:
-         print(f"Usage: {sys.argv[0]} <input.tsv>", file=sys.stderr)
-         sys.exit(1)
-
-      filepath = sys.argv[1]
-
-      required_columns = {"P", "highlight_color", "category"}
-
-      # Write to a temporary file in the same directory so that the
-      # final replacement is atomic on the same filesystem.
-      directory = os.path.dirname(os.path.abspath(filepath))
-
-      with open(filepath, "r", newline="", encoding="utf-8") as infile:
-         # Preserve comment lines separately while locating the header.
-         comments = []
-
-         for line in infile:
-               if line.startswith("#"):
-                  comments.append(line)
-                  continue
-
-               header = line.rstrip("\r\n").split("\t")
-               break
-         else:
-               raise ValueError("No header found in input file.")
-
-         missing = required_columns - set(header)
-         if missing:
-               raise ValueError(
-                  f"Missing required column(s): {', '.join(sorted(missing))}"
-               )
-
-         p_idx = header.index("P")
-         color_idx = header.index("highlight_color")
-         category_idx = header.index("category")
-
-         fd, temp_path = tempfile.mkstemp(
-               dir=directory,
-               prefix=".tmp_",
-               suffix=".tsv"
-         )
-
-         try:
-               with os.fdopen(fd, "w", newline="", encoding="utf-8") as outfile:
-                  # Preserve comments exactly as they appeared.
-                  outfile.writelines(comments)
-
-                  writer = csv.writer(
-                     outfile,
-                     delimiter="\t",
-                     lineterminator="\n"
-                  )
-
-                  writer.writerow(header)
-
-                  for line in infile:
-                     if line.startswith("#"):
-                           outfile.write(line)
-                           continue
-
-                     row = line.rstrip("\r\n").split("\t")
-
-                     # Skip malformed rows rather than silently corrupting them.
-                     if len(row) != len(header):
-                           raise ValueError(
-                              f"Row has {len(row)} columns; expected {len(header)}:\n"
-                              f"{line.rstrip()}"
-                           )
-
-                     try:
-                           p = float(row[p_idx])
-                     except ValueError:
-                           raise ValueError(
-                              f"Invalid P-value '{row[p_idx]}' in row:\n"
-                              f"{line.rstrip()}"
-                           )
-
-                     if p < 5e-8:
-                           #row[color_idx] = "red"
-                           row[category_idx] = "significant (P < 5e-08)"
-                     elif p < 1e-7:
-                           row[color_idx] = "orange"
-                           row[category_idx] = "marginally significant (P < 1e-07)"
-                     else:
-                           row[color_idx] = "grey"
-                           row[category_idx] = "suggestive (P > 1e-07)"
-
-                     writer.writerow(row)
-
-               shutil.move(temp_path, filepath)
-
-         except Exception:
-               if os.path.exists(temp_path):
-                  os.remove(temp_path)
-               raise
-
-
-   if __name__ == "__main__":
-      main()   
-
-- Make the script executable and run it
+Example batch edit ``hits.<group_key>.tsv`` files using ``awk`` in commandline:
 
 .. code-block:: bash
-
-   chmod +x update_annotations.py
 
    cachedir=/your/cachedir
    
    for i in ${cachedir}/annotations/hits.*.tsv; do 
-      update_annotations.py $i
+      awk '
+         OFS="\t" 
+         {
+            if($1 ~ /^#/) {print $0} 
+            else{
+               if($1 ~ /^source/) {print $0} 
+               else{
+                  if($5 >= 5e-08) {$26="orange"; $27="marginally significant (P < 1e-07)"} 
+                  else {$27="significant (P < 5e-08)"} {print $0}
+               }
+            }
+         }' ${i} > ${i}.bak
+
+      mv ${i}.bak ${i}
    done
 
 - This highlights all signals with ``P < 5e-08`` with the defaul ``brown`` color and all signals
@@ -585,14 +540,14 @@ explicit matplotlib ``Axes`` (or ``SubFigure``) via ``ax=``:
        (sub_top, ["hb.tsv"],  ["Hb"]),
        (sub_bot, ["mcv.tsv"], ["MCV"]),
    ]:
-       fi = prep_pycmplot_input_info(
+       fi = prep(
            sum_stats=group_files, labels=group_labels,
        )
-       b = get_sumstats_and_merged_sector_list(
+       b = load(
            sum_stats=group_files, labels=group_labels, file_info=fi,
            logp=True, highlight=True, cache=True, cache_dir="./.pycmplot",
        )
-       plot_linear(
+       linear(
            sumstats_loaded=b["dfs"],
            hits_table=b["annot"], signif_lines=b["lines"],
            logp=True, highlight=True,
@@ -618,12 +573,12 @@ by passing ``build_list=`` (Python) / ``--build`` (CLI):
 
 .. code-block:: python
 
-   bundle = get_sumstats_and_merged_sector_list(
+   bundle = load(
        sum_stats=["study_hg18.tsv", "study_hg19.tsv", "study_hg38.tsv"],
        labels=["A", "B", "C"],
        build_list=["hg18", "hg19", "hg38"],
        logp=True, trim_pval=0.01,
-       file_info=prep_pycmplot_input_info(
+       file_info=prep(
            sum_stats=["study_hg18.tsv", "study_hg19.tsv", "study_hg38.tsv"],
            labels=["A", "B", "C"],
        ),
@@ -631,6 +586,165 @@ by passing ``build_list=`` (Python) / ``--build`` (CLI):
 
 Liftover is cached alongside the loaded rows, so subsequent runs
 (with ``cache=True``) skip it entirely.
+
+
+.. _tut-editor:
+
+GUI editor for the hits overlay
+-------------------------------
+
+If hand-editing the ``hits.<group>.tsv`` in a text editor feels
+awkward — especially picking colours by typing hex codes — pycmplot
+ships an optional browser-based editor.  Install the extra and launch
+it against your cache directory:
+
+.. code-block:: bash
+
+   pip install "pycmplot[editor]"
+   pycmplot edit --cache_dir ./.pycmplot_cache
+
+That opens a local Streamlit app (default ``http://localhost:8501``)
+with a spreadsheet-style view of the overlay.  Highlights of the UI:
+
+* ``source``, ``highlight_color``, and ``category`` are rendered as
+  typed columns — ``source`` is a dropdown of ``auto`` / ``user``;
+  ``category`` is a selectbox pre-populated with every category
+  already in use (type a new value to add it).
+* Rows can be added or deleted inline for ``source='user'`` loci
+  that didn't make the automatic cutoff.
+* A "Colour preview" strip below the table shows each row as a
+  labelled swatch — valid colours render at their true colour;
+  ``auto`` renders as a dashed grey chip; invalid values render red
+  so typos are impossible to miss.
+* **Save** writes through the same :func:`~pycmplot.cache.write_hits_overlay`
+  the loader uses, so atomic writes and inheritance-across-regenerations
+  behave identically to the text-editor workflow.
+* **Preview plot** re-renders a linear Manhattan against the cached
+  tracks and the *in-memory* overlay, so you can see colour /
+  category changes reflected before saving.
+* **Discard & reload** drops unsaved changes and re-reads the TSV.
+
+When the cache directory contains multiple ``hits.<group>.tsv`` files
+(different ``(files, parameters)`` combinations sharing one
+``cache_dir``), the editor prints the available group keys and asks
+you to re-launch with ``--group <key>``.  Full flag list:
+
+.. code-block:: text
+
+   pycmplot edit --cache_dir PATH  [--group KEY] [--host HOST] [--port PORT] [--tui]
+
+The extra is opt-in so headless / CI pipelines don't pay the
+Streamlit install cost.
+
+Terminal-UI backend for cluster sessions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Many clusters (secured HPC facilities, hospital compute, etc.) don't
+allow port forwarding or run headless compute nodes without a graphical
+display — the browser editor is unusable there.  For those cases,
+pycmplot ships a **terminal UI** built on `Textual
+<https://textual.textualize.io/>`_ that renders in any ANSI terminal
+and needs nothing more than a plain SSH session:
+
+.. code-block:: bash
+
+   pip install "pycmplot[editor-tui]"
+   pycmplot edit --cache_dir ./.pycmplot_cache --tui
+
+The TUI has feature parity with the browser backend, adjusted for
+keyboard-only ergonomics:
+
+* Spreadsheet-style ``DataTable`` — arrow keys / Home / End / PgUp /
+  PgDn to navigate; **F2** or **Enter** to open the cell-edit modal.
+* The modal opens with the current value pre-selected so typing
+  replaces; a live colour swatch renders the resolved colour in
+  truecolor if your terminal supports it, and invalid values render
+  with a red frame so typos are caught before save.
+* Category cells show existing labels as a hint line — copy-paste to
+  reuse or type a new value to add.
+* Footer bindings: **Ctrl+S** save, **Ctrl+R** reload (prompts if
+  dirty), **Ctrl+N** add ``source=user`` row, **Ctrl+D** delete row,
+  **Ctrl+P** render a preview PNG to ``<cache_dir>/preview.png``
+  (most terminals can't render images inline), **Ctrl+Q** quit
+  (prompts if dirty).
+* Save delegates to the same
+  :func:`~pycmplot.cache.write_hits_overlay` the browser backend
+  uses, so atomic-write + inheritance guarantees hold identically.
+
+The two backends are independent extras — install just the one you
+need, or both.  A vanilla ``pip install pycmplot`` still pulls
+neither.
+
+Filter, multi-select, and batch edit (TUI)
+""""""""""""""""""""""""""""""""""""""""""
+
+For overlays with dozens to hundreds of loci, single-cell editing is
+tedious.  The TUI adds a filter + multi-select + batch-edit flow:
+
+* Press ``/`` to open a filter modal.  Type any pandas
+  :meth:`~pandas.DataFrame.query` expression — ``P < 5e-8``,
+  ``category == "significant"``, ``CHR == "6" and BP.between(28e6, 34e6)``.
+  The grid re-renders showing only matching rows; ``Esc`` clears the
+  filter (and any selection) in one keystroke.
+* Press ``Space`` on a row to toggle its selection (visible as a
+  green ● in the leftmost ✓ column).  Selection is tied to the
+  *original* dataframe index so it survives filtering and refresh.
+* Press ``Ctrl+A`` to select every row currently visible under the
+  filter.  ``/ P < 5e-8`` then ``Ctrl+A`` is the standard
+  "select every genome-wide hit" move.
+* Press ``Ctrl+E`` to open the batch-edit modal.  Toggle between the
+  ``highlight_color`` and ``category`` columns, type one value, and
+  it's applied to every selected row.  The colour swatch preview
+  and validation are identical to the single-cell modal.  When no
+  rows are explicitly selected, batch-edit falls back to "the
+  current filtered view" — so ``/ … Ctrl+E`` is a two-step batch
+  flow.
+
+Batch CLI (``pycmplot hits``)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+For pipelines, Makefiles, and reproducible analysis notebooks, a
+scripted "colour every genome-wide-significant novel hit red" step
+belongs in code rather than a GUI.  The ``pycmplot hits``
+subcommand exposes the same filter grammar in a batch CLI:
+
+.. code-block:: bash
+
+   # Preview what would change
+   pycmplot hits set                                        \
+       --cache_dir ./.pycmplot_cache                        \
+       --where 'P < 5e-8'                                   \
+       --color '#00cc44' --category "genome-wide"           \
+       --dry-run
+
+   # Actually apply
+   pycmplot hits set                                        \
+       --cache_dir ./.pycmplot_cache                        \
+       --where 'P < 5e-8'                                   \
+       --color '#00cc44' --category "genome-wide"
+
+   # Inspect the overlay
+   pycmplot hits list                                       \
+       --cache_dir ./.pycmplot_cache                        \
+       --where 'category == "novel"'                        \
+       --columns CHR,POS,SNP,P,category
+
+   # Pipe TSV output to awk / cut / etc.
+   pycmplot hits list --cache_dir ./.pycmplot_cache --tsv \
+       | awk -F'\\t' 'NR > 1 && $4 < 5e-8 {print $3}'
+
+``--where`` uses pandas' :meth:`~pandas.DataFrame.query` grammar —
+identical to the TUI's filter, so users learn one syntax.  Invalid
+colours are rejected pre-write; a bad ``--where`` expression prints
+the offending part rather than a pandas traceback.  ``--dry-run``
+prints the N rows that would change and exits without touching
+disk.  Writes go through the same :func:`~pycmplot.cache.write_hits_overlay`
+path as every other backend — atomic writes and inheritance
+guarantees apply identically.
+
+The CLI needs no extras — no Streamlit, no Textual — just the base
+package.  Ideal for a headless CI step that reproducibly applies a
+colouring policy without any interactive editing.
 
 
 .. _tut-cli:
