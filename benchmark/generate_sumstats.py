@@ -77,25 +77,25 @@ CHROM_SIZES = HG38_CHROM_SIZES
 # identity across builds so liftover round-trips can be validated by 
 # comparing (build, position) tuples.
 HG19_TARGET_SPIKES: list[tuple[str, int, float]] = [
-    ("3",  72_392_645,  1e-50),   # rs4677148
+    ("1",  172_058_886, 7e-12),   # rs186897198
     ("2",  36_733_328,  3e-08),   # rs2030645 - hg19-specific
     ("7",  18_786_817,  7e-23),   # rs727851
     ("10", 31_127_166,  7e-08),   # rs12413361
     ("11", 12_879_123,  5e-09),   # rs546512774
     ("11", 2_802_090,   9e-08),   # rs234886
     ("15", 22_791_431,  1e-08),   # rs6606792 - hg19-specific
-    ("17", 59_498_250,  1e-41),   # rs9905385
+    ("17", 65_854_602,  2e-12),   # rs55931203
 ]
 
 HG38_TARGET_SPIKES: list[tuple[str, int, float]] = [
-    ("3",  72_343_494,  1e-50),   # rs4677148
+    ("1",  172_089_746, 7e-12),   # rs186897198
     ("7",  18_747_194,  7e-23),   # rs727851
     ("10", 30_838_237,  7e-08),   # rs12413361
     ("11", 12_857_576,  5e-09),   # rs546512774
     ("11", 2_780_860,   9e-08),   # rs234886
     ("12", 122_933_684, 7e-09),   # rs73230017 - hg38-specific
     ("16", 69_181_056,  1e-08),   # rs12444184 - hg38-specific
-    ("17", 61_420_889,  1e-41),   # rs9905385
+    ("17", 67_858_486,  2e-12),   # rs55931203
 ]
 
 # Half-width of the peak window in bp — variants *outside* every target
@@ -493,9 +493,9 @@ def main():
             "generator that scatters n_signals hits across the "
             "genome with no controlled positions.  See "
             ":data:`HG19_TARGET_SPIKES` / :data:`HG38_TARGET_SPIKES` "
-            "for the coordinate lists (6 body-height associated gwas-catalog " 
-            "loci: rs4677148, rs727851, "
-            "rs12413361, rs546512774, rs234886, rs9905385)."
+            "for the coordinate lists (10 body-height associated gwas-catalog " 
+            "loci: rs186897198, rs727851, rs2030645, rs6606792, rs73230017, rs12444184"
+            "rs12413361, rs546512774, rs234886, rs55931203)."
         ),
     )
     args = parser.parse_args()
