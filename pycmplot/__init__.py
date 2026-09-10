@@ -61,7 +61,7 @@ from pycmplot.io import (
 from pycmplot.plotting.linear import plot_linear
 from pycmplot.plotting.circular import plot_circular
 from pycmplot.plotting.qq import (
-    plot_qq_combined, plot_qq_overlay, plot_qq_separate,
+    plot_qq_combined, plot_qq_overlay, plot_qq_separate, plot_qq_single,
 )
 
 __all__ = [
@@ -70,6 +70,7 @@ __all__ = [
     "load",
     "linear",
     "circular",
+    "qq_single",
     "qq_combined",
     "qq_overlay",
     "qq_separate",
@@ -86,9 +87,10 @@ __all__ = [
     "get_sumstats_and_merged_sector_list",
     "plot_linear",
     "plot_circular",
+    "plot_qq_single",
     "plot_qq_combined",
     "plot_qq_overlay",
     "plot_qq_separate",
 ]
 
-__version__ = "0.4.0"
+__version__ = "0.4.2"

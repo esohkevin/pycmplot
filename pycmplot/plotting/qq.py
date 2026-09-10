@@ -24,7 +24,7 @@ applied by default:
 Public functions
 ----------------
 thin_pvals          Downsample null-like p-values for fast plotting.
-plot_qq_single      Draw one QQ plot onto a given Axes.
+qq_single      Draw one QQ plot onto a given Axes.
 plot_qq_combined    All QQ plots in a single figure (grid layout).
 plot_qq_separate    One output file per sumstat.
 plot_qq_overlay     All sumstats overlaid on one axes, coloured by label.
@@ -372,7 +372,7 @@ def set_legend_loc_string():
 # Single-axis QQ plot
 # ---------------------------------------------------------------------------
 
-def plot_qq_single(
+def qq_single(
     pvals: np.ndarray | pd.Series,
     ax: plt.Axes,
     label: Optional[str] = None,
@@ -439,7 +439,7 @@ def plot_qq_single(
             "If you created the figure with plt.subplots(nrows, ncols), "
             "index the returned array, e.g.:\n"
             "  fig, axes = plt.subplots(1, 2)\n"
-            "  plot_qq_single(pvals, ax=axes[0])"
+            "  qq_single(pvals, ax=axes[0])"
         )
 
     # Directive error message when pvals is None — usually a symptom of
@@ -597,7 +597,7 @@ def qq_combined(
     output_path:
         If given, save the figure here.
     thin, thin_below, max_points, rasterized:
-        See :func:`plot_qq_single`.
+        See :func:`qq_single`.
 
     Returns
     -------
@@ -623,7 +623,7 @@ def qq_combined(
     axes_flat = axes_grid.flatten()
 
     for idx, (label, pvals) in enumerate(pval_dict.items()):
-        plot_qq_single(
+        qq_single(
             pvals=pvals,
             ax=axes_flat[idx],
             label=label,
@@ -701,7 +701,7 @@ def qq_separate(
     colors:
         List of colours, one per track.
     thin, thin_below, max_points, rasterized:
-        See :func:`plot_qq_single`.
+        See :func:`qq_single`.
 
     Returns
     -------
@@ -739,7 +739,7 @@ def qq_separate(
     for idx, (label, pvals) in enumerate(pval_dict.items()):
         fig, ax = plt.subplots(figsize=figsize)
 
-        plot_qq_single(
+        qq_single(
             pvals=pvals,
             ax=ax,
             label=label,
@@ -807,7 +807,7 @@ def qq_overlay(
     show_lambda:
         Append λ to each legend entry.
     thin, thin_below, max_points, rasterized:
-        See :func:`plot_qq_single`.
+        See :func:`qq_single`.
 
     Returns
     -------
@@ -832,7 +832,7 @@ def qq_overlay(
     _validate_pval_dict(pval_dict)
     n = len(pval_dict)
 
-    # Coerce numeric kwargs once (see plot_qq_single for rationale).
+    # Coerce numeric kwargs once (see qq_single for rationale).
     point_size = _to_scalar_float(point_size, name="point_size")
 
     cmap = plt.get_cmap("tab10")
@@ -877,7 +877,7 @@ def qq_overlay(
             color=color, alpha=ci_alpha, linewidth=0,
         )
         # Use ax.plot (Line2D) instead of ax.scatter (PathCollection) for
-        # the same draw-time reasons as in plot_qq_single — much faster at
+        # the same draw-time reasons as in qq_single — much faster at
         # large N with identical rasterised output.
         _ms = float(np.sqrt(point_size)) if point_size else 2.0
         ax.plot(
@@ -939,12 +939,15 @@ def qq_overlay(
 
 
 # ---------------------------------------------------------------------------
-# Backwards-compatible aliases (deprecated in 0.4.x)
+# Backwards-compatible aliases (deprecated in 0.4.1)
 # ---------------------------------------------------------------------------
 # The three QQ entry points shed the ``plot_`` prefix so the API reads as
 # ``pcm.qq_combined(...)``, ``pcm.qq_overlay(...)``, ``pcm.qq_separate(...)``.
 # Old names remain importable for one release cycle with a soft warning.
 from pycmplot._deprecation import _deprecated_alias as _da
+plot_qq_single = _da(
+    qq_single, old_name="plot_qq_single", new_name="qq_single",
+)
 plot_qq_combined = _da(
     qq_combined, old_name="plot_qq_combined", new_name="qq_combined",
 )
