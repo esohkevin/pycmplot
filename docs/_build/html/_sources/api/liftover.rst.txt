@@ -3,11 +3,11 @@
 pycmplot.liftover
 =================
 
-Lazy hg19 → hg38 coordinate conversion powered by
+Lazy hg18 → hg38 and hg19 → hg38 coordinate conversion powered by
 `pyliftover <https://github.com/konstantint/pyliftover>`_.
 Conversion is triggered only when a genome-build column is detected (or
 explicitly named via ``--build_column``), and only for rows annotated as
-``hg19``. All other rows are passed through unchanged.
+``hg18`` or ``hg19``. All other rows are passed through unchanged.
 
 .. currentmodule:: pycmplot.liftover
 

@@ -210,8 +210,7 @@ Single-track:
          :width: 800px
 
 
-.. toggle::
-   :header: **Click to expand full CLI options**
+.. toggle:: Click to expand full CLI options
 
    .. code-block:: text
 
@@ -249,9 +248,9 @@ comma-separated, in matching order:
    The default linear plot size (``--figure_size``) is (width, height) --> (10, 4). 
    By default, each track (including the annotation track) gets an equal space. 
    Annotations in the figure above are not visible. We can solve this by two means.
-      - either increase figure height: ``--figure_size 10,8``
-      - or increase the annotation track space relative to the rest: ``--track_heights 2,1,1``
-      - or combine the two options to improve the visuals.
+   - either increase figure height: ``--figure_size 10,8``
+   - or increase the annotation track space relative to the rest: ``--track_heights 2,1,1``
+   - or combine the two options to improve the visuals.
 
    **NB:** When using ``--annotate`` in linear plotting, the first (top) track is always the annotation track.
 

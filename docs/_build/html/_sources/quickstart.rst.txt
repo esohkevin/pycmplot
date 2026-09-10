@@ -4,7 +4,7 @@ Quickstart
 ==========
 
 This page walks through the most common workflows in a few lines each.
-For a detailed walkthrough with real data, see :ref:`python_api_notebook`.
+For a detailed walkthrough with real data, see :ref:`python_api_tutorial`.
 
 Input file format
 -----------------
@@ -60,23 +60,23 @@ Linear Manhattan plot (single trait)
 .. code-block:: python
 
    from pycmplot import (
-       prep_pycmplot_input_info,
-       get_sumstats_and_merged_sector_list,
-       plot_linear,
+       prep,
+       load,
+       linear,
    )
 
    files  = ["HbF.tsv.gz"]
    labels = ["HbF"]
 
    # 1. Resolve per-file column names and delimiters
-   file_info = prep_pycmplot_input_info(
+   file_info = prep(
        sum_stats=files,
        labels=labels,
    )
 
    # 2. Load data, run liftover (if needed), extract lead SNPs,
    #    build the hits table, and compute merged sector sizes
-   result = get_sumstats_and_merged_sector_list(
+   result = load(
        sum_stats=files,
        labels=labels,
        logp=True,
@@ -86,7 +86,7 @@ Linear Manhattan plot (single trait)
    )
 
    # 3. Render the plot
-   plot_linear(
+   linear(
        sumstats_loaded=result["dfs"],
        logp=True,
        signif_lines=result["lines"],
@@ -109,9 +109,9 @@ Compare three RBC traits in a single stacked figure:
    files  = ["HbF.tsv.gz", "MCV.txt.gz", "MCH.tsv.gz"]
    labels = ["HbF", "MCV", "MCH"]
 
-   file_info = prep_pycmplot_input_info(sum_stats=files, labels=labels)
+   file_info = prep(sum_stats=files, labels=labels)
 
-   result = get_sumstats_and_merged_sector_list(
+   result = load(
        sum_stats=files,
        labels=labels,
        logp=True,
@@ -120,7 +120,7 @@ Compare three RBC traits in a single stacked figure:
        signif_threshold=5e-8,
    )
 
-   plot_linear(
+   linear(
        sumstats_loaded=result["dfs"],
        logp=True,
        signif_lines=result["lines"],
@@ -136,9 +136,9 @@ Circular (Circos-style) Manhattan plot
 
 .. code-block:: python
 
-   from pycmplot import plot_circular
+   from pycmplot import circular
 
-   plot_circular(
+   circular(
        sumstats_loaded=result["dfs"],
        sector_sizes=result["sectors"],
        logp=True,
@@ -155,14 +155,14 @@ QQ plots
 ~~~~~~~~
 
 Each of the QQ functions accepts the ``pvals`` dictionary returned by
-:func:`~pycmplot.io.get_sumstats_and_merged_sector_list`:
+:func:`~pycmplot.io.load`:
 
 .. code-block:: python
 
-   from pycmplot import plot_qq_combined, plot_qq_overlay, plot_qq_separate
+   from pycmplot import qq_combined, qq_overlay, qq_separate
 
    # Grid of per-track QQ panels
-   plot_qq_combined(
+   qq_combined(
        pval_dict=result["pvals"],
        thin=True,
        max_points=50_000,
@@ -173,7 +173,7 @@ Each of the QQ functions accepts the ``pvals`` dictionary returned by
    )
 
    # All traits overlaid on one axes, with lambda in the legend
-   plot_qq_overlay(
+   qq_overlay(
        pval_dict=result["pvals"],
        thin=True,
        max_points=50_000,
@@ -183,7 +183,7 @@ Each of the QQ functions accepts the ``pvals`` dictionary returned by
    )
 
    # One file per trait
-   plot_qq_separate(
+   qq_separate(
        pval_dict=result["pvals"],
        base_name="RBC",
        thin=True,
@@ -196,16 +196,16 @@ Mixed genome builds with liftover
 ---------------------------------
 
 If your summary statistics were generated on different reference panels
-(hg19 and hg38), pycmplot can liftover hg19 coordinates to hg38 before
-plotting. Supply the builds either through a ``BUILD`` column in the files
-or by passing ``--build`` (CLI) / ``build_list=`` (API):
+(hg18, hg19, or hg38), pycmplot can liftover hg18 and hg19 coordinates to
+hg38 before plotting. Supply the builds either through a ``BUILD`` column
+in the files or by passing ``--build`` (CLI) / ``build_list=`` (API):
 
 .. code-block:: bash
 
    pycmplot \
-     --sum_stats study_hg19.tsv.gz,study_hg38.tsv.gz \
-     --labels Study_A,Study_B \
-     --build hg19,hg38 \
+     --sum_stats study_hg18.tsv.gz,study_hg19.tsv.gz,study_hg38.tsv.gz \
+     --labels Study_A,Study_B,Study_C \
+     --build hg18,hg19,hg38 \
      --logp \
      --annotate GENE \
      --output_dir ./results
@@ -215,4 +215,4 @@ Next steps
 
 - Full CLI reference: :ref:`cli`
 - Complete Python API: :ref:`api`
-- Interactive notebook tutorial: :ref:`python_api_notebook`
+- Interactive notebook tutorial: :ref:`python_api_tutorial`

@@ -26,7 +26,7 @@ extensions = [
     "sphinx_design",
     "sphinxcontrib.lightbox2",  # Image zooming lightbox
     "sphinx_togglebutton",      # Collapsible dropdowns
-    "hoverxref.extension",      # Hover tooltips
+    "sphinx_tippy",             # Replace hoverxref.extension
 
     "numpydoc",                 # richer NumPy-style rendering
     "nbsphinx",                 # embed Jupyter notebooks
@@ -34,8 +34,11 @@ extensions = [
     "myst_parser",              # allow Markdown (.md) pages alongside .rst
 ]
 
-# Optional HoverXRef Configuration
-hoverxref_auto_ref = True  # Automatically enables tooltips for all :ref: targets
+# Clean configuration
+tippy_props = {
+    "theme": "light-border",
+    "interactive": True,
+}
 
 # Napoleon settings (NumPy docstring style)
 napoleon_google_docstring = False
