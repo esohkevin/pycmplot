@@ -8,7 +8,7 @@ window.onload = function () {
             if (skip_classes.some(c => link.classList.contains(c))) {
                 continue;
             }
-
+            link.classList.add('has-tippy');
             tippy(link, {
                 content: tip_html,
                 allowHTML: true,

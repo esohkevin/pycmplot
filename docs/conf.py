@@ -25,6 +25,7 @@ extensions = [
     # UI Elements & Interactivity
     "sphinx_design",
     "sphinxcontrib.lightbox2",  # Image zooming lightbox
+    "sphinxcontrib.images",
     "sphinx_togglebutton",      # Collapsible dropdowns
     "sphinx_tippy",             # Replace hoverxref.extension
 
@@ -34,10 +35,18 @@ extensions = [
     "myst_parser",              # allow Markdown (.md) pages alongside .rst
 ]
 
+html_static_path = ['_static']
+html_css_files = ["tippy.css"]
+tippy_add_class = "has-tippy"
+
 # Clean configuration
 tippy_props = {
     "theme": "light-border",
     "interactive": True,
+}
+
+images_config = {
+    "backend": "LightBox2",
 }
 
 # Napoleon settings (NumPy docstring style)
@@ -91,9 +100,6 @@ html_theme_options = {
     "includehidden": True,
     "titles_only": False,
 }
-
-html_static_path = ["_static"]
-html_css_files = ["custom.css"]
 
 # Optional: path to logo image (add docs/_static/logo.png if you have one)
 # html_logo = "_static/logo.png"
