@@ -12,7 +12,7 @@ sys.path.insert(0, os.path.abspath(".."))
 project = "pycmplot"
 copyright = "2026, Kevin Esoh"
 author = "Kevin Esoh"
-release = "0.3.1"  # update to match PyPI version
+release = "0.4.2"  # update to match PyPI version
 
 # -- General configuration -----------------------------------------------------
 extensions = [
@@ -21,14 +21,12 @@ extensions = [
     "sphinx.ext.napoleon",      # NumPy / Google docstring styles
     "sphinx.ext.viewcode",      # [source] links in API docs
     "sphinx.ext.intersphinx",   # cross-links to numpy, pandas, matplotlib docs
-
     # UI Elements & Interactivity
     "sphinx_design",
     #"sphinxcontrib.lightbox2",  # Image zooming lightbox
     "sphinxcontrib.images",
     "sphinx_togglebutton",      # Collapsible dropdowns
     "sphinx_tippy",             # Replace hoverxref.extension
-
     "numpydoc",                 # richer NumPy-style rendering
     "nbsphinx",                 # embed Jupyter notebooks
     "sphinx_copybutton",        # copy-button on code blocks
@@ -36,6 +34,9 @@ extensions = [
 ]
 
 html_static_path = ['_static']
+#Specify the filename of your custom logo
+html_logo = '_static/pycmplot-logo-circular.png' 
+
 html_css_files = ["tippy.css"]
 tippy_add_class = "has-tippy"
 
