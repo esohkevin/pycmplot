@@ -53,8 +53,7 @@ These are actuall **body height** significant loci pulled from `GWAS Catalog`_.
 
 .. _GWAS Catalog: https://www.ebi.ac.uk/gwas/efotraits/OBA_VT0001253
 
-.. toggle::{admonition} See significant SNPs list
-   :class: dropdown
+.. toggle::
 
    HG19_TARGET_SPIKES: list[tuple[str, int, float]] = [
       ("1",  172_058_886, 7e-12),   # rs186897198
@@ -141,11 +140,9 @@ and writes the output image(s) plus a locus summary TSV.
 pycmplot defaults to ``--mode lm`` (linear Manhattan).  Add
 ``--mode cm`` to switch to the Circos-style circular layout — every
 other flag stays the same.  Use ``pycmplot -h`` for the full
-mode-specific option list.
+mode-specific option list. Click below to expand full CLI options.
 
-
-.. toggle::{admonition} Click to expand full CLI options
-   :class: dropdown
+.. toggle:: dropdown
 
    .. code-block:: text
 
@@ -308,7 +305,6 @@ mode-specific option list.
 .. tab-set::
 
    .. tab-item:: Linear
-      :sync: linear
 
       .. code-block:: bash
 
@@ -323,7 +319,6 @@ mode-specific option list.
          :width: 800px
 
    .. tab-item:: Circular
-      :sync: circular
 
       .. code-block:: bash
 
@@ -354,9 +349,10 @@ Highlighting
 
 .. note::
    Note how chromosome labels are compact in circular plot.
+
    We can solve it in two ways:
-   - Place chromosome labels outside: ``--chrom_label_side outside``
-   - Increase space inside circle: ``--min_radius 40``
+      - Place chromosome labels outside: ``--chrom_label_side outside``
+      - Increase space inside circle: ``--min_radius 40``
 
    Combining the two in multi-track plotting will enhance visuals.
 
@@ -367,7 +363,6 @@ Single-track
 .. tab-set::
 
    .. tab-item:: Linear
-      :sync: linear
 
       .. code-block:: bash
 
@@ -386,7 +381,6 @@ Single-track
          :width: 800px
 
    .. tab-item:: Circular
-      :sync: circular
 
       .. code-block:: bash
 
@@ -406,7 +400,6 @@ Single-track
          :width: 800px
 
    .. tab-item:: Circular (chrom label ourside)
-      :sync: circular
 
       Also enhance plot title visual by reducing the size
 
@@ -430,7 +423,6 @@ Single-track
          :width: 800px
 
    .. tab-item:: Circular (min radius control)
-      :sync: circular
 
       .. code-block:: bash
 
@@ -469,7 +461,6 @@ in ``cm`` mode, so it's dropped from the circular tab.
 .. tab-set::
 
    .. tab-item:: Linear
-      :sync: linear
 
       .. code-block:: bash
 
@@ -489,7 +480,6 @@ in ``cm`` mode, so it's dropped from the circular tab.
          :width: 800px
 
    .. tab-item:: Circular
-      :sync: circular
 
       .. code-block:: bash
 
@@ -530,16 +520,18 @@ tracks using ``--highlight_line``.
    The default linear plot size (``--figure_size``) is (10, 4) for (width, height). 
    By default, each track (including the annotation track) gets an equal space. 
    Annotations in the figure above are not visible. We can solve this by two means.
-   - either increase figure height: ``--figure_size 10,8``
-   - or increase the annotation track space relative to the rest: ``--track_heights 2,1,1``
-   - or combine the two options to improve the visuals.
+
+   * either increase figure height: ``--figure_size 10,8``
+
+   * or increase the annotation track space relative to the rest: ``--track_heights 2,1,1``
+
+   * or combine the two options to improve the visuals.
 
    **NB:** When using ``--annotate`` in linear plotting, the first (top) track is always the annotation track.
 
 .. tab-set::
 
    .. tab-item:: Linear
-      :sync: linear
 
       .. code-block:: bash
 
@@ -562,7 +554,6 @@ tracks using ``--highlight_line``.
          :width: 800px
 
    .. tab-item:: Linear (track heights)
-      :sync: linear
 
       We could also change alternating chromosome colors.
       (see :ref:`cli-tut-colors`).
@@ -591,7 +582,6 @@ tracks using ``--highlight_line``.
          :width: 800px
 
    .. tab-item:: Linear (figure size)
-      :sync: linear
 
       .. code-block:: bash
 
@@ -616,7 +606,6 @@ tracks using ``--highlight_line``.
          :width: 800px
 
    .. tab-item:: Circular
-      :sync: circular
 
       .. code-block:: bash
 
@@ -643,17 +632,16 @@ tracks using ``--highlight_line``.
 
 
 .. important::
-   Notice the two near-significant loci on chromosomes 10 and 11.
+   Notice the two near-significant loci on **chromosome 10** and **chromosome 11**.
    If we wish to highlight and annotated, we will modify two parameters:
-   ``--signif_threshold`` and ``--highight_thresh``
+   set ``--signif_threshold`` and ``--highight_thresh`` with the same value.
 
-   .. note::      
-      Note that if only used ``highlight_thresh 1e-07``, the loci will be highlighted but no annotated
+   .. note::
+      If only ``highlight_thresh 1e-07`` is used, the loci will be highlighted but no annotated
 
 .. tab-set::
 
    .. tab-item:: Linear
-      :sync: linear
 
       .. code-block:: bash
 
@@ -679,8 +667,7 @@ tracks using ``--highlight_line``.
          :alt: multi-track linear Manhattan plot
          :width: 800px
 
-   .. tab-item:: Linear
-      :sync: linear
+   .. tab-item:: Circular
 
       .. code-block:: bash
 
@@ -731,12 +718,12 @@ column name from the hits table is accepted.  Add
 
 .. tip::
    We can further enhance visualization:
-   - We can remove the track labels on the right with ``--no_track_labels``
-   - Annotate by gene symbol using ``--annotate gene`` (case insenitive).
-   - Add a line through all highlighted loci using ``--highlight_line``
-   - Change the color of the line using ``--highlight_line_color``
-   - To generate qq-plots, simply add ``--qq_plot``
-   - To specify a type, 
+      - We can remove the track labels on the right with ``--no_track_labels``
+      - Annotate by gene symbol using ``--annotate gene`` (case insenitive).
+      - Add a line through all highlighted loci using ``--highlight_line``
+      - Change the color of the line using ``--highlight_line_color``
+      - To generate qq-plots, simply add ``--qq_plot``
+      - To specify a type, 
 
 
 .. code-block:: bash
