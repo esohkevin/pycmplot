@@ -158,15 +158,20 @@ The rest of this tutorial adds one feature at a time on top of that base.
 Linear Manhattan plots
 ----------------------
 
-Single-track:
+Single-track
 ~~~~~~~~~~~~
 
 **Highlight, and add plot title and significant/suggestive lines to the base above**
 
+pycmplot defaults to ``--mode lm`` (linear Manhattan).  Add
+``--mode cm`` to switch to the Circos-style circular layout — every
+other flag stays the same.  Use ``pycmplot -h`` for the full
+mode-specific option list.
+
 .. tab-set::
 
    .. tab-item:: Linear
-      :sync: bash
+      :sync: linear
 
       .. code-block:: bash
 
@@ -185,12 +190,7 @@ Single-track:
          :width: 800px
 
    .. tab-item:: Circular
-      :sync: bash
-
-      pycmplot defaults ``--mode lm`` (linear Manhattan).
-
-      Add ``--mode cm`` (circular) to switch layout — much of the options stay
-      the same. Use ``pycmplot -h`` to see all linear/circular mode-specific options.
+      :sync: circular
 
       .. code-block:: bash
 
@@ -205,8 +205,8 @@ Single-track:
             --suggest_threshold \
             --output_dir ./out
 
-      .. figure:: img/trait1_highlighted_trait1_hg19_lm_logp.png
-         :alt: linear Manhattan plot with base options
+      .. figure:: img/trait1_highlighted_trait1_hg19_cm_logp.png
+         :alt: circular Manhattan plot with base options
          :width: 800px
 
 
@@ -227,22 +227,54 @@ comma-separated, in matching order:
 
 **Annotate significant hits**
 
-.. code-block:: bash
+The same six sumstats stacked as multi-track linear or wrapped into a
+Circos layout — swap ``--mode cm`` in / out and everything else is
+identical.  ``--track_heights`` is linear-only and has no effect
+in ``cm`` mode, so it's dropped from the circular tab.
 
-   pycmplot \
-      --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait2_hg19.tsv.gz,./data/sumstats_1M_trait3_hg19.tsv.gz,./data/sumstats_1M_trait4_hg38.tsv.gz,./data/sumstats_1M_trait5_hg38.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz \
-      --labels Trait1_hg19,Trait2_hg19,Trait3_hg19,Trait4_hg38,Trait5_hg38,Trait6_hg38 \
-      --plot_title "Multi-track" \
-      --logp \
-      --highlight \
-      --signif_line \
-      --suggest_threshold \
-      --annotate \
-      --output_dir ./out
+.. tab-set::
 
-.. figure:: img/multitrack_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_lm_logp.png
-   :alt: linear Manhattan plot with base options
-   :width: 800px
+   .. tab-item:: Linear
+      :sync: linear
+
+      .. code-block:: bash
+
+         pycmplot \
+            --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait2_hg19.tsv.gz,./data/sumstats_1M_trait3_hg19.tsv.gz,./data/sumstats_1M_trait4_hg38.tsv.gz,./data/sumstats_1M_trait5_hg38.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz \
+            --labels Trait1_hg19,Trait2_hg19,Trait3_hg19,Trait4_hg38,Trait5_hg38,Trait6_hg38 \
+            --plot_title "Multi-track" \
+            --logp \
+            --highlight \
+            --signif_line \
+            --suggest_threshold \
+            --annotate \
+            --output_dir ./out
+
+      .. figure:: img/multitrack_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_lm_logp.png
+         :alt: multi-track linear Manhattan plot
+         :width: 800px
+
+   .. tab-item:: Circular
+      :sync: circular
+
+      .. code-block:: bash
+
+         pycmplot \
+            --mode cm \
+            --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait2_hg19.tsv.gz,./data/sumstats_1M_trait3_hg19.tsv.gz,./data/sumstats_1M_trait4_hg38.tsv.gz,./data/sumstats_1M_trait5_hg38.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz \
+            --labels Trait1_hg19,Trait2_hg19,Trait3_hg19,Trait4_hg38,Trait5_hg38,Trait6_hg38 \
+            --plot_title "Multi-track" \
+            --logp \
+            --highlight \
+            --signif_line \
+            --suggest_threshold \
+            --annotate gene \
+            --highlight_line \
+            --output_dir ./out
+
+      .. figure:: img/multitrack_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_cm_logp.png
+         :alt: multi-track circular Manhattan plot
+         :width: 800px
 
 .. tip::
    The default linear plot size (``--figure_size``) is (width, height) --> (10, 4). 
@@ -340,34 +372,17 @@ We can further enhance visualization:
 Circular (Circos) plots
 -----------------------
 
-The default ``--mode lm`` (linear Manhattan) is what every earlier
-command has been using implicitly.
+Every command in :ref:`cli-tut-linear` above has an inline
+``Circular`` tab that swaps ``--mode cm`` in.  Because the two
+plotting modes share every other flag on the CLI (except
+``--track_heights``, which is linear-only), keeping the examples in
+tabs — rather than a separate section — lets you compare the two
+layouts side-by-side at each demonstration.
 
-Add ``--mode cm`` (circular) to switch layout — everything else stays
-the same:
-
-**NB:** ``--track_heights`` is specific to linear mode se we exclude it.
-
-.. code-block:: bash
-
-   pycmplot \
-      --mode cm \
-      --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait2_hg19.tsv.gz,./data/sumstats_1M_trait3_hg19.tsv.gz,./data/sumstats_1M_trait4_hg38.tsv.gz,./data/sumstats_1M_trait5_hg38.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz \
-      --labels Trait1_hg19,Trait2_hg19,Trait3_hg19,Trait4_hg38,Trait5_hg38,Trait6_hg38 \
-      --plot_title "Multi-track" \
-      --logp \
-      --highlight \
-      --signif_line \
-      --suggest_threshold \
-      --annotate gene \
-      --highlight_line \
-      --output_dir ./out
-
-.. figure:: img/multitrack_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_cm_logp.png
-   :alt: linear Manhattan plot with base options
-   :width: 800px
-
-
+Click any "Circular" tab in the linear section above and every other
+tab-set on this page snaps to Circular too (sync group ``circular``),
+so a Circos-first reader can flip once and follow along without
+clicking tab-by-tab.
 
 
 .. _cli-tut-highlight:
