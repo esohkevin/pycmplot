@@ -53,29 +53,33 @@ These are actuall **body height** significant loci pulled from `GWAS Catalog`_.
 
 .. _GWAS Catalog: https://www.ebi.ac.uk/gwas/efotraits/OBA_VT0001253
 
+Click below to see the list of SNPs.
+
 .. toggle::
 
-   HG19_TARGET_SPIKES: list[tuple[str, int, float]] = [
-      ("1",  172_058_886, 7e-12),   # rs186897198
-      ("2",  36_733_328,  3e-08),   # rs2030645 - hg19-specific
-      ("7",  18_786_817,  7e-23),   # rs727851
-      ("10", 31_127_166,  7e-08),   # rs12413361
-      ("11", 12_879_123,  5e-09),   # rs546512774
-      ("11", 2_802_090,   9e-08),   # rs234886
-      ("15", 22_791_431,  1e-08),   # rs6606792 - hg19-specific
-      ("17", 65_854_602,  2e-12),   # rs55931203
-   ]
+   .. code-block:: text
 
-   HG38_TARGET_SPIKES: list[tuple[str, int, float]] = [
-      ("1",  172_089_746, 7e-12),   # rs186897198
-      ("7",  18_747_194,  7e-23),   # rs727851
-      ("10", 30_838_237,  7e-08),   # rs12413361
-      ("11", 12_857_576,  5e-09),   # rs546512774
-      ("11", 2_780_860,   9e-08),   # rs234886
-      ("12", 122_933_684, 7e-09),   # rs73230017 - hg38-specific
-      ("16", 69_181_056,  1e-08),   # rs12444184 - hg38-specific
-      ("17", 67_858_486,  2e-12),   # rs55931203
-   ]
+      HG19_TARGET_SPIKES: list[tuple[str, int, float]] = [
+         ("1",  172_058_886, 7e-12),   # rs186897198
+         ("2",  36_733_328,  3e-08),   # rs2030645 - hg19-specific
+         ("7",  18_786_817,  7e-23),   # rs727851
+         ("10", 31_127_166,  7e-08),   # rs12413361
+         ("11", 12_879_123,  5e-09),   # rs546512774
+         ("11", 2_802_090,   9e-08),   # rs234886
+         ("15", 22_791_431,  1e-08),   # rs6606792 - hg19-specific
+         ("17", 65_854_602,  2e-12),   # rs55931203
+      ]
+
+      HG38_TARGET_SPIKES: list[tuple[str, int, float]] = [
+         ("1",  172_089_746, 7e-12),   # rs186897198
+         ("7",  18_747_194,  7e-23),   # rs727851
+         ("10", 30_838_237,  7e-08),   # rs12413361
+         ("11", 12_857_576,  5e-09),   # rs546512774
+         ("11", 2_780_860,   9e-08),   # rs234886
+         ("12", 122_933_684, 7e-09),   # rs73230017 - hg38-specific
+         ("16", 69_181_056,  1e-08),   # rs12444184 - hg38-specific
+         ("17", 67_858_486,  2e-12),   # rs55931203
+      ]
 
 
 .. code-block:: bash
@@ -142,7 +146,7 @@ pycmplot defaults to ``--mode lm`` (linear Manhattan).  Add
 other flag stays the same.  Use ``pycmplot -h`` for the full
 mode-specific option list. Click below to expand full CLI options.
 
-.. toggle:: dropdown
+.. toggle::{admonition} Click below to expand full CLI options
 
    .. code-block:: text
 
@@ -705,7 +709,6 @@ column name from the hits table is accepted.  Add
 
 
 .. toggle::{admonition} Question: What two genes had sub-threshold significance?
-   :calss: dropdown
 
    *ZNF438* (chr10, p-value) and *KCNQ1* (chr11)
 
