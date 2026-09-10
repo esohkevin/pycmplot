@@ -166,6 +166,7 @@ Single-track:
 .. tab-set::
 
    .. tab-item:: Linear
+      :sync: bash
 
       .. code-block:: bash
 
@@ -184,6 +185,7 @@ Single-track:
          :width: 800px
 
    .. tab-item:: Circular
+      :sync: bash
 
       pycmplot defaults ``--mode lm`` (linear Manhattan).
 
@@ -193,6 +195,7 @@ Single-track:
       .. code-block:: bash
 
          pycmplot \
+            --mode cm \
             --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz \
             --labels Trait1_hg19 \
             --plot_title "Trait1 (highlighted)" \
@@ -205,6 +208,15 @@ Single-track:
       .. figure:: img/trait1_highlighted_trait1_hg19_lm_logp.png
          :alt: linear Manhattan plot with base options
          :width: 800px
+
+
+.. toggle::
+   :header: **Click to expand full CLI options**
+
+   .. code-block:: text
+
+      --mode {lm,cm}       Set Manhattan layout mode
+      --suggest_threshold   Draw genome-wide suggestive line
 
 
 Multi-track

@@ -21,11 +21,21 @@ extensions = [
     "sphinx.ext.napoleon",      # NumPy / Google docstring styles
     "sphinx.ext.viewcode",      # [source] links in API docs
     "sphinx.ext.intersphinx",   # cross-links to numpy, pandas, matplotlib docs
+
+    # UI Elements & Interactivity
+    "sphinx_design",
+    "sphinxcontrib.lightbox2",  # Image zooming lightbox
+    "sphinx_togglebutton",      # Collapsible dropdowns
+    "hoverxref.extension",      # Hover tooltips
+
     "numpydoc",                 # richer NumPy-style rendering
     "nbsphinx",                 # embed Jupyter notebooks
     "sphinx_copybutton",        # copy-button on code blocks
     "myst_parser",              # allow Markdown (.md) pages alongside .rst
 ]
+
+# Optional HoverXRef Configuration
+hoverxref_auto_ref = True  # Automatically enables tooltips for all :ref: targets
 
 # Napoleon settings (NumPy docstring style)
 napoleon_google_docstring = False
