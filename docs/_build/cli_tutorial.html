@@ -36,7 +36,7 @@
       <script src="_static/sphinxcontrib-images/LightBox2/lightbox2-customize/jquery-noconflict.js?v=12818e64"></script>
       <script defer="defer" src="https://unpkg.com/@popperjs/core@2"></script>
       <script defer="defer" src="https://unpkg.com/tippy.js@6"></script>
-      <script defer="defer" src="_static/tippy/cli_tutorial.e1e6b7d9-e6af-4f27-9620-b98ee1ce76af.js"></script>
+      <script defer="defer" src="_static/tippy/cli_tutorial.99f02620-b4be-40c4-b58a-48ae1243eac0.js"></script>
       <script src="_static/js/lightbox-plus-jquery.min.js?v=f0ca4bb6"></script>
       <script>lightbox.option({"alwaysShowNavOnTouchDevices": false, "albumLabel": "Image %1 of %2", "disableScrolling": false, "fadeDuration": 600, "fitImagesInViewport": true, "imageFadeDuration": 600, "positionFromTop": 50, "resizeDuration": 700, "showImageNumberLabel": true, "wrapAround": true})</script>
     <script src="_static/js/theme.js"></script>
@@ -1055,15 +1055,13 @@ you can inspect or export directly:</p>
 <code class="docutils literal notranslate"><span class="pre">--annotate</span> <span class="pre">GENE</span></code> (label with the nearest / top gene), or a
 column name from the hits table is accepted.  Add
 <code class="docutils literal notranslate"><span class="pre">--annotate</span> <span class="pre">GENE</span></code> on top of the previous command:</p>
-<div class="toggle toggle-hidden docutils container">
-<div class="admonition-question-what-two-genes-had-sub-threshold-significance admonition">
-<p class="admonition-title">Question: What two genes had sub-threshold significance?</p>
+<div class="dropdown admonition">
+<p class="admonition-title">Question: What two genes had sub-threshold significant p-values?</p>
 <p><em>ZNF438</em> (chr10, p-value) and <em>KCNQ1</em> (chr11)</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>CHR  POS       SNP                   P       BUILD   logP    LABEL   OLD_POS    OLD_BUILD   genic   nearest_gene
 10   30838237  rs_lead_10_30838237   7e-08   hg38    7.15    T4_hg38 None       None        True    ZNF438
 11   2780860   rs_lead_11_2802090    9e-08   hg38    7.05    T1_hg19 2802090.0  hg19        True    KCNQ1
 </pre></div>
-</div>
 </div>
 </div>
 <div class="admonition tip">
