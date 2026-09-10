@@ -258,10 +258,10 @@ def plot_circosm(
     # Chromosome label (first track only, or chrX)
     # ------------------------------------------------------------------
     if track_index == 0 or sector.name == "X":
-        if chrom_label_loc > 100:
-            chr_label = str("chr") + str(sector.name.replace("23", "X"))
-        else: 
-            chr_label = sector.name.replace("23", "X")
+        #if chrom_label_loc > 100:
+        #    chr_label = str("chr") + str(sector.name.replace("23", "X"))
+        #else: 
+        chr_label = sector.name.replace("23", "X")
         sector.text(
             chr_label,
             r=chrom_label_loc,
@@ -745,7 +745,7 @@ def circular(
 
             sector.text(
                 ylabel_text,
-                x=sector.end - (sector.end - sector.start) / 5,
+                x=sector.end - (sector.end - sector.start) / 4,
                 r=(sector_min_r + sector_max_r) / 2,
                 #    + (sector_min_r + sector_max_r) / 12,
                 adjust_rotation=False,
@@ -757,7 +757,7 @@ def circular(
                 rotation=92,
                 rotation_mode="default",
                 va="top",
-                ha="center",
+                ha="right",
             )
 
     #fig = circos.plotfig()
