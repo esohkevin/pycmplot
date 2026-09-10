@@ -144,9 +144,10 @@ and writes the output image(s) plus a locus summary TSV.
 pycmplot defaults to ``--mode lm`` (linear Manhattan).  Add
 ``--mode cm`` to switch to the Circos-style circular layout — every
 other flag stays the same.  Use ``pycmplot -h`` for the full
-mode-specific option list. Click below to expand full CLI options.
+mode-specific option list.
 
-.. toggle::
+.. admonition:: Click below to expand full CLI options
+   :class: toggle
 
    .. code-block:: text
 
@@ -708,7 +709,7 @@ column name from the hits table is accepted.  Add
 ``--annotate GENE`` on top of the previous command:
 
 
-.. admonition:: Question: What two genes had sub-threshold significant p-values?
+.. admonition:: Question: Which genes had sub-threshold significant p-values?
    :class: dropdown
 
    *ZNF438* (chr10, p-value) and *KCNQ1* (chr11)
