@@ -36,7 +36,7 @@
       <script src="_static/sphinxcontrib-images/LightBox2/lightbox2-customize/jquery-noconflict.js?v=12818e64"></script>
       <script defer="defer" src="https://unpkg.com/@popperjs/core@2"></script>
       <script defer="defer" src="https://unpkg.com/tippy.js@6"></script>
-      <script defer="defer" src="_static/tippy/cli_tutorial.90276f33-f139-42b5-bd43-4541a54010ce.js"></script>
+      <script defer="defer" src="_static/tippy/cli_tutorial.60874faa-9e7c-4ad5-a246-0a5d1b22c303.js"></script>
       <script src="_static/js/lightbox-plus-jquery.min.js?v=f0ca4bb6"></script>
       <script>lightbox.option({"alwaysShowNavOnTouchDevices": false, "albumLabel": "Image %1 of %2", "disableScrolling": false, "fadeDuration": 600, "fitImagesInViewport": true, "imageFadeDuration": 600, "positionFromTop": 50, "resizeDuration": 700, "showImageNumberLabel": true, "wrapAround": true})</script>
     <script src="_static/js/theme.js"></script>
@@ -95,13 +95,11 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">CLI Tutorial</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#setup-a-synthetic-dataset">Setup: a synthetic dataset</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#the-cli-mental-model">The CLI mental model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#linear-manhattan-plots">Linear Manhattan plots</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#highlighting">Highlighting</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#single-track">Single-track</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#multi-track">Multi-track</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#circular-circos-plots">Circular (Circos) plots</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#highlighting">Highlighting</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#automatic-gene-annotation">Automatic gene annotation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#distance-semantics">Distance semantics</a></li>
 </ul>
@@ -370,10 +368,8 @@ functions in a runnable Jupyter notebook.</p>
 <p>The tutorial is organised as a progression:</p>
 <ol class="arabic simple">
 <li><p><a class="reference internal" href="#cli-tut-setup"><span class="std std-ref">Setup: a synthetic dataset</span></a> — a synthetic sumstats file you can paste-and-run.</p></li>
-<li><p><a class="reference internal" href="#cli-tut-load"><span class="std std-ref">The CLI mental model</span></a> — the three-step load / prep / plot mental model.</p></li>
-<li><p><a class="reference internal" href="#cli-tut-linear"><span class="std std-ref">Linear Manhattan plots</span></a> — single- and multi-track linear Manhattan plots.</p></li>
-<li><p><a class="reference internal" href="#cli-tut-circular"><span class="std std-ref">Circular (Circos) plots</span></a> — the Circos-style circular layout.</p></li>
-<li><p><a class="reference internal" href="#cli-tut-highlight"><span class="std std-ref">Highlighting</span></a> — thresholds, colours, and highlight controls.</p></li>
+<li><p><a class="reference internal" href="#cli-tut-base-plot"><span class="std std-ref">The CLI mental model</span></a> — the three-step load / prep / plot mental model.</p></li>
+<li><p><a class="reference internal" href="#cli-tut-highlighting"><span class="std std-ref">Highlighting</span></a> — thresholds, colours, and highlight controls.</p></li>
 <li><p><a class="reference internal" href="#cli-tut-annotate"><span class="std std-ref">Automatic gene annotation</span></a> — automatic nearest-gene labels and the hits table.</p></li>
 <li><p><a class="reference internal" href="#cli-tut-qq"><span class="std std-ref">QQ plots and compute_pvals</span></a> — QQ plots and the <code class="docutils literal notranslate"><span class="pre">compute_pvals</span></code> opt-in.</p></li>
 <li><p><a class="reference internal" href="#cli-tut-cache"><span class="std std-ref">Caching and warm resume</span></a> — the per-track cache and warm-resume behaviour.</p></li>
@@ -398,29 +394,6 @@ The <code class="docutils literal notranslate"><span class="pre">--targets</span
 chr13, chr18, and chr20 in all sumstats, 2 significant loci specific to hg19 sumstats
 (in chr2 and chr15) and 2 significant loci specific to hg38 sumstats (in chr12 and chr16).
 These are actuall <strong>body height</strong> significant loci pulled from <a class="reference external" href="https://www.ebi.ac.uk/gwas/efotraits/OBA_VT0001253">GWAS Catalog</a>.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">HG19_TARGET_SPIKES</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span>
-   <span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">,</span>  <span class="mi">172_058_886</span><span class="p">,</span> <span class="mf">7e-12</span><span class="p">),</span>   <span class="c1"># rs186897198</span>
-   <span class="p">(</span><span class="s2">&quot;2&quot;</span><span class="p">,</span>  <span class="mi">36_733_328</span><span class="p">,</span>  <span class="mf">3e-08</span><span class="p">),</span>   <span class="c1"># rs2030645 - hg19-specific</span>
-   <span class="p">(</span><span class="s2">&quot;7&quot;</span><span class="p">,</span>  <span class="mi">18_786_817</span><span class="p">,</span>  <span class="mf">7e-23</span><span class="p">),</span>   <span class="c1"># rs727851</span>
-   <span class="p">(</span><span class="s2">&quot;10&quot;</span><span class="p">,</span> <span class="mi">31_127_166</span><span class="p">,</span>  <span class="mf">7e-08</span><span class="p">),</span>   <span class="c1"># rs12413361</span>
-   <span class="p">(</span><span class="s2">&quot;11&quot;</span><span class="p">,</span> <span class="mi">12_879_123</span><span class="p">,</span>  <span class="mf">5e-09</span><span class="p">),</span>   <span class="c1"># rs546512774</span>
-   <span class="p">(</span><span class="s2">&quot;11&quot;</span><span class="p">,</span> <span class="mi">2_802_090</span><span class="p">,</span>   <span class="mf">9e-08</span><span class="p">),</span>   <span class="c1"># rs234886</span>
-   <span class="p">(</span><span class="s2">&quot;15&quot;</span><span class="p">,</span> <span class="mi">22_791_431</span><span class="p">,</span>  <span class="mf">1e-08</span><span class="p">),</span>   <span class="c1"># rs6606792 - hg19-specific</span>
-   <span class="p">(</span><span class="s2">&quot;17&quot;</span><span class="p">,</span> <span class="mi">65_854_602</span><span class="p">,</span>  <span class="mf">2e-12</span><span class="p">),</span>   <span class="c1"># rs55931203</span>
-<span class="p">]</span>
-
-<span class="n">HG38_TARGET_SPIKES</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span>
-   <span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">,</span>  <span class="mi">172_089_746</span><span class="p">,</span> <span class="mf">7e-12</span><span class="p">),</span>   <span class="c1"># rs186897198</span>
-   <span class="p">(</span><span class="s2">&quot;7&quot;</span><span class="p">,</span>  <span class="mi">18_747_194</span><span class="p">,</span>  <span class="mf">7e-23</span><span class="p">),</span>   <span class="c1"># rs727851</span>
-   <span class="p">(</span><span class="s2">&quot;10&quot;</span><span class="p">,</span> <span class="mi">30_838_237</span><span class="p">,</span>  <span class="mf">7e-08</span><span class="p">),</span>   <span class="c1"># rs12413361</span>
-   <span class="p">(</span><span class="s2">&quot;11&quot;</span><span class="p">,</span> <span class="mi">12_857_576</span><span class="p">,</span>  <span class="mf">5e-09</span><span class="p">),</span>   <span class="c1"># rs546512774</span>
-   <span class="p">(</span><span class="s2">&quot;11&quot;</span><span class="p">,</span> <span class="mi">2_780_860</span><span class="p">,</span>   <span class="mf">9e-08</span><span class="p">),</span>   <span class="c1"># rs234886</span>
-   <span class="p">(</span><span class="s2">&quot;12&quot;</span><span class="p">,</span> <span class="mi">122_933_684</span><span class="p">,</span> <span class="mf">7e-09</span><span class="p">),</span>   <span class="c1"># rs73230017 - hg38-specific</span>
-   <span class="p">(</span><span class="s2">&quot;16&quot;</span><span class="p">,</span> <span class="mi">69_181_056</span><span class="p">,</span>  <span class="mf">1e-08</span><span class="p">),</span>   <span class="c1"># rs12444184 - hg38-specific</span>
-   <span class="p">(</span><span class="s2">&quot;17&quot;</span><span class="p">,</span> <span class="mi">67_858_486</span><span class="p">,</span>  <span class="mf">2e-12</span><span class="p">),</span>   <span class="c1"># rs55931203</span>
-<span class="p">]</span>
-</pre></div>
-</div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="o">{</span><span class="m">1</span>..3<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
 <span class="w">   </span>python<span class="w"> </span>generate_sumstats.py<span class="w"> </span><span class="se">\</span>
 <span class="w">      </span>--n<span class="w"> </span><span class="m">1000000</span><span class="w"> </span><span class="se">\</span>
@@ -428,8 +401,9 @@ These are actuall <strong>body height</strong> significant loci pulled from <a c
 <span class="w">      </span>--targets<span class="w"> </span>auto<span class="w"> </span><span class="se">\</span>
 <span class="w">      </span>--out<span class="w"> </span>./data/sumstats_1M_trait<span class="si">${</span><span class="nv">i</span><span class="si">}</span>_hg19.tsv.gz
 <span class="k">done</span>
-
-<span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="o">{</span><span class="m">4</span>..6<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="o">{</span><span class="m">4</span>..6<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
 <span class="w">   </span>python<span class="w"> </span>generate_sumstats.py<span class="w"> </span><span class="se">\</span>
 <span class="w">      </span>--n<span class="w"> </span><span class="m">1000000</span><span class="w"> </span><span class="se">\</span>
 <span class="w">      </span>--build<span class="w"> </span>hg38<span class="w"> </span><span class="se">\</span>
@@ -451,8 +425,9 @@ One in hg19 and one in hg38.</p>
 <span class="w">   </span>cut<span class="w"> </span>-f2-<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>rev<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>gzip<span class="w"> </span>-c<span class="w"> </span>&gt;<span class="w"> </span>./data/sumstats_1M_trait7_hg19.tsv.gz
-
-gunzip<span class="w"> </span>-c<span class="w"> </span>./data/sumstats_1M_trait4_hg19.tsv.gz<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gunzip<span class="w"> </span>-c<span class="w"> </span>./data/sumstats_1M_trait4_hg19.tsv.gz<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>rev<span class="w">  </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>cut<span class="w"> </span>-f2-<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>rev<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
@@ -461,35 +436,13 @@ gunzip<span class="w"> </span>-c<span class="w"> </span>./data/sumstats_1M_trait
 </div>
 </section>
 <section id="the-cli-mental-model">
-<span id="cli-tut-load"></span><h2>The CLI mental model<a class="headerlink" href="#the-cli-mental-model" title="Link to this heading"></a></h2>
+<span id="cli-tut-base-plot"></span><h2>The CLI mental model<a class="headerlink" href="#the-cli-mental-model" title="Link to this heading"></a></h2>
 <p>Every <code class="docutils literal notranslate"><span class="pre">pycmplot</span></code> invocation performs the same three steps internally
 — column resolution, data loading (+ optional liftover, lead extraction,
 hits-table construction), and rendering.  From the CLI you don’t have
 to think about them separately: one command runs the whole pipeline
 and writes the output image(s) plus a locus summary TSV.</p>
 <p><strong>The canonical minimum invocation is:</strong></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--sum_stats<span class="w"> </span>./data/sumstats_1M_trait1_hg19.tsv.gz<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--labels<span class="w"> </span>Trait1<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--logp<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--output_dir<span class="w"> </span>./out
-</pre></div>
-</div>
-<figure class="align-default">
-<a class="reference internal image-reference" href="_images/mycmplot_trait1_hg19_lm_logp.png"><a href="_images/mycmplot_trait1_hg19_lm_logp.png" data-lightbox="image-set">
-<img alt="linear Manhattan plot with base options" src="_images/mycmplot_trait1_hg19_lm_logp.png" style="width: 800px;" />
-</a>
-</a>
-</figure>
-<p>This defaults to a linear Manhattan plot for <code class="docutils literal notranslate"><span class="pre">./data/sumstats_1M_trait1_hg19.tsv.gz</span></code>
-file, with p-values shown as <code class="docutils literal notranslate"><span class="pre">-log10(P)</span></code>, written into <code class="docutils literal notranslate"><span class="pre">./out/</span></code>.
-The rest of this tutorial adds one feature at a time on top of that base.</p>
-</section>
-<section id="linear-manhattan-plots">
-<span id="cli-tut-linear"></span><h2>Linear Manhattan plots<a class="headerlink" href="#linear-manhattan-plots" title="Link to this heading"></a></h2>
-<section id="single-track">
-<h3>Single-track<a class="headerlink" href="#single-track" title="Link to this heading"></a></h3>
-<p><strong>Highlight, and add plot title and significant/suggestive lines to the base above</strong></p>
 <p>pycmplot defaults to <code class="docutils literal notranslate"><span class="pre">--mode</span> <span class="pre">lm</span></code> (linear Manhattan).  Add
 <code class="docutils literal notranslate"><span class="pre">--mode</span> <span class="pre">cm</span></code> to switch to the Circos-style circular layout — every
 other flag stays the same.  Use <code class="docutils literal notranslate"><span class="pre">pycmplot</span> <span class="pre">-h</span></code> for the full
@@ -501,6 +454,60 @@ Linear</label><div class="sd-tab-content docutils">
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--sum_stats<span class="w"> </span>./data/sumstats_1M_trait1_hg19.tsv.gz<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--labels<span class="w"> </span>T1_hg19<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--logp<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--output_dir<span class="w"> </span>./out
+</pre></div>
+</div>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/mycmplot_t1_hg19_lm_logp.png"><a href="_images/mycmplot_t1_hg19_lm_logp.png" data-lightbox="image-set">
+<img alt="linear Manhattan plot with base options" src="_images/mycmplot_t1_hg19_lm_logp.png" style="width: 800px;" />
+</a>
+</a>
+</figure>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" data-sync-group="tab" data-sync-id="circular" for="sd-tab-item-1">
+Circular</label><div class="sd-tab-content docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--mode<span class="w"> </span>cm<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--sum_stats<span class="w"> </span>./data/sumstats_1M_trait1_hg19.tsv.gz<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--labels<span class="w"> </span>T1_hg19<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--logp<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--output_dir<span class="w"> </span>./out
+</pre></div>
+</div>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/mycmplot_t1_hg19_cm_logp.png"><a href="_images/mycmplot_t1_hg19_cm_logp.png" data-lightbox="image-set">
+<img alt="linear Manhattan plot with base options" src="_images/mycmplot_t1_hg19_cm_logp.png" style="width: 800px;" />
+</a>
+</a>
+</figure>
+</div>
+</div>
+<p>This defaults to a linear Manhattan plot for <code class="docutils literal notranslate"><span class="pre">./data/sumstats_1M_trait1_hg19.tsv.gz</span></code>
+file, with p-values shown as <code class="docutils literal notranslate"><span class="pre">-log10(P)</span></code>, written into <code class="docutils literal notranslate"><span class="pre">./out/</span></code>.
+The rest of this tutorial adds one feature at a time on top of that base.</p>
+</section>
+<section id="highlighting">
+<span id="cli-tut-highlighting"></span><h2>Highlighting<a class="headerlink" href="#highlighting" title="Link to this heading"></a></h2>
+<p><strong>Highlight, and add plot title and significant/suggestive lines to the base above</strong></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Note how chromosome labels are compact in circular plot.
+We can solve it in two ways:
+- Place chromosome labels outside: <code class="docutils literal notranslate"><span class="pre">--chrom_label_side</span> <span class="pre">outside</span></code>
+- Increase space inside circle: <code class="docutils literal notranslate"><span class="pre">--min_radius</span> <span class="pre">40</span></code></p>
+<p>Combining the two in multi-track plotting will enhance visuals.</p>
+</div>
+<section id="single-track">
+<h3>Single-track<a class="headerlink" href="#single-track" title="Link to this heading"></a></h3>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-2" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" data-sync-group="tab" data-sync-id="linear" for="sd-tab-item-2">
+Linear</label><div class="sd-tab-content docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--sum_stats<span class="w"> </span>./data/sumstats_1M_trait1_hg19.tsv.gz<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--labels<span class="w"> </span>T1_hg19<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--plot_title<span class="w"> </span><span class="s2">&quot;Trait1 (highlighted)&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--logp<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--highlight<span class="w"> </span><span class="se">\</span>
@@ -510,14 +517,14 @@ Linear</label><div class="sd-tab-content docutils">
 </pre></div>
 </div>
 <figure class="align-default">
-<a class="reference internal image-reference" href="_images/trait1_highlighted_trait1_hg19_lm_logp.png"><a href="_images/trait1_highlighted_trait1_hg19_lm_logp.png" data-lightbox="image-set">
-<img alt="linear Manhattan plot with base options" src="_images/trait1_highlighted_trait1_hg19_lm_logp.png" style="width: 800px;" />
+<a class="reference internal image-reference" href="_images/trait1_highlighted_t1_hg19_lm_logp.png"><a href="_images/trait1_highlighted_t1_hg19_lm_logp.png" data-lightbox="image-set">
+<img alt="linear Manhattan plot with base options" src="_images/trait1_highlighted_t1_hg19_lm_logp.png" style="width: 800px;" />
 </a>
 </a>
 </figure>
 </div>
-<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
-<label class="sd-tab-label" data-sync-group="tab" data-sync-id="circular" for="sd-tab-item-1">
+<input id="sd-tab-item-3" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" data-sync-group="tab" data-sync-id="circular" for="sd-tab-item-3">
 Circular</label><div class="sd-tab-content docutils">
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--mode<span class="w"> </span>cm<span class="w"> </span><span class="se">\</span>
@@ -532,33 +539,75 @@ Circular</label><div class="sd-tab-content docutils">
 </pre></div>
 </div>
 <figure class="align-default">
-<a class="reference internal image-reference" href="img/trait1_highlighted_trait1_hg19_cm_logp.png"><a href="img/trait1_highlighted_trait1_hg19_cm_logp.png" data-lightbox="image-set">
-<img alt="circular Manhattan plot with base options" src="img/trait1_highlighted_trait1_hg19_cm_logp.png" style="width: 800px;" />
+<a class="reference internal image-reference" href="_images/trait1_highlighted_t1_hg19_cm_logp.png"><a href="_images/trait1_highlighted_t1_hg19_cm_logp.png" data-lightbox="image-set">
+<img alt="circular Manhattan plot with base options" src="_images/trait1_highlighted_t1_hg19_cm_logp.png" style="width: 800px;" />
+</a>
+</a>
+</figure>
+</div>
+<input id="sd-tab-item-4" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" data-sync-group="tab" data-sync-id="circular" for="sd-tab-item-4">
+Circular (chrom label ourside)</label><div class="sd-tab-content docutils">
+<p>Also enhance plot title visual by reducing the size</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--mode<span class="w"> </span>cm<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--sum_stats<span class="w"> </span>./data/sumstats_1M_trait1_hg19.tsv.gz<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--labels<span class="w"> </span>T1_hg19<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--plot_title<span class="w"> </span><span class="s2">&quot;Trait1 (highlighted 2)&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--logp<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--highlight<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--signif_line<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--suggest_threshold<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--chrom_label_side<span class="w"> </span>outside<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--plot_title_size<span class="w"> </span><span class="m">6</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--output_dir<span class="w"> </span>./out
+</pre></div>
+</div>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/trait1_highlighted_2_t1_hg19_cm_logp.png"><a href="_images/trait1_highlighted_2_t1_hg19_cm_logp.png" data-lightbox="image-set">
+<img alt="circular Manhattan plot with base options" src="_images/trait1_highlighted_2_t1_hg19_cm_logp.png" style="width: 800px;" />
+</a>
+</a>
+</figure>
+</div>
+<input id="sd-tab-item-5" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" data-sync-group="tab" data-sync-id="circular" for="sd-tab-item-5">
+Circular (min radius control)</label><div class="sd-tab-content docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--mode<span class="w"> </span>cm<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--sum_stats<span class="w"> </span>./data/sumstats_1M_trait1_hg19.tsv.gz<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--labels<span class="w"> </span>T1_hg19<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--plot_title<span class="w"> </span><span class="s2">&quot;Trait1 (highlighted 3)&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--logp<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--highlight<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--signif_line<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--suggest_threshold<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--min_radius<span class="w"> </span><span class="m">40</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--output_dir<span class="w"> </span>./out
+</pre></div>
+</div>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/trait1_highlighted_3_t1_hg19_cm_logp.png"><a href="_images/trait1_highlighted_3_t1_hg19_cm_logp.png" data-lightbox="image-set">
+<img alt="circular Manhattan plot with base options" src="_images/trait1_highlighted_3_t1_hg19_cm_logp.png" style="width: 800px;" />
 </a>
 </a>
 </figure>
 </div>
 </div>
-<div class="toggle docutils container">
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>--mode {lm,cm}       Set Manhattan layout mode
---suggest_threshold   Draw genome-wide suggestive line
-</pre></div>
-</div>
-</div>
 </section>
 <section id="multi-track">
-<h3>Multi-track<a class="headerlink" href="#multi-track" title="Link to this heading"></a></h3>
+<span id="cli-tut-multi-track-highlight"></span><h3>Multi-track<a class="headerlink" href="#multi-track" title="Link to this heading"></a></h3>
 <p>Passing more than one sumstats file stacks the tracks vertically, one
 axes per file, sharing the chromosomal x-axis.  Files and labels are
 comma-separated, in matching order:</p>
-<p><strong>Annotate significant hits</strong></p>
+<p>Let’s add the <code class="docutils literal notranslate"><span class="pre">--trim_pval</span></code> option to speed up plotting.</p>
 <p>The same six sumstats stacked as multi-track linear or wrapped into a
 Circos layout — swap <code class="docutils literal notranslate"><span class="pre">--mode</span> <span class="pre">cm</span></code> in / out and everything else is
 identical.  <code class="docutils literal notranslate"><span class="pre">--track_heights</span></code> is linear-only and has no effect
 in <code class="docutils literal notranslate"><span class="pre">cm</span></code> mode, so it’s dropped from the circular tab.</p>
 <div class="sd-tab-set docutils">
-<input checked="checked" id="sd-tab-item-2" name="sd-tab-set-1" type="radio">
-<label class="sd-tab-label" data-sync-group="tab" data-sync-id="linear" for="sd-tab-item-2">
+<input checked="checked" id="sd-tab-item-6" name="sd-tab-set-2" type="radio">
+<label class="sd-tab-label" data-sync-group="tab" data-sync-id="linear" for="sd-tab-item-6">
 Linear</label><div class="sd-tab-content docutils">
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--sum_stats<span class="w"> </span>./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait2_hg19.tsv.gz,./data/sumstats_1M_trait3_hg19.tsv.gz,./data/sumstats_1M_trait4_hg38.tsv.gz,./data/sumstats_1M_trait5_hg38.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz<span class="w"> </span><span class="se">\</span>
@@ -568,19 +617,19 @@ Linear</label><div class="sd-tab-content docutils">
 <span class="w">   </span>--highlight<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--signif_line<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--suggest_threshold<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--annotate<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--trim_pval<span class="w"> </span><span class="m">0</span>.01<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--output_dir<span class="w"> </span>./out
 </pre></div>
 </div>
 <figure class="align-default">
-<a class="reference internal image-reference" href="_images/multitrack_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_lm_logp.png"><a href="_images/multitrack_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_lm_logp.png" data-lightbox="image-set">
-<img alt="multi-track linear Manhattan plot" src="_images/multitrack_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_lm_logp.png" style="width: 800px;" />
+<a class="reference internal image-reference" href="../out/multitrack_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png"><a href="../out/multitrack_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png" data-lightbox="image-set">
+<img alt="multi-track linear Manhattan plot" src="../out/multitrack_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png" style="width: 800px;" />
 </a>
 </a>
 </figure>
 </div>
-<input id="sd-tab-item-3" name="sd-tab-set-1" type="radio">
-<label class="sd-tab-label" data-sync-group="tab" data-sync-id="circular" for="sd-tab-item-3">
+<input id="sd-tab-item-7" name="sd-tab-set-2" type="radio">
+<label class="sd-tab-label" data-sync-group="tab" data-sync-id="circular" for="sd-tab-item-7">
 Circular</label><div class="sd-tab-content docutils">
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--mode<span class="w"> </span>cm<span class="w"> </span><span class="se">\</span>
@@ -591,22 +640,35 @@ Circular</label><div class="sd-tab-content docutils">
 <span class="w">   </span>--highlight<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--signif_line<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--suggest_threshold<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--annotate<span class="w"> </span>gene<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--highlight_line<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--chrom_label_side<span class="w"> </span>outside<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--plot_title_size<span class="w"> </span><span class="m">6</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--trim_pval<span class="w"> </span><span class="m">0</span>.01<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--output_dir<span class="w"> </span>./out
 </pre></div>
 </div>
 <figure class="align-default">
-<a class="reference internal image-reference" href="_images/multitrack_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_cm_logp.png"><a href="_images/multitrack_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_cm_logp.png" data-lightbox="image-set">
-<img alt="multi-track circular Manhattan plot" src="_images/multitrack_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_cm_logp.png" style="width: 800px;" />
+<a class="reference internal image-reference" href="_images/multitrack_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_cm_logp.png"><a href="_images/multitrack_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_cm_logp.png" data-lightbox="image-set">
+<img alt="multi-track circular Manhattan plot" src="_images/multitrack_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_cm_logp.png" style="width: 800px;" />
 </a>
 </a>
 </figure>
 </div>
 </div>
+</section>
+</section>
+<section id="automatic-gene-annotation">
+<span id="cli-tut-annotate"></span><h2>Automatic gene annotation<a class="headerlink" href="#automatic-gene-annotation" title="Link to this heading"></a></h2>
+<p>By default, significant hits are annotated by SNP ID.
+Add <code class="docutils literal notranslate"><span class="pre">--annotate</span> <span class="pre">gene</span></code> (case insensitive) to label each lead SNP with its nearest
+gene, and optionally <code class="docutils literal notranslate"><span class="pre">--label_col</span> <span class="pre">top_gene</span></code> to control which
+column from the hits table is used as the label. We will build on
+the <a class="reference internal" href="#cli-tut-multi-track-highlight"><span class="std std-ref">Multi-track</span></a> base above.</p>
+<p>Let’s also add a line tracing the highlighted positions across
+tracks using <code class="docutils literal notranslate"><span class="pre">--highlight_line</span></code>.</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>The default linear plot size (<code class="docutils literal notranslate"><span class="pre">--figure_size</span></code>) is (width, height) –&gt; (10, 4).
+<p>The default linear plot size (<code class="docutils literal notranslate"><span class="pre">--figure_size</span></code>) is (10, 4) for (width, height).
 By default, each track (including the annotation track) gets an equal space.
 Annotations in the figure above are not visible. We can solve this by two means.
 - either increase figure height: <code class="docutils literal notranslate"><span class="pre">--figure_size</span> <span class="pre">10,8</span></code>
@@ -614,127 +676,188 @@ Annotations in the figure above are not visible. We can solve this by two means.
 - or combine the two options to improve the visuals.</p>
 <p><strong>NB:</strong> When using <code class="docutils literal notranslate"><span class="pre">--annotate</span></code> in linear plotting, the first (top) track is always the annotation track.</p>
 </div>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-8" name="sd-tab-set-3" type="radio">
+<label class="sd-tab-label" data-sync-group="tab" data-sync-id="linear" for="sd-tab-item-8">
+Linear</label><div class="sd-tab-content docutils">
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--sum_stats<span class="w"> </span>./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--labels<span class="w"> </span>T1_hg19,T6_hg38<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--plot_title<span class="w"> </span><span class="s2">&quot;Multi-track_figsize&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--sum_stats<span class="w"> </span>./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait2_hg19.tsv.gz,./data/sumstats_1M_trait3_hg19.tsv.gz,./data/sumstats_1M_trait4_hg38.tsv.gz,./data/sumstats_1M_trait5_hg38.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--labels<span class="w"> </span>T1_hg19,T2_hg19,T3_hg19,T4_hg38,T5_hg38,T6_hg38<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--plot_title<span class="w"> </span><span class="s2">&quot;Multi-track (annotate)&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--logp<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--highlight<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--signif_line<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--suggest_threshold<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--annotate<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--figure_size<span class="w"> </span><span class="m">10</span>,8<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--output_dir<span class="w"> </span>./out
-</pre></div>
-</div>
-<figure class="align-default">
-<a class="reference internal image-reference" href="_images/multitrack_heights_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_lm_logp.png"><a href="_images/multitrack_heights_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_lm_logp.png" data-lightbox="image-set">
-<img alt="linear Manhattan plot with base options" src="_images/multitrack_heights_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_lm_logp.png" style="width: 800px;" />
-</a>
-</a>
-</figure>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--sum_stats<span class="w"> </span>./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--labels<span class="w"> </span>T1_hg19,T6_hg38<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--plot_title<span class="w"> </span><span class="s2">&quot;Multi-track_annotate&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--logp<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--highlight<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--signif_line<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--suggest_threshold<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--annotate<span class="w"> </span>gene<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--highlight_line<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--track_heights<span class="w"> </span><span class="m">2</span>.5,1,1,1,1,1,1<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--highlight_line_color<span class="w"> </span>black<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--signif_line<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--suggest_threshold<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--trim_pval<span class="w"> </span><span class="m">0</span>.01<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--annotate<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--output_dir<span class="w"> </span>./out
 </pre></div>
 </div>
 <figure class="align-default">
-<a class="reference internal image-reference" href="_images/multitrack_annotate_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_lm_logp.png"><a href="_images/multitrack_annotate_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_lm_logp.png" data-lightbox="image-set">
-<img alt="linear Manhattan plot with base options" src="_images/multitrack_annotate_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_lm_logp.png" style="width: 800px;" />
+<a class="reference internal image-reference" href="_images/multitrack_annotate_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png"><a href="_images/multitrack_annotate_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png" data-lightbox="image-set">
+<img alt="multi-track linear Manhattan plot" src="_images/multitrack_annotate_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png" style="width: 800px;" />
 </a>
 </a>
 </figure>
-<div class="dropdown admonition note">
-<p class="admonition-title">Note</p>
-<p>Notice the two near-significant loci on chr10 and chr11. We can highlight and annotate them by
-changing the significance threshold: <code class="docutils literal notranslate"><span class="pre">--signif_threshold</span> <span class="pre">1e-07</span></code></p>
-<p>Note that if only used <code class="docutils literal notranslate"><span class="pre">highlight_thresh</span> <span class="pre">1e-07</span></code>, the loci will be highlighted but no annotated</p>
 </div>
+<input id="sd-tab-item-9" name="sd-tab-set-3" type="radio">
+<label class="sd-tab-label" data-sync-group="tab" data-sync-id="linear" for="sd-tab-item-9">
+Linear (track heights)</label><div class="sd-tab-content docutils">
+<p>We could also change alternating chromosome colors.
+(see <a class="reference internal" href="#cli-tut-colors"><span class="std std-ref">Per-locus highlight colours</span></a>).</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--sum_stats<span class="w"> </span>./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait2_hg19.tsv.gz,./data/sumstats_1M_trait3_hg19.tsv.gz,./data/sumstats_1M_trait4_hg38.tsv.gz,./data/sumstats_1M_trait5_hg38.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--labels<span class="w"> </span>T1_hg19,T2_hg19,T3_hg19,T4_hg38,T5_hg38,T6_hg38<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--plot_title<span class="w"> </span><span class="s2">&quot;Multi-track (track heights)&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--logp<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--highlight<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--highlight_line<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--highlight_line_color<span class="w"> </span>black<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--signif_line<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--suggest_threshold<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--trim_pval<span class="w"> </span><span class="m">0</span>.01<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--annotate<span class="w"> </span>gene<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--track_heights<span class="w"> </span><span class="m">2</span>.5,1,1,1,1,1,1<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--figure_size<span class="w"> </span><span class="m">10</span>,8<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--colors<span class="w"> </span><span class="s1">&#39;lightblue,steelblue&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--output_dir<span class="w"> </span>./out
+</pre></div>
+</div>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/multitrack_track_heights_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png"><a href="_images/multitrack_track_heights_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png" data-lightbox="image-set">
+<img alt="multi-track linear Manhattan plot" src="_images/multitrack_track_heights_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png" style="width: 800px;" />
+</a>
+</a>
+</figure>
+</div>
+<input id="sd-tab-item-10" name="sd-tab-set-3" type="radio">
+<label class="sd-tab-label" data-sync-group="tab" data-sync-id="linear" for="sd-tab-item-10">
+Linear (figure size)</label><div class="sd-tab-content docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--sum_stats<span class="w"> </span>./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait2_hg19.tsv.gz,./data/sumstats_1M_trait3_hg19.tsv.gz,./data/sumstats_1M_trait4_hg38.tsv.gz,./data/sumstats_1M_trait5_hg38.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--labels<span class="w"> </span>T1_hg19,T2_hg19,T3_hg19,T4_hg38,T5_hg38,T6_hg38<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--plot_title<span class="w"> </span><span class="s2">&quot;Multi-track (figure size)&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--logp<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--highlight<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--highlight_line<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--highlight_line_color<span class="w"> </span>black<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--signif_line<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--suggest_threshold<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--trim_pval<span class="w"> </span><span class="m">0</span>.01<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--annotate<span class="w"> </span>gene<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--figure_size<span class="w"> </span><span class="m">10</span>,8<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--colors<span class="w"> </span><span class="s1">&#39;orangered,steelblue&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--output_dir<span class="w"> </span>./out
+</pre></div>
+</div>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/multitrack_figure_size_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png"><a href="_images/multitrack_figure_size_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png" data-lightbox="image-set">
+<img alt="multi-track linear Manhattan plot" src="_images/multitrack_figure_size_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png" style="width: 800px;" />
+</a>
+</a>
+</figure>
+</div>
+<input id="sd-tab-item-11" name="sd-tab-set-3" type="radio">
+<label class="sd-tab-label" data-sync-group="tab" data-sync-id="circular" for="sd-tab-item-11">
+Circular</label><div class="sd-tab-content docutils">
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--mode<span class="w"> </span>cm<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--sum_stats<span class="w"> </span>./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait2_hg19.tsv.gz,./data/sumstats_1M_trait3_hg19.tsv.gz,./data/sumstats_1M_trait4_hg38.tsv.gz,./data/sumstats_1M_trait5_hg38.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--labels<span class="w"> </span>T1_hg19,T2_hg19,T3_hg19,T4_hg38,T5_hg38,T6_hg38<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--plot_title<span class="w"> </span><span class="s2">&quot;Multi-track_signif&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--plot_title<span class="w"> </span><span class="s2">&quot;Multi-track (annotate)&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--logp<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--highlight<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--signif_line<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--signif_threshold<span class="w"> </span>1e-07<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--suggest_threshold<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--annotate<span class="w"> </span>gene<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--highlight_line<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--no_track_labels<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--signif_line<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--suggest_threshold<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--highlight_line<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--trim_pval<span class="w"> </span><span class="m">0</span>.01<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--chrom_label_side<span class="w"> </span>outside<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--annotate<span class="w"> </span>gene<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--colors<span class="w"> </span><span class="s1">&#39;lightblue,steelblue&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--output_dir<span class="w"> </span>./out
 </pre></div>
 </div>
 <figure class="align-default">
-<a class="reference internal image-reference" href="_images/multitrack_signif_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_lm_logp.png"><a href="_images/multitrack_signif_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_lm_logp.png" data-lightbox="image-set">
-<img alt="linear Manhattan plot with base options" src="_images/multitrack_signif_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_lm_logp.png" style="width: 800px;" />
+<a class="reference internal image-reference" href="_images/multitrack_annotate_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_cm_logp.png"><a href="_images/multitrack_annotate_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_cm_logp.png" data-lightbox="image-set">
+<img alt="multi-track circular Manhattan plot" src="_images/multitrack_annotate_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_cm_logp.png" style="width: 800px;" />
 </a>
 </a>
 </figure>
-<p>We can further enhance visualization:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>We can remove the track labels on the right with <code class="docutils literal notranslate"><span class="pre">--no_track_labels</span></code></p></li>
-<li><p>Annotate by gene symbol using <code class="docutils literal notranslate"><span class="pre">--annotate</span> <span class="pre">gene</span></code> (case insenitive).</p></li>
-<li><p>Add a line through all highlighted loci using <code class="docutils literal notranslate"><span class="pre">--highlight_line</span></code></p></li>
-<li><p>Change the color of the line using <code class="docutils literal notranslate"><span class="pre">--highlight_line_color</span></code></p></li>
-<li><p>To generate qq-plots, simply add <code class="docutils literal notranslate"><span class="pre">--qq_plot</span></code></p></li>
-<li><p>To specify a type,</p></li>
-</ul>
-</div></blockquote>
-</section>
-</section>
-<section id="circular-circos-plots">
-<span id="cli-tut-circular"></span><h2>Circular (Circos) plots<a class="headerlink" href="#circular-circos-plots" title="Link to this heading"></a></h2>
-<p>Every command in <a class="reference internal" href="#cli-tut-linear"><span class="std std-ref">Linear Manhattan plots</span></a> above has an inline
-<code class="docutils literal notranslate"><span class="pre">Circular</span></code> tab that swaps <code class="docutils literal notranslate"><span class="pre">--mode</span> <span class="pre">cm</span></code> in.  Because the two
-plotting modes share every other flag on the CLI (except
-<code class="docutils literal notranslate"><span class="pre">--track_heights</span></code>, which is linear-only), keeping the examples in
-tabs — rather than a separate section — lets you compare the two
-layouts side-by-side at each demonstration.</p>
-<p>Click any “Circular” tab in the linear section above and every other
-tab-set on this page snaps to Circular too (sync group <code class="docutils literal notranslate"><span class="pre">circular</span></code>),
-so a Circos-first reader can flip once and follow along without
-clicking tab-by-tab.</p>
-</section>
-<section id="highlighting">
-<span id="cli-tut-highlight"></span><h2>Highlighting<a class="headerlink" href="#highlighting" title="Link to this heading"></a></h2>
-<p>Add <code class="docutils literal notranslate"><span class="pre">--highlight</span></code> to colour signals above a threshold, and
-<code class="docutils literal notranslate"><span class="pre">--signif_line</span></code> to draw a horizontal cut-off line at that threshold:</p>
+</div>
+</div>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Notice the two near-significant loci on chromosomes 10 and 11.
+If we wish to highlight and annotated, we will modify two parameters:
+<code class="docutils literal notranslate"><span class="pre">--signif_threshold</span></code> and <code class="docutils literal notranslate"><span class="pre">--highight_thresh</span></code></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Note that if only used <code class="docutils literal notranslate"><span class="pre">highlight_thresh</span> <span class="pre">1e-07</span></code>, the loci will be highlighted but no annotated</p>
+</div>
+</div>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-12" name="sd-tab-set-4" type="radio">
+<label class="sd-tab-label" data-sync-group="tab" data-sync-id="linear" for="sd-tab-item-12">
+Linear</label><div class="sd-tab-content docutils">
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--sum_stats<span class="w"> </span>hb.tsv,mcv.tsv<span class="w"> </span>--labels<span class="w"> </span>Hb,MCV<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--logp<span class="w"> </span>--trim_pval<span class="w"> </span><span class="m">0</span>.01<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--highlight<span class="w"> </span>--signif_line<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--highlight_color<span class="w"> </span>brown<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--signif_threshold<span class="w"> </span>5e-8<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--output_dir<span class="w"> </span>./out
+<span class="w">   </span>--sum_stats<span class="w"> </span>./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait2_hg19.tsv.gz,./data/sumstats_1M_trait3_hg19.tsv.gz,./data/sumstats_1M_trait4_hg38.tsv.gz,./data/sumstats_1M_trait5_hg38.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--labels<span class="w"> </span>T1_hg19,T2_hg19,T3_hg19,T4_hg38,T5_hg38,T6_hg38<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--plot_title<span class="w"> </span><span class="s2">&quot;Multi-track (annotate 2)&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--logp<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--highlight<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--highlight_line<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--highlight_line_color<span class="w"> </span>black<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--signif_line<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--suggest_threshold<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--trim_pval<span class="w"> </span><span class="m">0</span>.01<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--annotate<span class="w"> </span>gene<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--track_heights<span class="w"> </span><span class="m">2</span>.5,1,1,1,1,1,1<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--figure_size<span class="w"> </span><span class="m">10</span>,8<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--signif_threshold<span class="w"> </span>1e-07<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--highlight_thresh<span class="w"> </span>1e-07<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--output_dir<span class="w"> </span>./out
 </pre></div>
 </div>
-<p>The default highlight colour applies to every hit unless a specific
-locus has been given a custom colour in the hits overlay
-(see <a class="reference internal" href="#cli-tut-colors"><span class="std std-ref">Per-locus highlight colours</span></a>).</p>
-</section>
-<section id="automatic-gene-annotation">
-<span id="cli-tut-annotate"></span><h2>Automatic gene annotation<a class="headerlink" href="#automatic-gene-annotation" title="Link to this heading"></a></h2>
-<p>Add <code class="docutils literal notranslate"><span class="pre">--annotate</span> <span class="pre">GENE</span></code> to label each lead SNP with its nearest
-gene, and optionally <code class="docutils literal notranslate"><span class="pre">--label_col</span> <span class="pre">top_gene</span></code> to control which
-column from the hits table is used as the label:</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/multitrack_annotate_2_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png"><a href="_images/multitrack_annotate_2_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png" data-lightbox="image-set">
+<img alt="multi-track linear Manhattan plot" src="_images/multitrack_annotate_2_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png" style="width: 800px;" />
+</a>
+</a>
+</figure>
+</div>
+<input id="sd-tab-item-13" name="sd-tab-set-4" type="radio">
+<label class="sd-tab-label" data-sync-group="tab" data-sync-id="linear" for="sd-tab-item-13">
+Linear</label><div class="sd-tab-content docutils">
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--sum_stats<span class="w"> </span>hb.tsv,mcv.tsv<span class="w"> </span>--labels<span class="w"> </span>Hb,MCV<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--logp<span class="w"> </span>--trim_pval<span class="w"> </span><span class="m">0</span>.01<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--highlight<span class="w"> </span>--annotate<span class="w"> </span>GENE<span class="w"> </span>--label_col<span class="w"> </span>top_gene<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--output_dir<span class="w"> </span>./out
+<span class="w">   </span>--mode<span class="w"> </span>cm<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--sum_stats<span class="w"> </span>./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait2_hg19.tsv.gz,./data/sumstats_1M_trait3_hg19.tsv.gz,./data/sumstats_1M_trait4_hg38.tsv.gz,./data/sumstats_1M_trait5_hg38.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--labels<span class="w"> </span>T1_hg19,T2_hg19,T3_hg19,T4_hg38,T5_hg38,T6_hg38<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--plot_title<span class="w"> </span><span class="s2">&quot;Multi-track (annotate 2)&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--logp<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--highlight<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--highlight_line<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--signif_line<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--suggest_threshold<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--highlight_line<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--trim_pval<span class="w"> </span><span class="m">0</span>.01<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--chrom_label_side<span class="w"> </span>outside<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--annotate<span class="w"> </span>gene<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--signif_threshold<span class="w"> </span>1e-07<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--highlight_thresh<span class="w"> </span>1e-07<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--colors<span class="w"> </span><span class="s1">&#39;lightblue,steelblue&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--output_dir<span class="w"> </span>./out
 </pre></div>
+</div>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/multitrack_annotate_2_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_cm_logp.png"><a href="_images/multitrack_annotate_2_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_cm_logp.png" data-lightbox="image-set">
+<img alt="multi-track circular Manhattan plot" src="_images/multitrack_annotate_2_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_cm_logp.png" style="width: 800px;" />
+</a>
+</a>
+</figure>
+</div>
 </div>
 <p>The hits summary table written alongside the plot is a tidy CSV/TSV
 you can inspect or export directly:</p>
@@ -742,6 +865,23 @@ you can inspect or export directly:</p>
 <code class="docutils literal notranslate"><span class="pre">--annotate</span> <span class="pre">GENE</span></code> (label with the nearest / top gene), or a
 column name from the hits table is accepted.  Add
 <code class="docutils literal notranslate"><span class="pre">--annotate</span> <span class="pre">GENE</span></code> on top of the previous command:</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>We can further enhance visualization:
+- We can remove the track labels on the right with <code class="docutils literal notranslate"><span class="pre">--no_track_labels</span></code>
+- Annotate by gene symbol using <code class="docutils literal notranslate"><span class="pre">--annotate</span> <span class="pre">gene</span></code> (case insenitive).
+- Add a line through all highlighted loci using <code class="docutils literal notranslate"><span class="pre">--highlight_line</span></code>
+- Change the color of the line using <code class="docutils literal notranslate"><span class="pre">--highlight_line_color</span></code>
+- To generate qq-plots, simply add <code class="docutils literal notranslate"><span class="pre">--qq_plot</span></code>
+- To specify a type,</p>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sum_stats<span class="w"> </span>hb.tsv,mcv.tsv<span class="w"> </span>--labels<span class="w"> </span>Hb,MCV<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--logp<span class="w"> </span>--trim_pval<span class="w"> </span><span class="m">0</span>.01<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--highlight<span class="w"> </span>--annotate<span class="w"> </span>GENE<span class="w"> </span>--label_col<span class="w"> </span>top_gene<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output_dir<span class="w"> </span>./out
+</pre></div>
+</div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--sum_stats<span class="w"> </span>hb.tsv,mcv.tsv<span class="w"> </span>--labels<span class="w"> </span>Hb,MCV<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--logp<span class="w"> </span>--trim_pval<span class="w"> </span><span class="m">0</span>.01<span class="w"> </span><span class="se">\</span>

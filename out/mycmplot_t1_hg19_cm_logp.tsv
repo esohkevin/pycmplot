@@ -1,0 +1,7 @@
+CHR	POS	SNP	P	BUILD	logP	LABEL	genic	nearest_gene	nearest_gene_distance	nearest_upstream_gene	upstream_distance	nearest_downstream_gene	downstream_distance	promoter_upstream_flag	gene_density	top_gene	biotype	priority_score	distance	promoter_flag	distance_score	biotype_weight	promoter_bonus
+1	172058886	rs_lead_1_172058886	7e-12	hg19	11.154901959985743	T1_hg19	True	DNM3	0	DNM3-IT1	225059	MIR214	49052	False	94	DNM3	protein_coding	4.0	0	False	1.0	1.0	0.0
+2	36733328	rs_lead_2_36733328	3e-08	hg19	7.522878745280337	T1_hg19	True	CRIM1	0	RP11-490M8.1	151071	RP11-78I14.1	7070	False	58	CRIM1	protein_coding	4.0	0	False	1.0	1.0	0.0
+7	18794582	rs_supp_7_18786817_1	5.42021173107532e-23	hg19	22.265983748177177	T1_hg19	True	HDAC9	0	AC010082.2	324221	RN7SKP266	53034	False	51	HDAC9	protein_coding	4.0	0	False	1.0	1.0	0.0
+11	12879123	rs_lead_11_12879123	5e-09	hg19	8.301029995663981	T1_hg19	True	TEAD1	0	RP11-47J17.1	8143	SCARNA16	47241	False	67	TEAD1	protein_coding	4.0	0	False	1.0	1.0	0.0
+15	22791431	rs_lead_15_22791431	1e-08	hg19	8.0	T1_hg19	False	ELMO2P1	1457	ELMO2P1	1457	TUBGCP5	41964	True	128	ELMO2P1-TUBGCP5	intergenic	None	1457-41964	None	None	None	None
+17	65854602	rs_lead_17_65854602	2e-12	hg19	11.698970004336019	T1_hg19	True	BPTF	0	AC006534.2	14472	RP11-855A2.3	92399	False	80	BPTF	protein_coding	4.0	0	False	1.0	1.0	0.0
