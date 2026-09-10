@@ -53,6 +53,7 @@ These are actuall **body height** significant loci pulled from `GWAS Catalog`_.
 
 .. _GWAS Catalog: https://www.ebi.ac.uk/gwas/efotraits/OBA_VT0001253
 
+
 Click below to see the list of SNPs.
 
 .. toggle::
@@ -144,9 +145,10 @@ and writes the output image(s) plus a locus summary TSV.
 pycmplot defaults to ``--mode lm`` (linear Manhattan).  Add
 ``--mode cm`` to switch to the Circos-style circular layout — every
 other flag stays the same.  Use ``pycmplot -h`` for the full
-mode-specific option list. Click below to expand full CLI options.
+mode-specific option list.
 
-.. toggle::
+.. admonition:: Click below to expand full CLI options
+   :class: toggle
 
    .. code-block:: text
 
@@ -381,7 +383,7 @@ Single-track
             --output_dir ./out
 
       .. figure:: ../out/trait1_highlighted_t1_hg19_lm_logp.png
-         :alt: linear Manhattan plot with base options
+         :alt: linear Manhattan plot with base options highlighted
          :width: 800px
 
    .. tab-item:: Circular
@@ -400,10 +402,10 @@ Single-track
             --output_dir ./out
 
       .. figure:: ../out/trait1_highlighted_t1_hg19_cm_logp.png
-         :alt: circular Manhattan plot with base options
+         :alt: circular Manhattan plot with base options highlighted
          :width: 800px
 
-   .. tab-item:: Circular (chrom label ourside)
+   .. tab-item:: Circular (chrom label outside)
 
       Also enhance plot title visual by reducing the size
 
@@ -423,7 +425,7 @@ Single-track
             --output_dir ./out
 
       .. figure:: ../out/trait1_highlighted_2_t1_hg19_cm_logp.png
-         :alt: circular Manhattan plot with base options
+         :alt: circular Manhattan plot with base options highlighted 2
          :width: 800px
 
    .. tab-item:: Circular (min radius control)
@@ -443,7 +445,7 @@ Single-track
             --output_dir ./out
 
       .. figure:: ../out/trait1_highlighted_3_t1_hg19_cm_logp.png
-         :alt: circular Manhattan plot with base options
+         :alt: circular Manhattan plot with base options highlighted 3
          :width: 800px
 
 .. _cli-tut-multi-track-highlight:
@@ -523,7 +525,7 @@ tracks using ``--highlight_line``.
 .. tip::
    The default linear plot size (``--figure_size``) is (10, 4) for (width, height). 
    By default, each track (including the annotation track) gets an equal space. 
-   Annotations in the figure above are not visible. We can solve this by two means.
+   Annotations in the first figure are not visible. We can solve this by two means.
 
    * either increase figure height: ``--figure_size 10,8``
 
@@ -554,7 +556,7 @@ tracks using ``--highlight_line``.
             --output_dir ./out
 
       .. figure:: ../out/multitrack_annotate_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png
-         :alt: multi-track linear Manhattan plot
+         :alt: multi-track linear Manhattan plot annotate
          :width: 800px
 
    .. tab-item:: Linear (track heights)
@@ -582,7 +584,7 @@ tracks using ``--highlight_line``.
             --output_dir ./out
 
       .. figure:: ../out/multitrack_track_heights_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png
-         :alt: multi-track linear Manhattan plot
+         :alt: multi-track linear Manhattan plot track heights annotate
          :width: 800px
 
    .. tab-item:: Linear (figure size)
@@ -606,7 +608,7 @@ tracks using ``--highlight_line``.
             --output_dir ./out
 
       .. figure:: ../out/multitrack_figure_size_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png
-         :alt: multi-track linear Manhattan plot
+         :alt: multi-track linear Manhattan plot figsize annotate
          :width: 800px
 
    .. tab-item:: Circular
@@ -631,17 +633,18 @@ tracks using ``--highlight_line``.
             --output_dir ./out
 
       .. figure:: ../out/multitrack_annotate_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_cm_logp.png
-         :alt: multi-track circular Manhattan plot
+         :alt: multi-track circular Manhattan plot annotate
          :width: 800px
 
 
 .. important::
    Notice the two near-significant loci on **chromosome 10** and **chromosome 11**.
-   If we wish to highlight and annotated, we will modify two parameters:
+   If we wish to highlight and annotate them, we will modify two parameters:
+
    set ``--signif_threshold`` and ``--highight_thresh`` with the same value.
 
    .. note::
-      If only ``highlight_thresh 1e-07`` is used, the loci will be highlighted but no annotated
+      If only ``highlight_thresh 1e-07`` is used, the loci will be highlighted but not annotated.
 
 .. tab-set::
 
@@ -668,7 +671,7 @@ tracks using ``--highlight_line``.
             --output_dir ./out
 
       .. figure:: ../out/multitrack_annotate_2_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png
-         :alt: multi-track linear Manhattan plot
+         :alt: multi-track linear annotation 2
          :width: 800px
 
    .. tab-item:: Circular
@@ -695,7 +698,7 @@ tracks using ``--highlight_line``.
             --output_dir ./out
 
       .. figure:: ../out/multitrack_annotate_2_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_cm_logp.png
-         :alt: multi-track circular Manhattan plot
+         :alt: multi-track circular annotation 2
          :width: 800px
 
 
@@ -708,17 +711,16 @@ column name from the hits table is accepted.  Add
 ``--annotate GENE`` on top of the previous command:
 
 
-.. container:: toggle, toggle-hidden 
-   
-   .. admonition:: Question: What two genes had sub-threshold significance?
+.. admonition:: Question: Which genes had sub-threshold significant p-values?
+   :class: dropdown
 
-      *ZNF438* (chr10, p-value) and *KCNQ1* (chr11)
+   *ZNF438* (chr10, p-value) and *KCNQ1* (chr11)
 
-      .. code-block:: text
+   .. code-block:: text
 
-         CHR  POS       SNP                   P       BUILD   logP    LABEL   OLD_POS    OLD_BUILD   genic   nearest_gene
-         10   30838237  rs_lead_10_30838237   7e-08   hg38    7.15    T4_hg38 None       None        True    ZNF438
-         11   2780860   rs_lead_11_2802090    9e-08   hg38    7.05    T1_hg19 2802090.0  hg19        True    KCNQ1
+      CHR  POS       SNP                   P       BUILD   logP    LABEL   OLD_POS    OLD_BUILD   genic   nearest_gene
+      10   30838237  rs_lead_10_30838237   7e-08   hg38    7.15    T4_hg38 None       None        True    ZNF438
+      11   2780860   rs_lead_11_2802090    9e-08   hg38    7.05    T1_hg19 2802090.0  hg19        True    KCNQ1
 
 
 .. tip::
@@ -730,23 +732,6 @@ column name from the hits table is accepted.  Add
       - To generate qq-plots, simply add ``--qq_plot``
       - To specify a type, 
 
-
-.. code-block:: bash
-
-   pycmplot \
-     --sum_stats hb.tsv,mcv.tsv --labels Hb,MCV \
-     --logp --trim_pval 0.01 \
-     --highlight --annotate GENE --label_col top_gene \
-     --output_dir ./out
-
-
-.. code-block:: bash
-
-   pycmplot \
-     --sum_stats hb.tsv,mcv.tsv --labels Hb,MCV \
-     --logp --trim_pval 0.01 \
-     --highlight --signif_line --annotate GENE \
-     --output_dir ./out
 
 Every run also writes a locus summary TSV to ``--output_dir``.
 Inspect it with any TSV viewer:
@@ -764,6 +749,10 @@ overlay system — see :ref:`cli-tut-overlay`).
 
 Distance semantics
 ~~~~~~~~~~~~~~~~~~
+
+A schematic of pycmplot's gene selection logic for annotation is shown 
+below for a visual walkthrough of the near-edge rule under different gene 
+layouts.
 
 Every distance-based field on the hits table
 (``nearest_gene_distance``, ``upstream_distance``,
@@ -791,34 +780,21 @@ of gene length.
 The **only** field where strand still matters is
 ``promoter_upstream_flag``, which uses a 2 kb window
 5' of each gene's TSS (``[START − 2 kb, START)`` for ``+`` strand,
-``(END, END + 2 kb]`` for ``−`` strand).  That's genuinely a
-biological concept and would be misleading if computed positionally,
-so it stays strand-aware.
+``(END, END + 2 kb]`` for ``−`` strand). Since strand is a biological
+concept this calculation is delibrately strand-aware rather than positionally.
 
-See the manuscript's :download:`annotation_schematic.pdf
-<../benchmark/figures/annotation_schematic.pdf>` for a visual
-walkthrough of the near-edge rule under different gene layouts.
 
-.. rubric:: In one paragraph
+.. figure:: ../benchmark/figures/gene_selection.png
+   :alt: pycmplot gene selection schematic
+   :width: 800px
 
-Left/right flanker selection is a pure coordinate comparison: a gene
-enters ``nearest_upstream_gene`` iff its body ends at a lower
-coordinate than the SNP (``END < POS``, so the whole body sits on
-the numerically-lower side) and ``nearest_downstream_gene`` iff it
-starts at a higher one (``START > POS``); on each side the winner is
-the gene whose near edge (``END`` for the left flanker, ``START`` for
-the right) minimises the base-pair gap to the SNP.  This is
-strictly *orientational* — a statement about where the gene body
-sits on the coordinate axis relative to the SNP — and does not
-reference the gene's strand; two genes with identical coordinates
-but opposite strands would be classified identically.  The one
-place strand is retained is
-:data:`promoter_upstream_flag`, which is set when the SNP falls in
-the 2 kb window immediately 5' of any gene's TSS —
-``[START − 2 kb, START)`` for ``+`` strand genes and
-``(END, END + 2 kb]`` for ``−`` strand genes.  "Promoter" is a
-genuinely biological concept defined relative to transcription
-direction, so it is the only field where strand information matters.
+
+Download a PDF copy. :download:`annotation_schematic.pdf
+<../benchmark/figures/annotation_schematic.pdf>`.
+
+.. hint::
+   Check whether pycmplot's annotation worked correctly. Examine 
+   some of the SNPs in :ref:`cli-tut-setup` in `GWAS Catalog`_.
 
 
 .. _cli-tut-qq:

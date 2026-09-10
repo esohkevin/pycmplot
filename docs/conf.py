@@ -24,7 +24,7 @@ extensions = [
 
     # UI Elements & Interactivity
     "sphinx_design",
-    "sphinxcontrib.lightbox2",  # Image zooming lightbox
+    #"sphinxcontrib.lightbox2",  # Image zooming lightbox
     "sphinxcontrib.images",
     "sphinx_togglebutton",      # Collapsible dropdowns
     "sphinx_tippy",             # Replace hoverxref.extension

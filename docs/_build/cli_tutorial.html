@@ -14,7 +14,6 @@
       <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
       <link rel="stylesheet" type="text/css" href="_static/sphinxcontrib-images/LightBox2/lightbox2/dist/css/lightbox.min.css?v=6e7d0de0" />
       <link rel="stylesheet" type="text/css" href="_static/sphinxcontrib-images/LightBox2/lightbox2-customize/pointer.css?v=c97663ff" />
-      <link rel="stylesheet" type="text/css" href="_static/css/lightbox.min.css?v=6e7d0de0" />
       <link rel="stylesheet" type="text/css" href="_static/tippy.css?v=2d9a672b" />
 
   
@@ -36,9 +35,7 @@
       <script src="_static/sphinxcontrib-images/LightBox2/lightbox2-customize/jquery-noconflict.js?v=12818e64"></script>
       <script defer="defer" src="https://unpkg.com/@popperjs/core@2"></script>
       <script defer="defer" src="https://unpkg.com/tippy.js@6"></script>
-      <script defer="defer" src="_static/tippy/cli_tutorial.e1e6b7d9-e6af-4f27-9620-b98ee1ce76af.js"></script>
-      <script src="_static/js/lightbox-plus-jquery.min.js?v=f0ca4bb6"></script>
-      <script>lightbox.option({"alwaysShowNavOnTouchDevices": false, "albumLabel": "Image %1 of %2", "disableScrolling": false, "fadeDuration": 600, "fitImagesInViewport": true, "imageFadeDuration": 600, "positionFromTop": 50, "resizeDuration": 700, "showImageNumberLabel": true, "wrapAround": true})</script>
+      <script defer="defer" src="_static/tippy/cli_tutorial.37711606-f228-4708-a4a7-50e18b04a1a0.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -165,10 +162,12 @@
 <li class="toctree-l4"><a class="reference internal" href="pycmplot_python_api.html#Explicitly-speficying-directory-where-output-files-should-be-stored">Explicitly speficying directory where output files should be stored</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html##-Handling-other-use-cases-and-QQ-plots"># Handling other use cases and QQ-plots</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pycmplot_python_api.html#Handling-other-use-cases-and-QQ-plots">Handling other use cases and QQ-plots</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Summary-stats-without-BUILD-column-and-no-build-information-provided">Summary stats without <strong>BUILD</strong> column and no <code class="docutils literal notranslate"><span class="pre">build</span></code> information provided</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html###-Supplying-builds-with-summary-stats">## Supplying builds with summary stats</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html###-QQ-Plotting">## QQ-Plotting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Supplying-builds-with-summary-stats">Supplying builds with summary stats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#QQ-Plotting">QQ-Plotting</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="pycmplot_python_api.html#Overlaying-multiple">Overlaying multiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pycmplot_python_api.html#Separate-qq-plots-saved-in-separate-figures">Separate qq-plots saved in separate figures</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pycmplot_python_api.html#Combined-multi-panel">Combined multi-panel</a></li>
@@ -183,10 +182,8 @@
 <li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Specify-groups-of-sumstats-to-load-and-plot-in-different-panels">Specify groups of sumstats to load and plot in different panels</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="pycmplot_python_api.html#Plot-in-panels">Plot in panels</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html##-Final-Notes"># Final Notes</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="pycmplot_python_api.html#Plot-in-panels">Plot in panels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycmplot_python_api.html#Final-Notes">Final Notes</a></li>
 </ul>
 </li>
 </ul>
@@ -272,6 +269,7 @@
 <li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.qq_combined"><code class="docutils literal notranslate"><span class="pre">qq_combined()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.qq_overlay"><code class="docutils literal notranslate"><span class="pre">qq_overlay()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.qq_separate"><code class="docutils literal notranslate"><span class="pre">qq_separate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.qq_single"><code class="docutils literal notranslate"><span class="pre">qq_single()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.set_legend_loc_string"><code class="docutils literal notranslate"><span class="pre">set_legend_loc_string()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.thin_pvals"><code class="docutils literal notranslate"><span class="pre">thin_pvals()</span></code></a></li>
 </ul>
@@ -306,17 +304,17 @@
 <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#xx-xx">0.4.0 - 2026-XX-XX</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id1">0.3.1 - 2026-07-31</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id2">0.3.0 - 2026-06-01</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id3">0.2.8 - 2026-05-30</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id4">0.2.7 - 2026-04-27</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id5">0.2.5 - 2026-04-20</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id6">0.2.2 - 2026-04-18</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id7">0.2.1 — 2026-04-16</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id8">0.1.9 — 2026-04-14</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id9">0.1.8 — 2026-04-14</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id10">0.1.0 — 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id1">0.4.1 - 2026-08-13</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id2">0.3.1 - 2026-07-31</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id3">0.3.0 - 2026-06-01</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id4">0.2.8 - 2026-05-30</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id5">0.2.7 - 2026-04-27</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id6">0.2.5 - 2026-04-20</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id7">0.2.2 - 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id8">0.2.1 — 2026-04-16</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id9">0.1.9 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id10">0.1.8 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id11">0.1.0 — 2026-04-18</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a><ul>
@@ -472,8 +470,9 @@ and writes the output image(s) plus a locus summary TSV.</p>
 <p>pycmplot defaults to <code class="docutils literal notranslate"><span class="pre">--mode</span> <span class="pre">lm</span></code> (linear Manhattan).  Add
 <code class="docutils literal notranslate"><span class="pre">--mode</span> <span class="pre">cm</span></code> to switch to the Circos-style circular layout — every
 other flag stays the same.  Use <code class="docutils literal notranslate"><span class="pre">pycmplot</span> <span class="pre">-h</span></code> for the full
-mode-specific option list. Click below to expand full CLI options.</p>
-<div class="toggle docutils container">
+mode-specific option list.</p>
+<div class="toggle admonition">
+<p class="admonition-title">Click below to expand full CLI options</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>usage: pycmplot [-h/--help] options
 
 options:
@@ -643,9 +642,7 @@ Linear</label><div class="sd-tab-content docutils">
 </pre></div>
 </div>
 <figure class="align-default">
-<a class="reference internal image-reference" href="_images/mycmplot_t1_hg19_lm_logp.png"><a href="_images/mycmplot_t1_hg19_lm_logp.png" data-lightbox="image-set">
-<img alt="linear Manhattan plot with base options" src="_images/mycmplot_t1_hg19_lm_logp.png" style="width: 800px;" />
-</a>
+<a class="reference internal image-reference" href="_images/mycmplot_t1_hg19_lm_logp.png"><img alt="linear Manhattan plot with base options" src="_images/mycmplot_t1_hg19_lm_logp.png" style="width: 800px;" />
 </a>
 </figure>
 </div>
@@ -661,9 +658,7 @@ Circular</label><div class="sd-tab-content docutils">
 </pre></div>
 </div>
 <figure class="align-default">
-<a class="reference internal image-reference" href="_images/mycmplot_t1_hg19_cm_logp.png"><a href="_images/mycmplot_t1_hg19_cm_logp.png" data-lightbox="image-set">
-<img alt="linear Manhattan plot with base options" src="_images/mycmplot_t1_hg19_cm_logp.png" style="width: 800px;" />
-</a>
+<a class="reference internal image-reference" href="_images/mycmplot_t1_hg19_cm_logp.png"><img alt="linear Manhattan plot with base options" src="_images/mycmplot_t1_hg19_cm_logp.png" style="width: 800px;" />
 </a>
 </figure>
 </div>
@@ -705,9 +700,7 @@ Linear</label><div class="sd-tab-content docutils">
 </pre></div>
 </div>
 <figure class="align-default">
-<a class="reference internal image-reference" href="_images/trait1_highlighted_t1_hg19_lm_logp.png"><a href="_images/trait1_highlighted_t1_hg19_lm_logp.png" data-lightbox="image-set">
-<img alt="linear Manhattan plot with base options" src="_images/trait1_highlighted_t1_hg19_lm_logp.png" style="width: 800px;" />
-</a>
+<a class="reference internal image-reference" href="_images/trait1_highlighted_t1_hg19_lm_logp.png"><img alt="linear Manhattan plot with base options highlighted" src="_images/trait1_highlighted_t1_hg19_lm_logp.png" style="width: 800px;" />
 </a>
 </figure>
 </div>
@@ -727,15 +720,13 @@ Circular</label><div class="sd-tab-content docutils">
 </pre></div>
 </div>
 <figure class="align-default">
-<a class="reference internal image-reference" href="_images/trait1_highlighted_t1_hg19_cm_logp.png"><a href="_images/trait1_highlighted_t1_hg19_cm_logp.png" data-lightbox="image-set">
-<img alt="circular Manhattan plot with base options" src="_images/trait1_highlighted_t1_hg19_cm_logp.png" style="width: 800px;" />
-</a>
+<a class="reference internal image-reference" href="_images/trait1_highlighted_t1_hg19_cm_logp.png"><img alt="circular Manhattan plot with base options highlighted" src="_images/trait1_highlighted_t1_hg19_cm_logp.png" style="width: 800px;" />
 </a>
 </figure>
 </div>
 <input id="sd-tab-item-4" name="sd-tab-set-1" type="radio">
 <label class="sd-tab-label" for="sd-tab-item-4">
-Circular (chrom label ourside)</label><div class="sd-tab-content docutils">
+Circular (chrom label outside)</label><div class="sd-tab-content docutils">
 <p>Also enhance plot title visual by reducing the size</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--mode<span class="w"> </span>cm<span class="w"> </span><span class="se">\</span>
@@ -752,9 +743,7 @@ Circular (chrom label ourside)</label><div class="sd-tab-content docutils">
 </pre></div>
 </div>
 <figure class="align-default">
-<a class="reference internal image-reference" href="_images/trait1_highlighted_2_t1_hg19_cm_logp.png"><a href="_images/trait1_highlighted_2_t1_hg19_cm_logp.png" data-lightbox="image-set">
-<img alt="circular Manhattan plot with base options" src="_images/trait1_highlighted_2_t1_hg19_cm_logp.png" style="width: 800px;" />
-</a>
+<a class="reference internal image-reference" href="_images/trait1_highlighted_2_t1_hg19_cm_logp.png"><img alt="circular Manhattan plot with base options highlighted 2" src="_images/trait1_highlighted_2_t1_hg19_cm_logp.png" style="width: 800px;" />
 </a>
 </figure>
 </div>
@@ -775,9 +764,7 @@ Circular (min radius control)</label><div class="sd-tab-content docutils">
 </pre></div>
 </div>
 <figure class="align-default">
-<a class="reference internal image-reference" href="_images/trait1_highlighted_3_t1_hg19_cm_logp.png"><a href="_images/trait1_highlighted_3_t1_hg19_cm_logp.png" data-lightbox="image-set">
-<img alt="circular Manhattan plot with base options" src="_images/trait1_highlighted_3_t1_hg19_cm_logp.png" style="width: 800px;" />
-</a>
+<a class="reference internal image-reference" href="_images/trait1_highlighted_3_t1_hg19_cm_logp.png"><img alt="circular Manhattan plot with base options highlighted 3" src="_images/trait1_highlighted_3_t1_hg19_cm_logp.png" style="width: 800px;" />
 </a>
 </figure>
 </div>
@@ -810,9 +797,7 @@ Linear</label><div class="sd-tab-content docutils">
 </pre></div>
 </div>
 <figure class="align-default">
-<a class="reference internal image-reference" href="_images/multitrack_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png"><a href="_images/multitrack_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png" data-lightbox="image-set">
-<img alt="multi-track linear Manhattan plot" src="_images/multitrack_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png" style="width: 800px;" />
-</a>
+<a class="reference internal image-reference" href="_images/multitrack_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png"><img alt="multi-track linear Manhattan plot" src="_images/multitrack_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png" style="width: 800px;" />
 </a>
 </figure>
 </div>
@@ -836,9 +821,7 @@ Circular</label><div class="sd-tab-content docutils">
 </pre></div>
 </div>
 <figure class="align-default">
-<a class="reference internal image-reference" href="_images/multitrack_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_cm_logp.png"><a href="_images/multitrack_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_cm_logp.png" data-lightbox="image-set">
-<img alt="multi-track circular Manhattan plot" src="_images/multitrack_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_cm_logp.png" style="width: 800px;" />
-</a>
+<a class="reference internal image-reference" href="_images/multitrack_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_cm_logp.png"><img alt="multi-track circular Manhattan plot" src="_images/multitrack_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_cm_logp.png" style="width: 800px;" />
 </a>
 </figure>
 </div>
@@ -858,7 +841,7 @@ tracks using <code class="docutils literal notranslate"><span class="pre">--high
 <p class="admonition-title">Tip</p>
 <p>The default linear plot size (<code class="docutils literal notranslate"><span class="pre">--figure_size</span></code>) is (10, 4) for (width, height).
 By default, each track (including the annotation track) gets an equal space.
-Annotations in the figure above are not visible. We can solve this by two means.</p>
+Annotations in the first figure are not visible. We can solve this by two means.</p>
 <ul class="simple">
 <li><p>either increase figure height: <code class="docutils literal notranslate"><span class="pre">--figure_size</span> <span class="pre">10,8</span></code></p></li>
 <li><p>or increase the annotation track space relative to the rest: <code class="docutils literal notranslate"><span class="pre">--track_heights</span> <span class="pre">2,1,1</span></code></p></li>
@@ -886,9 +869,7 @@ Linear</label><div class="sd-tab-content docutils">
 </pre></div>
 </div>
 <figure class="align-default">
-<a class="reference internal image-reference" href="_images/multitrack_annotate_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png"><a href="_images/multitrack_annotate_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png" data-lightbox="image-set">
-<img alt="multi-track linear Manhattan plot" src="_images/multitrack_annotate_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png" style="width: 800px;" />
-</a>
+<a class="reference internal image-reference" href="_images/multitrack_annotate_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png"><img alt="multi-track linear Manhattan plot annotate" src="_images/multitrack_annotate_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png" style="width: 800px;" />
 </a>
 </figure>
 </div>
@@ -916,9 +897,7 @@ Linear (track heights)</label><div class="sd-tab-content docutils">
 </pre></div>
 </div>
 <figure class="align-default">
-<a class="reference internal image-reference" href="_images/multitrack_track_heights_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png"><a href="_images/multitrack_track_heights_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png" data-lightbox="image-set">
-<img alt="multi-track linear Manhattan plot" src="_images/multitrack_track_heights_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png" style="width: 800px;" />
-</a>
+<a class="reference internal image-reference" href="_images/multitrack_track_heights_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png"><img alt="multi-track linear Manhattan plot track heights annotate" src="_images/multitrack_track_heights_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png" style="width: 800px;" />
 </a>
 </figure>
 </div>
@@ -943,9 +922,7 @@ Linear (figure size)</label><div class="sd-tab-content docutils">
 </pre></div>
 </div>
 <figure class="align-default">
-<a class="reference internal image-reference" href="_images/multitrack_figure_size_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png"><a href="_images/multitrack_figure_size_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png" data-lightbox="image-set">
-<img alt="multi-track linear Manhattan plot" src="_images/multitrack_figure_size_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png" style="width: 800px;" />
-</a>
+<a class="reference internal image-reference" href="_images/multitrack_figure_size_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png"><img alt="multi-track linear Manhattan plot figsize annotate" src="_images/multitrack_figure_size_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png" style="width: 800px;" />
 </a>
 </figure>
 </div>
@@ -971,9 +948,7 @@ Circular</label><div class="sd-tab-content docutils">
 </pre></div>
 </div>
 <figure class="align-default">
-<a class="reference internal image-reference" href="_images/multitrack_annotate_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_cm_logp.png"><a href="_images/multitrack_annotate_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_cm_logp.png" data-lightbox="image-set">
-<img alt="multi-track circular Manhattan plot" src="_images/multitrack_annotate_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_cm_logp.png" style="width: 800px;" />
-</a>
+<a class="reference internal image-reference" href="_images/multitrack_annotate_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_cm_logp.png"><img alt="multi-track circular Manhattan plot annotate" src="_images/multitrack_annotate_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_cm_logp.png" style="width: 800px;" />
 </a>
 </figure>
 </div>
@@ -981,11 +956,11 @@ Circular</label><div class="sd-tab-content docutils">
 <div class="admonition important">
 <p class="admonition-title">Important</p>
 <p>Notice the two near-significant loci on <strong>chromosome 10</strong> and <strong>chromosome 11</strong>.
-If we wish to highlight and annotated, we will modify two parameters:
-set <code class="docutils literal notranslate"><span class="pre">--signif_threshold</span></code> and <code class="docutils literal notranslate"><span class="pre">--highight_thresh</span></code> with the same value.</p>
+If we wish to highlight and annotate them, we will modify two parameters:</p>
+<p>set <code class="docutils literal notranslate"><span class="pre">--signif_threshold</span></code> and <code class="docutils literal notranslate"><span class="pre">--highight_thresh</span></code> with the same value.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>If only <code class="docutils literal notranslate"><span class="pre">highlight_thresh</span> <span class="pre">1e-07</span></code> is used, the loci will be highlighted but no annotated</p>
+<p>If only <code class="docutils literal notranslate"><span class="pre">highlight_thresh</span> <span class="pre">1e-07</span></code> is used, the loci will be highlighted but not annotated.</p>
 </div>
 </div>
 <div class="sd-tab-set docutils">
@@ -1012,9 +987,7 @@ Linear</label><div class="sd-tab-content docutils">
 </pre></div>
 </div>
 <figure class="align-default">
-<a class="reference internal image-reference" href="_images/multitrack_annotate_2_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png"><a href="_images/multitrack_annotate_2_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png" data-lightbox="image-set">
-<img alt="multi-track linear Manhattan plot" src="_images/multitrack_annotate_2_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png" style="width: 800px;" />
-</a>
+<a class="reference internal image-reference" href="_images/multitrack_annotate_2_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png"><img alt="multi-track linear annotation 2" src="_images/multitrack_annotate_2_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png" style="width: 800px;" />
 </a>
 </figure>
 </div>
@@ -1042,9 +1015,7 @@ Circular</label><div class="sd-tab-content docutils">
 </pre></div>
 </div>
 <figure class="align-default">
-<a class="reference internal image-reference" href="_images/multitrack_annotate_2_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_cm_logp.png"><a href="_images/multitrack_annotate_2_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_cm_logp.png" data-lightbox="image-set">
-<img alt="multi-track circular Manhattan plot" src="_images/multitrack_annotate_2_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_cm_logp.png" style="width: 800px;" />
-</a>
+<a class="reference internal image-reference" href="_images/multitrack_annotate_2_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_cm_logp.png"><img alt="multi-track circular annotation 2" src="_images/multitrack_annotate_2_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_cm_logp.png" style="width: 800px;" />
 </a>
 </figure>
 </div>
@@ -1055,15 +1026,13 @@ you can inspect or export directly:</p>
 <code class="docutils literal notranslate"><span class="pre">--annotate</span> <span class="pre">GENE</span></code> (label with the nearest / top gene), or a
 column name from the hits table is accepted.  Add
 <code class="docutils literal notranslate"><span class="pre">--annotate</span> <span class="pre">GENE</span></code> on top of the previous command:</p>
-<div class="toggle toggle-hidden docutils container">
-<div class="admonition-question-what-two-genes-had-sub-threshold-significance admonition">
-<p class="admonition-title">Question: What two genes had sub-threshold significance?</p>
+<div class="dropdown admonition">
+<p class="admonition-title">Question: Which genes had sub-threshold significant p-values?</p>
 <p><em>ZNF438</em> (chr10, p-value) and <em>KCNQ1</em> (chr11)</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>CHR  POS       SNP                   P       BUILD   logP    LABEL   OLD_POS    OLD_BUILD   genic   nearest_gene
 10   30838237  rs_lead_10_30838237   7e-08   hg38    7.15    T4_hg38 None       None        True    ZNF438
 11   2780860   rs_lead_11_2802090    9e-08   hg38    7.05    T1_hg19 2802090.0  hg19        True    KCNQ1
 </pre></div>
-</div>
 </div>
 </div>
 <div class="admonition tip">
@@ -1080,20 +1049,6 @@ column name from the hits table is accepted.  Add
 </dd>
 </dl>
 </div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--sum_stats<span class="w"> </span>hb.tsv,mcv.tsv<span class="w"> </span>--labels<span class="w"> </span>Hb,MCV<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--logp<span class="w"> </span>--trim_pval<span class="w"> </span><span class="m">0</span>.01<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--highlight<span class="w"> </span>--annotate<span class="w"> </span>GENE<span class="w"> </span>--label_col<span class="w"> </span>top_gene<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--output_dir<span class="w"> </span>./out
-</pre></div>
-</div>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--sum_stats<span class="w"> </span>hb.tsv,mcv.tsv<span class="w"> </span>--labels<span class="w"> </span>Hb,MCV<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--logp<span class="w"> </span>--trim_pval<span class="w"> </span><span class="m">0</span>.01<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--highlight<span class="w"> </span>--signif_line<span class="w"> </span>--annotate<span class="w"> </span>GENE<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--output_dir<span class="w"> </span>./out
-</pre></div>
-</div>
 <p>Every run also writes a locus summary TSV to <code class="docutils literal notranslate"><span class="pre">--output_dir</span></code>.
 Inspect it with any TSV viewer:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>head<span class="w"> </span>out/*.tsv
@@ -1107,6 +1062,9 @@ Inspect it with any TSV viewer:</p>
 overlay system — see <a class="reference internal" href="#cli-tut-overlay"><span class="std std-ref">The hits overlay TSV</span></a>).</p>
 <section id="distance-semantics">
 <h3>Distance semantics<a class="headerlink" href="#distance-semantics" title="Link to this heading"></a></h3>
+<p>A schematic of pycmplot’s gene selection logic for annotation is shown
+below for a visual walkthrough of the near-edge rule under different gene
+layouts.</p>
 <p>Every distance-based field on the hits table
 (<code class="docutils literal notranslate"><span class="pre">nearest_gene_distance</span></code>, <code class="docutils literal notranslate"><span class="pre">upstream_distance</span></code>,
 <code class="docutils literal notranslate"><span class="pre">downstream_distance</span></code>, and the numeric part of the intergenic
@@ -1132,30 +1090,18 @@ of gene length.</p>
 <p>The <strong>only</strong> field where strand still matters is
 <code class="docutils literal notranslate"><span class="pre">promoter_upstream_flag</span></code>, which uses a 2 kb window
 5’ of each gene’s TSS (<code class="docutils literal notranslate"><span class="pre">[START</span> <span class="pre">−</span> <span class="pre">2</span> <span class="pre">kb,</span> <span class="pre">START)</span></code> for <code class="docutils literal notranslate"><span class="pre">+</span></code> strand,
-<code class="docutils literal notranslate"><span class="pre">(END,</span> <span class="pre">END</span> <span class="pre">+</span> <span class="pre">2</span> <span class="pre">kb]</span></code> for <code class="docutils literal notranslate"><span class="pre">−</span></code> strand).  That’s genuinely a
-biological concept and would be misleading if computed positionally,
-so it stays strand-aware.</p>
-<p>See the manuscript’s <a class="reference download internal" download="" href="_downloads/c771a97b036ce56fa462c76462267ed3/annotation_schematic.pdf"><code class="xref download docutils literal notranslate"><span class="pre">annotation_schematic.pdf</span></code></a> for a visual
-walkthrough of the near-edge rule under different gene layouts.</p>
-<p class="rubric">In one paragraph</p>
-<p>Left/right flanker selection is a pure coordinate comparison: a gene
-enters <code class="docutils literal notranslate"><span class="pre">nearest_upstream_gene</span></code> iff its body ends at a lower
-coordinate than the SNP (<code class="docutils literal notranslate"><span class="pre">END</span> <span class="pre">&lt;</span> <span class="pre">POS</span></code>, so the whole body sits on
-the numerically-lower side) and <code class="docutils literal notranslate"><span class="pre">nearest_downstream_gene</span></code> iff it
-starts at a higher one (<code class="docutils literal notranslate"><span class="pre">START</span> <span class="pre">&gt;</span> <span class="pre">POS</span></code>); on each side the winner is
-the gene whose near edge (<code class="docutils literal notranslate"><span class="pre">END</span></code> for the left flanker, <code class="docutils literal notranslate"><span class="pre">START</span></code> for
-the right) minimises the base-pair gap to the SNP.  This is
-strictly <em>orientational</em> — a statement about where the gene body
-sits on the coordinate axis relative to the SNP — and does not
-reference the gene’s strand; two genes with identical coordinates
-but opposite strands would be classified identically.  The one
-place strand is retained is
-<code class="xref py py-data docutils literal notranslate"><span class="pre">promoter_upstream_flag</span></code>, which is set when the SNP falls in
-the 2 kb window immediately 5’ of any gene’s TSS —
-<code class="docutils literal notranslate"><span class="pre">[START</span> <span class="pre">−</span> <span class="pre">2</span> <span class="pre">kb,</span> <span class="pre">START)</span></code> for <code class="docutils literal notranslate"><span class="pre">+</span></code> strand genes and
-<code class="docutils literal notranslate"><span class="pre">(END,</span> <span class="pre">END</span> <span class="pre">+</span> <span class="pre">2</span> <span class="pre">kb]</span></code> for <code class="docutils literal notranslate"><span class="pre">−</span></code> strand genes.  “Promoter” is a
-genuinely biological concept defined relative to transcription
-direction, so it is the only field where strand information matters.</p>
+<code class="docutils literal notranslate"><span class="pre">(END,</span> <span class="pre">END</span> <span class="pre">+</span> <span class="pre">2</span> <span class="pre">kb]</span></code> for <code class="docutils literal notranslate"><span class="pre">−</span></code> strand). Since strand is a biological
+concept this calculation is delibrately strand-aware rather than positionally.</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/gene_selection.png"><img alt="pycmplot gene selection schematic" src="_images/gene_selection.png" style="width: 800px;" />
+</a>
+</figure>
+<p>Download a PDF copy. <a class="reference download internal" download="" href="_downloads/c771a97b036ce56fa462c76462267ed3/annotation_schematic.pdf"><code class="xref download docutils literal notranslate"><span class="pre">annotation_schematic.pdf</span></code></a>.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Check whether pycmplot’s annotation worked correctly. Examine
+some of the SNPs in <a class="reference internal" href="#cli-tut-setup"><span class="std std-ref">Setup: a synthetic dataset</span></a> in <a class="reference external" href="https://www.ebi.ac.uk/gwas/efotraits/OBA_VT0001253">GWAS Catalog</a>.</p>
+</div>
 </section>
 </section>
 <section id="qq-plots-and-compute-pvals">

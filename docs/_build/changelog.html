@@ -14,7 +14,6 @@
       <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
       <link rel="stylesheet" type="text/css" href="_static/sphinxcontrib-images/LightBox2/lightbox2/dist/css/lightbox.min.css?v=6e7d0de0" />
       <link rel="stylesheet" type="text/css" href="_static/sphinxcontrib-images/LightBox2/lightbox2-customize/pointer.css?v=c97663ff" />
-      <link rel="stylesheet" type="text/css" href="_static/css/lightbox.min.css?v=6e7d0de0" />
       <link rel="stylesheet" type="text/css" href="_static/tippy.css?v=2d9a672b" />
 
   
@@ -36,9 +35,7 @@
       <script src="_static/sphinxcontrib-images/LightBox2/lightbox2-customize/jquery-noconflict.js?v=12818e64"></script>
       <script defer="defer" src="https://unpkg.com/@popperjs/core@2"></script>
       <script defer="defer" src="https://unpkg.com/tippy.js@6"></script>
-      <script defer="defer" src="_static/tippy/changelog.24c1e9e5-2d09-4a59-a035-6205798b8b06.js"></script>
-      <script src="_static/js/lightbox-plus-jquery.min.js?v=f0ca4bb6"></script>
-      <script>lightbox.option({"alwaysShowNavOnTouchDevices": false, "albumLabel": "Image %1 of %2", "disableScrolling": false, "fadeDuration": 600, "fitImagesInViewport": true, "imageFadeDuration": 600, "positionFromTop": 50, "resizeDuration": 700, "showImageNumberLabel": true, "wrapAround": true})</script>
+      <script defer="defer" src="_static/tippy/changelog.53e7090f-a9cb-476a-b91c-ae3d5d6aef67.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -95,13 +92,11 @@
 <li class="toctree-l1"><a class="reference internal" href="cli_tutorial.html">CLI Tutorial</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="cli_tutorial.html#setup-a-synthetic-dataset">Setup: a synthetic dataset</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cli_tutorial.html#the-cli-mental-model">The CLI mental model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cli_tutorial.html#linear-manhattan-plots">Linear Manhattan plots</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cli_tutorial.html#highlighting">Highlighting</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="cli_tutorial.html#single-track">Single-track</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cli_tutorial.html#multi-track">Multi-track</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="cli_tutorial.html#circular-circos-plots">Circular (Circos) plots</a></li>
-<li class="toctree-l2"><a class="reference internal" href="cli_tutorial.html#highlighting">Highlighting</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cli_tutorial.html#automatic-gene-annotation">Automatic gene annotation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="cli_tutorial.html#distance-semantics">Distance semantics</a></li>
 </ul>
@@ -167,10 +162,12 @@
 <li class="toctree-l4"><a class="reference internal" href="pycmplot_python_api.html#Explicitly-speficying-directory-where-output-files-should-be-stored">Explicitly speficying directory where output files should be stored</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html##-Handling-other-use-cases-and-QQ-plots"># Handling other use cases and QQ-plots</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pycmplot_python_api.html#Handling-other-use-cases-and-QQ-plots">Handling other use cases and QQ-plots</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Summary-stats-without-BUILD-column-and-no-build-information-provided">Summary stats without <strong>BUILD</strong> column and no <code class="docutils literal notranslate"><span class="pre">build</span></code> information provided</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html###-Supplying-builds-with-summary-stats">## Supplying builds with summary stats</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html###-QQ-Plotting">## QQ-Plotting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Supplying-builds-with-summary-stats">Supplying builds with summary stats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#QQ-Plotting">QQ-Plotting</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="pycmplot_python_api.html#Overlaying-multiple">Overlaying multiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pycmplot_python_api.html#Separate-qq-plots-saved-in-separate-figures">Separate qq-plots saved in separate figures</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pycmplot_python_api.html#Combined-multi-panel">Combined multi-panel</a></li>
@@ -185,10 +182,8 @@
 <li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Specify-groups-of-sumstats-to-load-and-plot-in-different-panels">Specify groups of sumstats to load and plot in different panels</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="pycmplot_python_api.html#Plot-in-panels">Plot in panels</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html##-Final-Notes"># Final Notes</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="pycmplot_python_api.html#Plot-in-panels">Plot in panels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycmplot_python_api.html#Final-Notes">Final Notes</a></li>
 </ul>
 </li>
 </ul>
@@ -274,6 +269,7 @@
 <li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.qq_combined"><code class="docutils literal notranslate"><span class="pre">qq_combined()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.qq_overlay"><code class="docutils literal notranslate"><span class="pre">qq_overlay()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.qq_separate"><code class="docutils literal notranslate"><span class="pre">qq_separate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.qq_single"><code class="docutils literal notranslate"><span class="pre">qq_single()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.set_legend_loc_string"><code class="docutils literal notranslate"><span class="pre">set_legend_loc_string()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.thin_pvals"><code class="docutils literal notranslate"><span class="pre">thin_pvals()</span></code></a></li>
 </ul>
@@ -308,17 +304,17 @@
 <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#xx-xx">0.4.0 - 2026-XX-XX</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id1">0.3.1 - 2026-07-31</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id2">0.3.0 - 2026-06-01</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">0.2.8 - 2026-05-30</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">0.2.7 - 2026-04-27</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id5">0.2.5 - 2026-04-20</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id6">0.2.2 - 2026-04-18</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id7">0.2.1 — 2026-04-16</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id8">0.1.9 — 2026-04-14</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id9">0.1.8 — 2026-04-14</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id10">0.1.0 — 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">0.4.1 - 2026-08-13</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">0.3.1 - 2026-07-31</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">0.3.0 - 2026-06-01</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">0.2.8 - 2026-05-30</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">0.2.7 - 2026-04-27</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">0.2.5 - 2026-04-20</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">0.2.2 - 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">0.2.1 — 2026-04-16</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">0.1.9 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id10">0.1.8 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id11">0.1.0 — 2026-04-18</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a><ul>
@@ -362,8 +358,8 @@
 <p>The format is based on <a class="reference external" href="https://keepachangelog.com/en/1.0.0/">Keep a Changelog</a>
 and this project adheres to <a class="reference external" href="https://semver.org/">Semantic Versioning</a>.</p>
 <p>—</p>
-<section id="xx-xx">
-<h2>0.4.0 - 2026-XX-XX<a class="headerlink" href="#xx-xx" title="Link to this heading"></a></h2>
+<section id="id1">
+<h2>0.4.1 - 2026-08-13<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
 <p><strong>Added</strong></p>
 <ul class="simple">
 <li><p><strong>``highlight_legend`` on/off toggle on both plotters.</strong>  A
@@ -960,8 +956,8 @@ user-editable hits overlay design.</p></li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id1">
-<h2>0.3.1 - 2026-07-31<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<section id="id2">
+<h2>0.3.1 - 2026-07-31<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
 <p><strong>Fixed</strong></p>
 <ul class="simple">
 <li><p><strong>LiftOver hg18/hg19 to hg38</strong></p></li>
@@ -983,8 +979,8 @@ Suggestive line inclusion now depends only on whether <code class="docutils lite
 specified.</p>
 </section>
 <hr class="docutils" />
-<section id="id2">
-<h2>0.3.0 - 2026-06-01<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<section id="id3">
+<h2>0.3.0 - 2026-06-01<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
 <p><strong>Fixed</strong></p>
 <ul class="simple">
 <li><p>Bug fix:
@@ -1004,8 +1000,8 @@ circular plotting</p></li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id3">
-<h2>0.2.8 - 2026-05-30<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<section id="id4">
+<h2>0.2.8 - 2026-05-30<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
 <p><strong>Added</strong></p>
 <ul class="simple">
 <li><p><strong>Dual annotation renderer architecture</strong></p></li>
@@ -1134,8 +1130,8 @@ incorrect pairing of chromosomes (e.g. chr3 with chr17) caused by
 <code class="docutils literal notranslate"><span class="pre">set</span></code> iteration order.</p></li>
 </ul>
 </section>
-<section id="id4">
-<h2>0.2.7 - 2026-04-27<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<section id="id5">
+<h2>0.2.7 - 2026-04-27<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
 <p><strong>Added</strong></p>
 <ul class="simple">
 <li><p><strong>Default-on density-aware auto-thinning</strong> for Manhattan / circular</p></li>
@@ -1323,8 +1319,8 @@ were removed).</p></li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id5">
-<h2>0.2.5 - 2026-04-20<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<section id="id6">
+<h2>0.2.5 - 2026-04-20<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
 <p><strong>Fixed</strong></p>
 <ul class="simple">
 <li><p>Chromosome-22 positions falling outside hg38 chr22 limits after liftover
@@ -1414,8 +1410,8 @@ dtypes from <code class="docutils literal notranslate"><span class="pre">str</sp
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id6">
-<h2>0.2.2 - 2026-04-18<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<section id="id7">
+<h2>0.2.2 - 2026-04-18<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
 <p><strong>Added</strong></p>
 <p>QQ plots (<a class="reference internal" href="api/plotting.html#module-pycmplot.plotting.qq" title="pycmplot.plotting.qq"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pycmplot.plotting.qq</span></code></a>):</p>
 <ul class="simple">
@@ -1484,8 +1480,8 @@ tracks to improve visibility of track labels and y-axis ticks.</p></li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id7">
-<h2>0.2.1 — 2026-04-16<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<section id="id8">
+<h2>0.2.1 — 2026-04-16<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
 <p><strong>Added</strong></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">--build</span></code> option for supplying per-file genome builds when the
@@ -1508,8 +1504,8 @@ builds avoids this.</p></li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id8">
-<h2>0.1.9 — 2026-04-14<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+<section id="id9">
+<h2>0.1.9 — 2026-04-14<a class="headerlink" href="#id9" title="Link to this heading"></a></h2>
 <p><strong>Fixed</strong></p>
 <ul class="simple">
 <li><p>Column name auto-detection now covers both lower- and upper-case
@@ -1520,8 +1516,8 @@ the CLI equivalent (required instead of optional).</p></li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id9">
-<h2>0.1.8 — 2026-04-14<a class="headerlink" href="#id9" title="Link to this heading"></a></h2>
+<section id="id10">
+<h2>0.1.8 — 2026-04-14<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
 <p><strong>Added</strong></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">--highlight_color</span></code> and <code class="docutils literal notranslate"><span class="pre">--highlight_line_color</span></code> options.</p></li>
@@ -1535,8 +1531,8 @@ the CLI equivalent (required instead of optional).</p></li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id10">
-<h2>0.1.0 — 2026-04-18<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
+<section id="id11">
+<h2>0.1.0 — 2026-04-18<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
 <p>Initial release.</p>
 <p><strong>Added</strong></p>
 <p>Package structure:</p>

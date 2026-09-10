@@ -11,8 +11,9 @@
       <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css?v=9c3e77be" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
       <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/css/lightbox.min.css?v=6e7d0de0" />
-      <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=618afd55" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinxcontrib-images/LightBox2/lightbox2/dist/css/lightbox.min.css?v=6e7d0de0" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinxcontrib-images/LightBox2/lightbox2-customize/pointer.css?v=c97663ff" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/tippy.css?v=2d9a672b" />
 
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
@@ -29,8 +30,8 @@
       <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
       <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-      <script src="../../../_static/js/lightbox-plus-jquery.min.js?v=f0ca4bb6"></script>
-      <script>lightbox.option({"alwaysShowNavOnTouchDevices": false, "albumLabel": "Image %1 of %2", "disableScrolling": false, "fadeDuration": 600, "fitImagesInViewport": true, "imageFadeDuration": 600, "positionFromTop": 50, "resizeDuration": 700, "showImageNumberLabel": true, "wrapAround": true})</script>
+      <script src="../../../_static/sphinxcontrib-images/LightBox2/lightbox2/dist/js/lightbox-plus-jquery.min.js?v=f0ca4bb6"></script>
+      <script src="../../../_static/sphinxcontrib-images/LightBox2/lightbox2-customize/jquery-noconflict.js?v=12818e64"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -85,13 +86,11 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../cli_tutorial.html">CLI Tutorial</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../cli_tutorial.html#setup-a-synthetic-dataset">Setup: a synthetic dataset</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../cli_tutorial.html#the-cli-mental-model">The CLI mental model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../cli_tutorial.html#linear-manhattan-plots">Linear Manhattan plots</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../cli_tutorial.html#single-track">Single-track:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cli_tutorial.html#highlighting">Highlighting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../cli_tutorial.html#single-track">Single-track</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../cli_tutorial.html#multi-track">Multi-track</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../../cli_tutorial.html#circular-circos-plots">Circular (Circos) plots</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../cli_tutorial.html#highlighting">Highlighting</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../cli_tutorial.html#automatic-gene-annotation">Automatic gene annotation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../cli_tutorial.html#distance-semantics">Distance semantics</a></li>
 </ul>
@@ -157,10 +156,12 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../pycmplot_python_api.html#Explicitly-speficying-directory-where-output-files-should-be-stored">Explicitly speficying directory where output files should be stored</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html##-Handling-other-use-cases-and-QQ-plots"># Handling other use cases and QQ-plots</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../pycmplot_python_api.html#Handling-other-use-cases-and-QQ-plots">Handling other use cases and QQ-plots</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html#Summary-stats-without-BUILD-column-and-no-build-information-provided">Summary stats without <strong>BUILD</strong> column and no <code class="docutils literal notranslate"><span class="pre">build</span></code> information provided</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html###-Supplying-builds-with-summary-stats">## Supplying builds with summary stats</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html###-QQ-Plotting">## QQ-Plotting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html#Supplying-builds-with-summary-stats">Supplying builds with summary stats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html#QQ-Plotting">QQ-Plotting</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../pycmplot_python_api.html#Overlaying-multiple">Overlaying multiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../pycmplot_python_api.html#Separate-qq-plots-saved-in-separate-figures">Separate qq-plots saved in separate figures</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../pycmplot_python_api.html#Combined-multi-panel">Combined multi-panel</a></li>
@@ -175,10 +176,8 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html#Specify-groups-of-sumstats-to-load-and-plot-in-different-panels">Specify groups of sumstats to load and plot in different panels</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../../pycmplot_python_api.html#Plot-in-panels">Plot in panels</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html##-Final-Notes"># Final Notes</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../pycmplot_python_api.html#Plot-in-panels">Plot in panels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../pycmplot_python_api.html#Final-Notes">Final Notes</a></li>
 </ul>
 </li>
 </ul>
@@ -264,6 +263,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#pycmplot.plotting.qq.qq_combined"><code class="docutils literal notranslate"><span class="pre">qq_combined()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#pycmplot.plotting.qq.qq_overlay"><code class="docutils literal notranslate"><span class="pre">qq_overlay()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#pycmplot.plotting.qq.qq_separate"><code class="docutils literal notranslate"><span class="pre">qq_separate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#pycmplot.plotting.qq.qq_single"><code class="docutils literal notranslate"><span class="pre">qq_single()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#pycmplot.plotting.qq.set_legend_loc_string"><code class="docutils literal notranslate"><span class="pre">set_legend_loc_string()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#pycmplot.plotting.qq.thin_pvals"><code class="docutils literal notranslate"><span class="pre">thin_pvals()</span></code></a></li>
 </ul>
@@ -298,17 +298,17 @@
 <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#xx-xx">0.4.0 - 2026-XX-XX</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id1">0.3.1 - 2026-07-31</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id2">0.3.0 - 2026-06-01</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id3">0.2.8 - 2026-05-30</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id4">0.2.7 - 2026-04-27</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id5">0.2.5 - 2026-04-20</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id6">0.2.2 - 2026-04-18</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id7">0.2.1 — 2026-04-16</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id8">0.1.9 — 2026-04-14</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id9">0.1.8 — 2026-04-14</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id10">0.1.0 — 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id1">0.4.1 - 2026-08-13</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id2">0.3.1 - 2026-07-31</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id3">0.3.0 - 2026-06-01</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id4">0.2.8 - 2026-05-30</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id5">0.2.7 - 2026-04-27</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id6">0.2.5 - 2026-04-20</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id7">0.2.2 - 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id8">0.2.1 — 2026-04-16</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id9">0.1.9 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id10">0.1.8 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id11">0.1.0 — 2026-04-18</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a><ul>
@@ -373,7 +373,7 @@
 <span class="sd">Public functions</span>
 <span class="sd">----------------</span>
 <span class="sd">thin_pvals          Downsample null-like p-values for fast plotting.</span>
-<span class="sd">plot_qq_single      Draw one QQ plot onto a given Axes.</span>
+<span class="sd">qq_single      Draw one QQ plot onto a given Axes.</span>
 <span class="sd">plot_qq_combined    All QQ plots in a single figure (grid layout).</span>
 <span class="sd">plot_qq_separate    One output file per sumstat.</span>
 <span class="sd">plot_qq_overlay     All sumstats overlaid on one axes, coloured by label.</span>
@@ -730,9 +730,9 @@
 <span class="c1"># Single-axis QQ plot</span>
 <span class="c1"># ---------------------------------------------------------------------------</span>
 
-<div class="viewcode-block" id="plot_qq_single">
-<a class="viewcode-back" href="../../../api/plotting.html#pycmplot.plotting.qq.plot_qq_single">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">plot_qq_single</span><span class="p">(</span>
+<div class="viewcode-block" id="qq_single">
+<a class="viewcode-back" href="../../../api/plotting.html#pycmplot.plotting.qq.qq_single">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">qq_single</span><span class="p">(</span>
     <span class="n">pvals</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span>
     <span class="n">ax</span><span class="p">:</span> <span class="n">plt</span><span class="o">.</span><span class="n">Axes</span><span class="p">,</span>
     <span class="n">label</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -799,7 +799,7 @@
             <span class="s2">&quot;If you created the figure with plt.subplots(nrows, ncols), &quot;</span>
             <span class="s2">&quot;index the returned array, e.g.:</span><span class="se">\n</span><span class="s2">&quot;</span>
             <span class="s2">&quot;  fig, axes = plt.subplots(1, 2)</span><span class="se">\n</span><span class="s2">&quot;</span>
-            <span class="s2">&quot;  plot_qq_single(pvals, ax=axes[0])&quot;</span>
+            <span class="s2">&quot;  qq_single(pvals, ax=axes[0])&quot;</span>
         <span class="p">)</span>
 
     <span class="c1"># Directive error message when pvals is None — usually a symptom of</span>
@@ -960,7 +960,7 @@
 <span class="sd">    output_path:</span>
 <span class="sd">        If given, save the figure here.</span>
 <span class="sd">    thin, thin_below, max_points, rasterized:</span>
-<span class="sd">        See :func:`plot_qq_single`.</span>
+<span class="sd">        See :func:`qq_single`.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -986,7 +986,7 @@
     <span class="n">axes_flat</span> <span class="o">=</span> <span class="n">axes_grid</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
 
     <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">pvals</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">pval_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
-        <span class="n">plot_qq_single</span><span class="p">(</span>
+        <span class="n">qq_single</span><span class="p">(</span>
             <span class="n">pvals</span><span class="o">=</span><span class="n">pvals</span><span class="p">,</span>
             <span class="n">ax</span><span class="o">=</span><span class="n">axes_flat</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span>
             <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
@@ -1067,7 +1067,7 @@
 <span class="sd">    colors:</span>
 <span class="sd">        List of colours, one per track.</span>
 <span class="sd">    thin, thin_below, max_points, rasterized:</span>
-<span class="sd">        See :func:`plot_qq_single`.</span>
+<span class="sd">        See :func:`qq_single`.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -1105,7 +1105,7 @@
     <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">pvals</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">pval_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
         <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
 
-        <span class="n">plot_qq_single</span><span class="p">(</span>
+        <span class="n">qq_single</span><span class="p">(</span>
             <span class="n">pvals</span><span class="o">=</span><span class="n">pvals</span><span class="p">,</span>
             <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
             <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
@@ -1176,7 +1176,7 @@
 <span class="sd">    show_lambda:</span>
 <span class="sd">        Append λ to each legend entry.</span>
 <span class="sd">    thin, thin_below, max_points, rasterized:</span>
-<span class="sd">        See :func:`plot_qq_single`.</span>
+<span class="sd">        See :func:`qq_single`.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -1201,7 +1201,7 @@
     <span class="n">_validate_pval_dict</span><span class="p">(</span><span class="n">pval_dict</span><span class="p">)</span>
     <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pval_dict</span><span class="p">)</span>
 
-    <span class="c1"># Coerce numeric kwargs once (see plot_qq_single for rationale).</span>
+    <span class="c1"># Coerce numeric kwargs once (see qq_single for rationale).</span>
     <span class="n">point_size</span> <span class="o">=</span> <span class="n">_to_scalar_float</span><span class="p">(</span><span class="n">point_size</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;point_size&quot;</span><span class="p">)</span>
 
     <span class="n">cmap</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="s2">&quot;tab10&quot;</span><span class="p">)</span>
@@ -1246,7 +1246,7 @@
             <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">ci_alpha</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="c1"># Use ax.plot (Line2D) instead of ax.scatter (PathCollection) for</span>
-        <span class="c1"># the same draw-time reasons as in plot_qq_single — much faster at</span>
+        <span class="c1"># the same draw-time reasons as in qq_single — much faster at</span>
         <span class="c1"># large N with identical rasterised output.</span>
         <span class="n">_ms</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">point_size</span><span class="p">))</span> <span class="k">if</span> <span class="n">point_size</span> <span class="k">else</span> <span class="mf">2.0</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
@@ -1309,12 +1309,15 @@
 
 
 <span class="c1"># ---------------------------------------------------------------------------</span>
-<span class="c1"># Backwards-compatible aliases (deprecated in 0.4.x)</span>
+<span class="c1"># Backwards-compatible aliases (deprecated in 0.4.1)</span>
 <span class="c1"># ---------------------------------------------------------------------------</span>
 <span class="c1"># The three QQ entry points shed the ``plot_`` prefix so the API reads as</span>
 <span class="c1"># ``pcm.qq_combined(...)``, ``pcm.qq_overlay(...)``, ``pcm.qq_separate(...)``.</span>
 <span class="c1"># Old names remain importable for one release cycle with a soft warning.</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pycmplot._deprecation</span><span class="w"> </span><span class="kn">import</span> <span class="n">_deprecated_alias</span> <span class="k">as</span> <span class="n">_da</span>
+<span class="n">plot_qq_single</span> <span class="o">=</span> <span class="n">_da</span><span class="p">(</span>
+    <span class="n">qq_single</span><span class="p">,</span> <span class="n">old_name</span><span class="o">=</span><span class="s2">&quot;plot_qq_single&quot;</span><span class="p">,</span> <span class="n">new_name</span><span class="o">=</span><span class="s2">&quot;qq_single&quot;</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="n">plot_qq_combined</span> <span class="o">=</span> <span class="n">_da</span><span class="p">(</span>
     <span class="n">qq_combined</span><span class="p">,</span> <span class="n">old_name</span><span class="o">=</span><span class="s2">&quot;plot_qq_combined&quot;</span><span class="p">,</span> <span class="n">new_name</span><span class="o">=</span><span class="s2">&quot;qq_combined&quot;</span><span class="p">,</span>
 <span class="p">)</span>
