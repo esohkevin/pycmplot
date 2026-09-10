@@ -36,7 +36,7 @@
       <script src="_static/sphinxcontrib-images/LightBox2/lightbox2-customize/jquery-noconflict.js?v=12818e64"></script>
       <script defer="defer" src="https://unpkg.com/@popperjs/core@2"></script>
       <script defer="defer" src="https://unpkg.com/tippy.js@6"></script>
-      <script defer="defer" src="_static/tippy/cli_tutorial.3787c7dd-40d8-4a29-9bb8-2a72d4e869e7.js"></script>
+      <script defer="defer" src="_static/tippy/cli_tutorial.45b60463-7ab7-4ed4-bf78-3bdbf8eef00a.js"></script>
       <script src="_static/js/lightbox-plus-jquery.min.js?v=f0ca4bb6"></script>
       <script>lightbox.option({"alwaysShowNavOnTouchDevices": false, "albumLabel": "Image %1 of %2", "disableScrolling": false, "fadeDuration": 600, "fitImagesInViewport": true, "imageFadeDuration": 600, "positionFromTop": 50, "resizeDuration": 700, "showImageNumberLabel": true, "wrapAround": true})</script>
     <script src="_static/js/theme.js"></script>
@@ -394,6 +394,32 @@ The <code class="docutils literal notranslate"><span class="pre">--targets</span
 chr13, chr18, and chr20 in all sumstats, 2 significant loci specific to hg19 sumstats
 (in chr2 and chr15) and 2 significant loci specific to hg38 sumstats (in chr12 and chr16).
 These are actuall <strong>body height</strong> significant loci pulled from <a class="reference external" href="https://www.ebi.ac.uk/gwas/efotraits/OBA_VT0001253">GWAS Catalog</a>.</p>
+<div class="toggle docutils container">
+<dl class="simple">
+<dt>HG19_TARGET_SPIKES: list[tuple[str, int, float]] = [</dt><dd><p>(“1”,  172_058_886, 7e-12),   # rs186897198
+(“2”,  36_733_328,  3e-08),   # rs2030645 - hg19-specific
+(“7”,  18_786_817,  7e-23),   # rs727851
+(“10”, 31_127_166,  7e-08),   # rs12413361
+(“11”, 12_879_123,  5e-09),   # rs546512774
+(“11”, 2_802_090,   9e-08),   # rs234886
+(“15”, 22_791_431,  1e-08),   # rs6606792 - hg19-specific
+(“17”, 65_854_602,  2e-12),   # rs55931203</p>
+</dd>
+</dl>
+<p>]</p>
+<dl class="simple">
+<dt>HG38_TARGET_SPIKES: list[tuple[str, int, float]] = [</dt><dd><p>(“1”,  172_089_746, 7e-12),   # rs186897198
+(“7”,  18_747_194,  7e-23),   # rs727851
+(“10”, 30_838_237,  7e-08),   # rs12413361
+(“11”, 12_857_576,  5e-09),   # rs546512774
+(“11”, 2_780_860,   9e-08),   # rs234886
+(“12”, 122_933_684, 7e-09),   # rs73230017 - hg38-specific
+(“16”, 69_181_056,  1e-08),   # rs12444184 - hg38-specific
+(“17”, 67_858_486,  2e-12),   # rs55931203</p>
+</dd>
+</dl>
+<p>]</p>
+</div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="o">{</span><span class="m">1</span>..3<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
 <span class="w">   </span>python<span class="w"> </span>generate_sumstats.py<span class="w"> </span><span class="se">\</span>
 <span class="w">      </span>--n<span class="w"> </span><span class="m">1000000</span><span class="w"> </span><span class="se">\</span>

@@ -53,8 +53,7 @@ These are actuall **body height** significant loci pulled from `GWAS Catalog`_.
 
 .. _GWAS Catalog: https://www.ebi.ac.uk/gwas/efotraits/OBA_VT0001253
 
-.. toggle::{admonition} See significant SNPs list
-   :class: dropdown
+.. toggle::
 
    HG19_TARGET_SPIKES: list[tuple[str, int, float]] = [
       ("1",  172_058_886, 7e-12),   # rs186897198
@@ -525,7 +524,7 @@ tracks using ``--highlight_line``.
    * either increase figure height: ``--figure_size 10,8``
 
    * or increase the annotation track space relative to the rest: ``--track_heights 2,1,1``
-   
+
    * or combine the two options to improve the visuals.
 
    **NB:** When using ``--annotate`` in linear plotting, the first (top) track is always the annotation track.
