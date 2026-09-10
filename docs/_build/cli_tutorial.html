@@ -36,7 +36,7 @@
       <script src="_static/sphinxcontrib-images/LightBox2/lightbox2-customize/jquery-noconflict.js?v=12818e64"></script>
       <script defer="defer" src="https://unpkg.com/@popperjs/core@2"></script>
       <script defer="defer" src="https://unpkg.com/tippy.js@6"></script>
-      <script defer="defer" src="_static/tippy/cli_tutorial.ea11097f-c43d-4e02-b4b2-6bac8bc7f916.js"></script>
+      <script defer="defer" src="_static/tippy/cli_tutorial.90276f33-f139-42b5-bd43-4541a54010ce.js"></script>
       <script src="_static/js/lightbox-plus-jquery.min.js?v=f0ca4bb6"></script>
       <script>lightbox.option({"alwaysShowNavOnTouchDevices": false, "albumLabel": "Image %1 of %2", "disableScrolling": false, "fadeDuration": 600, "fitImagesInViewport": true, "imageFadeDuration": 600, "positionFromTop": 50, "resizeDuration": 700, "showImageNumberLabel": true, "wrapAround": true})</script>
     <script src="_static/js/theme.js"></script>
@@ -500,7 +500,7 @@ mode-specific option list.</p>
 Linear</label><div class="sd-tab-content docutils">
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--sum_stats<span class="w"> </span>./data/sumstats_1M_trait1_hg19.tsv.gz<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--labels<span class="w"> </span>Trait1_hg19<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--labels<span class="w"> </span>T1_hg19<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--plot_title<span class="w"> </span><span class="s2">&quot;Trait1 (highlighted)&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--logp<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--highlight<span class="w"> </span><span class="se">\</span>
@@ -522,7 +522,7 @@ Circular</label><div class="sd-tab-content docutils">
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--mode<span class="w"> </span>cm<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--sum_stats<span class="w"> </span>./data/sumstats_1M_trait1_hg19.tsv.gz<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--labels<span class="w"> </span>Trait1_hg19<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--labels<span class="w"> </span>T1_hg19<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--plot_title<span class="w"> </span><span class="s2">&quot;Trait1 (highlighted)&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--logp<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--highlight<span class="w"> </span><span class="se">\</span>
@@ -562,7 +562,7 @@ in <code class="docutils literal notranslate"><span class="pre">cm</span></code>
 Linear</label><div class="sd-tab-content docutils">
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--sum_stats<span class="w"> </span>./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait2_hg19.tsv.gz,./data/sumstats_1M_trait3_hg19.tsv.gz,./data/sumstats_1M_trait4_hg38.tsv.gz,./data/sumstats_1M_trait5_hg38.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--labels<span class="w"> </span>Trait1_hg19,Trait2_hg19,Trait3_hg19,Trait4_hg38,Trait5_hg38,Trait6_hg38<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--labels<span class="w"> </span>T1_hg19,T2_hg19,T3_hg19,T4_hg38,T5_hg38,T6_hg38<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--plot_title<span class="w"> </span><span class="s2">&quot;Multi-track&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--logp<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--highlight<span class="w"> </span><span class="se">\</span>
@@ -585,7 +585,7 @@ Circular</label><div class="sd-tab-content docutils">
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--mode<span class="w"> </span>cm<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--sum_stats<span class="w"> </span>./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait2_hg19.tsv.gz,./data/sumstats_1M_trait3_hg19.tsv.gz,./data/sumstats_1M_trait4_hg38.tsv.gz,./data/sumstats_1M_trait5_hg38.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--labels<span class="w"> </span>Trait1_hg19,Trait2_hg19,Trait3_hg19,Trait4_hg38,Trait5_hg38,Trait6_hg38<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--labels<span class="w"> </span>T1_hg19,T2_hg19,T3_hg19,T4_hg38,T5_hg38,T6_hg38<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--plot_title<span class="w"> </span><span class="s2">&quot;Multi-track&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--logp<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--highlight<span class="w"> </span><span class="se">\</span>
@@ -616,7 +616,7 @@ Annotations in the figure above are not visible. We can solve this by two means.
 </div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--sum_stats<span class="w"> </span>./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--labels<span class="w"> </span>Trait1_hg19,Trait6_hg38<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--labels<span class="w"> </span>T1_hg19,T6_hg38<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--plot_title<span class="w"> </span><span class="s2">&quot;Multi-track_figsize&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--logp<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--highlight<span class="w"> </span><span class="se">\</span>
@@ -635,7 +635,7 @@ Annotations in the figure above are not visible. We can solve this by two means.
 </figure>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--sum_stats<span class="w"> </span>./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--labels<span class="w"> </span>Trait1_hg19,Trait6_hg38<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--labels<span class="w"> </span>T1_hg19,T6_hg38<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--plot_title<span class="w"> </span><span class="s2">&quot;Multi-track_annotate&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--logp<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--highlight<span class="w"> </span><span class="se">\</span>
@@ -662,7 +662,7 @@ changing the significance threshold: <code class="docutils literal notranslate">
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--mode<span class="w"> </span>cm<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--sum_stats<span class="w"> </span>./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait2_hg19.tsv.gz,./data/sumstats_1M_trait3_hg19.tsv.gz,./data/sumstats_1M_trait4_hg38.tsv.gz,./data/sumstats_1M_trait5_hg38.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--labels<span class="w"> </span>Trait1_hg19,Trait2_hg19,Trait3_hg19,Trait4_hg38,Trait5_hg38,Trait6_hg38<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--labels<span class="w"> </span>T1_hg19,T2_hg19,T3_hg19,T4_hg38,T5_hg38,T6_hg38<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--plot_title<span class="w"> </span><span class="s2">&quot;Multi-track_signif&quot;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--logp<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--highlight<span class="w"> </span><span class="se">\</span>

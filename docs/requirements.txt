@@ -2,12 +2,11 @@ sphinx>=7.0
 sphinx-rtd-theme>=2.0
 sphinx-copybutton>=0.5
 nbsphinx>=0.9
-sphinx_design
-sphinx-tippy
-sphinx-togglebutton
-sphinxcontrib-lightbox2
-sphinxcontrib-images
+sphinx-design>=0.5
+sphinx-tippy>=0.4
+sphinx-togglebutton>=0.3
+sphinxcontrib-lightbox2>=0.2
+sphinxcontrib-images>=0.5
 myst-parser>=2.0
 numpydoc>=1.7
 ipykernel
-pandoc

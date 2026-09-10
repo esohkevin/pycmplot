@@ -177,7 +177,7 @@ mode-specific option list.
 
          pycmplot \
             --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz \
-            --labels Trait1_hg19 \
+            --labels T1_hg19 \
             --plot_title "Trait1 (highlighted)" \
             --logp \
             --highlight \
@@ -197,7 +197,7 @@ mode-specific option list.
          pycmplot \
             --mode cm \
             --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz \
-            --labels Trait1_hg19 \
+            --labels T1_hg19 \
             --plot_title "Trait1 (highlighted)" \
             --logp \
             --highlight \
@@ -241,7 +241,7 @@ in ``cm`` mode, so it's dropped from the circular tab.
 
          pycmplot \
             --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait2_hg19.tsv.gz,./data/sumstats_1M_trait3_hg19.tsv.gz,./data/sumstats_1M_trait4_hg38.tsv.gz,./data/sumstats_1M_trait5_hg38.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz \
-            --labels Trait1_hg19,Trait2_hg19,Trait3_hg19,Trait4_hg38,Trait5_hg38,Trait6_hg38 \
+            --labels T1_hg19,T2_hg19,T3_hg19,T4_hg38,T5_hg38,T6_hg38 \
             --plot_title "Multi-track" \
             --logp \
             --highlight \
@@ -262,7 +262,7 @@ in ``cm`` mode, so it's dropped from the circular tab.
          pycmplot \
             --mode cm \
             --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait2_hg19.tsv.gz,./data/sumstats_1M_trait3_hg19.tsv.gz,./data/sumstats_1M_trait4_hg38.tsv.gz,./data/sumstats_1M_trait5_hg38.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz \
-            --labels Trait1_hg19,Trait2_hg19,Trait3_hg19,Trait4_hg38,Trait5_hg38,Trait6_hg38 \
+            --labels T1_hg19,T2_hg19,T3_hg19,T4_hg38,T5_hg38,T6_hg38 \
             --plot_title "Multi-track" \
             --logp \
             --highlight \
@@ -290,7 +290,7 @@ in ``cm`` mode, so it's dropped from the circular tab.
 
    pycmplot \
       --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz \
-      --labels Trait1_hg19,Trait6_hg38 \
+      --labels T1_hg19,T6_hg38 \
       --plot_title "Multi-track_figsize" \
       --logp \
       --highlight \
@@ -309,7 +309,7 @@ in ``cm`` mode, so it's dropped from the circular tab.
 
    pycmplot \
       --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz \
-      --labels Trait1_hg19,Trait6_hg38 \
+      --labels T1_hg19,T6_hg38 \
       --plot_title "Multi-track_annotate" \
       --logp \
       --highlight \
@@ -339,7 +339,7 @@ in ``cm`` mode, so it's dropped from the circular tab.
    pycmplot \
       --mode cm \
       --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait2_hg19.tsv.gz,./data/sumstats_1M_trait3_hg19.tsv.gz,./data/sumstats_1M_trait4_hg38.tsv.gz,./data/sumstats_1M_trait5_hg38.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz \
-      --labels Trait1_hg19,Trait2_hg19,Trait3_hg19,Trait4_hg38,Trait5_hg38,Trait6_hg38 \
+      --labels T1_hg19,T2_hg19,T3_hg19,T4_hg38,T5_hg38,T6_hg38 \
       --plot_title "Multi-track_signif" \
       --logp \
       --highlight \
