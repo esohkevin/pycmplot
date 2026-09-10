@@ -32,7 +32,7 @@
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
       <script defer="defer" src="https://unpkg.com/@popperjs/core@2"></script>
       <script defer="defer" src="https://unpkg.com/tippy.js@6"></script>
-      <script defer="defer" src="_static/tippy/cli_tutorial.8d178eb8-ad92-456a-8d36-774681a0c702.js"></script>
+      <script defer="defer" src="_static/tippy/cli_tutorial.15a265d3-b37f-4513-a338-89e753629784.js"></script>
       <script src="_static/js/lightbox-plus-jquery.min.js?v=f0ca4bb6"></script>
       <script>lightbox.option({"alwaysShowNavOnTouchDevices": false, "albumLabel": "Image %1 of %2", "disableScrolling": false, "fadeDuration": 600, "fitImagesInViewport": true, "imageFadeDuration": 600, "positionFromTop": 50, "resizeDuration": 700, "showImageNumberLabel": true, "wrapAround": true})</script>
     <script src="_static/js/theme.js"></script>
@@ -92,7 +92,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#setup-a-synthetic-dataset">Setup: a synthetic dataset</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#the-cli-mental-model">The CLI mental model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#linear-manhattan-plots">Linear Manhattan plots</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#single-track">Single-track:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#single-track">Single-track</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#multi-track">Multi-track</a></li>
 </ul>
 </li>
@@ -484,11 +484,15 @@ The rest of this tutorial adds one feature at a time on top of that base.</p>
 <section id="linear-manhattan-plots">
 <span id="cli-tut-linear"></span><h2>Linear Manhattan plots<a class="headerlink" href="#linear-manhattan-plots" title="Link to this heading"></a></h2>
 <section id="single-track">
-<h3>Single-track:<a class="headerlink" href="#single-track" title="Link to this heading"></a></h3>
+<h3>Single-track<a class="headerlink" href="#single-track" title="Link to this heading"></a></h3>
 <p><strong>Highlight, and add plot title and significant/suggestive lines to the base above</strong></p>
+<p>pycmplot defaults to <code class="docutils literal notranslate"><span class="pre">--mode</span> <span class="pre">lm</span></code> (linear Manhattan).  Add
+<code class="docutils literal notranslate"><span class="pre">--mode</span> <span class="pre">cm</span></code> to switch to the Circos-style circular layout — every
+other flag stays the same.  Use <code class="docutils literal notranslate"><span class="pre">pycmplot</span> <span class="pre">-h</span></code> for the full
+mode-specific option list.</p>
 <div class="sd-tab-set docutils">
 <input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
-<label class="sd-tab-label" data-sync-group="tab" data-sync-id="bash" for="sd-tab-item-0">
+<label class="sd-tab-label" data-sync-group="tab" data-sync-id="linear" for="sd-tab-item-0">
 Linear</label><div class="sd-tab-content docutils">
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--sum_stats<span class="w"> </span>./data/sumstats_1M_trait1_hg19.tsv.gz<span class="w"> </span><span class="se">\</span>
@@ -509,11 +513,8 @@ Linear</label><div class="sd-tab-content docutils">
 </figure>
 </div>
 <input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
-<label class="sd-tab-label" data-sync-group="tab" data-sync-id="bash" for="sd-tab-item-1">
+<label class="sd-tab-label" data-sync-group="tab" data-sync-id="circular" for="sd-tab-item-1">
 Circular</label><div class="sd-tab-content docutils">
-<p>pycmplot defaults <code class="docutils literal notranslate"><span class="pre">--mode</span> <span class="pre">lm</span></code> (linear Manhattan).</p>
-<p>Add <code class="docutils literal notranslate"><span class="pre">--mode</span> <span class="pre">cm</span></code> (circular) to switch layout — much of the options stay
-the same. Use <code class="docutils literal notranslate"><span class="pre">pycmplot</span> <span class="pre">-h</span></code> to see all linear/circular mode-specific options.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--mode<span class="w"> </span>cm<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--sum_stats<span class="w"> </span>./data/sumstats_1M_trait1_hg19.tsv.gz<span class="w"> </span><span class="se">\</span>
@@ -527,8 +528,8 @@ the same. Use <code class="docutils literal notranslate"><span class="pre">pycmp
 </pre></div>
 </div>
 <figure class="align-default">
-<a class="reference internal image-reference" href="_images/trait1_highlighted_trait1_hg19_lm_logp.png"><a href="_images/trait1_highlighted_trait1_hg19_lm_logp.png" data-lightbox="image-set">
-<img alt="linear Manhattan plot with base options" src="_images/trait1_highlighted_trait1_hg19_lm_logp.png" style="width: 800px;" />
+<a class="reference internal image-reference" href="img/trait1_highlighted_trait1_hg19_cm_logp.png"><a href="img/trait1_highlighted_trait1_hg19_cm_logp.png" data-lightbox="image-set">
+<img alt="circular Manhattan plot with base options" src="img/trait1_highlighted_trait1_hg19_cm_logp.png" style="width: 800px;" />
 </a>
 </a>
 </figure>
@@ -547,6 +548,14 @@ the same. Use <code class="docutils literal notranslate"><span class="pre">pycmp
 axes per file, sharing the chromosomal x-axis.  Files and labels are
 comma-separated, in matching order:</p>
 <p><strong>Annotate significant hits</strong></p>
+<p>The same six sumstats stacked as multi-track linear or wrapped into a
+Circos layout — swap <code class="docutils literal notranslate"><span class="pre">--mode</span> <span class="pre">cm</span></code> in / out and everything else is
+identical.  <code class="docutils literal notranslate"><span class="pre">--track_heights</span></code> is linear-only and has no effect
+in <code class="docutils literal notranslate"><span class="pre">cm</span></code> mode, so it’s dropped from the circular tab.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-2" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" data-sync-group="tab" data-sync-id="linear" for="sd-tab-item-2">
+Linear</label><div class="sd-tab-content docutils">
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--sum_stats<span class="w"> </span>./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait2_hg19.tsv.gz,./data/sumstats_1M_trait3_hg19.tsv.gz,./data/sumstats_1M_trait4_hg38.tsv.gz,./data/sumstats_1M_trait5_hg38.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--labels<span class="w"> </span>Trait1_hg19,Trait2_hg19,Trait3_hg19,Trait4_hg38,Trait5_hg38,Trait6_hg38<span class="w"> </span><span class="se">\</span>
@@ -561,10 +570,36 @@ comma-separated, in matching order:</p>
 </div>
 <figure class="align-default">
 <a class="reference internal image-reference" href="_images/multitrack_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_lm_logp.png"><a href="_images/multitrack_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_lm_logp.png" data-lightbox="image-set">
-<img alt="linear Manhattan plot with base options" src="_images/multitrack_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_lm_logp.png" style="width: 800px;" />
+<img alt="multi-track linear Manhattan plot" src="_images/multitrack_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_lm_logp.png" style="width: 800px;" />
 </a>
 </a>
 </figure>
+</div>
+<input id="sd-tab-item-3" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" data-sync-group="tab" data-sync-id="circular" for="sd-tab-item-3">
+Circular</label><div class="sd-tab-content docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--mode<span class="w"> </span>cm<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--sum_stats<span class="w"> </span>./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait2_hg19.tsv.gz,./data/sumstats_1M_trait3_hg19.tsv.gz,./data/sumstats_1M_trait4_hg38.tsv.gz,./data/sumstats_1M_trait5_hg38.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--labels<span class="w"> </span>Trait1_hg19,Trait2_hg19,Trait3_hg19,Trait4_hg38,Trait5_hg38,Trait6_hg38<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--plot_title<span class="w"> </span><span class="s2">&quot;Multi-track&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--logp<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--highlight<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--signif_line<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--suggest_threshold<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--annotate<span class="w"> </span>gene<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--highlight_line<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--output_dir<span class="w"> </span>./out
+</pre></div>
+</div>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/multitrack_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_cm_logp.png"><a href="_images/multitrack_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_cm_logp.png" data-lightbox="image-set">
+<img alt="multi-track circular Manhattan plot" src="_images/multitrack_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_cm_logp.png" style="width: 800px;" />
+</a>
+</a>
+</figure>
+</div>
+</div>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
 <p>The default linear plot size (<code class="docutils literal notranslate"><span class="pre">--figure_size</span></code>) is (width, height) –&gt; (10, 4).
@@ -657,31 +692,16 @@ changing the significance threshold: <code class="docutils literal notranslate">
 </section>
 <section id="circular-circos-plots">
 <span id="cli-tut-circular"></span><h2>Circular (Circos) plots<a class="headerlink" href="#circular-circos-plots" title="Link to this heading"></a></h2>
-<p>The default <code class="docutils literal notranslate"><span class="pre">--mode</span> <span class="pre">lm</span></code> (linear Manhattan) is what every earlier
-command has been using implicitly.</p>
-<p>Add <code class="docutils literal notranslate"><span class="pre">--mode</span> <span class="pre">cm</span></code> (circular) to switch layout — everything else stays
-the same:</p>
-<p><strong>NB:</strong> <code class="docutils literal notranslate"><span class="pre">--track_heights</span></code> is specific to linear mode se we exclude it.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--mode<span class="w"> </span>cm<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--sum_stats<span class="w"> </span>./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait2_hg19.tsv.gz,./data/sumstats_1M_trait3_hg19.tsv.gz,./data/sumstats_1M_trait4_hg38.tsv.gz,./data/sumstats_1M_trait5_hg38.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--labels<span class="w"> </span>Trait1_hg19,Trait2_hg19,Trait3_hg19,Trait4_hg38,Trait5_hg38,Trait6_hg38<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--plot_title<span class="w"> </span><span class="s2">&quot;Multi-track&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--logp<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--highlight<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--signif_line<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--suggest_threshold<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--annotate<span class="w"> </span>gene<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--highlight_line<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>--output_dir<span class="w"> </span>./out
-</pre></div>
-</div>
-<figure class="align-default">
-<a class="reference internal image-reference" href="_images/multitrack_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_cm_logp.png"><a href="_images/multitrack_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_cm_logp.png" data-lightbox="image-set">
-<img alt="linear Manhattan plot with base options" src="_images/multitrack_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_cm_logp.png" style="width: 800px;" />
-</a>
-</a>
-</figure>
+<p>Every command in <a class="reference internal" href="#cli-tut-linear"><span class="std std-ref">Linear Manhattan plots</span></a> above has an inline
+<code class="docutils literal notranslate"><span class="pre">Circular</span></code> tab that swaps <code class="docutils literal notranslate"><span class="pre">--mode</span> <span class="pre">cm</span></code> in.  Because the two
+plotting modes share every other flag on the CLI (except
+<code class="docutils literal notranslate"><span class="pre">--track_heights</span></code>, which is linear-only), keeping the examples in
+tabs — rather than a separate section — lets you compare the two
+layouts side-by-side at each demonstration.</p>
+<p>Click any “Circular” tab in the linear section above and every other
+tab-set on this page snaps to Circular too (sync group <code class="docutils literal notranslate"><span class="pre">circular</span></code>),
+so a Circos-first reader can flip once and follow along without
+clicking tab-by-tab.</p>
 </section>
 <section id="highlighting">
 <span id="cli-tut-highlight"></span><h2>Highlighting<a class="headerlink" href="#highlighting" title="Link to this heading"></a></h2>
@@ -766,7 +786,7 @@ of gene length.</p>
 <code class="docutils literal notranslate"><span class="pre">(END,</span> <span class="pre">END</span> <span class="pre">+</span> <span class="pre">2</span> <span class="pre">kb]</span></code> for <code class="docutils literal notranslate"><span class="pre">−</span></code> strand).  That’s genuinely a
 biological concept and would be misleading if computed positionally,
 so it stays strand-aware.</p>
-<p>See the manuscript’s <code class="xref download docutils literal notranslate"><span class="pre">annotation_schematic.pdf</span></code> for a visual
+<p>See the manuscript’s <a class="reference download internal" download="" href="_downloads/c771a97b036ce56fa462c76462267ed3/annotation_schematic.pdf"><code class="xref download docutils literal notranslate"><span class="pre">annotation_schematic.pdf</span></code></a> for a visual
 walkthrough of the near-edge rule under different gene layouts.</p>
 <p class="rubric">In one paragraph</p>
 <p>Left/right flanker selection is a pure coordinate comparison: a gene
