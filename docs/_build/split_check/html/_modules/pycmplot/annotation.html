@@ -1,0 +1,1404 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pycmplot.annotation &mdash; pycmplot 0.3.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=618afd55" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=4621528c"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            pycmplot
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#from-pypi-recommended">From PyPI (recommended)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#from-github-development-version">From GitHub (development version)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#using-a-virtual-environment">Using a virtual environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#verify-the-installation">Verify the installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#input-file-format">Input file format</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#command-line">Command line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#python-api">Python API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart.html#linear-manhattan-plot-single-trait">Linear Manhattan plot (single trait)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart.html#multi-track-linear-manhattan-plot">Multi-track linear Manhattan plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart.html#circular-circos-style-manhattan-plot">Circular (Circos-style) Manhattan plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../quickstart.html#qq-plots">QQ plots</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#mixed-genome-builds-with-liftover">Mixed genome builds with liftover</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../quickstart.html#next-steps">Next steps</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../cli_tutorial.html">CLI Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../cli_tutorial.html#setup-a-synthetic-dataset">Setup: a synthetic dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli_tutorial.html#the-cli-mental-model">The CLI mental model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli_tutorial.html#linear-manhattan-plots">Linear Manhattan plots</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../cli_tutorial.html#single-track">Single-track</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../cli_tutorial.html#multi-track">Multi-track</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli_tutorial.html#circular-circos-plots">Circular (Circos) plots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli_tutorial.html#highlighting">Highlighting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli_tutorial.html#automatic-gene-annotation">Automatic gene annotation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../cli_tutorial.html#distance-semantics">Distance semantics</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli_tutorial.html#qq-plots-and-compute-pvals">QQ plots and <code class="docutils literal notranslate"><span class="pre">compute_pvals</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli_tutorial.html#caching-and-warm-resume">Caching and warm resume</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli_tutorial.html#the-hits-overlay-tsv">The hits overlay TSV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli_tutorial.html#per-locus-highlight-colours">Per-locus highlight colours</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli_tutorial.html#per-locus-categories-and-the-custom-legend">Per-locus categories and the custom legend</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli_tutorial.html#multi-panel-canvas">Multi-panel canvas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli_tutorial.html#mixed-genome-builds">Mixed genome builds</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli_tutorial.html#gui-editor-for-the-hits-overlay">GUI editor for the hits overlay</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../cli_tutorial.html#terminal-ui-backend-for-cluster-sessions">Terminal-UI backend for cluster sessions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../cli_tutorial.html#filter-multi-select-and-batch-edit-tui">Filter, multi-select, and batch edit (TUI)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../cli_tutorial.html#batch-cli-pycmplot-hits">Batch CLI (<code class="docutils literal notranslate"><span class="pre">pycmplot</span> <span class="pre">hits</span></code>)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli_tutorial.html#cli-equivalents">CLI equivalents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli_tutorial.html#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli_tutorial.html#next-steps">Next steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command-Line Interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../cli.html#input-output-options">Input / output options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli.html#column-auto-detection-options">Column auto-detection options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli.html#plotting-behaviour-options">Plotting behaviour options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli.html#qq-plot-options">QQ plot options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli.html#example-commands">Example commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../cli.html#single-trait-linear-manhattan-plot">Single-trait linear Manhattan plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../cli.html#three-trait-stacked-linear-manhattan-plot">Three-trait stacked linear Manhattan plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../cli.html#circular-manhattan-plot">Circular Manhattan plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../cli.html#manhattan-plot-with-companion-qq-plots">Manhattan plot with companion QQ plots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../cli.html#supplying-per-file-genome-builds">Supplying per-file genome builds</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../python_api_tutorial.html">Python API Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../pycmplot_python_api.html">Python API for the pycmplot package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../pycmplot_python_api.html#Installation">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../pycmplot_python_api.html#Import-the-package-functions">Import the package functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../pycmplot_python_api.html#Getting-help">Getting help</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../pycmplot_python_api.html#Example-plotting">Example plotting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../pycmplot_python_api.html#Important-notes">Important notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../pycmplot_python_api.html#Generating-a-linear-plot">Generating a linear plot</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../pycmplot_python_api.html#No-highlighting-of-significant-loci">No highlighting of significant loci</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../pycmplot_python_api.html#id1">Generating a linear plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../pycmplot_python_api.html#Highlighting-significant-loci-and-annotating-by-SNP">Highlighting significant loci and annotating by SNP</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../pycmplot_python_api.html#Highlighting-by-a-different-p-value-threshold-and-changing-plot-colors-and-removing-track-labels">Highlighting by a different p-value threshold and changing plot colors and removing track labels</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../pycmplot_python_api.html#Generating-circular-plots">Generating circular plots</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../pycmplot_python_api.html#Controling-the-inner-circle-size">Controling the inner circle size</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../pycmplot_python_api.html#Ensuring-all-highlighted-loci-are-also-annotated">Ensuring all highlighted loci are also annotated</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../pycmplot_python_api.html#Explicitly-speficying-directory-where-output-files-should-be-stored">Explicitly speficying directory where output files should be stored</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../pycmplot_python_api.html##-Handling-other-use-cases-and-QQ-plots"># Handling other use cases and QQ-plots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../pycmplot_python_api.html#Summary-stats-without-BUILD-column-and-no-build-information-provided">Summary stats without <strong>BUILD</strong> column and no <code class="docutils literal notranslate"><span class="pre">build</span></code> information provided</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../pycmplot_python_api.html###-Supplying-builds-with-summary-stats">## Supplying builds with summary stats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../pycmplot_python_api.html###-QQ-Plotting">## QQ-Plotting</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../pycmplot_python_api.html#Overlaying-multiple">Overlaying multiple</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../pycmplot_python_api.html#Separate-qq-plots-saved-in-separate-figures">Separate qq-plots saved in separate figures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../pycmplot_python_api.html#Combined-multi-panel">Combined multi-panel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../pycmplot_python_api.html#Flexible-handling-of-each-qq-plot-using-the-base-plot_qq_single-function-directly">Flexible handling of each qq-plot using the base <code class="docutils literal notranslate"><span class="pre">plot_qq_single</span></code> function directly</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../pycmplot_python_api.html#Or-overlay-them-by-simply-using-the-same-axis">Or overlay them by simply using the same axis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../pycmplot_python_api.html#This-gives-us-the-flexibility-to-place-multiple-overlay-plots-on-one-figure">This gives us the flexibility to place multiple overlay plots on one figure</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../pycmplot_python_api.html#Multi-panel-Circular-Manhattan-Plotting">Multi-panel Circular Manhattan Plotting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../pycmplot_python_api.html#Specify-groups-of-sumstats-to-load-and-plot-in-different-panels">Specify groups of sumstats to load and plot in different panels</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../pycmplot_python_api.html#Plot-in-panels">Plot in panels</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../pycmplot_python_api.html##-Final-Notes"># Final Notes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/io.html">pycmplot.io</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/io.html#module-pycmplot.io">pycmplot.io</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/io.html#density-aware-sub-sampling">Density-aware sub-sampling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/io.html#per-track-stage-1-cache">Per-track Stage-1 cache</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/io.html#public-functions">Public functions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/io.html#pycmplot.io.auto_thin_for_manhattan"><code class="docutils literal notranslate"><span class="pre">auto_thin_for_manhattan()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/io.html#pycmplot.io.detect_delimiter"><code class="docutils literal notranslate"><span class="pre">detect_delimiter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/io.html#pycmplot.io.generate_random_string"><code class="docutils literal notranslate"><span class="pre">generate_random_string()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/io.html#pycmplot.io.get_file_header"><code class="docutils literal notranslate"><span class="pre">get_file_header()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/io.html#pycmplot.io.get_output_paths"><code class="docutils literal notranslate"><span class="pre">get_output_paths()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/io.html#pycmplot.io.get_sumstats_and_merged_sector_list"><code class="docutils literal notranslate"><span class="pre">get_sumstats_and_merged_sector_list()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/io.html#pycmplot.io.load"><code class="docutils literal notranslate"><span class="pre">load()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/io.html#pycmplot.io.prep"><code class="docutils literal notranslate"><span class="pre">prep()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/io.html#pycmplot.io.prep_pycmplot_input_info"><code class="docutils literal notranslate"><span class="pre">prep_pycmplot_input_info()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/io.html#pycmplot.io.process_signif_line"><code class="docutils literal notranslate"><span class="pre">process_signif_line()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/io.html#pycmplot.io.resolve_delimiter"><code class="docutils literal notranslate"><span class="pre">resolve_delimiter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/io.html#pycmplot.io.smart_open"><code class="docutils literal notranslate"><span class="pre">smart_open()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/io.html#pycmplot.io.strip_comma_separated_input_streams"><code class="docutils literal notranslate"><span class="pre">strip_comma_separated_input_streams()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/stats.html">pycmplot.stats</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/stats.html#module-pycmplot.stats">pycmplot.stats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/stats.html#pycmplot.stats.get_highlight_snps"><code class="docutils literal notranslate"><span class="pre">get_highlight_snps()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/stats.html#pycmplot.stats.get_lead_snps"><code class="docutils literal notranslate"><span class="pre">get_lead_snps()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/annotation.html">pycmplot.annotation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/annotation.html#module-pycmplot.annotation">pycmplot.annotation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/annotation.html#gene-reference-files">Gene reference files</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/annotation.html#pycmplot.annotation.build_highlight_legend_entries"><code class="docutils literal notranslate"><span class="pre">build_highlight_legend_entries()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/annotation.html#pycmplot.annotation.ensure_category_column"><code class="docutils literal notranslate"><span class="pre">ensure_category_column()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/annotation.html#pycmplot.annotation.ensure_highlight_color_column"><code class="docutils literal notranslate"><span class="pre">ensure_highlight_color_column()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/annotation.html#pycmplot.annotation.get_annotation_column"><code class="docutils literal notranslate"><span class="pre">get_annotation_column()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/annotation.html#pycmplot.annotation.get_hits_summary_table"><code class="docutils literal notranslate"><span class="pre">get_hits_summary_table()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/annotation.html#pycmplot.annotation.resolve_highlight_categories"><code class="docutils literal notranslate"><span class="pre">resolve_highlight_categories()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/annotation.html#pycmplot.annotation.resolve_highlight_colors"><code class="docutils literal notranslate"><span class="pre">resolve_highlight_colors()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/annotation.html#pycmplot.annotation.resolve_highlight_legend_placement"><code class="docutils literal notranslate"><span class="pre">resolve_highlight_legend_placement()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/liftover.html">pycmplot.liftover</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/liftover.html#module-pycmplot.liftover">pycmplot.liftover</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/liftover.html#supported-conversions">Supported conversions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/liftover.html#resource-configuration">Resource configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/liftover.html#pycmplot.liftover.liftover_hg18_to_hg38"><code class="docutils literal notranslate"><span class="pre">liftover_hg18_to_hg38()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/liftover.html#pycmplot.liftover.liftover_hg19_to_hg38"><code class="docutils literal notranslate"><span class="pre">liftover_hg19_to_hg38()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/liftover.html#pycmplot.liftover.liftover_position"><code class="docutils literal notranslate"><span class="pre">liftover_position()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/plotting.html">pycmplot.plotting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/plotting.html#pycmplot-plotting-linear">pycmplot.plotting.linear</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#module-pycmplot.plotting.linear">pycmplot.plotting.linear</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.linear.linear"><code class="docutils literal notranslate"><span class="pre">linear()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.linear.plot_linear"><code class="docutils literal notranslate"><span class="pre">plot_linear()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.linear.plot_linearm"><code class="docutils literal notranslate"><span class="pre">plot_linearm()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/plotting.html#pycmplot-plotting-circular">pycmplot.plotting.circular</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#module-pycmplot.plotting.circular">pycmplot.plotting.circular</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.circular.circular"><code class="docutils literal notranslate"><span class="pre">circular()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.circular.compute_track_radii_dict"><code class="docutils literal notranslate"><span class="pre">compute_track_radii_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.circular.plot_circosm"><code class="docutils literal notranslate"><span class="pre">plot_circosm()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.circular.plot_circular"><code class="docutils literal notranslate"><span class="pre">plot_circular()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/plotting.html#pycmplot-plotting-qq">pycmplot.plotting.qq</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.qq.get_legend_loc_string"><code class="docutils literal notranslate"><span class="pre">get_legend_loc_string()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.qq.plot_qq_combined"><code class="docutils literal notranslate"><span class="pre">plot_qq_combined()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.qq.plot_qq_overlay"><code class="docutils literal notranslate"><span class="pre">plot_qq_overlay()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.qq.plot_qq_separate"><code class="docutils literal notranslate"><span class="pre">plot_qq_separate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.qq.plot_qq_single"><code class="docutils literal notranslate"><span class="pre">plot_qq_single()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.qq.qq_combined"><code class="docutils literal notranslate"><span class="pre">qq_combined()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.qq.qq_overlay"><code class="docutils literal notranslate"><span class="pre">qq_overlay()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.qq.qq_separate"><code class="docutils literal notranslate"><span class="pre">qq_separate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.qq.set_legend_loc_string"><code class="docutils literal notranslate"><span class="pre">set_legend_loc_string()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.qq.thin_pvals"><code class="docutils literal notranslate"><span class="pre">thin_pvals()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/constants.html">pycmplot.constants</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/constants.html#module-pycmplot.constants">pycmplot.constants</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/constants.html#contents">Contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/resources.html">pycmplot.resources</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/resources.html#module-pycmplot.resources">pycmplot.resources</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/resources.html#resolution-order">Resolution order</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/resources.html#pycmplot.resources.ResourceConfig"><code class="docutils literal notranslate"><span class="pre">ResourceConfig</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../api/resources.html#pycmplot.resources.ResourceConfig.chain_hg18_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.chain_hg18_hg38</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/resources.html#pycmplot.resources.ResourceConfig.chain_hg19_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.chain_hg19_hg38</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/resources.html#pycmplot.resources.ResourceConfig.geneinfo_hg19"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.geneinfo_hg19</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/resources.html#pycmplot.resources.ResourceConfig.geneinfo_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.geneinfo_hg38</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/resources.html#pycmplot.resources.ResourceConfig.require"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.require()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#xx-xx">0.4.0 - 2026-XX-XX</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id1">0.3.1 - 2026-07-31</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id2">0.3.0 - 2026-06-01</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id3">0.2.8 - 2026-05-30</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id4">0.2.7 - 2026-04-27</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id5">0.2.5 - 2026-04-20</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id6">0.2.2 - 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id7">0.2.1 — 2026-04-16</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id8">0.1.9 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id9">0.1.8 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id10">0.1.0 — 2026-04-18</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing.html#reporting-issues">Reporting issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing.html#development-setup">Development setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing.html#building-the-documentation-locally">Building the documentation locally</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing.html#code-style">Code style</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing.html#docstrings">Docstrings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">pycmplot</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">pycmplot.annotation</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for pycmplot.annotation</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">pycmplot.annotation</span>
+<span class="sd">====================</span>
+
+<span class="sd">Nearest-gene annotation for GWAS lead SNPs and generation of the structured</span>
+<span class="sd">locus summary table.</span>
+
+<span class="sd">The main public function, :func:`get_hits_summary_table`, accepts the lead</span>
+<span class="sd">SNP DataFrame produced by :func:`~pycmplot.stats.get_lead_snps`, annotates</span>
+<span class="sd">each lead with the nearest (and most biologically plausible) gene using a</span>
+<span class="sd">two-pass strategy — strand-aware boundary distance followed by a composite</span>
+<span class="sd">priority score — and writes a tab-delimited locus summary file alongside the</span>
+<span class="sd">plot.</span>
+
+<span class="sd">Gene reference files</span>
+<span class="sd">--------------------</span>
+<span class="sd">Annotation relies on a bundled Ensembl gene-info TSV (hg38 or hg19).  The</span>
+<span class="sd">file is resolved through :class:`~pycmplot.resources.ResourceConfig`; custom</span>
+<span class="sd">paths can be supplied via the ``PYCMPLOT_GENEINFO_HG38`` /</span>
+<span class="sd">``PYCMPLOT_GENEINFO_HG19`` environment variables.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">bisect</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">natsort</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pycmplot.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">BIOTYPE_WEIGHTS</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pycmplot.resources</span><span class="w"> </span><span class="kn">import</span> <span class="n">ResourceConfig</span><span class="p">,</span> <span class="n">default_resources</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Internal: gene dictionary builder</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_build_genes_dict</span><span class="p">(</span><span class="n">genes_df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Build a chromosome-keyed interval dictionary with sorted start positions.</span>
+
+<span class="sd">    Pre-processes the gene reference DataFrame into a structure that supports</span>
+<span class="sd">    efficient O(log N) binary-search lookup of genes near a query position.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    genes_df : pandas.DataFrame</span>
+<span class="sd">        Gene reference with columns ``CHR``, ``START``, ``END``,</span>
+<span class="sd">        ``STRAND``, ``GENE``.  The ``START`` and ``END`` columns must be</span>
+<span class="sd">        coercible to ``int``.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        Mapping of ``chromosome_string → {&#39;intervals&#39;: [...], &#39;starts&#39;: [...]}``.</span>
+
+<span class="sd">        * **intervals** – list of ``(start, end, strand, gene_symbol)`` tuples</span>
+<span class="sd">        sorted by ``start`` position.</span>
+<span class="sd">        * **starts** – flat list of ``start`` values, used as the sorted key</span>
+<span class="sd">        sequence for :func:`bisect.bisect_left`.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This function is called once per :func:`get_hits_summary_table` invocation;</span>
+<span class="sd">    the result is passed to :func:`_annotate_variant` for each lead SNP.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">genes_df</span> <span class="o">=</span> <span class="n">genes_df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="s2">&quot;CHR&quot;</span><span class="p">,</span> <span class="s2">&quot;START&quot;</span><span class="p">])</span>
+    <span class="n">genes_dict</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="c1"># Include BIOTYPE in the tuple so the merged</span>
+    <span class="c1"># :func:`_annotate_variant` (which now covers both nearest-gene</span>
+    <span class="c1"># detection *and* biotype-weighted prioritisation in one pass)</span>
+    <span class="c1"># doesn&#39;t have to touch the source DataFrame again.  Falls back to</span>
+    <span class="c1"># ``None`` when the reference lacks a BIOTYPE column so older gene</span>
+    <span class="c1"># references still work.</span>
+    <span class="n">has_biotype</span> <span class="o">=</span> <span class="s2">&quot;BIOTYPE&quot;</span> <span class="ow">in</span> <span class="n">genes_df</span><span class="o">.</span><span class="n">columns</span>
+    <span class="k">for</span> <span class="n">chrom</span><span class="p">,</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">genes_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;CHR&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">has_biotype</span><span class="p">:</span>
+            <span class="n">intervals</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+                <span class="nb">zip</span><span class="p">(</span>
+                    <span class="n">group</span><span class="p">[</span><span class="s2">&quot;START&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span>
+                    <span class="n">group</span><span class="p">[</span><span class="s2">&quot;END&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span>
+                    <span class="n">group</span><span class="p">[</span><span class="s2">&quot;STRAND&quot;</span><span class="p">],</span>
+                    <span class="n">group</span><span class="p">[</span><span class="s2">&quot;GENE&quot;</span><span class="p">],</span>
+                    <span class="n">group</span><span class="p">[</span><span class="s2">&quot;BIOTYPE&quot;</span><span class="p">],</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">intervals</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+                <span class="nb">zip</span><span class="p">(</span>
+                    <span class="n">group</span><span class="p">[</span><span class="s2">&quot;START&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span>
+                    <span class="n">group</span><span class="p">[</span><span class="s2">&quot;END&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span>
+                    <span class="n">group</span><span class="p">[</span><span class="s2">&quot;STRAND&quot;</span><span class="p">],</span>
+                    <span class="n">group</span><span class="p">[</span><span class="s2">&quot;GENE&quot;</span><span class="p">],</span>
+                    <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">group</span><span class="p">),</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="n">starts</span> <span class="o">=</span> <span class="p">[</span><span class="n">g</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">intervals</span><span class="p">]</span>
+        <span class="n">genes_dict</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">chrom</span><span class="p">)]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;intervals&quot;</span><span class="p">:</span> <span class="n">intervals</span><span class="p">,</span> <span class="s2">&quot;starts&quot;</span><span class="p">:</span> <span class="n">starts</span><span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">genes_dict</span>
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Internal: single-pass variant annotation</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_annotate_variant</span><span class="p">(</span>
+    <span class="n">chrom</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">pos</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">genes_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+    <span class="n">window</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">500_000</span><span class="p">,</span>
+    <span class="n">promoter_window</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2_000</span><span class="p">,</span>
+    <span class="n">biotype_weights</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Single-pass positional + biotype-weighted gene annotation for a lead SNP.</span>
+
+<span class="sd">    Walks every candidate gene inside ``[pos - window, pos + window]``</span>
+<span class="sd">    on *chrom* exactly once, and returns the union of the fields</span>
+<span class="sd">    previously produced by two separate passes</span>
+<span class="sd">    (``_annotate_variant`` and ``_annotate_and_prioritize_variant``,</span>
+<span class="sd">    since merged here).  Consumers of the hits summary table therefore</span>
+<span class="sd">    see the same columns as before, but the loop body runs half as many</span>
+<span class="sd">    times and one source of truth governs the distance / genic /</span>
+<span class="sd">    promoter semantics.</span>
+
+<span class="sd">    The merger is safe because the two former passes computed</span>
+<span class="sd">    everything from the same candidate set, only differing in what</span>
+<span class="sd">    they *reported*.  Now they report jointly.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    chrom : str</span>
+<span class="sd">        Chromosome (without ``&#39;chr&#39;`` prefix, e.g. ``&#39;11&#39;``, ``&#39;X&#39;``).</span>
+<span class="sd">    pos : int</span>
+<span class="sd">        Variant position in base-pairs (1-based coordinates).</span>
+<span class="sd">    genes_dict : dict</span>
+<span class="sd">        Pre-built chromosome-keyed interval dictionary from</span>
+<span class="sd">        :func:`_build_genes_dict`.  Tuples are now</span>
+<span class="sd">        ``(START, END, STRAND, GENE, BIOTYPE)``.</span>
+<span class="sd">    window : int, optional</span>
+<span class="sd">        Search radius in base-pairs.  Default is ``500_000`` (500 kb).</span>
+<span class="sd">    promoter_window : int, optional</span>
+<span class="sd">        Distance upstream of the TSS considered a promoter region.</span>
+<span class="sd">        Default is ``2_000`` (2 kb).</span>
+<span class="sd">    biotype_weights : dict, optional</span>
+<span class="sd">        Mapping of Ensembl biotype → numeric weight.  Defaults to</span>
+<span class="sd">        :data:`~pycmplot.constants.BIOTYPE_WEIGHTS`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        Positional fields (from the pre-merge ``_annotate_variant``):</span>
+
+<span class="sd">        * ``genic`` (bool)</span>
+<span class="sd">        * ``nearest_gene`` / ``nearest_gene_distance``</span>
+<span class="sd">        * ``nearest_upstream_gene`` / ``upstream_distance`` (positional</span>
+<span class="sd">          left flanker: gene body ends at a lower coordinate than *pos*)</span>
+<span class="sd">        * ``nearest_downstream_gene`` / ``downstream_distance``</span>
+<span class="sd">          (positional right flanker)</span>
+<span class="sd">        * ``promoter_upstream_flag`` (strand-aware — retained because</span>
+<span class="sd">          &quot;promoter&quot; is genuinely a biological concept)</span>
+<span class="sd">        * ``gene_density``</span>
+
+<span class="sd">        Prioritisation fields (from the pre-merge</span>
+<span class="sd">        ``_annotate_and_prioritize_variant``):</span>
+
+<span class="sd">        * ``top_gene`` — highest-priority gene when genic, otherwise</span>
+<span class="sd">          the ``&quot;LEFT_GENE-RIGHT_GENE&quot;`` positional flanker pair in</span>
+<span class="sd">          genomic order (or a single symbol when only one side has a</span>
+<span class="sd">          gene in the window).  Flanker selection uses raw</span>
+<span class="sd">          base-pair distance, not priority score, so the joined label</span>
+<span class="sd">          always brackets the variant.</span>
+<span class="sd">        * ``biotype`` — Ensembl biotype of ``top_gene`` (``&#39;intergenic&#39;``</span>
+<span class="sd">          when no genic overlap).</span>
+<span class="sd">        * ``priority_score`` — composite score ``2·genic + 1·promoter +</span>
+<span class="sd">          2·biotype_w · dist_score`` (genic hits only).</span>
+<span class="sd">        * ``distance``, ``promoter_flag``, ``distance_score``,</span>
+<span class="sd">          ``biotype_weight``, ``promoter_bonus`` — components of the</span>
+<span class="sd">          winning candidate&#39;s score.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">biotype_weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">biotype_weights</span> <span class="o">=</span> <span class="n">BIOTYPE_WEIGHTS</span>
+
+    <span class="n">_empty</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;genic&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">&quot;nearest_gene&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;nearest_gene_distance&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;nearest_upstream_gene&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;upstream_distance&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;nearest_downstream_gene&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;downstream_distance&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;promoter_upstream_flag&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">&quot;bidirectional_promoter_flag&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">&quot;gene_density&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="s2">&quot;top_gene&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;biotype&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;priority_score&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;distance&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;promoter_flag&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;distance_score&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;biotype_weight&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s2">&quot;promoter_bonus&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="n">chrom</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">genes_dict</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_empty</span>
+
+    <span class="n">chrom_data</span> <span class="o">=</span> <span class="n">genes_dict</span><span class="p">[</span><span class="n">chrom</span><span class="p">]</span>
+    <span class="n">genes</span> <span class="o">=</span> <span class="n">chrom_data</span><span class="p">[</span><span class="s2">&quot;intervals&quot;</span><span class="p">]</span>
+    <span class="n">starts</span> <span class="o">=</span> <span class="n">chrom_data</span><span class="p">[</span><span class="s2">&quot;starts&quot;</span><span class="p">]</span>
+    <span class="n">left_bound</span> <span class="o">=</span> <span class="n">pos</span> <span class="o">-</span> <span class="n">window</span>
+    <span class="n">right_bound</span> <span class="o">=</span> <span class="n">pos</span> <span class="o">+</span> <span class="n">window</span>
+
+    <span class="c1"># Advance to the first gene whose START could still overlap the</span>
+    <span class="c1"># search window; walk forward until STARTs exceed the right bound.</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">bisect</span><span class="o">.</span><span class="n">bisect_left</span><span class="p">(</span><span class="n">starts</span><span class="p">,</span> <span class="n">left_bound</span><span class="p">)</span>
+
+    <span class="n">gene_density</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">containing_gene</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">containing_biotype</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># Positional trackers — closest gene entirely to the left of *pos*</span>
+    <span class="c1"># (by distance to END), closest entirely to the right (by distance</span>
+    <span class="c1"># to START), and the true closest gene overall (any side, by</span>
+    <span class="c1"># distance to gene body).</span>
+    <span class="n">nearest_left</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">nearest_left_dist</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)</span>
+    <span class="n">nearest_right</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">nearest_right_dist</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)</span>
+    <span class="n">nearest_any</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">nearest_any_dist</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)</span>
+
+    <span class="n">promoter_upstream_flag</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="c1"># Priority-score tracker.  Keeps the winner&#39;s *full* component</span>
+    <span class="c1"># breakdown so the returned record has the same shape as the</span>
+    <span class="c1"># pre-merge output — this is what preserves numerical identity</span>
+    <span class="c1"># against the two-pass version.</span>
+    <span class="n">top_score</span> <span class="o">=</span> <span class="o">-</span><span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)</span>
+    <span class="n">top</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">genes</span><span class="p">):</span>
+        <span class="n">_entry</span> <span class="o">=</span> <span class="n">genes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="c1"># Genes_dict tuples are now (start, end, strand, gene, biotype).</span>
+        <span class="c1"># Accept a 4-tuple too for backwards compat with cached</span>
+        <span class="c1"># references built by an older pycmplot version.</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">_entry</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">5</span><span class="p">:</span>
+            <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">strand</span><span class="p">,</span> <span class="n">gene</span><span class="p">,</span> <span class="n">biotype</span> <span class="o">=</span> <span class="n">_entry</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">strand</span><span class="p">,</span> <span class="n">gene</span> <span class="o">=</span> <span class="n">_entry</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span>
+            <span class="n">biotype</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">start</span> <span class="o">&gt;</span> <span class="n">right_bound</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="k">if</span> <span class="n">end</span> <span class="o">&lt;</span> <span class="n">left_bound</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">continue</span>
+
+        <span class="n">gene_density</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">is_genic</span> <span class="o">=</span> <span class="n">start</span> <span class="o">&lt;=</span> <span class="n">pos</span> <span class="o">&lt;=</span> <span class="n">end</span>
+
+        <span class="c1"># Distance to gene body — 0 when inside, else min gap to either</span>
+        <span class="c1"># edge.  Also update the positional flanker slots + the</span>
+        <span class="c1"># &quot;true nearest&quot; slot.</span>
+        <span class="k">if</span> <span class="n">is_genic</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">containing_gene</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="c1"># If multiple genes contain pos (nested / overlapping</span>
+                <span class="c1"># bodies), the first one wins the ``nearest_gene``</span>
+                <span class="c1"># slot; the higher-priority one still wins ``top_gene``</span>
+                <span class="c1"># via the score tracker below.</span>
+                <span class="n">containing_gene</span> <span class="o">=</span> <span class="n">gene</span>
+                <span class="n">containing_biotype</span> <span class="o">=</span> <span class="n">biotype</span>
+            <span class="n">distance</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">if</span> <span class="n">nearest_any_dist</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">nearest_any_dist</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">nearest_any</span> <span class="o">=</span> <span class="n">gene</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">end</span> <span class="o">&lt;</span> <span class="n">pos</span><span class="p">:</span>
+                <span class="n">distance</span> <span class="o">=</span> <span class="n">pos</span> <span class="o">-</span> <span class="n">end</span>
+                <span class="k">if</span> <span class="n">distance</span> <span class="o">&lt;</span> <span class="n">nearest_left_dist</span><span class="p">:</span>
+                    <span class="n">nearest_left_dist</span> <span class="o">=</span> <span class="n">distance</span>
+                    <span class="n">nearest_left</span> <span class="o">=</span> <span class="n">gene</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">distance</span> <span class="o">=</span> <span class="n">start</span> <span class="o">-</span> <span class="n">pos</span>
+                <span class="k">if</span> <span class="n">distance</span> <span class="o">&lt;</span> <span class="n">nearest_right_dist</span><span class="p">:</span>
+                    <span class="n">nearest_right_dist</span> <span class="o">=</span> <span class="n">distance</span>
+                    <span class="n">nearest_right</span> <span class="o">=</span> <span class="n">gene</span>
+            <span class="k">if</span> <span class="n">distance</span> <span class="o">&lt;</span> <span class="n">nearest_any_dist</span><span class="p">:</span>
+                <span class="n">nearest_any_dist</span> <span class="o">=</span> <span class="n">distance</span>
+                <span class="n">nearest_any</span> <span class="o">=</span> <span class="n">gene</span>
+
+        <span class="c1"># Strand-aware promoter check.  TSS = START for &#39;+&#39; genes,</span>
+        <span class="c1"># END for &#39;-&#39;.  This is the one place strand-awareness is</span>
+        <span class="c1"># preserved because &quot;promoter&quot; is genuinely a biological</span>
+        <span class="c1"># concept — every other field is positional.</span>
+        <span class="n">tss</span> <span class="o">=</span> <span class="n">start</span> <span class="k">if</span> <span class="n">strand</span> <span class="o">==</span> <span class="s2">&quot;+&quot;</span> <span class="k">else</span> <span class="n">end</span>
+        <span class="k">if</span> <span class="n">strand</span> <span class="o">==</span> <span class="s2">&quot;+&quot;</span><span class="p">:</span>
+            <span class="n">in_promoter</span> <span class="o">=</span> <span class="p">(</span><span class="n">tss</span> <span class="o">-</span> <span class="n">promoter_window</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">pos</span> <span class="o">&lt;</span> <span class="n">tss</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">in_promoter</span> <span class="o">=</span> <span class="n">tss</span> <span class="o">&lt;</span> <span class="n">pos</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="n">tss</span> <span class="o">+</span> <span class="n">promoter_window</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">in_promoter</span><span class="p">:</span>
+            <span class="n">promoter_upstream_flag</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="c1"># Composite priority score — identical formula to the pre-merge</span>
+        <span class="c1"># ``_annotate_and_prioritize_variant``.  ``distance_score`` uses</span>
+        <span class="c1"># ``log10(distance + 10)`` so it stays finite at distance 0.</span>
+        <span class="n">distance_score</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">distance</span> <span class="o">+</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="n">biotype_weight</span> <span class="o">=</span> <span class="n">biotype_weights</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">biotype</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="k">if</span> <span class="n">biotype</span> <span class="k">else</span> <span class="mi">0</span>
+        <span class="n">promoter_bonus</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="k">if</span> <span class="n">in_promoter</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">priority_score</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="mi">2</span> <span class="k">if</span> <span class="n">is_genic</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="k">if</span> <span class="n">in_promoter</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="o">+</span> <span class="n">biotype_weight</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">distance_score</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">priority_score</span> <span class="o">&gt;</span> <span class="n">top_score</span><span class="p">:</span>
+            <span class="n">top_score</span> <span class="o">=</span> <span class="n">priority_score</span>
+            <span class="n">top</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;gene&quot;</span><span class="p">:</span> <span class="n">gene</span><span class="p">,</span>
+                <span class="s2">&quot;biotype&quot;</span><span class="p">:</span> <span class="n">biotype</span><span class="p">,</span>
+                <span class="s2">&quot;distance&quot;</span><span class="p">:</span> <span class="n">distance</span><span class="p">,</span>
+                <span class="s2">&quot;promoter_flag&quot;</span><span class="p">:</span> <span class="n">in_promoter</span><span class="p">,</span>
+                <span class="s2">&quot;distance_score&quot;</span><span class="p">:</span> <span class="n">distance_score</span><span class="p">,</span>
+                <span class="s2">&quot;biotype_weight&quot;</span><span class="p">:</span> <span class="n">biotype_weight</span><span class="p">,</span>
+                <span class="s2">&quot;promoter_bonus&quot;</span><span class="p">:</span> <span class="n">promoter_bonus</span><span class="p">,</span>
+                <span class="s2">&quot;priority_score&quot;</span><span class="p">:</span> <span class="n">priority_score</span><span class="p">,</span>
+                <span class="s2">&quot;is_genic&quot;</span><span class="p">:</span> <span class="n">is_genic</span><span class="p">,</span>
+            <span class="p">}</span>
+
+        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="n">is_genic_any</span> <span class="o">=</span> <span class="n">containing_gene</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+    <span class="c1"># ---- Assemble positional fields ------------------------------------</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;genic&quot;</span><span class="p">:</span> <span class="n">is_genic_any</span><span class="p">,</span>
+        <span class="s2">&quot;nearest_gene&quot;</span><span class="p">:</span> <span class="n">containing_gene</span> <span class="k">if</span> <span class="n">is_genic_any</span> <span class="k">else</span> <span class="n">nearest_any</span><span class="p">,</span>
+        <span class="s2">&quot;nearest_gene_distance&quot;</span><span class="p">:</span> <span class="p">(</span>
+            <span class="mi">0</span> <span class="k">if</span> <span class="n">is_genic_any</span> <span class="k">else</span> <span class="p">(</span>
+                <span class="nb">int</span><span class="p">(</span><span class="n">nearest_any_dist</span><span class="p">)</span> <span class="k">if</span> <span class="n">nearest_any</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+            <span class="p">)</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;nearest_upstream_gene&quot;</span><span class="p">:</span> <span class="n">nearest_left</span><span class="p">,</span>
+        <span class="s2">&quot;upstream_distance&quot;</span><span class="p">:</span> <span class="p">(</span>
+            <span class="nb">int</span><span class="p">(</span><span class="n">nearest_left_dist</span><span class="p">)</span> <span class="k">if</span> <span class="n">nearest_left</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;nearest_downstream_gene&quot;</span><span class="p">:</span> <span class="n">nearest_right</span><span class="p">,</span>
+        <span class="s2">&quot;downstream_distance&quot;</span><span class="p">:</span> <span class="p">(</span>
+            <span class="nb">int</span><span class="p">(</span><span class="n">nearest_right_dist</span><span class="p">)</span> <span class="k">if</span> <span class="n">nearest_right</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;promoter_upstream_flag&quot;</span><span class="p">:</span> <span class="n">promoter_upstream_flag</span><span class="p">,</span>
+        <span class="s2">&quot;gene_density&quot;</span><span class="p">:</span> <span class="n">gene_density</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="c1"># ---- Assemble prioritisation fields --------------------------------</span>
+    <span class="k">if</span> <span class="n">top</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># No candidates at all — populate with None.</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+            <span class="s2">&quot;top_gene&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;biotype&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;priority_score&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;distance&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;promoter_flag&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;distance_score&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;biotype_weight&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;promoter_bonus&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="p">})</span>
+    <span class="k">elif</span> <span class="n">is_genic_any</span><span class="p">:</span>
+        <span class="c1"># Genic branch: report the highest-priority gene overall.</span>
+        <span class="c1"># (Almost always this is the containing gene because the</span>
+        <span class="c1"># ``genic·2`` term dominates, but the pre-merge code took the</span>
+        <span class="c1"># global argmax so we preserve that exactly.)</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+            <span class="s2">&quot;top_gene&quot;</span><span class="p">:</span> <span class="n">top</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;biotype&quot;</span><span class="p">:</span> <span class="n">top</span><span class="p">[</span><span class="s2">&quot;biotype&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;priority_score&quot;</span><span class="p">:</span> <span class="n">top</span><span class="p">[</span><span class="s2">&quot;priority_score&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;distance&quot;</span><span class="p">:</span> <span class="n">top</span><span class="p">[</span><span class="s2">&quot;distance&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;promoter_flag&quot;</span><span class="p">:</span> <span class="n">top</span><span class="p">[</span><span class="s2">&quot;promoter_flag&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;distance_score&quot;</span><span class="p">:</span> <span class="n">top</span><span class="p">[</span><span class="s2">&quot;distance_score&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;biotype_weight&quot;</span><span class="p">:</span> <span class="n">top</span><span class="p">[</span><span class="s2">&quot;biotype_weight&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;promoter_bonus&quot;</span><span class="p">:</span> <span class="n">top</span><span class="p">[</span><span class="s2">&quot;promoter_bonus&quot;</span><span class="p">],</span>
+        <span class="p">})</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Intergenic branch: ``top_gene`` is the ``&quot;LEFT-RIGHT&quot;``</span>
+        <span class="c1"># positional flanker pair by base-pair distance (not priority</span>
+        <span class="c1"># score).  This is the guarantee introduced by the 2026-09-05</span>
+        <span class="c1"># fix — the joined label always brackets the variant.</span>
+        <span class="n">parts</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">dist_parts</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">nearest_left</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">nearest_left</span><span class="p">))</span>
+            <span class="n">dist_parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">nearest_left_dist</span><span class="p">)))</span>
+        <span class="k">if</span> <span class="n">nearest_right</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">nearest_right</span><span class="p">))</span>
+            <span class="n">dist_parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">nearest_right_dist</span><span class="p">)))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">parts</span><span class="p">:</span>
+            <span class="c1"># Everything in the window somehow failed both flanker</span>
+            <span class="c1"># checks (shouldn&#39;t happen because is_genic_any is False</span>
+            <span class="c1"># and we saw at least one candidate); fall back to the</span>
+            <span class="c1"># top-priority pick so the field is never empty.</span>
+            <span class="n">parts</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">top</span><span class="p">[</span><span class="s2">&quot;gene&quot;</span><span class="p">])]</span>
+            <span class="n">dist_parts</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">top</span><span class="p">[</span><span class="s2">&quot;distance&quot;</span><span class="p">]))]</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+            <span class="s2">&quot;top_gene&quot;</span><span class="p">:</span> <span class="s2">&quot;-&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parts</span><span class="p">),</span>
+            <span class="s2">&quot;biotype&quot;</span><span class="p">:</span> <span class="s2">&quot;intergenic&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;priority_score&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;distance&quot;</span><span class="p">:</span> <span class="s2">&quot;-&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dist_parts</span><span class="p">),</span>
+            <span class="s2">&quot;promoter_flag&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;distance_score&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;biotype_weight&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;promoter_bonus&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="p">})</span>
+
+    <span class="k">return</span> <span class="n">result</span>
+
+
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Internal: clumping</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_clump_by_distance</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">window_kb</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">500</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Reduce a lead-SNP table to one representative SNP per locus.</span>
+
+<span class="sd">    Applies greedy distance-based clumping within each chromosome group,</span>
+<span class="sd">    starting from the most significant SNP (lowest ``P`` or highest ``logP``).</span>
+<span class="sd">    Candidate SNPs within *window_kb* kilobases of an already-accepted lead are</span>
+<span class="sd">    discarded.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pandas.DataFrame</span>
+<span class="sd">        Lead-SNP DataFrame with columns ``CHR``, ``POS``, and either ``P`` or</span>
+<span class="sd">        ``logP``.</span>
+<span class="sd">    window_kb : int, optional</span>
+<span class="sd">        Clumping window half-width in kilobases.  Default is ``500``.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pandas.DataFrame</span>
+<span class="sd">        Deduplicated locus representatives sorted by chromosome and position</span>
+<span class="sd">        (natural sort order).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">window</span> <span class="o">=</span> <span class="n">window_kb</span> <span class="o">*</span> <span class="mi">1000</span>
+    <span class="n">clumped</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">_chrom</span><span class="p">,</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;CHR&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s2">&quot;logP&quot;</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="n">group</span> <span class="o">=</span> <span class="n">group</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;logP&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">group</span> <span class="o">=</span> <span class="n">group</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;P&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">kept_positions</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">group</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">p</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">window</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">kept_positions</span><span class="p">):</span>
+                <span class="n">clumped</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+                <span class="n">kept_positions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">clumped</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span>
+        <span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">,</span> <span class="s2">&quot;POS&quot;</span><span class="p">],</span> <span class="n">key</span><span class="o">=</span><span class="n">natsort</span><span class="o">.</span><span class="n">natsort_keygen</span><span class="p">()</span>
+    <span class="p">)</span>
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Public API</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+<div class="viewcode-block" id="get_hits_summary_table">
+<a class="viewcode-back" href="../../api/annotation.html#pycmplot.annotation.get_hits_summary_table">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_hits_summary_table</span><span class="p">(</span>
+    <span class="n">leads_df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
+    <span class="n">window_kb</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span>
+    <span class="n">table_out</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">resources</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ResourceConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Annotate lead SNPs with nearest genes and write the locus summary table.</span>
+
+<span class="sd">    For each lead SNP in *leads_df*, runs two complementary annotation passes:</span>
+
+<span class="sd">    1. **Strand-aware boundary search** (:func:`_annotate_variant`) — identifies</span>
+<span class="sd">    the nearest upstream and downstream genes and detects genic / promoter</span>
+<span class="sd">    overlap.</span>
+<span class="sd">    2. **Priority scoring** (:func:`_annotate_and_prioritize_variant`) — ranks</span>
+<span class="sd">    all candidate genes within *window_kb* by a composite score that weights</span>
+<span class="sd">    biotype, promoter proximity, and distance, then selects the single</span>
+<span class="sd">    top-ranked gene (or the two flanking genes for intergenic hits).</span>
+
+<span class="sd">    After annotation, the table is deduplicated with distance-based clumping</span>
+<span class="sd">    (:func:`_clump_by_distance`) and optionally written to *table_out*.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    leads_df : pandas.DataFrame</span>
+<span class="sd">        DataFrame of lead SNPs as returned by</span>
+<span class="sd">        :func:`~pycmplot.stats.get_lead_snps`.  Must contain columns</span>
+<span class="sd">        ``CHR``, ``POS``, ``P``, ``BUILD``.</span>
+<span class="sd">    window_kb : int, optional</span>
+<span class="sd">        Search radius in kilobases around each lead SNP.  Default is ``500``.</span>
+<span class="sd">    table_out : str or None, optional</span>
+<span class="sd">        File path at which to write the annotated locus summary table as a</span>
+<span class="sd">        tab-delimited TSV.  Set to ``None`` to suppress file output.</span>
+<span class="sd">    resources : ResourceConfig, optional</span>
+<span class="sd">        :class:`~pycmplot.resources.ResourceConfig` instance providing paths to</span>
+<span class="sd">        the Ensembl gene-info TSV (hg38 or hg19).  Defaults to</span>
+<span class="sd">        :data:`~pycmplot.resources.default_resources`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pandas.DataFrame</span>
+<span class="sd">        Clumped locus summary table.  Contains all columns from *leads_df*</span>
+<span class="sd">        plus annotation fields from both passes, including:</span>
+
+<span class="sd">        - ``genic`` — ``True`` when the lead SNP overlaps a gene body.</span>
+<span class="sd">        - ``nearest_gene`` — closest gene by base-pair distance</span>
+<span class="sd">          regardless of side (the containing gene when genic, else the</span>
+<span class="sd">          nearest flanking gene).</span>
+<span class="sd">        - ``nearest_gene_distance`` — bp distance to ``nearest_gene``;</span>
+<span class="sd">          0 when genic.</span>
+<span class="sd">        - ``nearest_upstream_gene`` — closest gene positionally to the</span>
+<span class="sd">          left of the SNP (lower genomic coordinate).  As of pycmplot</span>
+<span class="sd">          0.4.x this is a positional definition, not strand-aware; see</span>
+<span class="sd">          :func:`_annotate_variant` for the migration note.</span>
+<span class="sd">        - ``upstream_distance`` — distance to ``nearest_upstream_gene``</span>
+<span class="sd">          in bp.</span>
+<span class="sd">        - ``nearest_downstream_gene`` — closest gene positionally to</span>
+<span class="sd">          the right of the SNP.</span>
+<span class="sd">        - ``downstream_distance`` — distance to ``nearest_downstream_gene``</span>
+<span class="sd">          in bp.</span>
+<span class="sd">        - ``promoter_upstream_flag`` — ``True`` when the SNP is within</span>
+<span class="sd">          2 kb upstream of a TSS.  This is the only field that remains</span>
+<span class="sd">          strand-aware.</span>
+<span class="sd">        - ``gene_density`` — number of genes within the search window.</span>
+<span class="sd">        - ``top_gene`` — top-priority gene from the scoring pass.  For</span>
+<span class="sd">          intergenic hits, ``&quot;LEFT-RIGHT&quot;`` where LEFT is the nearest</span>
+<span class="sd">          gene positionally to the left of the SNP and RIGHT is the</span>
+<span class="sd">          nearest gene positionally to the right (order is always</span>
+<span class="sd">          genomic).  When only one side has a gene in the window, a</span>
+<span class="sd">          single symbol is returned.</span>
+<span class="sd">        - ``biotype`` — Ensembl biotype of ``top_gene`` (``&#39;intergenic&#39;`` when</span>
+<span class="sd">          no genic overlap).</span>
+<span class="sd">        - ``priority_score`` — composite priority score (genic hits only).</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The gene reference (hg38 or hg19) is selected automatically based on the</span>
+<span class="sd">    ``BUILD`` column in *leads_df*.  hg19 builds are matched to the GRCh37</span>
+<span class="sd">    gene-info file; all others use the GRCh38 file.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    pycmplot.stats.get_lead_snps :</span>
+<span class="sd">        Provides the *leads_df* input to this function.</span>
+<span class="sd">    pycmplot.resources.ResourceConfig :</span>
+<span class="sd">        Controls the paths to the gene-info reference files.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from pycmplot.annotation import get_hits_summary_table</span>
+<span class="sd">    &gt;&gt;&gt; hits = get_hits_summary_table(</span>
+<span class="sd">    ...     leads_df=leads,</span>
+<span class="sd">    ...     window_kb=500,</span>
+<span class="sd">    ...     table_out=&quot;./results/HbF_locus_summary.tsv&quot;,</span>
+<span class="sd">    ... )</span>
+<span class="sd">    &gt;&gt;&gt; hits[[&quot;SNP&quot;, &quot;CHR&quot;, &quot;POS&quot;, &quot;top_gene&quot;, &quot;biotype&quot;]].head()</span>
+<span class="sd">            SNP CHR       POS  top_gene           biotype</span>
+<span class="sd">    0  rs123456   2  60718043    BCL11A    protein_coding</span>
+<span class="sd">    1  rs789012  11   5246696       HBB    protein_coding</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">resources</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">resources</span> <span class="o">=</span> <span class="n">default_resources</span>
+
+    <span class="c1"># Choose gene info file based on build</span>
+    <span class="k">if</span> <span class="s1">&#39;BUILD&#39;</span> <span class="ow">in</span> <span class="n">leads_df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;OLD_POS&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">leads_df</span><span class="o">.</span><span class="n">columns</span> <span class="ow">and</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">leads_df</span><span class="p">[</span><span class="s2">&quot;BUILD&quot;</span><span class="p">]))</span> <span class="o">==</span> <span class="p">[</span><span class="s2">&quot;hg19&quot;</span><span class="p">]:</span>
+            <span class="n">geneinfo_path</span> <span class="o">=</span> <span class="n">resources</span><span class="o">.</span><span class="n">require</span><span class="p">(</span><span class="s2">&quot;geneinfo_hg19&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">geneinfo_path</span> <span class="o">=</span> <span class="n">resources</span><span class="o">.</span><span class="n">require</span><span class="p">(</span><span class="s2">&quot;geneinfo_hg38&quot;</span><span class="p">)</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Loading gene info from: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">geneinfo_path</span><span class="p">)</span>
+        <span class="n">geneinfo</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">geneinfo_path</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">genes_dict</span> <span class="o">=</span> <span class="n">_build_genes_dict</span><span class="p">(</span><span class="n">geneinfo</span><span class="p">)</span>
+
+        <span class="n">window</span> <span class="o">=</span> <span class="n">window_kb</span> <span class="o">*</span> <span class="mi">1_000</span>
+        <span class="n">records</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Annotating lead variants and generating hits summary table ...&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">leads_df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+            <span class="c1"># ``_annotate_variant`` now emits both positional</span>
+            <span class="c1"># nearest-gene fields *and* biotype-weighted prioritisation</span>
+            <span class="c1"># fields in a single window walk (the two pre-merge passes</span>
+            <span class="c1"># were consolidated in 0.4.x for a ~2× speedup on the</span>
+            <span class="c1"># annotation step and one source of truth for the shared</span>
+            <span class="c1"># distance / genic / promoter semantics).</span>
+            <span class="n">annotation</span> <span class="o">=</span> <span class="n">_annotate_variant</span><span class="p">(</span>
+                <span class="n">chrom</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">],</span>
+                <span class="n">pos</span><span class="o">=</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">],</span>
+                <span class="n">genes_dict</span><span class="o">=</span><span class="n">genes_dict</span><span class="p">,</span>
+                <span class="n">window</span><span class="o">=</span><span class="n">window</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="n">record</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="o">**</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()),</span>
+                <span class="o">**</span><span class="p">(</span><span class="n">annotation</span> <span class="k">if</span> <span class="n">annotation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">{}),</span>
+            <span class="p">}</span>
+            <span class="n">records</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+
+        <span class="n">locus_table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">records</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span>
+            <span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">,</span> <span class="s2">&quot;POS&quot;</span><span class="p">],</span> <span class="n">key</span><span class="o">=</span><span class="n">natsort</span><span class="o">.</span><span class="n">natsort_keygen</span><span class="p">()</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">locus_table</span> <span class="o">=</span> <span class="n">leads_df</span>
+
+    <span class="k">if</span> <span class="n">table_out</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">outpath</span> <span class="o">=</span> <span class="n">table_out</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;.tsv&#39;</span>
+        <span class="n">locus_table</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">outpath</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">na_rep</span><span class="o">=</span><span class="s2">&quot;None&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Locus summary written to: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">outpath</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">_clump_by_distance</span><span class="p">(</span><span class="n">locus_table</span><span class="p">,</span> <span class="n">window_kb</span><span class="o">=</span><span class="n">window_kb</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="get_annotation_column">
+<a class="viewcode-back" href="../../api/annotation.html#pycmplot.annotation.get_annotation_column">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_annotation_column</span><span class="p">(</span>
+    <span class="n">annotate</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
+    <span class="n">hits_table</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">label_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="n">label_clm</span> <span class="o">=</span> <span class="s1">&#39;SNP&#39;</span>
+    <span class="k">if</span> <span class="n">annotate</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">hits_table</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">label_col</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">label_col</span> <span class="ow">in</span> <span class="n">hits_table</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="n">label_clm</span> <span class="o">=</span> <span class="n">label_col</span>
+        <span class="k">elif</span> <span class="n">annotate</span> <span class="ow">in</span> <span class="n">hits_table</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="n">label_clm</span> <span class="o">=</span> <span class="n">annotate</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">annotate</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;GENE&quot;</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">hits_table</span><span class="o">.</span><span class="n">iterrows</span><span class="p">()):</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;genic&quot;</span><span class="p">]:</span>
+                            <span class="c1"># Prefer ``nearest_gene`` (the containing gene</span>
+                            <span class="c1"># for genic variants).  Older cached hits</span>
+                            <span class="c1"># tables predate this column, so we fall back</span>
+                            <span class="c1"># to ``nearest_upstream_gene`` when it&#39;s</span>
+                            <span class="c1"># missing.</span>
+                            <span class="n">label_clm</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;nearest_gene&quot;</span>
+                                         <span class="k">if</span> <span class="s2">&quot;nearest_gene&quot;</span> <span class="ow">in</span> <span class="n">hits_table</span><span class="o">.</span><span class="n">columns</span>
+                                         <span class="k">else</span> <span class="s2">&quot;nearest_upstream_gene&quot;</span><span class="p">)</span>
+                            <span class="n">label_msg</span> <span class="o">=</span> <span class="p">(</span>
+                                <span class="sa">f</span><span class="s2">&quot;Signal </span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;SNP&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> at </span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;POS&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> is genic &quot;</span>
+                                <span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="n">row</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">label_clm</span><span class="p">)</span><span class="si">}</span><span class="s2">]&quot;</span>
+                            <span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">label_clm</span> <span class="o">=</span> <span class="s2">&quot;top_gene&quot;</span>
+                            <span class="n">label_msg</span> <span class="o">=</span> <span class="s2">&quot;&#39;POS&#39; is not genic&quot;</span>
+                        <span class="c1">#logger.info(&quot;%s&quot;, label_msg)</span>
+                    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                            <span class="s2">&quot;Annotation columns &#39;</span><span class="si">%s</span><span class="s2">&#39; and &#39;</span><span class="si">%s</span><span class="s2">&#39; not found in hits table: </span><span class="si">%s</span><span class="s2">; &quot;</span>
+                            <span class="s2">&quot;falling back to &#39;SNP&#39;.&quot;</span><span class="p">,</span> <span class="n">annotate</span><span class="p">,</span> <span class="n">label_col</span><span class="p">,</span> <span class="n">hits_table</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+                        <span class="p">)</span>
+                        <span class="c1">#label_clm = &#39;SNP&#39;</span>
+              
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Annotating by: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">label_clm</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">label_clm</span></div>
+
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Per-locus highlight color resolution</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+<span class="n">HIGHLIGHT_COLOR_COL</span> <span class="o">=</span> <span class="s2">&quot;highlight_color&quot;</span>
+<span class="n">HIGHLIGHT_COLOR_AUTO</span> <span class="o">=</span> <span class="s2">&quot;auto&quot;</span>
+
+<span class="n">CATEGORY_COL</span> <span class="o">=</span> <span class="s2">&quot;category&quot;</span>
+<span class="n">CATEGORY_DEFAULT</span> <span class="o">=</span> <span class="s2">&quot;significant&quot;</span>
+
+
+<div class="viewcode-block" id="ensure_highlight_color_column">
+<a class="viewcode-back" href="../../api/annotation.html#pycmplot.annotation.ensure_highlight_color_column">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">ensure_highlight_color_column</span><span class="p">(</span>
+    <span class="n">hits_table</span><span class="p">:</span> <span class="s2">&quot;pd.DataFrame&quot;</span><span class="p">,</span>
+    <span class="n">default</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">HIGHLIGHT_COLOR_AUTO</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;pd.DataFrame&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Make sure the hits table has a ``highlight_color`` column.</span>
+
+<span class="sd">    Backward-compat helper.  When cached hits overlays predate the</span>
+<span class="sd">    per-locus color feature, the column may be missing entirely; older</span>
+<span class="sd">    Python-API callers may build their own hits tables without it.  We</span>
+<span class="sd">    inject the column with the sentinel *default* so the downstream</span>
+<span class="sd">    color-lookup path can uniformly assume the column exists.  Existing</span>
+<span class="sd">    values (including user-supplied hex codes / names / ``&quot;auto&quot;``) are</span>
+<span class="sd">    preserved untouched.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+    <span class="k">if</span> <span class="n">hits_table</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">hits_table</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">hits_table</span>
+    <span class="k">if</span> <span class="n">HIGHLIGHT_COLOR_COL</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">hits_table</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="n">hits_table</span> <span class="o">=</span> <span class="n">hits_table</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">hits_table</span><span class="p">[</span><span class="n">HIGHLIGHT_COLOR_COL</span><span class="p">]</span> <span class="o">=</span> <span class="n">default</span>
+    <span class="k">return</span> <span class="n">hits_table</span></div>
+
+
+
+<div class="viewcode-block" id="ensure_category_column">
+<a class="viewcode-back" href="../../api/annotation.html#pycmplot.annotation.ensure_category_column">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">ensure_category_column</span><span class="p">(</span>
+    <span class="n">hits_table</span><span class="p">:</span> <span class="s2">&quot;pd.DataFrame&quot;</span><span class="p">,</span>
+    <span class="n">default</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">CATEGORY_DEFAULT</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;pd.DataFrame&quot;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Make sure the hits table has a ``category`` column.</span>
+
+<span class="sd">    Companion to :func:`ensure_highlight_color_column`; injects the</span>
+<span class="sd">    sentinel default so downstream code can assume the column exists.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+    <span class="k">if</span> <span class="n">hits_table</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">hits_table</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">hits_table</span>
+    <span class="k">if</span> <span class="n">CATEGORY_COL</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">hits_table</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="n">hits_table</span> <span class="o">=</span> <span class="n">hits_table</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">hits_table</span><span class="p">[</span><span class="n">CATEGORY_COL</span><span class="p">]</span> <span class="o">=</span> <span class="n">default</span>
+    <span class="k">return</span> <span class="n">hits_table</span></div>
+
+
+
+<div class="viewcode-block" id="resolve_highlight_colors">
+<a class="viewcode-back" href="../../api/annotation.html#pycmplot.annotation.resolve_highlight_colors">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">resolve_highlight_colors</span><span class="p">(</span>
+    <span class="n">sig_df</span><span class="p">:</span> <span class="s2">&quot;pd.DataFrame&quot;</span><span class="p">,</span>
+    <span class="n">hits_table</span><span class="p">:</span> <span class="s2">&quot;pd.DataFrame&quot;</span><span class="p">,</span>
+    <span class="n">default_color</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">chr_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;CHR&quot;</span><span class="p">,</span>
+    <span class="n">pos_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;POS&quot;</span><span class="p">,</span>
+    <span class="n">window_kb</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a per-row highlight color for the highlighted variants.</span>
+
+<span class="sd">    For every row in *sig_df* (the ``in_locus`` subset of a track), we</span>
+<span class="sd">    find the closest lead in *hits_table* on the same chromosome and,</span>
+<span class="sd">    within *window_kb*, use its ``highlight_color`` value.  The sentinel</span>
+<span class="sd">    ``&quot;auto&quot;``, empty strings, NaNs, and colors matplotlib can&#39;t parse</span>
+<span class="sd">    all fall back to *default_color*.  Invalid colors emit a</span>
+<span class="sd">    ``logger.warning`` naming the offending value so users can fix a</span>
+<span class="sd">    typo in their overlay TSV.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    sig_df</span>
+<span class="sd">        Subset of a track&#39;s DataFrame with ``in_locus == True``.  Must</span>
+<span class="sd">        have *chr_col* and *pos_col*.</span>
+<span class="sd">    hits_table</span>
+<span class="sd">        Locus summary table (per-lead).  Must have *chr_col* and</span>
+<span class="sd">        *pos_col*.  If it doesn&#39;t have ``highlight_color``, every row</span>
+<span class="sd">        falls back to *default_color* (backward compat).</span>
+<span class="sd">    default_color</span>
+<span class="sd">        Global highlight color passed to the plotter.  Used when the</span>
+<span class="sd">        cached row&#39;s color is ``&quot;auto&quot;``, missing, or invalid.</span>
+<span class="sd">    window_kb</span>
+<span class="sd">        Search radius in kb for matching a highlighted variant to its</span>
+<span class="sd">        lead.  Defaults to 500 kb, which mirrors the highlight</span>
+<span class="sd">        window in :func:`~pycmplot.stats.get_highlight_snps`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list of str</span>
+<span class="sd">        One matplotlib-parseable color per row of *sig_df*, in row</span>
+<span class="sd">        order.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.colors</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_color_like</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sig_df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+
+    <span class="c1"># Fast path: no hits table (or missing color column) → uniform default.</span>
+    <span class="k">if</span> <span class="n">hits_table</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">hits_table</span><span class="o">.</span><span class="n">empty</span> \
+            <span class="ow">or</span> <span class="n">HIGHLIGHT_COLOR_COL</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">hits_table</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">default_color</span><span class="p">]</span> <span class="o">*</span> <span class="n">n</span>
+
+    <span class="n">window_bp</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">window_kb</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span>
+
+    <span class="c1"># Group leads by chromosome once so per-row lookup is cheap.</span>
+    <span class="n">hits_by_chr</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">chrom</span><span class="p">,</span> <span class="n">sub</span> <span class="ow">in</span> <span class="n">hits_table</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">chr_col</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">pos_arr</span> <span class="o">=</span> <span class="n">sub</span><span class="p">[</span><span class="n">pos_col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;int64&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
+            <span class="k">continue</span>
+        <span class="n">col_arr</span> <span class="o">=</span> <span class="n">sub</span><span class="p">[</span><span class="n">HIGHLIGHT_COLOR_COL</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+        <span class="n">hits_by_chr</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">chrom</span><span class="p">)]</span> <span class="o">=</span> <span class="p">(</span><span class="n">pos_arr</span><span class="p">,</span> <span class="n">col_arr</span><span class="p">)</span>
+
+    <span class="n">_warned</span><span class="p">:</span> <span class="nb">set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_fallback_for</span><span class="p">(</span><span class="n">reason</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">offending</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="p">(</span><span class="n">reason</span><span class="p">,</span> <span class="n">offending</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_warned</span><span class="p">:</span>
+            <span class="n">_warned</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">&quot;highlight_color </span><span class="si">%r</span><span class="s2"> rejected (</span><span class="si">%s</span><span class="s2">); using default </span><span class="si">%r</span><span class="s2">.&quot;</span><span class="p">,</span>
+                <span class="n">offending</span><span class="p">,</span> <span class="n">reason</span><span class="p">,</span> <span class="n">default_color</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">default_color</span>
+
+    <span class="n">colors_out</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">chrom</span><span class="p">,</span> <span class="n">pos</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
+        <span class="n">sig_df</span><span class="p">[</span><span class="n">chr_col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
+        <span class="n">sig_df</span><span class="p">[</span><span class="n">pos_col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;int64&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
+    <span class="p">):</span>
+        <span class="n">entry</span> <span class="o">=</span> <span class="n">hits_by_chr</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">chrom</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">entry</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">colors_out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">default_color</span><span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="n">lead_pos</span><span class="p">,</span> <span class="n">lead_col</span> <span class="o">=</span> <span class="n">entry</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">lead_pos</span> <span class="o">-</span> <span class="nb">int</span><span class="p">(</span><span class="n">pos</span><span class="p">))</span>
+        <span class="n">j</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">argmin</span><span class="p">())</span>
+        <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">window_bp</span><span class="p">:</span>
+            <span class="n">colors_out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">default_color</span><span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="n">raw</span> <span class="o">=</span> <span class="n">lead_col</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lead_col</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">raw</span> <span class="ow">or</span> <span class="n">raw</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="n">HIGHLIGHT_COLOR_AUTO</span> \
+                <span class="ow">or</span> <span class="n">raw</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;nan&quot;</span><span class="p">,</span> <span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">}:</span>
+            <span class="n">colors_out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">default_color</span><span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_color_like</span><span class="p">(</span><span class="n">raw</span><span class="p">):</span>
+            <span class="n">colors_out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_fallback_for</span><span class="p">(</span><span class="s2">&quot;not a matplotlib color&quot;</span><span class="p">,</span> <span class="n">raw</span><span class="p">))</span>
+            <span class="k">continue</span>
+        <span class="n">colors_out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">colors_out</span></div>
+
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Category resolution + legend entry construction</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+<div class="viewcode-block" id="resolve_highlight_categories">
+<a class="viewcode-back" href="../../api/annotation.html#pycmplot.annotation.resolve_highlight_categories">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">resolve_highlight_categories</span><span class="p">(</span>
+    <span class="n">sig_df</span><span class="p">:</span> <span class="s2">&quot;pd.DataFrame&quot;</span><span class="p">,</span>
+    <span class="n">hits_table</span><span class="p">:</span> <span class="s2">&quot;pd.DataFrame&quot;</span><span class="p">,</span>
+    <span class="n">default_category</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">CATEGORY_DEFAULT</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">chr_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;CHR&quot;</span><span class="p">,</span>
+    <span class="n">pos_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;POS&quot;</span><span class="p">,</span>
+    <span class="n">window_kb</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a per-row category label for the highlighted variants.</span>
+
+<span class="sd">    Same lookup discipline as :func:`resolve_highlight_colors`: each</span>
+<span class="sd">    ``sig_df`` row is matched to its nearest lead on the same</span>
+<span class="sd">    chromosome within *window_kb*, and the lead&#39;s ``category`` value</span>
+<span class="sd">    is returned.  Missing / blank / NaN values fall back to</span>
+<span class="sd">    *default_category* (typically ``&quot;significant&quot;``).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sig_df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">hits_table</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">hits_table</span><span class="o">.</span><span class="n">empty</span> \
+            <span class="ow">or</span> <span class="n">CATEGORY_COL</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">hits_table</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">default_category</span><span class="p">]</span> <span class="o">*</span> <span class="n">n</span>
+
+    <span class="n">window_bp</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">window_kb</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span>
+    <span class="n">hits_by_chr</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">chrom</span><span class="p">,</span> <span class="n">sub</span> <span class="ow">in</span> <span class="n">hits_table</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">chr_col</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">pos_arr</span> <span class="o">=</span> <span class="n">sub</span><span class="p">[</span><span class="n">pos_col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;int64&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
+            <span class="k">continue</span>
+        <span class="n">cat_arr</span> <span class="o">=</span> <span class="n">sub</span><span class="p">[</span><span class="n">CATEGORY_COL</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+        <span class="n">hits_by_chr</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">chrom</span><span class="p">)]</span> <span class="o">=</span> <span class="p">(</span><span class="n">pos_arr</span><span class="p">,</span> <span class="n">cat_arr</span><span class="p">)</span>
+
+    <span class="n">cats_out</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">chrom</span><span class="p">,</span> <span class="n">pos</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
+        <span class="n">sig_df</span><span class="p">[</span><span class="n">chr_col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
+        <span class="n">sig_df</span><span class="p">[</span><span class="n">pos_col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;int64&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
+    <span class="p">):</span>
+        <span class="n">entry</span> <span class="o">=</span> <span class="n">hits_by_chr</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">chrom</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">entry</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">cats_out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">default_category</span><span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="n">lead_pos</span><span class="p">,</span> <span class="n">lead_cat</span> <span class="o">=</span> <span class="n">entry</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">lead_pos</span> <span class="o">-</span> <span class="nb">int</span><span class="p">(</span><span class="n">pos</span><span class="p">))</span>
+        <span class="n">j</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">argmin</span><span class="p">())</span>
+        <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">window_bp</span><span class="p">:</span>
+            <span class="n">cats_out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">default_category</span><span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="n">raw</span> <span class="o">=</span> <span class="n">lead_cat</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lead_cat</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">raw</span> <span class="ow">or</span> <span class="n">raw</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;nan&quot;</span><span class="p">,</span> <span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">}:</span>
+            <span class="n">cats_out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">default_category</span><span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="n">cats_out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">raw</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cats_out</span></div>
+
+
+
+<div class="viewcode-block" id="build_highlight_legend_entries">
+<a class="viewcode-back" href="../../api/annotation.html#pycmplot.annotation.build_highlight_legend_entries">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">build_highlight_legend_entries</span><span class="p">(</span>
+    <span class="n">hits_table</span><span class="p">:</span> <span class="s2">&quot;pd.DataFrame&quot;</span><span class="p">,</span>
+    <span class="n">default_color</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">default_category</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">CATEGORY_DEFAULT</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a list of ``(category, color)`` pairs for a custom legend.</span>
+
+<span class="sd">    Only returns entries when the user has customised the overlay in a</span>
+<span class="sd">    way worth surfacing:</span>
+
+<span class="sd">    * Any row has a category other than *default_category*, OR</span>
+<span class="sd">    * Any row has a highlight_color other than the sentinel</span>
+<span class="sd">      ``&quot;auto&quot;`` (i.e. an explicit user-chosen colour).</span>
+
+<span class="sd">    When nothing has been customised, returns ``[]`` -- the plotter</span>
+<span class="sd">    then skips the legend entirely, matching the pre-feature layout.</span>
+
+<span class="sd">    Entries are deduplicated by ``category`` in first-appearance order</span>
+<span class="sd">    (so users can control legend order by reordering rows in their</span>
+<span class="sd">    TSV).  If the same category appears with multiple colours, the</span>
+<span class="sd">    first colour wins and a warning is logged.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.colors</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_color_like</span>
+
+    <span class="k">if</span> <span class="n">hits_table</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">hits_table</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+
+    <span class="n">has_category</span> <span class="o">=</span> <span class="n">CATEGORY_COL</span> <span class="ow">in</span> <span class="n">hits_table</span><span class="o">.</span><span class="n">columns</span>
+    <span class="n">has_color</span> <span class="o">=</span> <span class="n">HIGHLIGHT_COLOR_COL</span> <span class="ow">in</span> <span class="n">hits_table</span><span class="o">.</span><span class="n">columns</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">has_category</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">has_color</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_norm</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">default</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">default</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">s</span> <span class="ow">or</span> <span class="n">s</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;nan&quot;</span><span class="p">,</span> <span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="s2">&quot;na&quot;</span><span class="p">,</span> <span class="n">HIGHLIGHT_COLOR_AUTO</span><span class="p">}:</span>
+            <span class="k">return</span> <span class="n">default</span>
+        <span class="k">return</span> <span class="n">s</span>
+
+    <span class="n">any_custom_cat</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">any_custom_color</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">has_category</span><span class="p">:</span>
+        <span class="n">any_custom_cat</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span>
+            <span class="n">_norm</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">default_category</span><span class="p">)</span> <span class="o">!=</span> <span class="n">default_category</span>
+            <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">hits_table</span><span class="p">[</span><span class="n">CATEGORY_COL</span><span class="p">]</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="n">has_color</span><span class="p">:</span>
+        <span class="n">any_custom_color</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span>
+            <span class="n">_norm</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="s2">&quot;auto&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;auto&quot;</span>
+            <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">hits_table</span><span class="p">[</span><span class="n">HIGHLIGHT_COLOR_COL</span><span class="p">]</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">any_custom_cat</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">any_custom_color</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+
+    <span class="n">seen</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">_warned</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">hits_table</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+        <span class="n">cat</span> <span class="o">=</span> <span class="n">_norm</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">CATEGORY_COL</span><span class="p">)</span> <span class="k">if</span> <span class="n">has_category</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="n">default_category</span><span class="p">)</span>
+        <span class="n">col</span> <span class="o">=</span> <span class="n">_norm</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">HIGHLIGHT_COLOR_COL</span><span class="p">)</span> <span class="k">if</span> <span class="n">has_color</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="n">default_color</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_color_like</span><span class="p">(</span><span class="n">col</span><span class="p">):</span>
+            <span class="n">col</span> <span class="o">=</span> <span class="n">default_color</span>
+        <span class="k">if</span> <span class="n">cat</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">seen</span><span class="p">:</span>
+            <span class="n">seen</span><span class="p">[</span><span class="n">cat</span><span class="p">]</span> <span class="o">=</span> <span class="n">col</span>
+        <span class="k">elif</span> <span class="n">seen</span><span class="p">[</span><span class="n">cat</span><span class="p">]</span> <span class="o">!=</span> <span class="n">col</span> <span class="ow">and</span> <span class="p">(</span><span class="n">cat</span><span class="p">,</span> <span class="n">col</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_warned</span><span class="p">:</span>
+            <span class="n">_warned</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">cat</span><span class="p">,</span> <span class="n">col</span><span class="p">))</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">&quot;Category </span><span class="si">%r</span><span class="s2"> appears with multiple colours; using first &quot;</span>
+                <span class="s2">&quot;(</span><span class="si">%r</span><span class="s2">) for the legend and ignoring </span><span class="si">%r</span><span class="s2">.&quot;</span><span class="p">,</span>
+                <span class="n">cat</span><span class="p">,</span> <span class="n">seen</span><span class="p">[</span><span class="n">cat</span><span class="p">],</span> <span class="n">col</span><span class="p">,</span>
+            <span class="p">)</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">seen</span><span class="o">.</span><span class="n">items</span><span class="p">())</span></div>
+
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Legend placement helper (shared by the linear + circular plotters)</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+<span class="c1"># Matplotlib&#39;s standard 9-way loc grid, exposed as a docstring / help</span>
+<span class="c1"># hint so users don&#39;t have to look it up.  Anything outside this set is</span>
+<span class="c1"># still accepted by matplotlib (it will raise a clear error) but these</span>
+<span class="c1"># are the recommended values.</span>
+<span class="n">HIGHLIGHT_LEGEND_LOCS</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="s2">&quot;upper center&quot;</span><span class="p">,</span> <span class="s2">&quot;upper left&quot;</span><span class="p">,</span> <span class="s2">&quot;upper right&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="s2">&quot;center left&quot;</span><span class="p">,</span> <span class="s2">&quot;center right&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;lower center&quot;</span><span class="p">,</span> <span class="s2">&quot;lower left&quot;</span><span class="p">,</span> <span class="s2">&quot;lower right&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;best&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="resolve_highlight_legend_placement">
+<a class="viewcode-back" href="../../api/annotation.html#pycmplot.annotation.resolve_highlight_legend_placement">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">resolve_highlight_legend_placement</span><span class="p">(</span>
+    <span class="n">loc</span><span class="p">,</span>
+    <span class="n">default</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;upper center&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Translate a user-facing ``highlight_legend_loc`` value into legend kwargs.</span>
+
+<span class="sd">    Accepts either:</span>
+
+<span class="sd">    * A matplotlib ``loc`` string (``&quot;upper center&quot;``, ``&quot;upper right&quot;``,</span>
+<span class="sd">      ``&quot;lower center&quot;``, ``&quot;best&quot;``, …).  Returned as ``{&quot;loc&quot;: loc}``.</span>
+<span class="sd">    * A 2-tuple ``(x, y)`` in axes coordinates (``0.0-1.0``, but values</span>
+<span class="sd">      outside are accepted for anchoring outside the axes — useful for</span>
+<span class="sd">      the circular plotter where placing the legend *below* the polar</span>
+<span class="sd">      frame at e.g. ``(0.5, -0.05)`` avoids overlapping the sectors).</span>
+<span class="sd">      Returned as ``{&quot;loc&quot;: &quot;center&quot;, &quot;bbox_to_anchor&quot;: (x, y)}``.</span>
+<span class="sd">    * ``None``, in which case *default* (``&quot;upper center&quot;``) is used.</span>
+
+<span class="sd">    Anything else is coerced to a string and passed through as ``loc`` —</span>
+<span class="sd">    that way matplotlib emits its own clear error when the user typos</span>
+<span class="sd">    something like ``&quot;upper centre&quot;``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">loc</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;loc&quot;</span><span class="p">:</span> <span class="n">default</span><span class="p">}</span>
+    <span class="c1"># 2-tuple (or list) → bbox anchoring at that point.</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">loc</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">loc</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">loc</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span> <span class="n">y</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">loc</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">TypeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
+            <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;loc&quot;</span><span class="p">:</span> <span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="s2">&quot;bbox_to_anchor&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)}</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;loc&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">loc</span><span class="p">)}</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Kevin Esoh.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

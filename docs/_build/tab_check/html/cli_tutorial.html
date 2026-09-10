@@ -1,0 +1,1262 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CLI Tutorial &mdash; pycmplot 0.3.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
+      <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+      <link rel="stylesheet" type="text/css" href="_static/css/lightbox.min.css?v=6e7d0de0" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=618afd55" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=4621528c"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=f281be69"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="_static/togglebutton.js?v=b8b12719"></script>
+      <script src="_static/design-tabs.js?v=f930bc37"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+      <script defer="defer" src="https://unpkg.com/@popperjs/core@2"></script>
+      <script defer="defer" src="https://unpkg.com/tippy.js@6"></script>
+      <script defer="defer" src="_static/tippy/cli_tutorial.0646ca88-1bae-4c5a-b834-8d24d1dda5b5.js"></script>
+      <script src="_static/js/lightbox-plus-jquery.min.js?v=f0ca4bb6"></script>
+      <script>lightbox.option({"alwaysShowNavOnTouchDevices": false, "albumLabel": "Image %1 of %2", "disableScrolling": false, "fadeDuration": 600, "fitImagesInViewport": true, "imageFadeDuration": 600, "positionFromTop": 50, "resizeDuration": 700, "showImageNumberLabel": true, "wrapAround": true})</script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Command-Line Interface" href="cli.html" />
+    <link rel="prev" title="Quickstart" href="quickstart.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pycmplot
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#from-pypi-recommended">From PyPI (recommended)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#from-github-development-version">From GitHub (development version)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#using-a-virtual-environment">Using a virtual environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#verify-the-installation">Verify the installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#input-file-format">Input file format</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#command-line">Command line</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#python-api">Python API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="quickstart.html#linear-manhattan-plot-single-trait">Linear Manhattan plot (single trait)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quickstart.html#multi-track-linear-manhattan-plot">Multi-track linear Manhattan plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quickstart.html#circular-circos-style-manhattan-plot">Circular (Circos-style) Manhattan plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="quickstart.html#qq-plots">QQ plots</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#mixed-genome-builds-with-liftover">Mixed genome builds with liftover</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#next-steps">Next steps</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">CLI Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#setup-a-synthetic-dataset">Setup: a synthetic dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-cli-mental-model">The CLI mental model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#linear-manhattan-plots">Linear Manhattan plots</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#single-track">Single-track:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#multi-track">Multi-track</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#circular-circos-plots">Circular (Circos) plots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#highlighting">Highlighting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#automatic-gene-annotation">Automatic gene annotation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#distance-semantics">Distance semantics</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#qq-plots-and-compute-pvals">QQ plots and <code class="docutils literal notranslate"><span class="pre">compute_pvals</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#caching-and-warm-resume">Caching and warm resume</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-hits-overlay-tsv">The hits overlay TSV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#per-locus-highlight-colours">Per-locus highlight colours</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#per-locus-categories-and-the-custom-legend">Per-locus categories and the custom legend</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#multi-panel-canvas">Multi-panel canvas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mixed-genome-builds">Mixed genome builds</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gui-editor-for-the-hits-overlay">GUI editor for the hits overlay</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#terminal-ui-backend-for-cluster-sessions">Terminal-UI backend for cluster sessions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#filter-multi-select-and-batch-edit-tui">Filter, multi-select, and batch edit (TUI)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#batch-cli-pycmplot-hits">Batch CLI (<code class="docutils literal notranslate"><span class="pre">pycmplot</span> <span class="pre">hits</span></code>)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#cli-equivalents">CLI equivalents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#next-steps">Next steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">Command-Line Interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="cli.html#input-output-options">Input / output options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cli.html#column-auto-detection-options">Column auto-detection options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cli.html#plotting-behaviour-options">Plotting behaviour options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cli.html#qq-plot-options">QQ plot options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cli.html#example-commands">Example commands</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="cli.html#single-trait-linear-manhattan-plot">Single-trait linear Manhattan plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cli.html#three-trait-stacked-linear-manhattan-plot">Three-trait stacked linear Manhattan plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cli.html#circular-manhattan-plot">Circular Manhattan plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cli.html#manhattan-plot-with-companion-qq-plots">Manhattan plot with companion QQ plots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cli.html#supplying-per-file-genome-builds">Supplying per-file genome builds</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="python_api_tutorial.html">Python API Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pycmplot_python_api.html">Python API for the pycmplot package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Installation">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Import-the-package-functions">Import the package functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Getting-help">Getting help</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pycmplot_python_api.html#Example-plotting">Example plotting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Important-notes">Important notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Generating-a-linear-plot">Generating a linear plot</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pycmplot_python_api.html#No-highlighting-of-significant-loci">No highlighting of significant loci</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#id1">Generating a linear plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Highlighting-significant-loci-and-annotating-by-SNP">Highlighting significant loci and annotating by SNP</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pycmplot_python_api.html#Highlighting-by-a-different-p-value-threshold-and-changing-plot-colors-and-removing-track-labels">Highlighting by a different p-value threshold and changing plot colors and removing track labels</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Generating-circular-plots">Generating circular plots</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pycmplot_python_api.html#Controling-the-inner-circle-size">Controling the inner circle size</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Ensuring-all-highlighted-loci-are-also-annotated">Ensuring all highlighted loci are also annotated</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pycmplot_python_api.html#Explicitly-speficying-directory-where-output-files-should-be-stored">Explicitly speficying directory where output files should be stored</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html##-Handling-other-use-cases-and-QQ-plots"># Handling other use cases and QQ-plots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Summary-stats-without-BUILD-column-and-no-build-information-provided">Summary stats without <strong>BUILD</strong> column and no <code class="docutils literal notranslate"><span class="pre">build</span></code> information provided</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html###-Supplying-builds-with-summary-stats">## Supplying builds with summary stats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html###-QQ-Plotting">## QQ-Plotting</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pycmplot_python_api.html#Overlaying-multiple">Overlaying multiple</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pycmplot_python_api.html#Separate-qq-plots-saved-in-separate-figures">Separate qq-plots saved in separate figures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pycmplot_python_api.html#Combined-multi-panel">Combined multi-panel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pycmplot_python_api.html#Flexible-handling-of-each-qq-plot-using-the-base-plot_qq_single-function-directly">Flexible handling of each qq-plot using the base <code class="docutils literal notranslate"><span class="pre">plot_qq_single</span></code> function directly</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pycmplot_python_api.html#Or-overlay-them-by-simply-using-the-same-axis">Or overlay them by simply using the same axis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pycmplot_python_api.html#This-gives-us-the-flexibility-to-place-multiple-overlay-plots-on-one-figure">This gives us the flexibility to place multiple overlay plots on one figure</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pycmplot_python_api.html#Multi-panel-Circular-Manhattan-Plotting">Multi-panel Circular Manhattan Plotting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Specify-groups-of-sumstats-to-load-and-plot-in-different-panels">Specify groups of sumstats to load and plot in different panels</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pycmplot_python_api.html#Plot-in-panels">Plot in panels</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html##-Final-Notes"># Final Notes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/io.html">pycmplot.io</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/io.html#module-pycmplot.io">pycmplot.io</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/io.html#density-aware-sub-sampling">Density-aware sub-sampling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/io.html#per-track-stage-1-cache">Per-track Stage-1 cache</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/io.html#public-functions">Public functions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/io.html#pycmplot.io.auto_thin_for_manhattan"><code class="docutils literal notranslate"><span class="pre">auto_thin_for_manhattan()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/io.html#pycmplot.io.detect_delimiter"><code class="docutils literal notranslate"><span class="pre">detect_delimiter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/io.html#pycmplot.io.generate_random_string"><code class="docutils literal notranslate"><span class="pre">generate_random_string()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/io.html#pycmplot.io.get_file_header"><code class="docutils literal notranslate"><span class="pre">get_file_header()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/io.html#pycmplot.io.get_output_paths"><code class="docutils literal notranslate"><span class="pre">get_output_paths()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/io.html#pycmplot.io.get_sumstats_and_merged_sector_list"><code class="docutils literal notranslate"><span class="pre">get_sumstats_and_merged_sector_list()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/io.html#pycmplot.io.load"><code class="docutils literal notranslate"><span class="pre">load()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/io.html#pycmplot.io.prep"><code class="docutils literal notranslate"><span class="pre">prep()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/io.html#pycmplot.io.prep_pycmplot_input_info"><code class="docutils literal notranslate"><span class="pre">prep_pycmplot_input_info()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/io.html#pycmplot.io.process_signif_line"><code class="docutils literal notranslate"><span class="pre">process_signif_line()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/io.html#pycmplot.io.resolve_delimiter"><code class="docutils literal notranslate"><span class="pre">resolve_delimiter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/io.html#pycmplot.io.smart_open"><code class="docutils literal notranslate"><span class="pre">smart_open()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/io.html#pycmplot.io.strip_comma_separated_input_streams"><code class="docutils literal notranslate"><span class="pre">strip_comma_separated_input_streams()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/stats.html">pycmplot.stats</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/stats.html#module-pycmplot.stats">pycmplot.stats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/stats.html#pycmplot.stats.get_highlight_snps"><code class="docutils literal notranslate"><span class="pre">get_highlight_snps()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/stats.html#pycmplot.stats.get_lead_snps"><code class="docutils literal notranslate"><span class="pre">get_lead_snps()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/annotation.html">pycmplot.annotation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#module-pycmplot.annotation">pycmplot.annotation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/annotation.html#gene-reference-files">Gene reference files</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.build_highlight_legend_entries"><code class="docutils literal notranslate"><span class="pre">build_highlight_legend_entries()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.ensure_category_column"><code class="docutils literal notranslate"><span class="pre">ensure_category_column()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.ensure_highlight_color_column"><code class="docutils literal notranslate"><span class="pre">ensure_highlight_color_column()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.get_annotation_column"><code class="docutils literal notranslate"><span class="pre">get_annotation_column()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.get_hits_summary_table"><code class="docutils literal notranslate"><span class="pre">get_hits_summary_table()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.resolve_highlight_categories"><code class="docutils literal notranslate"><span class="pre">resolve_highlight_categories()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.resolve_highlight_colors"><code class="docutils literal notranslate"><span class="pre">resolve_highlight_colors()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.resolve_highlight_legend_placement"><code class="docutils literal notranslate"><span class="pre">resolve_highlight_legend_placement()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/liftover.html">pycmplot.liftover</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/liftover.html#module-pycmplot.liftover">pycmplot.liftover</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/liftover.html#supported-conversions">Supported conversions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/liftover.html#resource-configuration">Resource configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/liftover.html#pycmplot.liftover.liftover_hg18_to_hg38"><code class="docutils literal notranslate"><span class="pre">liftover_hg18_to_hg38()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/liftover.html#pycmplot.liftover.liftover_hg19_to_hg38"><code class="docutils literal notranslate"><span class="pre">liftover_hg19_to_hg38()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/liftover.html#pycmplot.liftover.liftover_position"><code class="docutils literal notranslate"><span class="pre">liftover_position()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/plotting.html">pycmplot.plotting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/plotting.html#pycmplot-plotting-linear">pycmplot.plotting.linear</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/plotting.html#module-pycmplot.plotting.linear">pycmplot.plotting.linear</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.linear.linear"><code class="docutils literal notranslate"><span class="pre">linear()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.linear.plot_linear"><code class="docutils literal notranslate"><span class="pre">plot_linear()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.linear.plot_linearm"><code class="docutils literal notranslate"><span class="pre">plot_linearm()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/plotting.html#pycmplot-plotting-circular">pycmplot.plotting.circular</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/plotting.html#module-pycmplot.plotting.circular">pycmplot.plotting.circular</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.circular.circular"><code class="docutils literal notranslate"><span class="pre">circular()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.circular.compute_track_radii_dict"><code class="docutils literal notranslate"><span class="pre">compute_track_radii_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.circular.plot_circosm"><code class="docutils literal notranslate"><span class="pre">plot_circosm()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.circular.plot_circular"><code class="docutils literal notranslate"><span class="pre">plot_circular()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/plotting.html#pycmplot-plotting-qq">pycmplot.plotting.qq</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.get_legend_loc_string"><code class="docutils literal notranslate"><span class="pre">get_legend_loc_string()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.plot_qq_combined"><code class="docutils literal notranslate"><span class="pre">plot_qq_combined()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.plot_qq_overlay"><code class="docutils literal notranslate"><span class="pre">plot_qq_overlay()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.plot_qq_separate"><code class="docutils literal notranslate"><span class="pre">plot_qq_separate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.plot_qq_single"><code class="docutils literal notranslate"><span class="pre">plot_qq_single()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.qq_combined"><code class="docutils literal notranslate"><span class="pre">qq_combined()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.qq_overlay"><code class="docutils literal notranslate"><span class="pre">qq_overlay()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.qq_separate"><code class="docutils literal notranslate"><span class="pre">qq_separate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.set_legend_loc_string"><code class="docutils literal notranslate"><span class="pre">set_legend_loc_string()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/plotting.html#pycmplot.plotting.qq.thin_pvals"><code class="docutils literal notranslate"><span class="pre">thin_pvals()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/constants.html">pycmplot.constants</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/constants.html#module-pycmplot.constants">pycmplot.constants</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/constants.html#contents">Contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api/resources.html">pycmplot.resources</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/resources.html#module-pycmplot.resources">pycmplot.resources</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/resources.html#resolution-order">Resolution order</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api/resources.html#pycmplot.resources.ResourceConfig"><code class="docutils literal notranslate"><span class="pre">ResourceConfig</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/resources.html#pycmplot.resources.ResourceConfig.chain_hg18_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.chain_hg18_hg38</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/resources.html#pycmplot.resources.ResourceConfig.chain_hg19_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.chain_hg19_hg38</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/resources.html#pycmplot.resources.ResourceConfig.geneinfo_hg19"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.geneinfo_hg19</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/resources.html#pycmplot.resources.ResourceConfig.geneinfo_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.geneinfo_hg38</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/resources.html#pycmplot.resources.ResourceConfig.require"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.require()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#xx-xx">0.4.0 - 2026-XX-XX</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id1">0.3.1 - 2026-07-31</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id2">0.3.0 - 2026-06-01</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id3">0.2.8 - 2026-05-30</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id4">0.2.7 - 2026-04-27</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id5">0.2.5 - 2026-04-20</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id6">0.2.2 - 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id7">0.2.1 — 2026-04-16</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id8">0.1.9 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id9">0.1.8 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id10">0.1.0 — 2026-04-18</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#reporting-issues">Reporting issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#development-setup">Development setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#building-the-documentation-locally">Building the documentation locally</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#code-style">Code style</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html#docstrings">Docstrings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pycmplot</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">CLI Tutorial</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/cli_tutorial.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="cli-tutorial">
+<span id="id1"></span><h1>CLI Tutorial<a class="headerlink" href="#cli-tutorial" title="Link to this heading"></a></h1>
+<p>This tutorial is an end-to-end walkthrough of every user-facing feature
+in <strong>pycmplot</strong> from the <em>command line</em>, working from the same synthetic
+dataset throughout so that every command is directly copy-pasteable.
+It’s longer and more granular than <a class="reference internal" href="quickstart.html#quickstart"><span class="std std-ref">Quickstart</span></a> — read the
+quickstart first if you just want to see the shape of the CLI in a page.</p>
+<p>Looking for the equivalent Python-API walkthrough?  See
+<a class="reference internal" href="python_api_tutorial.html#python-api-tutorial"><span class="std std-ref">Python API Tutorial</span></a> — it covers the same features using the
+<code class="docutils literal notranslate"><span class="pre">pcm.prep</span></code> / <code class="docutils literal notranslate"><span class="pre">pcm.load</span></code> / <code class="docutils literal notranslate"><span class="pre">pcm.linear</span></code> / <code class="docutils literal notranslate"><span class="pre">pcm.circular</span></code>
+functions in a runnable Jupyter notebook.</p>
+<p>The tutorial is organised as a progression:</p>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="#cli-tut-setup"><span class="std std-ref">Setup: a synthetic dataset</span></a> — a synthetic sumstats file you can paste-and-run.</p></li>
+<li><p><a class="reference internal" href="#cli-tut-load"><span class="std std-ref">The CLI mental model</span></a> — the three-step load / prep / plot mental model.</p></li>
+<li><p><a class="reference internal" href="#cli-tut-linear"><span class="std std-ref">Linear Manhattan plots</span></a> — single- and multi-track linear Manhattan plots.</p></li>
+<li><p><a class="reference internal" href="#cli-tut-circular"><span class="std std-ref">Circular (Circos) plots</span></a> — the Circos-style circular layout.</p></li>
+<li><p><a class="reference internal" href="#cli-tut-highlight"><span class="std std-ref">Highlighting</span></a> — thresholds, colours, and highlight controls.</p></li>
+<li><p><a class="reference internal" href="#cli-tut-annotate"><span class="std std-ref">Automatic gene annotation</span></a> — automatic nearest-gene labels and the hits table.</p></li>
+<li><p><a class="reference internal" href="#cli-tut-qq"><span class="std std-ref">QQ plots and compute_pvals</span></a> — QQ plots and the <code class="docutils literal notranslate"><span class="pre">compute_pvals</span></code> opt-in.</p></li>
+<li><p><a class="reference internal" href="#cli-tut-cache"><span class="std std-ref">Caching and warm resume</span></a> — the per-track cache and warm-resume behaviour.</p></li>
+<li><p><a class="reference internal" href="#cli-tut-overlay"><span class="std std-ref">The hits overlay TSV</span></a> — the user-editable hits-overlay TSV.</p></li>
+<li><p><a class="reference internal" href="#cli-tut-colors"><span class="std std-ref">Per-locus highlight colours</span></a> — per-locus highlight colours.</p></li>
+<li><p><a class="reference internal" href="#cli-tut-categories"><span class="std std-ref">Per-locus categories and the custom legend</span></a> — per-locus categories and the custom legend.</p></li>
+<li><p><a class="reference internal" href="#cli-tut-multipanel"><span class="std std-ref">Multi-panel canvas</span></a> — multiple sumstats groups on one canvas.</p></li>
+<li><p><a class="reference internal" href="#cli-tut-liftover"><span class="std std-ref">Mixed genome builds</span></a> — mixed genome builds.</p></li>
+<li><p><a class="reference internal" href="#cli-tut-editor"><span class="std std-ref">GUI editor for the hits overlay</span></a> — browser-based GUI for editing the hits overlay.</p></li>
+<li><p><a class="reference internal" href="#cli-tut-cli"><span class="std std-ref">CLI equivalents</span></a> — CLI equivalents for every step above.</p></li>
+<li><p><a class="reference internal" href="#cli-tut-faq"><span class="std std-ref">Troubleshooting</span></a> — troubleshooting and common gotchas.</p></li>
+</ol>
+<section id="setup-a-synthetic-dataset">
+<span id="cli-tut-setup"></span><h2>Setup: a synthetic dataset<a class="headerlink" href="#setup-a-synthetic-dataset" title="Link to this heading"></a></h2>
+<p>Every CLI invocation below assumes six synthetic sumstats files on
+disk (<code class="docutils literal notranslate"><span class="pre">trait{1..6}.tsv.gz</span></code>). Download the python script used for benchmark
+<a class="reference external" href="https://github.com/esohkevin/pycmplot/blob/main/benchmark/generate_sumstats.py">here</a> and run it as shown below.</p>
+<p>The code below generates six sumstats, <code class="docutils literal notranslate"><span class="pre">triat1</span></code> to <code class="docutils literal notranslate"><span class="pre">trait6</span></code>, each containing
+1 million SNPs. Traits 1 to 3 are in hg19 coordinate while traits 4 to 6 are
+in hg38 coordinate. All the files are gzipped and saved in the folder <code class="docutils literal notranslate"><span class="pre">data</span></code>.
+The <code class="docutils literal notranslate"><span class="pre">--targets</span> <span class="pre">auto</span></code> option injects 6 significant loci on chr3, chr6, chr11,
+chr13, chr18, and chr20 in all sumstats, 2 significant loci specific to hg19 sumstats
+(in chr2 and chr15) and 2 significant loci specific to hg38 sumstats (in chr12 and chr16).
+These are actuall <strong>body height</strong> significant loci pulled from <a class="reference external" href="https://www.ebi.ac.uk/gwas/efotraits/OBA_VT0001253">GWAS Catalog</a>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">HG19_TARGET_SPIKES</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span>
+   <span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">,</span>  <span class="mi">172_058_886</span><span class="p">,</span> <span class="mf">7e-12</span><span class="p">),</span>   <span class="c1"># rs186897198</span>
+   <span class="p">(</span><span class="s2">&quot;2&quot;</span><span class="p">,</span>  <span class="mi">36_733_328</span><span class="p">,</span>  <span class="mf">3e-08</span><span class="p">),</span>   <span class="c1"># rs2030645 - hg19-specific</span>
+   <span class="p">(</span><span class="s2">&quot;7&quot;</span><span class="p">,</span>  <span class="mi">18_786_817</span><span class="p">,</span>  <span class="mf">7e-23</span><span class="p">),</span>   <span class="c1"># rs727851</span>
+   <span class="p">(</span><span class="s2">&quot;10&quot;</span><span class="p">,</span> <span class="mi">31_127_166</span><span class="p">,</span>  <span class="mf">7e-08</span><span class="p">),</span>   <span class="c1"># rs12413361</span>
+   <span class="p">(</span><span class="s2">&quot;11&quot;</span><span class="p">,</span> <span class="mi">12_879_123</span><span class="p">,</span>  <span class="mf">5e-09</span><span class="p">),</span>   <span class="c1"># rs546512774</span>
+   <span class="p">(</span><span class="s2">&quot;11&quot;</span><span class="p">,</span> <span class="mi">2_802_090</span><span class="p">,</span>   <span class="mf">9e-08</span><span class="p">),</span>   <span class="c1"># rs234886</span>
+   <span class="p">(</span><span class="s2">&quot;15&quot;</span><span class="p">,</span> <span class="mi">22_791_431</span><span class="p">,</span>  <span class="mf">1e-08</span><span class="p">),</span>   <span class="c1"># rs6606792 - hg19-specific</span>
+   <span class="p">(</span><span class="s2">&quot;17&quot;</span><span class="p">,</span> <span class="mi">65_854_602</span><span class="p">,</span>  <span class="mf">2e-12</span><span class="p">),</span>   <span class="c1"># rs55931203</span>
+<span class="p">]</span>
+
+<span class="n">HG38_TARGET_SPIKES</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span>
+   <span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">,</span>  <span class="mi">172_089_746</span><span class="p">,</span> <span class="mf">7e-12</span><span class="p">),</span>   <span class="c1"># rs186897198</span>
+   <span class="p">(</span><span class="s2">&quot;7&quot;</span><span class="p">,</span>  <span class="mi">18_747_194</span><span class="p">,</span>  <span class="mf">7e-23</span><span class="p">),</span>   <span class="c1"># rs727851</span>
+   <span class="p">(</span><span class="s2">&quot;10&quot;</span><span class="p">,</span> <span class="mi">30_838_237</span><span class="p">,</span>  <span class="mf">7e-08</span><span class="p">),</span>   <span class="c1"># rs12413361</span>
+   <span class="p">(</span><span class="s2">&quot;11&quot;</span><span class="p">,</span> <span class="mi">12_857_576</span><span class="p">,</span>  <span class="mf">5e-09</span><span class="p">),</span>   <span class="c1"># rs546512774</span>
+   <span class="p">(</span><span class="s2">&quot;11&quot;</span><span class="p">,</span> <span class="mi">2_780_860</span><span class="p">,</span>   <span class="mf">9e-08</span><span class="p">),</span>   <span class="c1"># rs234886</span>
+   <span class="p">(</span><span class="s2">&quot;12&quot;</span><span class="p">,</span> <span class="mi">122_933_684</span><span class="p">,</span> <span class="mf">7e-09</span><span class="p">),</span>   <span class="c1"># rs73230017 - hg38-specific</span>
+   <span class="p">(</span><span class="s2">&quot;16&quot;</span><span class="p">,</span> <span class="mi">69_181_056</span><span class="p">,</span>  <span class="mf">1e-08</span><span class="p">),</span>   <span class="c1"># rs12444184 - hg38-specific</span>
+   <span class="p">(</span><span class="s2">&quot;17&quot;</span><span class="p">,</span> <span class="mi">67_858_486</span><span class="p">,</span>  <span class="mf">2e-12</span><span class="p">),</span>   <span class="c1"># rs55931203</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="o">{</span><span class="m">1</span>..3<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">   </span>python<span class="w"> </span>generate_sumstats.py<span class="w"> </span><span class="se">\</span>
+<span class="w">      </span>--n<span class="w"> </span><span class="m">1000000</span><span class="w"> </span><span class="se">\</span>
+<span class="w">      </span>--build<span class="w"> </span>hg19<span class="w"> </span><span class="se">\</span>
+<span class="w">      </span>--targets<span class="w"> </span>auto<span class="w"> </span><span class="se">\</span>
+<span class="w">      </span>--out<span class="w"> </span>./data/sumstats_1M_trait<span class="si">${</span><span class="nv">i</span><span class="si">}</span>_hg19.tsv.gz
+<span class="k">done</span>
+
+<span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="o">{</span><span class="m">4</span>..6<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">   </span>python<span class="w"> </span>generate_sumstats.py<span class="w"> </span><span class="se">\</span>
+<span class="w">      </span>--n<span class="w"> </span><span class="m">1000000</span><span class="w"> </span><span class="se">\</span>
+<span class="w">      </span>--build<span class="w"> </span>hg38<span class="w"> </span><span class="se">\</span>
+<span class="w">      </span>--targets<span class="w"> </span>auto<span class="w"> </span><span class="se">\</span>
+<span class="w">      </span>--out<span class="w"> </span>./data/sumstats_1M_trait<span class="si">${</span><span class="nv">i</span><span class="si">}</span>_hg38.tsv.gz
+<span class="k">done</span>
+</pre></div>
+</div>
+<p>Use <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">generate_sumstats.py</span> <span class="pre">-h</span></code> to see all options.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The six sumstats files are created with a <code class="docutils literal notranslate"><span class="pre">BUILD</span></code> column. To demonstrate
+the use of the <code class="docutils literal notranslate"><span class="pre">--build</span></code> option, we will create two more sumstats by
+deleting the build columns from two of the sumstats already generated.
+One in hg19 and one in hg38.</p>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gunzip<span class="w"> </span>-c<span class="w"> </span>./data/sumstats_1M_trait1_hg19.tsv.gz<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>rev<span class="w">  </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>cut<span class="w"> </span>-f2-<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>rev<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>gzip<span class="w"> </span>-c<span class="w"> </span>&gt;<span class="w"> </span>./data/sumstats_1M_trait7_hg19.tsv.gz
+
+gunzip<span class="w"> </span>-c<span class="w"> </span>./data/sumstats_1M_trait4_hg19.tsv.gz<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>rev<span class="w">  </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>cut<span class="w"> </span>-f2-<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>rev<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>gzip<span class="w"> </span>-c<span class="w"> </span>&gt;<span class="w"> </span>./data/sumstats_1M_trait8_hg38.tsv.gz
+</pre></div>
+</div>
+</section>
+<section id="the-cli-mental-model">
+<span id="cli-tut-load"></span><h2>The CLI mental model<a class="headerlink" href="#the-cli-mental-model" title="Link to this heading"></a></h2>
+<p>Every <code class="docutils literal notranslate"><span class="pre">pycmplot</span></code> invocation performs the same three steps internally
+— column resolution, data loading (+ optional liftover, lead extraction,
+hits-table construction), and rendering.  From the CLI you don’t have
+to think about them separately: one command runs the whole pipeline
+and writes the output image(s) plus a locus summary TSV.</p>
+<p><strong>The canonical minimum invocation is:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--sum_stats<span class="w"> </span>./data/sumstats_1M_trait1_hg19.tsv.gz<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--labels<span class="w"> </span>Trait1<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--logp<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--output_dir<span class="w"> </span>./out
+</pre></div>
+</div>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/mycmplot_trait1_hg19_lm_logp.png"><a href="_images/mycmplot_trait1_hg19_lm_logp.png" data-lightbox="image-set">
+<img alt="linear Manhattan plot with base options" src="_images/mycmplot_trait1_hg19_lm_logp.png" style="width: 800px;" />
+</a>
+</a>
+</figure>
+<p>This defaults to a linear Manhattan plot for <code class="docutils literal notranslate"><span class="pre">./data/sumstats_1M_trait1_hg19.tsv.gz</span></code>
+file, with p-values shown as <code class="docutils literal notranslate"><span class="pre">-log10(P)</span></code>, written into <code class="docutils literal notranslate"><span class="pre">./out/</span></code>.
+The rest of this tutorial adds one feature at a time on top of that base.</p>
+</section>
+<section id="linear-manhattan-plots">
+<span id="cli-tut-linear"></span><h2>Linear Manhattan plots<a class="headerlink" href="#linear-manhattan-plots" title="Link to this heading"></a></h2>
+<section id="single-track">
+<h3>Single-track:<a class="headerlink" href="#single-track" title="Link to this heading"></a></h3>
+<p><strong>Highlight, and add plot title and significant/suggestive lines to the base above</strong></p>
+<p>pycmplot defaults to <code class="docutils literal notranslate"><span class="pre">--mode</span> <span class="pre">lm</span></code> (linear Manhattan).  Add
+<code class="docutils literal notranslate"><span class="pre">--mode</span> <span class="pre">cm</span></code> to switch to the Circos-style circular layout — every
+other flag stays the same.  Use <code class="docutils literal notranslate"><span class="pre">pycmplot</span> <span class="pre">-h</span></code> for the full
+mode-specific option list.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" data-sync-group="tab" data-sync-id="linear" for="sd-tab-item-0">
+Linear</label><div class="sd-tab-content docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--sum_stats<span class="w"> </span>./data/sumstats_1M_trait1_hg19.tsv.gz<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--labels<span class="w"> </span>Trait1_hg19<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--plot_title<span class="w"> </span><span class="s2">&quot;Trait1 (highlighted)&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--logp<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--highlight<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--signif_line<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--suggest_threshold<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--output_dir<span class="w"> </span>./out
+</pre></div>
+</div>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/trait1_highlighted_trait1_hg19_lm_logp.png"><a href="_images/trait1_highlighted_trait1_hg19_lm_logp.png" data-lightbox="image-set">
+<img alt="linear Manhattan plot with base options" src="_images/trait1_highlighted_trait1_hg19_lm_logp.png" style="width: 800px;" />
+</a>
+</a>
+</figure>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" data-sync-group="tab" data-sync-id="circular" for="sd-tab-item-1">
+Circular</label><div class="sd-tab-content docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--mode<span class="w"> </span>cm<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--sum_stats<span class="w"> </span>./data/sumstats_1M_trait1_hg19.tsv.gz<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--labels<span class="w"> </span>Trait1_hg19<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--plot_title<span class="w"> </span><span class="s2">&quot;Trait1 (highlighted)&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--logp<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--highlight<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--signif_line<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--suggest_threshold<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--output_dir<span class="w"> </span>./out
+</pre></div>
+</div>
+<figure class="align-default">
+<a class="reference internal image-reference" href="img/trait1_highlighted_trait1_hg19_cm_logp.png"><a href="img/trait1_highlighted_trait1_hg19_cm_logp.png" data-lightbox="image-set">
+<img alt="circular Manhattan plot with base options" src="img/trait1_highlighted_trait1_hg19_cm_logp.png" style="width: 800px;" />
+</a>
+</a>
+</figure>
+</div>
+</div>
+<div class="toggle docutils container">
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>--mode {lm,cm}       Set Manhattan layout mode
+--suggest_threshold   Draw genome-wide suggestive line
+</pre></div>
+</div>
+</div>
+</section>
+<section id="multi-track">
+<h3>Multi-track<a class="headerlink" href="#multi-track" title="Link to this heading"></a></h3>
+<p>Passing more than one sumstats file stacks the tracks vertically, one
+axes per file, sharing the chromosomal x-axis.  Files and labels are
+comma-separated, in matching order:</p>
+<p><strong>Annotate significant hits</strong></p>
+<p>The same six sumstats stacked as multi-track linear or wrapped into a
+Circos layout — swap <code class="docutils literal notranslate"><span class="pre">--mode</span> <span class="pre">cm</span></code> in / out and everything else is
+identical.  <code class="docutils literal notranslate"><span class="pre">--track_heights</span></code> is linear-only and has no effect
+in <code class="docutils literal notranslate"><span class="pre">cm</span></code> mode, so it’s dropped from the circular tab.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-2" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" data-sync-group="tab" data-sync-id="linear" for="sd-tab-item-2">
+Linear</label><div class="sd-tab-content docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--sum_stats<span class="w"> </span>./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait2_hg19.tsv.gz,./data/sumstats_1M_trait3_hg19.tsv.gz,./data/sumstats_1M_trait4_hg38.tsv.gz,./data/sumstats_1M_trait5_hg38.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--labels<span class="w"> </span>Trait1_hg19,Trait2_hg19,Trait3_hg19,Trait4_hg38,Trait5_hg38,Trait6_hg38<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--plot_title<span class="w"> </span><span class="s2">&quot;Multi-track&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--logp<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--highlight<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--signif_line<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--suggest_threshold<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--annotate<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--output_dir<span class="w"> </span>./out
+</pre></div>
+</div>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/multitrack_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_lm_logp.png"><a href="_images/multitrack_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_lm_logp.png" data-lightbox="image-set">
+<img alt="multi-track linear Manhattan plot" src="_images/multitrack_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_lm_logp.png" style="width: 800px;" />
+</a>
+</a>
+</figure>
+</div>
+<input id="sd-tab-item-3" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" data-sync-group="tab" data-sync-id="circular" for="sd-tab-item-3">
+Circular</label><div class="sd-tab-content docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--mode<span class="w"> </span>cm<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--sum_stats<span class="w"> </span>./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait2_hg19.tsv.gz,./data/sumstats_1M_trait3_hg19.tsv.gz,./data/sumstats_1M_trait4_hg38.tsv.gz,./data/sumstats_1M_trait5_hg38.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--labels<span class="w"> </span>Trait1_hg19,Trait2_hg19,Trait3_hg19,Trait4_hg38,Trait5_hg38,Trait6_hg38<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--plot_title<span class="w"> </span><span class="s2">&quot;Multi-track&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--logp<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--highlight<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--signif_line<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--suggest_threshold<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--annotate<span class="w"> </span>gene<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--highlight_line<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--output_dir<span class="w"> </span>./out
+</pre></div>
+</div>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/multitrack_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_cm_logp.png"><a href="_images/multitrack_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_cm_logp.png" data-lightbox="image-set">
+<img alt="multi-track circular Manhattan plot" src="_images/multitrack_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_cm_logp.png" style="width: 800px;" />
+</a>
+</a>
+</figure>
+</div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>The default linear plot size (<code class="docutils literal notranslate"><span class="pre">--figure_size</span></code>) is (width, height) –&gt; (10, 4).
+By default, each track (including the annotation track) gets an equal space.
+Annotations in the figure above are not visible. We can solve this by two means.
+- either increase figure height: <code class="docutils literal notranslate"><span class="pre">--figure_size</span> <span class="pre">10,8</span></code>
+- or increase the annotation track space relative to the rest: <code class="docutils literal notranslate"><span class="pre">--track_heights</span> <span class="pre">2,1,1</span></code>
+- or combine the two options to improve the visuals.</p>
+<p><strong>NB:</strong> When using <code class="docutils literal notranslate"><span class="pre">--annotate</span></code> in linear plotting, the first (top) track is always the annotation track.</p>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--sum_stats<span class="w"> </span>./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--labels<span class="w"> </span>Trait1_hg19,Trait6_hg38<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--plot_title<span class="w"> </span><span class="s2">&quot;Multi-track_figsize&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--logp<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--highlight<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--signif_line<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--suggest_threshold<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--annotate<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--figure_size<span class="w"> </span><span class="m">10</span>,8<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--output_dir<span class="w"> </span>./out
+</pre></div>
+</div>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/multitrack_heights_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_lm_logp.png"><a href="_images/multitrack_heights_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_lm_logp.png" data-lightbox="image-set">
+<img alt="linear Manhattan plot with base options" src="_images/multitrack_heights_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_lm_logp.png" style="width: 800px;" />
+</a>
+</a>
+</figure>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--sum_stats<span class="w"> </span>./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--labels<span class="w"> </span>Trait1_hg19,Trait6_hg38<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--plot_title<span class="w"> </span><span class="s2">&quot;Multi-track_annotate&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--logp<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--highlight<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--signif_line<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--suggest_threshold<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--annotate<span class="w"> </span>gene<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--highlight_line<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--track_heights<span class="w"> </span><span class="m">2</span>.5,1,1,1,1,1,1<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--output_dir<span class="w"> </span>./out
+</pre></div>
+</div>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/multitrack_annotate_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_lm_logp.png"><a href="_images/multitrack_annotate_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_lm_logp.png" data-lightbox="image-set">
+<img alt="linear Manhattan plot with base options" src="_images/multitrack_annotate_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_lm_logp.png" style="width: 800px;" />
+</a>
+</a>
+</figure>
+<div class="dropdown admonition note">
+<p class="admonition-title">Note</p>
+<p>Notice the two near-significant loci on chr10 and chr11. We can highlight and annotate them by
+changing the significance threshold: <code class="docutils literal notranslate"><span class="pre">--signif_threshold</span> <span class="pre">1e-07</span></code></p>
+<p>Note that if only used <code class="docutils literal notranslate"><span class="pre">highlight_thresh</span> <span class="pre">1e-07</span></code>, the loci will be highlighted but no annotated</p>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--mode<span class="w"> </span>cm<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--sum_stats<span class="w"> </span>./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait2_hg19.tsv.gz,./data/sumstats_1M_trait3_hg19.tsv.gz,./data/sumstats_1M_trait4_hg38.tsv.gz,./data/sumstats_1M_trait5_hg38.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--labels<span class="w"> </span>Trait1_hg19,Trait2_hg19,Trait3_hg19,Trait4_hg38,Trait5_hg38,Trait6_hg38<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--plot_title<span class="w"> </span><span class="s2">&quot;Multi-track_signif&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--logp<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--highlight<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--signif_line<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--signif_threshold<span class="w"> </span>1e-07<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--suggest_threshold<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--annotate<span class="w"> </span>gene<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--highlight_line<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--no_track_labels<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--output_dir<span class="w"> </span>./out
+</pre></div>
+</div>
+<figure class="align-default">
+<a class="reference internal image-reference" href="_images/multitrack_signif_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_lm_logp.png"><a href="_images/multitrack_signif_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_lm_logp.png" data-lightbox="image-set">
+<img alt="linear Manhattan plot with base options" src="_images/multitrack_signif_trait1_hg19_trait2_hg19_trait3_hg19_trait4_hg38_trait5_hg38_trait6_hg38_lm_logp.png" style="width: 800px;" />
+</a>
+</a>
+</figure>
+<p>We can further enhance visualization:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>We can remove the track labels on the right with <code class="docutils literal notranslate"><span class="pre">--no_track_labels</span></code></p></li>
+<li><p>Annotate by gene symbol using <code class="docutils literal notranslate"><span class="pre">--annotate</span> <span class="pre">gene</span></code> (case insenitive).</p></li>
+<li><p>Add a line through all highlighted loci using <code class="docutils literal notranslate"><span class="pre">--highlight_line</span></code></p></li>
+<li><p>Change the color of the line using <code class="docutils literal notranslate"><span class="pre">--highlight_line_color</span></code></p></li>
+<li><p>To generate qq-plots, simply add <code class="docutils literal notranslate"><span class="pre">--qq_plot</span></code></p></li>
+<li><p>To specify a type,</p></li>
+</ul>
+</div></blockquote>
+</section>
+</section>
+<section id="circular-circos-plots">
+<span id="cli-tut-circular"></span><h2>Circular (Circos) plots<a class="headerlink" href="#circular-circos-plots" title="Link to this heading"></a></h2>
+<p>Every command in <a class="reference internal" href="#cli-tut-linear"><span class="std std-ref">Linear Manhattan plots</span></a> above has an inline
+<code class="docutils literal notranslate"><span class="pre">Circular</span></code> tab that swaps <code class="docutils literal notranslate"><span class="pre">--mode</span> <span class="pre">cm</span></code> in.  Because the two
+plotting modes share every other flag on the CLI (except
+<code class="docutils literal notranslate"><span class="pre">--track_heights</span></code>, which is linear-only), keeping the examples in
+tabs — rather than a separate section — lets you compare the two
+layouts side-by-side at each demonstration.</p>
+<p>Click any “Circular” tab in the linear section above and every other
+tab-set on this page snaps to Circular too (sync group <code class="docutils literal notranslate"><span class="pre">circular</span></code>),
+so a Circos-first reader can flip once and follow along without
+clicking tab-by-tab.</p>
+</section>
+<section id="highlighting">
+<span id="cli-tut-highlight"></span><h2>Highlighting<a class="headerlink" href="#highlighting" title="Link to this heading"></a></h2>
+<p>Add <code class="docutils literal notranslate"><span class="pre">--highlight</span></code> to colour signals above a threshold, and
+<code class="docutils literal notranslate"><span class="pre">--signif_line</span></code> to draw a horizontal cut-off line at that threshold:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sum_stats<span class="w"> </span>hb.tsv,mcv.tsv<span class="w"> </span>--labels<span class="w"> </span>Hb,MCV<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--logp<span class="w"> </span>--trim_pval<span class="w"> </span><span class="m">0</span>.01<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--highlight<span class="w"> </span>--signif_line<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--highlight_color<span class="w"> </span>brown<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--signif_threshold<span class="w"> </span>5e-8<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output_dir<span class="w"> </span>./out
+</pre></div>
+</div>
+<p>The default highlight colour applies to every hit unless a specific
+locus has been given a custom colour in the hits overlay
+(see <a class="reference internal" href="#cli-tut-colors"><span class="std std-ref">Per-locus highlight colours</span></a>).</p>
+</section>
+<section id="automatic-gene-annotation">
+<span id="cli-tut-annotate"></span><h2>Automatic gene annotation<a class="headerlink" href="#automatic-gene-annotation" title="Link to this heading"></a></h2>
+<p>Add <code class="docutils literal notranslate"><span class="pre">--annotate</span> <span class="pre">GENE</span></code> to label each lead SNP with its nearest
+gene, and optionally <code class="docutils literal notranslate"><span class="pre">--label_col</span> <span class="pre">top_gene</span></code> to control which
+column from the hits table is used as the label:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sum_stats<span class="w"> </span>hb.tsv,mcv.tsv<span class="w"> </span>--labels<span class="w"> </span>Hb,MCV<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--logp<span class="w"> </span>--trim_pval<span class="w"> </span><span class="m">0</span>.01<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--highlight<span class="w"> </span>--annotate<span class="w"> </span>GENE<span class="w"> </span>--label_col<span class="w"> </span>top_gene<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output_dir<span class="w"> </span>./out
+</pre></div>
+</div>
+<p>The hits summary table written alongside the plot is a tidy CSV/TSV
+you can inspect or export directly:</p>
+<p>Any of <code class="docutils literal notranslate"><span class="pre">--annotate</span> <span class="pre">SNP</span></code> (label with rsID),
+<code class="docutils literal notranslate"><span class="pre">--annotate</span> <span class="pre">GENE</span></code> (label with the nearest / top gene), or a
+column name from the hits table is accepted.  Add
+<code class="docutils literal notranslate"><span class="pre">--annotate</span> <span class="pre">GENE</span></code> on top of the previous command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sum_stats<span class="w"> </span>hb.tsv,mcv.tsv<span class="w"> </span>--labels<span class="w"> </span>Hb,MCV<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--logp<span class="w"> </span>--trim_pval<span class="w"> </span><span class="m">0</span>.01<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--highlight<span class="w"> </span>--signif_line<span class="w"> </span>--annotate<span class="w"> </span>GENE<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output_dir<span class="w"> </span>./out
+</pre></div>
+</div>
+<p>Every run also writes a locus summary TSV to <code class="docutils literal notranslate"><span class="pre">--output_dir</span></code>.
+Inspect it with any TSV viewer:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>head<span class="w"> </span>out/*.tsv
+<span class="c1"># CHR   POS       SNP    P              LABEL   top_gene   source</span>
+<span class="c1"># 1     14822344  rs123  3.4e-11        Hb      FTO        auto</span>
+</pre></div>
+</div>
+<p>Columns include <code class="docutils literal notranslate"><span class="pre">CHR</span></code>, <code class="docutils literal notranslate"><span class="pre">POS</span></code>, <code class="docutils literal notranslate"><span class="pre">SNP</span></code>, <code class="docutils literal notranslate"><span class="pre">P</span></code>, <code class="docutils literal notranslate"><span class="pre">LABEL</span></code>
+(track name), <code class="docutils literal notranslate"><span class="pre">top_gene</span></code>, plus the overlay columns
+<code class="docutils literal notranslate"><span class="pre">source</span></code>, <code class="docutils literal notranslate"><span class="pre">highlight_color</span></code>, and <code class="docutils literal notranslate"><span class="pre">category</span></code> (introduced by the
+overlay system — see <a class="reference internal" href="#cli-tut-overlay"><span class="std std-ref">The hits overlay TSV</span></a>).</p>
+<section id="distance-semantics">
+<h3>Distance semantics<a class="headerlink" href="#distance-semantics" title="Link to this heading"></a></h3>
+<p>Every distance-based field on the hits table
+(<code class="docutils literal notranslate"><span class="pre">nearest_gene_distance</span></code>, <code class="docutils literal notranslate"><span class="pre">upstream_distance</span></code>,
+<code class="docutils literal notranslate"><span class="pre">downstream_distance</span></code>, and the numeric part of the intergenic
+<code class="docutils literal notranslate"><span class="pre">top_gene</span></code> label) is computed against the <strong>near edge of the gene
+body</strong>, not the TSS.  Concretely:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">nearest_upstream_gene</span></code> — the closest gene whose <code class="docutils literal notranslate"><span class="pre">END</span> <span class="pre">&lt;</span> <span class="pre">POS</span></code>,
+measured as <code class="docutils literal notranslate"><span class="pre">POS</span> <span class="pre">−</span> <span class="pre">END</span></code> (the SNP’s distance to the gene’s right
+edge, which for a left-flanker is the edge facing the SNP).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nearest_downstream_gene</span></code> — the closest gene whose <code class="docutils literal notranslate"><span class="pre">START</span> <span class="pre">&gt;</span> <span class="pre">POS</span></code>,
+measured as <code class="docutils literal notranslate"><span class="pre">START</span> <span class="pre">−</span> <span class="pre">POS</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nearest_gene</span></code> — the closest gene by <code class="docutils literal notranslate"><span class="pre">min(|POS</span> <span class="pre">−</span> <span class="pre">START|,</span> <span class="pre">|POS</span> <span class="pre">−</span> <span class="pre">END|)</span></code>,
+regardless of which side of the SNP it sits on; <code class="docutils literal notranslate"><span class="pre">0</span></code> when the SNP
+falls inside a gene body (<code class="docutils literal notranslate"><span class="pre">genic</span> <span class="pre">=</span> <span class="pre">True</span></code>).</p></li>
+</ul>
+<p>This convention is deliberately <strong>strand-blind</strong>.  It matches what
+<code class="docutils literal notranslate"><span class="pre">bedtools</span> <span class="pre">closest</span></code>, VEP’s “nearest gene” annotation, and ANNOVAR’s
+<code class="docutils literal notranslate"><span class="pre">gene_dist</span></code> column report, so pycmplot’s numbers line up directly
+with those tools.  A gene whose body extends toward the SNP wins its
+side even when a more compact gene sits closer to the SNP’s
+mid-point — the near-edge rule is what makes the answer independent
+of gene length.</p>
+<p>The <strong>only</strong> field where strand still matters is
+<code class="docutils literal notranslate"><span class="pre">promoter_upstream_flag</span></code>, which uses a 2 kb window
+5’ of each gene’s TSS (<code class="docutils literal notranslate"><span class="pre">[START</span> <span class="pre">−</span> <span class="pre">2</span> <span class="pre">kb,</span> <span class="pre">START)</span></code> for <code class="docutils literal notranslate"><span class="pre">+</span></code> strand,
+<code class="docutils literal notranslate"><span class="pre">(END,</span> <span class="pre">END</span> <span class="pre">+</span> <span class="pre">2</span> <span class="pre">kb]</span></code> for <code class="docutils literal notranslate"><span class="pre">−</span></code> strand).  That’s genuinely a
+biological concept and would be misleading if computed positionally,
+so it stays strand-aware.</p>
+<p>See the manuscript’s <code class="xref download docutils literal notranslate"><span class="pre">annotation_schematic.pdf</span></code> for a visual
+walkthrough of the near-edge rule under different gene layouts.</p>
+<p class="rubric">In one paragraph</p>
+<p>Left/right flanker selection is a pure coordinate comparison: a gene
+enters <code class="docutils literal notranslate"><span class="pre">nearest_upstream_gene</span></code> iff its body ends at a lower
+coordinate than the SNP (<code class="docutils literal notranslate"><span class="pre">END</span> <span class="pre">&lt;</span> <span class="pre">POS</span></code>, so the whole body sits on
+the numerically-lower side) and <code class="docutils literal notranslate"><span class="pre">nearest_downstream_gene</span></code> iff it
+starts at a higher one (<code class="docutils literal notranslate"><span class="pre">START</span> <span class="pre">&gt;</span> <span class="pre">POS</span></code>); on each side the winner is
+the gene whose near edge (<code class="docutils literal notranslate"><span class="pre">END</span></code> for the left flanker, <code class="docutils literal notranslate"><span class="pre">START</span></code> for
+the right) minimises the base-pair gap to the SNP.  This is
+strictly <em>orientational</em> — a statement about where the gene body
+sits on the coordinate axis relative to the SNP — and does not
+reference the gene’s strand; two genes with identical coordinates
+but opposite strands would be classified identically.  The one
+place strand is retained is
+<code class="xref py py-data docutils literal notranslate"><span class="pre">promoter_upstream_flag</span></code>, which is set when the SNP falls in
+the 2 kb window immediately 5’ of any gene’s TSS —
+<code class="docutils literal notranslate"><span class="pre">[START</span> <span class="pre">−</span> <span class="pre">2</span> <span class="pre">kb,</span> <span class="pre">START)</span></code> for <code class="docutils literal notranslate"><span class="pre">+</span></code> strand genes and
+<code class="docutils literal notranslate"><span class="pre">(END,</span> <span class="pre">END</span> <span class="pre">+</span> <span class="pre">2</span> <span class="pre">kb]</span></code> for <code class="docutils literal notranslate"><span class="pre">−</span></code> strand genes.  “Promoter” is a
+genuinely biological concept defined relative to transcription
+direction, so it is the only field where strand information matters.</p>
+</section>
+</section>
+<section id="qq-plots-and-compute-pvals">
+<span id="cli-tut-qq"></span><h2>QQ plots and <code class="docutils literal notranslate"><span class="pre">compute_pvals</span></code><a class="headerlink" href="#qq-plots-and-compute-pvals" title="Link to this heading"></a></h2>
+<p>The loader normally skips materialising the full sorted p-value
+array (~80 MB per track at 10 M variants) because most users never
+draw a QQ plot.  The CLI <code class="docutils literal notranslate"><span class="pre">--qq_plot</span></code> flag turns that computation on
+automatically — you never need to think about the underlying
+<code class="docutils literal notranslate"><span class="pre">compute_pvals</span></code> parameter:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sum_stats<span class="w"> </span>hb.tsv,mcv.tsv<span class="w"> </span>--labels<span class="w"> </span>Hb,MCV<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--logp<span class="w"> </span>--trim_pval<span class="w"> </span><span class="m">0</span>.01<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qq_plot<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output_dir<span class="w"> </span>./out
+</pre></div>
+</div>
+<p>QQ layout is chosen by additional flags on top of <code class="docutils literal notranslate"><span class="pre">--qq_plot</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># A grid of per-track QQ panels (default)</span>
+pycmplot<span class="w"> </span>--sum_stats<span class="w"> </span>hb.tsv,mcv.tsv<span class="w"> </span>--labels<span class="w"> </span>Hb,MCV<span class="w"> </span>--logp<span class="w"> </span>--qq_plot<span class="w"> </span><span class="se">\</span>
+<span class="w">         </span>--qq_ncols<span class="w"> </span><span class="m">2</span><span class="w"> </span>--output_dir<span class="w"> </span>./out
+
+<span class="c1"># All tracks overlaid on one axes, coloured by label</span>
+pycmplot<span class="w"> </span>--sum_stats<span class="w"> </span>hb.tsv,mcv.tsv<span class="w"> </span>--labels<span class="w"> </span>Hb,MCV<span class="w"> </span>--logp<span class="w"> </span>--qq_plot<span class="w"> </span><span class="se">\</span>
+<span class="w">         </span>--qq_overlay<span class="w"> </span>--output_dir<span class="w"> </span>./out
+
+<span class="c1"># One QQ image per track</span>
+pycmplot<span class="w"> </span>--sum_stats<span class="w"> </span>hb.tsv,mcv.tsv<span class="w"> </span>--labels<span class="w"> </span>Hb,MCV<span class="w"> </span>--logp<span class="w"> </span>--qq_plot<span class="w"> </span><span class="se">\</span>
+<span class="w">         </span>--qq_separate<span class="w"> </span>--output_dir<span class="w"> </span>./out
+</pre></div>
+</div>
+<p>Every layout draws the 95% CI band around the diagonal and annotates
+each track with its genomic inflation factor λ.  The CI band is not
+in the legend — it’s visually self-evident, and removing it keeps
+the top corner uncluttered.</p>
+</section>
+<section id="caching-and-warm-resume">
+<span id="cli-tut-cache"></span><h2>Caching and warm resume<a class="headerlink" href="#caching-and-warm-resume" title="Link to this heading"></a></h2>
+<p>Loading is the expensive step (I/O + trim + liftover + lead
+extraction).  Turn on caching and every re-run of the same
+<code class="docutils literal notranslate"><span class="pre">(files,</span> <span class="pre">parameters)</span></code> combination completes in milliseconds:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sum_stats<span class="w"> </span>hb.tsv,mcv.tsv<span class="w"> </span>--labels<span class="w"> </span>Hb,MCV<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--logp<span class="w"> </span>--trim_pval<span class="w"> </span><span class="m">0</span>.01<span class="w"> </span>--highlight<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--cache<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--cache_dir<span class="w"> </span>./.pycmplot<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output_dir<span class="w"> </span>./out
+</pre></div>
+</div>
+<p>Resume is enabled by default; add <code class="docutils literal notranslate"><span class="pre">--no_resume</span></code> to force
+regeneration while still writing fresh entries.</p>
+<p><strong>How keying works.</strong> Each track gets a cache entry keyed on
+<code class="docutils literal notranslate"><span class="pre">SHA-256(raw_file_sha256</span> <span class="pre">+</span> <span class="pre">cache_version</span> <span class="pre">+</span> <span class="pre">Stage-1</span> <span class="pre">params)</span></code>.  If any
+of those change — you re-genotype and re-run, or you bump
+<code class="docutils literal notranslate"><span class="pre">highlight_thresh</span></code> — the affected tracks silently regenerate and
+the rest are reused.  There are no stale-cache accidents.</p>
+<p><strong>Cache layout</strong> (rooted at <code class="docutils literal notranslate"><span class="pre">cache_dir</span></code>):</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>.pycmplot/
+├── tracks/
+│   ├── Hb.&lt;key&gt;.parquet         # loaded rows
+│   ├── Hb.&lt;key&gt;.leads.parquet   # per-track hits
+│   ├── Hb.&lt;key&gt;.pvals.npz       # sorted float32 pvals (only if compute_pvals=True)
+│   └── Hb.&lt;key&gt;.meta.json
+└── annotations/
+    └── hits.&lt;group_key&gt;.tsv     # merged hits overlay (see next section)
+</pre></div>
+</div>
+<p><strong>Disabling resume.</strong> <code class="docutils literal notranslate"><span class="pre">resume=False</span></code> forces regeneration but still
+writes the fresh entries to disk (useful for benchmarking or after
+you’ve bumped <code class="docutils literal notranslate"><span class="pre">CACHE_VERSION</span></code> upstream).</p>
+<p><strong>Clearing the cache.</strong> Delete <code class="docutils literal notranslate"><span class="pre">cache_dir</span></code> on the filesystem, or
+use <code class="docutils literal notranslate"><span class="pre">pycmplot</span> <span class="pre">--clear_cache</span> <span class="pre">--cache_dir</span> <span class="pre">./.pycmplot</span></code> from the CLI.</p>
+</section>
+<section id="the-hits-overlay-tsv">
+<span id="cli-tut-overlay"></span><h2>The hits overlay TSV<a class="headerlink" href="#the-hits-overlay-tsv" title="Link to this heading"></a></h2>
+<p>When caching is enabled, the loader writes the hits table to a
+group-scoped TSV that <strong>you’re expected to hand-edit</strong>.  The path is:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>&lt;cache_dir&gt;/annotations/hits.&lt;group_key&gt;.tsv
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">group_key</span></code> is a short SHA-256 of the sorted list of per-track
+cache keys — so distinct <code class="docutils literal notranslate"><span class="pre">(files,</span> <span class="pre">parameters)</span></code> combinations get
+distinct overlay files and never clobber each other, even on the same
+canvas.</p>
+<p>Every row starts with <code class="docutils literal notranslate"><span class="pre">source='auto'</span></code> (populated from the sumstats)
+and three overlay columns you can edit:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># pycmplot hits overlay
+# Edit any row&#39;s highlight_color / category to customise the plot.
+# source=user rows are added by you; source=auto rows come from the loader.
+CHR  POS       SNP    P        LABEL  top_gene  source  highlight_color  category
+1    14822344  rs123  3.4e-11  Hb     FTO       auto    auto             significant
+2    91344001  rs456  2.1e-10  Hb     MYADM     auto    auto             significant
+...
+</pre></div>
+</div>
+<p>You can:</p>
+<ul class="simple">
+<li><p><strong>Edit ``highlight_color``</strong> to give any locus its own colour
+(see <a class="reference internal" href="#cli-tut-colors"><span class="std std-ref">Per-locus highlight colours</span></a>).</p></li>
+<li><p><strong>Edit ``category``</strong> to give any locus a legend label
+(see <a class="reference internal" href="#cli-tut-categories"><span class="std std-ref">Per-locus categories and the custom legend</span></a>).</p></li>
+<li><p><strong>Add rows with ``source=user``</strong> to force annotation of loci that
+didn’t make the automatic cutoff.</p></li>
+</ul>
+<p><strong>Persistence across cache regenerations.</strong>  When Stage-1 parameters
+change and auto rows are re-derived, your custom values are inherited
+by <code class="docutils literal notranslate"><span class="pre">(CHR,</span> <span class="pre">POS)</span></code> lookup — you don’t have to also change
+<code class="docutils literal notranslate"><span class="pre">source='auto'</span></code> to <code class="docutils literal notranslate"><span class="pre">user</span></code> to keep your edits.</p>
+</section>
+<section id="per-locus-highlight-colours">
+<span id="cli-tut-colors"></span><h2>Per-locus highlight colours<a class="headerlink" href="#per-locus-highlight-colours" title="Link to this heading"></a></h2>
+<p>Set the <code class="docutils literal notranslate"><span class="pre">highlight_color</span></code> column on any row to a matplotlib-parseable
+colour (name, <code class="docutils literal notranslate"><span class="pre">#rrggbb</span></code> hex, or an <code class="docutils literal notranslate"><span class="pre">(r,</span> <span class="pre">g,</span> <span class="pre">b)</span></code> tuple):</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>CHR  POS       ...  source  highlight_color  category
+1    14822344  ...  auto    red              significant
+2    91344001  ...  auto    #00cc44          significant
+3    50000000  ...  auto    auto             significant  # falls back to default
+</pre></div>
+</div>
+<p>The sentinel <code class="docutils literal notranslate"><span class="pre">auto</span></code> (or blank / NaN / invalid) falls back to the
+plot-time <code class="docutils literal notranslate"><span class="pre">highlight_color</span></code> argument.  Invalid colours emit a
+warning naming the offending value so typos are easy to fix.</p>
+<p>Matching is done by nearest-lead within 500 kb on the same
+chromosome, so re-running with a different thinning or trim never
+loses your colour choices.</p>
+</section>
+<section id="per-locus-categories-and-the-custom-legend">
+<span id="cli-tut-categories"></span><h2>Per-locus categories and the custom legend<a class="headerlink" href="#per-locus-categories-and-the-custom-legend" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">category</span></code> column lets you group loci in the legend:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>CHR  POS       ...  highlight_color  category
+1    14822344  ...  red              novel
+2    91344001  ...  #00cc44          replicated
+3    50000000  ...  auto             significant
+</pre></div>
+</div>
+<p><strong>Both the linear and circular plotters</strong> render a “Highlighted
+Categories” legend with one entry per unique category in
+first-appearance order — reorder your rows in the TSV to reorder the
+legend.  When everything is left at defaults (all rows
+<code class="docutils literal notranslate"><span class="pre">category=significant</span></code> and <code class="docutils literal notranslate"><span class="pre">highlight_color=auto</span></code>), <strong>no legend
+is added</strong>, preserving the pre-feature layout.</p>
+<p>Same-category-different-colour is deduplicated: the first colour
+wins and a warning names the loser so you can fix the conflict.</p>
+<p>Missing columns (e.g. loading a legacy cache) are tolerated — the
+helper simply returns no legend entries in that case.</p>
+</section>
+<section id="multi-panel-canvas">
+<span id="cli-tut-multipanel"></span><h2>Multi-panel canvas<a class="headerlink" href="#multi-panel-canvas" title="Link to this heading"></a></h2>
+<p>Multi-panel canvases — where each panel is its own stacked linear (or
+circular) sub-plot — are a <strong>Python API</strong> feature.  The CLI produces
+one figure per invocation; if you need multiple sumstats groups laid
+out on the same canvas (e.g. Hb on top, MCV on bottom, sharing a
+title and legend), use the notebook workflow described in
+<a class="reference internal" href="python_api_tutorial.html#python-api-tutorial"><span class="std std-ref">Python API Tutorial</span></a> under “Multi-panel canvas”.  Every cache
+file, hits overlay, per-locus colour, and category legend is
+<em>group-scoped</em> under both interfaces, so two panels with different
+sumstats never clobber each other’s artefacts.</p>
+</section>
+<section id="mixed-genome-builds">
+<span id="cli-tut-liftover"></span><h2>Mixed genome builds<a class="headerlink" href="#mixed-genome-builds" title="Link to this heading"></a></h2>
+<p>If your files were generated on different reference panels, pycmplot
+can lift over hg18 and hg19 coordinates to hg38 before plotting.
+Supply the per-file builds via a comma-separated <code class="docutils literal notranslate"><span class="pre">--build</span></code> list in
+the same order as <code class="docutils literal notranslate"><span class="pre">--sum_stats</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sum_stats<span class="w"> </span>study_hg18.tsv,study_hg19.tsv,study_hg38.tsv<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--labels<span class="w"> </span>A,B,C<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--build<span class="w"> </span>hg18,hg19,hg38<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--logp<span class="w"> </span>--trim_pval<span class="w"> </span><span class="m">0</span>.01<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output_dir<span class="w"> </span>./out
+</pre></div>
+</div>
+<p>Alternatively, put a <code class="docutils literal notranslate"><span class="pre">BUILD</span></code> column in each file (with per-row
+values <code class="docutils literal notranslate"><span class="pre">hg18</span></code> / <code class="docutils literal notranslate"><span class="pre">hg19</span></code> / <code class="docutils literal notranslate"><span class="pre">hg38</span></code>) and omit <code class="docutils literal notranslate"><span class="pre">--build</span></code> — pycmplot
+will auto-detect the column.  For the awkward case where one file
+has a non-standard build column name (say <code class="docutils literal notranslate"><span class="pre">my_build</span></code>), a single
+<code class="docutils literal notranslate"><span class="pre">--build</span></code> entry can carry a column reference:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sum_stats<span class="w"> </span>a.tsv,b.tsv,c.tsv<span class="w"> </span>--labels<span class="w"> </span>A,B,C<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--build<span class="w"> </span>hg19,hg38,col:my_build<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--logp<span class="w"> </span>--output_dir<span class="w"> </span>./out
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">col:&lt;colname&gt;</span></code> (or bare <code class="docutils literal notranslate"><span class="pre">col</span></code>, which auto-detects using the
+standard candidate list <code class="docutils literal notranslate"><span class="pre">BUILD</span></code> / <code class="docutils literal notranslate"><span class="pre">Genome</span></code> / <code class="docutils literal notranslate"><span class="pre">Genome_Build</span></code> /
+<code class="docutils literal notranslate"><span class="pre">Genome-build</span></code>) says “for this file, source per-row builds from
+the named column”.</p>
+<p>Liftover is cached alongside the loaded rows, so subsequent runs
+(with <code class="docutils literal notranslate"><span class="pre">--cache</span></code>) skip it entirely.</p>
+</section>
+<section id="gui-editor-for-the-hits-overlay">
+<span id="cli-tut-editor"></span><h2>GUI editor for the hits overlay<a class="headerlink" href="#gui-editor-for-the-hits-overlay" title="Link to this heading"></a></h2>
+<p>If hand-editing the <code class="docutils literal notranslate"><span class="pre">hits.&lt;group&gt;.tsv</span></code> in a text editor feels
+awkward — especially picking colours by typing hex codes — pycmplot
+ships an optional browser-based editor.  Install the extra and launch
+it against your cache directory:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;pycmplot[editor]&quot;</span>
+pycmplot<span class="w"> </span>edit<span class="w"> </span>--cache_dir<span class="w"> </span>./.pycmplot_cache
+</pre></div>
+</div>
+<p>That opens a local Streamlit app (default <code class="docutils literal notranslate"><span class="pre">http://localhost:8501</span></code>)
+with a spreadsheet-style view of the overlay.  Highlights of the UI:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">source</span></code>, <code class="docutils literal notranslate"><span class="pre">highlight_color</span></code>, and <code class="docutils literal notranslate"><span class="pre">category</span></code> are rendered as
+typed columns — <code class="docutils literal notranslate"><span class="pre">source</span></code> is a dropdown of <code class="docutils literal notranslate"><span class="pre">auto</span></code> / <code class="docutils literal notranslate"><span class="pre">user</span></code>;
+<code class="docutils literal notranslate"><span class="pre">category</span></code> is a selectbox pre-populated with every category
+already in use (type a new value to add it).</p></li>
+<li><p>Rows can be added or deleted inline for <code class="docutils literal notranslate"><span class="pre">source='user'</span></code> loci
+that didn’t make the automatic cutoff.</p></li>
+<li><p>A “Colour preview” strip below the table shows each row as a
+labelled swatch — valid colours render at their true colour;
+<code class="docutils literal notranslate"><span class="pre">auto</span></code> renders as a dashed grey chip; invalid values render red
+so typos are impossible to miss.</p></li>
+<li><p><strong>Save</strong> writes through the same <code class="xref py py-func docutils literal notranslate"><span class="pre">write_hits_overlay()</span></code>
+the loader uses, so atomic writes and inheritance-across-regenerations
+behave identically to the text-editor workflow.</p></li>
+<li><p><strong>Preview plot</strong> re-renders a linear Manhattan against the cached
+tracks and the <em>in-memory</em> overlay, so you can see colour /
+category changes reflected before saving.</p></li>
+<li><p><strong>Discard &amp; reload</strong> drops unsaved changes and re-reads the TSV.</p></li>
+</ul>
+<p>When the cache directory contains multiple <code class="docutils literal notranslate"><span class="pre">hits.&lt;group&gt;.tsv</span></code> files
+(different <code class="docutils literal notranslate"><span class="pre">(files,</span> <span class="pre">parameters)</span></code> combinations sharing one
+<code class="docutils literal notranslate"><span class="pre">cache_dir</span></code>), the editor prints the available group keys and asks
+you to re-launch with <code class="docutils literal notranslate"><span class="pre">--group</span> <span class="pre">&lt;key&gt;</span></code>.  Full flag list:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>pycmplot edit --cache_dir PATH  [--group KEY] [--host HOST] [--port PORT] [--tui]
+</pre></div>
+</div>
+<p>The extra is opt-in so headless / CI pipelines don’t pay the
+Streamlit install cost.</p>
+<section id="terminal-ui-backend-for-cluster-sessions">
+<h3>Terminal-UI backend for cluster sessions<a class="headerlink" href="#terminal-ui-backend-for-cluster-sessions" title="Link to this heading"></a></h3>
+<p>Many clusters (secured HPC facilities, hospital compute, etc.) don’t
+allow port forwarding or run headless compute nodes without a graphical
+display — the browser editor is unusable there.  For those cases,
+pycmplot ships a <strong>terminal UI</strong> built on <a class="reference external" href="https://textual.textualize.io/">Textual</a> that renders in any ANSI terminal
+and needs nothing more than a plain SSH session:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;pycmplot[editor-tui]&quot;</span>
+pycmplot<span class="w"> </span>edit<span class="w"> </span>--cache_dir<span class="w"> </span>./.pycmplot_cache<span class="w"> </span>--tui
+</pre></div>
+</div>
+<p>The TUI has feature parity with the browser backend, adjusted for
+keyboard-only ergonomics:</p>
+<ul class="simple">
+<li><p>Spreadsheet-style <code class="docutils literal notranslate"><span class="pre">DataTable</span></code> — arrow keys / Home / End / PgUp /
+PgDn to navigate; <strong>F2</strong> or <strong>Enter</strong> to open the cell-edit modal.</p></li>
+<li><p>The modal opens with the current value pre-selected so typing
+replaces; a live colour swatch renders the resolved colour in
+truecolor if your terminal supports it, and invalid values render
+with a red frame so typos are caught before save.</p></li>
+<li><p>Category cells show existing labels as a hint line — copy-paste to
+reuse or type a new value to add.</p></li>
+<li><p>Footer bindings: <strong>Ctrl+S</strong> save, <strong>Ctrl+R</strong> reload (prompts if
+dirty), <strong>Ctrl+N</strong> add <code class="docutils literal notranslate"><span class="pre">source=user</span></code> row, <strong>Ctrl+D</strong> delete row,
+<strong>Ctrl+P</strong> render a preview PNG to <code class="docutils literal notranslate"><span class="pre">&lt;cache_dir&gt;/preview.png</span></code>
+(most terminals can’t render images inline), <strong>Ctrl+Q</strong> quit
+(prompts if dirty).</p></li>
+<li><p>Save delegates to the same
+<code class="xref py py-func docutils literal notranslate"><span class="pre">write_hits_overlay()</span></code> the browser backend
+uses, so atomic-write + inheritance guarantees hold identically.</p></li>
+</ul>
+<p>The two backends are independent extras — install just the one you
+need, or both.  A vanilla <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pycmplot</span></code> still pulls
+neither.</p>
+<section id="filter-multi-select-and-batch-edit-tui">
+<h4>Filter, multi-select, and batch edit (TUI)<a class="headerlink" href="#filter-multi-select-and-batch-edit-tui" title="Link to this heading"></a></h4>
+<p>For overlays with dozens to hundreds of loci, single-cell editing is
+tedious.  The TUI adds a filter + multi-select + batch-edit flow:</p>
+<ul class="simple">
+<li><p>Press <code class="docutils literal notranslate"><span class="pre">/</span></code> to open a filter modal.  Type any pandas
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">query()</span></code> expression — <code class="docutils literal notranslate"><span class="pre">P</span> <span class="pre">&lt;</span> <span class="pre">5e-8</span></code>,
+<code class="docutils literal notranslate"><span class="pre">category</span> <span class="pre">==</span> <span class="pre">&quot;significant&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">CHR</span> <span class="pre">==</span> <span class="pre">&quot;6&quot;</span> <span class="pre">and</span> <span class="pre">BP.between(28e6,</span> <span class="pre">34e6)</span></code>.
+The grid re-renders showing only matching rows; <code class="docutils literal notranslate"><span class="pre">Esc</span></code> clears the
+filter (and any selection) in one keystroke.</p></li>
+<li><p>Press <code class="docutils literal notranslate"><span class="pre">Space</span></code> on a row to toggle its selection (visible as a
+green ● in the leftmost ✓ column).  Selection is tied to the
+<em>original</em> dataframe index so it survives filtering and refresh.</p></li>
+<li><p>Press <code class="docutils literal notranslate"><span class="pre">Ctrl+A</span></code> to select every row currently visible under the
+filter.  <code class="docutils literal notranslate"><span class="pre">/</span> <span class="pre">P</span> <span class="pre">&lt;</span> <span class="pre">5e-8</span></code> then <code class="docutils literal notranslate"><span class="pre">Ctrl+A</span></code> is the standard
+“select every genome-wide hit” move.</p></li>
+<li><p>Press <code class="docutils literal notranslate"><span class="pre">Ctrl+E</span></code> to open the batch-edit modal.  Toggle between the
+<code class="docutils literal notranslate"><span class="pre">highlight_color</span></code> and <code class="docutils literal notranslate"><span class="pre">category</span></code> columns, type one value, and
+it’s applied to every selected row.  The colour swatch preview
+and validation are identical to the single-cell modal.  When no
+rows are explicitly selected, batch-edit falls back to “the
+current filtered view” — so <code class="docutils literal notranslate"><span class="pre">/</span> <span class="pre">…</span> <span class="pre">Ctrl+E</span></code> is a two-step batch
+flow.</p></li>
+</ul>
+</section>
+</section>
+<section id="batch-cli-pycmplot-hits">
+<h3>Batch CLI (<code class="docutils literal notranslate"><span class="pre">pycmplot</span> <span class="pre">hits</span></code>)<a class="headerlink" href="#batch-cli-pycmplot-hits" title="Link to this heading"></a></h3>
+<p>For pipelines, Makefiles, and reproducible analysis notebooks, a
+scripted “colour every genome-wide-significant novel hit red” step
+belongs in code rather than a GUI.  The <code class="docutils literal notranslate"><span class="pre">pycmplot</span> <span class="pre">hits</span></code>
+subcommand exposes the same filter grammar in a batch CLI:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Preview what would change</span>
+pycmplot<span class="w"> </span>hits<span class="w"> </span><span class="nb">set</span><span class="w">                                        </span><span class="se">\</span>
+<span class="w">    </span>--cache_dir<span class="w"> </span>./.pycmplot_cache<span class="w">                        </span><span class="se">\</span>
+<span class="w">    </span>--where<span class="w"> </span><span class="s1">&#39;P &lt; 5e-8&#39;</span><span class="w">                                   </span><span class="se">\</span>
+<span class="w">    </span>--color<span class="w"> </span><span class="s1">&#39;#00cc44&#39;</span><span class="w"> </span>--category<span class="w"> </span><span class="s2">&quot;genome-wide&quot;</span><span class="w">           </span><span class="se">\</span>
+<span class="w">    </span>--dry-run
+
+<span class="c1"># Actually apply</span>
+pycmplot<span class="w"> </span>hits<span class="w"> </span><span class="nb">set</span><span class="w">                                        </span><span class="se">\</span>
+<span class="w">    </span>--cache_dir<span class="w"> </span>./.pycmplot_cache<span class="w">                        </span><span class="se">\</span>
+<span class="w">    </span>--where<span class="w"> </span><span class="s1">&#39;P &lt; 5e-8&#39;</span><span class="w">                                   </span><span class="se">\</span>
+<span class="w">    </span>--color<span class="w"> </span><span class="s1">&#39;#00cc44&#39;</span><span class="w"> </span>--category<span class="w"> </span><span class="s2">&quot;genome-wide&quot;</span>
+
+<span class="c1"># Inspect the overlay</span>
+pycmplot<span class="w"> </span>hits<span class="w"> </span>list<span class="w">                                       </span><span class="se">\</span>
+<span class="w">    </span>--cache_dir<span class="w"> </span>./.pycmplot_cache<span class="w">                        </span><span class="se">\</span>
+<span class="w">    </span>--where<span class="w"> </span><span class="s1">&#39;category == &quot;novel&quot;&#39;</span><span class="w">                        </span><span class="se">\</span>
+<span class="w">    </span>--columns<span class="w"> </span>CHR,POS,SNP,P,category
+
+<span class="c1"># Pipe TSV output to awk / cut / etc.</span>
+pycmplot<span class="w"> </span>hits<span class="w"> </span>list<span class="w"> </span>--cache_dir<span class="w"> </span>./.pycmplot_cache<span class="w"> </span>--tsv<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span>-F<span class="s1">&#39;\\t&#39;</span><span class="w"> </span><span class="s1">&#39;NR &gt; 1 &amp;&amp; $4 &lt; 5e-8 {print $3}&#39;</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">--where</span></code> uses pandas’ <code class="xref py py-meth docutils literal notranslate"><span class="pre">query()</span></code> grammar —
+identical to the TUI’s filter, so users learn one syntax.  Invalid
+colours are rejected pre-write; a bad <code class="docutils literal notranslate"><span class="pre">--where</span></code> expression prints
+the offending part rather than a pandas traceback.  <code class="docutils literal notranslate"><span class="pre">--dry-run</span></code>
+prints the N rows that would change and exits without touching
+disk.  Writes go through the same <code class="xref py py-func docutils literal notranslate"><span class="pre">write_hits_overlay()</span></code>
+path as every other backend — atomic writes and inheritance
+guarantees apply identically.</p>
+<p>The CLI needs no extras — no Streamlit, no Textual — just the base
+package.  Ideal for a headless CI step that reproducibly applies a
+colouring policy without any interactive editing.</p>
+</section>
+</section>
+<section id="cli-equivalents">
+<span id="cli-tut-cli"></span><h2>CLI equivalents<a class="headerlink" href="#cli-equivalents" title="Link to this heading"></a></h2>
+<p>Everything above has a CLI equivalent.  A representative one-liner:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pycmplot<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sum_stats<span class="w"> </span>hb.tsv,mcv.tsv<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--labels<span class="w"> </span>Hb,MCV<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--logp<span class="w"> </span>--signif_line<span class="w"> </span>--highlight<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--annotate<span class="w"> </span>GENE<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--trim_pval<span class="w"> </span><span class="m">0</span>.01<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--cache<span class="w"> </span>--cache_dir<span class="w"> </span>./.pycmplot<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output_dir<span class="w"> </span>./out
+</pre></div>
+</div>
+<p>Cache flags (all mirror the Python API):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--cache</span></code> — enable caching + hits overlay.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--cache_dir</span> <span class="pre">PATH</span></code> — where to store artefacts (default <code class="docutils literal notranslate"><span class="pre">./.pycmplot</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--no_resume</span></code> — regenerate everything but still write fresh entries.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--clear_cache</span></code> — delete the cache tree and exit.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-qq</span> <span class="pre">/</span> <span class="pre">--qq_plot</span></code> — implies <code class="docutils literal notranslate"><span class="pre">compute_pvals=True</span></code> under the hood.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-V</span> <span class="pre">/</span> <span class="pre">--version</span></code> — print version and exit.</p></li>
+</ul>
+<p>See <a class="reference internal" href="cli.html#cli"><span class="std std-ref">Command-Line Interface</span></a> for the full reference.</p>
+</section>
+<section id="troubleshooting">
+<span id="cli-tut-faq"></span><h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt><strong>QQ plot fails with</strong> <code class="docutils literal notranslate"><span class="pre">bundle['pvals']</span></code> <strong>being</strong> <code class="docutils literal notranslate"><span class="pre">None</span></code></dt><dd><p>You forgot to pass <code class="docutils literal notranslate"><span class="pre">compute_pvals=True</span></code> to the loader (see
+<a class="reference internal" href="#cli-tut-qq"><span class="std std-ref">QQ plots and compute_pvals</span></a>).  The default flipped from <code class="docutils literal notranslate"><span class="pre">True</span></code> to <code class="docutils literal notranslate"><span class="pre">False</span></code>
+in 0.4.0 to avoid the ~80 MB-per-track memory cost when you’re
+not making QQ plots.</p>
+</dd>
+<dt><strong>Cache says HIT for track A but MISS for track B on a warm re-run</strong></dt><dd><p>Almost always means Stage-1 parameters differ between the two
+tracks (e.g. <code class="docutils literal notranslate"><span class="pre">signif_threshold</span></code> was auto-computed for one but
+explicitly set for the other).  Explicitly pass every Stage-1
+parameter you care about to lock in reproducibility.</p>
+</dd>
+<dt><strong>Hex colours in my TSV are being truncated / dropped</strong></dt><dd><p>Don’t use <code class="docutils literal notranslate"><span class="pre">pd.read_csv(comment='#')</span></code> to inspect the overlay —
+it treats <code class="docutils literal notranslate"><span class="pre">#</span></code> mid-cell as a comment marker and eats hex-color
+values.  The pycmplot reader strips only leading <code class="docutils literal notranslate"><span class="pre">#</span></code> header
+lines; if you inspect the file yourself, strip leading <code class="docutils literal notranslate"><span class="pre">#</span></code> lines
+manually and then read as a plain TSV.</p>
+</dd>
+<dt><strong>Highlight legend didn’t appear</strong></dt><dd><p><a class="reference internal" href="api/annotation.html#pycmplot.annotation.build_highlight_legend_entries" title="pycmplot.annotation.build_highlight_legend_entries"><code class="xref py py-func docutils literal notranslate"><span class="pre">build_highlight_legend_entries()</span></code></a> returns
+an empty list when everything is at defaults
+(<code class="docutils literal notranslate"><span class="pre">category=significant</span></code> for all rows AND <code class="docutils literal notranslate"><span class="pre">highlight_color=auto</span></code>
+for all rows) — the plotter then skips the legend to preserve the
+pre-feature layout.  Edit at least one row’s <code class="docutils literal notranslate"><span class="pre">category</span></code> or
+<code class="docutils literal notranslate"><span class="pre">highlight_color</span></code> to trigger it.</p>
+</dd>
+<dt><strong>“Category X appears with multiple colours” warning</strong></dt><dd><p>You set two loci to the same <code class="docutils literal notranslate"><span class="pre">category</span></code> but gave them different
+<code class="docutils literal notranslate"><span class="pre">highlight_color</span></code> values.  The first colour wins in the legend;
+the warning names the value that lost so you can fix the TSV.</p>
+</dd>
+<dt><strong>Multi-panel run overwrote another panel’s hits overlay</strong></dt><dd><p>This shouldn’t happen from 0.4.0 onward — each <code class="docutils literal notranslate"><span class="pre">(files,</span>
+<span class="pre">parameters)</span></code> group gets its own <code class="docutils literal notranslate"><span class="pre">hits.&lt;group_key&gt;.tsv</span></code>.  If
+you see it, check that you’re really passing distinct
+<code class="docutils literal notranslate"><span class="pre">sum_stats</span></code> lists to each panel’s loader call.</p>
+</dd>
+<dt><strong>Hits overlay TSV got corrupted (crash mid-save, truncated line, etc.)</strong></dt><dd><p>The loader logs <code class="docutils literal notranslate"><span class="pre">&quot;Hits</span> <span class="pre">overlay</span> <span class="pre">unreadable</span> <span class="pre">(…);</span> <span class="pre">ignoring.&quot;</span></code> and
+regenerates the hits table from the cached per-track leads
+(<code class="docutils literal notranslate"><span class="pre">&lt;label&gt;.&lt;key&gt;.leads.parquet</span></code>) — no raw sumstats reload, no
+per-track cache invalidation.  The plot renders fine.  <strong>User
+edits in the corrupted file are not recovered</strong>, though: any
+<code class="docutils literal notranslate"><span class="pre">source=user</span></code> rows you added, <code class="docutils literal notranslate"><span class="pre">highlight_color</span></code> overrides,
+and <code class="docutils literal notranslate"><span class="pre">category</span></code> labels need to be re-applied in the freshly
+written TSV.  If you make heavy manual edits, keep a copy of the
+overlay TSV under version control alongside your analysis
+scripts.</p>
+</dd>
+<dt><strong>Legend text overlaps with Annotations</strong></dt><dd><p>The legend text font size inherits from the track label size
+(<code class="docutils literal notranslate"><span class="pre">track_label_size</span></code>). If you find that legend text and annotations
+are cluttering, try redusing the size of track labels and/or the
+annotation size.</p>
+</dd>
+</dl>
+</section>
+<section id="next-steps">
+<h2>Next steps<a class="headerlink" href="#next-steps" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="cli.html#cli"><span class="std std-ref">Command-Line Interface</span></a> — full CLI reference.</p></li>
+<li><p><a class="reference internal" href="api/index.html#api"><span class="std std-ref">API Reference</span></a> — complete Python API reference.</p></li>
+<li><p><a class="reference internal" href="python_api_tutorial.html#python-api-tutorial"><span class="std std-ref">Python API Tutorial</span></a> — an executable Jupyter walkthrough.</p></li>
+<li><p><a class="reference internal" href="changelog.html"><span class="doc">Changelog</span></a> — what changed in each release.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="quickstart.html" class="btn btn-neutral float-left" title="Quickstart" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cli.html" class="btn btn-neutral float-right" title="Command-Line Interface" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Kevin Esoh.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

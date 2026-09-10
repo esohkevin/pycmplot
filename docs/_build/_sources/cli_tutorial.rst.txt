@@ -294,6 +294,8 @@ comma-separated, in matching order:
 
 
 .. note::
+   :class: dropdown
+   
    Notice the two near-significant loci on chr10 and chr11. We can highlight and annotate them by
    changing the significance threshold: ``--signif_threshold 1e-07``
 
