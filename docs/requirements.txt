@@ -3,9 +3,10 @@ sphinx-rtd-theme>=2.0
 sphinx-copybutton>=0.5
 nbsphinx>=0.9
 sphinx_design
-sphinx_tippy
-sphinx_tooglebutton
-sphinxcontrib.lightbox2
+sphinx-tippy
+sphinx-togglebutton
+sphinxcontrib-lightbox2
+sphinxcontrib-images
 myst-parser>=2.0
 numpydoc>=1.7
 ipykernel
