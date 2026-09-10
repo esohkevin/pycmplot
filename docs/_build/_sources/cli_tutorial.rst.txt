@@ -146,7 +146,7 @@ pycmplot defaults to ``--mode lm`` (linear Manhattan).  Add
 other flag stays the same.  Use ``pycmplot -h`` for the full
 mode-specific option list. Click below to expand full CLI options.
 
-.. toggle::{admonition} Click below to expand full CLI options
+.. toggle::
 
    .. code-block:: text
 
@@ -708,15 +708,17 @@ column name from the hits table is accepted.  Add
 ``--annotate GENE`` on top of the previous command:
 
 
-.. toggle::{admonition} Question: What two genes had sub-threshold significance?
+.. container:: toggle, toggle-hidden 
+   
+   .. admonition:: Question: What two genes had sub-threshold significance?
 
-   *ZNF438* (chr10, p-value) and *KCNQ1* (chr11)
+      *ZNF438* (chr10, p-value) and *KCNQ1* (chr11)
 
-   .. code-block:: text
+      .. code-block:: text
 
-      CHR  POS       SNP                   P       BUILD   logP    LABEL   OLD_POS    OLD_BUILD   genic   nearest_gene
-      10   30838237  rs_lead_10_30838237   7e-08   hg38    7.15    T4_hg38 None       None        True    ZNF438
-      11   2780860   rs_lead_11_2802090    9e-08   hg38    7.05    T1_hg19 2802090.0  hg19        True    KCNQ1
+         CHR  POS       SNP                   P       BUILD   logP    LABEL   OLD_POS    OLD_BUILD   genic   nearest_gene
+         10   30838237  rs_lead_10_30838237   7e-08   hg38    7.15    T4_hg38 None       None        True    ZNF438
+         11   2780860   rs_lead_11_2802090    9e-08   hg38    7.05    T1_hg19 2802090.0  hg19        True    KCNQ1
 
 
 .. tip::
