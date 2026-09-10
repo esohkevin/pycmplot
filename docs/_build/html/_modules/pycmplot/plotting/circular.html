@@ -5,21 +5,32 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pycmplot.plotting.circular &mdash; pycmplot 0.2.5 documentation</title>
+  <title>pycmplot.plotting.circular &mdash; pycmplot 0.3.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css?v=9c3e77be" />
       <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/lightbox.min.css?v=6e7d0de0" />
       <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=618afd55" />
 
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=cb850272"></script>
+      <script src="../../../_static/documentation_options.js?v=4621528c"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
       <script src="../../../_static/copybutton.js?v=f281be69"></script>
+      <script>let toggleHintShow = 'Click to show';</script>
+      <script>let toggleHintHide = 'Click to hide';</script>
+      <script>let toggleOpenOnPrint = 'true';</script>
+      <script src="../../../_static/togglebutton.js?v=b8b12719"></script>
+      <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+      <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script src="../../../_static/js/lightbox-plus-jquery.min.js?v=f0ca4bb6"></script>
+      <script>lightbox.option({"alwaysShowNavOnTouchDevices": false, "albumLabel": "Image %1 of %2", "disableScrolling": false, "fadeDuration": 600, "fitImagesInViewport": true, "imageFadeDuration": 600, "positionFromTop": 50, "resizeDuration": 700, "showImageNumberLabel": true, "wrapAround": true})</script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -71,6 +82,40 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli_tutorial.html">CLI Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../cli_tutorial.html#setup-a-synthetic-dataset">Setup: a synthetic dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cli_tutorial.html#the-cli-mental-model">The CLI mental model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cli_tutorial.html#linear-manhattan-plots">Linear Manhattan plots</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../cli_tutorial.html#single-track">Single-track:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cli_tutorial.html#multi-track">Multi-track</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cli_tutorial.html#circular-circos-plots">Circular (Circos) plots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cli_tutorial.html#highlighting">Highlighting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cli_tutorial.html#automatic-gene-annotation">Automatic gene annotation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../cli_tutorial.html#distance-semantics">Distance semantics</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cli_tutorial.html#qq-plots-and-compute-pvals">QQ plots and <code class="docutils literal notranslate"><span class="pre">compute_pvals</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cli_tutorial.html#caching-and-warm-resume">Caching and warm resume</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cli_tutorial.html#the-hits-overlay-tsv">The hits overlay TSV</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cli_tutorial.html#per-locus-highlight-colours">Per-locus highlight colours</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cli_tutorial.html#per-locus-categories-and-the-custom-legend">Per-locus categories and the custom legend</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cli_tutorial.html#multi-panel-canvas">Multi-panel canvas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cli_tutorial.html#mixed-genome-builds">Mixed genome builds</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cli_tutorial.html#gui-editor-for-the-hits-overlay">GUI editor for the hits overlay</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../cli_tutorial.html#terminal-ui-backend-for-cluster-sessions">Terminal-UI backend for cluster sessions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../cli_tutorial.html#filter-multi-select-and-batch-edit-tui">Filter, multi-select, and batch edit (TUI)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../cli_tutorial.html#batch-cli-pycmplot-hits">Batch CLI (<code class="docutils literal notranslate"><span class="pre">pycmplot</span> <span class="pre">hits</span></code>)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cli_tutorial.html#cli-equivalents">CLI equivalents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cli_tutorial.html#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../cli_tutorial.html#next-steps">Next steps</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command-Line Interface</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../cli.html#input-output-options">Input / output options</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../cli.html#column-auto-detection-options">Column auto-detection options</a></li>
@@ -86,7 +131,54 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../python_api_notebook.html">Python API Tutorial</a><ul class="simple">
+<li class="toctree-l1"><a class="reference internal" href="../../../python_api_tutorial.html">Python API Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../pycmplot_python_api.html">Python API for the pycmplot package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html#Installation">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html#Import-the-package-functions">Import the package functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html#Getting-help">Getting help</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../pycmplot_python_api.html#Example-plotting">Example plotting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html#Important-notes">Important notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html#Generating-a-linear-plot">Generating a linear plot</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../pycmplot_python_api.html#No-highlighting-of-significant-loci">No highlighting of significant loci</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html#id1">Generating a linear plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html#Highlighting-significant-loci-and-annotating-by-SNP">Highlighting significant loci and annotating by SNP</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../pycmplot_python_api.html#Highlighting-by-a-different-p-value-threshold-and-changing-plot-colors-and-removing-track-labels">Highlighting by a different p-value threshold and changing plot colors and removing track labels</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html#Generating-circular-plots">Generating circular plots</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../pycmplot_python_api.html#Controling-the-inner-circle-size">Controling the inner circle size</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html#Ensuring-all-highlighted-loci-are-also-annotated">Ensuring all highlighted loci are also annotated</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../pycmplot_python_api.html#Explicitly-speficying-directory-where-output-files-should-be-stored">Explicitly speficying directory where output files should be stored</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html##-Handling-other-use-cases-and-QQ-plots"># Handling other use cases and QQ-plots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html#Summary-stats-without-BUILD-column-and-no-build-information-provided">Summary stats without <strong>BUILD</strong> column and no <code class="docutils literal notranslate"><span class="pre">build</span></code> information provided</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html###-Supplying-builds-with-summary-stats">## Supplying builds with summary stats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html###-QQ-Plotting">## QQ-Plotting</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../pycmplot_python_api.html#Overlaying-multiple">Overlaying multiple</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../pycmplot_python_api.html#Separate-qq-plots-saved-in-separate-figures">Separate qq-plots saved in separate figures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../pycmplot_python_api.html#Combined-multi-panel">Combined multi-panel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../pycmplot_python_api.html#Flexible-handling-of-each-qq-plot-using-the-base-plot_qq_single-function-directly">Flexible handling of each qq-plot using the base <code class="docutils literal notranslate"><span class="pre">plot_qq_single</span></code> function directly</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../pycmplot_python_api.html#Or-overlay-them-by-simply-using-the-same-axis">Or overlay them by simply using the same axis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../pycmplot_python_api.html#This-gives-us-the-flexibility-to-place-multiple-overlay-plots-on-one-figure">This gives us the flexibility to place multiple overlay plots on one figure</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../pycmplot_python_api.html#Multi-panel-Circular-Manhattan-Plotting">Multi-panel Circular Manhattan Plotting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html#Specify-groups-of-sumstats-to-load-and-plot-in-different-panels">Specify groups of sumstats to load and plot in different panels</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../pycmplot_python_api.html#Plot-in-panels">Plot in panels</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../pycmplot_python_api.html##-Final-Notes"># Final Notes</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -94,13 +186,22 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">API Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/io.html">pycmplot.io</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#module-pycmplot.io">pycmplot.io</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#module-pycmplot.io">pycmplot.io</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#density-aware-sub-sampling">Density-aware sub-sampling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#per-track-stage-1-cache">Per-track Stage-1 cache</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/io.html#public-functions">Public functions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pycmplot.io.auto_thin_for_manhattan"><code class="docutils literal notranslate"><span class="pre">auto_thin_for_manhattan()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pycmplot.io.detect_delimiter"><code class="docutils literal notranslate"><span class="pre">detect_delimiter()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pycmplot.io.generate_random_string"><code class="docutils literal notranslate"><span class="pre">generate_random_string()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pycmplot.io.get_file_header"><code class="docutils literal notranslate"><span class="pre">get_file_header()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pycmplot.io.get_output_paths"><code class="docutils literal notranslate"><span class="pre">get_output_paths()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pycmplot.io.get_sumstats_and_merged_sector_list"><code class="docutils literal notranslate"><span class="pre">get_sumstats_and_merged_sector_list()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pycmplot.io.load"><code class="docutils literal notranslate"><span class="pre">load()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pycmplot.io.prep"><code class="docutils literal notranslate"><span class="pre">prep()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pycmplot.io.prep_pycmplot_input_info"><code class="docutils literal notranslate"><span class="pre">prep_pycmplot_input_info()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pycmplot.io.process_signif_line"><code class="docutils literal notranslate"><span class="pre">process_signif_line()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pycmplot.io.resolve_delimiter"><code class="docutils literal notranslate"><span class="pre">resolve_delimiter()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pycmplot.io.smart_open"><code class="docutils literal notranslate"><span class="pre">smart_open()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/io.html#pycmplot.io.strip_comma_separated_input_streams"><code class="docutils literal notranslate"><span class="pre">strip_comma_separated_input_streams()</span></code></a></li>
@@ -117,14 +218,23 @@
 <li class="toctree-l4"><a class="reference internal" href="../../../api/annotation.html#gene-reference-files">Gene reference files</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/annotation.html#pycmplot.annotation.build_highlight_legend_entries"><code class="docutils literal notranslate"><span class="pre">build_highlight_legend_entries()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/annotation.html#pycmplot.annotation.ensure_category_column"><code class="docutils literal notranslate"><span class="pre">ensure_category_column()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/annotation.html#pycmplot.annotation.ensure_highlight_color_column"><code class="docutils literal notranslate"><span class="pre">ensure_highlight_color_column()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/annotation.html#pycmplot.annotation.get_annotation_column"><code class="docutils literal notranslate"><span class="pre">get_annotation_column()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/annotation.html#pycmplot.annotation.get_hits_summary_table"><code class="docutils literal notranslate"><span class="pre">get_hits_summary_table()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/annotation.html#pycmplot.annotation.resolve_highlight_categories"><code class="docutils literal notranslate"><span class="pre">resolve_highlight_categories()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/annotation.html#pycmplot.annotation.resolve_highlight_colors"><code class="docutils literal notranslate"><span class="pre">resolve_highlight_colors()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/annotation.html#pycmplot.annotation.resolve_highlight_legend_placement"><code class="docutils literal notranslate"><span class="pre">resolve_highlight_legend_placement()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/liftover.html">pycmplot.liftover</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/liftover.html#module-pycmplot.liftover">pycmplot.liftover</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/liftover.html#supported-conversions">Supported conversions</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/liftover.html#resource-configuration">Resource configuration</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api/liftover.html#pycmplot.liftover.liftover_hg18_to_hg38"><code class="docutils literal notranslate"><span class="pre">liftover_hg18_to_hg38()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/liftover.html#pycmplot.liftover.liftover_hg19_to_hg38"><code class="docutils literal notranslate"><span class="pre">liftover_hg19_to_hg38()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/liftover.html#pycmplot.liftover.liftover_position"><code class="docutils literal notranslate"><span class="pre">liftover_position()</span></code></a></li>
 </ul>
@@ -132,22 +242,29 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../api/plotting.html">pycmplot.plotting</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/plotting.html#pycmplot-plotting-linear">pycmplot.plotting.linear</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#module-pycmplot.plotting.linear">pycmplot.plotting.linear</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#pycmplot.plotting.linear.linear"><code class="docutils literal notranslate"><span class="pre">linear()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#pycmplot.plotting.linear.plot_linear"><code class="docutils literal notranslate"><span class="pre">plot_linear()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#pycmplot.plotting.linear.plot_linearm"><code class="docutils literal notranslate"><span class="pre">plot_linearm()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/plotting.html#pycmplot-plotting-circular">pycmplot.plotting.circular</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#module-pycmplot.plotting.circular">pycmplot.plotting.circular</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#pycmplot.plotting.circular.circular"><code class="docutils literal notranslate"><span class="pre">circular()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#pycmplot.plotting.circular.compute_track_radii_dict"><code class="docutils literal notranslate"><span class="pre">compute_track_radii_dict()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#pycmplot.plotting.circular.plot_circosm"><code class="docutils literal notranslate"><span class="pre">plot_circosm()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#pycmplot.plotting.circular.plot_circular"><code class="docutils literal notranslate"><span class="pre">plot_circular()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/plotting.html#pycmplot-plotting-qq">pycmplot.plotting.qq</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#pycmplot.plotting.qq.get_legend_loc_string"><code class="docutils literal notranslate"><span class="pre">get_legend_loc_string()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#pycmplot.plotting.qq.plot_qq_combined"><code class="docutils literal notranslate"><span class="pre">plot_qq_combined()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#pycmplot.plotting.qq.plot_qq_overlay"><code class="docutils literal notranslate"><span class="pre">plot_qq_overlay()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#pycmplot.plotting.qq.plot_qq_separate"><code class="docutils literal notranslate"><span class="pre">plot_qq_separate()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#pycmplot.plotting.qq.plot_qq_single"><code class="docutils literal notranslate"><span class="pre">plot_qq_single()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#pycmplot.plotting.qq.qq_combined"><code class="docutils literal notranslate"><span class="pre">qq_combined()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#pycmplot.plotting.qq.qq_overlay"><code class="docutils literal notranslate"><span class="pre">qq_overlay()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#pycmplot.plotting.qq.qq_separate"><code class="docutils literal notranslate"><span class="pre">qq_separate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#pycmplot.plotting.qq.set_legend_loc_string"><code class="docutils literal notranslate"><span class="pre">set_legend_loc_string()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/plotting.html#pycmplot.plotting.qq.thin_pvals"><code class="docutils literal notranslate"><span class="pre">thin_pvals()</span></code></a></li>
 </ul>
 </li>
@@ -166,6 +283,7 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/resources.html#pycmplot.resources.ResourceConfig"><code class="docutils literal notranslate"><span class="pre">ResourceConfig</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api/resources.html#pycmplot.resources.ResourceConfig.chain_hg18_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.chain_hg18_hg38</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/resources.html#pycmplot.resources.ResourceConfig.chain_hg19_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.chain_hg19_hg38</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/resources.html#pycmplot.resources.ResourceConfig.geneinfo_hg19"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.geneinfo_hg19</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../../api/resources.html#pycmplot.resources.ResourceConfig.geneinfo_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.geneinfo_hg38</span></code></a></li>
@@ -180,12 +298,17 @@
 <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id1">0.2.5 — 2026-04-20</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id2">0.2.2 — 2026-04-18</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id3">0.2.1 — 2026-04-16</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id4">0.1.9 — 2026-04-14</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id5">0.1.8 — 2026-04-14</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id6">0.1.0 — 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#xx-xx">0.4.0 - 2026-XX-XX</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id1">0.3.1 - 2026-07-31</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id2">0.3.0 - 2026-06-01</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id3">0.2.8 - 2026-05-30</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id4">0.2.7 - 2026-04-27</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id5">0.2.5 - 2026-04-20</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id6">0.2.2 - 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id7">0.2.1 — 2026-04-16</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id8">0.1.9 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id9">0.1.8 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../changelog.html#id10">0.1.0 — 2026-04-18</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a><ul>
@@ -243,7 +366,6 @@
 <span class="sd">  Mutates the :class:`pycirclize.Sector` object in place and returns</span>
 <span class="sd">  ``None``.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
@@ -252,9 +374,11 @@
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.lines</span><span class="w"> </span><span class="kn">import</span> <span class="n">Line2D</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pycmplot.io</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_output_paths</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pycmplot.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_highlight_snps</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pycmplot.annotation</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_annotation_column</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -351,8 +475,8 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">plot_circosm</span><span class="p">(</span>
     <span class="n">sector</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">sector_radius</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">annotation_r</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">assoc</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">assoc_by_chr</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">sector_sizes</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">chrom_label_loc</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span>
     <span class="n">chrom_label_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span>
@@ -361,15 +485,16 @@
     <span class="n">track_index</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="n">assoc_label</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">logp</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="n">signif_line</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">5e-8</span><span class="p">,</span>
-    <span class="n">signif_threshold</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">5e-8</span><span class="p">,</span>
-    <span class="n">suggest_line</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e-5</span><span class="p">,</span>
-    <span class="n">suggest_threshold</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e-5</span><span class="p">,</span>
+    <span class="n">signif_line</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span> <span class="o">|</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">signif_threshold</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">suggest_line</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">suggest_threshold</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">highlight</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">highlight_thresh</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">5e-8</span><span class="p">,</span>
     <span class="n">highlight_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;brown&#39;</span><span class="p">,</span>
     <span class="n">colors</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;steelblue&#39;</span><span class="p">,</span><span class="s1">&#39;orange&#39;</span><span class="p">],</span>
-    <span class="n">no_track_labels</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">point_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span>
+    <span class="n">no_track_labels</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="n">hits_table</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot one track of summary statistics onto a single pycirclize sector.</span>
 
@@ -386,9 +511,6 @@
 <span class="sd">    sector_radius : tuple of (float, float)</span>
 <span class="sd">        ``(r_start, r_end)`` radial limits for this track within *sector*,</span>
 <span class="sd">        as returned by :func:`compute_track_radii_dict`.</span>
-<span class="sd">    annotation_r : tuple of (float, float) or None</span>
-<span class="sd">        Radial limits reserved for the annotation ring.  Passed for context</span>
-<span class="sd">        but not used directly inside this function.</span>
 <span class="sd">    assoc : pandas.DataFrame, optional</span>
 <span class="sd">        Full summary statistics DataFrame (all chromosomes).  Filtered to the</span>
 <span class="sd">        current sector&#39;s chromosome internally.  Must have columns ``CHR``,</span>
@@ -416,9 +538,13 @@
 <span class="sd">    logp : bool, optional</span>
 <span class="sd">        If ``True``, use the ``logP`` column for y-values and threshold</span>
 <span class="sd">        comparisons.  Default ``True``.</span>
-<span class="sd">    signif_line : float, optional</span>
-<span class="sd">        Y-value at which to draw the genome-wide significance dashed line</span>
-<span class="sd">        (orange-red).  Default ``5e-8``.</span>
+<span class="sd">    signif_line : float, bool, or None, optional</span>
+<span class="sd">        Genome-wide significance threshold dashed line (orange-red).</span>
+<span class="sd">        - If ``float``: Explicit y-axis value at which to draw the line.</span>
+<span class="sd">        - If ``True``: Draws the line using the calculated threshold supplied in</span>
+<span class="sd">        *signif_threshold* (or *signif_lines*).</span>
+<span class="sd">        - If ``False`` or ``None``: Suppresses the significance line completely.</span>
+<span class="sd">        Default ``5e-8`` (or ``True`` depending on your default).</span>
 <span class="sd">    signif_threshold : float, optional</span>
 <span class="sd">        Significance threshold used for y-axis scaling.  Default ``5e-8``.</span>
 <span class="sd">    suggest_line : float or bool, optional</span>
@@ -430,38 +556,21 @@
 <span class="sd">        If ``True``, variants within significant loci (``in_locus == True``</span>
 <span class="sd">        after :func:`~pycmplot.stats.get_highlight_snps`) are rendered in</span>
 <span class="sd">        ``highlight_color`` (see below).  Default ``False``.</span>
-<span class="sd">    highlight_thresh : float, optional</span>
-<span class="sd">        P-value threshold passed to</span>
-<span class="sd">        :func:`~pycmplot.stats.get_highlight_snps` when *highlight* is</span>
-<span class="sd">        ``True``.  Default ``5e-8``.</span>
 <span class="sd">    highlight_color : str, optional</span>
 <span class="sd">        Color of highlighted positions when *highlight* is ``True``.</span>
 <span class="sd">        Default ``brown``. </span>
 <span class="sd">    colors : list of str, optional</span>
 <span class="sd">        Two alternating colours for even/odd chromosome numbers.</span>
-<span class="sd">        Default ``[&#39;steelblue&#39;, &#39;orange&#39;]``.</span>
+<span class="sd">        Default ``[&#39;steelblue&#39;, &#39;orange&#39;]``.      </span>
 <span class="sd">    no_track_labels : bool, optional</span>
 <span class="sd">        Suppress the track label on the spacer sector.  Default ``False``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">if</span> <span class="n">colors</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;steelblue&quot;</span><span class="p">,</span> <span class="s2">&quot;orange&quot;</span><span class="p">]</span>
-
-    <span class="k">if</span> <span class="n">highlight</span><span class="p">:</span>
-        <span class="n">assoc</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">get_highlight_snps</span><span class="p">(</span>
-            <span class="n">df</span><span class="o">=</span><span class="n">assoc</span><span class="p">,</span>
-            <span class="n">window</span><span class="o">=</span><span class="mi">500_000</span><span class="p">,</span>
-            <span class="n">highlight_thresh</span><span class="o">=</span><span class="n">highlight_thresh</span><span class="p">,</span>
-            <span class="n">logp</span><span class="o">=</span><span class="n">logp</span><span class="p">,</span>
-        <span class="p">)</span>
-
-    <span class="n">assoc</span> <span class="o">=</span> <span class="n">assoc</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-    <span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-
     <span class="n">genome_wide_sig</span> <span class="o">=</span> <span class="n">signif_threshold</span>
     <span class="n">suggestive</span> <span class="o">=</span> <span class="n">suggest_threshold</span>
 
-    <span class="n">assoc_uniq_chroms</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+    <span class="c1">#assoc_uniq_chroms = list(assoc[&quot;CHR&quot;].unique())</span>
+    <span class="n">assoc_uniq_chroms</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">])</span>
 
     <span class="n">v_min</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;logP&quot;</span><span class="p">])))</span> <span class="k">if</span> <span class="n">logp</span> <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;P&quot;</span><span class="p">])))</span>
     <span class="n">v_max</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;logP&quot;</span><span class="p">])))</span> <span class="k">if</span> <span class="n">logp</span> <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;P&quot;</span><span class="p">])))</span>
@@ -537,13 +646,16 @@
             <span class="n">side</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span>
             <span class="n">vmin</span><span class="o">=</span><span class="n">v_min</span><span class="p">,</span>
             <span class="n">vmax</span><span class="o">=</span><span class="n">v_max</span><span class="p">,</span>
-            <span class="n">label_size</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+            <span class="n">label_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="c1"># ------------------------------------------------------------------</span>
     <span class="c1"># Data track</span>
     <span class="c1"># ------------------------------------------------------------------</span>
-    <span class="n">assoc_chr</span> <span class="o">=</span> <span class="n">assoc</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">sector</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+    <span class="c1">#assoc_chr = assoc.loc[assoc[&quot;CHR&quot;] == sector.name]</span>
+    <span class="n">assoc_chr</span> <span class="o">=</span> <span class="n">assoc_by_chr</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">sector</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">assoc_chr</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span>    
     <span class="n">track</span> <span class="o">=</span> <span class="n">sector</span><span class="o">.</span><span class="n">add_track</span><span class="p">(</span><span class="n">sector_radius</span><span class="p">,</span> <span class="n">r_pad_ratio</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
     <span class="n">track</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="n">fc</span><span class="o">=</span><span class="s2">&quot;lightgrey&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.08</span><span class="p">)</span>
 
@@ -558,32 +670,45 @@
 
         <span class="n">track</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
             <span class="n">data</span><span class="o">=</span><span class="n">bg</span><span class="p">,</span>
-            <span class="n">x</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">bg</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)),</span>
-            <span class="n">y</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">bg</span><span class="p">[</span><span class="n">y_col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)),</span>
+            <span class="n">x</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">bg</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">]),</span> <span class="c1">#.astype(float)),</span>
+            <span class="n">y</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">bg</span><span class="p">[</span><span class="n">y_col</span><span class="p">]),</span> <span class="c1">#.astype(float)),</span>
             <span class="n">vmin</span><span class="o">=</span><span class="n">v_min</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">v_max</span><span class="p">,</span>
-            <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">point_size</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">sig</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+            <span class="c1"># Per-locus color: resolve each highlighted variant&#39;s color</span>
+            <span class="c1"># from the hits table (fallback = the plot-time</span>
+            <span class="c1"># highlight_color for &#39;auto&#39; / blank / invalid rows).</span>
+            <span class="c1"># pycirclize&#39;s ``track.scatter`` accepts either a single</span>
+            <span class="c1"># colour string or a per-point sequence; passing a list of</span>
+            <span class="c1"># colours works transparently.</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">pycmplot.annotation</span><span class="w"> </span><span class="kn">import</span> <span class="n">resolve_highlight_colors</span>
+                <span class="n">_sig_colors</span> <span class="o">=</span> <span class="n">resolve_highlight_colors</span><span class="p">(</span>
+                    <span class="n">sig</span><span class="p">,</span> <span class="n">hits_table</span><span class="p">,</span> <span class="n">default_color</span><span class="o">=</span><span class="n">highlight_color</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="n">_sig_colors</span> <span class="o">=</span> <span class="p">[</span><span class="n">highlight_color</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">sig</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
             <span class="n">track</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
-                <span class="n">sig</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
-                <span class="n">sig</span><span class="p">[</span><span class="n">y_col</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
+                <span class="nb">list</span><span class="p">(</span><span class="n">sig</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">]),</span>
+                <span class="nb">list</span><span class="p">(</span><span class="n">sig</span><span class="p">[</span><span class="n">y_col</span><span class="p">]),</span>
                 <span class="n">vmin</span><span class="o">=</span><span class="n">v_min</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">v_max</span><span class="p">,</span>
-                <span class="n">s</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">highlight_color</span><span class="p">,</span>
+                <span class="n">s</span><span class="o">=</span><span class="n">point_size</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">_sig_colors</span><span class="p">,</span>
             <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">track</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
             <span class="n">data</span><span class="o">=</span><span class="n">assoc_chr</span><span class="p">,</span>
-            <span class="n">x</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">assoc_chr</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)),</span>
-            <span class="n">y</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">assoc_chr</span><span class="p">[</span><span class="n">y_col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)),</span>
+            <span class="n">x</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">assoc_chr</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">]),</span> <span class="c1">#.astype(float)),</span>
+            <span class="n">y</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">assoc_chr</span><span class="p">[</span><span class="n">y_col</span><span class="p">]),</span> <span class="c1">#.astype(float)),</span>
             <span class="n">vmin</span><span class="o">=</span><span class="n">v_min</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">v_max</span><span class="p">,</span>
-            <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">point_size</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="c1"># ------------------------------------------------------------------</span>
     <span class="c1"># Significance lines</span>
     <span class="c1"># ------------------------------------------------------------------</span>
-    <span class="k">if</span> <span class="n">signif_line</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">signif_line</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
         <span class="n">track</span><span class="o">.</span><span class="n">line</span><span class="p">(</span>
             <span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="n">sector</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">sector</span><span class="o">.</span><span class="n">end</span><span class="p">],</span>
             <span class="n">y</span><span class="o">=</span><span class="p">[</span><span class="n">genome_wide_sig</span><span class="p">,</span> <span class="n">genome_wide_sig</span><span class="p">],</span>
@@ -596,14 +721,14 @@
             <span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="n">sector</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">sector</span><span class="o">.</span><span class="n">end</span><span class="p">],</span>
             <span class="n">y</span><span class="o">=</span><span class="p">[</span><span class="n">suggestive</span><span class="p">,</span> <span class="n">suggestive</span><span class="p">],</span>
             <span class="n">vmin</span><span class="o">=</span><span class="n">v_min</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">v_max</span><span class="p">,</span>
-            <span class="n">color</span><span class="o">=</span><span class="s2">&quot;lightblue&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="s2">&quot;navy&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 
 
-<div class="viewcode-block" id="plot_circular">
-<a class="viewcode-back" href="../../../api/plotting.html#pycmplot.plotting.circular.plot_circular">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">plot_circular</span><span class="p">(</span>
+<div class="viewcode-block" id="circular">
+<a class="viewcode-back" href="../../../api/plotting.html#pycmplot.plotting.circular.circular">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">circular</span><span class="p">(</span>
     <span class="n">sumstats_loaded</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
     <span class="n">sector_sizes</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">signif_lines</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -615,13 +740,14 @@
     <span class="n">label_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">chrom_label_side</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;inside&#39;</span><span class="p">,</span>
     <span class="n">chrom_label_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span>
-    <span class="n">signif_line</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">5e-8</span><span class="p">,</span>
+    <span class="n">signif_line</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span> <span class="o">|</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">highlight</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">highlight_thresh</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">5e-8</span><span class="p">,</span>
     <span class="n">highlight_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;brown&#39;</span><span class="p">,</span>
     <span class="n">highlight_line</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">highlight_line_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;grey&#39;</span><span class="p">,</span>
+    <span class="n">suggest_line</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">colors</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;steelblue&#39;</span><span class="p">,</span><span class="s1">&#39;silver&#39;</span><span class="p">],</span>
+    <span class="n">point_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span>
     <span class="n">track_label_size</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span>
     <span class="n">track_label_orientation</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;vertical&#39;</span><span class="p">,</span>
     <span class="n">hits_table</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -631,7 +757,12 @@
     <span class="n">dpi</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">output_format</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;png&#39;</span><span class="p">,</span>
     <span class="n">output_dir</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span>
-    <span class="n">no_track_labels</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">ylabel</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">no_track_labels</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="c1"># --- NEW MULTI-PANEL PARAMETER ---</span>
+    <span class="n">ax</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">plt</span><span class="o">.</span><span class="n">Axes</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">highlight_legend</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">highlight_legend_loc</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;upper center&quot;</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate a multi-track Circos-style circular Manhattan plot.</span>
 
@@ -682,8 +813,6 @@
 <span class="sd">        line.  Default ``5e-8``.</span>
 <span class="sd">    highlight : bool, optional</span>
 <span class="sd">        Render significant-locus variants in brown.  Default ``False``.</span>
-<span class="sd">    highlight_thresh : float, optional</span>
-<span class="sd">        P-value threshold for locus highlighting.  Default ``5e-8``.</span>
 <span class="sd">    highlight_color : str, optional</span>
 <span class="sd">        Color of highlighted positions when *highlight* is ``True``.</span>
 <span class="sd">        Default ``brown``.         </span>
@@ -718,13 +847,26 @@
 <span class="sd">        Default ``&#39;png&#39;``.</span>
 <span class="sd">    output_dir : str or pathlib.Path, optional</span>
 <span class="sd">        Output directory.  Default ``&#39;.&#39;``.</span>
+<span class="sd">    ylabel : str, optional</span>
+<span class="sd">        Override the shared y-axis label (left margin).  Useful for</span>
+<span class="sd">        non-p-value statistics such as iHS, F_ST or XP-EHH (e.g.</span>
+<span class="sd">        ``ylabel=&quot;iHS&quot;``).  When ``None`` (the default), the label is</span>
+<span class="sd">        ``&quot;-log₁₀(p-value)&quot;`` if *logp* is ``True`` and ``&quot;P&quot;`` otherwise.          </span>
 <span class="sd">    no_track_labels : bool, optional</span>
 <span class="sd">        Suppress track labels on the spacer sector.  Default ``False``.</span>
+<span class="sd">    ax : matplotlib.axes.Axes, optional</span>
+<span class="sd">        Target Matplotlib polar axis on which to render the circular plot. Must </span>
+<span class="sd">        be instantiated with ``projection=&#39;polar&#39;`` (e.g., via </span>
+<span class="sd">        ``fig.add_subplot(111, projection=&#39;polar&#39;)``). If ``None`` (default), </span>
+<span class="sd">        a new standalone figure and polar axis are initialized automatically. </span>
+<span class="sd">        When *ax* is supplied, automatic figure saving via *output_dir* and </span>
+<span class="sd">        *plot_title* is bypassed to facilitate multi-panel composition.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    matplotlib.figure.Figure</span>
-<span class="sd">        The completed circular Manhattan figure (also saved to *output_dir*).</span>
+<span class="sd">            The completed figure containing the circular plot. If *ax* was </span>
+<span class="sd">            provided, this is the parent figure of *ax*.</span>
 
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
@@ -738,6 +880,9 @@
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; from pycmplot.plotting.circular import plot_circular</span>
+
+<span class="sd">    Standalone figure generation:</span>
+<span class="sd">    </span>
 <span class="sd">    &gt;&gt;&gt; fig = plot_circular(</span>
 <span class="sd">    ...     sumstats_loaded=loaded,</span>
 <span class="sd">    ...     sector_sizes=sectors,</span>
@@ -749,6 +894,26 @@
 <span class="sd">    ...     plot_title=&quot;RBC_Traits&quot;,</span>
 <span class="sd">    ...     output_dir=&quot;./results&quot;,</span>
 <span class="sd">    ... )</span>
+
+<span class="sd">    Embedding into a multi-panel figure using subfigures:</span>
+
+<span class="sd">    &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
+<span class="sd">    &gt;&gt;&gt; fig = plt.figure(figsize=(16, 8))</span>
+<span class="sd">    &gt;&gt;&gt; subfigs = fig.subfigures(1, 2)</span>
+<span class="sd">    &gt;&gt;&gt; ax1 = subfigs[0].add_subplot(111, projection=&quot;polar&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; ax2 = subfigs[1].add_subplot(111, projection=&quot;polar&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; plot_circular(</span>
+<span class="sd">    ...     sumstats_loaded=loaded1,</span>
+<span class="sd">    ...     sector_sizes=sectors1,</span>
+<span class="sd">    ...     signif_lines=sig_lines1,</span>
+<span class="sd">    ...     ax=ax1,</span>
+<span class="sd">    ... )</span>
+<span class="sd">    &gt;&gt;&gt; plot_circular(</span>
+<span class="sd">    ...     sumstats_loaded=loaded2,</span>
+<span class="sd">    ...     sector_sizes=sectors2,</span>
+<span class="sd">    ...     signif_lines=sig_lines2,</span>
+<span class="sd">    ...     ax=ax2,</span>
+<span class="sd">    ... )   </span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="kn">from</span><span class="w"> </span><span class="nn">pycirclize</span><span class="w"> </span><span class="kn">import</span> <span class="n">Circos</span>
@@ -800,13 +965,15 @@
 
     <span class="n">chrom_label_loc</span> <span class="o">=</span> <span class="n">outside_loc</span> <span class="k">if</span> <span class="n">chrom_label_side</span> <span class="o">==</span> <span class="s2">&quot;outside&quot;</span> <span class="k">else</span> <span class="n">inside_loc</span>
 
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">signif_lines</span><span class="p">:</span>
-        <span class="n">signif_line</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">signif_line</span><span class="p">)</span> <span class="k">if</span> <span class="n">signif_line</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">signif_line</span>
-        <span class="n">suggest_line</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mf">1e-5</span><span class="p">)</span>
-        <span class="n">signif_lines</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="p">{</span><span class="s2">&quot;genome&quot;</span><span class="p">:</span> <span class="n">signif_line</span><span class="p">,</span> <span class="s2">&quot;suggestive&quot;</span><span class="p">:</span> <span class="n">suggest_line</span><span class="p">}</span>
-            <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">sumstats_loaded</span>
-        <span class="p">]</span>      
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    if not signif_lines:</span>
+<span class="sd">        signif_line = -np.log10(signif_line) if signif_line &lt; 1 else signif_line</span>
+<span class="sd">        suggest_line = -np.log10(1e-5)</span>
+<span class="sd">        signif_lines = [</span>
+<span class="sd">            {&quot;genome&quot;: signif_line, &quot;suggestive&quot;: suggest_line}</span>
+<span class="sd">            for _ in sumstats_loaded</span>
+<span class="sd">        ]      </span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="p">(</span><span class="n">sector_radius</span><span class="p">,</span> <span class="n">sumstats_key</span><span class="p">,</span> <span class="n">sumstats_value</span><span class="p">,</span> <span class="n">signif_dict</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
         <span class="nb">zip</span><span class="p">(</span>
@@ -817,21 +984,29 @@
         <span class="p">)</span>
     <span class="p">):</span>
         <span class="n">assoc</span> <span class="o">=</span> <span class="n">sumstats_value</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;P&quot;</span><span class="p">]</span>   <span class="o">=</span> <span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;P&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
-        <span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;23&quot;</span><span class="p">,</span> <span class="s2">&quot;X&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;24&quot;</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">)</span>
+        <span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">logp</span><span class="p">:</span>
+            <span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;logP&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;logP&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;P&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">assoc</span><span class="p">[</span><span class="s2">&quot;P&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+            
         <span class="n">sumstat_name</span> <span class="o">=</span> <span class="n">sumstats_key</span>
 
         <span class="n">sig_thresh</span> <span class="o">=</span> <span class="n">signif_dict</span><span class="p">[</span><span class="s2">&quot;genome&quot;</span><span class="p">]</span>
         <span class="n">sug_thresh</span> <span class="o">=</span> <span class="n">signif_dict</span><span class="p">[</span><span class="s2">&quot;suggestive&quot;</span><span class="p">]</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Plotting : </span><span class="si">{</span><span class="n">sumstat_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="c1">#logger.info(f&quot;SUGGESTIVE THRESHOLD: {sug_thresh}&quot;)</span>
+
+        <span class="n">assoc_by_chr</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">chrom</span><span class="p">:</span> <span class="n">df</span>
+            <span class="k">for</span> <span class="n">chrom</span><span class="p">,</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">assoc</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;CHR&quot;</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="p">}</span>
 
         <span class="k">for</span> <span class="n">sector</span> <span class="ow">in</span> <span class="n">circos</span><span class="o">.</span><span class="n">sectors</span><span class="p">:</span>
             <span class="n">plot_circosm</span><span class="p">(</span>
                 <span class="n">sector</span><span class="o">=</span><span class="n">sector</span><span class="p">,</span>
                 <span class="n">sector_radius</span><span class="o">=</span><span class="n">sector_radius</span><span class="p">,</span>
-                <span class="n">annotation_r</span><span class="o">=</span><span class="n">annotation_track_radius</span> <span class="k">if</span> <span class="n">annotate</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
                 <span class="n">sector_sizes</span><span class="o">=</span><span class="n">sector_sizes</span><span class="p">,</span>
                 <span class="n">track_index</span><span class="o">=</span><span class="n">index</span><span class="p">,</span>
                 <span class="n">chrom_label_loc</span><span class="o">=</span><span class="n">chrom_label_loc</span><span class="p">,</span>
@@ -839,50 +1014,45 @@
                 <span class="n">track_label_size</span><span class="o">=</span><span class="n">track_label_size</span><span class="p">,</span>
                 <span class="n">track_label_orientation</span><span class="o">=</span><span class="n">track_label_orientation</span><span class="p">,</span>
                 <span class="n">assoc</span><span class="o">=</span><span class="n">assoc</span><span class="p">,</span>
+                <span class="n">assoc_by_chr</span><span class="o">=</span><span class="n">assoc_by_chr</span><span class="p">,</span>
                 <span class="n">assoc_label</span><span class="o">=</span><span class="n">sumstat_name</span><span class="p">,</span>
                 <span class="n">logp</span><span class="o">=</span><span class="n">logp</span><span class="p">,</span>
-                <span class="n">signif_line</span><span class="o">=</span><span class="n">sig_thresh</span><span class="p">,</span>
+                <span class="n">signif_line</span><span class="o">=</span><span class="n">signif_line</span><span class="p">,</span>
                 <span class="n">signif_threshold</span><span class="o">=</span><span class="n">sig_thresh</span><span class="p">,</span>
-                <span class="n">suggest_line</span><span class="o">=</span><span class="kc">True</span> <span class="k">if</span> <span class="n">signif_line</span> <span class="k">else</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="n">suggest_line</span><span class="o">=</span><span class="n">suggest_line</span><span class="p">,</span>
                 <span class="n">suggest_threshold</span><span class="o">=</span><span class="n">sug_thresh</span><span class="p">,</span>
                 <span class="n">highlight</span><span class="o">=</span><span class="n">highlight</span><span class="p">,</span>
-                <span class="n">highlight_thresh</span><span class="o">=</span><span class="n">highlight_thresh</span><span class="p">,</span>
                 <span class="n">highlight_color</span><span class="o">=</span><span class="n">highlight_color</span><span class="p">,</span>
                 <span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span>
-                <span class="n">no_track_labels</span><span class="o">=</span><span class="n">no_track_labels</span>
+                <span class="n">point_size</span><span class="o">=</span><span class="n">point_size</span><span class="p">,</span>
+                <span class="n">no_track_labels</span><span class="o">=</span><span class="n">no_track_labels</span><span class="p">,</span>
+                <span class="n">hits_table</span><span class="o">=</span><span class="n">hits_table</span><span class="p">,</span>
             <span class="p">)</span>
 
     <span class="c1"># ------------------------------------------------------------------</span>
     <span class="c1"># Circular: gene/SNP annotations</span>
     <span class="c1"># ------------------------------------------------------------------</span>
     <span class="k">if</span> <span class="n">annotate</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">hits_table</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+        <span class="n">label_col</span> <span class="o">=</span> <span class="n">get_annotation_column</span><span class="p">(</span>
+            <span class="n">annotate</span> <span class="o">=</span> <span class="n">annotate</span><span class="p">,</span>
+            <span class="n">hits_table</span><span class="o">=</span><span class="n">hits_table</span><span class="p">,</span>
+            <span class="n">label_col</span><span class="o">=</span><span class="n">label_col</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">label_col</span> <span class="o">==</span> <span class="s1">&#39;SNP&#39;</span><span class="p">:</span>
+            <span class="n">fstyle</span> <span class="o">=</span> <span class="s2">&quot;normal&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fstyle</span> <span class="o">=</span> <span class="s2">&quot;italic&quot;</span>
+
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">hits_table</span><span class="o">.</span><span class="n">iterrows</span><span class="p">()):</span>
-            <span class="n">label</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;SNP&#39;</span><span class="p">]</span>
-            <span class="n">fstyle</span> <span class="o">=</span> <span class="s2">&quot;normal&quot;</span> 
-            <span class="k">if</span> <span class="n">label_col</span><span class="p">:</span>
-                <span class="n">label_col</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">label_col</span><span class="p">)</span>
-                <span class="k">try</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">label_col</span> <span class="o">==</span> <span class="s2">&quot;GENE&quot;</span><span class="p">:</span>
-                        <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;genic&quot;</span><span class="p">]:</span>
-                            <span class="n">label</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;nearest_upstream_gene&quot;</span><span class="p">]</span>
-                        <span class="k">else</span><span class="p">:</span>
-                            <span class="n">label</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;top_gene&quot;</span><span class="p">]</span>
-                            <span class="n">fstyle</span> <span class="o">=</span> <span class="s2">&quot;italic&quot;</span>                       
-                    <span class="k">elif</span> <span class="n">label_col</span> <span class="o">!=</span> <span class="s2">&quot;SNP&quot;</span><span class="p">:</span>
-                        <span class="n">label</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="n">label_col</span><span class="p">]</span>
-                        <span class="n">fstyle</span> <span class="o">=</span> <span class="s2">&quot;italic&quot;</span>
-                <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
-                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;&#39;SNP&#39; column is used for annotation since &#39;</span><span class="si">%s</span><span class="s2">&#39; column could not be resolved in hits table.&quot;</span><span class="p">,</span> <span class="n">label_col</span><span class="p">)</span>
-                    <span class="k">pass</span>                
-            
+            <span class="n">label</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="n">label_col</span><span class="p">]</span>
             <span class="k">for</span> <span class="n">sector</span> <span class="ow">in</span> <span class="n">circos</span><span class="o">.</span><span class="n">sectors</span><span class="p">:</span>
                 <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;CHR&quot;</span><span class="p">])</span> <span class="o">==</span> <span class="n">sector</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
                     <span class="n">a_track</span> <span class="o">=</span> <span class="n">sector</span><span class="o">.</span><span class="n">add_track</span><span class="p">(</span><span class="n">annotation_track_radius</span><span class="p">)</span>
                     <span class="n">a_track</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="n">fc</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ec</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
                     <span class="n">r_low</span>  <span class="o">=</span> <span class="n">annotation_track_radius</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                    <span class="n">r_high</span> <span class="o">=</span> <span class="n">annotation_track_radius</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-                    <span class="n">r_pos</span>  <span class="o">=</span> <span class="n">r_low</span> <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">r_high</span>
+                    <span class="c1">#r_high = annotation_track_radius[1]</span>
+                    <span class="c1">#r_pos  = r_low if i % 2 == 0 else r_high</span>
                     <span class="n">pos</span>    <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;POS&quot;</span><span class="p">]</span>
 
                     <span class="n">a_track</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
@@ -921,41 +1091,126 @@
     <span class="c1"># ------------------------------------------------------------------</span>
     <span class="k">for</span> <span class="n">sector</span> <span class="ow">in</span> <span class="n">circos</span><span class="o">.</span><span class="n">sectors</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">sector</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="nb">list</span><span class="p">(</span><span class="n">sector_sizes</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
-            <span class="k">if</span> <span class="n">logp</span><span class="p">:</span>
-                <span class="n">SUB</span> <span class="o">=</span> <span class="nb">str</span><span class="o">.</span><span class="n">maketrans</span><span class="p">(</span><span class="s2">&quot;0123456789&quot;</span><span class="p">,</span> <span class="s2">&quot;₀₁₂₃₄₅₆₇₈₉&quot;</span><span class="p">)</span>
-                <span class="n">y_label</span> <span class="o">=</span> <span class="s2">&quot;-log10(p-value)&quot;</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">SUB</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">ylabel</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">ylabel_text</span> <span class="o">=</span> <span class="s2">&quot;-log</span><span class="se">\u2081\u2080</span><span class="s2">(P)&quot;</span> <span class="k">if</span> <span class="n">logp</span> <span class="k">else</span> <span class="s2">&quot;P&quot;</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">y_label</span> <span class="o">=</span> <span class="s2">&quot;p-value&quot;</span>
+                <span class="n">ylabel_text</span> <span class="o">=</span> <span class="n">ylabel</span>
 
             <span class="n">sector_rlim</span>  <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">r_lim</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">sector</span><span class="o">.</span><span class="n">tracks</span><span class="p">]</span>
             <span class="n">sector_min_r</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">sector_rlim</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
             <span class="n">sector_max_r</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">sector_rlim</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
 
             <span class="n">sector</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
-                <span class="n">y_label</span><span class="p">,</span>
+                <span class="n">ylabel_text</span><span class="p">,</span>
                 <span class="n">x</span><span class="o">=</span><span class="n">sector</span><span class="o">.</span><span class="n">end</span> <span class="o">-</span> <span class="p">(</span><span class="n">sector</span><span class="o">.</span><span class="n">end</span> <span class="o">-</span> <span class="n">sector</span><span class="o">.</span><span class="n">start</span><span class="p">)</span> <span class="o">/</span> <span class="mi">5</span><span class="p">,</span>
-                <span class="n">r</span><span class="o">=</span><span class="p">(</span><span class="n">sector_min_r</span> <span class="o">+</span> <span class="n">sector_max_r</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
-                    <span class="o">+</span> <span class="p">(</span><span class="n">sector_min_r</span> <span class="o">+</span> <span class="n">sector_max_r</span><span class="p">)</span> <span class="o">/</span> <span class="mi">12</span><span class="p">,</span>
+                <span class="n">r</span><span class="o">=</span><span class="p">(</span><span class="n">sector_min_r</span> <span class="o">+</span> <span class="n">sector_max_r</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+                <span class="c1">#    + (sector_min_r + sector_max_r) / 12,</span>
                 <span class="n">adjust_rotation</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                 <span class="n">ignore_range_error</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                <span class="n">size</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">track_label_size</span><span class="p">),</span>
+                <span class="n">size</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">track_label_size</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.8</span><span class="p">,</span>
                 <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>
                 <span class="n">fontstyle</span><span class="o">=</span><span class="s2">&quot;italic&quot;</span><span class="p">,</span>
                 <span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;regular&quot;</span><span class="p">,</span>
                 <span class="n">rotation</span><span class="o">=</span><span class="mi">92</span><span class="p">,</span>
                 <span class="n">rotation_mode</span><span class="o">=</span><span class="s2">&quot;default&quot;</span><span class="p">,</span>
                 <span class="n">va</span><span class="o">=</span><span class="s2">&quot;top&quot;</span><span class="p">,</span>
-                <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;right&quot;</span><span class="p">,</span>
+                <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
             <span class="p">)</span>
 
-    <span class="n">fig</span> <span class="o">=</span> <span class="n">circos</span><span class="o">.</span><span class="n">plotfig</span><span class="p">()</span>
+    <span class="c1">#fig = circos.plotfig()</span>
 
-    <span class="k">if</span> <span class="n">plt_name</span><span class="p">:</span>
-        <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">fname</span><span class="o">=</span><span class="n">plt_name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">dpi</span><span class="o">=</span><span class="n">dpi</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Saved circular Manhattan plot: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">plt_name</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span></div>
+    <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">circos</span><span class="o">.</span><span class="n">plotfig</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">circos</span><span class="o">.</span><span class="n">plotfig</span><span class="p">()</span>
 
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="c1"># Optional user-driven highlight legend (from hits overlay).</span>
+    <span class="c1">#</span>
+    <span class="c1"># Uses the shared :func:`pycmplot.annotation.build_highlight_legend_entries`</span>
+    <span class="c1"># helper so the semantics match the linear plotter exactly:</span>
+    <span class="c1">#</span>
+    <span class="c1"># * Legend is skipped entirely when nothing has been customised</span>
+    <span class="c1">#   (all rows ``category=&#39;significant&#39;`` AND all</span>
+    <span class="c1">#   ``highlight_color=&#39;auto&#39;``) -- helper returns ``[]``.</span>
+    <span class="c1"># * Entries are deduplicated on ``category`` in first-appearance</span>
+    <span class="c1">#   order (so users can reorder rows in their TSV to reorder the</span>
+    <span class="c1">#   legend).</span>
+    <span class="c1"># * The helper warns via ``logger.warning`` when the same category</span>
+    <span class="c1">#   appears with multiple colours, and falls back to the first</span>
+    <span class="c1">#   colour; the previous ad-hoc ``.unique()[0]`` silently picked</span>
+    <span class="c1">#   whatever came out first.</span>
+    <span class="c1"># * The helper tolerates a hits table with no ``category`` /</span>
+    <span class="c1">#   ``highlight_color`` column (returns ``[]``), so legacy caches</span>
+    <span class="c1">#   without those columns don&#39;t crash the plot.</span>
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="c1"># ``highlight_legend`` is the master on/off switch — see the</span>
+    <span class="c1"># linear plotter&#39;s identical block for the rationale (shared</span>
+    <span class="c1"># legend across a multi-panel figure).</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">highlight</span> <span class="ow">and</span> <span class="n">highlight_legend</span>
+            <span class="ow">and</span> <span class="n">hits_table</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">hits_table</span><span class="o">.</span><span class="n">empty</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pycmplot.annotation</span><span class="w"> </span><span class="kn">import</span> <span class="n">build_highlight_legend_entries</span>
+            <span class="n">_legend_entries</span> <span class="o">=</span> <span class="n">build_highlight_legend_entries</span><span class="p">(</span>
+                <span class="n">hits_table</span><span class="p">,</span> <span class="n">default_color</span><span class="o">=</span><span class="n">highlight_color</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">_exc</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Could not build circular highlight legend: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">_exc</span><span class="p">)</span>
+            <span class="n">_legend_entries</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">_legend_entries</span><span class="p">:</span>
+            <span class="n">handles</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">Line2D</span><span class="p">(</span>
+                    <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">,</span>
+                    <span class="n">label</span><span class="o">=</span><span class="n">cat</span><span class="p">,</span> <span class="n">markerfacecolor</span><span class="o">=</span><span class="n">col</span><span class="p">,</span>
+                    <span class="n">markeredgecolor</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">,</span>
+                    <span class="n">markersize</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">point_size</span><span class="p">),</span>
+                <span class="p">)</span>
+                <span class="k">for</span> <span class="n">cat</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">_legend_entries</span>
+            <span class="p">]</span>
+            <span class="c1"># ``highlight_legend_loc`` is a user-facing knob so the</span>
+            <span class="c1"># legend can be moved to whichever region of the polar</span>
+            <span class="c1"># frame is least cluttered by highlighted signals.</span>
+            <span class="c1"># Accepts any matplotlib loc string (e.g. ``&quot;upper center&quot;``</span>
+            <span class="c1"># for the default top position) or an ``(x, y)`` tuple for</span>
+            <span class="c1"># bbox anchoring outside the polar frame (e.g.</span>
+            <span class="c1"># ``(0.5, -0.05)`` to sit just below the sectors, or</span>
+            <span class="c1"># ``(-0.05, -0.0)`` for the pre-0.4.x lower-left).  See</span>
+            <span class="c1"># :func:`~pycmplot.annotation.resolve_highlight_legend_placement`.</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pycmplot.annotation</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+                <span class="n">resolve_highlight_legend_placement</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">_placement</span> <span class="o">=</span> <span class="n">resolve_highlight_legend_placement</span><span class="p">(</span>
+                <span class="n">highlight_legend_loc</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">circos</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span>
+                <span class="n">handles</span><span class="o">=</span><span class="n">handles</span><span class="p">,</span>
+                <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Highlighted Categories&quot;</span><span class="p">,</span>
+                <span class="n">fontsize</span><span class="o">=</span><span class="n">track_label_size</span><span class="p">,</span>
+                <span class="n">title_fontsize</span><span class="o">=</span><span class="n">track_label_size</span><span class="p">,</span>
+                <span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">_placement</span><span class="p">,</span>
+            <span class="p">)</span>
+
+    <span class="c1">#if plt_name:</span>
+    <span class="c1">#    fig.savefig(fname=plt_name.lower(), dpi=dpi)</span>
+    <span class="c1">#    logger.info(&quot;Saved circular Manhattan plot: %s&quot;, plt_name.lower())</span>
 
     <span class="c1">#return fig</span>
+
+    <span class="c1">###### FIGURE RENDERING WITH AX - SUBFIG OPTIONS</span>
+    <span class="c1"># Save only if running as a standalone function and an explicit name is resolved</span>
+    <span class="k">if</span> <span class="n">plt_name</span> <span class="ow">and</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">fname</span><span class="o">=</span><span class="n">plt_name</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">dpi</span><span class="o">=</span><span class="n">dpi</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Saved circular Manhattan plot: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">plt_name</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+
+    <span class="k">return</span> <span class="n">fig</span></div>
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Backwards-compatible alias (deprecated in 0.4.x)</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pycmplot._deprecation</span><span class="w"> </span><span class="kn">import</span> <span class="n">_deprecated_alias</span> <span class="k">as</span> <span class="n">_da</span>
+<span class="n">plot_circular</span> <span class="o">=</span> <span class="n">_da</span><span class="p">(</span><span class="n">circular</span><span class="p">,</span> <span class="n">old_name</span><span class="o">=</span><span class="s2">&quot;plot_circular&quot;</span><span class="p">,</span> <span class="n">new_name</span><span class="o">=</span><span class="s2">&quot;circular&quot;</span><span class="p">)</span>
 </pre></div>
 
            </div>
