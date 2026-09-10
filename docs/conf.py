@@ -34,6 +34,9 @@ extensions = [
 ]
 
 html_static_path = ['_static']
+#Specify the filename of your custom logo
+html_logo = '_static/pycmplot-logo-circular.png' 
+
 html_css_files = ["tippy.css"]
 tippy_add_class = "has-tippy"
 

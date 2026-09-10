@@ -10,3 +10,4 @@ sphinxcontrib-images>=0.5
 myst-parser>=2.0
 numpydoc>=1.7
 ipykernel
+pandoc
