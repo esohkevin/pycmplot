@@ -261,8 +261,8 @@ def get_arguments(descmsg: str = DESCMSG) -> argparse.Namespace:
     # ------------------------------------------------------------------
     opt.add_argument(
         "-m", "--mode",
-        help="Plot mode: lm (linear Manhattan) or cm (circular Manhattan). Default: lm.",
-        choices=["lm", "cm"], default="lm", type=str,
+        help="Plot mode: lm (linear Manhattan) or cm (circular Manhattan). Default: cm.",
+        choices=["lm", "cm"], default="cm", type=str,
     )
     opt.add_argument(
         "-chr", "--chrom_column",  type=str, metavar="str",

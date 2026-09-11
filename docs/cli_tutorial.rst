@@ -109,7 +109,10 @@ Use ``python generate_sumstats.py -h`` to see all options.
    The six sumstats files are created with a ``BUILD`` column. To demonstrate 
    the use of the ``--build`` option, we will create two more sumstats by 
    deleting the build columns from two of the sumstats already generated. 
-   One in hg19 and one in hg38.
+   One in hg19 and one in hg38. These files can also be downloawded directly 
+   from the GitHub repo `GitHub repo`_
+
+.. _GitHub repo: https://github.com/esohkevin/pycmplot/tree/main/data
 
 
 .. code-block:: bash
@@ -142,13 +145,14 @@ and writes the output image(s) plus a locus summary TSV.
 
 **The canonical minimum invocation is:**
 
-pycmplot defaults to ``--mode lm`` (linear Manhattan).  Add
-``--mode cm`` to switch to the Circos-style circular layout — every
+pycmplot defaults to ``--mode cm`` (circular Manhattan).  Add
+``--mode lm`` to switch to the linear layout — every
 other flag stays the same.  Use ``pycmplot -h`` for the full
 mode-specific option list.
 
-.. admonition:: Click below to expand full CLI options
-   :class: toggle
+**Click below to expand the full CLI options**
+
+.. toggle:: 
 
    .. code-block:: text
 
@@ -166,7 +170,7 @@ mode-specific option list.
 
       Optional:
       =========
-      -m {lm,cm}, --mode {lm,cm}              Plot mode: lm (linear Manhattan) or cm (circular Manhattan). Default: lm.
+      -m {lm,cm}, --mode {lm,cm}              Plot mode: lm (linear Manhattan) or cm (circular Manhattan). Default: cm.
       -chr str, --chrom_column str            Chromosome column name in sumstats (e.g. CHR).
       -pos str, --pos_column str              Position column name (e.g. BP).
       -snp str, --snp_column str              SNP ID column name (e.g. ID).
@@ -310,26 +314,11 @@ mode-specific option list.
 
 .. tab-set::
 
-   .. tab-item:: Linear
-
-      .. code-block:: bash
-
-         pycmplot \
-            --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz \
-            --labels T1_hg19 \
-            --logp \
-            --output_dir ./out
-
-      .. figure:: ../out/mycmplot_t1_hg19_lm_logp.png
-         :alt: linear Manhattan plot with base options
-         :width: 800px
-
    .. tab-item:: Circular
 
       .. code-block:: bash
 
          pycmplot \
-            --mode cm \
             --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz \
             --labels T1_hg19 \
             --logp \
@@ -339,6 +328,20 @@ mode-specific option list.
          :alt: linear Manhattan plot with base options
          :width: 800px
 
+   .. tab-item:: Linear
+
+      .. code-block:: bash
+
+         pycmplot \
+            --mode lm \
+            --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz \
+            --labels T1_hg19 \
+            --logp \
+            --output_dir ./out
+
+      .. figure:: ../out/mycmplot_t1_hg19_lm_logp.png
+         :alt: linear Manhattan plot with base options
+         :width: 800px
 
 
 This defaults to a linear Manhattan plot for ``./data/sumstats_1M_trait1_hg19.tsv.gz`` 
@@ -368,30 +371,11 @@ Single-track
 
 .. tab-set::
 
-   .. tab-item:: Linear
-
-      .. code-block:: bash
-
-         pycmplot \
-            --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz \
-            --labels T1_hg19 \
-            --plot_title "Trait1 (highlighted)" \
-            --logp \
-            --highlight \
-            --signif_line \
-            --suggest_threshold \
-            --output_dir ./out
-
-      .. figure:: ../out/trait1_highlighted_t1_hg19_lm_logp.png
-         :alt: linear Manhattan plot with base options highlighted
-         :width: 800px
-
    .. tab-item:: Circular
 
       .. code-block:: bash
 
          pycmplot \
-            --mode cm \
             --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz \
             --labels T1_hg19 \
             --plot_title "Trait1 (highlighted)" \
@@ -412,7 +396,6 @@ Single-track
       .. code-block:: bash
 
          pycmplot \
-            --mode cm \
             --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz \
             --labels T1_hg19 \
             --plot_title "Trait1 (highlighted 2)" \
@@ -433,7 +416,6 @@ Single-track
       .. code-block:: bash
 
          pycmplot \
-            --mode cm \
             --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz \
             --labels T1_hg19 \
             --plot_title "Trait1 (highlighted 3)" \
@@ -448,6 +430,26 @@ Single-track
          :alt: circular Manhattan plot with base options highlighted 3
          :width: 800px
 
+   .. tab-item:: Linear
+
+      .. code-block:: bash
+
+         pycmplot \
+            --mode lm \
+            --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz \
+            --labels T1_hg19 \
+            --plot_title "Trait1 (highlighted)" \
+            --logp \
+            --highlight \
+            --signif_line \
+            --suggest_threshold \
+            --output_dir ./out
+
+      .. figure:: ../out/trait1_highlighted_t1_hg19_lm_logp.png
+         :alt: linear Manhattan plot with base options highlighted
+         :width: 800px
+
+
 .. _cli-tut-multi-track-highlight:
 
 Multi-track
@@ -459,38 +461,17 @@ comma-separated, in matching order:
 
 Let's add the ``--trim_pval`` option to speed up plotting.
 
-The same six sumstats stacked as multi-track linear or wrapped into a
-Circos layout — swap ``--mode cm`` in / out and everything else is
-identical.  ``--track_heights`` is linear-only and has no effect
-in ``cm`` mode, so it's dropped from the circular tab.
+The same six sumstats wrapped into a Circos layout or stacked as 
+multi-track linear — swap ``--mode lm`` in / out and everything else is
+identical.
 
 .. tab-set::
-
-   .. tab-item:: Linear
-
-      .. code-block:: bash
-
-         pycmplot \
-            --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait2_hg19.tsv.gz,./data/sumstats_1M_trait3_hg19.tsv.gz,./data/sumstats_1M_trait4_hg38.tsv.gz,./data/sumstats_1M_trait5_hg38.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz \
-            --labels T1_hg19,T2_hg19,T3_hg19,T4_hg38,T5_hg38,T6_hg38 \
-            --plot_title "Multi-track" \
-            --logp \
-            --highlight \
-            --signif_line \
-            --suggest_threshold \
-            --trim_pval 0.01 \
-            --output_dir ./out
-
-      .. figure:: ../out/multitrack_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png
-         :alt: multi-track linear Manhattan plot
-         :width: 800px
 
    .. tab-item:: Circular
 
       .. code-block:: bash
 
          pycmplot \
-            --mode cm \
             --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait2_hg19.tsv.gz,./data/sumstats_1M_trait3_hg19.tsv.gz,./data/sumstats_1M_trait4_hg38.tsv.gz,./data/sumstats_1M_trait5_hg38.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz \
             --labels T1_hg19,T2_hg19,T3_hg19,T4_hg38,T5_hg38,T6_hg38 \
             --plot_title "Multi-track" \
@@ -506,6 +487,26 @@ in ``cm`` mode, so it's dropped from the circular tab.
 
       .. figure:: ../out/multitrack_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_cm_logp.png
          :alt: multi-track circular Manhattan plot
+         :width: 800px
+
+   .. tab-item:: Linear
+
+      .. code-block:: bash
+
+         pycmplot \
+            --mode lm \
+            --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait2_hg19.tsv.gz,./data/sumstats_1M_trait3_hg19.tsv.gz,./data/sumstats_1M_trait4_hg38.tsv.gz,./data/sumstats_1M_trait5_hg38.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz \
+            --labels T1_hg19,T2_hg19,T3_hg19,T4_hg38,T5_hg38,T6_hg38 \
+            --plot_title "Multi-track" \
+            --logp \
+            --highlight \
+            --signif_line \
+            --suggest_threshold \
+            --trim_pval 0.01 \
+            --output_dir ./out
+
+      .. figure:: ../out/multitrack_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png
+         :alt: multi-track linear Manhattan plot
          :width: 800px
 
 
@@ -529,7 +530,8 @@ tracks using ``--highlight_line``.
 
    * either increase figure height: ``--figure_size 10,8``
 
-   * or increase the annotation track space relative to the rest: ``--track_heights 2,1,1``
+   * or increase the annotation track space relative to the rest: ``--track_heights 2,1,1`` 
+   (annotation track plus two sumstats)
 
    * or combine the two options to improve the visuals.
 
@@ -537,11 +539,36 @@ tracks using ``--highlight_line``.
 
 .. tab-set::
 
+   .. tab-item:: Circular
+
+      .. code-block:: bash
+
+         pycmplot \
+            --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait2_hg19.tsv.gz,./data/sumstats_1M_trait3_hg19.tsv.gz,./data/sumstats_1M_trait4_hg38.tsv.gz,./data/sumstats_1M_trait5_hg38.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz \
+            --labels T1_hg19,T2_hg19,T3_hg19,T4_hg38,T5_hg38,T6_hg38 \
+            --plot_title "Multi-track (annotate)" \
+            --logp \
+            --highlight \
+            --highlight_line \
+            --signif_line \
+            --suggest_threshold \
+            --highlight_line \
+            --trim_pval 0.01 \
+            --chrom_label_side outside \
+            --annotate gene \
+            --colors 'lightblue,steelblue' \
+            --output_dir ./out
+
+      .. figure:: ../out/multitrack_annotate_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_cm_logp.png
+         :alt: multi-track circular Manhattan plot annotate
+         :width: 800px
+
    .. tab-item:: Linear
 
       .. code-block:: bash
 
          pycmplot \
+            --mode lm \
             --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait2_hg19.tsv.gz,./data/sumstats_1M_trait3_hg19.tsv.gz,./data/sumstats_1M_trait4_hg38.tsv.gz,./data/sumstats_1M_trait5_hg38.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz \
             --labels T1_hg19,T2_hg19,T3_hg19,T4_hg38,T5_hg38,T6_hg38 \
             --plot_title "Multi-track (annotate)" \
@@ -567,6 +594,7 @@ tracks using ``--highlight_line``.
       .. code-block:: bash
 
          pycmplot \
+            --mode lm \
             --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait2_hg19.tsv.gz,./data/sumstats_1M_trait3_hg19.tsv.gz,./data/sumstats_1M_trait4_hg38.tsv.gz,./data/sumstats_1M_trait5_hg38.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz \
             --labels T1_hg19,T2_hg19,T3_hg19,T4_hg38,T5_hg38,T6_hg38 \
             --plot_title "Multi-track (track heights)" \
@@ -592,6 +620,7 @@ tracks using ``--highlight_line``.
       .. code-block:: bash
 
          pycmplot \
+            --mode lm \
             --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait2_hg19.tsv.gz,./data/sumstats_1M_trait3_hg19.tsv.gz,./data/sumstats_1M_trait4_hg38.tsv.gz,./data/sumstats_1M_trait5_hg38.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz \
             --labels T1_hg19,T2_hg19,T3_hg19,T4_hg38,T5_hg38,T6_hg38 \
             --plot_title "Multi-track (figure size)" \
@@ -611,31 +640,6 @@ tracks using ``--highlight_line``.
          :alt: multi-track linear Manhattan plot figsize annotate
          :width: 800px
 
-   .. tab-item:: Circular
-
-      .. code-block:: bash
-
-         pycmplot \
-            --mode cm \
-            --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait2_hg19.tsv.gz,./data/sumstats_1M_trait3_hg19.tsv.gz,./data/sumstats_1M_trait4_hg38.tsv.gz,./data/sumstats_1M_trait5_hg38.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz \
-            --labels T1_hg19,T2_hg19,T3_hg19,T4_hg38,T5_hg38,T6_hg38 \
-            --plot_title "Multi-track (annotate)" \
-            --logp \
-            --highlight \
-            --highlight_line \
-            --signif_line \
-            --suggest_threshold \
-            --highlight_line \
-            --trim_pval 0.01 \
-            --chrom_label_side outside \
-            --annotate gene \
-            --colors 'lightblue,steelblue' \
-            --output_dir ./out
-
-      .. figure:: ../out/multitrack_annotate_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_cm_logp.png
-         :alt: multi-track circular Manhattan plot annotate
-         :width: 800px
-
 
 .. important::
    Notice the two near-significant loci on **chromosome 10** and **chromosome 11**.
@@ -646,13 +650,47 @@ tracks using ``--highlight_line``.
    .. note::
       If only ``highlight_thresh 1e-07`` is used, the loci will be highlighted but not annotated.
 
+   let's also take the advantage to see one more feature, ``--annotation_size`` to make the gene 
+   labels more legible.
+
 .. tab-set::
+
+   .. tab-item:: Circular
+
+      Remember we can still explicitly specify circular mode even if it's the default.
+
+      .. code-block:: bash
+
+         pycmplot \
+            --mode cm \
+            --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait2_hg19.tsv.gz,./data/sumstats_1M_trait3_hg19.tsv.gz,./data/sumstats_1M_trait4_hg38.tsv.gz,./data/sumstats_1M_trait5_hg38.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz \
+            --labels T1_hg19,T2_hg19,T3_hg19,T4_hg38,T5_hg38,T6_hg38 \
+            --plot_title "Multi-track (annotate 2)" \
+            --logp \
+            --highlight \
+            --highlight_line \
+            --signif_line \
+            --suggest_threshold \
+            --highlight_line \
+            --trim_pval 0.01 \
+            --chrom_label_side outside \
+            --annotate gene \
+            --annotation_size 8 \
+            --signif_threshold 1e-07 \
+            --highlight_thresh 1e-07 \
+            --colors 'lightblue,steelblue' \
+            --output_dir ./out
+
+      .. figure:: ../out/multitrack_annotate_2_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_cm_logp.png
+         :alt: multi-track circular annotation 2
+         :width: 800px
 
    .. tab-item:: Linear
 
       .. code-block:: bash
 
          pycmplot \
+            --mode lm \
             --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait2_hg19.tsv.gz,./data/sumstats_1M_trait3_hg19.tsv.gz,./data/sumstats_1M_trait4_hg38.tsv.gz,./data/sumstats_1M_trait5_hg38.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz \
             --labels T1_hg19,T2_hg19,T3_hg19,T4_hg38,T5_hg38,T6_hg38 \
             --plot_title "Multi-track (annotate 2)" \
@@ -664,6 +702,7 @@ tracks using ``--highlight_line``.
             --suggest_threshold \
             --trim_pval 0.01 \
             --annotate gene \
+            --annotation_size 8 \
             --track_heights 2.5,1,1,1,1,1,1 \
             --figure_size 10,8 \
             --signif_threshold 1e-07 \
@@ -674,41 +713,13 @@ tracks using ``--highlight_line``.
          :alt: multi-track linear annotation 2
          :width: 800px
 
-   .. tab-item:: Circular
-
-      .. code-block:: bash
-
-         pycmplot \
-            --mode cm \
-            --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait2_hg19.tsv.gz,./data/sumstats_1M_trait3_hg19.tsv.gz,./data/sumstats_1M_trait4_hg38.tsv.gz,./data/sumstats_1M_trait5_hg38.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz \
-            --labels T1_hg19,T2_hg19,T3_hg19,T4_hg38,T5_hg38,T6_hg38 \
-            --plot_title "Multi-track (annotate 2)" \
-            --logp \
-            --highlight \
-            --highlight_line \
-            --signif_line \
-            --suggest_threshold \
-            --highlight_line \
-            --trim_pval 0.01 \
-            --chrom_label_side outside \
-            --annotate gene \
-            --signif_threshold 1e-07 \
-            --highlight_thresh 1e-07 \
-            --colors 'lightblue,steelblue' \
-            --output_dir ./out
-
-      .. figure:: ../out/multitrack_annotate_2_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_cm_logp.png
-         :alt: multi-track circular annotation 2
-         :width: 800px
-
 
 The hits summary table written alongside the plot is a tidy CSV/TSV
 you can inspect or export directly:
 
 Any of ``--annotate SNP`` (label with rsID),
 ``--annotate GENE`` (label with the nearest / top gene), or a
-column name from the hits table is accepted.  Add
-``--annotate GENE`` on top of the previous command:
+column name from the hits table is accepted.
 
 
 .. admonition:: Question: Which genes had sub-threshold significant p-values?
@@ -743,9 +754,8 @@ Inspect it with any TSV viewer:
    # 1     14822344  rs123  3.4e-11        Hb      FTO        auto
 
 Columns include ``CHR``, ``POS``, ``SNP``, ``P``, ``LABEL``
-(track name), ``top_gene``, plus the overlay columns
-``source``, ``highlight_color``, and ``category`` (introduced by the
-overlay system — see :ref:`cli-tut-overlay`).
+(track name), ``top_gene``, plus additional columns.
+
 
 Distance semantics
 ~~~~~~~~~~~~~~~~~~
@@ -788,7 +798,6 @@ concept this calculation is delibrately strand-aware rather than positionally.
    :alt: pycmplot gene selection schematic
    :width: 800px
 
-
 Download a PDF copy. :download:`annotation_schematic.pdf
 <../benchmark/figures/annotation_schematic.pdf>`.
 
@@ -808,29 +817,69 @@ draw a QQ plot.  The CLI ``--qq_plot`` flag turns that computation on
 automatically — you never need to think about the underlying
 ``compute_pvals`` parameter:
 
-.. code-block:: bash
+Note, circular Manhattan is always generated by default.
 
-   pycmplot \
-     --sum_stats hb.tsv,mcv.tsv --labels Hb,MCV \
-     --logp --trim_pval 0.01 \
-     --qq_plot \
-     --output_dir ./out
+.. tab-set::
 
-QQ layout is chosen by additional flags on top of ``--qq_plot``:
+   .. tab-item:: QQ (default)
 
-.. code-block:: bash
+       A grid of per-track QQ panels (default)
 
-   # A grid of per-track QQ panels (default)
-   pycmplot --sum_stats hb.tsv,mcv.tsv --labels Hb,MCV --logp --qq_plot \
-            --qq_ncols 2 --output_dir ./out
+      .. code-block:: bash
 
-   # All tracks overlaid on one axes, coloured by label
-   pycmplot --sum_stats hb.tsv,mcv.tsv --labels Hb,MCV --logp --qq_plot \
-            --qq_overlay --output_dir ./out
+         pycmplot \
+            --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait2_hg19.tsv.gz,./data/sumstats_1M_trait3_hg19.tsv.gz,./data/sumstats_1M_trait4_hg38.tsv.gz,./data/sumstats_1M_trait5_hg38.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz \
+            --labels T1_hg19,T2_hg19,T3_hg19,T4_hg38,T5_hg38,T6_hg38 \
+            --plot_title "qq-plot" \
+            --logp --trim_pval 0.01 \
+            --qq_plot \
+            --output_dir ./out
 
-   # One QQ image per track
-   pycmplot --sum_stats hb.tsv,mcv.tsv --labels Hb,MCV --logp --qq_plot \
-            --qq_separate --output_dir ./out
+         # QQ layout is chosen by additional flags on top of ``--qq_plot``
+
+      .. figure:: ../out/qqplot_T1_hg19_T2_hg19_T3_hg19_T4_hg38_T5_hg38_T6_hg38_cm_logp_qq_combined.png
+         :alt: qq default
+         :width: 800px
+
+
+   .. tab-item:: QQ (2 columns)
+
+      A grid of per-track QQ panels in 2 columns
+
+      .. code-block:: bash
+
+         pycmplot \
+            --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait2_hg19.tsv.gz,./data/sumstats_1M_trait3_hg19.tsv.gz,./data/sumstats_1M_trait4_hg38.tsv.gz,./data/sumstats_1M_trait5_hg38.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz \
+            --labels T1_hg19,T2_hg19,T3_hg19,T4_hg38,T5_hg38,T6_hg38 \
+            --plot_title "2-column qq-plot" \
+            --logp --trim_pval 0.01 \
+            --qq_plot --qq_ncols 2 \
+            --output_dir ./out
+
+      .. figure:: ../out/2column_qqplot_T1_hg19_T2_hg19_T3_hg19_T4_hg38_T5_hg38_T6_hg38_cm_logp_qq_combined.png
+         :alt: 2-column qq default
+         :width: 800px
+
+   .. tab-item:: QQ (overlay)
+
+      All tracks overlaid on one axes, coloured by label
+
+      .. code-block:: bash
+
+         pycmplot \
+            --sum_stats ./data/sumstats_1M_trait1_hg19.tsv.gz,./data/sumstats_1M_trait2_hg19.tsv.gz,./data/sumstats_1M_trait3_hg19.tsv.gz,./data/sumstats_1M_trait4_hg38.tsv.gz,./data/sumstats_1M_trait5_hg38.tsv.gz,./data/sumstats_1M_trait6_hg38.tsv.gz \
+            --labels T1_hg19,T2_hg19,T3_hg19,T4_hg38,T5_hg38,T6_hg38 \
+            --plot_title "overlay qq-plot" \
+            --logp --trim_pval 0.01 \
+            --qq_plot --qq_overlay \
+            --output_dir ./out
+
+         # to create one image per track rather, use --qq_separate
+
+      .. figure:: ../out/overlay_qqplot_T1_hg19_T2_hg19_T3_hg19_T4_hg38_T5_hg38_T6_hg38_cm_logp_qq_combined.png
+         :alt: overlay qq default
+         :width: 800px
+
 
 Every layout draws the 95% CI band around the diagonal and annotates
 each track with its genomic inflation factor λ.  The CI band is not
@@ -890,6 +939,9 @@ use ``pycmplot --clear_cache --cache_dir ./.pycmplot`` from the CLI.
 
 The hits overlay TSV
 --------------------
+
+``source``, ``highlight_color``, and ``category`` (introduced by the
+overlay system — see :ref:`cli-tut-overlay`).
 
 When caching is enabled, the loader writes the hits table to a
 group-scoped TSV that **you're expected to hand-edit**.  The path is:

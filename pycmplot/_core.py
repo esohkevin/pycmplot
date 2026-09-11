@@ -374,9 +374,44 @@ def main() -> None:
     pval_dict = pycmplot_dict["pvals"]
 
     # ------------------------------------------------------------------
-    # CIRCULAR MANHATTAN
+    # LINEAR MANHATTAN
     # ------------------------------------------------------------------
-    if mode.upper() == "CM":
+    if mode.upper() == "LM":
+        logger.info("Generating LINEAR MANHATTAN Plot ...")
+        logger.info(f"FIGURE SIZE: {fsize}")
+        linear(
+            sumstats_loaded=sumstats_loaded,
+            track_heights=t_heights,
+            logp=True if logp else False,
+            point_size=point_size,
+            highlight=highlight,
+            highlight_color=highlight_color,
+            highlight_line=highlight_line,
+            highlight_line_color=highlight_line_color,
+            highlight_legend=highlight_legend,
+            highlight_legend_loc=highlight_legend_loc,
+            signif_line = signif_line,
+            suggest_line = True if suggest_threshold is not None else False,
+            annotate=annotate,
+            annotation_size=annotation_size,
+            hits_table=hits_table if not hits_table.empty else None,
+            chr_spacing=chr_spacing,
+            linear_track_spacing=linear_track_spacing,
+            annot_rail_frac=annot_rail_frac,
+            colors=colors,
+            signif_lines=signif_lines,
+            plot_title=plot_title,
+            no_track_labels=no_track_labels,
+            ylabel=ylabel,
+            dpi=dpi,
+            output_format=output_format,
+            output_dir=output_dir,
+            figsize=fsize
+        )
+    # ------------------------------------------------------------------
+    # CIRCULAR MANHATTAN - DEFAULT
+    # ------------------------------------------------------------------
+    else:
         logger.info("Generating CIRCULAR MANHATTAN Plot ...")
         circular(
             sumstats_loaded = sumstats_loaded,
@@ -410,42 +445,6 @@ def main() -> None:
             ylabel=ylabel,
             output_format=output_format,
             output_dir=output_dir
-        )
-
-    # ------------------------------------------------------------------
-    # LINEAR MANHATTAN - DEFAULT
-    # ------------------------------------------------------------------
-    else:
-        logger.info("Generating LINEAR MANHATTAN Plot ...")
-        logger.info(f"FIGURE SIZE: {fsize}")
-        linear(
-            sumstats_loaded=sumstats_loaded,
-            track_heights=t_heights,
-            logp=True if logp else False,
-            point_size=point_size,
-            highlight=highlight,
-            highlight_color=highlight_color,
-            highlight_line=highlight_line,
-            highlight_line_color=highlight_line_color,
-            highlight_legend=highlight_legend,
-            highlight_legend_loc=highlight_legend_loc,
-            signif_line = signif_line,
-            suggest_line = True if suggest_threshold is not None else False,
-            annotate=annotate,
-            annotation_size=annotation_size,
-            hits_table=hits_table if not hits_table.empty else None,
-            chr_spacing=chr_spacing,
-            linear_track_spacing=linear_track_spacing,
-            annot_rail_frac=annot_rail_frac,
-            colors=colors,
-            signif_lines=signif_lines,
-            plot_title=plot_title,
-            no_track_labels=no_track_labels,
-            ylabel=ylabel,
-            dpi=dpi,
-            output_format=output_format,
-            output_dir=output_dir,
-            figsize=fsize
         )
 
     # ------------------------------------------------------------------
