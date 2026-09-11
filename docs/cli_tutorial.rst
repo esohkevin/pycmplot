@@ -939,7 +939,6 @@ extraction).  Turn on caching and every re-run of the same
                   |                    kesohku1@jh.edu                   |
                   #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
-            [INFO] Cleared cache at ./.pycmplot
             [INFO] Cross-file mixed builds detected across the loader group (hg19/hg38); hg18/hg19 tracks will be lifted over to hg38 so that highlight lines and shared coordinates align.
             [INFO] Loading T1_hg19 [./data/sumstats_1M_trait1_hg19.tsv.gz] ...
             [INFO] Normalizing chromosome names {"23": "X", "24": "Y", "M": "MT", "MTDNA": "MT"} ...
@@ -1009,16 +1008,17 @@ extraction).  Turn on caching and every re-run of the same
             [INFO] Annotating by: nearest_gene
             [INFO] Saved circular Manhattan plot: ./out/multitrack_cached_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_cm_logp.png
 
-         We timed the run: it took roughly 35 seconds
 
-         real	0m34.577s
-         user	0m21.652s
-         sys	0m1.489s
+         .. note::
 
+            We timed the run: it took roughly 35 seconds
 
-      .. figure:: ../out/multitrack_cached_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_cm_logp.png
-         :alt: overlay qq default
-         :width: 800px
+            real	0m34.577s
+
+            user	0m21.652s
+
+            sys	0m1.489s
+
 
    .. tab-item:: Caching (resumed)
 
@@ -1050,7 +1050,7 @@ extraction).  Turn on caching and every re-run of the same
             --cache_dir ./.pycmplot \
             --output_dir ./out
 
-      **Click below to see the report on first-time run with cache on**
+      **Click below to see the report on resume**
 
       .. toggle::
 
@@ -1080,18 +1080,18 @@ extraction).  Turn on caching and every re-run of the same
             [INFO] Plotting : T5_hg38
             [INFO] Plotting : T6_hg38
             [INFO] Annotating by: nearest_gene
-            [INFO] Saved circular Manhattan plot: ./out/multitrack_cached_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_cm_logp.png
+            [INFO] Saved circular Manhattan plot: ./out/multitrack_resumed_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_cm_logp.png
 
-         Time: it took nearly 8 seconds
+         .. note::
 
-         real	0m7.584s
-         user	0m14.227s
-         sys	0m0.428s
+            Time: it took nearly 8 seconds
 
+            real	0m7.584s
 
-      .. figure:: ../out/multitrack_resumed_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_cm_logp.png
-         :alt: overlay qq default
-         :width: 800px
+            user	0m14.227s
+            
+            sys	0m0.428s
+
 
 .. note::
 
