@@ -226,6 +226,7 @@ def main() -> None:
     signif_threshold = args.signif_threshold
     signif_line      = args.signif_line
     suggest_threshold= args.suggest_threshold
+    plot_signif_threshold = getattr(args, "plot_signif_threshold", None)
     annotate         = args.annotate
     annotation_size  = args.annotation_size
     point_size       = args.point_size
@@ -395,6 +396,7 @@ def main() -> None:
             annotate=annotate,
             annotation_size=annotation_size,
             hits_table=hits_table if not hits_table.empty else None,
+            signif_threshold=plot_signif_threshold,
             chr_spacing=chr_spacing,
             linear_track_spacing=linear_track_spacing,
             annot_rail_frac=annot_rail_frac,
@@ -434,6 +436,7 @@ def main() -> None:
             annotate = annotate,
             annotation_size = annotation_size,
             hits_table = hits_table,
+            signif_threshold = plot_signif_threshold,
             sector_sizes = merged_assoc_sector_sizes,
             pad = pad,
             r_min = r_min,

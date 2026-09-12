@@ -19,6 +19,8 @@ is handled by :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`.
 
 from __future__ import annotations
 
+from typing import Optional
+
 import numpy as np
 import pandas as pd
 
@@ -28,6 +30,8 @@ def get_lead_snps(
     signif_threshold: float = 5e-8,
     logp: bool = False,
     window: int = 500_000,
+    score_col: Optional[str] = None,
+    ascending: Optional[bool] = None,
 ) -> pd.DataFrame:
     """Identify independent lead SNPs by greedy distance-based clumping.
 
@@ -83,17 +87,34 @@ def get_lead_snps(
     1  rs789012  11   5246696  3.40e-85
     """
 
-    if logp:
-        thresh = -np.log10(float(signif_threshold))
-        sig = df[df["logP"] >= thresh].copy()
-        p_col = "logP"
-        ascending = False
+    # Resolve column + comparison direction.  Callers can override the
+    # default (P-value semantics) to point at any column — e.g.
+    # ``score_col="P_UNSIGNED", ascending=False`` for signed selection
+    # statistics like iHS or XP-EHH, where "more significant" means larger
+    # |value| rather than smaller p-value.
+    if score_col is None and ascending is None:
+        # Legacy calling convention — preserved verbatim.
+        if logp:
+            thresh = -np.log10(float(signif_threshold))
+            sig = df[df["logP"] >= thresh].copy()
+            score_col = "logP"
+            ascending = False
+        else:
+            sig = df[df["P"] <= float(signif_threshold)].copy()
+            score_col = "P"
+            ascending = True
     else:
-        sig = df[df["P"] <= signif_threshold].copy()
-        p_col = "P"
-        ascending = True
+        if score_col is None:
+            score_col = "logP" if logp else "P"
+        if ascending is None:
+            ascending = not logp
+        thresh = float(signif_threshold)
+        if ascending:
+            sig = df[df[score_col] <= thresh].copy()
+        else:
+            sig = df[df[score_col] >= thresh].copy()
 
-    sig = sig.sort_values(p_col, ascending=ascending)
+    sig = sig.sort_values(score_col, ascending=ascending)
     leads: list[pd.Series] = []
 
     while not sig.empty:
@@ -115,6 +136,8 @@ def get_highlight_snps(
     highlight_thresh: float = 5e-8,
     logp: bool = False,
     window: int = 500_000,
+    score_col: Optional[str] = None,
+    ascending: Optional[bool] = None,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
     """Mark all variants within *window* bp of a lead SNP.
 
@@ -165,6 +188,8 @@ def get_highlight_snps(
         signif_threshold=highlight_thresh,
         logp=logp,
         window=window,
+        score_col=score_col,
+        ascending=ascending,
     )
 
     if highlight:

@@ -35,7 +35,7 @@
       <script src="_static/sphinxcontrib-images/LightBox2/lightbox2-customize/jquery-noconflict.js?v=12818e64"></script>
       <script defer="defer" src="https://unpkg.com/@popperjs/core@2"></script>
       <script defer="defer" src="https://unpkg.com/tippy.js@6"></script>
-      <script defer="defer" src="_static/tippy/changelog.42989f2c-3500-4e6b-8b94-34e8c285066b.js"></script>
+      <script defer="defer" src="_static/tippy/changelog.064b054c-a98a-40cc-be81-73784c243f45.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -95,6 +95,7 @@
 <li class="toctree-l2"><a class="reference internal" href="cli_tutorial.html#the-cli-mental-model">The CLI mental model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cli_tutorial.html#highlighting">Highlighting</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="cli_tutorial.html#single-track">Single-track</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cli_tutorial.html#signed-selection-statistics-ihs-xp-ehh-etc">Signed selection statistics (iHS, XP-EHH, etc.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cli_tutorial.html#multi-track">Multi-track</a></li>
 </ul>
 </li>
@@ -227,6 +228,7 @@
 <li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.build_highlight_legend_entries"><code class="docutils literal notranslate"><span class="pre">build_highlight_legend_entries()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.ensure_category_column"><code class="docutils literal notranslate"><span class="pre">ensure_category_column()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.ensure_highlight_color_column"><code class="docutils literal notranslate"><span class="pre">ensure_highlight_color_column()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.filter_hits_by_signif"><code class="docutils literal notranslate"><span class="pre">filter_hits_by_signif()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.get_annotation_column"><code class="docutils literal notranslate"><span class="pre">get_annotation_column()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.get_hits_summary_table"><code class="docutils literal notranslate"><span class="pre">get_hits_summary_table()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.resolve_highlight_categories"><code class="docutils literal notranslate"><span class="pre">resolve_highlight_categories()</span></code></a></li>
@@ -305,17 +307,19 @@
 <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id1">0.4.2 - 2026-08-13</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id2">0.3.1 - 2026-07-31</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">0.3.0 - 2026-06-01</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">0.2.8 - 2026-05-30</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id5">0.2.7 - 2026-04-27</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id6">0.2.5 - 2026-04-20</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id7">0.2.2 - 2026-04-18</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id8">0.2.1 — 2026-04-16</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id9">0.1.9 — 2026-04-14</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id10">0.1.8 — 2026-04-14</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id11">0.1.0 — 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">0.4.2 - 2026-09-12</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">0.4.1 - 2026-08-23</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">0.4.0 - 2026-08-13</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">0.3.1 - 2026-07-31</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">0.3.0 - 2026-06-01</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">0.2.8 - 2026-05-30</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">0.2.7 - 2026-04-27</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">0.2.5 - 2026-04-20</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">0.2.2 - 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id10">0.2.1 — 2026-04-16</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id11">0.1.9 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id12">0.1.8 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id13">0.1.0 — 2026-04-18</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a><ul>
@@ -360,7 +364,97 @@
 and this project adheres to <a class="reference external" href="https://semver.org/">Semantic Versioning</a>.</p>
 <p>—</p>
 <section id="id1">
-<h2>0.4.2 - 2026-08-13<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<h2>0.4.2 - 2026-09-12<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<p><strong>Added</strong></p>
+<ul>
+<li><p><strong>Signed-statistic support in the loader (iHS / XP-EHH / Fay &amp; Wu’s
+H / Tajima’s D, etc.).</strong>  When <code class="docutils literal notranslate"><span class="pre">logp=False</span></code> and the score column
+carries negative values, the loader now:</p>
+<ul class="simple">
+<li><p>Adds a companion <code class="docutils literal notranslate"><span class="pre">P_UNSIGNED</span> <span class="pre">=</span> <span class="pre">|P|</span></code> column to each track’s
+DataFrame.</p></li>
+<li><p>Routes lead-SNP extraction and highlight-window selection through
+<code class="docutils literal notranslate"><span class="pre">P_UNSIGNED</span></code> (via new <code class="docutils literal notranslate"><span class="pre">score_col</span></code> / <code class="docutils literal notranslate"><span class="pre">ascending</span></code> parameters
+on <a class="reference internal" href="api/stats.html#pycmplot.stats.get_lead_snps" title="pycmplot.stats.get_lead_snps"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_lead_snps()</span></code></a> and
+<a class="reference internal" href="api/stats.html#pycmplot.stats.get_highlight_snps" title="pycmplot.stats.get_highlight_snps"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_highlight_snps()</span></code></a>), so both tails of the
+distribution contribute leads.  The original signed column stays
+in <code class="docutils literal notranslate"><span class="pre">P</span></code> and drives the y-axis unchanged.</p></li>
+<li><p>Requires an explicit <code class="docutils literal notranslate"><span class="pre">signif_threshold</span></code> — the p-value fallback
+<code class="docutils literal notranslate"><span class="pre">max(0.05/N,</span> <span class="pre">5e-8)</span></code> is meaningless on <code class="docutils literal notranslate"><span class="pre">|value|</span></code>.  Loader raises
+a clear <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValueError</span></code></a> pointing at the missing threshold.</p></li>
+<li><p>Records a mirrored <code class="docutils literal notranslate"><span class="pre">genome_neg</span> <span class="pre">=</span> <span class="pre">-signif_threshold</span></code> (and
+<code class="docutils literal notranslate"><span class="pre">suggestive_neg</span></code> where applicable) in the per-track
+<code class="docutils literal notranslate"><span class="pre">signif_lines</span></code> dict.  Linear and circular plotters draw both
+<code class="docutils literal notranslate"><span class="pre">+threshold</span></code> and <code class="docutils literal notranslate"><span class="pre">-threshold</span></code> dashed reference lines when
+those keys are present, so both selection tails are annotated.</p></li>
+<li><p>Clamps each reference-line y-value to the observed data range
+(<code class="docutils literal notranslate"><span class="pre">min(threshold,</span> <span class="pre">max(P))</span></code> on the positive tail,
+<code class="docutils literal notranslate"><span class="pre">max(-threshold,</span> <span class="pre">min(P))</span></code> on the negative tail) so a
+threshold beyond the data extremes still draws at the plot edge
+instead of floating off-screen.</p></li>
+</ul>
+<p>Before this change, <code class="docutils literal notranslate"><span class="pre">signif_threshold=4</span></code> on signed data selected
+<code class="docutils literal notranslate"><span class="pre">iHS</span> <span class="pre">&lt;=</span> <span class="pre">4</span></code> (kept all negatives, missed positive-selection hits) and
+drew a single reference line — the semantic was inherited from the
+p-value path.  Regression: <code class="docutils literal notranslate"><span class="pre">benchmark/tests/test_signed_stats.py</span></code>.</p>
+</li>
+<li><p><strong>Plot-time significance filter on the hits table.</strong>  New
+<code class="docutils literal notranslate"><span class="pre">signif_threshold</span></code> parameter on
+<a class="reference internal" href="api/plotting.html#pycmplot.plotting.linear.plot_linear" title="pycmplot.plotting.linear.plot_linear"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot_linear()</span></code></a> and
+<a class="reference internal" href="api/plotting.html#pycmplot.plotting.circular.circular" title="pycmplot.plotting.circular.circular"><code class="xref py py-func docutils literal notranslate"><span class="pre">circular()</span></code></a>, and matching CLI flag
+<code class="docutils literal notranslate"><span class="pre">-psig</span></code> / <code class="docutils literal notranslate"><span class="pre">--plot_signif_threshold</span></code>.  Loci whose lead SNP fails
+this cutoff are dropped from gene-label annotations without changing
+the loaded data, highlighted points, or reference lines.  Enables a
+“load broadly, annotate strictly” workflow: run the loader with a
+permissive <code class="docutils literal notranslate"><span class="pre">--signif_threshold</span></code> / <code class="docutils literal notranslate"><span class="pre">--highlight_thresh</span></code> to keep a
+rich hits table (useful for hand-editing the <code class="docutils literal notranslate"><span class="pre">hits.&lt;group&gt;.tsv</span></code>
+overlay), then tighten annotation stringency at plot time.  Backed
+by a new <a class="reference internal" href="api/annotation.html#pycmplot.annotation.filter_hits_by_signif" title="pycmplot.annotation.filter_hits_by_signif"><code class="xref py py-func docutils literal notranslate"><span class="pre">pycmplot.annotation.filter_hits_by_signif()</span></code></a> helper
+that auto-detects signed vs unsigned by inspecting the hits table’s
+<code class="docutils literal notranslate"><span class="pre">P</span></code> column.</p></li>
+</ul>
+<p><strong>Fixed</strong></p>
+<ul class="simple">
+<li><p><strong>``signif_threshold`` now propagates into the drawn reference
+line.</strong>  The loader was re-initialising <code class="docutils literal notranslate"><span class="pre">resolved_signif_line</span></code>
+from <code class="docutils literal notranslate"><span class="pre">max(0.05/N,</span> <span class="pre">5e-8)</span></code> on every iteration regardless of the
+supplied <code class="docutils literal notranslate"><span class="pre">signif_threshold</span></code>.  For unsigned data the two values
+coincidentally agreed; for signed data
+<code class="docutils literal notranslate"><span class="pre">signif_threshold=4</span></code> was set correctly for lead-picking but the
+reference line silently rendered at <code class="docutils literal notranslate"><span class="pre">5e-8</span></code> (a p-value scale) instead
+of at <code class="docutils literal notranslate"><span class="pre">4</span></code>.  <code class="docutils literal notranslate"><span class="pre">resolved_signif_line</span></code> now initialises from
+<code class="docutils literal notranslate"><span class="pre">signif_threshold</span></code> and is only overridden by an explicit
+<code class="docutils literal notranslate"><span class="pre">signif_line=&lt;float&gt;</span></code>.  Bonus: on unsigned data, a hand-picked
+<code class="docutils literal notranslate"><span class="pre">signif_threshold</span></code> (e.g. <code class="docutils literal notranslate"><span class="pre">1e-6</span></code>) that used to disagree with the
+drawn line now matches by default; pass <code class="docutils literal notranslate"><span class="pre">signif_line=&lt;value&gt;</span></code>
+to keep them different.</p></li>
+<li><p><strong>``prep()`` column resolution: additions to ``pvl_candidates``
+are now honored.</strong>  The per-file inner loop was rebuilding
+<code class="docutils literal notranslate"><span class="pre">pvl_cands</span></code> from a hard-coded literal list, silently discarding
+any additions made to <code class="docutils literal notranslate"><span class="pre">pvl_candidates</span></code> at function scope (e.g.
+<code class="docutils literal notranslate"><span class="pre">IHS</span></code>, <code class="docutils literal notranslate"><span class="pre">RSB</span></code>, <code class="docutils literal notranslate"><span class="pre">LOGP</span></code>).  The rebuild is removed; the outer
+list is now the single source of truth.</p></li>
+<li><p><strong>``prep()`` user-supplied column hints now take priority.</strong>
+Two-pass resolution: (1) case-insensitive match against the file
+header for <code class="docutils literal notranslate"><span class="pre">chrom</span></code> / <code class="docutils literal notranslate"><span class="pre">pos</span></code> / <code class="docutils literal notranslate"><span class="pre">snp</span></code> / <code class="docutils literal notranslate"><span class="pre">pcol</span></code> if the user
+supplied one; (2) leftmost header column matching any built-in
+candidate.  Fixes the bug where a header like
+<code class="docutils literal notranslate"><span class="pre">SNP</span> <span class="pre">CHR</span> <span class="pre">POSITION</span> <span class="pre">IHS</span> <span class="pre">LOGPVALUE</span> <span class="pre">P</span> <span class="pre">BH_adj_P</span> <span class="pre">Bonf</span></code> resolved the
+p-value column to <code class="docutils literal notranslate"><span class="pre">IHS</span></code> (leftmost header match against the
+candidate <em>set</em>) even when the user explicitly passed <code class="docutils literal notranslate"><span class="pre">pcol=&quot;P&quot;</span></code>.
+A hint that names a column not present in the header now errors
+out clearly rather than silently falling back to a different
+column.</p></li>
+</ul>
+<p><strong>Docs</strong></p>
+<ul class="simple">
+<li><p>Tutorial note under <span class="xref std std-ref">cli-tut-linear</span> explaining signed-stat
+behavior for iHS / XP-EHH and how <code class="docutils literal notranslate"><span class="pre">signif_threshold</span></code> /
+<code class="docutils literal notranslate"><span class="pre">highlight_thresh</span></code> are applied on <code class="docutils literal notranslate"><span class="pre">|value|</span></code>.</p></li>
+</ul>
+</section>
+<section id="id2">
+<h2>0.4.1 - 2026-08-23<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
 <p><strong>Added</strong></p>
 <ul class="simple">
 <li><p><strong>``highlight_legend`` on/off toggle on both plotters.</strong>  A
@@ -634,6 +728,9 @@ regardless of side.  This is what users typically mean by
 (with a fallback to <code class="docutils literal notranslate"><span class="pre">nearest_upstream_gene</span></code> when reading legacy
 cached hits tables that predate the new column).</p></li>
 </ul>
+</section>
+<section id="id3">
+<h2>0.4.0 - 2026-08-13<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
 <p><strong>Changed</strong></p>
 <ul class="simple">
 <li><p><strong>QQ plot legend no longer includes a “95% CI” entry.</strong>  The CI
@@ -957,8 +1054,8 @@ user-editable hits overlay design.</p></li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id2">
-<h2>0.3.1 - 2026-07-31<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<section id="id4">
+<h2>0.3.1 - 2026-07-31<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
 <p><strong>Fixed</strong></p>
 <ul class="simple">
 <li><p><strong>LiftOver hg18/hg19 to hg38</strong></p></li>
@@ -980,8 +1077,8 @@ Suggestive line inclusion now depends only on whether <code class="docutils lite
 specified.</p>
 </section>
 <hr class="docutils" />
-<section id="id3">
-<h2>0.3.0 - 2026-06-01<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<section id="id5">
+<h2>0.3.0 - 2026-06-01<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
 <p><strong>Fixed</strong></p>
 <ul class="simple">
 <li><p>Bug fix:
@@ -1001,8 +1098,8 @@ circular plotting</p></li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id4">
-<h2>0.2.8 - 2026-05-30<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<section id="id6">
+<h2>0.2.8 - 2026-05-30<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
 <p><strong>Added</strong></p>
 <ul class="simple">
 <li><p><strong>Dual annotation renderer architecture</strong></p></li>
@@ -1131,8 +1228,8 @@ incorrect pairing of chromosomes (e.g. chr3 with chr17) caused by
 <code class="docutils literal notranslate"><span class="pre">set</span></code> iteration order.</p></li>
 </ul>
 </section>
-<section id="id5">
-<h2>0.2.7 - 2026-04-27<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<section id="id7">
+<h2>0.2.7 - 2026-04-27<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
 <p><strong>Added</strong></p>
 <ul class="simple">
 <li><p><strong>Default-on density-aware auto-thinning</strong> for Manhattan / circular</p></li>
@@ -1320,8 +1417,8 @@ were removed).</p></li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id6">
-<h2>0.2.5 - 2026-04-20<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<section id="id8">
+<h2>0.2.5 - 2026-04-20<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
 <p><strong>Fixed</strong></p>
 <ul class="simple">
 <li><p>Chromosome-22 positions falling outside hg38 chr22 limits after liftover
@@ -1411,8 +1508,8 @@ dtypes from <code class="docutils literal notranslate"><span class="pre">str</sp
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id7">
-<h2>0.2.2 - 2026-04-18<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<section id="id9">
+<h2>0.2.2 - 2026-04-18<a class="headerlink" href="#id9" title="Link to this heading"></a></h2>
 <p><strong>Added</strong></p>
 <p>QQ plots (<a class="reference internal" href="api/plotting.html#module-pycmplot.plotting.qq" title="pycmplot.plotting.qq"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pycmplot.plotting.qq</span></code></a>):</p>
 <ul class="simple">
@@ -1481,8 +1578,8 @@ tracks to improve visibility of track labels and y-axis ticks.</p></li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id8">
-<h2>0.2.1 — 2026-04-16<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+<section id="id10">
+<h2>0.2.1 — 2026-04-16<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
 <p><strong>Added</strong></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">--build</span></code> option for supplying per-file genome builds when the
@@ -1505,8 +1602,8 @@ builds avoids this.</p></li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id9">
-<h2>0.1.9 — 2026-04-14<a class="headerlink" href="#id9" title="Link to this heading"></a></h2>
+<section id="id11">
+<h2>0.1.9 — 2026-04-14<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
 <p><strong>Fixed</strong></p>
 <ul class="simple">
 <li><p>Column name auto-detection now covers both lower- and upper-case
@@ -1517,8 +1614,8 @@ the CLI equivalent (required instead of optional).</p></li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id10">
-<h2>0.1.8 — 2026-04-14<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
+<section id="id12">
+<h2>0.1.8 — 2026-04-14<a class="headerlink" href="#id12" title="Link to this heading"></a></h2>
 <p><strong>Added</strong></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">--highlight_color</span></code> and <code class="docutils literal notranslate"><span class="pre">--highlight_line_color</span></code> options.</p></li>
@@ -1532,8 +1629,8 @@ the CLI equivalent (required instead of optional).</p></li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id11">
-<h2>0.1.0 — 2026-04-18<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
+<section id="id13">
+<h2>0.1.0 — 2026-04-18<a class="headerlink" href="#id13" title="Link to this heading"></a></h2>
 <p>Initial release.</p>
 <p><strong>Added</strong></p>
 <p>Package structure:</p>

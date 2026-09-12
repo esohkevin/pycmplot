@@ -35,7 +35,7 @@
       <script src="_static/sphinxcontrib-images/LightBox2/lightbox2-customize/jquery-noconflict.js?v=12818e64"></script>
       <script defer="defer" src="https://unpkg.com/@popperjs/core@2"></script>
       <script defer="defer" src="https://unpkg.com/tippy.js@6"></script>
-      <script defer="defer" src="_static/tippy/index.a01dcd34-29a9-41be-8d28-134e7f2c400d.js"></script>
+      <script defer="defer" src="_static/tippy/index.1884ecd0-c3eb-4126-98c0-34c449156163.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -94,6 +94,7 @@
 <li class="toctree-l2"><a class="reference internal" href="cli_tutorial.html#the-cli-mental-model">The CLI mental model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cli_tutorial.html#highlighting">Highlighting</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="cli_tutorial.html#single-track">Single-track</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cli_tutorial.html#signed-selection-statistics-ihs-xp-ehh-etc">Signed selection statistics (iHS, XP-EHH, etc.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="cli_tutorial.html#multi-track">Multi-track</a></li>
 </ul>
 </li>
@@ -226,6 +227,7 @@
 <li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.build_highlight_legend_entries"><code class="docutils literal notranslate"><span class="pre">build_highlight_legend_entries()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.ensure_category_column"><code class="docutils literal notranslate"><span class="pre">ensure_category_column()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.ensure_highlight_color_column"><code class="docutils literal notranslate"><span class="pre">ensure_highlight_color_column()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.filter_hits_by_signif"><code class="docutils literal notranslate"><span class="pre">filter_hits_by_signif()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.get_annotation_column"><code class="docutils literal notranslate"><span class="pre">get_annotation_column()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.get_hits_summary_table"><code class="docutils literal notranslate"><span class="pre">get_hits_summary_table()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.resolve_highlight_categories"><code class="docutils literal notranslate"><span class="pre">resolve_highlight_categories()</span></code></a></li>
@@ -304,17 +306,19 @@
 <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id1">0.4.2 - 2026-08-13</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id2">0.3.1 - 2026-07-31</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id3">0.3.0 - 2026-06-01</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id4">0.2.8 - 2026-05-30</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id5">0.2.7 - 2026-04-27</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id6">0.2.5 - 2026-04-20</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id7">0.2.2 - 2026-04-18</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id8">0.2.1 — 2026-04-16</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id9">0.1.9 — 2026-04-14</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id10">0.1.8 — 2026-04-14</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id11">0.1.0 — 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id1">0.4.2 - 2026-09-12</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id2">0.4.1 - 2026-08-23</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id3">0.4.0 - 2026-08-13</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id4">0.3.1 - 2026-07-31</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id5">0.3.0 - 2026-06-01</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id6">0.2.8 - 2026-05-30</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id7">0.2.7 - 2026-04-27</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id8">0.2.5 - 2026-04-20</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id9">0.2.2 - 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id10">0.2.1 — 2026-04-16</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id11">0.1.9 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id12">0.1.8 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id13">0.1.0 — 2026-04-18</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a><ul>

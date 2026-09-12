@@ -716,6 +716,37 @@ def ensure_category_column(
     return hits_table
 
 
+def filter_hits_by_signif(hits_table, signif_threshold, p_col: str = "P"):
+    """Return the subset of *hits_table* meeting *signif_threshold*.
+
+    Auto-detects signed statistics: if any value in ``hits_table[p_col]``
+    is negative, filters by ``|value| >= threshold`` (both tails).
+    Otherwise treats the column as a p-value and filters by
+    ``value <= threshold``.
+
+    ``signif_threshold=None`` (or an empty / column-less hits table)
+    returns the input unchanged.
+    """
+    import numpy as np
+    import pandas as pd
+
+    if (
+        hits_table is None
+        or not isinstance(hits_table, pd.DataFrame)
+        or hits_table.empty
+        or signif_threshold is None
+        or p_col not in hits_table.columns
+    ):
+        return hits_table
+    vals = hits_table[p_col].to_numpy(dtype=float)
+    thresh = float(signif_threshold)
+    if np.any(vals < 0):
+        mask = np.abs(vals) >= thresh
+    else:
+        mask = vals <= thresh
+    return hits_table[mask].reset_index(drop=True)
+
+
 def resolve_highlight_colors(
     sig_df: "pd.DataFrame",
     hits_table: "pd.DataFrame",

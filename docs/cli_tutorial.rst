@@ -171,10 +171,10 @@ mode-specific option list.
       Optional:
       =========
       -m {lm,cm}, --mode {lm,cm}              Plot mode: lm (linear Manhattan) or cm (circular Manhattan). Default: cm.
-      -chr str, --chrom_column str            Chromosome column name in sumstats (e.g. CHR).
-      -pos str, --pos_column str              Position column name (e.g. BP).
-      -snp str, --snp_column str              SNP ID column name (e.g. ID).
-      -p str, --pval_column str               P-value column name (e.g. P).
+      -chr str, --chrom_column str            Chromosome column name in sumstats (autodetected if omitted).
+      -pos str, --pos_column str              Position column name (autodetected if omitted).
+      -snp str, --snp_column str              SNP ID column name (autodetected if omitted).
+      -p str, --pval_column str               P-value column name (autodetected if omitted).
       -d str, --delim str                     File delimiter (autodetected if omitted).
       -bc str, --build_column str             Name of column containing genome build (hg18/hg19/hg38).
                                               Or use ``--build`` below to supply genome builds per summary stat file.
@@ -209,7 +209,7 @@ mode-specific option list.
                                                 whenever the loader group (or a single file) spans more than
                                                 one distinct build.
                                     
-      --logp                                 Plot −log₁₀(p) instead of raw p-values.
+      --logp                                 Plot -log10(p) instead of raw p-values.
       -qq, --qq_plot                         Generate QQ-plot(s) alongside the Manhattan plot.
       -qq_sep, --qq_separate                 Save one QQ-plot file per sumstat instead of a combined multi-panel figure. 
                                              Only used when -qq is set.
@@ -254,6 +254,13 @@ mode-specific option list.
       -sig, --signif_threshold [float]       Genome-wide significance threshold (default: 0.05/number of records).
       -sigl, --signif_line [float]           Value for genome-wide significance line if different from `-sig` (default: 0.05/number of records).
       -sug, --suggest_threshold [float]      Suggestive significance threshold (default: 1e-5).
+      -psig, --plot_signif_threshold float   Plot-time significance filter applied to the hits table only.  Loci whose lead SNP fails this 
+                                             cutoff are dropped from gene-label annotations without changing the loaded data, highlighted points, 
+                                             or reference lines.  Enables a 'load broadly, annotate strictly' workflow: run the loader 
+                                             with a permissive `--signif_threshold` / `--highlight_thresh` to keep a rich hits table, then 
+                                             tighten annotation stringency at plot time with this flag.  Auto-detects signed statistics 
+                                             (both tails retained when the hits table's ``P`` column has negatives).  Default: None (no plot-time filter).
+ 
       -a, --annotate [{snp,gene,
          top_gene,nearest_upstream_gene,
          nearest_downstream_gene,...}]       Annotate loci by column name in hits table (defaults to 'snp' if provided and no value set).
@@ -449,6 +456,44 @@ Single-track
          :alt: linear Manhattan plot with base options highlighted
          :width: 800px
 
+
+.. _cli-tut-signed-stats:
+
+Signed selection statistics (iHS, XP-EHH, etc.)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+pycmplot auto-detects signed test statistics: when ``--logp`` is *off*
+and the score column contains negative values, the loader switches
+into signed mode.  Behaviour that changes:
+
+- A companion column ``P_UNSIGNED = |P|`` is added to the in-memory
+  DataFrame; the original signed values stay in ``P`` and continue to
+  drive the y-axis, so both peaks and troughs remain visible.
+- ``--signif_threshold`` and ``--highlight_thresh`` are applied on
+  ``|value|`` (e.g. ``--signif_threshold 4`` for iHS keeps both tails
+  with ``|iHS| >= 4``).  Lead-SNP extraction, locus windowing and
+  gene annotation are all driven from ``P_UNSIGNED``, so a hit at
+  ``iHS = +6`` and one at ``iHS = -5`` are both picked up and
+  annotated.
+- The auto-fallback ``max(0.05/N, 5e-8)`` for ``--signif_threshold``
+  is disabled — it is a p-value semantic and does not apply to
+  ``|value|``.  Pass an explicit threshold or the loader errors with
+  a pointer back to this section.
+- Both plotters draw dashed reference lines at ``+threshold`` *and*
+  ``-threshold`` (and, when ``--suggest_threshold`` is given, the
+  suggestive line is likewise mirrored).
+
+.. code-block:: bash
+
+   pycmplot \
+      --sum_stats ./data/ihs_scan_hg38.tsv.gz \
+      --labels iHS \
+      --plot_title "Positive selection scan (iHS)" \
+      --signif_threshold 4 \
+      --highlight_thresh 4 \
+      --highlight \
+      --signif_line \
+      --output_dir ./out
 
 .. _cli-tut-multi-track-highlight:
 
