@@ -23,6 +23,7 @@ import logging
 import math
 from typing import Optional
 
+import sys
 import numpy as np
 import pandas as pd
 from matplotlib.lines import Line2D
@@ -133,8 +134,10 @@ def plot_circosm(
     logp: bool = True,
     signif_line: Optional[bool | float] = None,
     signif_threshold: Optional[float] = None,
+    signif_threshold_neg: Optional[float] = None,
     suggest_line: bool = False,
     suggest_threshold: Optional[float] = None,
+    suggest_threshold_neg: Optional[float] = None,
     highlight: bool = False,
     highlight_color: str = 'brown',
     colors: Optional[list[str]] = ['steelblue','orange'],
@@ -311,6 +314,8 @@ def plot_circosm(
     y_col = "logP" if logp else "P"
 
     if highlight:
+        if "in_locus" not in assoc_chr.columns:
+            sys.exit("ERROR: 'in_locus' column is not in loaded sumstats. Did you forget to run `load` with the `highlight` option?")           
         sig = assoc_chr[assoc_chr["in_locus"]]
         bg = assoc_chr[~assoc_chr["in_locus"]]
 
@@ -361,6 +366,18 @@ def plot_circosm(
             vmin=v_min, vmax=v_max,
             color="orangered", linestyle="--",
         )
+        # Signed statistics (iHS/XP-EHH/etc.): mirror the significance
+        # line onto the negative tail.  ``vmin``/``vmax`` are already
+        # signed-aware (they come from the actual data min/max in
+        # ``P``/``logP``), so a negative y still maps into the radial
+        # range without clipping.
+        if signif_threshold_neg is not None:
+            track.line(
+                x=[sector.start, sector.end],
+                y=[signif_threshold_neg, signif_threshold_neg],
+                vmin=v_min, vmax=v_max,
+                color="orangered", linestyle="--",
+            )
 
     if suggest_line:
         track.line(
@@ -369,6 +386,13 @@ def plot_circosm(
             vmin=v_min, vmax=v_max,
             color="navy", linestyle="--",
         )
+        if suggest_threshold_neg is not None:
+            track.line(
+                x=[sector.start, sector.end],
+                y=[suggest_threshold_neg, suggest_threshold_neg],
+                vmin=v_min, vmax=v_max,
+                color="navy", linestyle="--",
+            )
 
 
 def circular(
@@ -394,6 +418,7 @@ def circular(
     track_label_size: float = 6,
     track_label_orientation: str = 'vertical',
     hits_table: pd.DataFrame = None,
+    signif_threshold: Optional[float] = None,
     annotation_size: float = 6,
     plot_title: Optional[str] = None,
     plot_title_size: float = 12,
@@ -618,6 +643,13 @@ def circular(
         ]      
     """
 
+    # Plot-time significance filter on the hits table (see the linear
+    # plotter for full rationale).  Subsets gene-label annotations
+    # without touching the underlying track data or highlight colors.
+    if signif_threshold is not None:
+        from pycmplot.annotation import filter_hits_by_signif
+        hits_table = filter_hits_by_signif(hits_table, signif_threshold)
+
     for index, (sector_radius, sumstats_key, sumstats_value, signif_dict) in enumerate(
         zip(
             radii_reversed.values(),
@@ -638,6 +670,9 @@ def circular(
 
         sig_thresh = signif_dict["genome"]
         sug_thresh = signif_dict["suggestive"]
+        # Signed-stat mirror lines (present only for signed sumstats).
+        sig_thresh_neg = signif_dict.get("genome_neg")
+        sug_thresh_neg = signif_dict.get("suggestive_neg")
 
         logger.info(f"Plotting : {sumstat_name}")
 
@@ -662,8 +697,10 @@ def circular(
                 logp=logp,
                 signif_line=signif_line,
                 signif_threshold=sig_thresh,
+                signif_threshold_neg=sig_thresh_neg,
                 suggest_line=suggest_line,
                 suggest_threshold=sug_thresh,
+                suggest_threshold_neg=sug_thresh_neg,
                 highlight=highlight,
                 highlight_color=highlight_color,
                 colors=colors,

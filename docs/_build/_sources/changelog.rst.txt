@@ -8,8 +8,100 @@ and this project adheres to `Semantic Versioning <https://semver.org/>`_.
 
 ---
 
+0.4.2 - 2026-09-12
+------------------------------------------------------------------------------
 
-0.4.2 - 2026-08-13
+**Added**
+
+- **Signed-statistic support in the loader (iHS / XP-EHH / Fay & Wu's
+  H / Tajima's D, etc.).**  When ``logp=False`` and the score column
+  carries negative values, the loader now:
+
+  * Adds a companion ``P_UNSIGNED = |P|`` column to each track's
+    DataFrame.
+  * Routes lead-SNP extraction and highlight-window selection through
+    ``P_UNSIGNED`` (via new ``score_col`` / ``ascending`` parameters
+    on :func:`~pycmplot.stats.get_lead_snps` and
+    :func:`~pycmplot.stats.get_highlight_snps`), so both tails of the
+    distribution contribute leads.  The original signed column stays
+    in ``P`` and drives the y-axis unchanged.
+  * Requires an explicit ``signif_threshold`` — the p-value fallback
+    ``max(0.05/N, 5e-8)`` is meaningless on ``|value|``.  Loader raises
+    a clear :class:`ValueError` pointing at the missing threshold.
+  * Records a mirrored ``genome_neg = -signif_threshold`` (and
+    ``suggestive_neg`` where applicable) in the per-track
+    ``signif_lines`` dict.  Linear and circular plotters draw both
+    ``+threshold`` and ``-threshold`` dashed reference lines when
+    those keys are present, so both selection tails are annotated.
+  * Clamps each reference-line y-value to the observed data range
+    (``min(threshold, max(P))`` on the positive tail,
+    ``max(-threshold, min(P))`` on the negative tail) so a
+    threshold beyond the data extremes still draws at the plot edge
+    instead of floating off-screen.
+
+  Before this change, ``signif_threshold=4`` on signed data selected
+  ``iHS <= 4`` (kept all negatives, missed positive-selection hits) and
+  drew a single reference line — the semantic was inherited from the
+  p-value path.  Regression: ``benchmark/tests/test_signed_stats.py``.
+
+- **Plot-time significance filter on the hits table.**  New
+  ``signif_threshold`` parameter on
+  :func:`~pycmplot.plotting.linear.plot_linear` and
+  :func:`~pycmplot.plotting.circular.circular`, and matching CLI flag
+  ``-psig`` / ``--plot_signif_threshold``.  Loci whose lead SNP fails
+  this cutoff are dropped from gene-label annotations without changing
+  the loaded data, highlighted points, or reference lines.  Enables a
+  "load broadly, annotate strictly" workflow: run the loader with a
+  permissive ``--signif_threshold`` / ``--highlight_thresh`` to keep a
+  rich hits table (useful for hand-editing the ``hits.<group>.tsv``
+  overlay), then tighten annotation stringency at plot time.  Backed
+  by a new :func:`pycmplot.annotation.filter_hits_by_signif` helper
+  that auto-detects signed vs unsigned by inspecting the hits table's
+  ``P`` column.
+
+**Fixed**
+
+- **``signif_threshold`` now propagates into the drawn reference
+  line.**  The loader was re-initialising ``resolved_signif_line``
+  from ``max(0.05/N, 5e-8)`` on every iteration regardless of the
+  supplied ``signif_threshold``.  For unsigned data the two values
+  coincidentally agreed; for signed data
+  ``signif_threshold=4`` was set correctly for lead-picking but the
+  reference line silently rendered at ``5e-8`` (a p-value scale) instead
+  of at ``4``.  ``resolved_signif_line`` now initialises from
+  ``signif_threshold`` and is only overridden by an explicit
+  ``signif_line=<float>``.  Bonus: on unsigned data, a hand-picked
+  ``signif_threshold`` (e.g. ``1e-6``) that used to disagree with the
+  drawn line now matches by default; pass ``signif_line=<value>``
+  to keep them different.
+
+- **``prep()`` column resolution: additions to ``pvl_candidates``
+  are now honored.**  The per-file inner loop was rebuilding
+  ``pvl_cands`` from a hard-coded literal list, silently discarding
+  any additions made to ``pvl_candidates`` at function scope (e.g.
+  ``IHS``, ``RSB``, ``LOGP``).  The rebuild is removed; the outer
+  list is now the single source of truth.
+
+- **``prep()`` user-supplied column hints now take priority.**
+  Two-pass resolution: (1) case-insensitive match against the file
+  header for ``chrom`` / ``pos`` / ``snp`` / ``pcol`` if the user
+  supplied one; (2) leftmost header column matching any built-in
+  candidate.  Fixes the bug where a header like
+  ``SNP CHR POSITION IHS LOGPVALUE P BH_adj_P Bonf`` resolved the
+  p-value column to ``IHS`` (leftmost header match against the
+  candidate *set*) even when the user explicitly passed ``pcol="P"``.
+  A hint that names a column not present in the header now errors
+  out clearly rather than silently falling back to a different
+  column.
+
+**Docs**
+
+- Tutorial note under :ref:`cli-tut-linear` explaining signed-stat
+  behavior for iHS / XP-EHH and how ``signif_threshold`` /
+  ``highlight_thresh`` are applied on ``|value|``.
+
+
+0.4.1 - 2026-08-23
 ------------------------------------------------------------------------------
 
 **Added**
@@ -269,6 +361,10 @@ and this project adheres to `Semantic Versioning <https://semver.org/>`_.
   ``nearest_gene`` over ``nearest_upstream_gene`` for genic labels
   (with a fallback to ``nearest_upstream_gene`` when reading legacy
   cached hits tables that predate the new column).
+
+
+0.4.0 - 2026-08-13
+------------------------------------------------------------------------------
 
 **Changed**
 

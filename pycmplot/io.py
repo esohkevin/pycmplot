@@ -617,7 +617,7 @@ def prep(
     chr_candidates_u = [x.upper() for x in chr_candidates]
     chr_candidates = [chrom] + chr_candidates + chr_candidates_l + chr_candidates_u
                 
-    pos_candidates = ["BP", "POS", "bp", "pos", "Basepair"]
+    pos_candidates = ["BP", "POS", "Basepair", "position"]
     pos_candidates_l = [x.lower() for x in pos_candidates]
     pos_candidates_u = [x.upper() for x in pos_candidates]
     pos_candidates = [pos] + pos_candidates + pos_candidates_l + pos_candidates_u
@@ -628,7 +628,8 @@ def prep(
     snp_candidates_u = [x.upper() for x in snp_candidates]
     snp_candidates = [snp] + snp_candidates + snp_candidates_l + snp_candidates_u
 
-    pvl_candidates = ["P", "P-value", "Wald_P", "pvalue", "p_val", "pval"]
+    pvl_candidates = ["P", "P-value", "Wald_P", "pvalue", "p_val", "pval",
+                    "IHS", "RSB", "LOGP", "LOGPVALUE"]
     pvl_candidates_l = [x.lower() for x in pvl_candidates]
     pvl_candidates_u = [x.upper() for x in pvl_candidates]
     pvl_candidates = [pcol] + pvl_candidates + pvl_candidates_l + pvl_candidates_u
@@ -727,23 +728,63 @@ def prep(
 
         hdr = get_file_header(fpath, delim=file_sep, dialect=dialect)
 
-        # Rebuild p-value candidates per iteration so the user-supplied hint
-        # is never overwritten by a previous file's resolved column name.
-        pvl_cands = [user_pcol] + ["P", "P-value", "Wald_P", "pvalue", "p_val", "pval"]
-        pvl_cands = pvl_cands + [c.lower() for c in pvl_cands if c]
-        pvl_cands = pvl_cands + [c.upper() for c in pvl_cands if c]
-        pvl_cands = [c for c in pvl_cands if c]
+        # Reuse the p-value candidate list built once above.  The
+        # previous code duplicated a hard-coded base list here, which
+        # silently discarded any additions made to ``pvl_candidates``
+        # at function scope (e.g. ``IHS``, ``RSB``, ``LOGP``).  A
+        # per-iteration rebuild isn't necessary — ``user_pcol`` is not
+        # mutated inside the loop, so the outer list is stable.
+        pvl_cands = pvl_candidates
 
-        try:
-            chrom_col = next(c for c in hdr if c in set(chr_candidates))
-            pos_col   = next(c for c in hdr if c in set(pos_candidates))
-            snp_col   = next(c for c in hdr if c in set(snp_candidates))
-            pcol_col  = next(c for c in hdr if c in set(pvl_cands))
-        except StopIteration as exc:
+        # Two-pass column resolution:
+        #   Pass 1: user-supplied hint wins.  Case-insensitive match
+        #           against the file header — if the user typed
+        #           ``pcol="P"`` and the header contains ``P`` (in any
+        #           case), that column is used regardless of what
+        #           other candidates (e.g. ``IHS``, ``LOGPVALUE``)
+        #           happen to sit earlier in the header.  Fixes the
+        #           bug where a header like
+        #           ``SNP CHR POSITION IHS LOGPVALUE P BH_adj_P``
+        #           resolved p-value to ``IHS`` because the leftmost
+        #           header column matching the candidate *set* wins
+        #           and ``IHS`` had been added to the p-value
+        #           candidates.
+        #   Pass 2: leftmost header column matching any built-in
+        #           candidate (previous behaviour).
+        def _resolve(hint: Optional[str], candidates: list[str],
+                     kind: str) -> Optional[str]:
+            if hint:
+                _hint_l = str(hint).strip().lower()
+                for c in hdr:
+                    if c.lower() == _hint_l:
+                        return c
+                # Hint typed a name that isn't in the header — fail
+                # fast rather than silently picking a different column.
+                sys.exit(
+                    f"Error: --{kind} entry for {fpath} references "
+                    f"column {hint!r}, but the file header does not "
+                    f"contain that column.\n  Header: {hdr}"
+                )
+            for c in hdr:
+                if c in set(candidates):
+                    return c
+            return None
+
+        chrom_col = _resolve(chrom, chr_candidates, "chrom")
+        pos_col   = _resolve(pos,   pos_candidates, "pos")
+        snp_col   = _resolve(snp,   snp_candidates, "snp")
+        pcol_col  = _resolve(user_pcol, pvl_cands,  "pcol")
+
+        _missing = [
+            k for k, v in (
+                ("chrom", chrom_col), ("pos", pos_col),
+                ("snp",  snp_col),    ("pcol", pcol_col),
+            ) if v is None
+        ]
+        if _missing:
             sys.exit(
-                f"Error: could not find a required column in {fpath}.\n"
-                f"  Header: {hdr}\n"
-                f"  Details: {exc}"
+                f"Error: could not find required column(s) "
+                f"{_missing} in {fpath}.\n  Header: {hdr}"
             )
 
         # Detect build column in this file's header.
@@ -1628,7 +1669,35 @@ def load(
 
         # Get SNP counts for significance threshold calculation
         snp_counts[label] = len(df["P"].dropna().astype(float).values)
-        
+
+        # ------------------------------------------------------------------
+        # Signed-statistic detection (iHS / XP-EHH / Fay & Wu's H / etc.)
+        # ------------------------------------------------------------------
+        # When ``logp=False`` and the score column carries negative values,
+        # switch into signed mode: add a companion |value| column
+        # (``P_UNSIGNED``) and use *that* for lead-SNP extraction and
+        # highlight-window selection.  The signed original stays in ``P``
+        # and drives the y-axis, so peaks and troughs both stay visible.
+        # ``auto_thin_for_manhattan`` already operates on ``|value|`` so
+        # the two paths agree.
+        _signed = (not logp) and bool(
+            np.any(df["P"].to_numpy(dtype=float, na_value=0.0) < 0)
+        )
+        if _signed:
+            df["P_UNSIGNED"] = df["P"].abs()
+            _score_col = "P_UNSIGNED"
+            _score_asc = False
+            if signif_threshold is None:
+                raise ValueError(
+                    "signif_threshold is required for signed selection "
+                    "statistics (iHS/XP-EHH/etc.). The p-value fallback "
+                    "``max(0.05/N, 5e-8)`` is meaningless on |value| — "
+                    "pass e.g. ``signif_threshold=4`` for iHS."
+                )
+        else:
+            _score_col = None
+            _score_asc = None
+
         # Derive significance/suggestive thresholds
         n = snp_counts[label]
         if signif_threshold is None:
@@ -1642,8 +1711,15 @@ def load(
         if logp:
             suggest_line = -np.log10(suggest_line)
 
-        # initialize with auto-calculated threshold
-        resolved_signif_line = max(0.05 / n, 5e-8)
+        # Initialise from the effective significance threshold — this
+        # is the p-value auto-fill for unsigned data (already resolved
+        # above by the ``if signif_threshold is None`` block), or the
+        # user-supplied |value| cutoff for signed statistics.  The old
+        # code re-derived from ``max(0.05/n, 5e-8)`` which silently
+        # discarded ``signif_threshold=4`` on signed loads, leaving the
+        # drawn reference line at ~5e-8 (a p-value) instead of at 4
+        # (the |iHS| cutoff the user asked for).
+        resolved_signif_line = float(signif_threshold)
 
         # Check if signif_line was requested (i.e. not False and not None)
         if signif_line not in (False, None):
@@ -1656,7 +1732,43 @@ def load(
         if logp and resolved_signif_line < 1:
             resolved_signif_line = -np.log10(resolved_signif_line)
 
-        signif_lines.append({"genome": resolved_signif_line, "suggestive": suggest_line})
+        # In signed mode ``resolved_signif_line`` is a threshold on
+        # |value| — record the mirrored negative sibling so plotters can
+        # draw ±threshold bands.  Same for the suggestive line.
+        #
+        # Clamp each reference-line y-value to the observed data range
+        # so a threshold that exceeds the data extremes still draws at
+        # the plot edge rather than floating off-screen.  Positive-tail
+        # lines are capped at ``max(P)``; negative-tail lines are
+        # floored at ``min(P)``.
+        if _signed:
+            _vals = df["P"].to_numpy(dtype=float)
+            _finite = _vals[np.isfinite(_vals)]
+            if _finite.size:
+                _data_max = float(_finite.max())
+                _data_min = float(_finite.min())
+                _pos_line = min(float(resolved_signif_line), _data_max)
+                _neg_line = max(-float(resolved_signif_line), _data_min)
+                _sug_pos = (
+                    None if suggest_line is None
+                    else min(float(suggest_line), _data_max)
+                )
+                _sug_neg = (
+                    None if suggest_line is None
+                    else max(-float(suggest_line), _data_min)
+                )
+            else:
+                _pos_line = float(resolved_signif_line)
+                _neg_line = -float(resolved_signif_line)
+                _sug_pos = suggest_line
+                _sug_neg = None if suggest_line is None else -float(suggest_line)
+            _line_dict = {"genome": _pos_line, "suggestive": _sug_pos}
+            _line_dict["genome_neg"] = _neg_line
+            if _sug_neg is not None:
+                _line_dict["suggestive_neg"] = _sug_neg
+        else:
+            _line_dict = {"genome": resolved_signif_line, "suggestive": suggest_line}
+        signif_lines.append(_line_dict)
 
         # Density-aware auto-thinning for Manhattan / circular rendering.
         # Applied after lead-SNP extraction so the leads come from the full
@@ -1782,6 +1894,8 @@ def load(
             highlight=highlight,
             highlight_thresh=highlight_thresh if highlight_thresh is not None else signif_threshold,
             logp=logp,
+            score_col=_score_col,
+            ascending=_score_asc,
         )
 
         ## Lead SNPs
@@ -1793,7 +1907,11 @@ def load(
         #)
 
         if not leads.empty:
-            leads = leads[leads["P"] <= signif_threshold]
+            if _signed:
+                # Signed statistics: keep both tails (|value| >= threshold).
+                leads = leads[leads["P_UNSIGNED"] >= float(signif_threshold)]
+            else:
+                leads = leads[leads["P"] <= signif_threshold]
 
         all_lead_snps.append(leads)
 

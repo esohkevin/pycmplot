@@ -5,19 +5,20 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pycmplot.io &mdash; pycmplot 0.3.1 documentation</title>
+  <title>pycmplot.io &mdash; pycmplot 0.4.2 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=9c3e77be" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
       <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
-      <link rel="stylesheet" type="text/css" href="../../_static/css/lightbox.min.css?v=6e7d0de0" />
-      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=618afd55" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sphinxcontrib-images/LightBox2/lightbox2/dist/css/lightbox.min.css?v=6e7d0de0" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sphinxcontrib-images/LightBox2/lightbox2-customize/pointer.css?v=c97663ff" />
+      <link rel="stylesheet" type="text/css" href="../../_static/tippy.css?v=2d9a672b" />
 
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=4621528c"></script>
+      <script src="../../_static/documentation_options.js?v=ff822928"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -29,8 +30,8 @@
       <script src="../../_static/design-tabs.js?v=f930bc37"></script>
       <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
       <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-      <script src="../../_static/js/lightbox-plus-jquery.min.js?v=f0ca4bb6"></script>
-      <script>lightbox.option({"alwaysShowNavOnTouchDevices": false, "albumLabel": "Image %1 of %2", "disableScrolling": false, "fadeDuration": 600, "fitImagesInViewport": true, "imageFadeDuration": 600, "positionFromTop": 50, "resizeDuration": 700, "showImageNumberLabel": true, "wrapAround": true})</script>
+      <script src="../../_static/sphinxcontrib-images/LightBox2/lightbox2/dist/js/lightbox-plus-jquery.min.js?v=f0ca4bb6"></script>
+      <script src="../../_static/sphinxcontrib-images/LightBox2/lightbox2-customize/jquery-noconflict.js?v=12818e64"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -46,6 +47,7 @@
           
           <a href="../../index.html" class="icon icon-home">
             pycmplot
+              <img src="../../_static/pycmplot-logo-circular.png" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -85,13 +87,12 @@
 <li class="toctree-l1"><a class="reference internal" href="../../cli_tutorial.html">CLI Tutorial</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../cli_tutorial.html#setup-a-synthetic-dataset">Setup: a synthetic dataset</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../cli_tutorial.html#the-cli-mental-model">The CLI mental model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../cli_tutorial.html#linear-manhattan-plots">Linear Manhattan plots</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../cli_tutorial.html#single-track">Single-track:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cli_tutorial.html#highlighting">Highlighting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../cli_tutorial.html#single-track">Single-track</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../cli_tutorial.html#signed-selection-statistics-ihs-xp-ehh-etc">Signed selection statistics (iHS, XP-EHH, etc.)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../cli_tutorial.html#multi-track">Multi-track</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../cli_tutorial.html#circular-circos-plots">Circular (Circos) plots</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../cli_tutorial.html#highlighting">Highlighting</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../cli_tutorial.html#automatic-gene-annotation">Automatic gene annotation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../cli_tutorial.html#distance-semantics">Distance semantics</a></li>
 </ul>
@@ -157,10 +158,12 @@
 <li class="toctree-l4"><a class="reference internal" href="../../pycmplot_python_api.html#Explicitly-speficying-directory-where-output-files-should-be-stored">Explicitly speficying directory where output files should be stored</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../../pycmplot_python_api.html##-Handling-other-use-cases-and-QQ-plots"># Handling other use cases and QQ-plots</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../pycmplot_python_api.html#Handling-other-use-cases-and-QQ-plots">Handling other use cases and QQ-plots</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../pycmplot_python_api.html#Summary-stats-without-BUILD-column-and-no-build-information-provided">Summary stats without <strong>BUILD</strong> column and no <code class="docutils literal notranslate"><span class="pre">build</span></code> information provided</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../pycmplot_python_api.html###-Supplying-builds-with-summary-stats">## Supplying builds with summary stats</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../pycmplot_python_api.html###-QQ-Plotting">## QQ-Plotting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../pycmplot_python_api.html#Supplying-builds-with-summary-stats">Supplying builds with summary stats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../pycmplot_python_api.html#QQ-Plotting">QQ-Plotting</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../pycmplot_python_api.html#Overlaying-multiple">Overlaying multiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../pycmplot_python_api.html#Separate-qq-plots-saved-in-separate-figures">Separate qq-plots saved in separate figures</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../pycmplot_python_api.html#Combined-multi-panel">Combined multi-panel</a></li>
@@ -175,10 +178,8 @@
 <li class="toctree-l3"><a class="reference internal" href="../../pycmplot_python_api.html#Specify-groups-of-sumstats-to-load-and-plot-in-different-panels">Specify groups of sumstats to load and plot in different panels</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../pycmplot_python_api.html#Plot-in-panels">Plot in panels</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../pycmplot_python_api.html##-Final-Notes"># Final Notes</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="../../pycmplot_python_api.html#Plot-in-panels">Plot in panels</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pycmplot_python_api.html#Final-Notes">Final Notes</a></li>
 </ul>
 </li>
 </ul>
@@ -221,6 +222,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api/annotation.html#pycmplot.annotation.build_highlight_legend_entries"><code class="docutils literal notranslate"><span class="pre">build_highlight_legend_entries()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/annotation.html#pycmplot.annotation.ensure_category_column"><code class="docutils literal notranslate"><span class="pre">ensure_category_column()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/annotation.html#pycmplot.annotation.ensure_highlight_color_column"><code class="docutils literal notranslate"><span class="pre">ensure_highlight_color_column()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/annotation.html#pycmplot.annotation.filter_hits_by_signif"><code class="docutils literal notranslate"><span class="pre">filter_hits_by_signif()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/annotation.html#pycmplot.annotation.get_annotation_column"><code class="docutils literal notranslate"><span class="pre">get_annotation_column()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/annotation.html#pycmplot.annotation.get_hits_summary_table"><code class="docutils literal notranslate"><span class="pre">get_hits_summary_table()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api/annotation.html#pycmplot.annotation.resolve_highlight_categories"><code class="docutils literal notranslate"><span class="pre">resolve_highlight_categories()</span></code></a></li>
@@ -264,6 +266,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.qq.qq_combined"><code class="docutils literal notranslate"><span class="pre">qq_combined()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.qq.qq_overlay"><code class="docutils literal notranslate"><span class="pre">qq_overlay()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.qq.qq_separate"><code class="docutils literal notranslate"><span class="pre">qq_separate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.qq.qq_single"><code class="docutils literal notranslate"><span class="pre">qq_single()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.qq.set_legend_loc_string"><code class="docutils literal notranslate"><span class="pre">set_legend_loc_string()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../api/plotting.html#pycmplot.plotting.qq.thin_pvals"><code class="docutils literal notranslate"><span class="pre">thin_pvals()</span></code></a></li>
 </ul>
@@ -298,17 +301,18 @@
 <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#xx-xx">0.4.0 - 2026-XX-XX</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id1">0.3.1 - 2026-07-31</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id2">0.3.0 - 2026-06-01</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id3">0.2.8 - 2026-05-30</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id4">0.2.7 - 2026-04-27</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id5">0.2.5 - 2026-04-20</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id6">0.2.2 - 2026-04-18</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id7">0.2.1 — 2026-04-16</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id8">0.1.9 — 2026-04-14</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id9">0.1.8 — 2026-04-14</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id10">0.1.0 — 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#unreleased">Unreleased</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id1">0.4.2 - 2026-08-13</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id2">0.3.1 - 2026-07-31</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id3">0.3.0 - 2026-06-01</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id4">0.2.8 - 2026-05-30</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id5">0.2.7 - 2026-04-27</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id6">0.2.5 - 2026-04-20</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id7">0.2.2 - 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id8">0.2.1 — 2026-04-16</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id9">0.1.9 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id10">0.1.8 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#id11">0.1.0 — 2026-04-18</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contributing</a><ul>
@@ -989,7 +993,7 @@
     <span class="n">chr_candidates_u</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">chr_candidates</span><span class="p">]</span>
     <span class="n">chr_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">chrom</span><span class="p">]</span> <span class="o">+</span> <span class="n">chr_candidates</span> <span class="o">+</span> <span class="n">chr_candidates_l</span> <span class="o">+</span> <span class="n">chr_candidates_u</span>
                 
-    <span class="n">pos_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;BP&quot;</span><span class="p">,</span> <span class="s2">&quot;POS&quot;</span><span class="p">,</span> <span class="s2">&quot;bp&quot;</span><span class="p">,</span> <span class="s2">&quot;pos&quot;</span><span class="p">,</span> <span class="s2">&quot;Basepair&quot;</span><span class="p">]</span>
+    <span class="n">pos_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;BP&quot;</span><span class="p">,</span> <span class="s2">&quot;POS&quot;</span><span class="p">,</span> <span class="s2">&quot;Basepair&quot;</span><span class="p">,</span> <span class="s2">&quot;position&quot;</span><span class="p">]</span>
     <span class="n">pos_candidates_l</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">pos_candidates</span><span class="p">]</span>
     <span class="n">pos_candidates_u</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">pos_candidates</span><span class="p">]</span>
     <span class="n">pos_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">pos</span><span class="p">]</span> <span class="o">+</span> <span class="n">pos_candidates</span> <span class="o">+</span> <span class="n">pos_candidates_l</span> <span class="o">+</span> <span class="n">pos_candidates_u</span>
@@ -1000,7 +1004,8 @@
     <span class="n">snp_candidates_u</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">snp_candidates</span><span class="p">]</span>
     <span class="n">snp_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">snp</span><span class="p">]</span> <span class="o">+</span> <span class="n">snp_candidates</span> <span class="o">+</span> <span class="n">snp_candidates_l</span> <span class="o">+</span> <span class="n">snp_candidates_u</span>
 
-    <span class="n">pvl_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;P&quot;</span><span class="p">,</span> <span class="s2">&quot;P-value&quot;</span><span class="p">,</span> <span class="s2">&quot;Wald_P&quot;</span><span class="p">,</span> <span class="s2">&quot;pvalue&quot;</span><span class="p">,</span> <span class="s2">&quot;p_val&quot;</span><span class="p">,</span> <span class="s2">&quot;pval&quot;</span><span class="p">]</span>
+    <span class="n">pvl_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;P&quot;</span><span class="p">,</span> <span class="s2">&quot;P-value&quot;</span><span class="p">,</span> <span class="s2">&quot;Wald_P&quot;</span><span class="p">,</span> <span class="s2">&quot;pvalue&quot;</span><span class="p">,</span> <span class="s2">&quot;p_val&quot;</span><span class="p">,</span> <span class="s2">&quot;pval&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;IHS&quot;</span><span class="p">,</span> <span class="s2">&quot;RSB&quot;</span><span class="p">,</span> <span class="s2">&quot;LOGP&quot;</span><span class="p">,</span> <span class="s2">&quot;LOGPVALUE&quot;</span><span class="p">]</span>
     <span class="n">pvl_candidates_l</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">pvl_candidates</span><span class="p">]</span>
     <span class="n">pvl_candidates_u</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">pvl_candidates</span><span class="p">]</span>
     <span class="n">pvl_candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">pcol</span><span class="p">]</span> <span class="o">+</span> <span class="n">pvl_candidates</span> <span class="o">+</span> <span class="n">pvl_candidates_l</span> <span class="o">+</span> <span class="n">pvl_candidates_u</span>
@@ -1099,23 +1104,63 @@
 
         <span class="n">hdr</span> <span class="o">=</span> <span class="n">get_file_header</span><span class="p">(</span><span class="n">fpath</span><span class="p">,</span> <span class="n">delim</span><span class="o">=</span><span class="n">file_sep</span><span class="p">,</span> <span class="n">dialect</span><span class="o">=</span><span class="n">dialect</span><span class="p">)</span>
 
-        <span class="c1"># Rebuild p-value candidates per iteration so the user-supplied hint</span>
-        <span class="c1"># is never overwritten by a previous file&#39;s resolved column name.</span>
-        <span class="n">pvl_cands</span> <span class="o">=</span> <span class="p">[</span><span class="n">user_pcol</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;P&quot;</span><span class="p">,</span> <span class="s2">&quot;P-value&quot;</span><span class="p">,</span> <span class="s2">&quot;Wald_P&quot;</span><span class="p">,</span> <span class="s2">&quot;pvalue&quot;</span><span class="p">,</span> <span class="s2">&quot;p_val&quot;</span><span class="p">,</span> <span class="s2">&quot;pval&quot;</span><span class="p">]</span>
-        <span class="n">pvl_cands</span> <span class="o">=</span> <span class="n">pvl_cands</span> <span class="o">+</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">pvl_cands</span> <span class="k">if</span> <span class="n">c</span><span class="p">]</span>
-        <span class="n">pvl_cands</span> <span class="o">=</span> <span class="n">pvl_cands</span> <span class="o">+</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">pvl_cands</span> <span class="k">if</span> <span class="n">c</span><span class="p">]</span>
-        <span class="n">pvl_cands</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">pvl_cands</span> <span class="k">if</span> <span class="n">c</span><span class="p">]</span>
+        <span class="c1"># Reuse the p-value candidate list built once above.  The</span>
+        <span class="c1"># previous code duplicated a hard-coded base list here, which</span>
+        <span class="c1"># silently discarded any additions made to ``pvl_candidates``</span>
+        <span class="c1"># at function scope (e.g. ``IHS``, ``RSB``, ``LOGP``).  A</span>
+        <span class="c1"># per-iteration rebuild isn&#39;t necessary — ``user_pcol`` is not</span>
+        <span class="c1"># mutated inside the loop, so the outer list is stable.</span>
+        <span class="n">pvl_cands</span> <span class="o">=</span> <span class="n">pvl_candidates</span>
 
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">chrom_col</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">hdr</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">chr_candidates</span><span class="p">))</span>
-            <span class="n">pos_col</span>   <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">hdr</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">pos_candidates</span><span class="p">))</span>
-            <span class="n">snp_col</span>   <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">hdr</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">snp_candidates</span><span class="p">))</span>
-            <span class="n">pcol_col</span>  <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">hdr</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">pvl_cands</span><span class="p">))</span>
-        <span class="k">except</span> <span class="ne">StopIteration</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+        <span class="c1"># Two-pass column resolution:</span>
+        <span class="c1">#   Pass 1: user-supplied hint wins.  Case-insensitive match</span>
+        <span class="c1">#           against the file header — if the user typed</span>
+        <span class="c1">#           ``pcol=&quot;P&quot;`` and the header contains ``P`` (in any</span>
+        <span class="c1">#           case), that column is used regardless of what</span>
+        <span class="c1">#           other candidates (e.g. ``IHS``, ``LOGPVALUE``)</span>
+        <span class="c1">#           happen to sit earlier in the header.  Fixes the</span>
+        <span class="c1">#           bug where a header like</span>
+        <span class="c1">#           ``SNP CHR POSITION IHS LOGPVALUE P BH_adj_P``</span>
+        <span class="c1">#           resolved p-value to ``IHS`` because the leftmost</span>
+        <span class="c1">#           header column matching the candidate *set* wins</span>
+        <span class="c1">#           and ``IHS`` had been added to the p-value</span>
+        <span class="c1">#           candidates.</span>
+        <span class="c1">#   Pass 2: leftmost header column matching any built-in</span>
+        <span class="c1">#           candidate (previous behaviour).</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">_resolve</span><span class="p">(</span><span class="n">hint</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">candidates</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+                     <span class="n">kind</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">hint</span><span class="p">:</span>
+                <span class="n">_hint_l</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">hint</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">hdr</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="n">_hint_l</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="n">c</span>
+                <span class="c1"># Hint typed a name that isn&#39;t in the header — fail</span>
+                <span class="c1"># fast rather than silently picking a different column.</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Error: --</span><span class="si">{</span><span class="n">kind</span><span class="si">}</span><span class="s2"> entry for </span><span class="si">{</span><span class="n">fpath</span><span class="si">}</span><span class="s2"> references &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;column </span><span class="si">{</span><span class="n">hint</span><span class="si">!r}</span><span class="s2">, but the file header does not &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;contain that column.</span><span class="se">\n</span><span class="s2">  Header: </span><span class="si">{</span><span class="n">hdr</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">hdr</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">candidates</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="n">c</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="n">chrom_col</span> <span class="o">=</span> <span class="n">_resolve</span><span class="p">(</span><span class="n">chrom</span><span class="p">,</span> <span class="n">chr_candidates</span><span class="p">,</span> <span class="s2">&quot;chrom&quot;</span><span class="p">)</span>
+        <span class="n">pos_col</span>   <span class="o">=</span> <span class="n">_resolve</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span>   <span class="n">pos_candidates</span><span class="p">,</span> <span class="s2">&quot;pos&quot;</span><span class="p">)</span>
+        <span class="n">snp_col</span>   <span class="o">=</span> <span class="n">_resolve</span><span class="p">(</span><span class="n">snp</span><span class="p">,</span>   <span class="n">snp_candidates</span><span class="p">,</span> <span class="s2">&quot;snp&quot;</span><span class="p">)</span>
+        <span class="n">pcol_col</span>  <span class="o">=</span> <span class="n">_resolve</span><span class="p">(</span><span class="n">user_pcol</span><span class="p">,</span> <span class="n">pvl_cands</span><span class="p">,</span>  <span class="s2">&quot;pcol&quot;</span><span class="p">)</span>
+
+        <span class="n">_missing</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="p">(</span>
+                <span class="p">(</span><span class="s2">&quot;chrom&quot;</span><span class="p">,</span> <span class="n">chrom_col</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;pos&quot;</span><span class="p">,</span> <span class="n">pos_col</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;snp&quot;</span><span class="p">,</span>  <span class="n">snp_col</span><span class="p">),</span>    <span class="p">(</span><span class="s2">&quot;pcol&quot;</span><span class="p">,</span> <span class="n">pcol_col</span><span class="p">),</span>
+            <span class="p">)</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="kc">None</span>
+        <span class="p">]</span>
+        <span class="k">if</span> <span class="n">_missing</span><span class="p">:</span>
             <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Error: could not find a required column in </span><span class="si">{</span><span class="n">fpath</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">&quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;  Header: </span><span class="si">{</span><span class="n">hdr</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;  Details: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Error: could not find required column(s) &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_missing</span><span class="si">}</span><span class="s2"> in </span><span class="si">{</span><span class="n">fpath</span><span class="si">}</span><span class="s2">.</span><span class="se">\n</span><span class="s2">  Header: </span><span class="si">{</span><span class="n">hdr</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="p">)</span>
 
         <span class="c1"># Detect build column in this file&#39;s header.</span>
@@ -2009,7 +2054,35 @@
 
         <span class="c1"># Get SNP counts for significance threshold calculation</span>
         <span class="n">snp_counts</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;P&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
-        
+
+        <span class="c1"># ------------------------------------------------------------------</span>
+        <span class="c1"># Signed-statistic detection (iHS / XP-EHH / Fay &amp; Wu&#39;s H / etc.)</span>
+        <span class="c1"># ------------------------------------------------------------------</span>
+        <span class="c1"># When ``logp=False`` and the score column carries negative values,</span>
+        <span class="c1"># switch into signed mode: add a companion |value| column</span>
+        <span class="c1"># (``P_UNSIGNED``) and use *that* for lead-SNP extraction and</span>
+        <span class="c1"># highlight-window selection.  The signed original stays in ``P``</span>
+        <span class="c1"># and drives the y-axis, so peaks and troughs both stay visible.</span>
+        <span class="c1"># ``auto_thin_for_manhattan`` already operates on ``|value|`` so</span>
+        <span class="c1"># the two paths agree.</span>
+        <span class="n">_signed</span> <span class="o">=</span> <span class="p">(</span><span class="ow">not</span> <span class="n">logp</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">bool</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;P&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">na_value</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">_signed</span><span class="p">:</span>
+            <span class="n">df</span><span class="p">[</span><span class="s2">&quot;P_UNSIGNED&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;P&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span>
+            <span class="n">_score_col</span> <span class="o">=</span> <span class="s2">&quot;P_UNSIGNED&quot;</span>
+            <span class="n">_score_asc</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="n">signif_threshold</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;signif_threshold is required for signed selection &quot;</span>
+                    <span class="s2">&quot;statistics (iHS/XP-EHH/etc.). The p-value fallback &quot;</span>
+                    <span class="s2">&quot;``max(0.05/N, 5e-8)`` is meaningless on |value| — &quot;</span>
+                    <span class="s2">&quot;pass e.g. ``signif_threshold=4`` for iHS.&quot;</span>
+                <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">_score_col</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">_score_asc</span> <span class="o">=</span> <span class="kc">None</span>
+
         <span class="c1"># Derive significance/suggestive thresholds</span>
         <span class="n">n</span> <span class="o">=</span> <span class="n">snp_counts</span><span class="p">[</span><span class="n">label</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">signif_threshold</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -2023,8 +2096,15 @@
         <span class="k">if</span> <span class="n">logp</span><span class="p">:</span>
             <span class="n">suggest_line</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">suggest_line</span><span class="p">)</span>
 
-        <span class="c1"># initialize with auto-calculated threshold</span>
-        <span class="n">resolved_signif_line</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.05</span> <span class="o">/</span> <span class="n">n</span><span class="p">,</span> <span class="mf">5e-8</span><span class="p">)</span>
+        <span class="c1"># Initialise from the effective significance threshold — this</span>
+        <span class="c1"># is the p-value auto-fill for unsigned data (already resolved</span>
+        <span class="c1"># above by the ``if signif_threshold is None`` block), or the</span>
+        <span class="c1"># user-supplied |value| cutoff for signed statistics.  The old</span>
+        <span class="c1"># code re-derived from ``max(0.05/n, 5e-8)`` which silently</span>
+        <span class="c1"># discarded ``signif_threshold=4`` on signed loads, leaving the</span>
+        <span class="c1"># drawn reference line at ~5e-8 (a p-value) instead of at 4</span>
+        <span class="c1"># (the |iHS| cutoff the user asked for).</span>
+        <span class="n">resolved_signif_line</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">signif_threshold</span><span class="p">)</span>
 
         <span class="c1"># Check if signif_line was requested (i.e. not False and not None)</span>
         <span class="k">if</span> <span class="n">signif_line</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
@@ -2037,7 +2117,43 @@
         <span class="k">if</span> <span class="n">logp</span> <span class="ow">and</span> <span class="n">resolved_signif_line</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">resolved_signif_line</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">resolved_signif_line</span><span class="p">)</span>
 
-        <span class="n">signif_lines</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;genome&quot;</span><span class="p">:</span> <span class="n">resolved_signif_line</span><span class="p">,</span> <span class="s2">&quot;suggestive&quot;</span><span class="p">:</span> <span class="n">suggest_line</span><span class="p">})</span>
+        <span class="c1"># In signed mode ``resolved_signif_line`` is a threshold on</span>
+        <span class="c1"># |value| — record the mirrored negative sibling so plotters can</span>
+        <span class="c1"># draw ±threshold bands.  Same for the suggestive line.</span>
+        <span class="c1">#</span>
+        <span class="c1"># Clamp each reference-line y-value to the observed data range</span>
+        <span class="c1"># so a threshold that exceeds the data extremes still draws at</span>
+        <span class="c1"># the plot edge rather than floating off-screen.  Positive-tail</span>
+        <span class="c1"># lines are capped at ``max(P)``; negative-tail lines are</span>
+        <span class="c1"># floored at ``min(P)``.</span>
+        <span class="k">if</span> <span class="n">_signed</span><span class="p">:</span>
+            <span class="n">_vals</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;P&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+            <span class="n">_finite</span> <span class="o">=</span> <span class="n">_vals</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">_vals</span><span class="p">)]</span>
+            <span class="k">if</span> <span class="n">_finite</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+                <span class="n">_data_max</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">_finite</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+                <span class="n">_data_min</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">_finite</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+                <span class="n">_pos_line</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">resolved_signif_line</span><span class="p">),</span> <span class="n">_data_max</span><span class="p">)</span>
+                <span class="n">_neg_line</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="o">-</span><span class="nb">float</span><span class="p">(</span><span class="n">resolved_signif_line</span><span class="p">),</span> <span class="n">_data_min</span><span class="p">)</span>
+                <span class="n">_sug_pos</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="kc">None</span> <span class="k">if</span> <span class="n">suggest_line</span> <span class="ow">is</span> <span class="kc">None</span>
+                    <span class="k">else</span> <span class="nb">min</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">suggest_line</span><span class="p">),</span> <span class="n">_data_max</span><span class="p">)</span>
+                <span class="p">)</span>
+                <span class="n">_sug_neg</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="kc">None</span> <span class="k">if</span> <span class="n">suggest_line</span> <span class="ow">is</span> <span class="kc">None</span>
+                    <span class="k">else</span> <span class="nb">max</span><span class="p">(</span><span class="o">-</span><span class="nb">float</span><span class="p">(</span><span class="n">suggest_line</span><span class="p">),</span> <span class="n">_data_min</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">_pos_line</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">resolved_signif_line</span><span class="p">)</span>
+                <span class="n">_neg_line</span> <span class="o">=</span> <span class="o">-</span><span class="nb">float</span><span class="p">(</span><span class="n">resolved_signif_line</span><span class="p">)</span>
+                <span class="n">_sug_pos</span> <span class="o">=</span> <span class="n">suggest_line</span>
+                <span class="n">_sug_neg</span> <span class="o">=</span> <span class="kc">None</span> <span class="k">if</span> <span class="n">suggest_line</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="o">-</span><span class="nb">float</span><span class="p">(</span><span class="n">suggest_line</span><span class="p">)</span>
+            <span class="n">_line_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;genome&quot;</span><span class="p">:</span> <span class="n">_pos_line</span><span class="p">,</span> <span class="s2">&quot;suggestive&quot;</span><span class="p">:</span> <span class="n">_sug_pos</span><span class="p">}</span>
+            <span class="n">_line_dict</span><span class="p">[</span><span class="s2">&quot;genome_neg&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_neg_line</span>
+            <span class="k">if</span> <span class="n">_sug_neg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">_line_dict</span><span class="p">[</span><span class="s2">&quot;suggestive_neg&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_sug_neg</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">_line_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;genome&quot;</span><span class="p">:</span> <span class="n">resolved_signif_line</span><span class="p">,</span> <span class="s2">&quot;suggestive&quot;</span><span class="p">:</span> <span class="n">suggest_line</span><span class="p">}</span>
+        <span class="n">signif_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_line_dict</span><span class="p">)</span>
 
         <span class="c1"># Density-aware auto-thinning for Manhattan / circular rendering.</span>
         <span class="c1"># Applied after lead-SNP extraction so the leads come from the full</span>
@@ -2163,6 +2279,8 @@
             <span class="n">highlight</span><span class="o">=</span><span class="n">highlight</span><span class="p">,</span>
             <span class="n">highlight_thresh</span><span class="o">=</span><span class="n">highlight_thresh</span> <span class="k">if</span> <span class="n">highlight_thresh</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">signif_threshold</span><span class="p">,</span>
             <span class="n">logp</span><span class="o">=</span><span class="n">logp</span><span class="p">,</span>
+            <span class="n">score_col</span><span class="o">=</span><span class="n">_score_col</span><span class="p">,</span>
+            <span class="n">ascending</span><span class="o">=</span><span class="n">_score_asc</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="c1">## Lead SNPs</span>
@@ -2174,7 +2292,11 @@
         <span class="c1">#)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">leads</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
-            <span class="n">leads</span> <span class="o">=</span> <span class="n">leads</span><span class="p">[</span><span class="n">leads</span><span class="p">[</span><span class="s2">&quot;P&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">signif_threshold</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">_signed</span><span class="p">:</span>
+                <span class="c1"># Signed statistics: keep both tails (|value| &gt;= threshold).</span>
+                <span class="n">leads</span> <span class="o">=</span> <span class="n">leads</span><span class="p">[</span><span class="n">leads</span><span class="p">[</span><span class="s2">&quot;P_UNSIGNED&quot;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="nb">float</span><span class="p">(</span><span class="n">signif_threshold</span><span class="p">)]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">leads</span> <span class="o">=</span> <span class="n">leads</span><span class="p">[</span><span class="n">leads</span><span class="p">[</span><span class="s2">&quot;P&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">signif_threshold</span><span class="p">]</span>
 
         <span class="n">all_lead_snps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">leads</span><span class="p">)</span>
 

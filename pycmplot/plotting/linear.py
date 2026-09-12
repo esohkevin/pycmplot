@@ -32,6 +32,7 @@ from typing import Optional
 
 import matplotlib.colors as mcolors
 import matplotlib.pyplot as plt
+import sys
 import numpy as np
 import pandas as pd
 from pathlib import Path
@@ -1340,6 +1341,8 @@ def plot_linearm(
             )
 
         if highlight:
+            if "in_locus" not in df.columns:
+                sys.exit("ERROR: 'in_locus' column is not in loaded sumstats. Did you forget to run `load` with the `highlight` option?")              
             sig = df[df["in_locus"]]
             if not sig.empty:
                 sig_y = sig["logP"] if logp else sig[p_col]
@@ -1381,8 +1384,15 @@ def plot_linearm(
             sl = sig_lines[i]
             if signif_line not in (False, None) and "genome" in sl:
                 ax.axhline(y=sl["genome"], color="orangered", linestyle="--", linewidth=0.5)
+                # Signed statistics (iHS/XP-EHH/etc.): mirror the
+                # significance line onto the negative tail so both
+                # sides of the null are annotated.
+                if "genome_neg" in sl:
+                    ax.axhline(y=sl["genome_neg"], color="orangered", linestyle="--", linewidth=0.5)
             if suggest_line and "suggestive" in sl:
                     ax.axhline(y=sl["suggestive"], color="navy", linestyle="--", linewidth=0.5)
+                    if "suggestive_neg" in sl:
+                        ax.axhline(y=sl["suggestive_neg"], color="navy", linestyle="--", linewidth=0.5)
 
         ax.spines[["top", "right"]].set_visible(False)
 
@@ -1460,7 +1470,7 @@ def plot_linearm(
     # figures render the legend on the top panel only (as a shared
     # legend for all panels) without every panel drawing its own copy.
     if (highlight and highlight_legend
-            and annot_df is not None and not annot_df.empty):
+            and annot_df is not None and not annot_df.empty):          
         try:
             from pycmplot.annotation import build_highlight_legend_entries
             _legend_entries = build_highlight_legend_entries(
@@ -1588,6 +1598,7 @@ def linear(
     signif_line: Optional[float] = None,
     suggest_line: bool = False,
     hits_table: Optional[pd.DataFrame] = None,
+    signif_threshold: Optional[float] = None,
     annotate: str = None,
     annotation_size: float = 8,
     label_col: Optional[str] = None,
@@ -1722,10 +1733,21 @@ def linear(
     dfs      = [v[0] for v in sumstats_loaded.values()]
     t_labels = list(sumstats_loaded.keys())
 
+    # Plot-time significance filter: subset the hits table so only
+    # loci passing ``signif_threshold`` receive gene labels.  Enables
+    # a "load broadly / annotate strictly" workflow where the loader
+    # is run with a permissive threshold and the plotter tightens the
+    # annotation set without re-running the pipeline.  Signed
+    # statistics are auto-detected inside the helper (both tails
+    # retained when the hits table's ``P`` column has negatives).
+    if signif_threshold is not None:
+        from pycmplot.annotation import filter_hits_by_signif
+        hits_table = filter_hits_by_signif(hits_table, signif_threshold)
+
     label = 'SNP'
     if annotate:
         label = get_annotation_column(
-            annotate=annotate, 
+            annotate=annotate,
             hits_table=hits_table,
             label_col=label_col
         )
@@ -1754,6 +1776,7 @@ def linear(
         highlight_line = highlight_line,
         highlight_line_color = highlight_line_color,
         signif_line = signif_line,
+        sig_lines=signif_lines,
         suggest_line = suggest_line,        
         annotate=annotate,
         annotation_size=annotation_size,      
@@ -1766,7 +1789,6 @@ def linear(
         track_label_size=track_label_size,
         annot_rail_frac=annot_rail_frac,
         colors=colors,
-        sig_lines=signif_lines,
         plt_name=plt_name,
         no_track_labels = no_track_labels,
         ylabel=ylabel,

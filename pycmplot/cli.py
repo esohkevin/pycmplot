@@ -266,19 +266,19 @@ def get_arguments(descmsg: str = DESCMSG) -> argparse.Namespace:
     )
     opt.add_argument(
         "-chr", "--chrom_column",  type=str, metavar="str",
-        help="Chromosome column name in sumstats (e.g. CHR)."
+        help="Chromosome column name in sumstats (autodetected if omitted)."
     )
     opt.add_argument(
         "-pos", "--pos_column",    type=str, metavar="str",
-        help="Position column name (e.g. BP)."
+        help="Position column name ((autodetected if omitted)."
     )
     opt.add_argument(
         "-snp", "--snp_column",    type=str, metavar="str",
-        help="SNP ID column name (e.g. ID)."
+        help="SNP ID column name (autodetected if omitted)."
     )
     opt.add_argument(
         "-p",   "--pval_column",   type=str, metavar="str",
-        help="P-value column name (e.g. P)."
+        help="P-value column name (autodetected if omitted)."
     )
     opt.add_argument(
         "-d",   "--delim",
@@ -327,7 +327,7 @@ def get_arguments(descmsg: str = DESCMSG) -> argparse.Namespace:
     )
     opt.add_argument(
         "--logp", action="store_true",
-        help="Plot −log₁₀(p) instead of raw p-values."
+        help="Plot -log10(p) instead of raw p-values."
     )
     opt.add_argument("-qq", "--qq_plot", action="store_true",
                      help="Generate QQ-plot(s) alongside the Manhattan plot.")
@@ -478,6 +478,23 @@ def get_arguments(descmsg: str = DESCMSG) -> argparse.Namespace:
         "-sug", "--suggest_threshold",
         default=None, const=1e-5, nargs="?", type=float, metavar="float",
         help="Suggestive significance threshold (default: 1e-5)."
+    )
+    opt.add_argument(
+        "-psig", "--plot_signif_threshold",
+        default=None, type=float, metavar="float",
+        help=(
+            "Plot-time significance filter applied to the hits table "
+            "only.  Loci whose lead SNP fails this cutoff are dropped "
+            "from gene-label annotations without changing the loaded "
+            "data, highlighted points, or reference lines.  Enables a "
+            "'load broadly, annotate strictly' workflow: run the "
+            "loader with a permissive `--signif_threshold` / "
+            "`--highlight_thresh` to keep a rich hits table, then "
+            "tighten annotation stringency at plot time with this "
+            "flag.  Auto-detects signed statistics (both tails "
+            "retained when the hits table's ``P`` column has "
+            "negatives).  Default: None (no plot-time filter)."
+        ),
     )
 
     # CLASS TO HANDLE ANNOTATION VALUES NOT IN CHOICE LIST
