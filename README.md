@@ -16,7 +16,7 @@
   <!-- Custom Status/Tag -->
   [![Status](https://img.shields.io/badge/Status-Beta-orange)](#)
 
-  [![DOI](https://img.shields.io/badge/DOI-10.1093-bioadv-vbag281-orange?logo=doi)](https://doi.org/10.1093/bioadv/vbag281)
+  [![DOI](https://img.shields.io)](https://doi.org/10.1093/bioadv/vbag281)
 
 </p>
 
