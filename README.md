@@ -10,7 +10,7 @@
   [![Python](https://img.shields.io/badge/python-3.9%20%7C%203.13-blue)](https://www.python.org/)
   [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
   [![Status](https://img.shields.io/badge/Status-Latest-orange)](#)
-  ![Static Badge](https://img.shields.io/badge/10.1093-bioadv-vbag281?style=flat&logo=doi)
+  [![Static Badge](https://img.shields.io/badge/10.1093-bioadv-vbag281?style=flat&logo=doi)](https://doi.org/10.1093/bioadv/vbag281)
 
 </p>
 
