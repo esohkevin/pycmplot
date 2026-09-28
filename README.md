@@ -1,13 +1,24 @@
 # pycmplot
 
+
 <div>
   <h1 align="center">Multi-track circular and linear Manhattan plotting in Python.</h1>
 </div>
 
 <p align="center">
-  <img width="600" height="400" src="https://github.com/esohkevin/pycmplot/blob/main/docs/pycmplot-logo-circular.png">
+
+  [![Python](https://img.shields.io/badge/python-3.9%20%7C%203.13-blue)](https://www.python.org/)
+  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+  [![Status](https://img.shields.io/badge/Status-Latest-orange)](#)
+  [![Static Badge](https://img.shields.io/badge/10.1093-bioadv-vbag281?style=flat&logo=doi)](https://doi.org/10.1093/bioadv/vbag281)
+
 </p>
 
+<!--
+<p align="center">
+  <img width="600" height="400" src="docs/_static/pycmplot-logo-circular.png">
+</p>
+-->
 
 ```
                     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
@@ -19,6 +30,13 @@
 ```
 
 ----------------------------------------------
+
+# Citation
+
+Kevin Esoh, Fujr Osman, Cesar Fortes-Lima, Gordon A Awandare, Ambroise Wonkam, pycmplot: fast, low-memory multi-track circular and linear Manhattan plotting in Python, Bioinformatics Advances, 2026;, vbag281, https://doi.org/10.1093/bioadv/vbag281
+
+----------------------------------------------
+
 
 ## Content
 1. [Overview](#overview)
@@ -32,6 +50,7 @@
     - [User-editable hits overlay](#user-editable-hits-overlay)
     - [Per-locus highlight colours & custom legend](#per-locus-highlight-colours--custom-legend)
     - [Multi-panel canvas](#multi-panel-canvas)
+    - [Browser-based hits overlay editor](#browser-based-hits-overlay-editor)
 3. [Application](#application)
 4. [Tip](#tip)
 5. [Installation](#installation)
@@ -183,6 +202,58 @@ explicit matplotlib `Axes` or `SubFigure` via `ax=` to the plotter.
 Cache files and hits overlays are group-scoped, so two panels with
 different sumstats never clobber each other's artefacts.
 
+### Browser-based hits overlay editor
+For visual editing of the hits overlay (colour picker, category
+autocomplete, live plot preview), install the optional editor extra
+and launch a local Streamlit app against your cache directory:
+
+```bash
+pip install "pycmplot[editor]"
+pycmplot edit --cache_dir ./.pycmplot_cache
+```
+
+For cluster sessions where no local browser is available (SSH-only
+compute nodes, secured HPC), a **terminal-UI backend** built on
+Textual renders a spreadsheet directly in the terminal — arrow keys
+to navigate, F2/Enter to edit, Ctrl+S to save. No port forwarding
+required:
+
+```bash
+pip install "pycmplot[editor-tui]"
+pycmplot edit --cache_dir ./.pycmplot_cache --tui
+```
+
+Both backends write through the same `write_hits_overlay` path the
+loader uses, so atomic-write and inheritance-across-regeneration
+guarantees hold identically to a text-editor workflow. Extras are
+independent — install just the one you need. Headless / CI pipelines
+that install plain `pycmplot` pay neither install cost.
+
+For overlays with hundreds of loci, both TUI backends support
+**filter + multi-select + batch-edit** — press `/` to filter with a
+pandas `query()` expression, `Space` to select rows, `Ctrl+A` to
+select every filtered row, `Ctrl+E` to apply one colour/category
+value to the whole selection.
+
+For pipelines and reproducible analyses, a batch **`pycmplot hits`
+CLI** exposes the same filter grammar without any GUI:
+
+```bash
+# Preview what would change
+pycmplot hits set --cache_dir ./.pycmplot_cache --where 'P < 5e-8' \
+    --color '#00cc44' --category "genome-wide" --dry-run
+
+# Apply
+pycmplot hits set --cache_dir ./.pycmplot_cache --where 'P < 5e-8' \
+    --color '#00cc44' --category "genome-wide"
+
+# Inspect (piping-friendly with --tsv)
+pycmplot hits list --cache_dir ./.pycmplot_cache --where 'category == "novel"'
+```
+
+The CLI needs no extras — perfect for CI, Makefiles, and headless
+compute jobs.
+
 
 ## Application
 A potential useful application is **comparative visualization** of results from multiple imputation panels, 
@@ -254,6 +325,7 @@ pycmplot -h
 | adjustText | Label collision avoidance |
 | pyliftover | hg19 to hg38 coordinate conversion |
 | Pillow | Image utilities |
+| pyarrow, fastparquet | Data load and compression engine |
 
 ---
 
