@@ -31,6 +31,12 @@
 
 ----------------------------------------------
 
+# Citation
+
+Kevin Esoh, Fujr Osman, Cesar Fortes-Lima, Gordon A Awandare, Ambroise Wonkam, pycmplot: fast, low-memory multi-track circular and linear Manhattan plotting in Python, Bioinformatics Advances, 2026;, vbag281, https://doi.org/10.1093/bioadv/vbag281
+----------------------------------------------
+
+
 ## Content
 1. [Overview](#overview)
 2. [Key features](#key-features)
