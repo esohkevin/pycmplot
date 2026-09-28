@@ -6,16 +6,18 @@
 </div>
 
 <p align="center">
-<!-- Python Version -->
-[![Python](https://img.shields.io/badge/python-3.9%20%7C%203.13-blue)](https://www.python.org/)
 
-<!-- License -->
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+  <!-- Python Version -->
+  [![Python](https://img.shields.io/badge/python-3.9%20%7C%203.13-blue)](https://www.python.org/)
 
-<!-- Custom Status/Tag -->
-[![Status](https://img.shields.io/badge/Status-Beta-orange)](#)
+  <!-- License -->
+  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-[![DOI](https://img.shields.io/badge/DOI-10.1093-bioadv-vbag281-orange?logo=doi)](https://doi.org/10.1093/bioadv/vbag281)
+  <!-- Custom Status/Tag -->
+  [![Status](https://img.shields.io/badge/Status-Beta-orange)](#)
+
+  [![DOI](https://img.shields.io/badge/DOI-10.1093-bioadv-vbag281-orange?logo=doi)](https://doi.org/10.1093/bioadv/vbag281)
+
 </p>
 
 <!--
