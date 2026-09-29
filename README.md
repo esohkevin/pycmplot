@@ -404,13 +404,10 @@ Run `pycmplot -h` for the full option list.
 ---
 
 ## Python API
-
-A demonstration of how to use the python API is provided in this notebook: https://github.com/esohkevin/pycmplot/blob/main/pycmplot_python_api.ipynb
-
 For an end-to-end walkthrough of every feature (caching, hits overlay,
 per-locus colours & categories, multi-panel canvas, mixed-build
 liftover, QQ opt-in), see the
-[Tutorial](https://pycmplot.readthedocs.io/en/latest/tutorial.html)
+[Python API Tutorial](https://pycmplot.readthedocs.io/en/latest/python_api_tutorial.html)
 page in the docs.
 
 
