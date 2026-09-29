@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pycmplot"
-version = "0.4.2"
+version = "0.4.3"
 description = "Multi-track circular and linear Manhattan plot generation for GWAS summary statistics"
 readme = "README.md"
 license = "MIT"
@@ -34,6 +34,8 @@ dependencies = [
     "natsort>=8.0",
     "adjustText>=0.8",
     "pyliftover>=0.4",
+    "pyarrow>=23.0.1",
+    "fastparquet>=2025.12.0"
 ]
 
 [project.optional-dependencies]
@@ -55,7 +57,7 @@ pycmplot = "pycmplot._core:main"
 where = ["."]
 exclude = [
     "dist*", "changelog.d*", "build-pypi-package.md", 
-    "pycmplot_python_api.ipynb", "mit-license.txt", 
+    "pycmplot_python_api.ipynb", "mit-license.txt",  "data", "bak", "benchmark",
     "pycmplot_docs", "docs", "CHANGELOG.rst", "pycmplot_benchmark.ipynb",
 ]
 
