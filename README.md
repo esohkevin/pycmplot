@@ -279,7 +279,7 @@ pip install pycmplot
 ```
 
 
-### From GitHub
+### From GitHub (with test data included, full size ~ 330 MB)
 ```bash
 git clone https://github.com/esohkevin/pycmplot.git
 
@@ -292,6 +292,12 @@ pip install -e .
 
 # or
 
+wget https://github.com/esohkevin/pycmplot/archive/refs/tags/v0.4.2.tar.gz
+tar zxvf v0.4.2.tar.gz
+cd pycmplot-v0.4.2
+pip install -e . 
+
+# if you get package dependency error, use
 pip install -e . --break-system-packages
 ```
 
