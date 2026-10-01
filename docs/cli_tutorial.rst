@@ -838,12 +838,12 @@ The **only** field where strand still matters is
 concept this calculation is delibrately strand-aware rather than positionally.
 
 
-.. figure:: ../../pycmplot-benchmark/figures/gene_selection.png
+.. figure:: img/gene_selection.png
    :alt: pycmplot gene selection schematic
    :width: 800px
 
 Download a PDF copy. :download:`annotation_schematic.pdf
-<../../pycmplot-benchmark/figures/annotation_schematic.pdf>`.
+<img/annotation_schematic.pdf>`.
 
 .. hint::
    Check whether pycmplot's annotation worked correctly. Examine 
