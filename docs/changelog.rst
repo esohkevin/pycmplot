@@ -97,22 +97,17 @@ and this project adheres to `Semantic Versioning <https://semver.org/>`_.
   the loader raises with a clear message rather than degrading to
   100% distance-only fallback::
 
-      ValueError: LD clumping build mismatch for track 'HbF':
+      ValueError: LD clumping build mismatch across the loaded tracks:
         LD reference build = hg19
         track effective build after liftover = ['hg38']
       Options: (a) rebuild the LD reference in the track's build,
       (b) provide a same-build LD reference, or (c) disable
-      GeneHancer (--no_genehancer) so the track stays in native
-      build.
+      GeneHancer (--no_genehancer) so the track stays in its
+      native build.
 
-  Falls back to a warning + skipped check when the LD reference
-  is undeclared (older graphs with no build metadata; use
-  ``ld_reference_build='hg19'`` on the loader as an override).
-
-  New CLI flag ``-ldrb`` / ``--ld_reference_build`` declares the
-  build when the user is pointing at a raw PLINK ``.ld`` file
-  (rather than a pre-built LDGraph ``.npz`` / ``.ldz`` that
-  already knows).  Regression:
+  A graph with no declared build is rejected with instructions to
+  rebuild it with ``build=`` (see *CLI* ``--ld_reference`` *now
+  requires a pre-built LDGraph* below).  Regression:
   ``test_ld_graph_build_metadata_roundtrip``.
 
 - **``pycmplot.clump()`` — LD-based greedy clumping with an
@@ -139,10 +134,9 @@ and this project adheres to `Semantic Versioning <https://semver.org/>`_.
 
   The distance-only fallback (``ld_reference=None``) makes this
   drop-in-safe: it degrades cleanly to independent-if-not-linked
-  semantics without failing.  Not yet wired into the plotting
-  pipeline (users invoke it directly to build a lead-SNP table
-  before calling :func:`pycmplot.io.load`); pipeline integration
-  is a follow-up.  Regressions:
+  semantics without failing.  The loader runs it when
+  ``ld_reference`` / ``--ld_reference`` is set (see *CLI: LD-based
+  clumping* below); it can also be called directly.  Regressions:
   ``test_ld_clump_greedy_semantics``,
   ``test_ld_clump_no_ld_reference_falls_back_to_distance``.
 
@@ -245,21 +239,25 @@ and this project adheres to `Semantic Versioning <https://semver.org/>`_.
   score and the tiebreaker used when perfect-LD variants share the
   same P-value:
 
-    * ``gtex_eqtl_caviar.tsv.gz`` (4.4 MB) — GTEx CAVIAR
-      fine-mapped eQTL variant→gene→CPP.  Adds per-gene
+    * ``gtex_eqtl_caviar.tsv.gz`` (13.5 MB) — GTEx CAVIAR
+      fine-mapped eQTLs, one row per variant→gene→tissue with its
+      CPP; scoring uses the best tissue.  Adds per-gene
       ``eqtl_bonus = max(CPP) × 3`` to the priority score; a
       CPP-1.0 fine-mapped eQTL contributes +3 to that gene,
       dominating all other components.  The strongest possible
       signal that a variant regulates a specific target.
-    * ``ucsc_ccre.tsv.gz`` (8.9 MB) — ENCODE candidate cis-
+    * ``ucsc_ccre.tsv.gz`` (13.2 MB) — ENCODE candidate cis-
       Regulatory Elements (pELS / dELS / PLS / CTCF-bound).
-    * ``ucsc_dnase.tsv.gz`` (5.6 MB, score ≥ 250 filter) — DNase
+    * ``ucsc_dnase.tsv.gz`` (6.6 MB, score ≥ 250 filter) — DNase
       hypersensitivity clusters (open chromatin).
-    * ``ucsc_tfbs.tsv.gz`` (33 MB, score ≥ 500 filter) — TF
+    * ``ucsc_tfbs.tsv.gz`` (33.7 MB, score ≥ 500 filter) — TF
       binding sites (with TF name).
-    * ``ucsc_cpg.tsv.gz`` (259 KB) — CpG islands.
+    * ``ucsc_cpg.tsv.gz`` (0.3 MB) — CpG islands.
 
-  Total bundled: ~52 MB.  Preparation script
+  Total for these five: ~67 MB (with GeneHancer, ~78 MB).  Sizes
+  are for the files as rebuilt in this release (see *Bundled
+  functional tracks rebuilt from the raw downloads*).  Preparation
+  script
   ``scripts/prep_functional_tracks.py`` converts UCSC raw
   downloads to bundled derivatives with per-track score filtering
   so the ``absence == no evidence`` semantic is clean.
@@ -310,9 +308,8 @@ and this project adheres to `Semantic Versioning <https://semver.org/>`_.
 
   Custom GeneHancer paths via ``PYCMPLOT_GENEHANCER_HG38``
   environment variable or :class:`~pycmplot.resources.ResourceConfig`
-  ``genehancer_hg38`` attribute.  Preparation script
-  ``scripts/prep_genehancer.py`` converts the source semicolon-CSV
-  into the bundled TSV format.
+  ``genehancer_hg38`` attribute.  ``scripts/prep_functional_tracks.py``
+  converts the source semicolon-CSV into the bundled TSV format.
 
   **hg19 auto-liftover under GH:** since GH is hg38-only, a
   pure-hg19 loader group used to skip the liftover step entirely
@@ -680,11 +677,9 @@ and this project adheres to `Semantic Versioning <https://semver.org/>`_.
   build to compare against, and a raw ``.ld`` file has no place
   to declare one.  Making the CLI insist on pre-built graphs
   forces build declaration exactly once — at graph-build time —
-  and the metadata travels with the file thereafter.  Removes
-  the ``ld_reference_build`` parameter on
-  :func:`pycmplot.io.load` and the corresponding
-  ``-ldrb`` / ``--ld_reference_build`` CLI flag (introduced
-  earlier in this same release).  ``pycmplot.stats.clump()``
+  and the metadata travels with the file thereafter.  Graphs
+  without a declared build are rejected the same way.
+  ``pycmplot.stats.clump()``
   Python API still accepts raw ``.ld`` paths for scripted use;
   only the loader-driven pipeline is stricter.
 
@@ -736,10 +731,10 @@ and this project adheres to `Semantic Versioning <https://semver.org/>`_.
   never merged.  SNP-labelled (and other non-gene) plots label every
   lead.
 
-- **Hits-overlay cache key is versioned** (``HITS_LOGIC_VERSION = 4``
-  in :mod:`pycmplot.cache`).  Cached ``hits.<group>.tsv`` overlays
-  built by earlier hits-table logic regenerate once; rows added by
-  hand (``source="user"``) are kept.
+- **Hits-overlay cache key is versioned** (``HITS_LOGIC_VERSION`` in
+  :mod:`pycmplot.cache`, currently 6).  Cached ``hits.<group>.tsv``
+  overlays built by earlier hits-table logic regenerate once; rows
+  added by hand (``source="user"``) are kept.
 
 **Fixed**
 
