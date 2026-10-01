@@ -677,13 +677,19 @@ def _hits_paths(cache_dir: str | os.PathLike,
     return base / f"{fname}.tsv", base / f"{fname}.meta.json"
 
 
+HITS_LOGIC_VERSION = 6
+
+
 def hits_auto_key(leads_df: pd.DataFrame, resources_signature: str,
-                  window_kb: int = 500) -> str:
+                  window_kb: int = 500,
+                  clump_window_kb: int = 250,
+                  use_genehancer: bool = True) -> str:
     """Cache key for the auto-generated hits table.
 
     Includes a fingerprint of the leads DataFrame (rows the annotation
-    pass would consume) plus the GFF3 resource fingerprint and the
-    window size, so any real content or resource change invalidates.
+    pass would consume) plus the GFF3 resource fingerprint and both
+    the annotation-search and clumping window sizes, so any real
+    content or parameter change invalidates.
     """
     if leads_df is None or leads_df.empty:
         leads_sig = "empty"
@@ -700,6 +706,16 @@ def hits_auto_key(leads_df: pd.DataFrame, resources_signature: str,
         leads_sig=leads_sig,
         resources=resources_signature,
         window_kb=int(window_kb),
+        clump_window_kb=int(clump_window_kb),
+        use_genehancer=bool(use_genehancer),
+        # Bump when hits-table construction logic changes so cached
+        # overlays built by older logic regenerate (user rows are kept).
+        # 2: gene-label/locus duplicate collapse replaced (CHR, nearest_gene).
+        # 3: hits table keeps all leads; gene-label collapse moved to plot time.
+        # 4: upstream bonus decays with distance in gene prioritisation.
+        # 5: hits table records clump_window_kb (plot-time highlight window).
+        # 6: functional-annotation columns (GeneHancer / eQTL / ENCODE / CpG).
+        hits_logic=HITS_LOGIC_VERSION,
     )
 
 
@@ -744,6 +760,16 @@ def read_hits_overlay(cache_dir: str | os.PathLike,
             df = pd.read_csv(_io.StringIO("".join(lines)), sep="\t")
             if SOURCE_COL not in df.columns:
                 df[SOURCE_COL] = AUTO_TAG
+            # Defence-in-depth against pre-fix overlays: same rsID
+            # duplicated at slightly different POS values (from
+            # build-mixed tracks) survives distance-based clumping
+            # and would otherwise propagate into the circular plot
+            # and linear annotation.  Fresh overlays produced by
+            # ``get_hits_summary_table`` after 2026-09-17 already
+            # collapse these at write time — this second pass
+            # handles overlays written before that fix.
+            if {"CHR", "SNP"}.issubset(df.columns) and not df.empty:
+                df = df.drop_duplicates(subset=["CHR", "SNP"], keep="first")
         except Exception as exc:
             logger.warning("Hits overlay unreadable (%s); ignoring.", exc)
             df = None
@@ -910,7 +936,13 @@ def resources_fingerprint(resources) -> str:
     from pycmplot.resources import ResourceConfig, default_resources
     r = resources or default_resources
     parts: list[str] = []
-    for attr in ("geneinfo_hg38", "geneinfo_hg19"):
+    # Gene-info files plus every functional track: GeneHancer / eQTL
+    # change ``top_gene`` and all of them feed the functional-annotation
+    # columns of the hits table, so swapping any of them must invalidate
+    # the cached overlay.
+    for attr in ("geneinfo_hg38", "geneinfo_hg19", "genehancer_hg38",
+                 "eqtl_hg38", "eqtl_tissues_hg38", "ccre_hg38", "cpg_hg38",
+                 "dnase_hg38", "tfbs_hg38"):
         try:
             path = getattr(r, attr, None)
             if path is None:

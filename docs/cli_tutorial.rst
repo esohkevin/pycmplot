@@ -850,6 +850,45 @@ Download a PDF copy. :download:`annotation_schematic.pdf
    Check whether pycmplot's annotation worked correctly. Examine 
    some of the SNPs in :ref:`cli-tut-setup` in `GWAS Catalog`_.
 
+Functional annotation columns
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When GeneHancer is enabled (the default; ``--no_genehancer`` turns it
+off), the hits table and the ``hits.<group>.tsv`` overlay also report
+the functional evidence at each lead.  The annotated variant is the
+one used for the gene assignment: ``annot_pos`` / ``annot_snp`` when
+the LD-block tie-break chose a representative, otherwise the lead
+itself.  Multi-valued fields are comma-separated, strongest first, and
+empty (``None``) when the variant overlaps nothing in that track.
+
+=================  ==========================================================
+Column             Content (hg38 source)
+=================  ==========================================================
+``gh_id``          GeneHancer element(s) containing the variant, e.g.
+                   ``GH01F011652``
+``gh_feature``     GeneHancer element type (the bundled file holds
+                   ``Enhancer`` elements only)
+``eqtl``           GTEx CAVIAR fine-mapped eQTLs at the variant as
+                   ``GENE_TISSUE`` (e.g. ``FBXO2_Whole_Blood``), highest
+                   CPP first.  GTEx tissue names contain underscores, so
+                   split on the first underscore only.
+``tfbs``           ENCODE TF clusters (score >= 500) as ``TF_SCORE``
+``ccre_id``        ENCODE cCRE accession, e.g. ``EH38E1318976``
+``ccre``           cCRE signature, e.g. ``promoter-like signature``
+``ccre_class``     cCRE class, e.g. ``PLS,CTCF-bound``
+``dnase_score``    ENCODE DNase cluster score (>= 250)
+``dnase_sources``  Number of DNase experiments supporting the cluster
+``cpg_island``     CpG island name (``CpG:<number of CpGs>``)
+=================  ==========================================================
+
+The columns themselves are for reporting.  The same six tracks also
+break ties when several variants in a locus share the lead's exact
+P-value: the variant with the most functional evidence becomes the
+annotation representative (``annot_pos`` / ``annot_snp``) used for the
+gene assignment.  The statistical lead (``SNP`` / ``POS``) never
+changes.  The bundled tracks are rebuilt from the raw UCSC /
+GeneHancer downloads with ``scripts/prep_functional_tracks.py``.
+
 
 .. _cli-tut-qq:
 

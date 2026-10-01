@@ -4,3 +4,7 @@ pycmplot/pycmplot.egg-info/*
 pycmplot/plotting/__pycache__/*
 dist/*
 build-pypi-dist.md
+readme.md
+bak/*
+build/*
+to-do.md

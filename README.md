@@ -136,7 +136,7 @@ See benchmark figure (manuscript in preparation).
 
 ### Genome build conversion (liftover)
 Conversion of a both hg18 and hg19 positions to their hg38 equivalent is included through
-`pyliftover.LiftOver`.
+`liftover.ChainFile`.
 
 This means you can concatenate multiple summary stats into one file and include a `BUILD` 
 column to specify the genome build of each position ('hg18', 'hg19', or 'hg38') and all 
@@ -329,7 +329,7 @@ pycmplot -h
 | pycirclize | Circular (Circos-style) tracks |
 | natsort | Natural chromosome sorting |
 | adjustText | Label collision avoidance |
-| pyliftover | hg19 to hg38 coordinate conversion |
+| liftover | hg18/hg19 to hg38 coordinate conversion |
 | Pillow | Image utilities |
 | pyarrow, fastparquet | Data load and compression engine |
 

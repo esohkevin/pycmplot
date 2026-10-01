@@ -92,7 +92,7 @@ import numpy as np
 import pandas as pd
 
 from pycmplot.constants import CHROM_ORDER
-from pycmplot.stats import get_lead_snps, get_highlight_snps
+from pycmplot.stats import get_lead_snps, get_signif_snps, get_highlight_snps
 from pycmplot.annotation import get_hits_summary_table
 from pycmplot.resources import ResourceConfig, default_resources
 
@@ -1119,6 +1119,199 @@ def process_signif_line(
 # Main loader
 # ---------------------------------------------------------------------------
 
+_UNMAPPED_SIG_PREVIEW = 10  # significant unmapped variants listed in the warning
+
+
+def _report_unmapped_liftover(
+    label: str,
+    unmapped: pd.DataFrame,
+    reason: str,
+    signif_threshold: Optional[float],
+    signed: bool,
+    report_path: Optional[str],
+) -> tuple:
+    """Summarise one track's liftover losses, log them, and warn on hits.
+
+    Returns ``(report, rows)``.  ``report`` is a small JSON-serialisable
+    summary (stored in the track's cache extras so warm re-runs can
+    repeat the warning); ``rows`` are the lost variants with a
+    ``SIGNIFICANT`` flag, collected by the caller into the single
+    combined file written by :func:`_write_unmapped_liftover`.  Both are
+    ``None`` when nothing was lost.
+    """
+    if unmapped is None or unmapped.empty:
+        return None, None
+
+    unmapped = unmapped.copy()
+    _p = pd.to_numeric(unmapped["P"], errors="coerce") if "P" in unmapped.columns else None
+    if _p is None or signif_threshold is None:
+        sig_mask = pd.Series(False, index=unmapped.index)
+    elif signed:
+        sig_mask = _p.abs() >= float(signif_threshold)
+    else:
+        sig_mask = _p <= float(signif_threshold)
+    unmapped["SIGNIFICANT"] = sig_mask.fillna(False).astype(bool)
+
+    sig = unmapped[unmapped["SIGNIFICANT"]]
+    if not sig.empty:
+        _order = (pd.to_numeric(sig["P"], errors="coerce").abs()
+                  .sort_values(ascending=not signed).index)
+        sig = sig.loc[_order]
+    preview = [
+        {
+            "SNP": str(r.get("SNP", "")),
+            "CHR": str(r["CHR"]),
+            "POS": int(r["POS"]),
+            "P": float(r["P"]),
+            "UNMAPPED_REASON": str(r["UNMAPPED_REASON"]),
+        }
+        for _, r in sig.head(_UNMAPPED_SIG_PREVIEW).iterrows()
+    ]
+    report = {
+        "n_unmapped": int(len(unmapped.index)),
+        "by_reason": {str(k): int(v) for k, v in
+                      unmapped["UNMAPPED_REASON"].value_counts().items()},
+        "n_significant": int(len(sig.index)),
+        "significant_preview": preview,
+        "signif_threshold": None if signif_threshold is None else float(signif_threshold),
+        "signed": bool(signed),
+        "trigger": reason,
+        "file": report_path,
+    }
+    _warn_unmapped_liftover(label, report, cached=False)
+    unmapped["LABEL"] = label
+    return report, unmapped
+
+
+def _unmapped_report_path(out_prefix: Optional[str]) -> str:
+    """Path of the combined liftover-unmapped report for this loader call.
+
+    ``<out_prefix>.liftover_unmapped.tsv`` (the hits-table prefix), or
+    ``pycmplot.liftover_unmapped.tsv`` when no prefix is set.
+    """
+    prefix = out_prefix if out_prefix else "pycmplot"
+    return f"{prefix}.liftover_unmapped.tsv".replace(" ", "_").lower()
+
+
+def _write_unmapped_liftover(
+    path: str,
+    fresh: dict,
+    cached_reports: dict,
+    run_labels: list,
+) -> None:
+    """Write every track's liftover losses to ONE file (``LABEL`` column).
+
+    *fresh* maps label -> rows for tracks lifted over in this run.
+    Tracks served from the cache did not re-run liftover, so their rows
+    are carried over from the existing file at *path* (same prefix =
+    same loader group).  Rows for labels not in *run_labels* are
+    dropped.  Nothing is written when no track lost any variant.
+    """
+    frames = [df for df in fresh.values() if df is not None and not df.empty]
+
+    _need_old = {lab for lab, rep in cached_reports.items()
+                 if rep and rep.get("n_unmapped")}
+    if _need_old:
+        _old = None
+        if os.path.exists(path):
+            try:
+                _old = pd.read_csv(path, sep="\t", dtype={"LABEL": str, "CHR": str})
+            except Exception as exc:  # unreadable / hand-edited file
+                logger.warning("Could not read existing %s (%s).", path, exc)
+        _kept = (_old[_old["LABEL"].isin(_need_old)]
+                 if _old is not None and "LABEL" in _old.columns else None)
+        if _kept is not None and not _kept.empty:
+            frames.append(_kept)
+        _missing = _need_old - (set(_kept["LABEL"]) if _kept is not None else set())
+        if _missing:
+            logger.warning(
+                "Liftover-unmapped rows for cached track(s) %s are not in %s "
+                "(file moved or deleted). Re-run without the cache to "
+                "regenerate them.",
+                ", ".join(sorted(_missing)), path,
+            )
+
+    if not frames:
+        return
+
+    out = pd.concat(frames, ignore_index=True, sort=False)
+    out = out[out["LABEL"].isin([str(x) for x in run_labels])]
+    _order = {lab: i for i, lab in enumerate(run_labels)}
+    out = out.sort_values(
+        "LABEL", key=lambda s: s.map(_order), kind="mergesort",
+    )
+    cols = ["LABEL"] + [c for c in out.columns if c not in ("LABEL", "logP")]
+    try:
+        _dir = os.path.dirname(path)
+        if _dir:
+            os.makedirs(_dir, exist_ok=True)
+        out[cols].to_csv(path, sep="\t", index=False, na_rep="NA")
+    except OSError as exc:
+        logger.warning("Could not write liftover-unmapped report %s (%s).", path, exc)
+        return
+    if not any(df is not None and not df.empty for df in fresh.values()):
+        return  # all rows carried over from cache: file unchanged, stay quiet
+    _by_track = out.groupby("LABEL", sort=False).size()
+    logger.info(
+        "Liftover-unmapped variants for all tracks (%s rows; %s) written to %s",
+        len(out.index),
+        ", ".join(f"{k}: {v}" for k, v in _by_track.items()),
+        path,
+    )
+
+
+def _warn_unmapped_liftover(label: str, report: dict, cached: bool) -> None:
+    """Log the liftover-loss summary; WARN when significant variants were lost.
+
+    On cached tracks the INFO summary is skipped (the user saw it on the
+    run that populated the cache); the WARNING about significant
+    variants is still repeated because those loci are missing from
+    every plot drawn from this cache.
+    """
+    _when = " (from cache)" if cached else ""
+    if not cached:
+        logger.info(
+            "Track %r: %s variant(s) dropped during liftover to hg38 (%s); "
+            "listed in %s",
+            label, report["n_unmapped"],
+            ", ".join(f"{k}: {v}" for k, v in report["by_reason"].items()),
+            report.get("file") or "<not written>",
+        )
+    if not report.get("n_significant"):
+        return
+
+    _op = "|P| >=" if report.get("signed") else "P <="
+    lines = [
+        f"  {v['SNP']}  {v['CHR']}:{v['POS']}  P={v['P']:.3g}  ({v['UNMAPPED_REASON']})"
+        for v in report.get("significant_preview", [])
+    ]
+    more = report["n_significant"] - len(lines)
+    if more > 0:
+        lines.append(f"  ... and {more} more (see the file)")
+
+    if report.get("trigger") == "GeneHancer coordinates are hg38-only":
+        advice = (
+            "Liftover was triggered only because GeneHancer annotation needs "
+            "hg38. To keep these variants, re-run with GeneHancer disabled "
+            "(--no_genehancer / use_genehancer=False) so the track stays in "
+            "its native build."
+        )
+    else:
+        advice = (
+            f"Liftover was triggered by {report.get('trigger')}. To keep "
+            "these variants, consider plotting tracks from different builds "
+            "as separate plots, each in its native build, rather than "
+            "lifting them onto one coordinate system."
+        )
+    logger.warning(
+        "Track %r%s: %s variant(s) passing the significance threshold "
+        "(%s %s) could not be lifted to hg38 and are MISSING from the plot "
+        "and the hits table:\n%s\n%s",
+        label, _when, report["n_significant"], _op,
+        report.get("signif_threshold"), "\n".join(lines), advice,
+    )
+
+
 def load(
     sum_stats: list[str],
     labels: list[str],
@@ -1140,6 +1333,12 @@ def load(
     cache: bool = False,
     cache_dir: str | os.PathLike = ".pycmplot_cache",
     resume: bool = True,
+    annotation_window_kb: int = 500,
+    clump_window_kb: int = 250,
+    use_genehancer: bool = True,
+    ld_reference: Optional[str] = None,
+    ld_r2: float = 0.1,
+    harmonize_variants: bool = False,
 ):
     """Load summary statistics, run liftover, extract lead SNPs, and compute merged Circos sector sizes.
 
@@ -1312,7 +1511,109 @@ def load(
     pval_dict: dict[str, np.ndarray | pd.Series] = {}
     snp_counts: dict[str, np.ndarray | pd.Series] = {}
     signif_lines: list[dict[str, float]] = []
+    all_sig_snps: list[pd.DataFrame] = []
     all_lead_snps: list[pd.DataFrame] = []
+    # label -> summary of variants lost in liftover (see
+    # ``_report_unmapped_liftover``); persisted in cache extras so a warm
+    # re-run repeats the warning instead of silently forgetting it.
+    _liftover_report: dict[str, dict] = {}
+    # label -> lost rows (fresh liftover this run); written as ONE file
+    # after the per-track loop.
+    _liftover_unmapped: dict[str, pd.DataFrame] = {}
+    _unmapped_path = _unmapped_report_path(table_out)
+
+    # ------------------------------------------------------------------
+    # Heavy-resource lazy loaders (runtime hoist, 2026-09-17).
+    #
+    # Prior to this hoist, every non-cached track re-loaded the LD
+    # reference graph (~30 s for a 31M-pair panel) inside its own loop
+    # iteration, and every track with ``use_genehancer=True`` re-loaded
+    # the GeneHancer + eQTL bundles for the Layer-2 annotation-
+    # representative swap.  With N tracks that N-multiplied the fixed
+    # overhead — an order of magnitude of wall-clock on multi-track
+    # runs.
+    #
+    # These closures load each resource **at most once per loader call**
+    # (lazy: only when the first non-cached track asks for it), then
+    # every subsequent iteration reuses the cached object.  A fully-
+    # cached run (every track hits the on-disk cache and ``continue``s)
+    # never triggers a load.  A mixed run pays the load exactly once and
+    # amortises it across every remaining cache miss.
+    #
+    # The LD build sanity check now happens at load time (once) rather
+    # than inside every iteration; the per-track effective-build check
+    # runs unchanged because sumstats liftover can differ between
+    # tracks even against a shared LD reference.
+    # ------------------------------------------------------------------
+    _ld_ref_cache: dict = {}
+    _funcs_l2_cache: dict = {}
+
+    def _get_ld_graph():
+        """Load the LD reference graph once and reuse across tracks."""
+        if "graph" in _ld_ref_cache:
+            return _ld_ref_cache["graph"], _ld_ref_cache["build"]
+        from pycmplot.ld import LDGraph as _LDGraph
+        _lp = str(ld_reference)
+        if _lp.endswith((".npz", ".ldz")):
+            _graph = _LDGraph.load(_lp)
+        else:
+            raise ValueError(
+                f"LD reference {_lp!r} is a raw PLINK .ld file; "
+                f"the pipeline requires a pre-built LDGraph "
+                f"(.npz / .ldz) that carries its genome build in "
+                f"metadata.  Convert once with, e.g.:\n\n"
+                f"    python -c \"import pycmplot; "
+                f"pycmplot.LDGraph.from_plink_ld("
+                f"'{_lp}', r2_threshold=0.1, "
+                f"build='hg19').save('ref.npz')\"\n\n"
+                f"Then pass ``--ld_reference ref.npz``."
+            )
+        _bld = _graph.build
+        if _bld is None:
+            raise ValueError(
+                f"LD reference {_lp!r} has no ``build`` in its "
+                f"metadata; rebuild the graph with an explicit "
+                f"``build='hg19'`` (or hg38 / hg18) so the "
+                f"clumping step can validate coordinate-system "
+                f"alignment against the sumstats."
+            )
+        _ld_ref_cache["graph"] = _graph
+        _ld_ref_cache["build"] = _bld
+        logger.info(
+            "LD reference loaded once (build=%s); reusing across "
+            "all non-cached tracks.", _bld,
+        )
+        return _graph, _bld
+
+    def _get_functional_tracks_l2():
+        """Load GH + eQTL + cCRE / CpG / DNase / TFBS once for the
+        Layer-2 swap and reuse across tracks."""
+        if "loaded" in _funcs_l2_cache:
+            return (_funcs_l2_cache.get("gh"), _funcs_l2_cache.get("eq"),
+                    _funcs_l2_cache.get("func"))
+        try:
+            from pycmplot.annotation import load_genehancer, load_eqtl
+            _gh = load_genehancer(getattr(resources, "genehancer_hg38", None))
+            _eq = load_eqtl(getattr(resources, "eqtl_hg38", None))
+        except Exception:
+            _gh, _eq = None, None
+        try:
+            from pycmplot.annotation import load_functional_tracks
+            _fn = load_functional_tracks(resources) or None
+        except Exception as _exc:
+            logger.warning("cCRE / CpG / DNase / TFBS tracks unavailable "
+                           "for the LD-block tie-break (%s).", _exc)
+            _fn = None
+        _funcs_l2_cache["loaded"] = True
+        _funcs_l2_cache["gh"] = _gh
+        _funcs_l2_cache["eq"] = _eq
+        _funcs_l2_cache["func"] = _fn
+        if _gh is not None or _eq is not None or _fn is not None:
+            logger.info(
+                "Functional tracks (GeneHancer, eQTL, cCRE, CpG, DNase, "
+                "TFBS) loaded once for the LD-block tie-break."
+            )
+        return _gh, _eq, _fn
 
     # ------------------------------------------------------------------
     # Optional per-track cache (Stage-1 checkpointing).  When cache=True
@@ -1514,6 +1815,22 @@ def load(
                 # the (expensive) main track cache.  See the fallback
                 # below for the case where compute_pvals=True but the
                 # sidecar is absent.
+                # Cache key must include EVERY param that affects the
+                # cached DataFrame or the cached leads.  Missing any of
+                # them means silent staleness — e.g. flipping
+                # --ld_reference on/off between runs used to return
+                # distance-clumped leads from a warm cache without
+                # ever consulting the LD reference.
+                _ld_ref_hash: Optional[str] = None
+                if ld_reference is not None:
+                    try:
+                        _ld_ref_hash = sha256_file(str(ld_reference))
+                    except OSError:
+                        # Non-fatal — proceed without hashing; the
+                        # ld_reference path string alone is enough to
+                        # differentiate cache entries when files can't
+                        # be hashed (e.g. permission issues).
+                        _ld_ref_hash = str(ld_reference)
                 _cache_params = dict(
                     raw_sha256=_raw_hash,
                     logp=bool(logp),
@@ -1525,6 +1842,17 @@ def load(
                     highlight_thresh=None if highlight_thresh is None else float(highlight_thresh),
                     signif_threshold=None if signif_threshold is None else float(signif_threshold),
                     build=file_info[label][4] if len(file_info[label]) > 4 else None,
+                    clump_window_kb=int(clump_window_kb),
+                    # LD-based clumping params: only invalidate the
+                    # cache when the user actually uses LD (i.e.
+                    # ld_reference is set); users on the pure
+                    # distance-based path keep their historical
+                    # cache behaviour.
+                    ld_reference=_ld_ref_hash,
+                    ld_r2=float(ld_r2) if ld_reference is not None else None,
+                    harmonize_variants=(
+                        bool(harmonize_variants) if ld_reference is not None else None
+                    ),
                 )
                 _cache_key = compute_cache_key(**_cache_params)
                 _track_cache_keys.append(_cache_key)
@@ -1544,9 +1872,12 @@ def load(
                         sumstats_loaded[label] = [_hit.df, int(_hit.extras.get("n_chroms", 0))]
                         pval_dict[label] = _hit.pvals if compute_pvals else None
                         snp_counts[label] = int(_hit.extras.get("snp_count", 0))
-                        all_lead_snps.append(
-                            _hit.leads if _hit.leads is not None else pd.DataFrame()
-                        )
+                        # Cached ``leads`` are this track's per-track
+                        # significant variants (the cold path stores
+                        # ``leads=sig``), so they feed the same pooled
+                        # Layer-1 clumping as cold tracks do.
+                        if _hit.leads is not None and not _hit.leads.empty:
+                            all_sig_snps.append(_hit.leads)
                         # Mirror the cold-path side-effect on
                         # ``signif_threshold`` (which is auto-computed
                         # from the first track's SNP count and then
@@ -1558,6 +1889,10 @@ def load(
                             _n_hit = int(snp_counts[label]) or 1
                             signif_threshold = max(0.05 / _n_hit, 5e-8)
                         signif_lines.append(_resolve_signif_lines_entry(label))
+                        _rep = _hit.extras.get("liftover_report")
+                        if _rep:
+                            _liftover_report[label] = _rep
+                            _warn_unmapped_liftover(label, _rep, cached=True)
                         continue
 
         # ---- Regular Stage-1 processing --------------------------------
@@ -1867,53 +2202,76 @@ def load(
             and "BUILD" in df.columns
             and any(b in builds for b in ("hg18", "hg19"))
         )
-        if _needs_lift_file or _needs_lift_group:
+        # GeneHancer coordinates are hg38-only.  When GH is enabled,
+        # any hg18/hg19 track must be lifted before annotation runs,
+        # otherwise the GH lookup would be silently misapplied to
+        # native-build positions (see 2026-09-15 discussion — a
+        # pure-hg19 group previously skipped liftover entirely because
+        # neither ``_needs_lift_file`` nor ``_needs_lift_group`` fired).
+        _needs_lift_gh = (
+            use_genehancer
+            and _this_declared in ("hg18", "hg19")
+            and "BUILD" in df.columns
+            and any(b in builds for b in ("hg18", "hg19"))
+        )
+        if _needs_lift_file or _needs_lift_group or _needs_lift_gh:
             builds_present = sorted(
                 b for b in builds if b in {"hg18", "hg19"}
             )
-            _reason = (
-                "same-file mixed builds"
-                if _needs_lift_file
-                else "cross-file mixed builds in the loader group"
-            )
+            if _needs_lift_file:
+                _reason = "same-file mixed builds"
+            elif _needs_lift_group:
+                _reason = "cross-file mixed builds in the loader group"
+            else:
+                _reason = "GeneHancer coordinates are hg38-only"
             logger.info(
                 "Converting %s coordinates to hg38 (%s) ...",
                 "/".join(builds_present), _reason,
             )
-            df = liftover_position(df, resources=resources)
+            df, _unmapped = liftover_position(
+                df, resources=resources, return_unmapped=True,
+            )
+            _rep, _rows = _report_unmapped_liftover(
+                label=label,
+                unmapped=_unmapped,
+                reason=_reason,
+                signif_threshold=signif_threshold,
+                signed=_signed,
+                report_path=_unmapped_path,
+            )
+            if _rep is not None:
+                _liftover_report[label] = _rep
+                _liftover_unmapped[label] = _rows
 
         # get highlight SNPs
         if highlight:
-            logger.info("Extracting lead variants and variants to highlight ...")
+            logger.info("Extracting significant variants and variants to highlight ...")
+            df, sig = get_highlight_snps(
+                df=df,
+                window=int(clump_window_kb) * 1_000,
+                highlight=highlight,
+                highlight_thresh=highlight_thresh if highlight_thresh is not None else signif_threshold,
+                logp=logp,
+                score_col=_score_col,
+                ascending=_score_asc,
+            )
         else:
-            logger.info("Extracting lead variants ...")
+            logger.info("Extracting significant variants ...")
+            # Lead SNPs
+            sig = get_signif_snps(
+                df=df,
+                signif_threshold=signif_threshold or 5e-8,
+                logp=logp,
+            )
 
-        df, leads = get_highlight_snps(
-            df=df,
-            window=500_000,
-            highlight=highlight,
-            highlight_thresh=highlight_thresh if highlight_thresh is not None else signif_threshold,
-            logp=logp,
-            score_col=_score_col,
-            ascending=_score_asc,
-        )
-
-        ## Lead SNPs
-        #logger.info("Extracting lead variants ...")
-        #leads = get_lead_snps(
-        #    df=sumstats_loaded[label][0],
-        #    signif_threshold=signif_threshold or 5e-8,
-        #    logp=logp,
-        #)
-
-        if not leads.empty:
+        if not sig.empty:
             if _signed:
                 # Signed statistics: keep both tails (|value| >= threshold).
-                leads = leads[leads["P_UNSIGNED"] >= float(signif_threshold)]
+                sig = sig[sig["P_UNSIGNED"] >= float(signif_threshold)]
             else:
-                leads = leads[leads["P"] <= signif_threshold]
+                sig = sig[sig["P"] <= signif_threshold]
 
-        all_lead_snps.append(leads)
+        all_sig_snps.append(sig)
 
         # Number of distinct chromosomes (for track sorting)
         n_chroms = len(df["CHR"].unique()) - 1
@@ -1929,11 +2287,13 @@ def load(
                     label,
                     _cache_key,
                     df,
-                    leads=leads if isinstance(leads, pd.DataFrame) and not leads.empty else None,
+                    leads=sig if isinstance(sig, pd.DataFrame) and not sig.empty else None,
                     pvals=pval_dict.get(label) if compute_pvals else None,
                     extras={
                         "n_chroms": int(n_chroms),
                         "snp_count": int(snp_counts.get(label, 0)),
+                        **({"liftover_report": _liftover_report[label]}
+                           if label in _liftover_report else {}),
                     },
                     raw_source=str(sumstats[label][0]),
                 )
@@ -1941,13 +2301,204 @@ def load(
                 logger.warning("Cache write failed for %r (%s); continuing.",
                                label, _exc)
 
-    # Combine lead SNPs and filter to significance threshold
+    # Combine signif SNPs and filter to significance threshold
+    # One liftover-unmapped file for the whole loader group.
+    _write_unmapped_liftover(
+        _unmapped_path,
+        fresh=_liftover_unmapped,
+        cached_reports={
+            lab: rep for lab, rep in _liftover_report.items()
+            if lab not in _liftover_unmapped
+        },
+        run_labels=_ordered_labels,
+    )
+
+    all_sig_snps_df = (
+        pd.concat(all_sig_snps, ignore_index=True)
+        if all_sig_snps
+        else pd.DataFrame()
+    )
+    # ---- Layer 1: pure statistical clumping -----------------------
+    # Independent lead identification uses ONLY P + distance / LD.
+    # Functional-annotation data does NOT influence which variant is
+    # called "the lead" — that keeps clumping reproducible against
+    # any annotation-panel changes.  Functional prioritisation is
+    # deferred to Layer 2 below.
+    #
+    # LD-based clumping fires when the caller supplied an
+    # ld_reference path (PLINK .ld / LDGraph .npz / .ldz).  The
+    # underlying algorithm is :func:`pycmplot.stats.clump`; we
+    # derive the ``in_locus`` mask manually afterwards so the
+    # highlight-window semantics stay identical to the pure
+    # distance-based path.  When ld_reference is None the
+    # existing get_highlight_snps path runs unchanged.
+    logger.info("Extracting lead variants.")
+    if all_sig_snps_df.empty:
+        # No track produced significant variants: nothing to clump or
+        # annotate.  (``_clump_by_distance`` would raise KeyError on
+        # the column-less empty frame.)
+        leads = pd.DataFrame()
+    elif ld_reference is not None:
+        logger.info("LD Clumping started.")
+        from pycmplot.stats import clump as _ld_clump
+        # ---- Load once, sanity-check per track ------------------
+        # The LD graph itself is loaded exactly once per loader
+        # call via ``_get_ld_graph`` (see the lazy-load block
+        # above).  We still verify the *per-track* effective build
+        # against the graph's declared build here, because
+        # different tracks in the same loader group may have
+        # different post-liftover coordinate systems.
+        _ld_graph, _ld_ref_build = _get_ld_graph()
+        _eff_builds = (set(all_sig_snps_df["BUILD"].unique())
+                        if "BUILD" in all_sig_snps_df.columns else set())
+        if _eff_builds and any(b != _ld_ref_build for b in _eff_builds):
+            raise ValueError(
+                f"LD clumping build mismatch across the loaded tracks:\n"
+                f"  LD reference build = {_ld_ref_build}\n"
+                f"  track effective build after liftover = "
+                f"{sorted(_eff_builds)}\n"
+                f"Options: (a) rebuild the LD reference in the "
+                f"track's build, (b) provide a same-build LD "
+                f"reference, or (c) disable GeneHancer "
+                f"(--no_genehancer) so the track stays in its "
+                f"native build."
+            )
+        _thr = (
+            highlight_thresh if highlight_thresh is not None
+            else signif_threshold
+        )
+        leads = _ld_clump(
+            df=all_sig_snps_df,
+            ld_reference=_ld_graph,
+            r2=float(ld_r2),
+            kb=int(clump_window_kb),
+            p_threshold=float(_thr) if _thr is not None else 5e-8,
+            logp=bool(logp),
+            harmonize_variants=bool(harmonize_variants),
+        )
+    else:
+        from pycmplot.annotation import _clump_by_distance
+        leads = _clump_by_distance(
+            df=all_sig_snps_df,
+            window_kb=int(clump_window_kb),
+        )
+
+    # ---- Layer 2: annotation-representative swap ------------------
+    # For each independent lead, scan the FULL loaded sumstats
+    # for other variants tied at exactly the same P within
+    # ``clump_window_kb`` bp on the same chromosome.  Among that
+    # LD-block, pick the position with the highest
+    # ``position_informativeness_score`` — that's the
+    # annotation representative.  The statistical lead's rsID /
+    # POS / P stay in the ``SNP`` / ``POS`` / ``P`` columns of
+    # the hits table; the annotation-representative position and
+    # rsID land in new ``annot_pos`` / ``annot_snp`` columns and
+    # drive the actual ``_annotate_variant`` call.  When no
+    # swap is warranted (best-informativeness is the lead
+    # itself), ``annot_pos`` == ``POS`` and ``annot_snp`` == ``SNP``.
+    if use_genehancer and not leads.empty:
+        from pycmplot.annotation import position_informativeness_score
+        # Load once, reuse across every non-cached track.
+        _gh_l2, _eq_l2, _fn_l2 = _get_functional_tracks_l2()
+        if _gh_l2 is not None or _eq_l2 is not None or _fn_l2 is not None:
+            _cw = int(clump_window_kb) * 1_000
+            _annot_pos = []
+            _annot_snp = []
+            # Candidate-gene pool per locus: protein-coding genes within
+            # the annotation window of the lead.  eQTL / GeneHancer links
+            # to these genes get the higher tie-break weights.  Gene-info
+            # build follows get_hits_summary_table's rule.
+            from pycmplot.annotation import load_genes_dict, candidate_gene_pool
+            try:
+                _hg19_only = ("BUILD" in leads.columns and "OLD_POS" not in leads.columns
+                              and list(set(leads["BUILD"])) == ["hg19"])
+                _genes_l2 = load_genes_dict(resources.require(
+                    "geneinfo_hg19" if _hg19_only else "geneinfo_hg38"))
+            except Exception as _exc:
+                logger.warning("Gene info unavailable for the tie-break's "
+                               "candidate-gene pool (%s).", _exc)
+                _genes_l2 = None
+            _aw = int(annotation_window_kb) * 1_000
+            # Scan each lead's OWN track for tied-P neighbours.  (After
+            # the per-track loop, the bare ``df`` name only refers to
+            # the last cold-loaded track, so leads from every other
+            # track were scanned against the wrong data.)  Arrays are
+            # built once per track and reused.
+            _track_arrays: dict = {}
+
+            def _arrays_for(_lab):
+                if _lab not in _track_arrays:
+                    _tdf = sumstats_loaded.get(_lab, [None])[0]
+                    if _tdf is None or not {"P", "CHR", "POS"} <= set(_tdf.columns):
+                        _track_arrays[_lab] = (None, None, None, None)
+                    else:
+                        _track_arrays[_lab] = (
+                            _tdf["P"].to_numpy(),
+                            _tdf["CHR"].astype(str).to_numpy(),
+                            _tdf["POS"].to_numpy(dtype=np.int64),
+                            (_tdf["SNP"].astype(str).to_numpy()
+                             if "SNP" in _tdf.columns
+                             else np.array([""] * len(_tdf.index))),
+                        )
+                return _track_arrays[_lab]
+
+            for _, lead in leads.iterrows():
+                _lchr = str(lead["CHR"])
+                _lpos = int(lead["POS"])
+                _lp = lead["P"]
+                _lsnp = str(lead["SNP"]) if "SNP" in leads.columns else ""
+                _p_arr, _chr_arr, _pos_arr, _snp_arr = _arrays_for(
+                    lead["LABEL"] if "LABEL" in leads.columns else None
+                )
+                if _p_arr is None or _chr_arr is None or _pos_arr is None:
+                    _annot_pos.append(_lpos); _annot_snp.append(_lsnp); continue
+                _mask = (
+                    (_p_arr == _lp)
+                    & (_chr_arr == _lchr)
+                    & (np.abs(_pos_arr - _lpos) <= _cw)
+                )
+                _tied_idx = np.flatnonzero(_mask)
+                if _tied_idx.size <= 1:
+                    _annot_pos.append(_lpos); _annot_snp.append(_lsnp); continue
+                best_score = -1.0
+                best_pos, best_snp = _lpos, _lsnp
+                _pool = candidate_gene_pool(_lchr, _lpos, _genes_l2, _aw)
+                for _i in _tied_idx:
+                    _s = position_informativeness_score(
+                        _chr_arr[_i], int(_pos_arr[_i]),
+                        pool_genes=_pool,
+                        genehancer=_gh_l2, eqtl=_eq_l2,
+                        functional_tracks=_fn_l2,
+                    )
+                    # Tie-break on higher score, then earlier POS
+                    # for determinism.
+                    if (_s > best_score
+                            or (_s == best_score and int(_pos_arr[_i]) < best_pos)):
+                        best_score = _s
+                        best_pos = int(_pos_arr[_i])
+                        best_snp = str(_snp_arr[_i])
+                _annot_pos.append(best_pos)
+                _annot_snp.append(best_snp)
+            leads = leads.copy()
+            leads["annot_pos"] = _annot_pos
+            leads["annot_snp"] = _annot_snp
+
+    # The pooled, clumped (and possibly annotation-swapped) ``leads``
+    # are what the hits table annotates.  Previously this appended
+    # ``sig`` — a stale loop variable holding only the LAST cold-loaded
+    # track's significant variants — so every other track's loci were
+    # dropped, the table came back empty whenever the last track had no
+    # hits, and an all-cached run raised UnboundLocalError.
+    if not leads.empty:
+        all_lead_snps.append(leads)
+
+    # Combine lead SNPs and filter to significance threshold, dropping duplicate rows
     all_lead_snps_df = (
         pd.concat(all_lead_snps, ignore_index=True).drop_duplicates()
         if all_lead_snps
         else pd.DataFrame()
     )
-  
+
     # ------------------------------------------------------------------
     # Hits table with optional user-editable overlay.
     #
@@ -1969,7 +2520,10 @@ def load(
         )
         _res_sig = resources_fingerprint(resources)
         _auto_key = hits_auto_key(
-            all_lead_snps_df, resources_signature=_res_sig, window_kb=2_000,
+            all_lead_snps_df, resources_signature=_res_sig,
+            window_kb=annotation_window_kb,
+            clump_window_kb=clump_window_kb,
+            use_genehancer=bool(use_genehancer),
         )
         # ``_group_key`` scopes the hits overlay to THIS loader call's set
         # of tracks.  A second call with the same ``cache_dir`` but a
@@ -1996,7 +2550,9 @@ def load(
             _auto_hits = get_hits_summary_table(
                 leads_df=all_lead_snps_df,
                 table_out=table_out,
-                window_kb=2_000,
+                window_kb=annotation_window_kb,
+                clump_window_kb=clump_window_kb,
+                use_genehancer=use_genehancer,
                 resources=resources,
             )
             _written = write_hits_overlay(
@@ -2020,7 +2576,9 @@ def load(
         hits_table = get_hits_summary_table(
             leads_df=all_lead_snps_df,
             table_out=table_out,
-            window_kb=2_000,
+            window_kb=annotation_window_kb,
+            clump_window_kb=clump_window_kb,
+            use_genehancer=use_genehancer,
             resources=resources,
         )
 

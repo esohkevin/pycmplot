@@ -227,6 +227,7 @@ def main() -> None:
     signif_line      = args.signif_line
     suggest_threshold= args.suggest_threshold
     plot_signif_threshold = getattr(args, "plot_signif_threshold", None)
+    plot_highlight_thresh = getattr(args, "plot_highlight_thresh", None)
     annotate         = args.annotate
     annotation_size  = args.annotation_size
     point_size       = args.point_size
@@ -236,6 +237,8 @@ def main() -> None:
     highlight_line   = args.highlight_line
     highlight_line_color = args.highlight_line_color
     highlight_legend_loc = getattr(args, "highlight_legend_loc", "upper center")
+    highlight_legend_size = getattr(args, "highlight_legend_size", None)
+    highlight_legend_pad = getattr(args, "highlight_legend_pad", None)
     # ``--no_highlight_legend`` inverts the sense (store_true means
     # "user asked us to suppress"), so the plotter-facing knob is
     # ``highlight_legend = not args.no_highlight_legend``.
@@ -349,6 +352,12 @@ def main() -> None:
         suggest_threshold=suggest_threshold,
         highlight=highlight,
         highlight_thresh=highlight_thresh,
+        annotation_window_kb=getattr(args, "annotation_window_kb", 500),
+        clump_window_kb=getattr(args, "clump_window_kb", 250),
+        use_genehancer=not getattr(args, "no_genehancer", False),
+        ld_reference=getattr(args, "ld_reference", None),
+        ld_r2=getattr(args, "ld_r2", 0.1),
+        harmonize_variants=getattr(args, "harmonize_variants", False),
         resources=resources,
         # Only materialise the per-track p-value arrays used for QQ
         # plotting when a QQ render was actually requested.  At 10 M
@@ -387,10 +396,14 @@ def main() -> None:
             point_size=point_size,
             highlight=highlight,
             highlight_color=highlight_color,
+            highlight_thresh=plot_highlight_thresh,
+            highlight_window_kb=getattr(args, "clump_window_kb", None),
             highlight_line=highlight_line,
             highlight_line_color=highlight_line_color,
             highlight_legend=highlight_legend,
             highlight_legend_loc=highlight_legend_loc,
+            highlight_legend_size=highlight_legend_size,
+            highlight_legend_pad=highlight_legend_pad,
             signif_line = signif_line,
             suggest_line = True if suggest_threshold is not None else False,
             annotate=annotate,
@@ -398,6 +411,8 @@ def main() -> None:
             hits_table=hits_table if not hits_table.empty else None,
             signif_threshold=plot_signif_threshold,
             chr_spacing=chr_spacing,
+            chrom_label_size=chrom_label_size,
+            track_label_size=track_label_size,
             linear_track_spacing=linear_track_spacing,
             annot_rail_frac=annot_rail_frac,
             colors=colors,
@@ -422,10 +437,14 @@ def main() -> None:
             signif_lines = signif_lines,
             highlight = highlight,
             highlight_color = highlight_color,
+            highlight_thresh = plot_highlight_thresh,
+            highlight_window_kb = getattr(args, "clump_window_kb", None),
             highlight_line = highlight_line,
             highlight_line_color = highlight_line_color,
             highlight_legend = highlight_legend,
             highlight_legend_loc = highlight_legend_loc,
+            highlight_legend_size = highlight_legend_size,
+            highlight_legend_pad = highlight_legend_pad,
             suggest_line = True if suggest_threshold is not None else False,
             colors = colors,
             point_size=point_size,

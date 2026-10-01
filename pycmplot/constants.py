@@ -135,17 +135,29 @@ BIOTYPE_WEIGHTS: dict[str, float] = {
     # ---- Long non-coding RNAs (lncRNA subfamily) --------------------
     # Ensembl 116 classifies antisense, sense_intronic, sense_overlapping,
     # 3'-overlapping ncRNA, macro_lncRNA and retained_intron as lncRNA
-    # subtypes.  Weighted together with lincRNA (long intergenic ncRNA).
-    "lncRNA":                                 0.70,
-    "lincRNA":                                0.70,
-    "long_intergenic_ncRNA":                  0.70,   # legacy spelling
-    "ncRNA":                                  0.70,
+    # subtypes.
+    #
+    # ``lncRNA`` / ``lincRNA`` / ``ncRNA`` families were lowered from
+    # 0.70 to 0.55 on 2026-09-14 in response to the AHI1-DT / PDE7B
+    # case: at chr6:135820013 (hg38) the SNP falls inside AHI1-DT
+    # (lncRNA overlapping AHI1 by design) but is 31 kb upstream of
+    # PDE7B (protein_coding).  With the pre-fix weight (0.70), a
+    # containing lncRNA outscored a nearby PC gene; at 0.55 the
+    # ordering flips and PDE7B wins.  Anti-sense biotypes are held
+    # at 0.65 because they carry more information about the sense
+    # PC gene than generic lncRNAs do (matches the biology of
+    # regulatory antisense RNAs such as PDE7B-AS1).
+    "lncRNA":                                 0.55,
+    "lincRNA":                                0.55,
+    "long_intergenic_ncRNA":                  0.55,   # legacy spelling
+    "ncRNA":                                  0.55,
     "antisense":                              0.65,   # 0.30 -> 0.65 (see docstring)
     "antisense_RNA":                          0.65,
-    "3prime_overlapping_ncRNA":               0.65,
-    "3_prime_overlapping_ncRNA":              0.65,   # legacy spelling
-    "macro_lncRNA":                           0.65,
-    "non_coding":                             0.65,
+    "3prime_overlapping_ncRNA":               0.60,   # slightly below antisense
+    "3_prime_overlapping_ncRNA":              0.60,
+    "3prime_overlapping_ncrna":               0.60,   # GRCh37.87 lowercase spelling
+    "macro_lncRNA":                           0.60,
+    "non_coding":                             0.55,
     "sense_intronic":                         0.60,
     "sense_overlapping":                      0.60,
     "retained_intron":                        0.55,
@@ -167,6 +179,7 @@ BIOTYPE_WEIGHTS: dict[str, float] = {
     "unitary_pseudogene":                     0.25,
     "unprocessed_pseudogene":                 0.20,
     "pseudogene":                             0.20,
+    "rRNA_pseudogene":                        0.20,
     "IG_pseudogene":                          0.20,
     "IG_C_pseudogene":                        0.20,
     "IG_J_pseudogene":                        0.20,
