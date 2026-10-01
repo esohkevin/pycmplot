@@ -18,16 +18,6 @@
   <img width="600" height="400" src="docs/_static/pycmplot-logo-circular.png">
 </p>
 
-```
-                    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-                    |  MULTI-TRACK CIRCULAR AND LINEAR MANHATTAN PLOTTING  |
-                    |                      in Python                       |
-                    |                    Kevin Esoh, 2026                  |
-                    |                    kesohku1@jh.edu                   |
-                    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-```
-
-----------------------------------------------
 
 # Citation
 
