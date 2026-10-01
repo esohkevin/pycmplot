@@ -27,7 +27,8 @@ Backwards-compat (old names still work with a soft ``DeprecationWarning``)::
         prep_pycmplot_input_info,          # -> prep
         get_sumstats_and_merged_sector_list,  # -> load
         plot_linear, plot_circular,         # -> linear, circular
-        plot_qq_combined, plot_qq_overlay, plot_qq_separate,  # -> qq_*
+        plot_qq_single, plot_qq_combined, plot_qq_overlay,
+        plot_qq_separate,                   # -> qq_*
     )
 
 Public surface
@@ -41,9 +42,13 @@ from pycmplot.io import prep, load
 from pycmplot.plotting.linear import linear
 from pycmplot.plotting.circular import circular, compute_track_radii_dict
 from pycmplot.plotting.qq import (
-    qq_combined, qq_overlay, qq_separate, plot_qq_single,
+    qq_single, qq_combined, qq_overlay, qq_separate,
 )
-from pycmplot.stats import get_lead_snps, get_highlight_snps
+from pycmplot.stats import (
+    get_lead_snps, get_highlight_snps, get_signif_snps, clump,
+)
+from pycmplot.ld import LDGraph
+from pycmplot.variant_matcher import VariantMatcher
 from pycmplot.annotation import get_hits_summary_table
 from pycmplot.constants import hg38_chr_lengths, BIOTYPE_WEIGHTS
 from pycmplot.resources import ResourceConfig
@@ -74,10 +79,13 @@ __all__ = [
     "qq_combined",
     "qq_overlay",
     "qq_separate",
-    "plot_qq_single",
     "compute_track_radii_dict",
     "get_lead_snps",
     "get_highlight_snps",
+    "get_signif_snps",
+    "clump",
+    "LDGraph",
+    "VariantMatcher",
     "get_hits_summary_table",
     "hg38_chr_lengths",
     "BIOTYPE_WEIGHTS",
@@ -93,4 +101,4 @@ __all__ = [
     "plot_qq_separate",
 ]
 
-__version__ = "0.4.2"
+__version__ = "0.4.3"

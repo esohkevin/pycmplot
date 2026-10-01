@@ -30,7 +30,7 @@ from matplotlib.lines import Line2D
 
 from pycmplot.io import get_output_paths
 from pycmplot.stats import get_highlight_snps
-from pycmplot.annotation import get_annotation_column
+from pycmplot.annotation import get_annotation_column, prepare_annotation_labels
 
 logger = logging.getLogger(__name__)
 
@@ -140,6 +140,8 @@ def plot_circosm(
     suggest_threshold_neg: Optional[float] = None,
     highlight: bool = False,
     highlight_color: str = 'brown',
+    highlight_thresh: Optional[float] = None,
+    highlight_window: int = 250_000,
     colors: Optional[list[str]] = ['steelblue','orange'],
     point_size: float = 6,
     no_track_labels: bool = False,
@@ -244,7 +246,11 @@ def plot_circosm(
         else:
             lbl_track.text(
                 assoc_label,
-                x=(sector.end - sector.start) / 6,
+                # Absolute position one sixth into the spacer sector.
+                # (Was ``(end - start) / 6``, which is only valid when
+                # the sector starts at 0; data not starting near the
+                # chromosome start raised pycirclize's range error.)
+                x=sector.start + (sector.end - sector.start) / 6,
                 adjust_rotation=True,
                 orientation=track_label_orientation,
                 size=float(track_label_size),
@@ -315,9 +321,23 @@ def plot_circosm(
 
     if highlight:
         if "in_locus" not in assoc_chr.columns:
-            sys.exit("ERROR: 'in_locus' column is not in loaded sumstats. Did you forget to run `load` with the `highlight` option?")           
+            sys.exit("ERROR: 'in_locus' column is not in loaded sumstats. Did you forget to run `load` with the `highlight` option?")
         sig = assoc_chr[assoc_chr["in_locus"]]
         bg = assoc_chr[~assoc_chr["in_locus"]]
+        # Plot-time per-locus highlight filter, judged within this
+        # track (and chromosome): loci whose own lead fails
+        # ``highlight_thresh`` drop back into the background scatter.
+        if highlight_thresh is not None:
+            from pycmplot.annotation import filter_in_locus_by_threshold
+            sig_kept = filter_in_locus_by_threshold(
+                sig, highlight_thresh, window=highlight_window,
+            )
+            _dropped_idx = sig.index.difference(sig_kept.index)
+            if len(_dropped_idx):
+                bg = pd.concat(
+                    [bg, assoc_chr.loc[_dropped_idx]],
+                ).sort_index()
+            sig = sig_kept
 
         track.scatter(
             data=bg,
@@ -410,6 +430,8 @@ def circular(
     signif_line: Optional[bool | float] = None,
     highlight: bool = False,
     highlight_color: str = 'brown',
+    highlight_thresh: Optional[float] = None,
+    highlight_window_kb: Optional[int] = None,
     highlight_line: bool = False,
     highlight_line_color: str = 'grey',
     suggest_line: bool = False,
@@ -431,6 +453,8 @@ def circular(
     ax: Optional[plt.Axes] = None,
     highlight_legend: bool = True,
     highlight_legend_loc: Optional[str | tuple] = "upper center",
+    highlight_legend_size: Optional[float] = None,
+    highlight_legend_pad: Optional[float] = None,
 ):
     """Generate a multi-track Circos-style circular Manhattan plot.
 
@@ -483,7 +507,23 @@ def circular(
         Render significant-locus variants in brown.  Default ``False``.
     highlight_color : str, optional
         Color of highlighted positions when *highlight* is ``True``.
-        Default ``brown``.         
+        Default ``brown``.
+    highlight_thresh : float, optional
+        Plot-time, per-locus highlight filter (CLI ``-pht`` /
+        ``--plot_highlight_thresh``), applied to each track separately.
+        A highlighted variant keeps its highlight only if it lies within
+        *highlight_window_kb* of a highlighted variant in the same track
+        that passes the cutoff (``P <= threshold``; ``|P| >= threshold``
+        for signed statistics).  Each locus is thus judged by its own
+        lead: passing loci keep their whole highlight, failing loci
+        lose it, and if nothing passes nothing is highlighted.  Does
+        not change the loaded data or the labels (see
+        *signif_threshold* for labels).  Default ``None``: highlight
+        everything the loader flagged.
+    highlight_window_kb : int, optional
+        Locus half-width for *highlight_thresh*.  Default: the
+        ``clump_window_kb`` recorded in *hits_table* by the loader (the
+        window that defined the highlighted loci), else 250 kb.
     colors : list of str, optional
         Two alternating chromosome colours.  Default ``['steelblue', 'grey']``.
     chrom_label_size : float, optional
@@ -643,9 +683,12 @@ def circular(
         ]      
     """
 
-    # Plot-time significance filter on the hits table (see the linear
-    # plotter for full rationale).  Subsets gene-label annotations
-    # without touching the underlying track data or highlight colors.
+    # Plot-time filters (see linear plotter for full rationale):
+    #   • ``signif_threshold`` narrows the gene-label set.
+    #   • ``highlight_thresh`` narrows the highlighted loci, judged per
+    #     track with the loader's ``clump_window_kb`` as locus width.
+    from pycmplot.annotation import resolve_highlight_window_kb
+    _hl_window_bp = resolve_highlight_window_kb(highlight_window_kb, hits_table) * 1_000
     if signif_threshold is not None:
         from pycmplot.annotation import filter_hits_by_signif
         hits_table = filter_hits_by_signif(hits_table, signif_threshold)
@@ -703,6 +746,8 @@ def circular(
                 suggest_threshold_neg=sug_thresh_neg,
                 highlight=highlight,
                 highlight_color=highlight_color,
+                highlight_thresh=highlight_thresh,
+                highlight_window=_hl_window_bp,
                 colors=colors,
                 point_size=point_size,
                 no_track_labels=no_track_labels,
@@ -713,8 +758,10 @@ def circular(
     # Circular: gene/SNP annotations
     # ------------------------------------------------------------------
     if annotate and not hits_table.empty:
-        label_col = get_annotation_column(
-            annotate = annotate,
+        # Gene labels: one label per gene locus.  SNP labels: every
+        # independent lead keeps its own rsID.
+        _label_hits, label_col = prepare_annotation_labels(
+            annotate=annotate,
             hits_table=hits_table,
             label_col=label_col,
         )
@@ -723,8 +770,11 @@ def circular(
         else:
             fstyle = "italic"
 
-        for i, (_, row) in enumerate(hits_table.iterrows()):
+        for i, (_, row) in enumerate(_label_hits.iterrows()):
             label = row[label_col]
+            # Repeated gene label at the same locus: keep the guide line,
+            # skip the duplicate text.
+            _shown = bool(row.get("label_shown", True))
             for sector in circos.sectors:
                 if str(row["CHR"]) == sector.name:
                     a_track = sector.add_track(annotation_track_radius)
@@ -735,21 +785,22 @@ def circular(
                     #r_pos  = r_low if i % 2 == 0 else r_high
                     pos    = row["POS"]
 
-                    a_track.annotate(
-                        x=pos,
-                        label=str(label),
-                        min_r=r_low,
-                        max_r=r_low + 6,
-                        label_size=annotation_size,
-                        text_kws={
-                            "size": "large",
-                            "color": "black",
-                            "alpha": 1,
-                            "fontstyle": fstyle,
-                            "fontweight": "normal",
-                            "multialignment": "left",
-                        },
-                    )
+                    if _shown:
+                        a_track.annotate(
+                            x=pos,
+                            label=str(label),
+                            min_r=r_low,
+                            max_r=r_low + 6,
+                            label_size=annotation_size,
+                            text_kws={
+                                "size": "large",
+                                "color": "black",
+                                "alpha": 1,
+                                "fontstyle": fstyle,
+                                "fontweight": "normal",
+                                "multialignment": "left",
+                            },
+                        )
 
                     if highlight_line:
                         if not highlight_line_color:
@@ -862,13 +913,26 @@ def circular(
             _placement = resolve_highlight_legend_placement(
                 highlight_legend_loc,
             )
+            # User-tunable font size + border padding.  Defaults
+            # preserve the pre-existing look (font matches
+            # track_label_size, no extra padding); users can
+            # override either independently.
+            _lg_size = (
+                float(highlight_legend_size)
+                if highlight_legend_size is not None
+                else track_label_size
+            )
+            _extra_kw = {}
+            if highlight_legend_pad is not None:
+                _extra_kw["borderaxespad"] = float(highlight_legend_pad)
             circos.ax.legend(
                 handles=handles,
                 title="Highlighted Categories",
-                fontsize=track_label_size,
-                title_fontsize=track_label_size,
+                fontsize=_lg_size,
+                title_fontsize=_lg_size,
                 frameon=False,
                 **_placement,
+                **_extra_kw,
             )
 
     #if plt_name:

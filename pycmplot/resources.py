@@ -120,6 +120,61 @@ class ResourceConfig:
             _pkg_data("Homo_sapiens.GRCh37.geneinfo.tsv.gz"),
         )
     )
+    # GeneHancer regulatory-element -> gene connections (hg38 only).
+    # Parsed once at annotation time and looked up per SNP position
+    # to derive the ``genehancer_bonus`` component of the priority
+    # score.  Optional — set to a non-existent path or ``None`` to
+    # skip GH-based scoring and fall back to the geometric formula.
+    genehancer_hg38: str | None = field(
+        default_factory=lambda: _env(
+            "PYCMPLOT_GENEHANCER_HG38",
+            _pkg_data("genehancer.tsv.gz"),
+        )
+    )
+    # UCSC functional annotation tracks (hg38 only) used to boost
+    # the LD-block annotation-representative selection.  Each is
+    # optional — a missing bundled file simply degrades the
+    # functional-evidence score gracefully.  Overridable via
+    # PYCMPLOT_CCRE_HG38 / PYCMPLOT_CPG_HG38 / PYCMPLOT_EQTL_HG38
+    # / PYCMPLOT_DNASE_HG38 / PYCMPLOT_TFBS_HG38 env vars.
+    ccre_hg38: str | None = field(
+        default_factory=lambda: _env(
+            "PYCMPLOT_CCRE_HG38",
+            _pkg_data("ucsc_ccre.tsv.gz"),
+        )
+    )
+    cpg_hg38: str | None = field(
+        default_factory=lambda: _env(
+            "PYCMPLOT_CPG_HG38",
+            _pkg_data("ucsc_cpg.tsv.gz"),
+        )
+    )
+    eqtl_hg38: str | None = field(
+        default_factory=lambda: _env(
+            "PYCMPLOT_EQTL_HG38",
+            _pkg_data("gtex_eqtl_caviar.tsv.gz"),
+        )
+    )
+    # Per-tissue GTEx CAVIAR eQTLs (variant, gene, tissue, CPP); used
+    # only to report ``eqtl`` (gene_tissue) in the hits table.
+    eqtl_tissues_hg38: str | None = field(
+        default_factory=lambda: _env(
+            "PYCMPLOT_EQTL_TISSUES_HG38",
+            _pkg_data("gtex_eqtl_caviar_tissues.tsv.gz"),
+        )
+    )
+    dnase_hg38: str | None = field(
+        default_factory=lambda: _env(
+            "PYCMPLOT_DNASE_HG38",
+            _pkg_data("ucsc_dnase.tsv.gz"),
+        )
+    )
+    tfbs_hg38: str | None = field(
+        default_factory=lambda: _env(
+            "PYCMPLOT_TFBS_HG38",
+            _pkg_data("ucsc_tfbs.tsv.gz"),
+        )
+    )
     #featuresinfo: str | None = field(
     #    default_factory=lambda: _env(
     #        "PYCMPLOT_FEATURESINFO",
@@ -168,6 +223,13 @@ class ResourceConfig:
                 "chain_hg18_hg38": "PYCMPLOT_CHAIN_HG18_HG38",
                 "geneinfo_hg38":   "PYCMPLOT_GENEINFO_HG38",
                 "geneinfo_hg19":   "PYCMPLOT_GENEINFO_HG19",
+                "genehancer_hg38": "PYCMPLOT_GENEHANCER_HG38",
+                "ccre_hg38":       "PYCMPLOT_CCRE_HG38",
+                "cpg_hg38":        "PYCMPLOT_CPG_HG38",
+                "eqtl_hg38":       "PYCMPLOT_EQTL_HG38",
+                "eqtl_tissues_hg38": "PYCMPLOT_EQTL_TISSUES_HG38",
+                "dnase_hg38":      "PYCMPLOT_DNASE_HG38",
+                "tfbs_hg38":       "PYCMPLOT_TFBS_HG38",
                 #"featuresinfo":    "PYCMPLOT_FEATURESINFO",
             }.get(attr, attr.upper())
             raise FileNotFoundError(

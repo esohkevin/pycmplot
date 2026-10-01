@@ -1,9 +1,7 @@
-# pycmplot
+<p align="center">
+  <img width="600" height="400" src="docs/_static/pycmplot-logo-circular.png">
+</p>
 
-
-<div>
-  <h1 align="center">Multi-track circular and linear Manhattan plotting in Python.</h1>
-</div>
 
 <p align="center">
 
@@ -14,22 +12,6 @@
 
 </p>
 
-<!--
-<p align="center">
-  <img width="600" height="400" src="docs/_static/pycmplot-logo-circular.png">
-</p>
--->
-
-```
-                    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-                    |  MULTI-TRACK CIRCULAR AND LINEAR MANHATTAN PLOTTING  |
-                    |                      in Python                       |
-                    |                    Kevin Esoh, 2026                  |
-                    |                    kesohku1@jh.edu                   |
-                    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-```
-
-----------------------------------------------
 
 # Citation
 
@@ -136,7 +118,7 @@ See benchmark figure (manuscript in preparation).
 
 ### Genome build conversion (liftover)
 Conversion of a both hg18 and hg19 positions to their hg38 equivalent is included through
-`pyliftover.LiftOver`.
+`liftover.ChainFile`.
 
 This means you can concatenate multiple summary stats into one file and include a `BUILD` 
 column to specify the genome build of each position ('hg18', 'hg19', or 'hg38') and all 
@@ -279,7 +261,7 @@ pip install pycmplot
 ```
 
 
-### From GitHub (with test data included, full size ~ 330 MB)
+### From GitHub
 ```bash
 git clone https://github.com/esohkevin/pycmplot.git
 
@@ -329,7 +311,7 @@ pycmplot -h
 | pycirclize | Circular (Circos-style) tracks |
 | natsort | Natural chromosome sorting |
 | adjustText | Label collision avoidance |
-| pyliftover | hg19 to hg38 coordinate conversion |
+| liftover | hg18/hg19 to hg38 coordinate conversion |
 | Pillow | Image utilities |
 | pyarrow, fastparquet | Data load and compression engine |
 
@@ -404,13 +386,10 @@ Run `pycmplot -h` for the full option list.
 ---
 
 ## Python API
-
-A demonstration of how to use the python API is provided in this notebook: https://github.com/esohkevin/pycmplot/blob/main/pycmplot_python_api.ipynb
-
 For an end-to-end walkthrough of every feature (caching, hits overlay,
 per-locus colours & categories, multi-panel canvas, mixed-build
 liftover, QQ opt-in), see the
-[Tutorial](https://pycmplot.readthedocs.io/en/latest/tutorial.html)
+[Python API Tutorial](https://pycmplot.readthedocs.io/en/latest/python_api_tutorial.html)
 page in the docs.
 
 

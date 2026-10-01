@@ -35,7 +35,7 @@
       <script src="_static/sphinxcontrib-images/LightBox2/lightbox2-customize/jquery-noconflict.js?v=12818e64"></script>
       <script defer="defer" src="https://unpkg.com/@popperjs/core@2"></script>
       <script defer="defer" src="https://unpkg.com/tippy.js@6"></script>
-      <script defer="defer" src="_static/tippy/cli_tutorial.431b6fa5-7269-4235-88bf-c009ed9d4d72.js"></script>
+      <script defer="defer" src="_static/tippy/cli_tutorial.de5d9de4-e7e0-48d3-a983-499fb8a9d649.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -101,6 +101,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#automatic-gene-annotation">Automatic gene annotation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#distance-semantics">Distance semantics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#functional-annotation-columns">Functional annotation columns</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#qq-plots-and-compute-pvals">QQ plots and <code class="docutils literal notranslate"><span class="pre">compute_pvals</span></code></a></li>
@@ -139,37 +140,37 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="python_api_tutorial.html">Python API Tutorial</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="pycmplot_python_api.html">Python API for the pycmplot package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Installation">Installation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Import-the-package-functions">Import the package functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycmplot_python_api.html">Python API for the pycmplot package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycmplot_python_api.html#Installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycmplot_python_api.html#Package-import-and-the-3-step-mental-model">Package import and the 3-step mental model</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Getting-help">Getting help</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="pycmplot_python_api.html#Example-plotting">Example plotting</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Important-notes">Important notes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Generating-a-linear-plot">Generating a linear plot</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pycmplot_python_api.html#Synthetic-Data">Synthetic Data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Important-Note">Important Note</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pycmplot_python_api.html#Use-Cases---Real-Data">Use Cases - Real Data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Generating-a-Circular-plot">Generating a Circular plot</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="pycmplot_python_api.html#No-highlighting-of-significant-loci">No highlighting of significant loci</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#id1">Generating a linear plot</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Highlighting-significant-loci-and-annotating-by-SNP">Highlighting significant loci and annotating by SNP</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="pycmplot_python_api.html#Highlighting-by-a-different-p-value-threshold-and-changing-plot-colors-and-removing-track-labels">Highlighting by a different p-value threshold and changing plot colors and removing track labels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Generating-a-linear-plot">Generating a linear plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#What-happens-if-we-try-highlighting-significant-loci-and-annotating-by-SNP?">What happens if we try highlighting significant loci and annotating by SNP?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Highlighting-significant-loci-and-enable-gene-annotation">Highlighting significant loci and enable gene annotation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Highlighting-and-annotating-by-a-different-p-value-threshold">Highlighting and annotating by a different p-value threshold</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Generating-circular-plots">Generating circular plots</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="pycmplot_python_api.html#Controling-the-inner-circle-size">Controling the inner circle size</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="pycmplot_python_api.html#Annotating-by-specific-columns-in-hits-table">Annotating by specific columns in hits table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycmplot_python_api.html#Controling-circular-plot-radius">Controling circular plot radius</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Ensuring-all-highlighted-loci-are-also-annotated">Ensuring all highlighted loci are also annotated</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="pycmplot_python_api.html#Explicitly-speficying-directory-where-output-files-should-be-stored">Explicitly speficying directory where output files should be stored</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="pycmplot_python_api.html#Handling-other-use-cases-and-QQ-plots">Handling other use cases and QQ-plots</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html##-Handling-other-use-cases-and-QQ-plots"># Handling other use cases and QQ-plots</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Summary-stats-without-BUILD-column-and-no-build-information-provided">Summary stats without <strong>BUILD</strong> column and no <code class="docutils literal notranslate"><span class="pre">build</span></code> information provided</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Supplying-builds-with-summary-stats">Supplying builds with summary stats</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#QQ-Plotting">QQ-Plotting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html###-Supplying-builds-with-summary-stats">## Supplying builds with summary stats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html###-QQ-Plotting">## QQ-Plotting</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="pycmplot_python_api.html#Overlaying-multiple">Overlaying multiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pycmplot_python_api.html#Separate-qq-plots-saved-in-separate-figures">Separate qq-plots saved in separate figures</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pycmplot_python_api.html#Combined-multi-panel">Combined multi-panel</a></li>
@@ -184,8 +185,14 @@
 <li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Specify-groups-of-sumstats-to-load-and-plot-in-different-panels">Specify groups of sumstats to load and plot in different panels</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="pycmplot_python_api.html#Plot-in-panels">Plot in panels</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pycmplot_python_api.html#Final-Notes">Final Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycmplot_python_api.html#Plot-in-panels">Plot in panels</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Highlighting-different-categoris">Highlighting different categoris</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pycmplot_python_api.html#Selection-Statistics-from-our-2021-Scientific-Reports-Population-Structure-Paper">Selection Statistics from our 2021 <em>Scientific Reports</em> Population Structure Paper</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html##-Final-Notes"># Final Notes</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -216,8 +223,10 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="api/stats.html">pycmplot.stats</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/stats.html#module-pycmplot.stats">pycmplot.stats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/stats.html#pycmplot.stats.clump"><code class="docutils literal notranslate"><span class="pre">clump()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/stats.html#pycmplot.stats.get_highlight_snps"><code class="docutils literal notranslate"><span class="pre">get_highlight_snps()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/stats.html#pycmplot.stats.get_lead_snps"><code class="docutils literal notranslate"><span class="pre">get_lead_snps()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/stats.html#pycmplot.stats.get_signif_snps"><code class="docutils literal notranslate"><span class="pre">get_signif_snps()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="api/annotation.html">pycmplot.annotation</a><ul>
@@ -225,15 +234,31 @@
 <li class="toctree-l4"><a class="reference internal" href="api/annotation.html#gene-reference-files">Gene reference files</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.FUNCTIONAL_COLUMNS"><code class="docutils literal notranslate"><span class="pre">FUNCTIONAL_COLUMNS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.annotate_functional"><code class="docutils literal notranslate"><span class="pre">annotate_functional()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.build_highlight_legend_entries"><code class="docutils literal notranslate"><span class="pre">build_highlight_legend_entries()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.candidate_gene_pool"><code class="docutils literal notranslate"><span class="pre">candidate_gene_pool()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.ensure_category_column"><code class="docutils literal notranslate"><span class="pre">ensure_category_column()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.ensure_highlight_color_column"><code class="docutils literal notranslate"><span class="pre">ensure_highlight_color_column()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.filter_hits_by_signif"><code class="docutils literal notranslate"><span class="pre">filter_hits_by_signif()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.filter_in_locus_by_threshold"><code class="docutils literal notranslate"><span class="pre">filter_in_locus_by_threshold()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.get_annotation_column"><code class="docutils literal notranslate"><span class="pre">get_annotation_column()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.get_hits_summary_table"><code class="docutils literal notranslate"><span class="pre">get_hits_summary_table()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.labels_to_draw"><code class="docutils literal notranslate"><span class="pre">labels_to_draw()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.load_ccre"><code class="docutils literal notranslate"><span class="pre">load_ccre()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.load_cpg"><code class="docutils literal notranslate"><span class="pre">load_cpg()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.load_dnase"><code class="docutils literal notranslate"><span class="pre">load_dnase()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.load_eqtl"><code class="docutils literal notranslate"><span class="pre">load_eqtl()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.load_functional_tracks"><code class="docutils literal notranslate"><span class="pre">load_functional_tracks()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.load_genehancer"><code class="docutils literal notranslate"><span class="pre">load_genehancer()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.load_genes_dict"><code class="docutils literal notranslate"><span class="pre">load_genes_dict()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.load_tfbs"><code class="docutils literal notranslate"><span class="pre">load_tfbs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.position_informativeness_score"><code class="docutils literal notranslate"><span class="pre">position_informativeness_score()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.prepare_annotation_labels"><code class="docutils literal notranslate"><span class="pre">prepare_annotation_labels()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.resolve_highlight_categories"><code class="docutils literal notranslate"><span class="pre">resolve_highlight_categories()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.resolve_highlight_colors"><code class="docutils literal notranslate"><span class="pre">resolve_highlight_colors()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.resolve_highlight_legend_placement"><code class="docutils literal notranslate"><span class="pre">resolve_highlight_legend_placement()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.resolve_highlight_window_kb"><code class="docutils literal notranslate"><span class="pre">resolve_highlight_window_kb()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="api/liftover.html">pycmplot.liftover</a><ul>
@@ -292,11 +317,18 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="api/resources.html#pycmplot.resources.ResourceConfig"><code class="docutils literal notranslate"><span class="pre">ResourceConfig</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/resources.html#pycmplot.resources.ResourceConfig.ccre_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.ccre_hg38</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/resources.html#pycmplot.resources.ResourceConfig.chain_hg18_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.chain_hg18_hg38</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/resources.html#pycmplot.resources.ResourceConfig.chain_hg19_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.chain_hg19_hg38</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/resources.html#pycmplot.resources.ResourceConfig.cpg_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.cpg_hg38</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/resources.html#pycmplot.resources.ResourceConfig.dnase_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.dnase_hg38</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/resources.html#pycmplot.resources.ResourceConfig.eqtl_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.eqtl_hg38</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/resources.html#pycmplot.resources.ResourceConfig.eqtl_tissues_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.eqtl_tissues_hg38</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/resources.html#pycmplot.resources.ResourceConfig.genehancer_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.genehancer_hg38</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/resources.html#pycmplot.resources.ResourceConfig.geneinfo_hg19"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.geneinfo_hg19</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/resources.html#pycmplot.resources.ResourceConfig.geneinfo_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.geneinfo_hg38</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/resources.html#pycmplot.resources.ResourceConfig.require"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.require()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/resources.html#pycmplot.resources.ResourceConfig.tfbs_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.tfbs_hg38</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -307,19 +339,20 @@
 <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id1">0.4.2 - 2026-09-12</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id2">0.4.1 - 2026-08-23</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id3">0.4.0 - 2026-08-13</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id4">0.3.1 - 2026-07-31</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id5">0.3.0 - 2026-06-01</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id6">0.2.8 - 2026-05-30</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id7">0.2.7 - 2026-04-27</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id8">0.2.5 - 2026-04-20</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id9">0.2.2 - 2026-04-18</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id10">0.2.1 — 2026-04-16</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id11">0.1.9 — 2026-04-14</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id12">0.1.8 — 2026-04-14</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id13">0.1.0 — 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id1">0.4.3 - 2026-09-30</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id2">0.4.2 - 2026-09-12</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id3">0.4.1 - 2026-08-23</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id4">0.4.0 - 2026-08-13</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id5">0.3.1 - 2026-07-31</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id6">0.3.0 - 2026-06-01</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id7">0.2.8 - 2026-05-30</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id8">0.2.7 - 2026-04-27</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id9">0.2.5 - 2026-04-20</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id10">0.2.2 - 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id11">0.2.1 — 2026-04-16</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id12">0.1.9 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id13">0.1.8 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id14">0.1.0 — 2026-04-18</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a><ul>
@@ -389,7 +422,7 @@ functions in a runnable Jupyter notebook.</p>
 <span id="cli-tut-setup"></span><h2>Setup: a synthetic dataset<a class="headerlink" href="#setup-a-synthetic-dataset" title="Link to this heading"></a></h2>
 <p>Every CLI invocation below assumes six synthetic sumstats files on
 disk (<code class="docutils literal notranslate"><span class="pre">trait{1..6}.tsv.gz</span></code>). Download the python script used for benchmark
-<a class="reference external" href="https://github.com/esohkevin/pycmplot/blob/main/benchmark/generate_sumstats.py">here</a> and run it as shown below.</p>
+<a class="reference external" href="https://github.com/esohkevin/pycmplot-benchmark/blob/main/generate_sumstats.py">here</a> and run it as shown below.</p>
 <p>The code below generates six sumstats, <code class="docutils literal notranslate"><span class="pre">triat1</span></code> to <code class="docutils literal notranslate"><span class="pre">trait6</span></code>, each containing
 1 million SNPs. Traits 1 to 3 are in hg19 coordinate while traits 4 to 6 are
 in hg38 coordinate. All the files are gzipped and saved in the folder <code class="docutils literal notranslate"><span class="pre">data</span></code>.
@@ -448,7 +481,7 @@ HG38_TARGET_SPIKES: list[tuple[str, int, float]] = [
 the use of the <code class="docutils literal notranslate"><span class="pre">--build</span></code> option, we will create two more sumstats by
 deleting the build columns from two of the sumstats already generated.
 One in hg19 and one in hg38. These files can also be downloawded directly
-from the GitHub repo <a class="reference external" href="https://github.com/esohkevin/pycmplot/tree/main/data">GitHub repo</a></p>
+from the GitHub repo <a class="reference external" href="https://github.com/esohkevin/pycmplot-benchmark/tree/main/data">GitHub repo</a></p>
 </div>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gunzip<span class="w"> </span>-c<span class="w"> </span>./data/sumstats_1M_trait1_hg19.tsv.gz<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>rev<span class="w">  </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
@@ -889,10 +922,7 @@ By default, each track (including the annotation track) gets an equal space.
 Annotations in the first figure are not visible. We can solve this by two means.</p>
 <ul class="simple">
 <li><p>either increase figure height: <code class="docutils literal notranslate"><span class="pre">--figure_size</span> <span class="pre">10,8</span></code></p></li>
-<li><p>or increase the annotation track space relative to the rest: <code class="docutils literal notranslate"><span class="pre">--track_heights</span> <span class="pre">2,1,1</span></code></p></li>
-</ul>
-<p>(annotation track plus two sumstats)</p>
-<ul class="simple">
+<li><p>or increase the annotation track space relative to the rest: <code class="docutils literal notranslate"><span class="pre">--track_heights</span> <span class="pre">2,1,1</span></code> (annotation track plus two sumstats).</p></li>
 <li><p>or combine the two options to improve the visuals.</p></li>
 </ul>
 <p><strong>NB:</strong> When using <code class="docutils literal notranslate"><span class="pre">--annotate</span></code> in linear plotting, the first (top) track is always the annotation track.</p>
@@ -1149,12 +1179,73 @@ concept this calculation is delibrately strand-aware rather than positionally.</
 <a class="reference internal image-reference" href="_images/gene_selection.png"><img alt="pycmplot gene selection schematic" src="_images/gene_selection.png" style="width: 800px;" />
 </a>
 </figure>
-<p>Download a PDF copy. <a class="reference download internal" download="" href="_downloads/c771a97b036ce56fa462c76462267ed3/annotation_schematic.pdf"><code class="xref download docutils literal notranslate"><span class="pre">annotation_schematic.pdf</span></code></a>.</p>
+<p>Download a PDF copy. <a class="reference download internal" download="" href="_downloads/9a4297e69eba753f6912ea4c2cebe1be/annotation_schematic.pdf"><code class="xref download docutils literal notranslate"><span class="pre">annotation_schematic.pdf</span></code></a>.</p>
 <div class="admonition hint">
 <p class="admonition-title">Hint</p>
 <p>Check whether pycmplot’s annotation worked correctly. Examine
 some of the SNPs in <a class="reference internal" href="#cli-tut-setup"><span class="std std-ref">Setup: a synthetic dataset</span></a> in <a class="reference external" href="https://www.ebi.ac.uk/gwas/efotraits/OBA_VT0001253">GWAS Catalog</a>.</p>
 </div>
+</section>
+<section id="functional-annotation-columns">
+<h3>Functional annotation columns<a class="headerlink" href="#functional-annotation-columns" title="Link to this heading"></a></h3>
+<p>When GeneHancer is enabled (the default; <code class="docutils literal notranslate"><span class="pre">--no_genehancer</span></code> turns it
+off), the hits table and the <code class="docutils literal notranslate"><span class="pre">hits.&lt;group&gt;.tsv</span></code> overlay also report
+the functional evidence at each lead.  The annotated variant is the
+one used for the gene assignment: <code class="docutils literal notranslate"><span class="pre">annot_pos</span></code> / <code class="docutils literal notranslate"><span class="pre">annot_snp</span></code> when
+the LD-block tie-break chose a representative, otherwise the lead
+itself.  Multi-valued fields are comma-separated, strongest first, and
+empty (<code class="docutils literal notranslate"><span class="pre">None</span></code>) when the variant overlaps nothing in that track.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Column</p></th>
+<th class="head"><p>Content (hg38 source)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">gh_id</span></code></p></td>
+<td><p>GeneHancer element(s) containing the variant, e.g.
+<code class="docutils literal notranslate"><span class="pre">GH01F011652</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">gh_feature</span></code></p></td>
+<td><p>GeneHancer element type (the bundled file holds
+<code class="docutils literal notranslate"><span class="pre">Enhancer</span></code> elements only)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">eqtl</span></code></p></td>
+<td><p>GTEx CAVIAR fine-mapped eQTLs at the variant as
+<code class="docutils literal notranslate"><span class="pre">GENE_TISSUE</span></code> (e.g. <code class="docutils literal notranslate"><span class="pre">FBXO2_Whole_Blood</span></code>), highest
+CPP first.  GTEx tissue names contain underscores, so
+split on the first underscore only.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">tfbs</span></code></p></td>
+<td><p>ENCODE TF clusters (score &gt;= 500) as <code class="docutils literal notranslate"><span class="pre">TF_SCORE</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ccre_id</span></code></p></td>
+<td><p>ENCODE cCRE accession, e.g. <code class="docutils literal notranslate"><span class="pre">EH38E1318976</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">ccre</span></code></p></td>
+<td><p>cCRE signature, e.g. <code class="docutils literal notranslate"><span class="pre">promoter-like</span> <span class="pre">signature</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ccre_class</span></code></p></td>
+<td><p>cCRE class, e.g. <code class="docutils literal notranslate"><span class="pre">PLS,CTCF-bound</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dnase_score</span></code></p></td>
+<td><p>ENCODE DNase cluster score (&gt;= 250)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">dnase_sources</span></code></p></td>
+<td><p>Number of DNase experiments supporting the cluster</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cpg_island</span></code></p></td>
+<td><p>CpG island name (<code class="docutils literal notranslate"><span class="pre">CpG:&lt;number</span> <span class="pre">of</span> <span class="pre">CpGs&gt;</span></code>)</p></td>
+</tr>
+</tbody>
+</table>
+<p>The columns themselves are for reporting.  The same six tracks also
+break ties when several variants in a locus share the lead’s exact
+P-value: the variant with the most functional evidence becomes the
+annotation representative (<code class="docutils literal notranslate"><span class="pre">annot_pos</span></code> / <code class="docutils literal notranslate"><span class="pre">annot_snp</span></code>) used for the
+gene assignment.  The statistical lead (<code class="docutils literal notranslate"><span class="pre">SNP</span></code> / <code class="docutils literal notranslate"><span class="pre">POS</span></code>) never
+changes.  The bundled tracks are rebuilt from the raw UCSC /
+GeneHancer downloads with <code class="docutils literal notranslate"><span class="pre">scripts/prep_functional_tracks.py</span></code>.</p>
 </section>
 </section>
 <section id="qq-plots-and-compute-pvals">
@@ -1651,7 +1742,7 @@ neither.</p>
 tedious.  The TUI adds a filter + multi-select + batch-edit flow:</p>
 <ul class="simple">
 <li><p>Press <code class="docutils literal notranslate"><span class="pre">/</span></code> to open a filter modal.  Type any pandas
-<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.query.html#pandas.DataFrame.query" title="(in pandas v3.0.5)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">query()</span></code></a> expression — <code class="docutils literal notranslate"><span class="pre">P</span> <span class="pre">&lt;</span> <span class="pre">5e-8</span></code>,
+<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.query.html#pandas.DataFrame.query" title="(in pandas v3.0.6)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">query()</span></code></a> expression — <code class="docutils literal notranslate"><span class="pre">P</span> <span class="pre">&lt;</span> <span class="pre">5e-8</span></code>,
 <code class="docutils literal notranslate"><span class="pre">category</span> <span class="pre">==</span> <span class="pre">&quot;significant&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">CHR</span> <span class="pre">==</span> <span class="pre">&quot;6&quot;</span> <span class="pre">and</span> <span class="pre">BP.between(28e6,</span> <span class="pre">34e6)</span></code>.
 The grid re-renders showing only matching rows; <code class="docutils literal notranslate"><span class="pre">Esc</span></code> clears the
 filter (and any selection) in one keystroke.</p></li>
@@ -1701,7 +1792,7 @@ pycmplot<span class="w"> </span>hits<span class="w"> </span>list<span class="w">
 <span class="w">    </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span>-F<span class="s1">&#39;\\t&#39;</span><span class="w"> </span><span class="s1">&#39;NR &gt; 1 &amp;&amp; $4 &lt; 5e-8 {print $3}&#39;</span>
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">--where</span></code> uses pandas’ <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.query.html#pandas.DataFrame.query" title="(in pandas v3.0.5)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">query()</span></code></a> grammar —
+<p><code class="docutils literal notranslate"><span class="pre">--where</span></code> uses pandas’ <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.query.html#pandas.DataFrame.query" title="(in pandas v3.0.6)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">query()</span></code></a> grammar —
 identical to the TUI’s filter, so users learn one syntax.  Invalid
 colours are rejected pre-write; a bad <code class="docutils literal notranslate"><span class="pre">--where</span></code> expression prints
 the offending part rather than a pandas traceback.  <code class="docutils literal notranslate"><span class="pre">--dry-run</span></code>

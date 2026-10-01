@@ -42,7 +42,7 @@ from natsort import natsort_keygen
 
 from pycmplot.constants import CHROM_ORDER
 from pycmplot.io import get_output_paths
-from pycmplot.annotation import get_annotation_column
+from pycmplot.annotation import get_annotation_column, prepare_annotation_labels
 
 logger = logging.getLogger(__name__)
 
@@ -959,6 +959,8 @@ def plot_linearm(
     annotation_size: float = 8,
     highlight: bool = False,
     highlight_color: str = 'brown',
+    highlight_thresh: Optional[float] = None,
+    highlight_window: int = 250_000,
     highlight_line: bool = False,
     highlight_line_color: str = 'grey',
     signif_line: Optional[bool | float] = None,
@@ -984,6 +986,8 @@ def plot_linearm(
     ax: Optional[plt.Axes] = None,
     highlight_legend: bool = True,
     highlight_legend_loc: Optional[str | tuple] = "upper center",
+    highlight_legend_size: Optional[float] = None,
+    highlight_legend_pad: Optional[float] = None,
 ):
     """Core rendering engine for the multi-track stacked linear Manhattan plot.
 
@@ -1015,7 +1019,16 @@ def plot_linearm(
         :func:`~pycmplot.stats.get_highlight_snps`) are rendered in brown.
         Default ``False``.
     highlight_thresh : float, optional
-        P-value threshold used for locus highlighting.  Default ``5e-8``.
+        Plot-time, per-locus highlight filter applied to each track
+        separately (see :func:`pycmplot.annotation.filter_in_locus_by_threshold`):
+        a highlighted variant keeps its highlight only if it lies within
+        *highlight_window* of a highlighted variant in the same track
+        that passes this cutoff.  ``None`` (default) highlights every
+        in-locus variant.
+    highlight_window : int, optional
+        Locus half-width in bp for *highlight_thresh*; should match the
+        loader's ``clump_window_kb`` (which defined ``in_locus``).
+        :func:`linear` sets it from the hits table.  Default ``250_000``.
     trim_pval : float, optional
         Reserved for future use; trimming is currently handled upstream in
         :func:`~pycmplot.io.get_sumstats_and_merged_sector_list`.
@@ -1107,7 +1120,20 @@ def plot_linearm(
     p_col = "P"
 
     if annot_df is not None and not annot_df.empty:
-        annot_df = annot_df.drop_duplicates(subset=[chr_col, pos_col, label_col])
+        # Dedup key adapts to the annotation label.  When ``label_col``
+        # is ``"SNP"`` (pycmplot's default when the user hasn't
+        # supplied build info or ``--annotate``), SNP IDs uniquely
+        # identify variants and POS becomes redundant — in fact POS
+        # can differ across build-mixed tracks for the same variant
+        # (e.g. rs123 in hg19 vs hg38), so keying on POS would keep
+        # both and clutter the annotation track with the same rsID
+        # twice.  For gene / custom label columns, POS is retained
+        # so distinct variants at the same locus don't collapse to
+        # a single label.
+        if str(label_col) == "SNP":
+            annot_df = annot_df.drop_duplicates(subset=[chr_col, label_col])
+        else:
+            annot_df = annot_df.drop_duplicates(subset=[chr_col, pos_col, label_col])
 
     if chr_order is None:
         chr_order = CHROM_ORDER
@@ -1242,12 +1268,39 @@ def plot_linearm(
     data_total   = sum(data_heights)
     y_lab_pos    = data_total / (2 * total_height)
 
-    fig = plt.figure(figsize=figsize)
-    gs = fig.add_gridspec(
-        expected_n, 1,
-        height_ratios=track_heights,
-        hspace=linear_track_spacing,
-    )
+    # ``ax`` is reused as a loop variable below, so keep the caller's
+    # target axes under its own name.
+    target_ax = ax
+    if target_ax is None:
+        fig = plt.figure(figsize=figsize)
+        gs = fig.add_gridspec(
+            expected_n, 1,
+            height_ratios=track_heights,
+            hspace=linear_track_spacing,
+        )
+    else:
+        # Multi-panel mode: split the caller's axes slot into the same
+        # stack of rows (annotation panel + one row per track) and draw
+        # into those.  The placeholder axes is removed; the rest of the
+        # caller's figure is left untouched.
+        fig = target_ax.figure
+        _spec = target_ax.get_subplotspec()
+        if _spec is not None:
+            gs = _spec.subgridspec(
+                expected_n, 1,
+                height_ratios=track_heights,
+                hspace=linear_track_spacing,
+            )
+        else:  # axes created with fig.add_axes(): use its box
+            _box = target_ax.get_position()
+            gs = fig.add_gridspec(
+                expected_n, 1,
+                height_ratios=track_heights,
+                hspace=linear_track_spacing,
+                left=_box.x0, right=_box.x1,
+                bottom=_box.y0, top=_box.y1,
+            )
+        target_ax.remove()
 
     if annotate:
         ax_annot = fig.add_subplot(gs[0, 0])
@@ -1342,8 +1395,16 @@ def plot_linearm(
 
         if highlight:
             if "in_locus" not in df.columns:
-                sys.exit("ERROR: 'in_locus' column is not in loaded sumstats. Did you forget to run `load` with the `highlight` option?")              
+                sys.exit("ERROR: 'in_locus' column is not in loaded sumstats. Did you forget to run `load` with the `highlight` option?")
             sig = df[df["in_locus"]]
+            # Plot-time per-locus highlight filter, judged within this
+            # track: loci whose own lead fails ``highlight_thresh`` lose
+            # their highlight as a unit (``None`` = no filter).
+            if highlight_thresh is not None:
+                from pycmplot.annotation import filter_in_locus_by_threshold
+                sig = filter_in_locus_by_threshold(
+                    sig, highlight_thresh, window=highlight_window,
+                )
             if not sig.empty:
                 sig_y = sig["logP"] if logp else sig[p_col]
                 # Per-locus color: look up each highlighted variant's
@@ -1410,9 +1471,14 @@ def plot_linearm(
     # Annotation track
     # ------------------------------------------------------------------
     if annotate and annot_df is not None:
+        # Only rows whose label is shown get an arrow (repeated gene
+        # labels at one locus are hidden; guide lines above still use
+        # every row of annot_df).
+        from pycmplot.annotation import labels_to_draw
+        _label_df = labels_to_draw(annot_df)
         less_than_spread_width = []
         s_width = 20e6
-        for chr, df in annot_df.groupby(chr_col):
+        for chr, df in _label_df.groupby(chr_col):
             df_chr = df[df[chr_col]==chr]
             differences = np.diff(df_chr['POS']).tolist()
             less_than_spread_width.append(list(filter(lambda x: x < s_width, differences)))
@@ -1420,7 +1486,7 @@ def plot_linearm(
         if len(less_than_spread_width) < 5:
             _draw_annotation_arrows(
                 ax_annot,
-                annot_df,
+                _label_df,
                 chr_col=chr_col,
                 label_col=label_col,
                 offsets=offsets,
@@ -1436,7 +1502,7 @@ def plot_linearm(
         else:        
             _draw_annotation_arrows_multirail(
                 ax_annot,
-                annot_df,
+                _label_df,
                 chr_col=chr_col,
                 label_col=label_col,
                 offsets=offsets,
@@ -1510,15 +1576,32 @@ def plot_linearm(
             _placement = resolve_highlight_legend_placement(
                 highlight_legend_loc,
             )
+            # User-tunable legend font size + border padding.  The
+            # size defaults to ``annotation_size`` so the legend
+            # blends with the rest of the top-track text out-of-
+            # the-box; users can override to make the legend
+            # bigger/smaller independently.  ``borderaxespad``
+            # controls the distance between the legend and the
+            # axes edge (matplotlib's own name for the "padding
+            # from the plot" knob).
+            _lg_size = (
+                float(highlight_legend_size)
+                if highlight_legend_size is not None
+                else annotation_size
+            )
+            _extra_kw = {}
+            if highlight_legend_pad is not None:
+                _extra_kw["borderaxespad"] = float(highlight_legend_pad)
             _top_ax.legend(
                 handles=handles,
                 title="Highlighted Categories",
-                fontsize=annotation_size,
-                title_fontsize=annotation_size,
+                fontsize=_lg_size,
+                title_fontsize=_lg_size,
                 frameon=True,
                 framealpha=0.85,
                 edgecolor="lightgrey",
                 **_placement,
+                **_extra_kw,
             )
 
     # ------------------------------------------------------------------
@@ -1537,7 +1620,7 @@ def plot_linearm(
             ax.axvline(end, color="lightgray", linewidth=0.1, alpha=0.05)
 
     axes[-1].set_xticks(xticks)
-    axes[-1].set_xticklabels(xlabels)
+    axes[-1].set_xticklabels(xlabels, fontsize=chrom_label_size)
     axes[-1].set_xlabel("Chromosome", fontsize=12)
 
     for ax in axes[:-1]:
@@ -1556,30 +1639,51 @@ def plot_linearm(
     # set ``linear_track_spacing=0`` to stack tracks flush against each
     # other — the right-side track labels remain readable because they
     # are orthogonal to the stacking direction.
-    fig.subplots_adjust(
-        left=0.09,
-        right=0.94,
-        top=0.90,
-        bottom=0.15,
-        hspace=linear_track_spacing,
-    )
+    if target_ax is None:
+        fig.subplots_adjust(
+            left=0.09,
+            right=0.94,
+            top=0.90,
+            bottom=0.15,
+            hspace=linear_track_spacing,
+        )
 
     if ylabel is None:
         ylabel_text = "-log\u2081\u2080(P)" if logp else p_col
     else:
         ylabel_text = ylabel
 
-    fig.text(
-        0.025, y_lab_pos,
-        ylabel_text,
-        va="center",
-        rotation="vertical",
-        fontsize=12,
-    )
+    if target_ax is None:
+        fig.text(
+            0.025, y_lab_pos,
+            ylabel_text,
+            va="center",
+            rotation="vertical",
+            fontsize=12,
+        )
+    else:
+        # Centre the label on the data tracks of THIS panel, a fixed
+        # 40 pt left of the panel so it clears the y tick labels
+        # whatever the panel's width.
+        _data_axes = loop_axes
+        _y0 = min(a.get_position().y0 for a in _data_axes)
+        _y1 = max(a.get_position().y1 for a in _data_axes)
+        _x0 = min(a.get_position().x0 for a in axes)
+        fig.text(
+            _x0, (_y0 + _y1) / 2,
+            ylabel_text,
+            va="center", ha="right",
+            rotation="vertical",
+            fontsize=12,
+            transform=mtransforms.offset_copy(
+                fig.transFigure, fig=fig, x=-40, y=0, units="points",
+            ),
+        )
 
-    if plt_name:
+    # With a caller-supplied ``ax`` the caller owns the figure: no save.
+    if plt_name and target_ax is None:
         fmt = fig_format or Path(plt_name).suffix.lstrip(".") or "png"
-        plt.savefig(plt_name.lower(), format=fmt, dpi=dpi)
+        fig.savefig(plt_name.lower(), format=fmt, dpi=dpi)
         logger.info("Saved linear Manhattan plot: %s", plt_name.lower())
 
     return fig, axes
@@ -1592,6 +1696,8 @@ def linear(
     point_size: Optional[float] = 8,
     highlight: bool = False,
     highlight_color: str = 'brown',
+    highlight_thresh: Optional[float] = None,
+    highlight_window_kb: Optional[int] = None,
     highlight_line: bool = False,
     highlight_line_color: str = 'grey',
     signif_lines: Optional[dict] = None,
@@ -1618,6 +1724,8 @@ def linear(
     ax: Optional[plt.Axes] = None,
     highlight_legend: bool = True,
     highlight_legend_loc: Optional[str | tuple] = "upper center",
+    highlight_legend_size: Optional[float] = None,
+    highlight_legend_pad: Optional[float] = None,
 ):
     """Generate a multi-track stacked linear Manhattan plot.
 
@@ -1646,7 +1754,21 @@ def linear(
     highlight : bool, optional
         Render significant-locus variants in brown.  Default ``False``.
     highlight_thresh : float, optional
-        P-value threshold for locus highlighting.  Default ``5e-8``.
+        Plot-time, per-locus highlight filter (CLI ``-pht`` /
+        ``--plot_highlight_thresh``), applied to each track separately.
+        A highlighted variant keeps its highlight only if it lies within
+        *highlight_window_kb* of a highlighted variant in the same track
+        that passes the cutoff (``P <= threshold``; ``|P| >= threshold``
+        for signed statistics).  Each locus is thus judged by its own
+        lead: passing loci keep their whole highlight, failing loci
+        lose it, and if nothing passes nothing is highlighted.  Does
+        not change the loaded data or the labels (see
+        *signif_threshold* for labels).  Default ``None``: highlight
+        everything the loader flagged.
+    highlight_window_kb : int, optional
+        Locus half-width for *highlight_thresh*.  Default: the
+        ``clump_window_kb`` recorded in *hits_table* by the loader (the
+        window that defined the highlighted loci), else 250 kb.
     hits_table : pandas.DataFrame, optional
         Annotation DataFrame (hits summary table from
         :func:`~pycmplot.annotation.get_hits_summary_table`).  Must contain
@@ -1733,23 +1855,30 @@ def linear(
     dfs      = [v[0] for v in sumstats_loaded.values()]
     t_labels = list(sumstats_loaded.keys())
 
-    # Plot-time significance filter: subset the hits table so only
-    # loci passing ``signif_threshold`` receive gene labels.  Enables
-    # a "load broadly / annotate strictly" workflow where the loader
-    # is run with a permissive threshold and the plotter tightens the
-    # annotation set without re-running the pipeline.  Signed
-    # statistics are auto-detected inside the helper (both tails
-    # retained when the hits table's ``P`` column has negatives).
+    # Plot-time filters, independent of each other:
+    #
+    #   • ``signif_threshold`` narrows the hits table used for labels
+    #     (auto-detects signed statistics from its ``P`` column).
+    #   • ``highlight_thresh`` narrows the highlighted loci, judged
+    #     per track inside :func:`plot_linearm` with a locus half-width
+    #     equal to the loader's ``clump_window_kb`` (recorded in the
+    #     hits table) unless ``highlight_window_kb`` is given.
+    #
+    # ``None`` on either leaves that dimension untouched.
+    from pycmplot.annotation import resolve_highlight_window_kb
+    _hl_window_bp = resolve_highlight_window_kb(highlight_window_kb, hits_table) * 1_000
     if signif_threshold is not None:
         from pycmplot.annotation import filter_hits_by_signif
         hits_table = filter_hits_by_signif(hits_table, signif_threshold)
 
     label = 'SNP'
     if annotate:
-        label = get_annotation_column(
+        # Gene labels: one label per gene locus.  SNP labels: every
+        # independent lead keeps its own rsID.
+        hits_table, label = prepare_annotation_labels(
             annotate=annotate,
             hits_table=hits_table,
-            label_col=label_col
+            label_col=label_col,
         )
 
     # plot name
@@ -1773,6 +1902,8 @@ def linear(
         point_size=point_size,
         highlight=highlight,
         highlight_color = highlight_color,
+        highlight_thresh = highlight_thresh,
+        highlight_window = _hl_window_bp,
         highlight_line = highlight_line,
         highlight_line_color = highlight_line_color,
         signif_line = signif_line,
@@ -1798,6 +1929,8 @@ def linear(
         ax=ax,
         highlight_legend=highlight_legend,
         highlight_legend_loc=highlight_legend_loc,
+        highlight_legend_size=highlight_legend_size,
+        highlight_legend_pad=highlight_legend_pad,
     )
 
     return axes

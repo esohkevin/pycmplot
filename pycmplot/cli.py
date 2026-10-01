@@ -180,17 +180,17 @@ def get_arguments(descmsg: str = DESCMSG) -> argparse.Namespace:
         Output resolution in dots per inch.  Default ``300``.
     ``force`` : bool
         Overwrite existing output files when ``True``.
+    ``chrom_label_size`` : float
+        Chromosome label font size (linear and circular).  Default ``6``.
+    ``track_label_size`` : float
+        Track label font size (linear and circular).  Default ``6``.
 
     **Circular-only arguments** (``--mode cm``)
 
     ``circular_track_spacing`` : int
         Gap between circular tracks.  Default ``1``.
-    ``chrom_label_size`` : float
-        Chromosome label font size.  Default ``6``.
     ``chrom_label_side`` : {'inside', 'outside'}
         Chromosome label placement.  Default ``'inside'``.
-    ``track_label_size`` : float
-        Track label font size.  Default ``6``.
     ``track_label_orientation`` : {'vertical', 'horizontal'}
         Track label orientation.  Default ``'vertical'``.
     ``min_radius`` : int
@@ -496,12 +496,112 @@ def get_arguments(descmsg: str = DESCMSG) -> argparse.Namespace:
             "negatives).  Default: None (no plot-time filter)."
         ),
     )
+    opt.add_argument(
+        "-pht", "--plot_highlight_thresh",
+        default=None, type=float, metavar="float",
+        help=(
+            "Plot-time highlight filter applied per-locus.  Loci "
+            "whose lead SNP fails this cutoff are dropped from the "
+            "highlighted colored scatter — variants inside their "
+            "windows fall back to the background scatter — while "
+            "surviving loci keep their full LD-tail highlight.  "
+            "Complements `--plot_signif_threshold` (annotations) "
+            "for the two-tier 'load broadly, refine at plot time' "
+            "workflow.  Auto-detects signed statistics.  Default: "
+            "None (highlight whatever the loader flagged)."
+        ),
+    )
 
     # CLASS TO HANDLE ANNOTATION VALUES NOT IN CHOICE LIST
     class AllowAll(list):
         def __contains__(self, item):
             return True
 
+    opt.add_argument(
+        "-aw", "--annotation_window_kb",
+        default=500, type=int, metavar="int",
+        help=(
+            "Search radius (in kilobases) around each lead SNP for "
+            "gene-body candidates.  Determines which genes enter the "
+            "priority-score pool and which flanking PCs can bracket "
+            "the SNP for the intergenic_PC 'LEFT-RIGHT' label.  "
+            "Wider windows surface distant TAD-scale PC candidates "
+            "when the local neighbourhood is gene-poor; narrower "
+            "windows restrict to core cis-regulatory range.  "
+            "Default: 500 (matches gene_selection_algorithm.md)."
+        ),
+    )
+    opt.add_argument(
+        "-no_gh", "--no_genehancer",
+        action="store_true",
+        help=(
+            "Disable the GeneHancer-based ``genehancer_bonus`` term "
+            "in the priority score.  By default pycmplot loads the "
+            "bundled GeneHancer TSV (hg38) and adds a bonus of up to "
+            "+2.0 (score/5, capped) to each candidate gene the SNP "
+            "position is annotated as regulating.  Pass this flag to "
+            "fall back to the pure geometry+strand+biotype formula."
+        ),
+    )
+    opt.add_argument(
+        "-ldr", "--ld_reference",
+        default=None, type=str, metavar="path",
+        help=(
+            "Optional path to a pre-built LDGraph (``.npz`` / "
+            "``.ldz``) for LD-based greedy clumping (PLINK-style "
+            "``--clump``).  The graph MUST carry its genome build "
+            "in metadata so the pipeline can sanity-check that "
+            "the reference and (possibly-lifted) sumstats "
+            "coordinates agree — raw PLINK ``.ld`` files are "
+            "rejected with instructions to build a graph first "
+            "via ``pycmplot.LDGraph.from_plink_ld(path, "
+            "build='hg19').save('ref.npz')``.  When set, the "
+            "clumping step tests r² <= --ld_r2 within the "
+            "``--clump_window_kb`` window before deciding "
+            "independence.  Missing SNPs fall back to distance-only "
+            "clumping (biology-safe).  Default: unset (distance-only "
+            "clumping)."
+        ),
+    )
+    opt.add_argument(
+        "-ldr2", "--ld_r2",
+        default=0.1, type=float, metavar="float",
+        help=(
+            "r² threshold used with --ld_reference.  Variants above "
+            "this r² with an already-accepted lead are clumped "
+            "away.  Default 0.1 (PLINK --clump-r2 convention)."
+        ),
+    )
+    opt.add_argument(
+        "--harmonize_variants",
+        action="store_true",
+        help=(
+            "When set alongside --ld_reference, build a "
+            "``VariantMatcher`` from the loaded sumstats and use it "
+            "to relabel LD-graph SNP IDs so cross-source naming "
+            "differences (``rs123`` vs ``chr:pos:REF:ALT`` vs "
+            "``chr:pos``) are reconciled before clumping.  Reduces "
+            "the fraction of pair checks that fall back to "
+            "distance-only when the sumstats and reference use "
+            "different SNP-ID conventions."
+        ),
+    )
+    opt.add_argument(
+        "-cw", "--clump_window_kb",
+        default=250, type=int, metavar="int",
+        help=(
+            "Distance-based lead-SNP clumping window (in kilobases).  "
+            "Independent leads must be at least this far apart on a "
+            "chromosome.  Default 250 matches PLINK's --clump-kb and "
+            "aligns with typical European-population LD extent "
+            "(~100-200 kb) with a modest safety margin.  For "
+            "African-ancestry cohorts LD is much shorter (~30-50 kb) "
+            "and 100 kb or lower may capture more legitimate "
+            "independent signals.  For conservative locus definition "
+            "(one signal per broad region) use 500 kb or higher.  "
+            "Cache invalidates automatically when this changes."
+        ),
+    )
     opt.add_argument(
         "-a", "--annotate",
         choices=AllowAll(["snp", "gene", "top_gene", "nearest_upstream_gene", "nearest_downstream_gene"]), nargs="?",
@@ -555,6 +655,29 @@ def get_arguments(descmsg: str = DESCMSG) -> argparse.Namespace:
             "'upper left', 'lower center', 'lower left', 'lower right', "
             "'center', 'best'.  Move to a less crowded corner when the "
             "default overlaps annotations."
+        ),
+    )
+    opt.add_argument(
+        "-hll_size", "--highlight_legend_size",
+        default=None, type=float, metavar="float",
+        help=(
+            "Font size for the 'Highlighted Categories' legend "
+            "(entries and title).  Defaults to ``--annotation_size`` "
+            "on the linear plot and ``--track_label_size`` on the "
+            "circular plot so the legend blends with the rest of the "
+            "figure.  Override to make the legend larger / smaller "
+            "independently."
+        ),
+    )
+    opt.add_argument(
+        "-hll_pad", "--highlight_legend_pad",
+        default=None, type=float, metavar="float",
+        help=(
+            "Padding between the 'Highlighted Categories' legend "
+            "frame and the axes edge (matplotlib's ``borderaxespad``, "
+            "in font-size units).  Default: matplotlib's built-in "
+            "0.5.  Increase to push the legend further from the "
+            "plot; use negative values to overlap slightly."
         ),
     )
     opt.add_argument(
@@ -616,18 +739,18 @@ def get_arguments(descmsg: str = DESCMSG) -> argparse.Namespace:
         "-pad", "--circular_track_spacing", default=1, type=int, metavar="int",
         help="Space between circular tracks (default: 1)."
     )
-    cio.add_argument(
+    opt.add_argument(
         "-cl_size", "--chrom_label_size",  default=6, type=float, metavar="float",
-        help="Chromosome label font size (default: 6)."
+        help="Chromosome label font size, linear and circular (default: 6)."
     )
     cio.add_argument(
         "-cl_side", "--chrom_label_side", choices=["inside", "outside"],
         nargs="?", default='inside', const="inside", type=str,
         help="Chromosome label placement (default: inside)."
     )
-    cio.add_argument(
+    opt.add_argument(
         "-tl_size", "--track_label_size", default=6, type=float, metavar="float",
-        help="Track label font size (default: 6)."
+        help="Track label font size, linear and circular (default: 6)."
     )
     cio.add_argument(
         "-tl_orient", "--track_label_orientation",
