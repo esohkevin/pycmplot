@@ -1,9 +1,7 @@
-# pycmplot
+<p align="center">
+  <img width="600" height="400" src="docs/_static/pycmplot-logo-circular.png">
+</p>
 
-
-<div>
-  <h1 align="center">Multi-track circular and linear Manhattan plotting in Python.</h1>
-</div>
 
 <p align="center">
 
@@ -12,10 +10,6 @@
   [![Status](https://img.shields.io/badge/Status-Latest-orange)](#)
   [![Static Badge](https://img.shields.io/badge/10.1093-bioadv-vbag281?style=flat&logo=doi)](https://doi.org/10.1093/bioadv/vbag281)
 
-</p>
-
-<p align="center">
-  <img width="600" height="400" src="docs/_static/pycmplot-logo-circular.png">
 </p>
 
 
