@@ -331,7 +331,7 @@ mode-specific option list.
             --logp \
             --output_dir ./out
 
-      .. figure:: ../../pycmplot-benchmark/out/mycmplot_t1_hg19_cm_logp.png
+      .. figure:: https://github.com/esohkevin/pycmplot-benchmark/tree/main/out/mycmplot_t1_hg19_cm_logp.png
          :alt: linear Manhattan plot with base options
          :width: 800px
 
@@ -346,7 +346,7 @@ mode-specific option list.
             --logp \
             --output_dir ./out
 
-      .. figure:: ../../pycmplot-benchmark/out/mycmplot_t1_hg19_lm_logp.png
+      .. figure:: https://github.com/esohkevin/pycmplot-benchmark/tree/main/out/mycmplot_t1_hg19_lm_logp.png
          :alt: linear Manhattan plot with base options
          :width: 800px
 
@@ -392,7 +392,7 @@ Single-track
             --suggest_threshold \
             --output_dir ./out
 
-      .. figure:: ../../pycmplot-benchmark/out/trait1_highlighted_t1_hg19_cm_logp.png
+      .. figure:: https://github.com/esohkevin/pycmplot-benchmark/tree/main/out/trait1_highlighted_t1_hg19_cm_logp.png
          :alt: circular Manhattan plot with base options highlighted
          :width: 800px
 
@@ -414,7 +414,7 @@ Single-track
             --plot_title_size 6 \
             --output_dir ./out
 
-      .. figure:: ../../pycmplot-benchmark/out/trait1_highlighted_2_t1_hg19_cm_logp.png
+      .. figure:: https://github.com/esohkevin/pycmplot-benchmark/tree/main/out/trait1_highlighted_2_t1_hg19_cm_logp.png
          :alt: circular Manhattan plot with base options highlighted 2
          :width: 800px
 
@@ -433,7 +433,7 @@ Single-track
             --min_radius 40 \
             --output_dir ./out
 
-      .. figure:: ../../pycmplot-benchmark/out/trait1_highlighted_3_t1_hg19_cm_logp.png
+      .. figure:: https://github.com/esohkevin/pycmplot-benchmark/tree/main/out/trait1_highlighted_3_t1_hg19_cm_logp.png
          :alt: circular Manhattan plot with base options highlighted 3
          :width: 800px
 
@@ -452,7 +452,7 @@ Single-track
             --suggest_threshold \
             --output_dir ./out
 
-      .. figure:: ../../pycmplot-benchmark/out/trait1_highlighted_t1_hg19_lm_logp.png
+      .. figure:: https://github.com/esohkevin/pycmplot-benchmark/tree/main/out/trait1_highlighted_t1_hg19_lm_logp.png
          :alt: linear Manhattan plot with base options highlighted
          :width: 800px
 
@@ -530,7 +530,7 @@ identical.
             --trim_pval 0.01 \
             --output_dir ./out
 
-      .. figure:: ../../pycmplot-benchmark/out/multitrack_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_cm_logp.png
+      .. figure:: https://github.com/esohkevin/pycmplot-benchmark/tree/main/out/multitrack_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_cm_logp.png
          :alt: multi-track circular Manhattan plot
          :width: 800px
 
@@ -550,7 +550,7 @@ identical.
             --trim_pval 0.01 \
             --output_dir ./out
 
-      .. figure:: ../../pycmplot-benchmark/out/multitrack_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png
+      .. figure:: https://github.com/esohkevin/pycmplot-benchmark/tree/main/out/multitrack_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png
          :alt: multi-track linear Manhattan plot
          :width: 800px
 
@@ -603,7 +603,7 @@ tracks using ``--highlight_line``.
             --colors 'lightblue,steelblue' \
             --output_dir ./out
 
-      .. figure:: ../../pycmplot-benchmark/out/multitrack_annotate_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_cm_logp.png
+      .. figure:: https://github.com/esohkevin/pycmplot-benchmark/tree/main/out/multitrack_annotate_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_cm_logp.png
          :alt: multi-track circular Manhattan plot annotate
          :width: 800px
 
@@ -626,7 +626,7 @@ tracks using ``--highlight_line``.
             --annotate \
             --output_dir ./out
 
-      .. figure:: ../../pycmplot-benchmark/out/multitrack_annotate_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png
+      .. figure:: https://github.com/esohkevin/pycmplot-benchmark/tree/main/out/multitrack_annotate_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png
          :alt: multi-track linear Manhattan plot annotate
          :width: 800px
 
@@ -655,7 +655,7 @@ tracks using ``--highlight_line``.
             --colors 'lightblue,steelblue' \
             --output_dir ./out
 
-      .. figure:: ../../pycmplot-benchmark/out/multitrack_track_heights_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png
+      .. figure:: https://github.com/esohkevin/pycmplot-benchmark/tree/main/out/multitrack_track_heights_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png
          :alt: multi-track linear Manhattan plot track heights annotate
          :width: 800px
 
@@ -680,7 +680,7 @@ tracks using ``--highlight_line``.
             --colors 'orangered,steelblue' \
             --output_dir ./out
 
-      .. figure:: ../../pycmplot-benchmark/out/multitrack_figure_size_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png
+      .. figure:: https://github.com/esohkevin/pycmplot-benchmark/tree/main/out/multitrack_figure_size_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png
          :alt: multi-track linear Manhattan plot figsize annotate
          :width: 800px
 
@@ -725,7 +725,7 @@ tracks using ``--highlight_line``.
             --colors 'lightblue,steelblue' \
             --output_dir ./out
 
-      .. figure:: ../../pycmplot-benchmark/out/multitrack_annotate_2_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_cm_logp.png
+      .. figure:: https://github.com/esohkevin/pycmplot-benchmark/tree/main/out/multitrack_annotate_2_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_cm_logp.png
          :alt: multi-track circular annotation 2
          :width: 800px
 
@@ -753,7 +753,7 @@ tracks using ``--highlight_line``.
             --highlight_thresh 1e-07 \
             --output_dir ./out
 
-      .. figure:: ../../pycmplot-benchmark/out/multitrack_annotate_2_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png
+      .. figure:: https://github.com/esohkevin/pycmplot-benchmark/tree/main/out/multitrack_annotate_2_t1_hg19_t2_hg19_t3_hg19_t4_hg38_t5_hg38_t6_hg38_lm_logp.png
          :alt: multi-track linear annotation 2
          :width: 800px
 
@@ -920,7 +920,7 @@ Note, circular Manhattan is always generated by default.
 
          # QQ layout is chosen by additional flags on top of ``--qq_plot``
 
-      .. figure:: ../../pycmplot-benchmark/out/qqplot_T1_hg19_T2_hg19_T3_hg19_T4_hg38_T5_hg38_T6_hg38_cm_logp_qq_combined.png
+      .. figure:: https://github.com/esohkevin/pycmplot-benchmark/tree/main/out/qqplot_T1_hg19_T2_hg19_T3_hg19_T4_hg38_T5_hg38_T6_hg38_cm_logp_qq_combined.png
          :alt: qq default
          :width: 800px
 
@@ -939,7 +939,7 @@ Note, circular Manhattan is always generated by default.
             --qq_plot --qq_ncols 2 \
             --output_dir ./out
 
-      .. figure:: ../../pycmplot-benchmark/out/2column_qqplot_T1_hg19_T2_hg19_T3_hg19_T4_hg38_T5_hg38_T6_hg38_cm_logp_qq_combined.png
+      .. figure:: https://github.com/esohkevin/pycmplot-benchmark/tree/main/out/2column_qqplot_T1_hg19_T2_hg19_T3_hg19_T4_hg38_T5_hg38_T6_hg38_cm_logp_qq_combined.png
          :alt: 2-column qq default
          :width: 800px
 
@@ -959,7 +959,7 @@ Note, circular Manhattan is always generated by default.
 
          # to create one image per track rather, use --qq_separate
 
-      .. figure:: ../../pycmplot-benchmark/out/overlay_qqplot_T1_hg19_T2_hg19_T3_hg19_T4_hg38_T5_hg38_T6_hg38_cm_logp_qq_overlay.png
+      .. figure:: https://github.com/esohkevin/pycmplot-benchmark/tree/main/out/overlay_qqplot_T1_hg19_T2_hg19_T3_hg19_T4_hg38_T5_hg38_T6_hg38_cm_logp_qq_overlay.png
          :alt: overlay qq default
          :width: 800px
 
