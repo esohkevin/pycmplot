@@ -35,7 +35,7 @@
       <script src="_static/sphinxcontrib-images/LightBox2/lightbox2-customize/jquery-noconflict.js?v=12818e64"></script>
       <script defer="defer" src="https://unpkg.com/@popperjs/core@2"></script>
       <script defer="defer" src="https://unpkg.com/tippy.js@6"></script>
-      <script defer="defer" src="_static/tippy/changelog.064b054c-a98a-40cc-be81-73784c243f45.js"></script>
+      <script defer="defer" src="_static/tippy/changelog.2b990c67-567e-464b-b996-8146b991dc49.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -101,6 +101,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="cli_tutorial.html#automatic-gene-annotation">Automatic gene annotation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="cli_tutorial.html#distance-semantics">Distance semantics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cli_tutorial.html#functional-annotation-columns">Functional annotation columns</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="cli_tutorial.html#qq-plots-and-compute-pvals">QQ plots and <code class="docutils literal notranslate"><span class="pre">compute_pvals</span></code></a></li>
@@ -139,37 +140,37 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="python_api_tutorial.html">Python API Tutorial</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="pycmplot_python_api.html">Python API for the pycmplot package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Installation">Installation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Import-the-package-functions">Import the package functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycmplot_python_api.html">Python API for the pycmplot package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycmplot_python_api.html#Installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycmplot_python_api.html#Package-import-and-the-3-step-mental-model">Package import and the 3-step mental model</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Getting-help">Getting help</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="pycmplot_python_api.html#Example-plotting">Example plotting</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Important-notes">Important notes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Generating-a-linear-plot">Generating a linear plot</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pycmplot_python_api.html#Synthetic-Data">Synthetic Data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Important-Note">Important Note</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pycmplot_python_api.html#Use-Cases---Real-Data">Use Cases - Real Data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Generating-a-Circular-plot">Generating a Circular plot</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="pycmplot_python_api.html#No-highlighting-of-significant-loci">No highlighting of significant loci</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#id1">Generating a linear plot</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Highlighting-significant-loci-and-annotating-by-SNP">Highlighting significant loci and annotating by SNP</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="pycmplot_python_api.html#Highlighting-by-a-different-p-value-threshold-and-changing-plot-colors-and-removing-track-labels">Highlighting by a different p-value threshold and changing plot colors and removing track labels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Generating-a-linear-plot">Generating a linear plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#What-happens-if-we-try-highlighting-significant-loci-and-annotating-by-SNP?">What happens if we try highlighting significant loci and annotating by SNP?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Highlighting-significant-loci-and-enable-gene-annotation">Highlighting significant loci and enable gene annotation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Highlighting-and-annotating-by-a-different-p-value-threshold">Highlighting and annotating by a different p-value threshold</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Generating-circular-plots">Generating circular plots</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="pycmplot_python_api.html#Controling-the-inner-circle-size">Controling the inner circle size</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="pycmplot_python_api.html#Annotating-by-specific-columns-in-hits-table">Annotating by specific columns in hits table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycmplot_python_api.html#Controling-circular-plot-radius">Controling circular plot radius</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Ensuring-all-highlighted-loci-are-also-annotated">Ensuring all highlighted loci are also annotated</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="pycmplot_python_api.html#Explicitly-speficying-directory-where-output-files-should-be-stored">Explicitly speficying directory where output files should be stored</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="pycmplot_python_api.html#Handling-other-use-cases-and-QQ-plots">Handling other use cases and QQ-plots</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html##-Handling-other-use-cases-and-QQ-plots"># Handling other use cases and QQ-plots</a></li>
 <li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Summary-stats-without-BUILD-column-and-no-build-information-provided">Summary stats without <strong>BUILD</strong> column and no <code class="docutils literal notranslate"><span class="pre">build</span></code> information provided</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Supplying-builds-with-summary-stats">Supplying builds with summary stats</a></li>
-<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#QQ-Plotting">QQ-Plotting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html###-Supplying-builds-with-summary-stats">## Supplying builds with summary stats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html###-QQ-Plotting">## QQ-Plotting</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="pycmplot_python_api.html#Overlaying-multiple">Overlaying multiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pycmplot_python_api.html#Separate-qq-plots-saved-in-separate-figures">Separate qq-plots saved in separate figures</a></li>
 <li class="toctree-l4"><a class="reference internal" href="pycmplot_python_api.html#Combined-multi-panel">Combined multi-panel</a></li>
@@ -184,8 +185,14 @@
 <li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Specify-groups-of-sumstats-to-load-and-plot-in-different-panels">Specify groups of sumstats to load and plot in different panels</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="pycmplot_python_api.html#Plot-in-panels">Plot in panels</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pycmplot_python_api.html#Final-Notes">Final Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pycmplot_python_api.html#Plot-in-panels">Plot in panels</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html#Highlighting-different-categoris">Highlighting different categoris</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pycmplot_python_api.html#Selection-Statistics-from-our-2021-Scientific-Reports-Population-Structure-Paper">Selection Statistics from our 2021 <em>Scientific Reports</em> Population Structure Paper</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pycmplot_python_api.html##-Final-Notes"># Final Notes</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -216,8 +223,10 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="api/stats.html">pycmplot.stats</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/stats.html#module-pycmplot.stats">pycmplot.stats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/stats.html#pycmplot.stats.clump"><code class="docutils literal notranslate"><span class="pre">clump()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/stats.html#pycmplot.stats.get_highlight_snps"><code class="docutils literal notranslate"><span class="pre">get_highlight_snps()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/stats.html#pycmplot.stats.get_lead_snps"><code class="docutils literal notranslate"><span class="pre">get_lead_snps()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/stats.html#pycmplot.stats.get_signif_snps"><code class="docutils literal notranslate"><span class="pre">get_signif_snps()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="api/annotation.html">pycmplot.annotation</a><ul>
@@ -225,15 +234,31 @@
 <li class="toctree-l4"><a class="reference internal" href="api/annotation.html#gene-reference-files">Gene reference files</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.FUNCTIONAL_COLUMNS"><code class="docutils literal notranslate"><span class="pre">FUNCTIONAL_COLUMNS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.annotate_functional"><code class="docutils literal notranslate"><span class="pre">annotate_functional()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.build_highlight_legend_entries"><code class="docutils literal notranslate"><span class="pre">build_highlight_legend_entries()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.candidate_gene_pool"><code class="docutils literal notranslate"><span class="pre">candidate_gene_pool()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.ensure_category_column"><code class="docutils literal notranslate"><span class="pre">ensure_category_column()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.ensure_highlight_color_column"><code class="docutils literal notranslate"><span class="pre">ensure_highlight_color_column()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.filter_hits_by_signif"><code class="docutils literal notranslate"><span class="pre">filter_hits_by_signif()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.filter_in_locus_by_threshold"><code class="docutils literal notranslate"><span class="pre">filter_in_locus_by_threshold()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.get_annotation_column"><code class="docutils literal notranslate"><span class="pre">get_annotation_column()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.get_hits_summary_table"><code class="docutils literal notranslate"><span class="pre">get_hits_summary_table()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.labels_to_draw"><code class="docutils literal notranslate"><span class="pre">labels_to_draw()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.load_ccre"><code class="docutils literal notranslate"><span class="pre">load_ccre()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.load_cpg"><code class="docutils literal notranslate"><span class="pre">load_cpg()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.load_dnase"><code class="docutils literal notranslate"><span class="pre">load_dnase()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.load_eqtl"><code class="docutils literal notranslate"><span class="pre">load_eqtl()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.load_functional_tracks"><code class="docutils literal notranslate"><span class="pre">load_functional_tracks()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.load_genehancer"><code class="docutils literal notranslate"><span class="pre">load_genehancer()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.load_genes_dict"><code class="docutils literal notranslate"><span class="pre">load_genes_dict()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.load_tfbs"><code class="docutils literal notranslate"><span class="pre">load_tfbs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.position_informativeness_score"><code class="docutils literal notranslate"><span class="pre">position_informativeness_score()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.prepare_annotation_labels"><code class="docutils literal notranslate"><span class="pre">prepare_annotation_labels()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.resolve_highlight_categories"><code class="docutils literal notranslate"><span class="pre">resolve_highlight_categories()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.resolve_highlight_colors"><code class="docutils literal notranslate"><span class="pre">resolve_highlight_colors()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.resolve_highlight_legend_placement"><code class="docutils literal notranslate"><span class="pre">resolve_highlight_legend_placement()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/annotation.html#pycmplot.annotation.resolve_highlight_window_kb"><code class="docutils literal notranslate"><span class="pre">resolve_highlight_window_kb()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="api/liftover.html">pycmplot.liftover</a><ul>
@@ -292,11 +317,18 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="api/resources.html#pycmplot.resources.ResourceConfig"><code class="docutils literal notranslate"><span class="pre">ResourceConfig</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/resources.html#pycmplot.resources.ResourceConfig.ccre_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.ccre_hg38</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/resources.html#pycmplot.resources.ResourceConfig.chain_hg18_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.chain_hg18_hg38</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/resources.html#pycmplot.resources.ResourceConfig.chain_hg19_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.chain_hg19_hg38</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/resources.html#pycmplot.resources.ResourceConfig.cpg_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.cpg_hg38</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/resources.html#pycmplot.resources.ResourceConfig.dnase_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.dnase_hg38</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/resources.html#pycmplot.resources.ResourceConfig.eqtl_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.eqtl_hg38</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/resources.html#pycmplot.resources.ResourceConfig.eqtl_tissues_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.eqtl_tissues_hg38</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/resources.html#pycmplot.resources.ResourceConfig.genehancer_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.genehancer_hg38</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/resources.html#pycmplot.resources.ResourceConfig.geneinfo_hg19"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.geneinfo_hg19</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/resources.html#pycmplot.resources.ResourceConfig.geneinfo_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.geneinfo_hg38</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/resources.html#pycmplot.resources.ResourceConfig.require"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.require()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/resources.html#pycmplot.resources.ResourceConfig.tfbs_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.tfbs_hg38</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -307,19 +339,20 @@
 <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id1">0.4.2 - 2026-09-12</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id2">0.4.1 - 2026-08-23</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">0.4.0 - 2026-08-13</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">0.3.1 - 2026-07-31</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id5">0.3.0 - 2026-06-01</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id6">0.2.8 - 2026-05-30</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id7">0.2.7 - 2026-04-27</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id8">0.2.5 - 2026-04-20</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id9">0.2.2 - 2026-04-18</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id10">0.2.1 — 2026-04-16</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id11">0.1.9 — 2026-04-14</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id12">0.1.8 — 2026-04-14</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id13">0.1.0 — 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">0.4.3 - 2026-09-30</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">0.4.2 - 2026-09-12</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">0.4.1 - 2026-08-23</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">0.4.0 - 2026-08-13</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">0.3.1 - 2026-07-31</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">0.3.0 - 2026-06-01</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">0.2.8 - 2026-05-30</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">0.2.7 - 2026-04-27</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">0.2.5 - 2026-04-20</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id10">0.2.2 - 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id11">0.2.1 — 2026-04-16</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id12">0.1.9 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id13">0.1.8 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id14">0.1.0 — 2026-04-18</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a><ul>
@@ -364,7 +397,870 @@
 and this project adheres to <a class="reference external" href="https://semver.org/">Semantic Versioning</a>.</p>
 <p>—</p>
 <section id="id1">
-<h2>0.4.2 - 2026-09-12<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<h2>0.4.3 - 2026-09-30<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<p><strong>Added</strong></p>
+<ul>
+<li><p><strong>``pycmplot.LDGraph`` — CSR-encoded sparse LD reference.</strong>
+Optional companion to <code class="xref py py-func docutils literal notranslate"><span class="pre">pycmplot.clump()</span></code> for LD-based
+clumping.  Stores pairwise r² as three contiguous numpy arrays
+(<code class="docutils literal notranslate"><span class="pre">indptr</span></code> int32, <code class="docutils literal notranslate"><span class="pre">indices</span></code> int32, <code class="docutils literal notranslate"><span class="pre">data</span></code> float32) plus a
+fixed-width Unicode SNP-name table — ~24 bytes per edge vs
+~1 kB per dict-of-dict entry, so a 1 M SNP × 10 neighbour
+reference lives in ~240 MB rather than ~10 GB of Python heap.</p>
+<p>Key features:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">LDGraph.from_plink_ld(path,</span> <span class="pre">r2_threshold=0.1)</span></code> — build
+from a PLINK <code class="docutils literal notranslate"><span class="pre">.ld</span></code> file, filtering below-threshold edges
+at build time (so <code class="docutils literal notranslate"><span class="pre">absence</span> <span class="pre">in</span> <span class="pre">graph</span> <span class="pre">==</span> <span class="pre">independent</span></code> by
+construction; query paths never need a threshold comparison).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LDGraph.save(path)</span></code> / <code class="docutils literal notranslate"><span class="pre">LDGraph.load(path)</span></code> — round-trip
+to a compressed <code class="docutils literal notranslate"><span class="pre">.npz</span></code> with a JSON metadata sidecar; build
+once, reload in milliseconds across runs.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LDGraph.r2(a,</span> <span class="pre">b)</span></code> / <code class="docutils literal notranslate"><span class="pre">.neighbors(snp,</span> <span class="pre">r2_min=None)</span></code> /
+<code class="docutils literal notranslate"><span class="pre">.any_linked(snp,</span> <span class="pre">others,</span> <span class="pre">r2_min=None)</span></code> — O(log k) sorted-
+slice lookups.  <code class="docutils literal notranslate"><span class="pre">any_linked</span></code> is the fast inner loop for
+greedy clumping; <code class="docutils literal notranslate"><span class="pre">neighbors</span></code> is the primitive future
+regional-plot LD-tier colouring builds on.</p></li>
+</ul>
+</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">pycmplot.clump()</span></code> now accepts an <code class="docutils literal notranslate"><span class="pre">LDGraph</span></code> instance
+directly (preferred for reuse), a <code class="docutils literal notranslate"><span class="pre">.npz</span></code> path (auto-loads),
+a PLINK <code class="docutils literal notranslate"><span class="pre">.ld</span></code> path (auto-builds), a dict-of-dict (legacy),
+or <code class="docutils literal notranslate"><span class="pre">None</span></code> (distance-only fallback).  Regressions:
+<code class="docutils literal notranslate"><span class="pre">test_ld_graph_from_plink_ld_roundtrip</span></code> and
+<code class="docutils literal notranslate"><span class="pre">test_ld_clump_accepts_ldgraph</span></code>.</p>
+</li>
+<li><p><strong>LDGraph on-disk footprint reductions.</strong>  <code class="docutils literal notranslate"><span class="pre">save()</span></code> gains three
+compression optimisations stackable via the <code class="docutils literal notranslate"><span class="pre">compact=True</span></code>
+convenience flag or individually via <code class="docutils literal notranslate"><span class="pre">symmetric_only</span></code>,
+<code class="docutils literal notranslate"><span class="pre">quantize_r2</span></code>, <code class="docutils literal notranslate"><span class="pre">compression</span></code> / <code class="docutils literal notranslate"><span class="pre">compression_level</span></code>:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>Symmetric-only storage</strong> — only canonical edges
+(src &lt; dst) written; reverse edges reconstructed at load
+time so in-memory queries stay O(log k).  ~40% reduction
+of the <code class="docutils literal notranslate"><span class="pre">indices</span></code> + <code class="docutils literal notranslate"><span class="pre">data</span></code> arrays.</p></li>
+<li><p><strong>uint16 r² quantisation</strong> — 65,536 levels, precision
+~1.5e-5 (well below LD estimation noise at ~0.01).  Halves
+the <code class="docutils literal notranslate"><span class="pre">data</span></code> array; auto-dequantised to float32 on load.</p></li>
+<li><p><strong>zstd container (``.ldz``)</strong> — optional custom binary
+format written via the <code class="docutils literal notranslate"><span class="pre">zstandard</span></code> package.  Default
+level 19 yields ~15% additional shrink over zlib but
+~13× slower to write; users can dial down with
+<code class="docutils literal notranslate"><span class="pre">compression_level=9</span></code> for speed.  Zlib remains the
+default because at moderate zstd levels it matches or
+beats zstd on numeric LD arrays.</p></li>
+</ul>
+</div></blockquote>
+<p>Measured on chr22 1401-AFR reference (101,641 SNPs,
+786,274 edges):</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>variant</p></th>
+<th class="head"><p>size</p></th>
+<th class="head"><p>save</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>default (dense + float32 + zlib)</p></td>
+<td><p>3108 KB</p></td>
+<td><p>294 ms</p></td>
+</tr>
+<tr class="row-odd"><td><p>compact (symm + uint16 + zlib) — recommended</p></td>
+<td><p>1702 KB</p></td>
+<td><p>304 ms</p></td>
+</tr>
+<tr class="row-even"><td><p>compact + zstd L19 — max compression</p></td>
+<td><p>1464 KB</p></td>
+<td><p>3.9 s</p></td>
+</tr>
+</tbody>
+</table>
+<p>Scaled to genome-wide ~25 M-edge references, <code class="docutils literal notranslate"><span class="pre">compact=True</span></code>
+is expected to drop a ~350 MB .npz to ~130 MB with no query-
+time cost (in-memory representation stays dense, expanded on
+load).  Regression:
+<code class="docutils literal notranslate"><span class="pre">test_ld_graph_compact_roundtrip_preserves_queries</span></code>.</p>
+</li>
+<li><p><strong>LDGraph genome-build metadata + LD-clumping sanity check.</strong>
+<code class="docutils literal notranslate"><span class="pre">LDGraph</span></code> now carries a <code class="docutils literal notranslate"><span class="pre">build</span></code> attribute (<code class="docutils literal notranslate"><span class="pre">hg18</span></code> /
+<code class="docutils literal notranslate"><span class="pre">hg19</span></code> / <code class="docutils literal notranslate"><span class="pre">hg38</span></code>, normalised from user-supplied aliases like
+<code class="docutils literal notranslate"><span class="pre">GRCh37</span></code> or <code class="docutils literal notranslate"><span class="pre">b37</span></code>).  <code class="docutils literal notranslate"><span class="pre">LDGraph.from_plink_ld(path,</span>
+<span class="pre">build='hg19')</span></code> declares it at build time; the value is
+persisted in the <code class="docutils literal notranslate"><span class="pre">.npz</span></code> / <code class="docutils literal notranslate"><span class="pre">.ldz</span></code> and its JSON sidecar so
+pre-built graphs travel with their build.</p>
+<p><code class="docutils literal notranslate"><span class="pre">pycmplot.io.load()</span></code> uses this to guard the LD-clumping step
+against silent build mismatches — a common failure mode when a
+hg19 LD reference meets hg38 sumstats (or GeneHancer auto-lifts
+hg19 sumstats to hg38 before clumping).  If the LD reference
+build and the track’s effective post-liftover build disagree,
+the loader raises with a clear message rather than degrading to
+100% distance-only fallback:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ne">ValueError</span><span class="p">:</span> <span class="n">LD</span> <span class="n">clumping</span> <span class="n">build</span> <span class="n">mismatch</span> <span class="k">for</span> <span class="n">track</span> <span class="s1">&#39;HbF&#39;</span><span class="p">:</span>
+  <span class="n">LD</span> <span class="n">reference</span> <span class="n">build</span> <span class="o">=</span> <span class="n">hg19</span>
+  <span class="n">track</span> <span class="n">effective</span> <span class="n">build</span> <span class="n">after</span> <span class="n">liftover</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;hg38&#39;</span><span class="p">]</span>
+<span class="n">Options</span><span class="p">:</span> <span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="n">rebuild</span> <span class="n">the</span> <span class="n">LD</span> <span class="n">reference</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">track</span><span class="s1">&#39;s build,</span>
+<span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="n">provide</span> <span class="n">a</span> <span class="n">same</span><span class="o">-</span><span class="n">build</span> <span class="n">LD</span> <span class="n">reference</span><span class="p">,</span> <span class="ow">or</span> <span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="n">disable</span>
+<span class="n">GeneHancer</span> <span class="p">(</span><span class="o">--</span><span class="n">no_genehancer</span><span class="p">)</span> <span class="n">so</span> <span class="n">the</span> <span class="n">track</span> <span class="n">stays</span> <span class="ow">in</span> <span class="n">native</span>
+<span class="n">build</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>Falls back to a warning + skipped check when the LD reference
+is undeclared (older graphs with no build metadata; use
+<code class="docutils literal notranslate"><span class="pre">ld_reference_build='hg19'</span></code> on the loader as an override).</p>
+<p>New CLI flag <code class="docutils literal notranslate"><span class="pre">-ldrb</span></code> / <code class="docutils literal notranslate"><span class="pre">--ld_reference_build</span></code> declares the
+build when the user is pointing at a raw PLINK <code class="docutils literal notranslate"><span class="pre">.ld</span></code> file
+(rather than a pre-built LDGraph <code class="docutils literal notranslate"><span class="pre">.npz</span></code> / <code class="docutils literal notranslate"><span class="pre">.ldz</span></code> that
+already knows).  Regression:
+<code class="docutils literal notranslate"><span class="pre">test_ld_graph_build_metadata_roundtrip</span></code>.</p>
+</li>
+<li><p><strong>``pycmplot.clump()`` — LD-based greedy clumping with an
+external reference panel.</strong>  Optional standalone alternative to
+the built-in distance-based
+<a class="reference internal" href="api/stats.html#pycmplot.stats.get_lead_snps" title="pycmplot.stats.get_lead_snps"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_lead_snps()</span></code></a>.  Accepts a PLINK
+<code class="docutils literal notranslate"><span class="pre">--r2</span></code> (<code class="docutils literal notranslate"><span class="pre">.ld</span></code>) file path or a pre-parsed
+<code class="docutils literal notranslate"><span class="pre">{snp_a:</span> <span class="pre">{snp_b:</span> <span class="pre">r²}}</span></code> dict.  Greedy algorithm matches PLINK
+<code class="docutils literal notranslate"><span class="pre">--clump</span></code>: within a <code class="docutils literal notranslate"><span class="pre">kb</span></code>-distance window, a candidate is
+clumped away only if its r² with any already-accepted lead is
+<code class="docutils literal notranslate"><span class="pre">&gt;=</span> <span class="pre">r2</span></code>.  Variants absent from the reference are treated as
+r²=0 (independent), matching PLINK’s default behaviour.</p>
+<p>Usage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pycmplot</span>
+<span class="n">leads</span> <span class="o">=</span> <span class="n">pycmplot</span><span class="o">.</span><span class="n">clump</span><span class="p">(</span>
+    <span class="n">df_of_significant_snps</span><span class="p">,</span>
+    <span class="n">ld_reference</span><span class="o">=</span><span class="s2">&quot;ref.ld&quot;</span><span class="p">,</span>   <span class="c1"># PLINK .ld output</span>
+    <span class="n">r2</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+    <span class="n">kb</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+    <span class="n">p_threshold</span><span class="o">=</span><span class="mf">5e-8</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>The distance-only fallback (<code class="docutils literal notranslate"><span class="pre">ld_reference=None</span></code>) makes this
+drop-in-safe: it degrades cleanly to independent-if-not-linked
+semantics without failing.  Not yet wired into the plotting
+pipeline (users invoke it directly to build a lead-SNP table
+before calling <a class="reference internal" href="api/io.html#pycmplot.io.load" title="pycmplot.io.load"><code class="xref py py-func docutils literal notranslate"><span class="pre">pycmplot.io.load()</span></code></a>); pipeline integration
+is a follow-up.  Regressions:
+<code class="docutils literal notranslate"><span class="pre">test_ld_clump_greedy_semantics</span></code>,
+<code class="docutils literal notranslate"><span class="pre">test_ld_clump_no_ld_reference_falls_back_to_distance</span></code>.</p>
+</li>
+<li><p><strong>``pycmplot.clump()`` distance-based fallback for missing
+reference overlap.</strong>  Previously, when a variant was absent
+from the LD reference, <code class="docutils literal notranslate"><span class="pre">r2()</span></code> returned 0.0 → the pair was
+silently treated as “independent”.  On a low-overlap reference
+this over-selected independent leads without warning.</p>
+<p>New behaviour: when either the lead or candidate isn’t in the
+LD reference, <code class="docutils literal notranslate"><span class="pre">clump()</span></code> falls back to distance-only inside the
+same <code class="docutils literal notranslate"><span class="pre">kb</span></code> window — biology-safe conservative default
+(unknown LD → assume possibly linked → clump).  Variants
+beyond the <code class="docutils literal notranslate"><span class="pre">kb</span></code> window from every lead stay independent
+regardless of reference status, so the behaviour matches
+<a class="reference internal" href="api/stats.html#pycmplot.stats.get_lead_snps" title="pycmplot.stats.get_lead_snps"><code class="xref py py-func docutils literal notranslate"><span class="pre">pycmplot.stats.get_lead_snps()</span></code></a> exactly when
+<code class="docutils literal notranslate"><span class="pre">ld_reference=None</span></code>.</p>
+<p>The clumping run logs a summary at INFO level:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">clump</span><span class="p">:</span> <span class="mi">42</span><span class="p">,</span><span class="mi">318</span> <span class="n">pair</span> <span class="n">checks</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span><span class="mi">241</span> <span class="p">(</span><span class="mf">7.7</span><span class="o">%</span><span class="p">)</span> <span class="n">fell</span> <span class="n">back</span> <span class="n">to</span>
+<span class="n">distance</span><span class="o">-</span><span class="n">only</span> <span class="n">because</span> <span class="n">at</span> <span class="n">least</span> <span class="n">one</span> <span class="n">variant</span> <span class="n">was</span> <span class="n">absent</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">the</span> <span class="n">LD</span> <span class="n">reference</span>
+</pre></div>
+</div>
+<p>A WARNING fires when the fallback fraction exceeds 20%,
+pointing users at reference / summary-stats naming
+reconciliation as a likely cause.  Regression:
+<code class="docutils literal notranslate"><span class="pre">test_ld_clump_missing_snp_falls_back_to_distance</span></code>.</p>
+</li>
+<li><p><strong>``pycmplot.VariantMatcher`` — cross-source variant identity
+resolver.</strong>  New class that reconciles SNP identifiers across
+formats:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">rs12345</span></code> — dbSNP rsID</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">1:636975:A:G</span></code> — CHR:POS:REF:ALT (Ensembl / PLINK-modern)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">chr1:636975:A:G</span></code> — same with UCSC <code class="docutils literal notranslate"><span class="pre">chr</span></code> prefix</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">1:636975:G:A</span></code> — allele-order-agnostic</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">1:636975</span></code> — position-only (allele-blind fallback)</p></li>
+<li><p>mixed-separator forms with <code class="docutils literal notranslate"><span class="pre">:</span></code>, <code class="docutils literal notranslate"><span class="pre">_</span></code>, <code class="docutils literal notranslate"><span class="pre">/</span></code>, <code class="docutils literal notranslate"><span class="pre">|</span></code>
+(e.g. <code class="docutils literal notranslate"><span class="pre">chr1_63748574_A_G</span></code>, <code class="docutils literal notranslate"><span class="pre">1:63748574_G_A</span></code>,
+<code class="docutils literal notranslate"><span class="pre">1_63748574:A|G</span></code>) as seen in bcftools-lifted files,
+TOPMed-style dbSNP dumps, PGS-Catalog exports, and various
+genotyping pipelines.  Deliberately excludes <code class="docutils literal notranslate"><span class="pre">-</span></code> and <code class="docutils literal notranslate"><span class="pre">.</span></code>
+from the separator set to avoid ambiguity with deletion
+sentinels and version dots in allele strings.</p></li>
+<li><p>chromosome aliases across PLINK numeric / UCSC <code class="docutils literal notranslate"><span class="pre">chr</span></code> /
+Ensembl bare conventions:
+<code class="docutils literal notranslate"><span class="pre">X</span> <span class="pre">↔</span> <span class="pre">23</span> <span class="pre">↔</span> <span class="pre">chrX</span> <span class="pre">↔</span> <span class="pre">chr23</span></code>, <code class="docutils literal notranslate"><span class="pre">Y</span> <span class="pre">↔</span> <span class="pre">24</span> <span class="pre">↔</span> <span class="pre">chrY</span> <span class="pre">↔</span> <span class="pre">chr24</span></code>,
+<code class="docutils literal notranslate"><span class="pre">M</span> <span class="pre">↔</span> <span class="pre">MT</span> <span class="pre">↔</span> <span class="pre">26</span> <span class="pre">↔</span> <span class="pre">chrM</span> <span class="pre">↔</span> <span class="pre">chrMT</span></code>, plus <code class="docutils literal notranslate"><span class="pre">XY</span> <span class="pre">↔</span> <span class="pre">25</span></code> for the
+pseudo-autosomal region.  So <code class="docutils literal notranslate"><span class="pre">chr23:5737583</span></code> and
+<code class="docutils literal notranslate"><span class="pre">chrX:5737583</span></code> resolve to the same variant.</p></li>
+<li><p>GWAS-Catalog / meta-analysis style <code class="docutils literal notranslate"><span class="pre">CHR:POS:TYPE</span></code> where
+TYPE is a variant-class token
+(<code class="docutils literal notranslate"><span class="pre">SNV</span></code> / <code class="docutils literal notranslate"><span class="pre">SNP</span></code> / <code class="docutils literal notranslate"><span class="pre">MNV</span></code> / <code class="docutils literal notranslate"><span class="pre">MNP</span></code> / <code class="docutils literal notranslate"><span class="pre">INDEL</span></code> / <code class="docutils literal notranslate"><span class="pre">DEL</span></code>
+/ <code class="docutils literal notranslate"><span class="pre">INS</span></code> / <code class="docutils literal notranslate"><span class="pre">CNV</span></code> / <code class="docutils literal notranslate"><span class="pre">DELINS</span></code> / <code class="docutils literal notranslate"><span class="pre">SUB</span></code>), case-
+insensitive.  Class tokens are treated as position-only
+aliases: <code class="docutils literal notranslate"><span class="pre">1:7535638:SNV</span></code>, <code class="docutils literal notranslate"><span class="pre">1:7535638:SNP</span></code>,
+<code class="docutils literal notranslate"><span class="pre">1:7535638:INDEL</span></code> all resolve to the same canonical
+variant as <code class="docutils literal notranslate"><span class="pre">1:7535638:A:G</span></code> (regardless of registration
+order, thanks to the position-only-record → full-alleles
+upgrade path).</p></li>
+</ul>
+</div></blockquote>
+<p>Canonical key is <code class="docutils literal notranslate"><span class="pre">(CHR,</span> <span class="pre">POS,</span> <span class="pre">frozenset({REF,</span> <span class="pre">ALT}))</span></code> when
+alleles are known, else <code class="docutils literal notranslate"><span class="pre">(CHR,</span> <span class="pre">POS)</span></code>.  Builds a bidirectional
+index (alias → canonical, plus (chrom, pos) → canonical) so
+every registered alias — including deliberately-swapped alleles
+— resolves to the same variant record.</p>
+<p>Integration points:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pycmplot.LDGraph.remap_ids(rename)</span></code> — in-place relabel of
+graph nodes using a matcher-produced rename table.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pycmplot.clump(...,</span> <span class="pre">variant_matcher=vm)</span></code> — auto-relabels
+the LD graph before greedy clumping so cross-source naming
+differences don’t force the missing-SNP fallback.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">VariantMatcher.from_dataframe(df)</span></code> — builds a matcher
+from a summary-stats DataFrame in one line.</p></li>
+</ul>
+</div></blockquote>
+<p>Regressions: <code class="docutils literal notranslate"><span class="pre">test_variant_matcher_basic_forms</span></code>,
+<code class="docutils literal notranslate"><span class="pre">test_variant_matcher_rename_map</span></code>,
+<code class="docutils literal notranslate"><span class="pre">test_variant_matcher_clump_integration</span></code>.</p>
+</li>
+<li><p><strong>CLI: LD-based clumping + variant harmonisation.</strong>  Three new
+flags plumb LD-based clumping and cross-source ID matching all
+the way from the shell:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">-ldr</span></code> / <code class="docutils literal notranslate"><span class="pre">--ld_reference</span> <span class="pre">PATH</span></code> — path to a PLINK <code class="docutils literal notranslate"><span class="pre">.ld</span></code>
+file or an <code class="docutils literal notranslate"><span class="pre">LDGraph</span></code> <code class="docutils literal notranslate"><span class="pre">.npz</span></code> / <code class="docutils literal notranslate"><span class="pre">.ldz</span></code> (auto-loaded).
+When set, <code class="docutils literal notranslate"><span class="pre">pycmplot</span></code> switches from distance-only clumping
+to <a class="reference internal" href="api/stats.html#pycmplot.stats.clump" title="pycmplot.stats.clump"><code class="xref py py-func docutils literal notranslate"><span class="pre">pycmplot.stats.clump()</span></code></a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-ldr2</span></code> / <code class="docutils literal notranslate"><span class="pre">--ld_r2</span> <span class="pre">FLOAT</span></code> — r² threshold (default 0.1,
+PLINK <code class="docutils literal notranslate"><span class="pre">--clump-r2</span></code> convention).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--harmonize_variants</span></code> — build a <code class="docutils literal notranslate"><span class="pre">VariantMatcher</span></code> from
+the loaded sumstats and relabel LD-graph SNP IDs to match.
+Turn on when your sumstats use rsIDs and the LD reference
+uses <code class="docutils literal notranslate"><span class="pre">CHR:POS:REF:ALT</span></code> (or vice versa).</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p><strong>UCSC functional annotation tracks + LD-block-aware lead
+selection.</strong>  Five new bundled tracks (hg38) drive the priority
+score and the tiebreaker used when perfect-LD variants share the
+same P-value:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">gtex_eqtl_caviar.tsv.gz</span></code> (4.4 MB) — GTEx CAVIAR
+fine-mapped eQTL variant→gene→CPP.  Adds per-gene
+<code class="docutils literal notranslate"><span class="pre">eqtl_bonus</span> <span class="pre">=</span> <span class="pre">max(CPP)</span> <span class="pre">×</span> <span class="pre">3</span></code> to the priority score; a
+CPP-1.0 fine-mapped eQTL contributes +3 to that gene,
+dominating all other components.  The strongest possible
+signal that a variant regulates a specific target.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ucsc_ccre.tsv.gz</span></code> (8.9 MB) — ENCODE candidate cis-
+Regulatory Elements (pELS / dELS / PLS / CTCF-bound).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ucsc_dnase.tsv.gz</span></code> (5.6 MB, score ≥ 250 filter) — DNase
+hypersensitivity clusters (open chromatin).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ucsc_tfbs.tsv.gz</span></code> (33 MB, score ≥ 500 filter) — TF
+binding sites (with TF name).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ucsc_cpg.tsv.gz</span></code> (259 KB) — CpG islands.</p></li>
+</ul>
+</div></blockquote>
+<p>Total bundled: ~52 MB.  Preparation script
+<code class="docutils literal notranslate"><span class="pre">scripts/prep_functional_tracks.py</span></code> converts UCSC raw
+downloads to bundled derivatives with per-track score filtering
+so the <code class="docutils literal notranslate"><span class="pre">absence</span> <span class="pre">==</span> <span class="pre">no</span> <span class="pre">evidence</span></code> semantic is clean.</p>
+<p>New public helper <a class="reference internal" href="api/annotation.html#pycmplot.annotation.position_informativeness_score" title="pycmplot.annotation.position_informativeness_score"><code class="xref py py-func docutils literal notranslate"><span class="pre">pycmplot.annotation.position_informativeness_score()</span></code></a>
+aggregates evidence across all tracks into a single per-position
+score used exclusively for tiebreaking within LD blocks.  cCRE,
+CpG, DNase, and TFBS are used only for this tiebreaker; they
+don’t directly contribute to the per-gene priority score
+(position-only tracks don’t tell us <em>which</em> gene a SNP regulates).</p>
+</li>
+<li><p><strong>GeneHancer enhancer-gene interactions in the priority score.</strong>
+New <code class="docutils literal notranslate"><span class="pre">genehancer_bonus</span></code> term in
+<code class="xref py py-func docutils literal notranslate"><span class="pre">_annotate_variant()</span></code>, computed from the
+bundled <code class="docutils literal notranslate"><span class="pre">genehancer.tsv.gz</span></code> (218,117 elements, 818,358 gene
+connections; hg38).  For each SNP, GH element(s) that <em>contain</em>
+the SNP position (<code class="docutils literal notranslate"><span class="pre">start</span> <span class="pre">&lt;=</span> <span class="pre">pos</span> <span class="pre">&lt;=</span> <span class="pre">end</span></code>) contribute
+<code class="docutils literal notranslate"><span class="pre">score</span> <span class="pre">/</span> <span class="pre">5</span></code> (uncapped, no distance decay) to every connected
+gene of that element.  A GH connection score of 20 → +4.0 bonus
+(rare, dominates all other components); score 10 → +2.0
+(comparable to <code class="docutils literal notranslate"><span class="pre">genic_bonus</span></code>); score 1 → +0.2 (nudge only).
+Multiple containing elements linking the same gene collapse to
+the <code class="docutils literal notranslate"><span class="pre">max</span></code> bonus.  Strict overlap: SNPs outside every GH element
+receive zero bonus and the algorithm falls back to
+geometry+strand+biotype.</p>
+<p>Priority formula becomes:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>priority = biotype_weight
+           · (distance_score + 2·genic + 1·upstream
+              + 2·promoter + genehancer_bonus)
+</pre></div>
+</div>
+<p>Hits table gains two columns: <code class="docutils literal notranslate"><span class="pre">genehancer_bonus</span></code> (the bonus
+actually applied to the winning gene, 0.0 if none) and
+<code class="docutils literal notranslate"><span class="pre">gh_score</span></code> (the raw GH connection score, <code class="docutils literal notranslate"><span class="pre">None</span></code> if there was
+no GH support).  Turn off with <code class="docutils literal notranslate"><span class="pre">-no_gh</span></code> / <code class="docutils literal notranslate"><span class="pre">--no_genehancer</span></code>
+to fall back to pure geometry+strand+biotype scoring.</p>
+<p>Solves the AC110792.1 / PDGFRA case at
+chr4:54,768,663 (hg19-lifted to hg38): the region is a validated
+GeneHancer-predicted PDGFRA enhancer, and GH-based scoring
+correctly overrides the tiny orphan Ensembl PC in favour of
+PDGFRA when the SNP falls inside a GH element.  Regressions:
+<code class="docutils literal notranslate"><span class="pre">test_genehancer_bonus_boosts_gh_connected_gene</span></code> (verifies
+bonus math + PDGFRA lift) and
+<code class="docutils literal notranslate"><span class="pre">test_genehancer_no_op_when_position_uncovered</span></code> (identity
+fallback for GH-uncovered positions).</p>
+<p>Custom GeneHancer paths via <code class="docutils literal notranslate"><span class="pre">PYCMPLOT_GENEHANCER_HG38</span></code>
+environment variable or <a class="reference internal" href="api/resources.html#pycmplot.resources.ResourceConfig" title="pycmplot.resources.ResourceConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">ResourceConfig</span></code></a>
+<code class="docutils literal notranslate"><span class="pre">genehancer_hg38</span></code> attribute.  Preparation script
+<code class="docutils literal notranslate"><span class="pre">scripts/prep_genehancer.py</span></code> converts the source semicolon-CSV
+into the bundled TSV format.</p>
+<p><strong>hg19 auto-liftover under GH:</strong> since GH is hg38-only, a
+pure-hg19 loader group used to skip the liftover step entirely
+(neither <code class="docutils literal notranslate"><span class="pre">_needs_lift_file</span></code> nor <code class="docutils literal notranslate"><span class="pre">_needs_lift_group</span></code> fired
+without mixed builds).  A third liftover trigger,
+<code class="docutils literal notranslate"><span class="pre">_needs_lift_gh</span></code>, now fires when <code class="docutils literal notranslate"><span class="pre">use_genehancer=True</span></code> and
+the track’s declared build is hg18/hg19, so GH coordinates always
+match the annotated variant positions.  Turn off with
+<code class="docutils literal notranslate"><span class="pre">--no_genehancer</span></code> if you want to keep native-build hg19
+coordinates.</p>
+</li>
+<li><p><strong>Two-layer annotation architecture (2026-09-15).</strong>  Clumping
+and functional prioritisation are now cleanly decoupled:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>Layer 1 — Independent lead identification</strong> (statistical):
+<a class="reference internal" href="api/stats.html#pycmplot.stats.get_lead_snps" title="pycmplot.stats.get_lead_snps"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_lead_snps()</span></code></a> /
+<a class="reference internal" href="api/stats.html#pycmplot.stats.get_highlight_snps" title="pycmplot.stats.get_highlight_snps"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_highlight_snps()</span></code></a> /
+<a class="reference internal" href="api/stats.html#pycmplot.stats.clump" title="pycmplot.stats.clump"><code class="xref py py-func docutils literal notranslate"><span class="pre">pycmplot.stats.clump()</span></code></a> operate on P and distance / LD
+alone.  Which variant is called a “lead” depends only on
+statistics and reference-panel LD, never on the annotation
+panel.  Reproducible across annotation-source changes.</p></li>
+<li><p><strong>Layer 2 — Annotation representative selection</strong>
+(functional): after Layer 1, <code class="docutils literal notranslate"><span class="pre">pycmplot.io.load</span></code> scans each
+lead’s LD-block members (variants tied at the same P within
+<code class="docutils literal notranslate"><span class="pre">clump_window_kb</span></code> on the same chromosome) for the position
+with the highest
+<a class="reference internal" href="api/annotation.html#pycmplot.annotation.position_informativeness_score" title="pycmplot.annotation.position_informativeness_score"><code class="xref py py-func docutils literal notranslate"><span class="pre">position_informativeness_score()</span></code></a>.
+That position drives the <code class="docutils literal notranslate"><span class="pre">_annotate_variant</span></code> call; the
+statistical lead’s rsID / POS / P remain the record’s
+identity.  New <code class="docutils literal notranslate"><span class="pre">annot_pos</span></code> / <code class="docutils literal notranslate"><span class="pre">annot_snp</span></code> columns record
+the representative when it differs from the lead.</p></li>
+</ul>
+</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">get_lead_snps</span></code> retains its optional <code class="docutils literal notranslate"><span class="pre">tiebreak_score_col</span></code>
+parameter for direct-API callers who want mixed statistical +
+functional clumping in one pass, but the pipeline no longer
+uses it — the two layers are separate.</p>
+<p>Motivating example: chr4 hg19 54,768,663 (rs111878819) — one
+of three tied-significant variants (rs111341649 at 54,774,323
+and rs6833117 at 54,775,640).  Pre-fix greedy pick chose the
+leftmost (rs111878819) as lead → geometric fallback to
+<code class="docutils literal notranslate"><span class="pre">LNX1-GSX2</span></code>.  With decoupled layers, rs111878819 remains the
+statistical lead (deterministic POS-sort), but <code class="docutils literal notranslate"><span class="pre">annot_pos</span></code>
+is swapped to rs111341649 (inside a PDGFRA-linked GH element
+at 53,907,897-53,909,741 hg38) → annotation returns
+<code class="docutils literal notranslate"><span class="pre">LNX1-PDGFRA</span></code>.  The hits table now reports both:
+<code class="docutils literal notranslate"><span class="pre">SNP=rs111878819</span></code> (statistical lead) and
+<code class="docutils literal notranslate"><span class="pre">annot_snp=rs111341649</span></code> (annotation representative).
+Regression: <code class="docutils literal notranslate"><span class="pre">test_ld_block_tiebreak_prefers_functional_variant</span></code>.</p>
+</li>
+<li><p><strong>Distance-based clumping window is now a first-class knob
+(``-cw`` / ``–clump_window_kb``, default 250 kb).</strong>  Previously
+<code class="docutils literal notranslate"><span class="pre">get_hits_summary_table</span></code> piped its <code class="docutils literal notranslate"><span class="pre">window_kb</span></code> argument into
+both the gene-candidate search AND
+<code class="xref py py-func docutils literal notranslate"><span class="pre">_clump_by_distance()</span></code> (independent-lead
+selector), so bumping the annotation window silently dropped
+nearby leads.  Clumping is now decoupled from annotation search
+and exposed as its own parameter with a <strong>new default of 250 kb</strong>,
+matching PLINK’s <code class="docutils literal notranslate"><span class="pre">--clump-kb</span></code> convention and aligning with
+typical European-population LD extent (~100-200 kb) plus a
+modest safety margin.  Old default was 500 kb.</p>
+<p>The primary lead-selection clumping in
+<a class="reference internal" href="api/stats.html#pycmplot.stats.get_lead_snps" title="pycmplot.stats.get_lead_snps"><code class="xref py py-func docutils literal notranslate"><span class="pre">pycmplot.stats.get_lead_snps()</span></code></a> (and
+<a class="reference internal" href="api/stats.html#pycmplot.stats.get_highlight_snps" title="pycmplot.stats.get_highlight_snps"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_highlight_snps()</span></code></a>) also drops from
+500 kb to 250 kb so that the primary pass and the defensive
+second pass agree.  African-ancestry or admixed cohorts where
+LD is shorter (~30-50 kb) can go tighter (<code class="docutils literal notranslate"><span class="pre">-cw</span> <span class="pre">100</span></code>);
+conservative locus-definition workflows can widen
+(<code class="docutils literal notranslate"><span class="pre">-cw</span> <span class="pre">500</span></code>).  Cache invalidates automatically when
+<code class="docutils literal notranslate"><span class="pre">clump_window_kb</span></code> changes.  Regression:
+<code class="docutils literal notranslate"><span class="pre">test_clumping_window_decoupled_from_annotation_window</span></code>.</p>
+</li>
+<li><p><strong>Configurable annotation search window (``-aw`` /
+``–annotation_window_kb``).</strong>  The pipeline was hard-coded to a
+2 Mb window in <a class="reference internal" href="api/io.html#pycmplot.io.load" title="pycmplot.io.load"><code class="xref py py-func docutils literal notranslate"><span class="pre">load()</span></code></a>, which diverged from the
+500 kb value stated in <code class="docutils literal notranslate"><span class="pre">gene_selection_algorithm.md</span></code>.  Search
+radius is now a top-level knob, defaults to <strong>500</strong> kb (matching
+the spec), and cascades through <a class="reference internal" href="api/annotation.html#pycmplot.annotation.get_hits_summary_table" title="pycmplot.annotation.get_hits_summary_table"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_hits_summary_table()</span></code></a>
+and the hits-overlay cache key so the auto-hits table regenerates
+cleanly when the window changes.  Wider windows can be requested
+per-run (e.g. <code class="docutils literal notranslate"><span class="pre">-aw</span> <span class="pre">2000</span></code>) when the local neighbourhood is
+gene-poor and TAD-scale PC candidates are wanted.</p>
+<p>Motivating case: <code class="docutils literal notranslate"><span class="pre">chr6:115443568</span></code> (hg38) at the pipeline’s old
+2 Mb default resolved to <code class="docutils literal notranslate"><span class="pre">HS3ST5-NT5DC1</span></code> (an intergenic_PC
+join across 1.1 Mb + 0.66 Mb PC flankers).  With the 500 kb
+spec-aligned default it resolves to <code class="docutils literal notranslate"><span class="pre">FRK</span></code> (the closest PC at
+487 kb on one side).</p>
+</li>
+<li><p><strong>Custom highlight-legend size and padding.</strong>  Two new
+user-facing knobs on both plotters:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">highlight_legend_size</span></code> (<code class="docutils literal notranslate"><span class="pre">-hll_size</span></code> /
+<code class="docutils literal notranslate"><span class="pre">--highlight_legend_size</span></code>) — overrides the legend font
+size for both entries and title.  Defaults preserve
+the pre-existing look: <code class="docutils literal notranslate"><span class="pre">annotation_size</span></code> on the linear
+plot, <code class="docutils literal notranslate"><span class="pre">track_label_size</span></code> on the circular plot.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">highlight_legend_pad</span></code> (<code class="docutils literal notranslate"><span class="pre">-hll_pad</span></code> /
+<code class="docutils literal notranslate"><span class="pre">--highlight_legend_pad</span></code>) — padding between the legend
+frame and the axes edge, passed to matplotlib as
+<code class="docutils literal notranslate"><span class="pre">borderaxespad</span></code>.  Default: matplotlib’s built-in 0.5.
+Increase to push the legend further from the plot;
+negative values allowed for slight overlap.</p></li>
+</ul>
+</div></blockquote>
+<p>Both threaded through <a class="reference internal" href="api/plotting.html#pycmplot.plotting.linear.plot_linearm" title="pycmplot.plotting.linear.plot_linearm"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot_linearm()</span></code></a>,
+<a class="reference internal" href="api/plotting.html#pycmplot.plotting.linear.plot_linear" title="pycmplot.plotting.linear.plot_linear"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot_linear()</span></code></a>, and
+<a class="reference internal" href="api/plotting.html#pycmplot.plotting.circular.circular" title="pycmplot.plotting.circular.circular"><code class="xref py py-func docutils literal notranslate"><span class="pre">circular()</span></code></a>.</p>
+</li>
+<li><p><strong>Liftover-unmapped report: one file for all tracks.</strong>  Variants that
+cannot be placed in hg38 were previously dropped silently.  The loader
+now writes them to <code class="docutils literal notranslate"><span class="pre">&lt;output</span> <span class="pre">prefix&gt;.liftover_unmapped.tsv</span></code> (next to
+the hits table; <code class="docutils literal notranslate"><span class="pre">pycmplot.liftover_unmapped.tsv</span></code> when no prefix is
+set).  Columns: <code class="docutils literal notranslate"><span class="pre">LABEL</span></code> (track) first, then the original-build
+coordinates and fields, plus <code class="docutils literal notranslate"><span class="pre">UNMAPPED_REASON</span></code>, <code class="docutils literal notranslate"><span class="pre">LIFTED_CHR</span></code>,
+<code class="docutils literal notranslate"><span class="pre">LIFTED_POS</span></code> and <code class="docutils literal notranslate"><span class="pre">SIGNIFICANT</span></code>.  Reasons are
+<code class="docutils literal notranslate"><span class="pre">no_chain_mapping</span></code>, <code class="docutils literal notranslate"><span class="pre">maps_to_other_chromosome</span></code> (includes alt
+contigs such as <code class="docutils literal notranslate"><span class="pre">chr8_KI270821v1_alt</span></code>) and
+<code class="docutils literal notranslate"><span class="pre">beyond_hg38_chromosome_length</span></code>.  Rows are grouped by track in the
+order the tracks were given.  Tracks served from the cache do not
+re-run liftover, so their rows are carried over from the existing
+file; if that file has been moved or deleted a warning names the
+affected tracks.  Each track that is lifted over in the current run
+logs its count per reason at INFO; cached tracks do not repeat it.</p></li>
+<li><p><strong>Warning when significant variants are lost in liftover.</strong>  If any
+unmapped variant passes the loader’s significance threshold
+(<code class="docutils literal notranslate"><span class="pre">P</span> <span class="pre">&lt;=</span> <span class="pre">threshold</span></code>, or <code class="docutils literal notranslate"><span class="pre">|P|</span> <span class="pre">&gt;=</span> <span class="pre">threshold</span></code> for signed statistics),
+a WARNING lists up to 10 of them and states that they are missing
+from the plot and the hits table.  The advice depends on why
+liftover ran: when it was triggered only because GeneHancer needs
+hg38, it suggests re-running with <code class="docutils literal notranslate"><span class="pre">--no_genehancer</span></code> /
+<code class="docutils literal notranslate"><span class="pre">use_genehancer=False</span></code>; for mixed builds, it suggests plotting the
+builds as separate plots in their native coordinates.  The summary
+is stored in the track’s cache entry, so this warning is repeated on
+cached runs.</p></li>
+<li><p><strong>``liftover_position(…, return_unmapped=True)``.</strong>  Returns
+<code class="docutils literal notranslate"><span class="pre">(clean_df,</span> <span class="pre">unmapped_df)</span></code> with the columns described above.  The
+default (<code class="docutils literal notranslate"><span class="pre">False</span></code>) still returns a single DataFrame.</p></li>
+<li><p><strong>``gene_label`` and ``annot_window_kb`` columns in the hits table.</strong>
+<code class="docutils literal notranslate"><span class="pre">gene_label</span></code> holds each hit’s gene label (the containing gene,
+<code class="docutils literal notranslate"><span class="pre">nearest_gene</span></code>, for genic hits; <code class="docutils literal notranslate"><span class="pre">top_gene</span></code> otherwise; the rsID
+when neither exists).  <code class="docutils literal notranslate"><span class="pre">annot_window_kb</span></code> records the annotation
+search window.  Both are used by the plot-time gene-label collapse
+described under <strong>Changed</strong>.</p></li>
+<li><p><strong>``pycmplot.annotation.prepare_annotation_labels``</strong> (and
+<code class="docutils literal notranslate"><span class="pre">labels_to_draw</span></code>).  Resolves the label column for a plot and marks
+which hits get a label (<code class="docutils literal notranslate"><span class="pre">label_shown</span></code>).  Used by both
+<a class="reference internal" href="api/plotting.html#pycmplot.plotting.linear.linear" title="pycmplot.plotting.linear.linear"><code class="xref py py-func docutils literal notranslate"><span class="pre">linear()</span></code></a> and
+<a class="reference internal" href="api/plotting.html#pycmplot.plotting.circular.circular" title="pycmplot.plotting.circular.circular"><code class="xref py py-func docutils literal notranslate"><span class="pre">circular()</span></code></a>; the input table is not
+modified.</p></li>
+<li><p><strong>Plot-time, per-locus highlight filter</strong> (<code class="docutils literal notranslate"><span class="pre">-pht</span></code> /
+<code class="docutils literal notranslate"><span class="pre">--plot_highlight_thresh</span></code>; <code class="docutils literal notranslate"><span class="pre">highlight_thresh</span></code> on
+<a class="reference internal" href="api/plotting.html#pycmplot.plotting.linear.linear" title="pycmplot.plotting.linear.linear"><code class="xref py py-func docutils literal notranslate"><span class="pre">linear()</span></code></a> and
+<a class="reference internal" href="api/plotting.html#pycmplot.plotting.circular.circular" title="pycmplot.plotting.circular.circular"><code class="xref py py-func docutils literal notranslate"><span class="pre">circular()</span></code></a>).  Applied to each track
+separately: a highlighted variant keeps its highlight only if it lies
+within the locus window of a highlighted variant in the same track
+that passes the cutoff (<code class="docutils literal notranslate"><span class="pre">P</span> <span class="pre">&lt;=</span> <span class="pre">threshold</span></code>, or <code class="docutils literal notranslate"><span class="pre">|P|</span> <span class="pre">&gt;=</span> <span class="pre">threshold</span></code>
+for signed statistics).  The window is the loader’s
+<code class="docutils literal notranslate"><span class="pre">clump_window_kb</span></code> (<code class="docutils literal notranslate"><span class="pre">-cw</span></code>), the same window that defines the
+highlighted loci, so each locus is judged by its own lead: passing
+loci keep their whole highlight, failing loci are drawn in the
+background colour, and if nothing passes nothing is highlighted.  A
+locus merged into another track’s lead in the hits table is still
+judged by its own track’s lead.  The loader records
+<code class="docutils literal notranslate"><span class="pre">clump_window_kb</span></code> in the hits table and the CLI passes <code class="docutils literal notranslate"><span class="pre">-cw</span></code>
+explicitly; Python users can override it with
+<code class="docutils literal notranslate"><span class="pre">highlight_window_kb</span></code>.  The loaded data and the gene labels are
+unaffected (use <code class="docutils literal notranslate"><span class="pre">-psig</span></code> / <code class="docutils literal notranslate"><span class="pre">--plot_signif_threshold</span></code> for labels),
+so a run can load broadly and choose what to highlight at plot time.
+New helpers <a class="reference internal" href="api/annotation.html#pycmplot.annotation.filter_in_locus_by_threshold" title="pycmplot.annotation.filter_in_locus_by_threshold"><code class="xref py py-func docutils literal notranslate"><span class="pre">pycmplot.annotation.filter_in_locus_by_threshold()</span></code></a>
+and <a class="reference internal" href="api/annotation.html#pycmplot.annotation.resolve_highlight_window_kb" title="pycmplot.annotation.resolve_highlight_window_kb"><code class="xref py py-func docutils literal notranslate"><span class="pre">pycmplot.annotation.resolve_highlight_window_kb()</span></code></a>.  (0.4.1
+removed an unused <code class="docutils literal notranslate"><span class="pre">highlight_thresh</span></code> parameter from
+<a class="reference internal" href="api/plotting.html#pycmplot.plotting.circular.circular" title="pycmplot.plotting.circular.circular"><code class="xref py py-func docutils literal notranslate"><span class="pre">circular()</span></code></a>; the name now returns
+with this meaning.)</p></li>
+<li><p><strong>Functional-annotation columns in the hits table and overlay.</strong>
+With GeneHancer enabled (the default), each lead’s hits-table and
+<code class="docutils literal notranslate"><span class="pre">hits.&lt;group&gt;.tsv</span></code> row now reports the functional evidence at the
+variant used for its gene assignment (<code class="docutils literal notranslate"><span class="pre">annot_pos</span></code> when the
+LD-block tie-break chose a representative, else the lead):
+<code class="docutils literal notranslate"><span class="pre">gh_id</span></code> / <code class="docutils literal notranslate"><span class="pre">gh_feature</span></code> (GeneHancer element), <code class="docutils literal notranslate"><span class="pre">eqtl</span></code> (GTEx
+CAVIAR fine-mapped eQTLs as <code class="docutils literal notranslate"><span class="pre">GENE_TISSUE</span></code>, highest CPP first),
+<code class="docutils literal notranslate"><span class="pre">tfbs</span></code> (ENCODE TF clusters as <code class="docutils literal notranslate"><span class="pre">TF_SCORE</span></code>), <code class="docutils literal notranslate"><span class="pre">ccre_id</span></code> / <code class="docutils literal notranslate"><span class="pre">ccre</span></code>
+/ <code class="docutils literal notranslate"><span class="pre">ccre_class</span></code> (ENCODE cCRE accession, signature description and
+class), <code class="docutils literal notranslate"><span class="pre">dnase_score</span></code> / <code class="docutils literal notranslate"><span class="pre">dnase_sources</span></code> (ENCODE DNase cluster)
+and <code class="docutils literal notranslate"><span class="pre">cpg_island</span></code>.  Multi-valued fields are comma-separated;
+<code class="docutils literal notranslate"><span class="pre">None</span></code> means no overlap.  The columns are reporting only; the same
+tracks also drive the LD-block tie-break (see <strong>Fixed</strong>).  New helpers
+<a class="reference internal" href="api/annotation.html#pycmplot.annotation.load_functional_tracks" title="pycmplot.annotation.load_functional_tracks"><code class="xref py py-func docutils literal notranslate"><span class="pre">pycmplot.annotation.load_functional_tracks()</span></code></a> and
+<a class="reference internal" href="api/annotation.html#pycmplot.annotation.annotate_functional" title="pycmplot.annotation.annotate_functional"><code class="xref py py-func docutils literal notranslate"><span class="pre">pycmplot.annotation.annotate_functional()</span></code></a>.</p></li>
+<li><p><strong>Bundled functional tracks rebuilt from the raw downloads</strong>
+with the new <code class="docutils literal notranslate"><span class="pre">scripts/prep_functional_tracks.py</span></code> (sources in
+<code class="docutils literal notranslate"><span class="pre">annotation/</span></code>).  Every column used for scoring is identical to the
+previous files (verified row by row for all six tracks); the files
+gain <code class="docutils literal notranslate"><span class="pre">GH_ID</span></code> (GeneHancer), <code class="docutils literal notranslate"><span class="pre">CCRE_ID</span></code> / <code class="docutils literal notranslate"><span class="pre">CCRE_CLASS</span></code> /
+<code class="docutils literal notranslate"><span class="pre">DESCRIPTION</span></code> (cCRE), <code class="docutils literal notranslate"><span class="pre">SOURCES</span></code> (DNase) and <code class="docutils literal notranslate"><span class="pre">NAME</span></code> /
+<code class="docutils literal notranslate"><span class="pre">CPG_COUNT</span></code> (CpG).  <code class="docutils literal notranslate"><span class="pre">gtex_eqtl_caviar.tsv.gz</span></code> now holds one row
+per variant-gene-tissue (adding <code class="docutils literal notranslate"><span class="pre">SNP</span></code> and <code class="docutils literal notranslate"><span class="pre">TISSUE</span></code>, CPP to 6
+decimals) instead of one per variant-gene;
+<a class="reference internal" href="api/annotation.html#pycmplot.annotation.load_eqtl" title="pycmplot.annotation.load_eqtl"><code class="xref py py-func docutils literal notranslate"><span class="pre">load_eqtl()</span></code></a> derives the scoring value
+(maximum CPP across tissues, rounded to 4 decimals), which
+reproduces the previous file exactly, and still accepts a per-gene
+file without <code class="docutils literal notranslate"><span class="pre">TISSUE</span></code> supplied through <code class="docutils literal notranslate"><span class="pre">PYCMPLOT_EQTL_HG38</span></code>.
+Bundled data grows by about 15 MB.  The hits-overlay cache fingerprint now also covers the
+GeneHancer, eQTL and ENCODE / CpG track files, so swapping any of
+them regenerates cached hits tables (previously only the gene-info
+files were covered).</p></li>
+</ul>
+<p><strong>Changed</strong></p>
+<ul>
+<li><p><strong>Switched ``pyliftover`` dependency to ``liftover`` for performance.</strong>
+Prior versions used <code class="docutils literal notranslate"><span class="pre">pyliftover</span></code> to convert hg18/hg19 coordinates to
+hg38. <code class="docutils literal notranslate"><span class="pre">liftover</span></code> appears to offer better performance with its c++
+implementation, and it is more actively maintained. Notably, both tools
+produce identical results, with a <code class="docutils literal notranslate"><span class="pre">liftover</span></code> substantially faster for
+large files.</p>
+<p>Verified on 200,000 random positions per chain file (hg19→hg38 and
+hg18→hg38): identical output for every position.  Chain files load
+16–35× faster and single lookups run 2–3× faster.  <code class="docutils literal notranslate"><span class="pre">pyliftover</span></code>
+is no longer imported anywhere and was removed from the
+<code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> and <code class="docutils literal notranslate"><span class="pre">setup.cfg</span></code> dependencies; the README and the
+<a class="reference internal" href="api/liftover.html#module-pycmplot.liftover" title="pycmplot.liftover"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pycmplot.liftover</span></code></a> docstrings now refer to
+<code class="docutils literal notranslate"><span class="pre">liftover.ChainFile</span></code>.  <a class="reference internal" href="api/liftover.html#pycmplot.liftover.liftover_position" title="pycmplot.liftover.liftover_position"><code class="xref py py-func docutils literal notranslate"><span class="pre">liftover_position()</span></code></a>
+also resolves each chain file once per call instead of once per row,
+making it about 3× faster overall (9.6 s → 3.4 s on 1 M hg19 rows).</p>
+</li>
+<li><p><strong>Loader runtime: heavy resources hoisted out of the per-track loop.</strong>
+Prior to this release, every non-cached track that requested LD-based
+clumping re-loaded the LD reference graph from disk inside its own
+iteration of <code class="xref py py-func docutils literal notranslate"><span class="pre">pycmplot.load()</span></code>.  For a 31 M-pair reference panel
+(~30 s parse), an N-track run paid that fixed cost N times.  The same
+N-multiplication applied to GeneHancer + eQTL bundle loads inside the
+Layer-2 annotation-representative swap when <code class="docutils literal notranslate"><span class="pre">use_genehancer=True</span></code>.</p>
+<p>The loader now installs two lazy-load closures above the per-track
+loop.  The first non-cached track that needs each resource pays the
+parse; every subsequent iteration reuses the cached object.  A
+fully-cached run (all tracks hit the on-disk cache and <code class="docutils literal notranslate"><span class="pre">continue</span></code>)
+never triggers a load at all — the closures stay dormant.  For a
+five-track run against a full 1000G reference the wall-clock
+improvement is roughly an order of magnitude on the LD-clumping
+branch.</p>
+<p>Semantics are otherwise unchanged: <code class="docutils literal notranslate"><span class="pre">in_locus</span></code> is still computed
+per-track, and the per-track effective-
+build sanity check (which can differ between tracks after per-track
+liftover) still fires inside the loop against the graph’s declared
+<code class="docutils literal notranslate"><span class="pre">build</span></code> metadata.  The build check itself no longer costs a full
+graph parse — it consults the metadata carried on the already-loaded
+object.</p>
+<p>One semantic difference: lead extraction now runs <strong>once, after the
+per-track loop</strong>, on the significant variants pooled from every
+track (Layer 1 clumping, then the Layer-2 annotation-representative
+swap).  A locus significant in several tracks therefore yields one
+lead, the most significant across tracks.  The plotters do not use
+the track of origin when drawing hits, so plots are unaffected apart
+from the fixes listed under <strong>Fixed</strong> below.</p>
+</li>
+<li><p><strong>``pycmplot.stats.get_signif_snps`` (public API).</strong>  New helper that
+extracts significant variants from a summary-statistics DataFrame
+without applying clumping or annotation-representative selection.
+Preserves the calling convention of <a class="reference internal" href="api/stats.html#pycmplot.stats.clump" title="pycmplot.stats.clump"><code class="xref py py-func docutils literal notranslate"><span class="pre">clump()</span></code></a> and
+<a class="reference internal" href="api/stats.html#pycmplot.stats.get_lead_snps" title="pycmplot.stats.get_lead_snps"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_lead_snps()</span></code></a> (<code class="docutils literal notranslate"><span class="pre">logp</span></code> / <code class="docutils literal notranslate"><span class="pre">score_col</span></code> /
+<code class="docutils literal notranslate"><span class="pre">ascending</span></code> auto-detection for signed statistics) and returns a
+minimal DataFrame with only pipeline-relevant columns (<code class="docutils literal notranslate"><span class="pre">CHR</span></code>,
+<code class="docutils literal notranslate"><span class="pre">POS</span></code>, <code class="docutils literal notranslate"><span class="pre">SNP</span></code>, <code class="docutils literal notranslate"><span class="pre">P</span></code>, <code class="docutils literal notranslate"><span class="pre">logP</span></code>, <code class="docutils literal notranslate"><span class="pre">OLD_POS</span></code>, <code class="docutils literal notranslate"><span class="pre">OLD_BUILD</span></code>,
+<code class="docutils literal notranslate"><span class="pre">BUILD</span></code>, <code class="docutils literal notranslate"><span class="pre">LABEL</span></code>).  Exported from the top-level <code class="docutils literal notranslate"><span class="pre">pycmplot</span></code>
+namespace.  Regression:
+<code class="docutils literal notranslate"><span class="pre">benchmark/tests/test_priority_algorithm.py::test_ld_reference_loaded_once_across_tracks</span></code>.</p></li>
+<li><p><strong>``pycmplot.stats.clump`` accepts a live ``LDGraph`` object.</strong>  The
+<code class="docutils literal notranslate"><span class="pre">ld_reference</span></code> parameter’s type hint now includes <code class="docutils literal notranslate"><span class="pre">LDGraph</span></code>
+alongside <code class="docutils literal notranslate"><span class="pre">str</span></code> / <code class="docutils literal notranslate"><span class="pre">dict</span></code> / <code class="docutils literal notranslate"><span class="pre">None</span></code>.  Runtime dispatch already
+handled this case; the annotation update makes it discoverable and
+is what the hoisted loader uses to hand the pre-loaded graph to each
+per-track <code class="docutils literal notranslate"><span class="pre">clump</span></code> call without re-parsing from disk.</p></li>
+<li><p><strong>Biologically-meaningful gene-assignment algorithm.</strong>  The
+priority score in <code class="xref py py-func docutils literal notranslate"><span class="pre">pycmplot.annotation._annotate_variant()</span></code>
+was reworked to encode the design in <code class="docutils literal notranslate"><span class="pre">gene_selection_algorithm.md</span></code>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">distance_score</span> <span class="pre">=</span> <span class="pre">exp(-|d|</span> <span class="pre">/</span> <span class="pre">100</span> <span class="pre">kb)</span></code> — nearby genes dominate
+more sharply than the previous <code class="docutils literal notranslate"><span class="pre">1/log10(d+10)</span></code> decay.</p></li>
+<li><p>Explicit strand-aware <code class="docutils literal notranslate"><span class="pre">upstream_bonus</span></code> when the SNP sits 5’
+of the gene body (TSS side), equal to <code class="docutils literal notranslate"><span class="pre">distance_score</span></code> (at most
++1.0; see <em>Upstream bonus decays with distance</em> below).
+Upstream = <code class="docutils literal notranslate"><span class="pre">pos</span> <span class="pre">&lt;</span> <span class="pre">start</span></code> for <code class="docutils literal notranslate"><span class="pre">+</span></code> strand, <code class="docutils literal notranslate"><span class="pre">pos</span> <span class="pre">&gt;</span> <span class="pre">end</span></code> for
+<code class="docutils literal notranslate"><span class="pre">-</span></code> strand; genic positions are neither upstream nor downstream.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">genic_bonus</span></code> (+2.0) for containing gene body.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">promoter_bonus</span></code> (+2.0) when <code class="docutils literal notranslate"><span class="pre">|pos</span> <span class="pre">-</span> <span class="pre">TSS|</span> <span class="pre">&lt;=</span> <span class="pre">2</span> <span class="pre">kb</span></code>, strand-
+aware (TSS = START for <code class="docutils literal notranslate"><span class="pre">+</span></code>, END for <code class="docutils literal notranslate"><span class="pre">-</span></code>).  Fires regardless
+of whether the SNP is inside the gene body.</p></li>
+<li><p>The whole component sum is <strong>multiplied by ``biotype_weight``</strong>,
+which is the load-bearing choice: a distant protein-coding gene
+now beats a nearby pseudogene the SNP happens to sit inside,
+and an antisense/divergent transcript containing the SNP loses
+to a promoter-proximal PC gene 500 bp away.  <code class="docutils literal notranslate"><span class="pre">top_gene</span></code> is
+always the highest-scoring candidate — no early-out on
+“containing gene” or on the intergenic “LEFT-RIGHT” pair.</p></li>
+</ul>
+<p>New fields on every hits-table row: <code class="docutils literal notranslate"><span class="pre">snp_position</span></code>
+(<code class="docutils literal notranslate"><span class="pre">&quot;genic&quot;|&quot;upstream&quot;|&quot;downstream&quot;</span></code>), <code class="docutils literal notranslate"><span class="pre">upstream_of_gene</span></code>,
+<code class="docutils literal notranslate"><span class="pre">promoter_proximal</span></code>, <code class="docutils literal notranslate"><span class="pre">dist_to_tss</span></code>, <code class="docutils literal notranslate"><span class="pre">upstream_bonus</span></code>,
+<code class="docutils literal notranslate"><span class="pre">genic_bonus</span></code>, <code class="docutils literal notranslate"><span class="pre">strand</span></code> (of the winning gene).  Regression:
+<code class="docutils literal notranslate"><span class="pre">benchmark/tests/test_priority_algorithm.py</span></code>.</p>
+</li>
+<li><p><strong>PC-preference selection in ``_annotate_variant``.</strong>  <code class="docutils literal notranslate"><span class="pre">top_gene</span></code>
+is no longer a pure argmax over the priority score.  A cascade
+runs against the candidate pool:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>No candidates in window -&gt; <code class="docutils literal notranslate"><span class="pre">top_gene</span> <span class="pre">=</span> <span class="pre">None</span></code>.</p></li>
+<li><p>No PC-like candidate in window -&gt; highest-priority candidate
+overall (may be a lncRNA or pseudogene; nothing better
+exists in the region).</p></li>
+<li><p>A PC-like candidate contains the SNP -&gt; highest-priority
+PC-like <em>genic</em> candidate wins.</p></li>
+<li><p>Otherwise -&gt; take the highest-priority PC-like candidate on
+each positional side of the SNP.  If both sides have one,
+report as joined <code class="docutils literal notranslate"><span class="pre">&quot;LEFT-RIGHT&quot;</span></code> label with
+<code class="docutils literal notranslate"><span class="pre">biotype</span> <span class="pre">=</span> <span class="pre">&quot;intergenic_PC&quot;</span></code>; if only one side has a PC,
+report that single PC.</p></li>
+</ol>
+</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">PC_LIKE_BIOTYPES</span></code> (module constant in <code class="docutils literal notranslate"><span class="pre">pycmplot.annotation</span></code>)
+defines the high-confidence coding set: <code class="docutils literal notranslate"><span class="pre">protein_coding</span></code>,
+<code class="docutils literal notranslate"><span class="pre">protein_coding_LoF</span></code>, <code class="docutils literal notranslate"><span class="pre">protein_coding_CDS_not_defined</span></code>,
+<code class="docutils literal notranslate"><span class="pre">nonsense_mediated_decay</span></code>, and the IG/TR gene biotypes.  Rules
+out lncRNAs (including divergent transcripts like <code class="docutils literal notranslate"><span class="pre">*-DT</span></code>),
+pseudogenes, antisense, sense_intronic/overlapping, and misc RNAs
+as <code class="docutils literal notranslate"><span class="pre">top_gene</span></code> when a PC candidate exists.  Motivating case:
+<code class="docutils literal notranslate"><span class="pre">chr6:135820013</span></code> (hg38), where the SNP sits inside <code class="docutils literal notranslate"><span class="pre">AHI1-DT</span></code>
+but is 31 kb upstream of <code class="docutils literal notranslate"><span class="pre">PDE7B</span></code>; the cascade now correctly
+returns <code class="docutils literal notranslate"><span class="pre">PDE7B</span></code> as <code class="docutils literal notranslate"><span class="pre">top_gene</span></code>.  Regression
+<code class="docutils literal notranslate"><span class="pre">benchmark/tests/test_priority_algorithm.py::test_ahi1dt_pde7b_regression_hg38</span></code>.</p>
+</li>
+<li><p><strong>``lncRNA`` / ``lincRNA`` / ``ncRNA`` biotype weights lowered
+from 0.70 to 0.55.</strong>  Complements the PC-preference cascade: when
+no PC candidate exists in the window and the highest-priority
+non-PC candidate wins, the lower weight keeps lncRNAs from
+dominating over closer pseudogenes / antisense in edge cases.
+<code class="docutils literal notranslate"><span class="pre">3prime_overlapping_ncRNA</span></code> and <code class="docutils literal notranslate"><span class="pre">macro_lncRNA</span></code> dropped from
+0.65 to 0.60; anti-sense biotypes kept at 0.65 because they
+carry more information about the sense PC gene than generic
+lncRNAs do (regulatory antisense RNAs such as PDE7B-AS1).</p></li>
+<li><p><strong>Ensembl 116 GRCh38 + Ensembl 87 GRCh37 geneinfo aliases in
+``BIOTYPE_WEIGHTS``.</strong>  Added <code class="docutils literal notranslate"><span class="pre">3prime_overlapping_ncrna</span></code> (GRCh37
+lowercase spelling, matches <code class="docutils literal notranslate"><span class="pre">3prime_overlapping_ncRNA</span></code> at 0.65)
+and <code class="docutils literal notranslate"><span class="pre">rRNA_pseudogene</span></code> (GRCh38.116, matches pseudogene subtypes
+at 0.20) so the full vocabulary of both lightweight reference
+files gets a defined weight.</p></li>
+<li><p><strong>CLI ``–ld_reference`` now requires a pre-built LDGraph.</strong>
+Raw PLINK <code class="docutils literal notranslate"><span class="pre">.ld</span></code> paths are rejected at <a class="reference internal" href="api/io.html#pycmplot.io.load" title="pycmplot.io.load"><code class="xref py py-func docutils literal notranslate"><span class="pre">pycmplot.io.load()</span></code></a>
+with instructions to convert to an <code class="docutils literal notranslate"><span class="pre">.npz</span></code> / <code class="docutils literal notranslate"><span class="pre">.ldz</span></code> first
+via <code class="docutils literal notranslate"><span class="pre">LDGraph.from_plink_ld(path,</span> <span class="pre">build='hg19').save('ref.npz')</span></code>.
+Rationale: the pipeline’s build sanity check needs a genome
+build to compare against, and a raw <code class="docutils literal notranslate"><span class="pre">.ld</span></code> file has no place
+to declare one.  Making the CLI insist on pre-built graphs
+forces build declaration exactly once — at graph-build time —
+and the metadata travels with the file thereafter.  Removes
+the <code class="docutils literal notranslate"><span class="pre">ld_reference_build</span></code> parameter on
+<a class="reference internal" href="api/io.html#pycmplot.io.load" title="pycmplot.io.load"><code class="xref py py-func docutils literal notranslate"><span class="pre">pycmplot.io.load()</span></code></a> and the corresponding
+<code class="docutils literal notranslate"><span class="pre">-ldrb</span></code> / <code class="docutils literal notranslate"><span class="pre">--ld_reference_build</span></code> CLI flag (introduced
+earlier in this same release).  <code class="docutils literal notranslate"><span class="pre">pycmplot.stats.clump()</span></code>
+Python API still accepts raw <code class="docutils literal notranslate"><span class="pre">.ld</span></code> paths for scripted use;
+only the loader-driven pipeline is stricter.</p></li>
+<li><p><strong>Per-track cache key now covers LD clumping + clump window.</strong>
+On a cache hit the cached DataFrame + leads bypass the entire
+clumping path — including the LD lookup — so flipping
+<code class="docutils literal notranslate"><span class="pre">--ld_reference</span></code>, <code class="docutils literal notranslate"><span class="pre">--ld_r2</span></code>, <code class="docutils literal notranslate"><span class="pre">--harmonize_variants</span></code>, or
+<code class="docutils literal notranslate"><span class="pre">--clump_window_kb</span></code> between runs previously served silently
+stale distance-clumped leads.  These four params are now
+included in the per-track cache key so any change invalidates
+the affected entries automatically.  LD params only contribute
+to the key when <code class="docutils literal notranslate"><span class="pre">ld_reference</span></code> is set, so users on the
+distance-only path keep their historical cache behaviour
+unchanged.  Regression:
+<code class="docutils literal notranslate"><span class="pre">test_cache_key_includes_ld_and_clump_params</span></code>.</p></li>
+<li><p><strong>Upstream bonus decays with distance.</strong>  During 0.4.3 development
+<code class="docutils literal notranslate"><span class="pre">upstream_bonus</span></code> was a flat +1.0 for any gene whose 5’ end faced
+the SNP anywhere in the 500 kb window, so a distant gene could
+outrank an adjacent one.  Example (hg38): a SNP at chr2:60,450,000,
+520 bp outside BCL11A (− strand, SNP at its 3’ end), was assigned
+PAPOLG, 306 kb away (score 1.047 vs 0.995).  The bonus is now
+<code class="docutils literal notranslate"><span class="pre">distance_score</span></code> (<code class="docutils literal notranslate"><span class="pre">exp(-d</span> <span class="pre">/</span> <span class="pre">100</span> <span class="pre">kb)</span></code>: 1.0 adjacent, 0.37 at
+100 kb, 0.05 at 300 kb), and the locus is assigned BCL11A.  Compared
+with the flat bonus, on 20,000 random hg38 positions <code class="docutils literal notranslate"><span class="pre">top_gene</span></code>
+changed at 14.6% of those with a gene in the window; 2,693 of the
+2,701 changes moved to a closer gene, and the median distance of
+the chosen gene(s) fell from 333 kb to 99 kb.  The remaining 8 are gene deserts with no
+protein-coding gene in range.  HBB, HBG2, HBS1L, HBS1L-MYB,
+NPRL3-HBA2 and intragenic BCL11A assignments are unchanged.  A
+protein-coding gene 20 kb upstream still beats a pseudogene
+containing the SNP (1.64 vs 0.6).  <code class="docutils literal notranslate"><span class="pre">upstream_of_gene</span></code> is now set
+from <code class="docutils literal notranslate"><span class="pre">snp_position</span></code> rather than from a non-zero bonus.  <strong>Hits
+tables regenerated with this release may label some loci
+differently from earlier runs.</strong></p></li>
+<li><p><strong>Repeated gene labels are collapsed at plot time, not removed from
+the hits table.</strong>  A hits-table step added during 0.4.3 development
+that dropped rows sharing <code class="docutils literal notranslate"><span class="pre">(CHR,</span> <span class="pre">nearest_gene)</span></code> is removed.  It compared <code class="docutils literal notranslate"><span class="pre">nearest_gene</span></code>
+although intergenic hits are labelled with <code class="docutils literal notranslate"><span class="pre">top_gene</span></code>, treated all
+hits with no gene on a chromosome as duplicates, merged independent
+signals at any distance, kept the leftmost row rather than the most
+significant one, and removed rows that SNP-labelled plots needed.
+The hits table now keeps every independent lead.  When a plot is
+labelled by gene, hits sharing a gene label within the annotation
+window (default 500 kb) on the same chromosome get one label, on the
+most significant hit; the others keep their highlighted points,
+guide lines and per-locus colours.  Hits with no gene label are
+never merged.  SNP-labelled (and other non-gene) plots label every
+lead.</p></li>
+<li><p><strong>Hits-overlay cache key is versioned</strong> (<code class="docutils literal notranslate"><span class="pre">HITS_LOGIC_VERSION</span> <span class="pre">=</span> <span class="pre">4</span></code>
+in <code class="xref py py-mod docutils literal notranslate"><span class="pre">pycmplot.cache</span></code>).  Cached <code class="docutils literal notranslate"><span class="pre">hits.&lt;group&gt;.tsv</span></code> overlays
+built by earlier hits-table logic regenerate once; rows added by
+hand (<code class="docutils literal notranslate"><span class="pre">source=&quot;user&quot;</span></code>) are kept.</p></li>
+</ul>
+<p><strong>Fixed</strong></p>
+<ul>
+<li><p><strong>(CHR, SNP) duplicate collapse across annotation, cached
+overlay, and circular plot.</strong>  Same rsID at slightly different
+POS values across build-mixed tracks (e.g. <code class="docutils literal notranslate"><span class="pre">rs123</span></code> in hg19
+vs hg38, or pre- vs post-liftover) was surviving
+<code class="xref py py-func docutils literal notranslate"><span class="pre">_clump_by_distance()</span></code> because POS
+separation exceeded the window.  The duplicates then
+propagated to the cached <code class="docutils literal notranslate"><span class="pre">hits.&lt;group&gt;.tsv</span></code> overlay, the
+circular plot (which consumes the overlay directly), and the
+linear plot’s SNP-labelled annotation track.  Fixed at three
+layers:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p><a class="reference internal" href="api/annotation.html#pycmplot.annotation.get_hits_summary_table" title="pycmplot.annotation.get_hits_summary_table"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_hits_summary_table()</span></code></a> now
+drops <code class="docutils literal notranslate"><span class="pre">(CHR,</span> <span class="pre">SNP)</span></code> duplicates at write time so fresh
+overlays are always clean.</p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">pycmplot.cache.read_hits_overlay()</span></code> dedups on read
+so users with pre-fix overlays don’t need to invalidate
+their cache.</p></li>
+<li><p><a class="reference internal" href="api/plotting.html#pycmplot.plotting.linear.plot_linearm" title="pycmplot.plotting.linear.plot_linearm"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot_linearm()</span></code></a> picks the
+dedup key based on <code class="docutils literal notranslate"><span class="pre">label_col</span></code>: <code class="docutils literal notranslate"><span class="pre">(CHR,</span> <span class="pre">SNP)</span></code> when
+annotating by SNP; <code class="docutils literal notranslate"><span class="pre">(CHR,</span> <span class="pre">POS,</span> <span class="pre">label)</span></code> when annotating
+by gene / custom column (so distinct variants at the
+same locus still keep separate labels).</p></li>
+</ol>
+</div></blockquote>
+<p>Regressions:
+<code class="docutils literal notranslate"><span class="pre">test_hits_overlay_dedup_by_snp_at_source</span></code>,
+<code class="docutils literal notranslate"><span class="pre">test_hits_overlay_dedup_on_read_defends_pre_fix_overlays</span></code>,
+<code class="docutils literal notranslate"><span class="pre">test_annotation_dedup_by_snp_when_snp_labeled</span></code>.</p>
+</li>
+<li><p><strong>Gene annotation missing for all but the last track.</strong>  After the
+loader runtime hoist above, the hits table was built from a stale
+per-track variable holding only the last freshly loaded track’s
+significant variants, and the pooled, clumped leads were discarded.
+Loci from every other track got no label; the hits table was empty
+(no labels at all) whenever the last track had no significant
+variants; and a run where every track came from the cache failed
+with <code class="docutils literal notranslate"><span class="pre">KeyError:</span> <span class="pre">'CHR'</span></code>.  The hits table is now built from the
+pooled leads of all tracks, and tracks served from the cache feed
+the same pooled clumping as freshly loaded ones.  Affected
+unreleased 0.4.3 code only (0.4.2 collected leads per track).</p></li>
+<li><p><strong>Layer-2 annotation-representative swap scanned the wrong track.</strong>
+Tied-P neighbours for each lead were looked up in the last freshly
+loaded track’s data instead of the lead’s own track.  Each lead is
+now matched against its own track.</p></li>
+<li><p><strong>No significant variants in any track raised ``KeyError: ‘CHR’``.</strong>
+The loader now returns an empty hits table.</p></li>
+<li><p><strong>``annotate=”GENE”`` chose one label column for all hits from the
+last hit.</strong>  <a class="reference internal" href="api/annotation.html#pycmplot.annotation.get_annotation_column" title="pycmplot.annotation.get_annotation_column"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_annotation_column()</span></code></a>
+re-chose the column for every row in a loop, so the last hit’s
+genic status decided the column for every hit: if it was genic, all
+intergenic hits were labelled with <code class="docutils literal notranslate"><span class="pre">nearest_gene</span></code> instead of their
+<code class="docutils literal notranslate"><span class="pre">LEFT-RIGHT</span></code> <code class="docutils literal notranslate"><span class="pre">top_gene</span></code> label, and vice versa.  Each hit now gets
+its own label via <code class="docutils literal notranslate"><span class="pre">gene_label</span></code>; cached overlays that predate that
+column get it filled in at plot time.  Present in released 0.4.2.</p></li>
+<li><p><strong>Variants lifted onto a different chromosome kept their old
+``CHR``.</strong>  The liftover helpers took the mapped position but
+ignored the mapped chromosome, so these variants were plotted at a
+coordinate from another chromosome.  They are now treated as
+unmapped (<code class="docutils literal notranslate"><span class="pre">maps_to_other_chromosome</span></code>) and reported as above:
+about 0.05% of mapped positions in a random sample.  Present in
+released 0.4.2.</p></li>
+<li><p><strong>LD build-mismatch error named the wrong track.</strong>  The message
+referenced a leftover loop variable; it now refers to the loaded
+tracks as a group.</p></li>
+<li><p><strong>``ax`` and ``chrom_label_size`` now work on the linear
+plotters.</strong>  Both have been accepted and documented since 0.4.1 but
+had no effect: a loop variable overwrote <code class="docutils literal notranslate"><span class="pre">ax</span></code>, and the chromosome
+labels were always drawn at matplotlib’s default size.  Passing
+<code class="docutils literal notranslate"><span class="pre">ax=</span></code> to <a class="reference internal" href="api/plotting.html#pycmplot.plotting.linear.linear" title="pycmplot.plotting.linear.linear"><code class="xref py py-func docutils literal notranslate"><span class="pre">linear()</span></code></a> /
+<a class="reference internal" href="api/plotting.html#pycmplot.plotting.linear.plot_linearm" title="pycmplot.plotting.linear.plot_linearm"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot_linearm()</span></code></a> now draws the plot
+(annotation panel plus one row per track) inside that axes’ slot,
+so it can share a figure with other panels; the slot’s placeholder
+axes is removed, the rest of the figure is left alone, and no file
+is saved (the caller saves the figure), matching
+<a class="reference internal" href="api/plotting.html#pycmplot.plotting.circular.circular" title="pycmplot.plotting.circular.circular"><code class="xref py py-func docutils literal notranslate"><span class="pre">circular()</span></code></a>.  Axes created with
+<code class="docutils literal notranslate"><span class="pre">fig.add_axes</span></code> work as well as gridspec slots.
+<code class="docutils literal notranslate"><span class="pre">chrom_label_size</span></code> now sets the chromosome label size.  <strong>Its
+default of 6 makes linear chromosome labels smaller than before
+(matplotlib’s default, 10)</strong>; pass <code class="docutils literal notranslate"><span class="pre">chrom_label_size=10</span></code> /
+<code class="docutils literal notranslate"><span class="pre">-cl_size</span> <span class="pre">10</span></code> for the old look.  The CLI’s <code class="docutils literal notranslate"><span class="pre">-cl_size</span></code> /
+<code class="docutils literal notranslate"><span class="pre">--chrom_label_size</span></code> and <code class="docutils literal notranslate"><span class="pre">-tl_size</span></code> / <code class="docutils literal notranslate"><span class="pre">--track_label_size</span></code>
+now apply to linear plots as well (previously listed as
+circular-only and not passed to the linear plotter).</p></li>
+<li><p><strong>Stale highlight docstrings.</strong>  <a class="reference internal" href="api/plotting.html#pycmplot.plotting.linear.linear" title="pycmplot.plotting.linear.linear"><code class="xref py py-func docutils literal notranslate"><span class="pre">linear()</span></code></a>
+documented <code class="docutils literal notranslate"><span class="pre">highlight_thresh</span></code> with a default of <code class="docutils literal notranslate"><span class="pre">5e-8</span></code> (it is
+<code class="docutils literal notranslate"><span class="pre">None</span></code>) and did not describe what it does, and
+<a class="reference internal" href="api/plotting.html#pycmplot.plotting.circular.circular" title="pycmplot.plotting.circular.circular"><code class="xref py py-func docutils literal notranslate"><span class="pre">circular()</span></code></a> did not document it.
+Both now describe the per-locus filter above, and
+<a class="reference internal" href="api/plotting.html#pycmplot.plotting.linear.plot_linearm" title="pycmplot.plotting.linear.plot_linearm"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot_linearm()</span></code></a> documents its
+<code class="docutils literal notranslate"><span class="pre">highlight_thresh</span></code> / <code class="docutils literal notranslate"><span class="pre">highlight_window</span></code> parameters.</p></li>
+<li><p><strong>``pycmplot.qq_single`` was missing, and ``from pycmplot import *``
+failed.</strong>  <code class="docutils literal notranslate"><span class="pre">qq_single</span></code> (one QQ plot drawn onto an <code class="docutils literal notranslate"><span class="pre">Axes</span></code> you
+supply, for custom and multi-panel figures) was listed in
+<code class="docutils literal notranslate"><span class="pre">pycmplot.__all__</span></code> but never imported, so <code class="docutils literal notranslate"><span class="pre">pycmplot.qq_single</span></code>
+raised <code class="docutils literal notranslate"><span class="pre">AttributeError</span></code> (although <code class="docutils literal notranslate"><span class="pre">plot_qq_single</span></code>’s deprecation
+warning points users to it) and any <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">pycmplot</span> <span class="pre">import</span> <span class="pre">*</span></code>
+failed.  It is now exported; the deprecated <code class="docutils literal notranslate"><span class="pre">plot_qq_single</span></code> is
+listed once, among the deprecated aliases.
+<code class="xref py py-mod docutils literal notranslate"><span class="pre">pycmplot.plotting</span></code> now also exports the current names
+(<code class="docutils literal notranslate"><span class="pre">linear</span></code>, <code class="docutils literal notranslate"><span class="pre">circular</span></code>, <code class="docutils literal notranslate"><span class="pre">qq_single</span></code>, <code class="docutils literal notranslate"><span class="pre">qq_combined</span></code>,
+<code class="docutils literal notranslate"><span class="pre">qq_separate</span></code>, <code class="docutils literal notranslate"><span class="pre">qq_overlay</span></code>) alongside the deprecated <code class="docutils literal notranslate"><span class="pre">plot_*</span></code>
+aliases, and the API reference describes <code class="docutils literal notranslate"><span class="pre">qq_single</span></code>.  Present in
+released 0.4.2.</p></li>
+<li><p><strong>Circular plot crashed when no chromosome’s data started near its
+first base.</strong>  The track labels in the spacer sector were placed at
+<code class="docutils literal notranslate"><span class="pre">(end</span> <span class="pre">-</span> <span class="pre">start)</span> <span class="pre">/</span> <span class="pre">6</span></code>, a width rather than a position, so pycirclize
+raised <code class="docutils literal notranslate"><span class="pre">ValueError:</span> <span class="pre">...</span> <span class="pre">is</span> <span class="pre">invalid</span> <span class="pre">range</span> <span class="pre">of</span> <span class="pre">'Spacer1'</span> <span class="pre">sector</span></code>
+whenever that sector did not start at 0 (e.g. regional or heavily
+trimmed summary statistics).  Labels are now placed one sixth into
+the sector; plots whose spacer starts at 0, as with genome-wide
+data, are unchanged.  Present in released 0.4.2.</p></li>
+<li><p><strong>cCRE, CpG, DNase and TFBS tracks now used in the LD-block
+tie-break.</strong>  The UCSC functional-annotation entry above describes
+them breaking ties between variants with identical P-values when
+choosing each lead’s annotation representative (<code class="docutils literal notranslate"><span class="pre">annot_pos</span></code>), but
+they were never loaded: only GeneHancer and GTEx eQTL scored.  All six
+tracks now contribute, with the weights in
+<a class="reference internal" href="api/annotation.html#pycmplot.annotation.position_informativeness_score" title="pycmplot.annotation.position_informativeness_score"><code class="xref py py-func docutils literal notranslate"><span class="pre">position_informativeness_score()</span></code></a>: eQTL
+3.0 and GeneHancer 2.0 when they link to a candidate gene of the
+locus (a protein-coding gene within the annotation window of the
+lead, <code class="docutils literal notranslate"><span class="pre">-aw</span></code>, default 500 kb; new helper
+<a class="reference internal" href="api/annotation.html#pycmplot.annotation.candidate_gene_pool" title="pycmplot.annotation.candidate_gene_pool"><code class="xref py py-func docutils literal notranslate"><span class="pre">candidate_gene_pool()</span></code></a>), otherwise 1.5 and
+1.0; cCRE 1.5, CpG 1.0, DNase 1.0, TFBS 0.5.  Overlaps use each
+file’s coordinate convention (BED for the UCSC tracks).  Only tied variants are affected; the statistical lead
+(<code class="docutils literal notranslate"><span class="pre">SNP</span></code> / <code class="docutils literal notranslate"><span class="pre">POS</span></code>) never changes.  Each track file is now read once
+per run and shared between the tie-break, gene scoring and the
+hits-table columns (a GeneHancer-enabled load of one track went from
+about 16 s to 11 s in testing).  Affected unreleased 0.4.3 code only.</p></li>
+</ul>
+<p>—</p>
+</section>
+<section id="id2">
+<h2>0.4.2 - 2026-09-12<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
 <p><strong>Added</strong></p>
 <ul>
 <li><p><strong>Signed-statistic support in the loader (iHS / XP-EHH / Fay &amp; Wu’s
@@ -381,7 +1277,7 @@ distribution contribute leads.  The original signed column stays
 in <code class="docutils literal notranslate"><span class="pre">P</span></code> and drives the y-axis unchanged.</p></li>
 <li><p>Requires an explicit <code class="docutils literal notranslate"><span class="pre">signif_threshold</span></code> — the p-value fallback
 <code class="docutils literal notranslate"><span class="pre">max(0.05/N,</span> <span class="pre">5e-8)</span></code> is meaningless on <code class="docutils literal notranslate"><span class="pre">|value|</span></code>.  Loader raises
-a clear <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValueError</span></code></a> pointing at the missing threshold.</p></li>
+a clear <a class="reference external" href="https://docs.python.org/3/builtins/exceptions.html#ValueError" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValueError</span></code></a> pointing at the missing threshold.</p></li>
 <li><p>Records a mirrored <code class="docutils literal notranslate"><span class="pre">genome_neg</span> <span class="pre">=</span> <span class="pre">-signif_threshold</span></code> (and
 <code class="docutils literal notranslate"><span class="pre">suggestive_neg</span></code> where applicable) in the per-track
 <code class="docutils literal notranslate"><span class="pre">signif_lines</span></code> dict.  Linear and circular plotters draw both
@@ -412,51 +1308,6 @@ overlay), then tighten annotation stringency at plot time.  Backed
 by a new <a class="reference internal" href="api/annotation.html#pycmplot.annotation.filter_hits_by_signif" title="pycmplot.annotation.filter_hits_by_signif"><code class="xref py py-func docutils literal notranslate"><span class="pre">pycmplot.annotation.filter_hits_by_signif()</span></code></a> helper
 that auto-detects signed vs unsigned by inspecting the hits table’s
 <code class="docutils literal notranslate"><span class="pre">P</span></code> column.</p></li>
-</ul>
-<p><strong>Fixed</strong></p>
-<ul class="simple">
-<li><p><strong>``signif_threshold`` now propagates into the drawn reference
-line.</strong>  The loader was re-initialising <code class="docutils literal notranslate"><span class="pre">resolved_signif_line</span></code>
-from <code class="docutils literal notranslate"><span class="pre">max(0.05/N,</span> <span class="pre">5e-8)</span></code> on every iteration regardless of the
-supplied <code class="docutils literal notranslate"><span class="pre">signif_threshold</span></code>.  For unsigned data the two values
-coincidentally agreed; for signed data
-<code class="docutils literal notranslate"><span class="pre">signif_threshold=4</span></code> was set correctly for lead-picking but the
-reference line silently rendered at <code class="docutils literal notranslate"><span class="pre">5e-8</span></code> (a p-value scale) instead
-of at <code class="docutils literal notranslate"><span class="pre">4</span></code>.  <code class="docutils literal notranslate"><span class="pre">resolved_signif_line</span></code> now initialises from
-<code class="docutils literal notranslate"><span class="pre">signif_threshold</span></code> and is only overridden by an explicit
-<code class="docutils literal notranslate"><span class="pre">signif_line=&lt;float&gt;</span></code>.  Bonus: on unsigned data, a hand-picked
-<code class="docutils literal notranslate"><span class="pre">signif_threshold</span></code> (e.g. <code class="docutils literal notranslate"><span class="pre">1e-6</span></code>) that used to disagree with the
-drawn line now matches by default; pass <code class="docutils literal notranslate"><span class="pre">signif_line=&lt;value&gt;</span></code>
-to keep them different.</p></li>
-<li><p><strong>``prep()`` column resolution: additions to ``pvl_candidates``
-are now honored.</strong>  The per-file inner loop was rebuilding
-<code class="docutils literal notranslate"><span class="pre">pvl_cands</span></code> from a hard-coded literal list, silently discarding
-any additions made to <code class="docutils literal notranslate"><span class="pre">pvl_candidates</span></code> at function scope (e.g.
-<code class="docutils literal notranslate"><span class="pre">IHS</span></code>, <code class="docutils literal notranslate"><span class="pre">RSB</span></code>, <code class="docutils literal notranslate"><span class="pre">LOGP</span></code>).  The rebuild is removed; the outer
-list is now the single source of truth.</p></li>
-<li><p><strong>``prep()`` user-supplied column hints now take priority.</strong>
-Two-pass resolution: (1) case-insensitive match against the file
-header for <code class="docutils literal notranslate"><span class="pre">chrom</span></code> / <code class="docutils literal notranslate"><span class="pre">pos</span></code> / <code class="docutils literal notranslate"><span class="pre">snp</span></code> / <code class="docutils literal notranslate"><span class="pre">pcol</span></code> if the user
-supplied one; (2) leftmost header column matching any built-in
-candidate.  Fixes the bug where a header like
-<code class="docutils literal notranslate"><span class="pre">SNP</span> <span class="pre">CHR</span> <span class="pre">POSITION</span> <span class="pre">IHS</span> <span class="pre">LOGPVALUE</span> <span class="pre">P</span> <span class="pre">BH_adj_P</span> <span class="pre">Bonf</span></code> resolved the
-p-value column to <code class="docutils literal notranslate"><span class="pre">IHS</span></code> (leftmost header match against the
-candidate <em>set</em>) even when the user explicitly passed <code class="docutils literal notranslate"><span class="pre">pcol=&quot;P&quot;</span></code>.
-A hint that names a column not present in the header now errors
-out clearly rather than silently falling back to a different
-column.</p></li>
-</ul>
-<p><strong>Docs</strong></p>
-<ul class="simple">
-<li><p>Tutorial note under <span class="xref std std-ref">cli-tut-linear</span> explaining signed-stat
-behavior for iHS / XP-EHH and how <code class="docutils literal notranslate"><span class="pre">signif_threshold</span></code> /
-<code class="docutils literal notranslate"><span class="pre">highlight_thresh</span></code> are applied on <code class="docutils literal notranslate"><span class="pre">|value|</span></code>.</p></li>
-</ul>
-</section>
-<section id="id2">
-<h2>0.4.1 - 2026-08-23<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
-<p><strong>Added</strong></p>
-<ul class="simple">
 <li><p><strong>``highlight_legend`` on/off toggle on both plotters.</strong>  A
 boolean parameter (default <code class="docutils literal notranslate"><span class="pre">True</span></code>) that suppresses the
 “Highlighted Categories” legend entirely when set to <code class="docutils literal notranslate"><span class="pre">False</span></code>.
@@ -485,6 +1336,94 @@ formerly <code class="docutils literal notranslate"><span class="pre">&quot;uppe
 avoid overlapping the annotation panel on the right side.  Shared
 translation helper:
 <a class="reference internal" href="api/annotation.html#pycmplot.annotation.resolve_highlight_legend_placement" title="pycmplot.annotation.resolve_highlight_legend_placement"><code class="xref py py-func docutils literal notranslate"><span class="pre">resolve_highlight_legend_placement()</span></code></a>.</p></li>
+<li><p><strong>Per-file ``col:&lt;name&gt;`` (or bare ``col`` / ``C``) token in
+``–build`` / ``build_list=``.</strong>
+Individual entries can now be either a literal build name
+(<code class="docutils literal notranslate"><span class="pre">hg18</span></code>/<code class="docutils literal notranslate"><span class="pre">hg19</span></code>/<code class="docutils literal notranslate"><span class="pre">hg38</span></code> and their aliases — the original
+behaviour) <em>or</em> a column reference of the form <code class="docutils literal notranslate"><span class="pre">col:&lt;colname&gt;</span></code>
+(equivalently <code class="docutils literal notranslate"><span class="pre">C:&lt;colname&gt;</span></code>), meaning “for this file, source
+per-row builds from the named column”.  This is the escape hatch
+for the awkward case where most files declare a single literal
+build but one file happens to carry a per-row build column with
+a non-standard name that pycmplot’s auto-detector can’t find.
+Example: <code class="docutils literal notranslate"><span class="pre">--build</span> <span class="pre">hg19,hg38,col:my_build</span></code> treats file 1 as
+entirely hg19, file 2 as entirely hg38, and reads file 3’s builds
+row-by-row from its <code class="docutils literal notranslate"><span class="pre">my_build</span></code> column.  Column lookup is
+case-insensitive; a missing column errors upfront naming the
+offending file and requested column.  Combines transparently with
+the group-level mixed-build detection (see <em>Fixed (liftover)</em>
+below), so any hg18/hg19 rows surfaced via the referenced column
+are still lifted to hg38.  For the common case where the user
+knows a file has <em>some</em> build column but doesn’t want to look up
+its exact name, a bare marker — <code class="docutils literal notranslate"><span class="pre">col</span></code>, <code class="docutils literal notranslate"><span class="pre">column</span></code>, <code class="docutils literal notranslate"><span class="pre">C</span></code>,
+<code class="docutils literal notranslate"><span class="pre">col:</span></code>, <code class="docutils literal notranslate"><span class="pre">C:</span></code> — also works: pycmplot then falls back to the
+standard <code class="docutils literal notranslate"><span class="pre">BUILD</span></code> / <code class="docutils literal notranslate"><span class="pre">Genome</span></code> / <code class="docutils literal notranslate"><span class="pre">Genome_Build</span></code> /
+<code class="docutils literal notranslate"><span class="pre">Genome-build</span></code> candidate list, and only errors out (with a
+friendly hint) if none of them appears in that file’s header.</p></li>
+<li><p><strong>Batch editing across all three overlay backends.</strong>  For overlays
+with dozens to hundreds of loci, single-cell editing was tedious.
+Three new mechanisms, all using the same pandas
+<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.query.html#pandas.DataFrame.query" title="(in pandas v3.0.6)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">query()</span></code></a> grammar so users learn one syntax:</p>
+<ul>
+<li><p><strong>TUI</strong>: <code class="docutils literal notranslate"><span class="pre">/</span></code> opens a filter modal (grid re-renders to matching
+rows); <code class="docutils literal notranslate"><span class="pre">Space</span></code> toggles row selection; <code class="docutils literal notranslate"><span class="pre">Ctrl+A</span></code> selects every
+filtered row; <code class="docutils literal notranslate"><span class="pre">Ctrl+E</span></code> opens a batch-edit modal with a
+column-toggle (<code class="docutils literal notranslate"><span class="pre">highlight_color</span></code> / <code class="docutils literal notranslate"><span class="pre">category</span></code>), value input,
+and live colour swatch — one value applied to every selected
+row.  Selection is keyed on the <em>original</em> dataframe index so
+it survives filtering and refresh; <code class="docutils literal notranslate"><span class="pre">Esc</span></code> clears both filter
+and selection in one keystroke.  When no rows are explicitly
+selected, batch-edit falls back to “the current filtered view”
+— so <code class="docutils literal notranslate"><span class="pre">/</span> <span class="pre">…</span> <span class="pre">Ctrl+E</span></code> is a two-step batch flow.</p></li>
+<li><p><strong>New</strong> <code class="docutils literal notranslate"><span class="pre">pycmplot</span> <span class="pre">hits</span></code> <strong>CLI</strong>.  Scriptable batch operations
+over the same overlay files, no GUI required:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pycmplot</span> <span class="n">hits</span> <span class="nb">list</span>  <span class="o">--</span><span class="n">cache_dir</span> <span class="n">X</span> <span class="p">[</span><span class="o">--</span><span class="n">where</span> <span class="n">EXPR</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">columns</span> <span class="n">CHR</span><span class="p">,</span><span class="n">POS</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">tsv</span><span class="p">]</span>
+<span class="n">pycmplot</span> <span class="n">hits</span> <span class="nb">set</span>   <span class="o">--</span><span class="n">cache_dir</span> <span class="n">X</span> <span class="o">--</span><span class="n">where</span> <span class="n">EXPR</span> <span class="p">[</span><span class="o">--</span><span class="n">color</span> <span class="n">VAL</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">category</span> <span class="n">VAL</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">dry</span><span class="o">-</span><span class="n">run</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">--dry-run</span></code> prints the N rows that would change and exits
+without writing.  Invalid colours are rejected pre-write; a bad
+<code class="docutils literal notranslate"><span class="pre">--where</span></code> prints the offending expression cleanly rather than
+a pandas traceback.  The CLI needs no extras — ideal for
+headless CI / Makefile steps that reproducibly apply a colouring
+policy.</p>
+</li>
+</ul>
+</li>
+<li><p><strong>Terminal-UI editor for the hits overlay TSV.</strong>  A second
+backend for the <code class="docutils literal notranslate"><span class="pre">pycmplot</span> <span class="pre">edit</span></code> subcommand, selected via the
+<code class="docutils literal notranslate"><span class="pre">--tui</span></code> flag, renders a Textual-based spreadsheet directly in
+the terminal — no browser or port forwarding needed.  Ideal for
+SSH-only cluster sessions where the browser backend isn’t
+usable.  Feature parity with the Streamlit backend: cell edits
+via an F2/Enter modal with a live truecolor swatch preview,
+category autocomplete-by-hint, add/delete user rows, save via
+Ctrl+S (writes through
+<code class="xref py py-func docutils literal notranslate"><span class="pre">write_hits_overlay()</span></code>), and a Ctrl+P
+preview that renders a matplotlib PNG to
+<code class="docutils literal notranslate"><span class="pre">&lt;cache_dir&gt;/preview.png</span></code>.  Install with
+<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">&quot;pycmplot[editor-tui]&quot;</span></code> — the two backends are
+independent extras, so users can install just the one they need
+(or both).</p></li>
+<li><p><strong>Browser-based editor for the hits overlay TSV.</strong>  A new
+<code class="docutils literal notranslate"><span class="pre">pycmplot</span> <span class="pre">edit</span> <span class="pre">--cache_dir</span> <span class="pre">&lt;path&gt;</span></code> subcommand launches a local
+Streamlit app that presents the <code class="docutils literal notranslate"><span class="pre">hits.&lt;group&gt;.tsv</span></code> as a typed
+data-editor grid — <code class="docutils literal notranslate"><span class="pre">source</span></code> as an <code class="docutils literal notranslate"><span class="pre">auto</span></code>/<code class="docutils literal notranslate"><span class="pre">user</span></code> dropdown,
+<code class="docutils literal notranslate"><span class="pre">category</span></code> as an autocomplete-with-add selectbox, and
+<code class="docutils literal notranslate"><span class="pre">highlight_color</span></code> as a text field backed by a live colour-swatch
+preview strip (valid colours render at their true colour, <code class="docutils literal notranslate"><span class="pre">auto</span></code>
+shows as a dashed grey chip, invalid values render red).  Save
+delegates to <code class="xref py py-func docutils literal notranslate"><span class="pre">write_hits_overlay()</span></code> so the
+atomic-write and inheritance-across-regeneration guarantees hold
+identically to the text-editor workflow; a “Preview plot” button
+re-renders a linear Manhattan against the cached tracks and the
+in-memory overlay so users see changes reflected before saving.
+Streamlit is an <strong>optional extra</strong> — install with
+<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">&quot;pycmplot[editor]&quot;</span></code> — so headless / CI pipelines
+don’t pay the install cost.  The <code class="docutils literal notranslate"><span class="pre">edit</span></code> subcommand is dispatched
+via a preflight in <code class="xref py py-func docutils literal notranslate"><span class="pre">main()</span></code> (rather than an
+argparse subparser) so existing <code class="docutils literal notranslate"><span class="pre">pycmplot</span> <span class="pre">--sum_stats</span> <span class="pre">…</span></code>
+invocations remain unchanged.</p></li>
 </ul>
 <p><strong>BREAKING (public API) — soft-deprecation, not removal</strong></p>
 <ul>
@@ -550,73 +1489,6 @@ names will see the warning.</p>
 <code class="docutils literal notranslate"><span class="pre">m</span></code> suffix — they signal “give me an axes and I’ll render” and
 aren’t the recommended entry point.</p>
 </li>
-</ul>
-<p><strong>Added</strong></p>
-<ul class="simple">
-<li><p><strong>Per-file ``col:&lt;name&gt;`` (or bare ``col`` / ``C``) token in
-``–build`` / ``build_list=``.</strong>
-Individual entries can now be either a literal build name
-(<code class="docutils literal notranslate"><span class="pre">hg18</span></code>/<code class="docutils literal notranslate"><span class="pre">hg19</span></code>/<code class="docutils literal notranslate"><span class="pre">hg38</span></code> and their aliases — the original
-behaviour) <em>or</em> a column reference of the form <code class="docutils literal notranslate"><span class="pre">col:&lt;colname&gt;</span></code>
-(equivalently <code class="docutils literal notranslate"><span class="pre">C:&lt;colname&gt;</span></code>), meaning “for this file, source
-per-row builds from the named column”.  This is the escape hatch
-for the awkward case where most files declare a single literal
-build but one file happens to carry a per-row build column with
-a non-standard name that pycmplot’s auto-detector can’t find.
-Example: <code class="docutils literal notranslate"><span class="pre">--build</span> <span class="pre">hg19,hg38,col:my_build</span></code> treats file 1 as
-entirely hg19, file 2 as entirely hg38, and reads file 3’s builds
-row-by-row from its <code class="docutils literal notranslate"><span class="pre">my_build</span></code> column.  Column lookup is
-case-insensitive; a missing column errors upfront naming the
-offending file and requested column.  Combines transparently with
-the group-level mixed-build detection (see <em>Fixed (liftover)</em>
-below), so any hg18/hg19 rows surfaced via the referenced column
-are still lifted to hg38.  For the common case where the user
-knows a file has <em>some</em> build column but doesn’t want to look up
-its exact name, a bare marker — <code class="docutils literal notranslate"><span class="pre">col</span></code>, <code class="docutils literal notranslate"><span class="pre">column</span></code>, <code class="docutils literal notranslate"><span class="pre">C</span></code>,
-<code class="docutils literal notranslate"><span class="pre">col:</span></code>, <code class="docutils literal notranslate"><span class="pre">C:</span></code> — also works: pycmplot then falls back to the
-standard <code class="docutils literal notranslate"><span class="pre">BUILD</span></code> / <code class="docutils literal notranslate"><span class="pre">Genome</span></code> / <code class="docutils literal notranslate"><span class="pre">Genome_Build</span></code> /
-<code class="docutils literal notranslate"><span class="pre">Genome-build</span></code> candidate list, and only errors out (with a
-friendly hint) if none of them appears in that file’s header.</p></li>
-</ul>
-<p><strong>Fixed (safety)</strong></p>
-<ul class="simple">
-<li><p><strong>``–clear_cache`` no longer removes the parent ``–cache_dir``
-itself.</strong>  A serious footgun: earlier releases did
-<code class="docutils literal notranslate"><span class="pre">shutil.rmtree(cache_dir)</span></code>, which meant that pointing
-<code class="docutils literal notranslate"><span class="pre">--cache_dir</span></code> at a directory that also held analysis notes,
-plot outputs, or any other unrelated files would silently blow
-everything away.  The clear routine now targets only the three
-artefacts pycmplot writes — <code class="docutils literal notranslate"><span class="pre">metadata.json</span></code>, <code class="docutils literal notranslate"><span class="pre">tracks/</span></code>, and
-<code class="docutils literal notranslate"><span class="pre">annotations/</span></code> — and inside those subdirectories only deletes
-files whose names match the pycmplot filename conventions
-(parquet + leads + pvals sidecars under <code class="docutils literal notranslate"><span class="pre">tracks/</span></code>, and
-<code class="docutils literal notranslate"><span class="pre">hits.&lt;group&gt;.tsv</span></code> / <code class="docutils literal notranslate"><span class="pre">.meta.json</span></code> under <code class="docutils literal notranslate"><span class="pre">annotations/</span></code>).
-Foreign files are kept and reported at INFO level.  The parent
-<code class="docutils literal notranslate"><span class="pre">--cache_dir</span></code> is never removed.  Before deleting
-<code class="docutils literal notranslate"><span class="pre">metadata.json</span></code> the routine also verifies it looks like a
-pycmplot manifest (has <code class="docutils literal notranslate"><span class="pre">cache_version</span></code> or <code class="docutils literal notranslate"><span class="pre">tracks</span></code> keys) —
-a stray <code class="docutils literal notranslate"><span class="pre">metadata.json</span></code> from another tool is left in place.</p></li>
-</ul>
-<p><strong>Fixed (liftover)</strong></p>
-<ul class="simple">
-<li><p><strong>Cross-file build detection.</strong>  Before this release, the liftover
-trigger only inspected each file’s own <code class="docutils literal notranslate"><span class="pre">BUILD</span></code> column and fired
-liftover when that single file mixed hg19 and hg38 rows.  A loader
-group like <code class="docutils literal notranslate"><span class="pre">build_list=['hg19',</span> <span class="pre">'hg38']</span></code> — where each file was
-internally single-build but the group as a whole was mixed —
-silently left every track in its native coordinate system, so
-cross-track highlight lines drew at different genomic positions
-(bug reported 2026-09-05).  The loader now runs a group-level
-build scan <strong>before</strong> the per-track loop: it collects each track’s
-declared build from <code class="docutils literal notranslate"><span class="pre">build_list=</span></code> (or <code class="docutils literal notranslate"><span class="pre">--build</span></code>) and, when
-absent, from a light-touch <code class="docutils literal notranslate"><span class="pre">pd.read_csv(nrows=2000)</span></code> peek at the
-file’s <code class="docutils literal notranslate"><span class="pre">BUILD</span></code> column.  When more than one distinct build is
-detected across the group, every hg18/hg19 track is lifted over to
-hg38 so that shared coordinates and highlight lines line up.  The
-logger reports which builds were detected and why liftover fired
-(<code class="docutils literal notranslate"><span class="pre">same-file</span> <span class="pre">mixed</span> <span class="pre">builds</span></code> vs.
-<code class="docutils literal notranslate"><span class="pre">cross-file</span> <span class="pre">mixed</span> <span class="pre">builds</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">loader</span> <span class="pre">group</span></code>).  Single-build
-groups (<code class="docutils literal notranslate"><span class="pre">[hg19,</span> <span class="pre">hg19]</span></code>, <code class="docutils literal notranslate"><span class="pre">[hg38]</span></code>, etc.) are unchanged.</p></li>
 </ul>
 <p><strong>Changed (annotation)</strong></p>
 <ul>
@@ -694,6 +1566,79 @@ Column names + values on the hits summary table are unchanged; every
 pre-merge test scenario still passes when routed through the merged
 function.</p></li>
 </ul>
+<p><strong>Fixed</strong></p>
+<ul class="simple">
+<li><p><strong>``signif_threshold`` now propagates into the drawn reference
+line.</strong>  The loader was re-initialising <code class="docutils literal notranslate"><span class="pre">resolved_signif_line</span></code>
+from <code class="docutils literal notranslate"><span class="pre">max(0.05/N,</span> <span class="pre">5e-8)</span></code> on every iteration regardless of the
+supplied <code class="docutils literal notranslate"><span class="pre">signif_threshold</span></code>.  For unsigned data the two values
+coincidentally agreed; for signed data
+<code class="docutils literal notranslate"><span class="pre">signif_threshold=4</span></code> was set correctly for lead-picking but the
+reference line silently rendered at <code class="docutils literal notranslate"><span class="pre">5e-8</span></code> (a p-value scale) instead
+of at <code class="docutils literal notranslate"><span class="pre">4</span></code>.  <code class="docutils literal notranslate"><span class="pre">resolved_signif_line</span></code> now initialises from
+<code class="docutils literal notranslate"><span class="pre">signif_threshold</span></code> and is only overridden by an explicit
+<code class="docutils literal notranslate"><span class="pre">signif_line=&lt;float&gt;</span></code>.  Bonus: on unsigned data, a hand-picked
+<code class="docutils literal notranslate"><span class="pre">signif_threshold</span></code> (e.g. <code class="docutils literal notranslate"><span class="pre">1e-6</span></code>) that used to disagree with the
+drawn line now matches by default; pass <code class="docutils literal notranslate"><span class="pre">signif_line=&lt;value&gt;</span></code>
+to keep them different.</p></li>
+<li><p><strong>``prep()`` column resolution: additions to ``pvl_candidates``
+are now honored.</strong>  The per-file inner loop was rebuilding
+<code class="docutils literal notranslate"><span class="pre">pvl_cands</span></code> from a hard-coded literal list, silently discarding
+any additions made to <code class="docutils literal notranslate"><span class="pre">pvl_candidates</span></code> at function scope (e.g.
+<code class="docutils literal notranslate"><span class="pre">IHS</span></code>, <code class="docutils literal notranslate"><span class="pre">RSB</span></code>, <code class="docutils literal notranslate"><span class="pre">LOGP</span></code>).  The rebuild is removed; the outer
+list is now the single source of truth.</p></li>
+<li><p><strong>``prep()`` user-supplied column hints now take priority.</strong>
+Two-pass resolution: (1) case-insensitive match against the file
+header for <code class="docutils literal notranslate"><span class="pre">chrom</span></code> / <code class="docutils literal notranslate"><span class="pre">pos</span></code> / <code class="docutils literal notranslate"><span class="pre">snp</span></code> / <code class="docutils literal notranslate"><span class="pre">pcol</span></code> if the user
+supplied one; (2) leftmost header column matching any built-in
+candidate.  Fixes the bug where a header like
+<code class="docutils literal notranslate"><span class="pre">SNP</span> <span class="pre">CHR</span> <span class="pre">POSITION</span> <span class="pre">IHS</span> <span class="pre">LOGPVALUE</span> <span class="pre">P</span> <span class="pre">BH_adj_P</span> <span class="pre">Bonf</span></code> resolved the
+p-value column to <code class="docutils literal notranslate"><span class="pre">IHS</span></code> (leftmost header match against the
+candidate <em>set</em>) even when the user explicitly passed <code class="docutils literal notranslate"><span class="pre">pcol=&quot;P&quot;</span></code>.
+A hint that names a column not present in the header now errors
+out clearly rather than silently falling back to a different
+column.</p></li>
+</ul>
+<p><strong>Fixed (safety)</strong></p>
+<ul class="simple">
+<li><p><strong>``–clear_cache`` no longer removes the parent ``–cache_dir``
+itself.</strong>  A serious footgun: earlier releases did
+<code class="docutils literal notranslate"><span class="pre">shutil.rmtree(cache_dir)</span></code>, which meant that pointing
+<code class="docutils literal notranslate"><span class="pre">--cache_dir</span></code> at a directory that also held analysis notes,
+plot outputs, or any other unrelated files would silently blow
+everything away.  The clear routine now targets only the three
+artefacts pycmplot writes — <code class="docutils literal notranslate"><span class="pre">metadata.json</span></code>, <code class="docutils literal notranslate"><span class="pre">tracks/</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">annotations/</span></code> — and inside those subdirectories only deletes
+files whose names match the pycmplot filename conventions
+(parquet + leads + pvals sidecars under <code class="docutils literal notranslate"><span class="pre">tracks/</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">hits.&lt;group&gt;.tsv</span></code> / <code class="docutils literal notranslate"><span class="pre">.meta.json</span></code> under <code class="docutils literal notranslate"><span class="pre">annotations/</span></code>).
+Foreign files are kept and reported at INFO level.  The parent
+<code class="docutils literal notranslate"><span class="pre">--cache_dir</span></code> is never removed.  Before deleting
+<code class="docutils literal notranslate"><span class="pre">metadata.json</span></code> the routine also verifies it looks like a
+pycmplot manifest (has <code class="docutils literal notranslate"><span class="pre">cache_version</span></code> or <code class="docutils literal notranslate"><span class="pre">tracks</span></code> keys) —
+a stray <code class="docutils literal notranslate"><span class="pre">metadata.json</span></code> from another tool is left in place.</p></li>
+</ul>
+<p><strong>Fixed (liftover)</strong></p>
+<ul class="simple">
+<li><p><strong>Cross-file build detection.</strong>  Before this release, the liftover
+trigger only inspected each file’s own <code class="docutils literal notranslate"><span class="pre">BUILD</span></code> column and fired
+liftover when that single file mixed hg19 and hg38 rows.  A loader
+group like <code class="docutils literal notranslate"><span class="pre">build_list=['hg19',</span> <span class="pre">'hg38']</span></code> — where each file was
+internally single-build but the group as a whole was mixed —
+silently left every track in its native coordinate system, so
+cross-track highlight lines drew at different genomic positions
+(bug reported 2026-09-05).  The loader now runs a group-level
+build scan <strong>before</strong> the per-track loop: it collects each track’s
+declared build from <code class="docutils literal notranslate"><span class="pre">build_list=</span></code> (or <code class="docutils literal notranslate"><span class="pre">--build</span></code>) and, when
+absent, from a light-touch <code class="docutils literal notranslate"><span class="pre">pd.read_csv(nrows=2000)</span></code> peek at the
+file’s <code class="docutils literal notranslate"><span class="pre">BUILD</span></code> column.  When more than one distinct build is
+detected across the group, every hg18/hg19 track is lifted over to
+hg38 so that shared coordinates and highlight lines line up.  The
+logger reports which builds were detected and why liftover fired
+(<code class="docutils literal notranslate"><span class="pre">same-file</span> <span class="pre">mixed</span> <span class="pre">builds</span></code> vs.
+<code class="docutils literal notranslate"><span class="pre">cross-file</span> <span class="pre">mixed</span> <span class="pre">builds</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">loader</span> <span class="pre">group</span></code>).  Single-build
+groups (<code class="docutils literal notranslate"><span class="pre">[hg19,</span> <span class="pre">hg19]</span></code>, <code class="docutils literal notranslate"><span class="pre">[hg38]</span></code>, etc.) are unchanged.</p></li>
+</ul>
 <p><strong>Fixed (annotation)</strong></p>
 <ul class="simple">
 <li><p><strong>``nearest_upstream_gene`` / ``nearest_downstream_gene`` now use
@@ -728,9 +1673,55 @@ regardless of side.  This is what users typically mean by
 (with a fallback to <code class="docutils literal notranslate"><span class="pre">nearest_upstream_gene</span></code> when reading legacy
 cached hits tables that predate the new column).</p></li>
 </ul>
+<p><strong>Docs</strong></p>
+<ul class="simple">
+<li><p>Tutorial note under <span class="xref std std-ref">cli-tut-linear</span> explaining signed-stat
+behavior for iHS / XP-EHH and how <code class="docutils literal notranslate"><span class="pre">signif_threshold</span></code> /
+<code class="docutils literal notranslate"><span class="pre">highlight_thresh</span></code> are applied on <code class="docutils literal notranslate"><span class="pre">|value|</span></code>.</p></li>
+</ul>
+<p>—</p>
 </section>
 <section id="id3">
-<h2>0.4.0 - 2026-08-13<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<h2>0.4.1 - 2026-08-23<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<p><strong>Added</strong></p>
+<ul class="simple">
+<li><p><strong>``track_label_size`` and ``chrom_label_size`` on the linear
+plotters.</strong>  <a class="reference internal" href="api/plotting.html#pycmplot.plotting.linear.plot_linear" title="pycmplot.plotting.linear.plot_linear"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot_linear()</span></code></a> and
+<a class="reference internal" href="api/plotting.html#pycmplot.plotting.linear.plot_linearm" title="pycmplot.plotting.linear.plot_linearm"><code class="xref py py-func docutils literal notranslate"><span class="pre">plot_linearm()</span></code></a> gain both parameters
+(default <code class="docutils literal notranslate"><span class="pre">6</span></code>).  <code class="docutils literal notranslate"><span class="pre">track_label_size</span></code> sets the track-label font
+size, which was previously fixed at <code class="docutils literal notranslate"><span class="pre">10</span></code>, so track labels are
+smaller by default.  <code class="docutils literal notranslate"><span class="pre">chrom_label_size</span></code> is accepted but not yet
+applied.</p></li>
+<li><p><strong>``ax`` parameter on the linear plotters</strong> for multi-panel
+figures.  Accepted and documented, but not yet applied: the linear
+plotter still creates its own figure.</p></li>
+</ul>
+<p><strong>Changed</strong></p>
+<ul class="simple">
+<li><p><strong>Linear plot guide lines</strong> (<code class="docutils literal notranslate"><span class="pre">highlight_line=True</span></code>) are now drawn
+once, at each position in the hits table, above the data points
+(<code class="docutils literal notranslate"><span class="pre">zorder=4</span></code>).  Previously a line was drawn at every highlighted
+variant, separately for each track, beneath the data (<code class="docutils literal notranslate"><span class="pre">zorder=0</span></code>).</p></li>
+<li><p><strong>Circular highlight legend moved to the upper right</strong>
+(<code class="docutils literal notranslate"><span class="pre">loc=&quot;upper</span> <span class="pre">right&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">bbox_to_anchor=(1.05,</span> <span class="pre">1.1)</span></code>); previously
+upper left (<code class="docutils literal notranslate"><span class="pre">bbox_to_anchor=(-0.05,</span> <span class="pre">0.0)</span></code>).</p></li>
+</ul>
+<p><strong>Removed</strong></p>
+<ul class="simple">
+<li><p><strong>Unused ``highlight_thresh`` parameter</strong> of
+<a class="reference internal" href="api/plotting.html#pycmplot.plotting.circular.circular" title="pycmplot.plotting.circular.circular"><code class="xref py py-func docutils literal notranslate"><span class="pre">circular()</span></code></a>.  It was accepted but
+had no effect; the CLI no longer passes it.</p></li>
+</ul>
+<p><strong>Fixed</strong></p>
+<ul class="simple">
+<li><p><strong>Hits overlay writes missing values as ``NA``</strong> instead of empty
+fields, so hand-edited <code class="docutils literal notranslate"><span class="pre">hits.&lt;group&gt;.tsv</span></code> files round-trip
+cleanly.</p></li>
+</ul>
+<p>—</p>
+</section>
+<section id="id4">
+<h2>0.4.0 - 2026-08-13<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
 <p><strong>Changed</strong></p>
 <ul class="simple">
 <li><p><strong>QQ plot legend no longer includes a “95% CI” entry.</strong>  The CI
@@ -806,70 +1797,6 @@ workflows are unaffected.</p>
 </ul>
 <p><strong>Added</strong></p>
 <ul>
-<li><p><strong>Batch editing across all three overlay backends.</strong>  For overlays
-with dozens to hundreds of loci, single-cell editing was tedious.
-Three new mechanisms, all using the same pandas
-<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.query.html#pandas.DataFrame.query" title="(in pandas v3.0.5)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">query()</span></code></a> grammar so users learn one syntax:</p>
-<ul>
-<li><p><strong>TUI</strong>: <code class="docutils literal notranslate"><span class="pre">/</span></code> opens a filter modal (grid re-renders to matching
-rows); <code class="docutils literal notranslate"><span class="pre">Space</span></code> toggles row selection; <code class="docutils literal notranslate"><span class="pre">Ctrl+A</span></code> selects every
-filtered row; <code class="docutils literal notranslate"><span class="pre">Ctrl+E</span></code> opens a batch-edit modal with a
-column-toggle (<code class="docutils literal notranslate"><span class="pre">highlight_color</span></code> / <code class="docutils literal notranslate"><span class="pre">category</span></code>), value input,
-and live colour swatch — one value applied to every selected
-row.  Selection is keyed on the <em>original</em> dataframe index so
-it survives filtering and refresh; <code class="docutils literal notranslate"><span class="pre">Esc</span></code> clears both filter
-and selection in one keystroke.  When no rows are explicitly
-selected, batch-edit falls back to “the current filtered view”
-— so <code class="docutils literal notranslate"><span class="pre">/</span> <span class="pre">…</span> <span class="pre">Ctrl+E</span></code> is a two-step batch flow.</p></li>
-<li><p><strong>New</strong> <code class="docutils literal notranslate"><span class="pre">pycmplot</span> <span class="pre">hits</span></code> <strong>CLI</strong>.  Scriptable batch operations
-over the same overlay files, no GUI required:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pycmplot</span> <span class="n">hits</span> <span class="nb">list</span>  <span class="o">--</span><span class="n">cache_dir</span> <span class="n">X</span> <span class="p">[</span><span class="o">--</span><span class="n">where</span> <span class="n">EXPR</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">columns</span> <span class="n">CHR</span><span class="p">,</span><span class="n">POS</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">tsv</span><span class="p">]</span>
-<span class="n">pycmplot</span> <span class="n">hits</span> <span class="nb">set</span>   <span class="o">--</span><span class="n">cache_dir</span> <span class="n">X</span> <span class="o">--</span><span class="n">where</span> <span class="n">EXPR</span> <span class="p">[</span><span class="o">--</span><span class="n">color</span> <span class="n">VAL</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">category</span> <span class="n">VAL</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">dry</span><span class="o">-</span><span class="n">run</span><span class="p">]</span>
-</pre></div>
-</div>
-<p><code class="docutils literal notranslate"><span class="pre">--dry-run</span></code> prints the N rows that would change and exits
-without writing.  Invalid colours are rejected pre-write; a bad
-<code class="docutils literal notranslate"><span class="pre">--where</span></code> prints the offending expression cleanly rather than
-a pandas traceback.  The CLI needs no extras — ideal for
-headless CI / Makefile steps that reproducibly apply a colouring
-policy.</p>
-</li>
-</ul>
-</li>
-<li><p><strong>Terminal-UI editor for the hits overlay TSV.</strong>  A second
-backend for the <code class="docutils literal notranslate"><span class="pre">pycmplot</span> <span class="pre">edit</span></code> subcommand, selected via the
-<code class="docutils literal notranslate"><span class="pre">--tui</span></code> flag, renders a Textual-based spreadsheet directly in
-the terminal — no browser or port forwarding needed.  Ideal for
-SSH-only cluster sessions where the browser backend isn’t
-usable.  Feature parity with the Streamlit backend: cell edits
-via an F2/Enter modal with a live truecolor swatch preview,
-category autocomplete-by-hint, add/delete user rows, save via
-Ctrl+S (writes through
-<code class="xref py py-func docutils literal notranslate"><span class="pre">write_hits_overlay()</span></code>), and a Ctrl+P
-preview that renders a matplotlib PNG to
-<code class="docutils literal notranslate"><span class="pre">&lt;cache_dir&gt;/preview.png</span></code>.  Install with
-<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">&quot;pycmplot[editor-tui]&quot;</span></code> — the two backends are
-independent extras, so users can install just the one they need
-(or both).</p></li>
-<li><p><strong>Browser-based editor for the hits overlay TSV.</strong>  A new
-<code class="docutils literal notranslate"><span class="pre">pycmplot</span> <span class="pre">edit</span> <span class="pre">--cache_dir</span> <span class="pre">&lt;path&gt;</span></code> subcommand launches a local
-Streamlit app that presents the <code class="docutils literal notranslate"><span class="pre">hits.&lt;group&gt;.tsv</span></code> as a typed
-data-editor grid — <code class="docutils literal notranslate"><span class="pre">source</span></code> as an <code class="docutils literal notranslate"><span class="pre">auto</span></code>/<code class="docutils literal notranslate"><span class="pre">user</span></code> dropdown,
-<code class="docutils literal notranslate"><span class="pre">category</span></code> as an autocomplete-with-add selectbox, and
-<code class="docutils literal notranslate"><span class="pre">highlight_color</span></code> as a text field backed by a live colour-swatch
-preview strip (valid colours render at their true colour, <code class="docutils literal notranslate"><span class="pre">auto</span></code>
-shows as a dashed grey chip, invalid values render red).  Save
-delegates to <code class="xref py py-func docutils literal notranslate"><span class="pre">write_hits_overlay()</span></code> so the
-atomic-write and inheritance-across-regeneration guarantees hold
-identically to the text-editor workflow; a “Preview plot” button
-re-renders a linear Manhattan against the cached tracks and the
-in-memory overlay so users see changes reflected before saving.
-Streamlit is an <strong>optional extra</strong> — install with
-<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">&quot;pycmplot[editor]&quot;</span></code> — so headless / CI pipelines
-don’t pay the install cost.  The <code class="docutils literal notranslate"><span class="pre">edit</span></code> subcommand is dispatched
-via a preflight in <code class="xref py py-func docutils literal notranslate"><span class="pre">main()</span></code> (rather than an
-argparse subparser) so existing <code class="docutils literal notranslate"><span class="pre">pycmplot</span> <span class="pre">--sum_stats</span> <span class="pre">…</span></code>
-invocations remain unchanged.</p></li>
 <li><p><strong>Per-locus categories driving a custom highlight legend.</strong>  The
 auto-generated hits table now carries a <code class="docutils literal notranslate"><span class="pre">category</span></code> column,
 populated with the sentinel <code class="docutils literal notranslate"><span class="pre">&quot;significant&quot;</span></code> at cache-write time.
@@ -1054,8 +1981,8 @@ user-editable hits overlay design.</p></li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id4">
-<h2>0.3.1 - 2026-07-31<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<section id="id5">
+<h2>0.3.1 - 2026-07-31<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
 <p><strong>Fixed</strong></p>
 <ul class="simple">
 <li><p><strong>LiftOver hg18/hg19 to hg38</strong></p></li>
@@ -1077,8 +2004,8 @@ Suggestive line inclusion now depends only on whether <code class="docutils lite
 specified.</p>
 </section>
 <hr class="docutils" />
-<section id="id5">
-<h2>0.3.0 - 2026-06-01<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<section id="id6">
+<h2>0.3.0 - 2026-06-01<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
 <p><strong>Fixed</strong></p>
 <ul class="simple">
 <li><p>Bug fix:
@@ -1098,8 +2025,8 @@ circular plotting</p></li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id6">
-<h2>0.2.8 - 2026-05-30<a class="headerlink" href="#id6" title="Link to this heading"></a></h2>
+<section id="id7">
+<h2>0.2.8 - 2026-05-30<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
 <p><strong>Added</strong></p>
 <ul class="simple">
 <li><p><strong>Dual annotation renderer architecture</strong></p></li>
@@ -1228,13 +2155,12 @@ incorrect pairing of chromosomes (e.g. chr3 with chr17) caused by
 <code class="docutils literal notranslate"><span class="pre">set</span></code> iteration order.</p></li>
 </ul>
 </section>
-<section id="id7">
-<h2>0.2.7 - 2026-04-27<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<section id="id8">
+<h2>0.2.7 - 2026-04-27<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
 <p><strong>Added</strong></p>
-<ul class="simple">
-<li><p><strong>Default-on density-aware auto-thinning</strong> for Manhattan / circular</p></li>
-</ul>
-<p>rendering, inspired by <code class="docutils literal notranslate"><span class="pre">gwaslab</span></code> and applied on top of (i.e. in
+<ul>
+<li><p><strong>Default-on density-aware auto-thinning</strong> for Manhattan / circular
+rendering, inspired by <code class="docutils literal notranslate"><span class="pre">gwaslab</span></code> and applied on top of (i.e. in
 addition to) the existing <code class="docutils literal notranslate"><span class="pre">--trim_pval</span></code>.  A new helper
 <a class="reference internal" href="api/io.html#pycmplot.io.auto_thin_for_manhattan" title="pycmplot.io.auto_thin_for_manhattan"><code class="xref py py-func docutils literal notranslate"><span class="pre">auto_thin_for_manhattan()</span></code></a> keeps <strong>every</strong> variant
 whose “interestingness” signal is at or above <code class="docutils literal notranslate"><span class="pre">--auto_thin_threshold</span></code>
@@ -1319,6 +2245,8 @@ in this release, this brings pycmplot’s untrimmed timings to:</p>
 <p>i.e. circular plotting at 5 M variants is now <strong>41x faster</strong> than the
 pre-0.2.7 untrimmed path, and projects to ~38 s at 10 M variants
 (down from ~38 minutes — and faster than CMplot’s circular path).</p>
+</li>
+</ul>
 <p><strong>Performance</strong></p>
 <ul class="simple">
 <li><p>Linear Manhattan rendering switched from <code class="docutils literal notranslate"><span class="pre">ax.scatter</span></code> (one <code class="docutils literal notranslate"><span class="pre">PathCollection</span></code>
@@ -1417,8 +2345,8 @@ were removed).</p></li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id8">
-<h2>0.2.5 - 2026-04-20<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+<section id="id9">
+<h2>0.2.5 - 2026-04-20<a class="headerlink" href="#id9" title="Link to this heading"></a></h2>
 <p><strong>Fixed</strong></p>
 <ul class="simple">
 <li><p>Chromosome-22 positions falling outside hg38 chr22 limits after liftover
@@ -1496,7 +2424,7 @@ GWAS summary statistics.</p></li>
 <li><p>New Jupyter notebook demonstrating QQ-plotting workflows.</p></li>
 <li><p>All module-, class-, and function-level docstrings now use the bare
 <code class="docutils literal notranslate"><span class="pre">&quot;&quot;&quot;...&quot;&quot;&quot;</span></code> form so that Sphinx autodoc / numpydoc and
-<a class="reference external" href="https://docs.python.org/3/library/functions.html#help" title="(in Python v3.14)"><code class="xref py py-func docutils literal notranslate"><span class="pre">help()</span></code></a> render them correctly.</p></li>
+<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#help" title="(in Python v3.14)"><code class="xref py py-func docutils literal notranslate"><span class="pre">help()</span></code></a> render them correctly.</p></li>
 <li><p>Information about the sumstats printed to screen now includes number
 of variants pre and post trimming, memory usage, and progress bar.</p></li>
 </ul>
@@ -1508,8 +2436,8 @@ dtypes from <code class="docutils literal notranslate"><span class="pre">str</sp
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id9">
-<h2>0.2.2 - 2026-04-18<a class="headerlink" href="#id9" title="Link to this heading"></a></h2>
+<section id="id10">
+<h2>0.2.2 - 2026-04-18<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
 <p><strong>Added</strong></p>
 <p>QQ plots (<a class="reference internal" href="api/plotting.html#module-pycmplot.plotting.qq" title="pycmplot.plotting.qq"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pycmplot.plotting.qq</span></code></a>):</p>
 <ul class="simple">
@@ -1578,8 +2506,8 @@ tracks to improve visibility of track labels and y-axis ticks.</p></li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id10">
-<h2>0.2.1 — 2026-04-16<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
+<section id="id11">
+<h2>0.2.1 — 2026-04-16<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
 <p><strong>Added</strong></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">--build</span></code> option for supplying per-file genome builds when the
@@ -1602,8 +2530,8 @@ builds avoids this.</p></li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id11">
-<h2>0.1.9 — 2026-04-14<a class="headerlink" href="#id11" title="Link to this heading"></a></h2>
+<section id="id12">
+<h2>0.1.9 — 2026-04-14<a class="headerlink" href="#id12" title="Link to this heading"></a></h2>
 <p><strong>Fixed</strong></p>
 <ul class="simple">
 <li><p>Column name auto-detection now covers both lower- and upper-case
@@ -1614,8 +2542,8 @@ the CLI equivalent (required instead of optional).</p></li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id12">
-<h2>0.1.8 — 2026-04-14<a class="headerlink" href="#id12" title="Link to this heading"></a></h2>
+<section id="id13">
+<h2>0.1.8 — 2026-04-14<a class="headerlink" href="#id13" title="Link to this heading"></a></h2>
 <p><strong>Added</strong></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">--highlight_color</span></code> and <code class="docutils literal notranslate"><span class="pre">--highlight_line_color</span></code> options.</p></li>
@@ -1629,8 +2557,8 @@ the CLI equivalent (required instead of optional).</p></li>
 </ul>
 </section>
 <hr class="docutils" />
-<section id="id13">
-<h2>0.1.0 — 2026-04-18<a class="headerlink" href="#id13" title="Link to this heading"></a></h2>
+<section id="id14">
+<h2>0.1.0 — 2026-04-18<a class="headerlink" href="#id14" title="Link to this heading"></a></h2>
 <p>Initial release.</p>
 <p><strong>Added</strong></p>
 <p>Package structure:</p>

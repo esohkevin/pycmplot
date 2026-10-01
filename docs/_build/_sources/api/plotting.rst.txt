@@ -41,9 +41,11 @@ pycmplot.plotting.qq
 Produces QQ plots with 95 % beta-distribution confidence bands, optional
 genome-wide significance lines, and genomic inflation (λ) annotation.
 Supports log-uniform point thinning for fast plotting of large datasets.
-Three high-level layouts are provided: combined (grid of per-trait
-panels), separate (one file per trait), and overlay (all traits on one
-shared axes).
+:func:`~pycmplot.qq_single` draws one QQ plot onto a Matplotlib ``Axes``
+you supply, for custom figures and multi-panel layouts (for example a
+QQ panel beside a Manhattan plot).  Three high-level layouts build on
+it: combined (grid of per-trait panels), separate (one file per trait),
+and overlay (all traits on one shared axes).
 
 .. currentmodule:: pycmplot.plotting.qq
 

@@ -1,5 +1,4 @@
 .. _python_api_tutorial:
-.. _python_api_notebook:
 
 Python API Tutorial
 ===================

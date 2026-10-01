@@ -35,7 +35,7 @@
       <script src="../_static/sphinxcontrib-images/LightBox2/lightbox2-customize/jquery-noconflict.js?v=12818e64"></script>
       <script defer="defer" src="https://unpkg.com/@popperjs/core@2"></script>
       <script defer="defer" src="https://unpkg.com/tippy.js@6"></script>
-      <script defer="defer" src="../_static/tippy/api/liftover.81075152-c578-4861-92f2-a82713c63841.js"></script>
+      <script defer="defer" src="../_static/tippy/api/liftover.f461a21a-533f-405d-ae07-071cfc5f60a8.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -101,6 +101,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../cli_tutorial.html#automatic-gene-annotation">Automatic gene annotation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../cli_tutorial.html#distance-semantics">Distance semantics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cli_tutorial.html#functional-annotation-columns">Functional annotation columns</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../cli_tutorial.html#qq-plots-and-compute-pvals">QQ plots and <code class="docutils literal notranslate"><span class="pre">compute_pvals</span></code></a></li>
@@ -139,37 +140,37 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../python_api_tutorial.html">Python API Tutorial</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../pycmplot_python_api.html">Python API for the pycmplot package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../pycmplot_python_api.html#Installation">Installation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pycmplot_python_api.html#Import-the-package-functions">Import the package functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pycmplot_python_api.html">Python API for the pycmplot package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pycmplot_python_api.html#Installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pycmplot_python_api.html#Package-import-and-the-3-step-mental-model">Package import and the 3-step mental model</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../pycmplot_python_api.html#Getting-help">Getting help</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../pycmplot_python_api.html#Example-plotting">Example plotting</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../pycmplot_python_api.html#Important-notes">Important notes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pycmplot_python_api.html#Generating-a-linear-plot">Generating a linear plot</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../pycmplot_python_api.html#Synthetic-Data">Synthetic Data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pycmplot_python_api.html#Important-Note">Important Note</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pycmplot_python_api.html#Use-Cases---Real-Data">Use Cases - Real Data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pycmplot_python_api.html#Generating-a-Circular-plot">Generating a Circular plot</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../pycmplot_python_api.html#No-highlighting-of-significant-loci">No highlighting of significant loci</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../pycmplot_python_api.html#id1">Generating a linear plot</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pycmplot_python_api.html#Highlighting-significant-loci-and-annotating-by-SNP">Highlighting significant loci and annotating by SNP</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../pycmplot_python_api.html#Highlighting-by-a-different-p-value-threshold-and-changing-plot-colors-and-removing-track-labels">Highlighting by a different p-value threshold and changing plot colors and removing track labels</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pycmplot_python_api.html#Generating-a-linear-plot">Generating a linear plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pycmplot_python_api.html#What-happens-if-we-try-highlighting-significant-loci-and-annotating-by-SNP?">What happens if we try highlighting significant loci and annotating by SNP?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pycmplot_python_api.html#Highlighting-significant-loci-and-enable-gene-annotation">Highlighting significant loci and enable gene annotation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pycmplot_python_api.html#Highlighting-and-annotating-by-a-different-p-value-threshold">Highlighting and annotating by a different p-value threshold</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../pycmplot_python_api.html#Generating-circular-plots">Generating circular plots</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../pycmplot_python_api.html#Controling-the-inner-circle-size">Controling the inner circle size</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="../pycmplot_python_api.html#Annotating-by-specific-columns-in-hits-table">Annotating by specific columns in hits table</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pycmplot_python_api.html#Controling-circular-plot-radius">Controling circular plot radius</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../pycmplot_python_api.html#Ensuring-all-highlighted-loci-are-also-annotated">Ensuring all highlighted loci are also annotated</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../pycmplot_python_api.html#Explicitly-speficying-directory-where-output-files-should-be-stored">Explicitly speficying directory where output files should be stored</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../pycmplot_python_api.html#Handling-other-use-cases-and-QQ-plots">Handling other use cases and QQ-plots</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pycmplot_python_api.html##-Handling-other-use-cases-and-QQ-plots"># Handling other use cases and QQ-plots</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../pycmplot_python_api.html#Summary-stats-without-BUILD-column-and-no-build-information-provided">Summary stats without <strong>BUILD</strong> column and no <code class="docutils literal notranslate"><span class="pre">build</span></code> information provided</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pycmplot_python_api.html#Supplying-builds-with-summary-stats">Supplying builds with summary stats</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../pycmplot_python_api.html#QQ-Plotting">QQ-Plotting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pycmplot_python_api.html###-Supplying-builds-with-summary-stats">## Supplying builds with summary stats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pycmplot_python_api.html###-QQ-Plotting">## QQ-Plotting</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="../pycmplot_python_api.html#Overlaying-multiple">Overlaying multiple</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../pycmplot_python_api.html#Separate-qq-plots-saved-in-separate-figures">Separate qq-plots saved in separate figures</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../pycmplot_python_api.html#Combined-multi-panel">Combined multi-panel</a></li>
@@ -184,8 +185,14 @@
 <li class="toctree-l3"><a class="reference internal" href="../pycmplot_python_api.html#Specify-groups-of-sumstats-to-load-and-plot-in-different-panels">Specify groups of sumstats to load and plot in different panels</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../pycmplot_python_api.html#Plot-in-panels">Plot in panels</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../pycmplot_python_api.html#Final-Notes">Final Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pycmplot_python_api.html#Plot-in-panels">Plot in panels</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pycmplot_python_api.html#Highlighting-different-categoris">Highlighting different categoris</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pycmplot_python_api.html#Selection-Statistics-from-our-2021-Scientific-Reports-Population-Structure-Paper">Selection Statistics from our 2021 <em>Scientific Reports</em> Population Structure Paper</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pycmplot_python_api.html##-Final-Notes"># Final Notes</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -216,8 +223,10 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="stats.html">pycmplot.stats</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="stats.html#module-pycmplot.stats">pycmplot.stats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stats.html#pycmplot.stats.clump"><code class="docutils literal notranslate"><span class="pre">clump()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="stats.html#pycmplot.stats.get_highlight_snps"><code class="docutils literal notranslate"><span class="pre">get_highlight_snps()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="stats.html#pycmplot.stats.get_lead_snps"><code class="docutils literal notranslate"><span class="pre">get_lead_snps()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="stats.html#pycmplot.stats.get_signif_snps"><code class="docutils literal notranslate"><span class="pre">get_signif_snps()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="annotation.html">pycmplot.annotation</a><ul>
@@ -225,15 +234,31 @@
 <li class="toctree-l4"><a class="reference internal" href="annotation.html#gene-reference-files">Gene reference files</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="annotation.html#pycmplot.annotation.FUNCTIONAL_COLUMNS"><code class="docutils literal notranslate"><span class="pre">FUNCTIONAL_COLUMNS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="annotation.html#pycmplot.annotation.annotate_functional"><code class="docutils literal notranslate"><span class="pre">annotate_functional()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="annotation.html#pycmplot.annotation.build_highlight_legend_entries"><code class="docutils literal notranslate"><span class="pre">build_highlight_legend_entries()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="annotation.html#pycmplot.annotation.candidate_gene_pool"><code class="docutils literal notranslate"><span class="pre">candidate_gene_pool()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="annotation.html#pycmplot.annotation.ensure_category_column"><code class="docutils literal notranslate"><span class="pre">ensure_category_column()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="annotation.html#pycmplot.annotation.ensure_highlight_color_column"><code class="docutils literal notranslate"><span class="pre">ensure_highlight_color_column()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="annotation.html#pycmplot.annotation.filter_hits_by_signif"><code class="docutils literal notranslate"><span class="pre">filter_hits_by_signif()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="annotation.html#pycmplot.annotation.filter_in_locus_by_threshold"><code class="docutils literal notranslate"><span class="pre">filter_in_locus_by_threshold()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="annotation.html#pycmplot.annotation.get_annotation_column"><code class="docutils literal notranslate"><span class="pre">get_annotation_column()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="annotation.html#pycmplot.annotation.get_hits_summary_table"><code class="docutils literal notranslate"><span class="pre">get_hits_summary_table()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="annotation.html#pycmplot.annotation.labels_to_draw"><code class="docutils literal notranslate"><span class="pre">labels_to_draw()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="annotation.html#pycmplot.annotation.load_ccre"><code class="docutils literal notranslate"><span class="pre">load_ccre()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="annotation.html#pycmplot.annotation.load_cpg"><code class="docutils literal notranslate"><span class="pre">load_cpg()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="annotation.html#pycmplot.annotation.load_dnase"><code class="docutils literal notranslate"><span class="pre">load_dnase()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="annotation.html#pycmplot.annotation.load_eqtl"><code class="docutils literal notranslate"><span class="pre">load_eqtl()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="annotation.html#pycmplot.annotation.load_functional_tracks"><code class="docutils literal notranslate"><span class="pre">load_functional_tracks()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="annotation.html#pycmplot.annotation.load_genehancer"><code class="docutils literal notranslate"><span class="pre">load_genehancer()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="annotation.html#pycmplot.annotation.load_genes_dict"><code class="docutils literal notranslate"><span class="pre">load_genes_dict()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="annotation.html#pycmplot.annotation.load_tfbs"><code class="docutils literal notranslate"><span class="pre">load_tfbs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="annotation.html#pycmplot.annotation.position_informativeness_score"><code class="docutils literal notranslate"><span class="pre">position_informativeness_score()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="annotation.html#pycmplot.annotation.prepare_annotation_labels"><code class="docutils literal notranslate"><span class="pre">prepare_annotation_labels()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="annotation.html#pycmplot.annotation.resolve_highlight_categories"><code class="docutils literal notranslate"><span class="pre">resolve_highlight_categories()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="annotation.html#pycmplot.annotation.resolve_highlight_colors"><code class="docutils literal notranslate"><span class="pre">resolve_highlight_colors()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="annotation.html#pycmplot.annotation.resolve_highlight_legend_placement"><code class="docutils literal notranslate"><span class="pre">resolve_highlight_legend_placement()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="annotation.html#pycmplot.annotation.resolve_highlight_window_kb"><code class="docutils literal notranslate"><span class="pre">resolve_highlight_window_kb()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">pycmplot.liftover</a><ul>
@@ -292,11 +317,18 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="resources.html#pycmplot.resources.ResourceConfig"><code class="docutils literal notranslate"><span class="pre">ResourceConfig</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="resources.html#pycmplot.resources.ResourceConfig.ccre_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.ccre_hg38</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="resources.html#pycmplot.resources.ResourceConfig.chain_hg18_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.chain_hg18_hg38</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="resources.html#pycmplot.resources.ResourceConfig.chain_hg19_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.chain_hg19_hg38</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="resources.html#pycmplot.resources.ResourceConfig.cpg_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.cpg_hg38</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="resources.html#pycmplot.resources.ResourceConfig.dnase_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.dnase_hg38</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="resources.html#pycmplot.resources.ResourceConfig.eqtl_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.eqtl_hg38</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="resources.html#pycmplot.resources.ResourceConfig.eqtl_tissues_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.eqtl_tissues_hg38</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="resources.html#pycmplot.resources.ResourceConfig.genehancer_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.genehancer_hg38</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="resources.html#pycmplot.resources.ResourceConfig.geneinfo_hg19"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.geneinfo_hg19</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="resources.html#pycmplot.resources.ResourceConfig.geneinfo_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.geneinfo_hg38</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="resources.html#pycmplot.resources.ResourceConfig.require"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.require()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="resources.html#pycmplot.resources.ResourceConfig.tfbs_hg38"><code class="docutils literal notranslate"><span class="pre">ResourceConfig.tfbs_hg38</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -307,18 +339,20 @@
 <p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#unreleased">Unreleased</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id1">0.4.2 - 2026-08-13</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id2">0.3.1 - 2026-07-31</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id3">0.3.0 - 2026-06-01</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id4">0.2.8 - 2026-05-30</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id5">0.2.7 - 2026-04-27</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id6">0.2.5 - 2026-04-20</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id7">0.2.2 - 2026-04-18</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id8">0.2.1 — 2026-04-16</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id9">0.1.9 — 2026-04-14</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id10">0.1.8 — 2026-04-14</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id11">0.1.0 — 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id1">0.4.3 - 2026-09-30</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id2">0.4.2 - 2026-09-12</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id3">0.4.1 - 2026-08-23</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id4">0.4.0 - 2026-08-13</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id5">0.3.1 - 2026-07-31</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id6">0.3.0 - 2026-06-01</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id7">0.2.8 - 2026-05-30</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id8">0.2.7 - 2026-04-27</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id9">0.2.5 - 2026-04-20</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id10">0.2.2 - 2026-04-18</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id11">0.2.1 — 2026-04-16</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id12">0.1.9 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id13">0.1.8 — 2026-04-14</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#id14">0.1.0 — 2026-04-18</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a><ul>
@@ -367,7 +401,7 @@ explicitly named via <code class="docutils literal notranslate"><span class="pre
 <section id="module-pycmplot.liftover">
 <span id="id1"></span><h2>pycmplot.liftover<a class="headerlink" href="#module-pycmplot.liftover" title="Link to this heading"></a></h2>
 <p>Genome coordinate liftover utilities (hg18 → hg38 and hg19 → hg38).</p>
-<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">pyliftover.LiftOver</span></code> objects are initialised <strong>lazily</strong> — they
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">liftover.ChainFile</span></code> objects are initialised <strong>lazily</strong> — they
 are created on first use and cached in a module-level dictionary, so
 importing this module never triggers a file-not-found error even if the
 chain files have not been configured yet.</p>
@@ -396,19 +430,19 @@ setting the environment variables:</p>
 </section>
 <dl class="py function">
 <dt class="sig sig-object py" id="pycmplot.liftover.liftover_hg18_to_hg38">
-<span class="sig-prename descclassname"><span class="pre">pycmplot.liftover.</span></span><span class="sig-name descname"><span class="pre">liftover_hg18_to_hg38</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chrom</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">resources</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="resources.html#pycmplot.resources.ResourceConfig" title="pycmplot.resources.ResourceConfig"><span class="pre">ResourceConfig</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/pycmplot/liftover.html#liftover_hg18_to_hg38"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycmplot.liftover.liftover_hg18_to_hg38" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">pycmplot.liftover.</span></span><span class="sig-name descname"><span class="pre">liftover_hg18_to_hg38</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chrom</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">resources</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="resources.html#pycmplot.resources.ResourceConfig" title="pycmplot.resources.ResourceConfig"><span class="pre">ResourceConfig</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/pycmplot/liftover.html#liftover_hg18_to_hg38"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycmplot.liftover.liftover_hg18_to_hg38" title="Link to this definition"></a></dt>
 <dd><p>Convert a single hg18 (NCBI36) position to its hg38 equivalent.</p>
-<p>Uses a lazily loaded and cached <code class="xref py py-class docutils literal notranslate"><span class="pre">LiftOver</span></code> object
+<p>Uses a lazily loaded and cached <code class="xref py py-class docutils literal notranslate"><span class="pre">liftover.ChainFile</span></code> object
 backed by the hg18→hg38 chain file specified in <em>resources</em>.  When
 multiple hg38 mappings exist for a given position, the one with the
 highest chain score is returned.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>chrom</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Chromosome name <strong>without</strong> the <code class="docutils literal notranslate"><span class="pre">'chr'</span></code> prefix (e.g. <code class="docutils literal notranslate"><span class="pre">'1'</span></code>,
+<li><p><strong>chrom</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Chromosome name <strong>without</strong> the <code class="docutils literal notranslate"><span class="pre">'chr'</span></code> prefix (e.g. <code class="docutils literal notranslate"><span class="pre">'1'</span></code>,
 <code class="docutils literal notranslate"><span class="pre">'X'</span></code>).  The prefix is added internally before querying
-pyliftover.</p></li>
-<li><p><strong>pos</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – 0-based hg18 position, as expected by <code class="xref py py-class docutils literal notranslate"><span class="pre">pyliftover.LiftOver</span></code>.</p></li>
+liftover.</p></li>
+<li><p><strong>pos</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – 0-based hg18 position, as expected by <code class="xref py py-class docutils literal notranslate"><span class="pre">liftover.ChainFile</span></code>.</p></li>
 <li><p><strong>resources</strong> (<a class="reference internal" href="resources.html#pycmplot.resources.ResourceConfig" title="pycmplot.resources.ResourceConfig"><em>ResourceConfig</em></a><em>, </em><em>optional</em>) – <a class="reference internal" href="resources.html#pycmplot.resources.ResourceConfig" title="pycmplot.resources.ResourceConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">ResourceConfig</span></code></a> instance.  Falls back
 to <code class="xref py py-data docutils literal notranslate"><span class="pre">default_resources</span></code> when <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
 </ul>
@@ -419,7 +453,7 @@ could not be mapped (unmapped region, chromosome gap, or deleted
 sequence).</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)">int</a> or None</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)">int</a> or None</p>
 </dd>
 </dl>
 <div class="admonition seealso">
@@ -435,17 +469,17 @@ sequence).</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pycmplot.liftover.liftover_hg19_to_hg38">
-<span class="sig-prename descclassname"><span class="pre">pycmplot.liftover.</span></span><span class="sig-name descname"><span class="pre">liftover_hg19_to_hg38</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chrom</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">resources</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="resources.html#pycmplot.resources.ResourceConfig" title="pycmplot.resources.ResourceConfig"><span class="pre">ResourceConfig</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/pycmplot/liftover.html#liftover_hg19_to_hg38"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycmplot.liftover.liftover_hg19_to_hg38" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">pycmplot.liftover.</span></span><span class="sig-name descname"><span class="pre">liftover_hg19_to_hg38</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chrom</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">resources</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="resources.html#pycmplot.resources.ResourceConfig" title="pycmplot.resources.ResourceConfig"><span class="pre">ResourceConfig</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../_modules/pycmplot/liftover.html#liftover_hg19_to_hg38"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycmplot.liftover.liftover_hg19_to_hg38" title="Link to this definition"></a></dt>
 <dd><p>Convert a single hg19 position to its hg38 equivalent.</p>
-<p>Uses a lazily loaded and cached <code class="xref py py-class docutils literal notranslate"><span class="pre">LiftOver</span></code> object backed
+<p>Uses a lazily loaded and cached <code class="xref py py-class docutils literal notranslate"><span class="pre">liftover.ChainFile</span></code> object backed
 by the chain file specified in <em>resources</em>.  When multiple hg38 mappings
 exist for a given position, the one with the highest chain score is returned.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>chrom</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Chromosome name <strong>without</strong> the <code class="docutils literal notranslate"><span class="pre">'chr'</span></code> prefix (e.g. <code class="docutils literal notranslate"><span class="pre">'1'</span></code>,
-<code class="docutils literal notranslate"><span class="pre">'X'</span></code>).  The prefix is added internally before querying pyliftover.</p></li>
-<li><p><strong>pos</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – 0-based hg19 position, as expected by <code class="xref py py-class docutils literal notranslate"><span class="pre">pyliftover.LiftOver</span></code>.</p></li>
+<li><p><strong>chrom</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a>) – Chromosome name <strong>without</strong> the <code class="docutils literal notranslate"><span class="pre">'chr'</span></code> prefix (e.g. <code class="docutils literal notranslate"><span class="pre">'1'</span></code>,
+<code class="docutils literal notranslate"><span class="pre">'X'</span></code>).  The prefix is added internally before querying liftover.</p></li>
+<li><p><strong>pos</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)"><em>int</em></a>) – 0-based hg19 position, as expected by <code class="xref py py-class docutils literal notranslate"><span class="pre">liftover.ChainFile</span></code>.</p></li>
 <li><p><strong>resources</strong> (<a class="reference internal" href="resources.html#pycmplot.resources.ResourceConfig" title="pycmplot.resources.ResourceConfig"><em>ResourceConfig</em></a><em> | </em><em>Target Build Version</em><em>, </em><em>optional</em>) – <a class="reference internal" href="resources.html#pycmplot.resources.ResourceConfig" title="pycmplot.resources.ResourceConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">ResourceConfig</span></code></a> instance.  Falls back to
 <code class="xref py py-data docutils literal notranslate"><span class="pre">default_resources</span></code> when <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
 </ul>
@@ -456,11 +490,11 @@ could not be mapped (unmapped region, chromosome gap, or deleted
 sequence).</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)">int</a> or None</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#int" title="(in Python v3.14)">int</a> or None</p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>pyliftover uses <strong>0-based</strong> coordinates (BED convention).  GWAS summary
+<p>liftover (like pyliftover) uses <strong>0-based</strong> coordinates (BED convention).  GWAS summary
 statistics files typically use <strong>1-based</strong> coordinates (VCF/Ensembl
 convention).  The caller (<a class="reference internal" href="#pycmplot.liftover.liftover_position" title="pycmplot.liftover.liftover_position"><code class="xref py py-func docutils literal notranslate"><span class="pre">liftover_position()</span></code></a>) is responsible for any
 coordinate-system adjustment.</p>
@@ -483,14 +517,16 @@ coordinate-system adjustment.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pycmplot.liftover.liftover_position">
-<span class="sig-prename descclassname"><span class="pre">pycmplot.liftover.</span></span><span class="sig-name descname"><span class="pre">liftover_position</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v3.0.5)"><span class="pre">DataFrame</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">hg38_chr_limits</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resources</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="resources.html#pycmplot.resources.ResourceConfig" title="pycmplot.resources.ResourceConfig"><span class="pre">ResourceConfig</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v3.0.5)"><span class="pre">DataFrame</span></a></span></span><a class="reference internal" href="../_modules/pycmplot/liftover.html#liftover_position"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycmplot.liftover.liftover_position" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">pycmplot.liftover.</span></span><span class="sig-name descname"><span class="pre">liftover_position</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v3.0.6)"><span class="pre">DataFrame</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">hg38_chr_limits</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resources</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="resources.html#pycmplot.resources.ResourceConfig" title="pycmplot.resources.ResourceConfig"><span class="pre">ResourceConfig</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/builtins/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_unmapped</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pycmplot/liftover.html#liftover_position"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pycmplot.liftover.liftover_position" title="Link to this definition"></a></dt>
 <dd><p>Liftover all hg18/hg19 rows in <em>df</em> to hg38 coordinates.</p>
 <p>Iterates over every row in <em>df</em> and dispatches to
 <a class="reference internal" href="#pycmplot.liftover.liftover_hg19_to_hg38" title="pycmplot.liftover.liftover_hg19_to_hg38"><code class="xref py py-func docutils literal notranslate"><span class="pre">liftover_hg19_to_hg38()</span></code></a> for rows whose <code class="docutils literal notranslate"><span class="pre">BUILD</span></code> column equals
 <code class="docutils literal notranslate"><span class="pre">'hg19'</span></code> or to <a class="reference internal" href="#pycmplot.liftover.liftover_hg18_to_hg38" title="pycmplot.liftover.liftover_hg18_to_hg38"><code class="xref py py-func docutils literal notranslate"><span class="pre">liftover_hg18_to_hg38()</span></code></a> for rows whose <code class="docutils literal notranslate"><span class="pre">BUILD</span></code>
 column equals <code class="docutils literal notranslate"><span class="pre">'hg18'</span></code>.  Rows with any other build value are passed
-through unchanged.  Rows for which liftover returns <code class="docutils literal notranslate"><span class="pre">None</span></code> or <code class="docutils literal notranslate"><span class="pre">0</span></code>
-(unmappable positions) are silently dropped.</p>
+through unchanged.  Rows that cannot be placed in hg38 are dropped:
+no chain mapping, a mapping onto a different chromosome, or a lifted
+position beyond the hg38 chromosome length.  Pass
+<code class="docutils literal notranslate"><span class="pre">return_unmapped=True</span></code> to get those rows back as a second table.</p>
 <p>Two provenance columns are added to the returned DataFrame so that the
 original coordinates remain accessible:</p>
 <ul class="simple">
@@ -502,12 +538,19 @@ rows.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>df</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v3.0.5)"><em>pandas.DataFrame</em></a>) – Summary statistics DataFrame with canonical columns <code class="docutils literal notranslate"><span class="pre">CHR</span></code>, <code class="docutils literal notranslate"><span class="pre">POS</span></code>,
+<li><p><strong>df</strong> (<a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v3.0.6)"><em>pandas.DataFrame</em></a>) – Summary statistics DataFrame with canonical columns <code class="docutils literal notranslate"><span class="pre">CHR</span></code>, <code class="docutils literal notranslate"><span class="pre">POS</span></code>,
 and <code class="docutils literal notranslate"><span class="pre">BUILD</span></code>.  The <code class="docutils literal notranslate"><span class="pre">POS</span></code> column is coerced to <code class="docutils literal notranslate"><span class="pre">int</span></code> before
 processing.</p></li>
 <li><p><strong>resources</strong> (<a class="reference internal" href="resources.html#pycmplot.resources.ResourceConfig" title="pycmplot.resources.ResourceConfig"><em>ResourceConfig</em></a><em>, </em><em>optional</em>) – <a class="reference internal" href="resources.html#pycmplot.resources.ResourceConfig" title="pycmplot.resources.ResourceConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">ResourceConfig</span></code></a> instance supplying the
 chain file path.  Falls back to
 <code class="xref py py-data docutils literal notranslate"><span class="pre">default_resources</span></code> when <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>return_unmapped</strong> (<a class="reference external" href="https://docs.python.org/3/builtins/functions.html#bool" title="(in Python v3.14)"><em>bool</em></a><em>, </em><em>optional</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, return <code class="docutils literal notranslate"><span class="pre">(clean_df,</span> <span class="pre">unmapped_df)</span></code>.  <code class="docutils literal notranslate"><span class="pre">unmapped_df</span></code>
+holds the dropped rows in their original coordinates (<code class="docutils literal notranslate"><span class="pre">POS</span></code> /
+<code class="docutils literal notranslate"><span class="pre">BUILD</span></code> untouched) plus <code class="docutils literal notranslate"><span class="pre">UNMAPPED_REASON</span></code> (one of
+<code class="docutils literal notranslate"><span class="pre">'no_chain_mapping'</span></code>, <code class="docutils literal notranslate"><span class="pre">'maps_to_other_chromosome'</span></code>,
+<code class="docutils literal notranslate"><span class="pre">'beyond_hg38_chromosome_length'</span></code>), and <code class="docutils literal notranslate"><span class="pre">LIFTED_CHR</span></code> /
+<code class="docutils literal notranslate"><span class="pre">LIFTED_POS</span></code> for the hit the chain file did return, if any.
+Default <code class="docutils literal notranslate"><span class="pre">False</span></code> returns only <code class="docutils literal notranslate"><span class="pre">clean_df</span></code> (backward compatible).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -521,7 +564,7 @@ chain file path.  Falls back to
 </p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v3.0.5)">pandas.DataFrame</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v3.0.6)">pandas.DataFrame</a> or <a class="reference external" href="https://docs.python.org/3/builtins/stdtypes.html#tuple" title="(in Python v3.14)">tuple</a> of <a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v3.0.6)">pandas.DataFrame</a></p>
 </dd>
 </dl>
 <div class="admonition seealso">

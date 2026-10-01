@@ -575,8 +575,7 @@ tracks using ``--highlight_line``.
 
    * either increase figure height: ``--figure_size 10,8``
 
-   * or increase the annotation track space relative to the rest: ``--track_heights 2,1,1`` 
-   (annotation track plus two sumstats)
+   * or increase the annotation track space relative to the rest: ``--track_heights 2,1,1`` (annotation track plus two sumstats).
 
    * or combine the two options to improve the visuals.
 
@@ -839,12 +838,12 @@ The **only** field where strand still matters is
 concept this calculation is delibrately strand-aware rather than positionally.
 
 
-.. figure:: ../benchmark/figures/gene_selection.png
+.. figure:: ../../pycmplot-benchmark/figures/gene_selection.png
    :alt: pycmplot gene selection schematic
    :width: 800px
 
 Download a PDF copy. :download:`annotation_schematic.pdf
-<../benchmark/figures/annotation_schematic.pdf>`.
+<../../pycmplot-benchmark/figures/annotation_schematic.pdf>`.
 
 .. hint::
    Check whether pycmplot's annotation worked correctly. Examine 

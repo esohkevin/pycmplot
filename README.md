@@ -14,11 +14,9 @@
 
 </p>
 
-<!--
 <p align="center">
   <img width="600" height="400" src="docs/_static/pycmplot-logo-circular.png">
 </p>
--->
 
 ```
                     #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
@@ -279,7 +277,7 @@ pip install pycmplot
 ```
 
 
-### From GitHub (with test data included, full size ~ 330 MB)
+### From GitHub
 ```bash
 git clone https://github.com/esohkevin/pycmplot.git
 

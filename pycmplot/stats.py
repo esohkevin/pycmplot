@@ -190,7 +190,7 @@ def get_signif_snps(
     logp, score_col, ascending :
         Same semantics as :func:`get_lead_snps` — used to decide the
         comparison direction (ascending for p-values, descending for
-        logP or |value|).
+        logP or ``|value|``).
     keep_cols : list[str], optional
         Column names to retain in the output.  Defaults to the
         pycmplot pipeline's canonical set: ``CHR``, ``POS``, ``SNP``,
